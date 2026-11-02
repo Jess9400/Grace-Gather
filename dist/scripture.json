@@ -8,7 +8,7 @@
         "protestant"
       ],
       "canon": "66-book Protestant edition",
-      "scope": "Six curated Old and New Testament passages. This is a devotional selection, not a complete Bible.",
+      "scope": "Six curated devotional passages, plus Psalm 23 in Explore. This is a selection, not a complete Bible.",
       "attribution": "World English Bible, Protestant edition. Public domain. Text supplied by eBible.org.",
       "license": "Public domain",
       "licenseUrl": "https://ebible.org/engwebp/copyright.htm",
@@ -105,7 +105,7 @@
         "catholic"
       ],
       "canon": "Catholic Bible, translated from the Latin Vulgate",
-      "scope": "Six curated Old and New Testament passages from the Douay-Rheims Catholic translation, in traditional English.",
+      "scope": "Six devotional passages and Psalm 22 in Explore, from the Douay-Rheims Catholic translation in traditional English.",
       "attribution": "Douay-Rheims Bible, American edition of 1899. Public domain. Passages verified with Douay-Rheims Bible Online.",
       "license": "Public domain",
       "licenseUrl": "https://ebible.org/engDRA/copyright.htm",
@@ -202,7 +202,7 @@
         "orthodox"
       ],
       "canon": "Greek Septuagint Old Testament; Septuagint Psalm numbering",
-      "scope": "Six Psalms from Brenton’s 1851 English Septuagint translation. Offered as a Septuagint option for Orthodox readers, not as a complete or universally approved Orthodox Bible.",
+      "scope": "Six devotional Psalms selections, plus Psalm 22 in Explore, from Brenton’s 1851 English Septuagint. Not a complete or universally approved Orthodox Bible.",
       "attribution": "Translation of the Greek Septuagint into English by Sir Lancelot Charles Lee Brenton, 1851. Public domain. Text supplied by eBible.org.",
       "license": "Public domain",
       "licenseUrl": "https://ebible.org/eng-Brenton/copyright.htm",
@@ -299,7 +299,7 @@
         "protestant"
       ],
       "canon": "Protestant Bible; Almeida 1819 revision, Textus Receptus edition",
-      "scope": "Cinco passagens selecionadas em português do Brasil, da versão de fevereiro de 2018.",
+      "scope": "Seis passagens devocionais e o Salmo 23 em Explorar, da Bíblia Livre de fevereiro de 2018.",
       "attribution": "Escrituras em português: Bíblia Livre (BLIVRE), Copyright © Diego Santos, Mario Sérgio, e Marco Teles — fevereiro de 2018. Fonte: https://sites.google.com/site/biblialivre/ e eBible.org. Licença Creative Commons Atribuição 4.0. Palavras dos versículos reproduzidas sem alterações; apenas quebras de linha e marcadores editoriais foram omitidos.",
       "license": "Creative Commons Attribution 4.0 (CC BY 4.0)",
       "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
@@ -396,7 +396,7 @@
         "protestant"
       ],
       "canon": "66-book Protestant Bible",
-      "scope": "Cinco pasajes seleccionados del Nuevo Testamento. Se conserva la ortografía de la edición de 1909.",
+      "scope": "Seis pasajes devocionales y el Salmo 23 en Explorar. Se conserva la ortografía de la edición de 1909.",
       "attribution": "Santa Biblia, Reina-Valera 1909. Dominio público. Texto de eBible.org.",
       "license": "Public domain",
       "licenseUrl": "https://ebible.org/spaRV1909/copyright.htm",
@@ -494,7 +494,7 @@
         "protestant"
       ],
       "canon": "Synodal translation; this digital source is a 66-book selection",
-      "scope": "Пять отрывков из Нового Завета Синодального перевода. Это подборка, а не полное православное издание Библии.",
+      "scope": "Шесть отрывков из Нового Завета и Псалом 22 в разделе «Обзор». Это подборка, а не полная Библия.",
       "attribution": "Синодальный перевод (Russian Synodal translation). Public domain. Text supplied by eBible.org. Six New Testament selections only.",
       "license": "Public domain",
       "licenseUrl": "https://ebible.org/russyn/copyright.htm",

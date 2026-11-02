@@ -4,13 +4,13 @@ Working name: **Still**. Built from the Spiritual Reconnection App brief and the
 
 ## Run locally
 
-Requires Node.js 20 or newer; no package installation or build step is needed.
+Requires Node.js 24 for the local SQLite preview and tests. Run `npm install` for the migration tools.
 
 ```sh
-npm run dev
+node scripts/serve-community.mjs
 ```
 
-Open http://127.0.0.1:4173. Recording requires HTTPS or localhost, a compatible browser, and permission from the person using the app.
+Open http://127.0.0.1:4174. `npm run dev` retains the UI-only static preview on port 4173. Recording requires HTTPS or localhost, a compatible browser, and permission from the person using the app.
 
 ```sh
 npm test
@@ -26,8 +26,12 @@ npm run check
 - Journal history, text/mood search, per-entry deletion, JSON export including base64 audio.
 - Four complete interface languages. App language, scripture language, tradition, and edition are separate settings.
 - Exact quotations with references, editions, source links, attribution, and edition-specific numbering. Historical entries retain snapshots of their original passages and reflections when preferences change.
-- Three finite, sourced Discover stories; original prayer, gratitude, and optional one-minute quiet practice; everyday kindness ideas.
-- Clear unavailable states for groups, listings, and unlicensed scripture combinations.
+- Four mobile tabs: Journal, Explore, Learn, and Gatherings. Explore has 12 sourced/original items with topic filters, detail pages, exact Psalm 23/22 text across the six supported editions, official media links, Catholic saint prayers, authenticated shared likes/comments, and native sharing or a copy-link fallback.
+- Learn offers six categories, three external free resources and three original mini courses with browser-local lesson progress.
+- Gatherings has a month calendar with proposed Thursdays and a persistent, reversible series-interest action. No time, host, or meeting is invented.
+- Three independent Brazilian nonprofits have verified contact/address/volunteering/donation links. Bookings and payments happen with the organization.
+- The Worker checks Positive News RSS on request (five-minute cache), filters publication dates to the past 24 hours, and displays a clear empty/error state. It does not assert the underlying events happened in that window.
+- Clear unavailable states for unlicensed scripture combinations and disconnected/failed services.
 - A local keyword gate for explicit self-harm phrases in typed entries and follow-ups, prioritizing human support; manual support access. This is a limited safeguard, not reliable risk detection, monitoring, or clinical triage. Audio is not analyzed.
 
 ## Scripture coverage
@@ -39,11 +43,12 @@ npm run check
 | Spanish | Reina-Valera 1909 | Not yet sourced | Not yet sourced |
 | Russian | Synodal NT selections | Not yet sourced | Synodal NT selections |
 
-Unavailable combinations never silently substitute another tradition or language. An English scripture language can be selected explicitly while keeping any interface language. This is a 36-passage devotional library, not a full Bible. See `SCRIPTURE_SOURCES.md` and in-app Sources & credits.
+Unavailable combinations never silently substitute another tradition or language. An English scripture language can be selected explicitly while keeping any interface language. The journal has 36 devotional quotations; Explore also includes Psalm 23/22 in each of the six supported editions. This is not a full Bible. See `SCRIPTURE_SOURCES.md` and in-app Sources & credits.
 
 ## Privacy and data lifecycle
 
-- Journal text, audio Blobs, scripture snapshots, chosen action, and follow-up stay in this browser's IndexedDB. Preferences use localStorage.
+- Journal text, audio Blobs, scripture snapshots, chosen action, and follow-up stay in this browser's IndexedDB. Preferences and learning progress use localStorage.
+- Shared likes, explicitly submitted comments, and gathering interest use D1. Server routes require the Sites-injected stable user ID; no emails or account IDs are exposed in comment responses. Comments can be soft-deleted by their own author. Writes enforce same-origin JSON, validation, and comment rate limits.
 - No analytics, journal uploads, cloud synchronization, AI service, external font, or tracking image requests are included.
 - Browser-local storage is **not encrypted app storage**. Anyone with access to the browser profile can read it. Clearing site data or using an ephemeral browser profile can remove it. Exports include private content and should be stored securely.
 - Local preview and the hosted site use different origins, so their browser storage is separate. Test entries are not uploaded with deployment.
@@ -59,12 +64,17 @@ Unavailable combinations never silently substitute another tradition or language
 - `dist/flow.css`: mobile-first layout, tap targets, and single-column screens.
 - `dist/content.js`: original interface text, reflections, practices, story summaries in four languages.
 - `dist/scripture.json`: verified scripture and provenance, distinct from original app-written text.
-- `scripts/serve.mjs`: local static preview server.
+- `worker/api.js`: authenticated social endpoints and live RSS filtering.
+- `db/schema.js` and `drizzle/`: versioned D1 schema/migration.
+- `dist/community*` and `dist/psalms.js`: localized community UI, sourced catalog, evidence notes, and exact psalm text.
+- `scripts/build.mjs`: packages the static assets into a dependency-free Worker; only generated `dist/server` and hosting metadata are ignored.
+- `scripts/serve-community.mjs`: localhost-only preview with separate SQLite test data and a fixed local test identity. Never used in production.
+- `scripts/serve.mjs`: legacy static preview server.
 - `tests/core.test.mjs` and `tests/journey.test.mjs`: 16 tests of content selection, coverage, localization, safety gate, input, and escaping.
 
 ## Before a wider launch
 
-Select approved native-language Catholic and Orthodox editions and licenses; obtain theological and translation review; decide encrypted storage and multi-device accounts; test recording on physical iOS/Android devices; define human safety operations. Add moderated groups, vetted live opportunities, or AI transcription only with their necessary consent and operational controls. No reminders, registrations, donations, payment, or human support service is simulated in this MVP.
+Select approved native-language Catholic and Orthodox editions and licenses; obtain theological and translation review; decide encrypted storage and multi-device accounts; test recording on physical iOS/Android devices; define human safety operations. Add moderated groups, vetted live opportunities, or AI transcription only with their necessary consent and operational controls. No reminders, booked sessions, completed donations, payments, or human support service are simulated. Gathering interest is real but is not a booking. A wider community needs moderation/reporting and account data-management operations.
 
 ## Verification performed
 
@@ -90,10 +100,14 @@ Select approved native-language Catholic and Orthodox editions and licenses; obt
 
 The user explicitly deferred the LLM API connection until later. No API key is configured and no journal text or audio is sent to an AI provider. The current published revision is an explicitly labelled, feeling-selected preview. Genuine interpretation must not be represented as complete.
 
-When the connection is enabled, use its API-key setup workflow, migrate the static Site to a server-capable starter while preserving Site identity/audience, and keep the API key server-only. An authenticated endpoint should transcribe opted-in audio, interpret the journal in the selected language, and return a validated situation plus an empathetic reflection. Select verse IDs and action IDs from the verified catalog, never let the model invent Bible text or live events. Let the person correct the interpretation. Include clear per-entry disclosure/consent before sending private journal text/audio; handle unavailable AI and failed transcription without losing the draft or silently pretending to personalize.
+When the connection is enabled, use its API-key setup workflow, retain the current Worker and Site identity/audience, and keep the API key server-only. An authenticated endpoint should transcribe opted-in audio, interpret the journal in the selected language, and return a validated situation plus an empathetic reflection. Select verse IDs and action IDs from the verified catalog, never let the model invent Bible text or live events. Let the person correct the interpretation. Include clear per-entry disclosure/consent before sending private journal text/audio; handle unavailable AI and failed transcription without losing the draft or silently pretending to personalize.
 
 [Official structured-output documentation](https://developers.openai.com/api/docs/guides/structured-outputs) and [file transcription documentation](https://developers.openai.com/api/docs/guides/speech-to-text) were checked while preparing this change.
 
-The initial weekly session will discuss depression and loneliness; Thursday is the proposed example day. Host, start date, time/timezone, moderation and joining integration remain to be confirmed. It is labelled planned; no live recurring schedule is claimed. External groups at Action for Happiness are explicitly separate from Still and from depression treatment. The good-news link is an English-language publisher, not an automated past-24-hours video feed. A live feed, licensed/approved music, and locally vetted charity/volunteer listings remain to be connected.
+The initial weekly session will discuss depression and loneliness; Thursday is the proposed example day. Host, start date, time/timezone, moderation and joining integration remain to be confirmed. It is labelled planned; no live recurring schedule is claimed. External groups at Action for Happiness are explicitly separate from Still and from depression treatment. Explore now includes an on-demand English-language RSS news feed filtered by publication time. Official outbound music/video resources and verified Brazilian NGO links are available; media hosting rights, an organization booking API, and payment integration remain unconnected.
 
 Validation for this revision: 16 automated tests; browser check-in → verse → action → follow-up and persistence after reload; distinct sadness and loss-of-hope paths; four-language and mobile-width checks. Physical-device recording and live AI remain unverified.
+
+## Community revision verification (2 November 2026)
+
+`npm run check`, `npm test` (22 tests), and `npm run build`. Added tests cover authentication, cross-origin write rejection, reaction idempotence, comment privacy/ownership, interest persistence, 24-hour timestamp boundaries, category coverage and calendar dates. Local mobile browser QA checks the four tabs, likes/comments after reload, mini-course progress, and the proposed calendar. The hosted build packages only authored assets and migrations; local SQLite test records are excluded.

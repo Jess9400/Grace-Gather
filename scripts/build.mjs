@@ -1,0 +1,9 @@
+import {readFile,writeFile,mkdir,readdir} from 'node:fs/promises';
+import {extname} from 'node:path';
+import {FEED} from '../dist/community-data.js';
+const files={};const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.css':'text/css; charset=utf-8','.json':'application/json; charset=utf-8','.svg':'image/svg+xml'};
+async function collect(dir='dist',prefix=''){for(const entry of await readdir(dir,{withFileTypes:true})){if(entry.name.startsWith('.')||entry.name==='server')continue;const rel=prefix+'/'+entry.name;if(entry.isDirectory())await collect(dir+'/'+entry.name,rel);else if(mime[extname(entry.name)])files[rel]={body:await readFile(dir+'/'+entry.name,'utf8'),type:mime[extname(entry.name)]};}}
+await collect();await mkdir('dist/server',{recursive:true});await mkdir('dist/.openai',{recursive:true});
+const api=await readFile('worker/api.js','utf8');
+await writeFile('dist/server/index.js',`${api}\nconst assets=${JSON.stringify(files)};\nconst api=createAPI(${JSON.stringify(FEED.map(x=>x.id))});\nexport default {async fetch(request,env){const p=new URL(request.url).pathname;if(p.startsWith('/api/'))return api(request,env);if(!['GET','HEAD'].includes(request.method))return new Response('Method not allowed',{status:405});const file=assets[p==='/'?'/index.html':p];if(!file)return new Response('Not found',{status:404});return new Response(request.method==='HEAD'?null:file.body,{headers:{'Content-Type':file.type,'Cache-Control':'no-cache','X-Content-Type-Options':'nosniff'}});}};\n`);
+await writeFile('dist/.openai/hosting.json',await readFile('.openai/hosting.json'));console.log('Built Still Worker with '+Object.keys(files).length+' assets.');
