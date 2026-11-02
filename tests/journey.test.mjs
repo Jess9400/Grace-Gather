@@ -48,7 +48,7 @@ test('Every branch and action is usable in all four languages',()=>{
 test('The preview never claims to have interpreted journal text or scheduled a session',()=>{
   assert.match(FLOW_COPY.en.previewExplanation,/not connected yet/);
   assert.match(FLOW_COPY.en.basedFeeling,/you selected/);
-  assert.match(FLOW_COPY.en.fridayNote,/No sessions are scheduled/);
+  assert.match(FLOW_COPY.en.weeklySessionNote,/No sessions are scheduled/);
   assert.match(FLOW_COPY.en.goodNewsBody,/not a verified/);
   assert.equal(journeyPath('untrusted-input'),PATHS.unsure);
 });
