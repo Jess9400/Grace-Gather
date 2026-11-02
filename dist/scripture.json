@@ -1,0 +1,491 @@
+{
+  "editions": [
+    {
+      "id": "web",
+      "name": "World English Bible · Protestant edition",
+      "language": "en",
+      "traditions": [
+        "protestant"
+      ],
+      "canon": "66-book Protestant edition",
+      "scope": "Five curated New Testament passages. This is a devotional selection, not a complete Bible.",
+      "attribution": "World English Bible, Protestant edition. Public domain. Text supplied by eBible.org.",
+      "license": "Public domain",
+      "licenseUrl": "https://ebible.org/engwebp/copyright.htm",
+      "sourceUrl": "https://ebible.org/engwebp/",
+      "passages": [
+        {
+          "id": "web-matthew-11-28",
+          "theme": "rest",
+          "reference": "Matthew 11:28",
+          "text": "Come to me, all you who labor and are heavily burdened, and I will give you rest.",
+          "sourceUrl": "https://ebible.org/engwebp/MAT11.htm",
+          "context": {
+            "en": "Jesus offers rest after explaining his relationship with the Father.",
+            "pt": "Jesus oferece descanso depois de explicar sua relação com o Pai.",
+            "es": "Jesús ofrece descanso después de explicar su relación con el Padre.",
+            "ru": "Иисус предлагает покой после слов о Своих отношениях с Отцом."
+          }
+        },
+        {
+          "id": "web-john-14-27",
+          "theme": "peace",
+          "reference": "John 14:27",
+          "text": "Peace I leave with you. My peace I give to you; not as the world gives, I give to you. Don’t let your heart be troubled, neither let it be fearful.",
+          "sourceUrl": "https://ebible.org/engwebp/JHN14.htm",
+          "context": {
+            "en": "During his farewell discourse, Jesus reassures his disciples before his departure.",
+            "pt": "Em seu discurso de despedida, Jesus consola os discípulos antes de sua partida.",
+            "es": "En su discurso de despedida, Jesús consuela a sus discípulos antes de su partida.",
+            "ru": "В прощальной беседе Иисус утешает учеников перед Своим уходом."
+          }
+        },
+        {
+          "id": "web-romans-15-13",
+          "theme": "hope",
+          "reference": "Romans 15:13",
+          "text": "Now may the God of hope fill you with all joy and peace in believing, that you may abound in hope in the power of the Holy Spirit.",
+          "sourceUrl": "https://ebible.org/engwebp/ROM15.htm",
+          "context": {
+            "en": "Paul prays for hope after urging Jewish and Gentile believers to glorify God together.",
+            "pt": "Paulo ora pela esperança após exortar os fiéis judeus e gentios a glorificarem a Deus juntos.",
+            "es": "Pablo ora por la esperanza después de exhortar a los creyentes judíos y gentiles a glorificar juntos a Dios.",
+            "ru": "Павел молится о надежде, призвав верующих из иудеев и язычников вместе прославлять Бога."
+          }
+        },
+        {
+          "id": "web-1-thessalonians-5-18",
+          "theme": "gratitude",
+          "reference": "1 Thessalonians 5:18",
+          "text": "In everything give thanks, for this is the will of God in Christ Jesus toward you.",
+          "sourceUrl": "https://ebible.org/engwebp/1TH05.htm",
+          "context": {
+            "en": "Near the end of this letter, Paul gives the Thessalonian community brief instructions on prayer and gratitude.",
+            "pt": "Perto do fim desta carta, Paulo dá à comunidade de Tessalônica breves orientações sobre oração e gratidão.",
+            "es": "Cerca del final de esta carta, Pablo da a la comunidad de Tesalónica breves instrucciones sobre la oración y la gratitud.",
+            "ru": "В конце послания Павел даёт фессалоникийской общине краткие наставления о молитве и благодарности."
+          }
+        },
+        {
+          "id": "web-john-15-9",
+          "theme": "belonging",
+          "reference": "John 15:9",
+          "text": "Even as the Father has loved me, I also have loved you. Remain in my love.",
+          "sourceUrl": "https://ebible.org/engwebp/JHN15.htm",
+          "context": {
+            "en": "In his farewell teaching, Jesus moves from the image of vine and branches to remaining in his love.",
+            "pt": "Em seu ensinamento de despedida, Jesus passa da imagem da videira e dos ramos à permanência em seu amor.",
+            "es": "En su enseñanza de despedida, Jesús pasa de la imagen de la vid y los sarmientos a permanecer en su amor.",
+            "ru": "В прощальной беседе Иисус переходит от образа лозы и ветвей к пребыванию в Его любви."
+          }
+        }
+      ]
+    },
+    {
+      "id": "dra",
+      "name": "Douay-Rheims · 1899",
+      "language": "en",
+      "traditions": [
+        "catholic"
+      ],
+      "canon": "Catholic Bible, translated from the Latin Vulgate",
+      "scope": "Five curated New Testament passages from the Douay-Rheims Catholic translation, in traditional English.",
+      "attribution": "Douay-Rheims Bible, American edition of 1899. Public domain. Passages verified with Douay-Rheims Bible Online.",
+      "license": "Public domain",
+      "licenseUrl": "https://ebible.org/engDRA/copyright.htm",
+      "sourceUrl": "https://www.drbo.org/",
+      "passages": [
+        {
+          "id": "dra-matthew-11-28",
+          "theme": "rest",
+          "reference": "Matthew 11:28",
+          "text": "Come to me, all you that labour, and are burdened, and I will refresh you.",
+          "sourceUrl": "https://www.drbo.org/chapter/47011.htm",
+          "context": {
+            "en": "Jesus offers rest after explaining his relationship with the Father.",
+            "pt": "Jesus oferece descanso depois de explicar sua relação com o Pai.",
+            "es": "Jesús ofrece descanso después de explicar su relación con el Padre.",
+            "ru": "Иисус предлагает покой после слов о Своих отношениях с Отцом."
+          }
+        },
+        {
+          "id": "dra-john-14-27",
+          "theme": "peace",
+          "reference": "John 14:27",
+          "text": "Peace I leave with you, my peace I give unto you: not as the world giveth, do I give unto you. Let not your heart be troubled, nor let it be afraid.",
+          "sourceUrl": "https://www.drbo.org/chapter/50014.htm",
+          "context": {
+            "en": "During his farewell discourse, Jesus reassures his disciples before his departure.",
+            "pt": "Em seu discurso de despedida, Jesus consola os discípulos antes de sua partida.",
+            "es": "En su discurso de despedida, Jesús consuela a sus discípulos antes de su partida.",
+            "ru": "В прощальной беседе Иисус утешает учеников перед Своим уходом."
+          }
+        },
+        {
+          "id": "dra-romans-15-13",
+          "theme": "hope",
+          "reference": "Romans 15:13",
+          "text": "Now the God of hope fill you with all joy and peace in believing; that you may abound in hope, and in the power of the Holy Ghost.",
+          "sourceUrl": "https://www.drbo.org/chapter/52015.htm",
+          "context": {
+            "en": "Paul prays for hope after urging Jewish and Gentile believers to glorify God together.",
+            "pt": "Paulo ora pela esperança após exortar os fiéis judeus e gentios a glorificarem a Deus juntos.",
+            "es": "Pablo ora por la esperanza después de exhortar a los creyentes judíos y gentiles a glorificar juntos a Dios.",
+            "ru": "Павел молится о надежде, призвав верующих из иудеев и язычников вместе прославлять Бога."
+          }
+        },
+        {
+          "id": "dra-1-thessalonians-5-18",
+          "theme": "gratitude",
+          "reference": "1 Thessalonians 5:18",
+          "text": "In all things give thanks; for this is the will of God in Christ Jesus concerning you all.",
+          "sourceUrl": "https://www.drbo.org/chapter/59005.htm",
+          "context": {
+            "en": "Near the end of this letter, Paul gives the Thessalonian community brief instructions on prayer and gratitude.",
+            "pt": "Perto do fim desta carta, Paulo dá à comunidade de Tessalônica breves orientações sobre oração e gratidão.",
+            "es": "Cerca del final de esta carta, Pablo da a la comunidad de Tesalónica breves instrucciones sobre la oración y la gratitud.",
+            "ru": "В конце послания Павел даёт фессалоникийской общине краткие наставления о молитве и благодарности."
+          }
+        },
+        {
+          "id": "dra-john-15-9",
+          "theme": "belonging",
+          "reference": "John 15:9",
+          "text": "As the Father hath loved me, I also have loved you. Abide in my love.",
+          "sourceUrl": "https://www.drbo.org/chapter/50015.htm",
+          "context": {
+            "en": "In his farewell teaching, Jesus moves from the image of vine and branches to remaining in his love.",
+            "pt": "Em seu ensinamento de despedida, Jesus passa da imagem da videira e dos ramos à permanência em seu amor.",
+            "es": "En su enseñanza de despedida, Jesús pasa de la imagen de la vid y los sarmientos a permanecer en su amor.",
+            "ru": "В прощальной беседе Иисус переходит от образа лозы и ветвей к пребыванию в Его любви."
+          }
+        }
+      ]
+    },
+    {
+      "id": "brenton",
+      "name": "Brenton Septuagint · Old Testament",
+      "language": "en",
+      "traditions": [
+        "orthodox"
+      ],
+      "canon": "Greek Septuagint Old Testament; Septuagint Psalm numbering",
+      "scope": "Five Psalms from Brenton’s 1851 English Septuagint translation. Offered as a Septuagint option for Orthodox readers, not as a complete or universally approved Orthodox Bible.",
+      "attribution": "Translation of the Greek Septuagint into English by Sir Lancelot Charles Lee Brenton, 1851. Public domain. Text supplied by eBible.org.",
+      "license": "Public domain",
+      "licenseUrl": "https://ebible.org/eng-Brenton/copyright.htm",
+      "sourceUrl": "https://ebible.org/eng-Brenton/",
+      "passages": [
+        {
+          "id": "brenton-psalm-22-2",
+          "theme": "rest",
+          "reference": "Psalm 22:2 (Septuagint)",
+          "text": "In a place of green grass, there he has made me dwell: he has nourished me by the water of rest.",
+          "sourceUrl": "https://ebible.org/eng-Brenton/PSA022.htm",
+          "context": {
+            "en": "The psalm portrays the Lord as a shepherd who leads, restores and protects the speaker.",
+            "pt": "O salmo apresenta o Senhor como um pastor que guia, restaura e protege quem ora.",
+            "es": "El salmo presenta al Señor como un pastor que guía, restaura y protege a quien ora.",
+            "ru": "Псалом изображает Господа пастырем, Который ведёт, восстанавливает силы и защищает молящегося."
+          }
+        },
+        {
+          "id": "brenton-psalm-4-9",
+          "theme": "peace",
+          "reference": "Psalm 4:9 (Septuagint)",
+          "text": "I will both lie down in peace and sleep: for thou, Lord, only hast caused me to dwell securely.",
+          "sourceUrl": "https://ebible.org/eng-Brenton/PSA004.htm",
+          "context": {
+            "en": "The psalm closes with trust in God’s protection after a prayer amid distress.",
+            "pt": "Após uma oração em meio à angústia, o salmo termina com confiança na proteção de Deus.",
+            "es": "Después de una oración en medio de la angustia, el salmo termina con confianza en la protección de Dios.",
+            "ru": "После молитвы в скорби псалом завершается доверием к Божьей защите."
+          }
+        },
+        {
+          "id": "brenton-psalm-41-12",
+          "theme": "hope",
+          "reference": "Psalm 41:12 (Septuagint)",
+          "text": "Wherefore art thou very sad, O my soul? and wherefore dost thou trouble me? hope in God; for I will give thanks to him; he is the health of my countenance, and my God.",
+          "sourceUrl": "https://ebible.org/eng-Brenton/PSA041.htm",
+          "context": {
+            "en": "The psalmist addresses his own troubled soul while longing to return to worship.",
+            "pt": "O salmista se dirige à própria alma aflita enquanto anseia por voltar ao culto.",
+            "es": "El salmista se dirige a su propia alma afligida mientras anhela volver al culto.",
+            "ru": "Псалмопевец обращается к своей скорбящей душе, желая вновь участвовать в богослужении."
+          }
+        },
+        {
+          "id": "brenton-psalm-106-1",
+          "theme": "gratitude",
+          "reference": "Psalm 106:1 (Septuagint)",
+          "text": "Alleluia. Give thanks to the Lord, for he is good; for his mercy endures for ever.",
+          "sourceUrl": "https://ebible.org/eng-Brenton/PSA106.htm",
+          "context": {
+            "en": "An opening call to give thanks introduces accounts of God delivering people from distress.",
+            "pt": "Um chamado inicial à gratidão introduz relatos de Deus libertando pessoas da aflição.",
+            "es": "Un llamado inicial a dar gracias introduce relatos de cómo Dios libra a las personas de la aflicción.",
+            "ru": "Начальный призыв благодарить Бога предваряет рассказы об избавлении людей от бед."
+          }
+        },
+        {
+          "id": "brenton-psalm-99-3",
+          "theme": "belonging",
+          "reference": "Psalm 99:3 (Septuagint)",
+          "text": "Know that the Lord he is God; he made us, and not we ourselves; we are his people, and the sheep of his pasture.",
+          "sourceUrl": "https://ebible.org/eng-Brenton/PSA099.htm",
+          "context": {
+            "en": "This hymn invites the whole earth to worship God as maker and shepherd of his people.",
+            "pt": "Este hino convida toda a terra a adorar a Deus como criador e pastor de seu povo.",
+            "es": "Este himno invita a toda la tierra a adorar a Dios como creador y pastor de su pueblo.",
+            "ru": "Этот гимн призывает всю землю поклониться Богу как Творцу и Пастырю Своего народа."
+          }
+        }
+      ]
+    },
+    {
+      "id": "blivre",
+      "name": "Bíblia Livre · fevereiro de 2018",
+      "language": "pt",
+      "traditions": [
+        "protestant"
+      ],
+      "canon": "Protestant Bible; Almeida 1819 revision, Textus Receptus edition",
+      "scope": "Cinco passagens selecionadas em português do Brasil, da versão de fevereiro de 2018.",
+      "attribution": "Escrituras em português: Bíblia Livre (BLIVRE), Copyright © Diego Santos, Mario Sérgio, e Marco Teles — fevereiro de 2018. Fonte: https://sites.google.com/site/biblialivre/ e eBible.org. Licença Creative Commons Atribuição 4.0. Palavras dos versículos reproduzidas sem alterações; apenas quebras de linha e marcadores editoriais foram omitidos.",
+      "license": "Creative Commons Attribution 4.0 (CC BY 4.0)",
+      "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+      "sourceUrl": "https://ebible.org/porbr2018/copyright.htm",
+      "passages": [
+        {
+          "id": "blivre-mateus-11-28",
+          "theme": "rest",
+          "reference": "Mateus 11:28",
+          "text": "Vinde a mim todos vós que estais cansados e sobrecarregados, e eu vos farei descansar.",
+          "sourceUrl": "https://ebible.org/porbr2018/MAT11.htm",
+          "context": {
+            "en": "Jesus offers rest after explaining his relationship with the Father.",
+            "pt": "Jesus oferece descanso depois de explicar sua relação com o Pai.",
+            "es": "Jesús ofrece descanso después de explicar su relación con el Padre.",
+            "ru": "Иисус предлагает покой после слов о Своих отношениях с Отцом."
+          }
+        },
+        {
+          "id": "blivre-romanos-15-33",
+          "theme": "peace",
+          "reference": "Romanos 15:33",
+          "text": "E o Deus da paz esteja com todos vós. Amém!",
+          "sourceUrl": "https://ebible.org/porbr2018/ROM15.htm",
+          "context": {
+            "en": "Paul closes his travel plans and request for prayer with a blessing of peace for the Roman believers.",
+            "pt": "Paulo encerra seus planos de viagem e seu pedido de oração com uma bênção de paz aos fiéis de Roma.",
+            "es": "Pablo concluye sus planes de viaje y su petición de oración con una bendición de paz para los creyentes de Roma.",
+            "ru": "Завершая рассказ о планах путешествия и просьбу о молитве, Павел желает мира верующим в Риме."
+          }
+        },
+        {
+          "id": "blivre-romanos-15-13",
+          "theme": "hope",
+          "reference": "Romanos 15:13",
+          "text": "O Deus da esperança vos encha de toda alegria e paz na fé, para que abundeis em esperança no poder do Espírito Santo.",
+          "sourceUrl": "https://ebible.org/porbr2018/ROM15.htm",
+          "context": {
+            "en": "Paul prays for hope after urging Jewish and Gentile believers to glorify God together.",
+            "pt": "Paulo ora pela esperança após exortar os fiéis judeus e gentios a glorificarem a Deus juntos.",
+            "es": "Pablo ora por la esperanza después de exhortar a los creyentes judíos y gentiles a glorificar juntos a Dios.",
+            "ru": "Павел молится о надежде, призвав верующих из иудеев и язычников вместе прославлять Бога."
+          }
+        },
+        {
+          "id": "blivre-salmos-107-1",
+          "theme": "gratitude",
+          "reference": "Salmos 107:1",
+          "text": "Agradecei ao SENHOR, porque ele é bom; porque sua bondade dura para sempre.",
+          "sourceUrl": "https://ebible.org/porbr2018/PSA107.htm",
+          "context": {
+            "en": "An opening call to give thanks introduces accounts of God delivering people from distress.",
+            "pt": "Um chamado inicial à gratidão introduz relatos de Deus libertando pessoas da aflição.",
+            "es": "Un llamado inicial a dar gracias introduce relatos de cómo Dios libra a las personas de la aflicción.",
+            "ru": "Начальный призыв благодарить Бога предваряет рассказы об избавлении людей от бед."
+          }
+        },
+        {
+          "id": "blivre-romanos-15-7",
+          "theme": "belonging",
+          "reference": "Romanos 15:7",
+          "text": "Portanto, recebei uns aos outros, assim como também Cristo nos recebeu para a glória de Deus.",
+          "sourceUrl": "https://ebible.org/porbr2018/ROM15.htm",
+          "context": {
+            "en": "Paul urges believers to welcome one another as part of his appeal for unity in Christ.",
+            "pt": "Paulo exorta os fiéis a acolherem uns aos outros em seu apelo à unidade em Cristo.",
+            "es": "Pablo exhorta a los creyentes a acogerse unos a otros en su llamado a la unidad en Cristo.",
+            "ru": "Призывая к единству во Христе, Павел убеждает верующих принимать друг друга."
+          }
+        }
+      ]
+    },
+    {
+      "id": "rv1909",
+      "name": "Reina-Valera · 1909",
+      "language": "es",
+      "traditions": [
+        "protestant"
+      ],
+      "canon": "66-book Protestant Bible",
+      "scope": "Cinco pasajes seleccionados del Nuevo Testamento. Se conserva la ortografía de la edición de 1909.",
+      "attribution": "Santa Biblia, Reina-Valera 1909. Dominio público. Texto de eBible.org.",
+      "license": "Public domain",
+      "licenseUrl": "https://ebible.org/spaRV1909/copyright.htm",
+      "sourceUrl": "https://ebible.org/spaRV1909/",
+      "passages": [
+        {
+          "id": "rv1909-mateo-11-28",
+          "theme": "rest",
+          "reference": "Mateo 11:28",
+          "text": "Venid á mí todos los que estáis trabajados y cargados, que yo os haré descansar.",
+          "sourceUrl": "https://ebible.org/spaRV1909/MAT11.htm",
+          "context": {
+            "en": "Jesus offers rest after explaining his relationship with the Father.",
+            "pt": "Jesus oferece descanso depois de explicar sua relação com o Pai.",
+            "es": "Jesús ofrece descanso después de explicar su relación con el Padre.",
+            "ru": "Иисус предлагает покой после слов о Своих отношениях с Отцом."
+          }
+        },
+        {
+          "id": "rv1909-juan-14-27",
+          "theme": "peace",
+          "reference": "Juan 14:27",
+          "text": "La paz os dejo, mi paz os doy: no como el mundo la da, yo os la doy. No se turbe vuestro corazón, ni tenga miedo.",
+          "sourceUrl": "https://ebible.org/spaRV1909/JHN14.htm",
+          "context": {
+            "en": "During his farewell discourse, Jesus reassures his disciples before his departure.",
+            "pt": "Em seu discurso de despedida, Jesus consola os discípulos antes de sua partida.",
+            "es": "En su discurso de despedida, Jesús consuela a sus discípulos antes de su partida.",
+            "ru": "В прощальной беседе Иисус утешает учеников перед Своим уходом."
+          }
+        },
+        {
+          "id": "rv1909-romanos-15-13",
+          "theme": "hope",
+          "reference": "Romanos 15:13",
+          "text": "Y el Dios de esperanza os llene de todo gozo y paz creyendo, para que abundéis en esperanza por la virtud del Espíritu Santo.",
+          "sourceUrl": "https://ebible.org/spaRV1909/ROM15.htm",
+          "context": {
+            "en": "Paul prays for hope after urging Jewish and Gentile believers to glorify God together.",
+            "pt": "Paulo ora pela esperança após exortar os fiéis judeus e gentios a glorificarem a Deus juntos.",
+            "es": "Pablo ora por la esperanza después de exhortar a los creyentes judíos y gentiles a glorificar juntos a Dios.",
+            "ru": "Павел молится о надежде, призвав верующих из иудеев и язычников вместе прославлять Бога."
+          }
+        },
+        {
+          "id": "rv1909-1-tesalonicenses-5-18",
+          "theme": "gratitude",
+          "reference": "1 Tesalonicenses 5:18",
+          "text": "Dad gracias en todo; porque esta es la voluntad de Dios para con vosotros en Cristo Jesús.",
+          "sourceUrl": "https://ebible.org/spaRV1909/1TH05.htm",
+          "context": {
+            "en": "Near the end of this letter, Paul gives the Thessalonian community brief instructions on prayer and gratitude.",
+            "pt": "Perto do fim desta carta, Paulo dá à comunidade de Tessalônica breves orientações sobre oração e gratidão.",
+            "es": "Cerca del final de esta carta, Pablo da a la comunidad de Tesalónica breves instrucciones sobre la oración y la gratitud.",
+            "ru": "В конце послания Павел даёт фессалоникийской общине краткие наставления о молитве и благодарности."
+          }
+        },
+        {
+          "id": "rv1909-juan-15-9",
+          "theme": "belonging",
+          "reference": "Juan 15:9",
+          "text": "Como el Padre me amó, también yo os he amado: estad en mi amor.",
+          "sourceUrl": "https://ebible.org/spaRV1909/JHN15.htm",
+          "context": {
+            "en": "In his farewell teaching, Jesus moves from the image of vine and branches to remaining in his love.",
+            "pt": "Em seu ensinamento de despedida, Jesus passa da imagem da videira e dos ramos à permanência em seu amor.",
+            "es": "En su enseñanza de despedida, Jesús pasa de la imagen de la vid y los sarmientos a permanecer en su amor.",
+            "ru": "В прощальной беседе Иисус переходит от образа лозы и ветвей к пребыванию в Его любви."
+          }
+        }
+      ]
+    },
+    {
+      "id": "synodal",
+      "name": "Синодальный перевод",
+      "language": "ru",
+      "traditions": [
+        "orthodox",
+        "protestant"
+      ],
+      "canon": "Synodal translation; this digital source is a 66-book selection",
+      "scope": "Пять отрывков из Нового Завета Синодального перевода. Это подборка, а не полное православное издание Библии.",
+      "attribution": "Синодальный перевод (Russian Synodal translation). Public domain. Text supplied by eBible.org. Five New Testament selections only.",
+      "license": "Public domain",
+      "licenseUrl": "https://ebible.org/russyn/copyright.htm",
+      "sourceUrl": "https://ebible.org/russyn/",
+      "passages": [
+        {
+          "id": "synodal-matthew-11-28",
+          "theme": "rest",
+          "reference": "От Матфея 11:28",
+          "text": "Придите ко Мне все труждающиеся и обремененные, и Я успокою вас;",
+          "sourceUrl": "https://ebible.org/russyn/MAT11.htm",
+          "context": {
+            "en": "Jesus offers rest after explaining his relationship with the Father.",
+            "pt": "Jesus oferece descanso depois de explicar sua relação com o Pai.",
+            "es": "Jesús ofrece descanso después de explicar su relación con el Padre.",
+            "ru": "Иисус предлагает покой после слов о Своих отношениях с Отцом."
+          }
+        },
+        {
+          "id": "synodal-john-14-27",
+          "theme": "peace",
+          "reference": "От Иоанна 14:27",
+          "text": "Мир оставляю вам, мир Мой даю вам; не так, как мир дает, Я даю вам. Да не смущается сердце ваше и да не устрашается.",
+          "sourceUrl": "https://ebible.org/russyn/JHN14.htm",
+          "context": {
+            "en": "During his farewell discourse, Jesus reassures his disciples before his departure.",
+            "pt": "Em seu discurso de despedida, Jesus consola os discípulos antes de sua partida.",
+            "es": "En su discurso de despedida, Jesús consuela a sus discípulos antes de su partida.",
+            "ru": "В прощальной беседе Иисус утешает учеников перед Своим уходом."
+          }
+        },
+        {
+          "id": "synodal-romans-15-13",
+          "theme": "hope",
+          "reference": "К Римлянам 15:13",
+          "text": "Бог же надежды да исполнит вас всякой радости и мира в вере, дабы вы, силою Духа Святаго, обогатились надеждою.",
+          "sourceUrl": "https://ebible.org/russyn/ROM15.htm",
+          "context": {
+            "en": "Paul prays for hope after urging Jewish and Gentile believers to glorify God together.",
+            "pt": "Paulo ora pela esperança após exortar os fiéis judeus e gentios a glorificarem a Deus juntos.",
+            "es": "Pablo ora por la esperanza después de exhortar a los creyentes judíos y gentiles a glorificar juntos a Dios.",
+            "ru": "Павел молится о надежде, призвав верующих из иудеев и язычников вместе прославлять Бога."
+          }
+        },
+        {
+          "id": "synodal-1-thessalonians-5-18",
+          "theme": "gratitude",
+          "reference": "1 Фессалоникийцам 5:18",
+          "text": "За все благодарите: ибо такова о вас воля Божия во Христе Иисусе.",
+          "sourceUrl": "https://ebible.org/russyn/1TH05.htm",
+          "context": {
+            "en": "Near the end of this letter, Paul gives the Thessalonian community brief instructions on prayer and gratitude.",
+            "pt": "Perto do fim desta carta, Paulo dá à comunidade de Tessalônica breves orientações sobre oração e gratidão.",
+            "es": "Cerca del final de esta carta, Pablo da a la comunidad de Tesalónica breves instrucciones sobre la oración y la gratitud.",
+            "ru": "В конце послания Павел даёт фессалоникийской общине краткие наставления о молитве и благодарности."
+          }
+        },
+        {
+          "id": "synodal-john-15-9",
+          "theme": "belonging",
+          "reference": "От Иоанна 15:9",
+          "text": "Как возлюбил Меня Отец, и Я возлюбил вас; пребудьте в любви Моей.",
+          "sourceUrl": "https://ebible.org/russyn/JHN15.htm",
+          "context": {
+            "en": "In his farewell teaching, Jesus moves from the image of vine and branches to remaining in his love.",
+            "pt": "Em seu ensinamento de despedida, Jesus passa da imagem da videira e dos ramos à permanência em seu amor.",
+            "es": "En su enseñanza de despedida, Jesús pasa de la imagen de la vid y los sarmientos a permanecer en su amor.",
+            "ru": "В прощальной беседе Иисус переходит от образа лозы и ветвей к пребыванию в Его любви."
+          }
+        }
+      ]
+    }
+  ]
+}
