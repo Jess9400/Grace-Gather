@@ -1,7 +1,7 @@
 export const LANGUAGES = {en:'English',pt:'Português',es:'Español',ru:'Русский'};
 export const DEFAULT_PREFS = {language:'en',scriptureLanguage:'en',tradition:'protestant',edition:'web'};
-export const MOODS = ['grateful','peaceful','hopeful','anxious','lonely','sad','overwhelmed','unsure'];
-export const THEMES = {grateful:'gratitude',peaceful:'peace',hopeful:'hope',anxious:'peace',lonely:'belonging',sad:'rest',overwhelmed:'rest',unsure:'hope'};
+export const MOODS = ['grateful','peaceful','hopeful','anxious','lonely','sad','overwhelmed','hopeless','unsure'];
+export const THEMES = {hopeless:'hope',grateful:'gratitude',peaceful:'peace',hopeful:'hope',anxious:'peace',lonely:'belonging',sad:'rest',overwhelmed:'rest',unsure:'hope'};
 export function escapeHTML(value='') {return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 export function compatibleEditions(editions,prefs) {return editions.filter(e=>e.language===prefs.scriptureLanguage&&e.traditions.includes(prefs.tradition));}
 export function normalizePrefs(raw,editions) {

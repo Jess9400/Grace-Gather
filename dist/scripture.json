@@ -8,7 +8,7 @@
         "protestant"
       ],
       "canon": "66-book Protestant edition",
-      "scope": "Five curated New Testament passages. This is a devotional selection, not a complete Bible.",
+      "scope": "Six curated Old and New Testament passages. This is a devotional selection, not a complete Bible.",
       "attribution": "World English Bible, Protestant edition. Public domain. Text supplied by eBible.org.",
       "license": "Public domain",
       "licenseUrl": "https://ebible.org/engwebp/copyright.htm",
@@ -78,6 +78,22 @@
             "es": "En su enseñanza de despedida, Jesús pasa de la imagen de la vid y los sarmientos a permanecer en su amor.",
             "ru": "В прощальной беседе Иисус переходит от образа лозы и ветвей к пребыванию в Его любви."
           }
+        },
+        {
+          "id": "web-psalm-34-18",
+          "theme": "rest",
+          "situations": [
+            "sad"
+          ],
+          "reference": "Psalm 34:18",
+          "text": "The LORD is near to those who have a broken heart, and saves those who have a crushed spirit.",
+          "sourceUrl": "https://ebible.org/engwebp/PSA034.htm",
+          "context": {
+            "en": "In a psalm of thanksgiving and trust amid trouble, the writer describes God as near to the brokenhearted.",
+            "pt": "Em um salmo de gratidão e confiança em meio às dificuldades, o autor descreve Deus próximo dos corações feridos.",
+            "es": "En un salmo de gratitud y confianza en medio de dificultades, el autor describe a Dios cerca de los corazones heridos.",
+            "ru": "В псалме благодарности и доверия среди бед автор говорит о близости Бога к сокрушённым сердцем."
+          }
         }
       ]
     },
@@ -89,7 +105,7 @@
         "catholic"
       ],
       "canon": "Catholic Bible, translated from the Latin Vulgate",
-      "scope": "Five curated New Testament passages from the Douay-Rheims Catholic translation, in traditional English.",
+      "scope": "Six curated Old and New Testament passages from the Douay-Rheims Catholic translation, in traditional English.",
       "attribution": "Douay-Rheims Bible, American edition of 1899. Public domain. Passages verified with Douay-Rheims Bible Online.",
       "license": "Public domain",
       "licenseUrl": "https://ebible.org/engDRA/copyright.htm",
@@ -159,6 +175,22 @@
             "es": "En su enseñanza de despedida, Jesús pasa de la imagen de la vid y los sarmientos a permanecer en su amor.",
             "ru": "В прощальной беседе Иисус переходит от образа лозы и ветвей к пребыванию в Его любви."
           }
+        },
+        {
+          "id": "dra-psalm-33-19",
+          "theme": "rest",
+          "situations": [
+            "sad"
+          ],
+          "reference": "Psalm 33:19 (Douay-Rheims)",
+          "text": "The Lord is nigh unto them that are of a contrite heart: and he will save the humble of spirit.",
+          "sourceUrl": "https://www.drbo.org/chapter/21033.htm",
+          "context": {
+            "en": "In a psalm of thanksgiving and trust amid trouble, the writer describes God as near to the brokenhearted.",
+            "pt": "Em um salmo de gratidão e confiança em meio às dificuldades, o autor descreve Deus próximo dos corações feridos.",
+            "es": "En un salmo de gratitud y confianza en medio de dificultades, el autor describe a Dios cerca de los corazones heridos.",
+            "ru": "В псалме благодарности и доверия среди бед автор говорит о близости Бога к сокрушённым сердцем."
+          }
         }
       ]
     },
@@ -170,7 +202,7 @@
         "orthodox"
       ],
       "canon": "Greek Septuagint Old Testament; Septuagint Psalm numbering",
-      "scope": "Five Psalms from Brenton’s 1851 English Septuagint translation. Offered as a Septuagint option for Orthodox readers, not as a complete or universally approved Orthodox Bible.",
+      "scope": "Six Psalms from Brenton’s 1851 English Septuagint translation. Offered as a Septuagint option for Orthodox readers, not as a complete or universally approved Orthodox Bible.",
       "attribution": "Translation of the Greek Septuagint into English by Sir Lancelot Charles Lee Brenton, 1851. Public domain. Text supplied by eBible.org.",
       "license": "Public domain",
       "licenseUrl": "https://ebible.org/eng-Brenton/copyright.htm",
@@ -239,6 +271,22 @@
             "pt": "Este hino convida toda a terra a adorar a Deus como criador e pastor de seu povo.",
             "es": "Este himno invita a toda la tierra a adorar a Dios como creador y pastor de su pueblo.",
             "ru": "Этот гимн призывает всю землю поклониться Богу как Творцу и Пастырю Своего народа."
+          }
+        },
+        {
+          "id": "brenton-psalm-33-19",
+          "theme": "rest",
+          "situations": [
+            "sad"
+          ],
+          "reference": "Psalm 33:19 (Septuagint)",
+          "text": "The Lord is near to them that are of a contrite heart; and will save the lowly in spirit.",
+          "sourceUrl": "https://ebible.org/eng-Brenton/PSA033.htm",
+          "context": {
+            "en": "In a psalm of thanksgiving and trust amid trouble, the writer describes God as near to the brokenhearted.",
+            "pt": "Em um salmo de gratidão e confiança em meio às dificuldades, o autor descreve Deus próximo dos corações feridos.",
+            "es": "En un salmo de gratitud y confianza en medio de dificultades, el autor describe a Dios cerca de los corazones heridos.",
+            "ru": "В псалме благодарности и доверия среди бед автор говорит о близости Бога к сокрушённым сердцем."
           }
         }
       ]
@@ -321,6 +369,22 @@
             "es": "Pablo exhorta a los creyentes a acogerse unos a otros en su llamado a la unidad en Cristo.",
             "ru": "Призывая к единству во Христе, Павел убеждает верующих принимать друг друга."
           }
+        },
+        {
+          "id": "blivre-mateus-5-4",
+          "theme": "rest",
+          "situations": [
+            "sad"
+          ],
+          "reference": "Mateus 5:4",
+          "text": "Benditos são os que choram, porque eles serão consolados.",
+          "sourceUrl": "https://ebible.org/porbr2018/MAT05.htm",
+          "context": {
+            "en": "At the beginning of the Sermon on the Mount, Jesus includes those who mourn among the people he calls blessed.",
+            "pt": "No início do Sermão do Monte, Jesus inclui os que choram entre aqueles que chama de benditos.",
+            "es": "Al inicio del Sermón del Monte, Jesús incluye a quienes lloran entre aquellos a quienes llama benditos.",
+            "ru": "В начале Нагорной проповеди Иисус называет плачущих среди тех, кого Он зовёт блаженными."
+          }
         }
       ]
     },
@@ -402,6 +466,22 @@
             "es": "En su enseñanza de despedida, Jesús pasa de la imagen de la vid y los sarmientos a permanecer en su amor.",
             "ru": "В прощальной беседе Иисус переходит от образа лозы и ветвей к пребыванию в Его любви."
           }
+        },
+        {
+          "id": "rv1909-salmos-34-18",
+          "theme": "rest",
+          "situations": [
+            "sad"
+          ],
+          "reference": "Salmos 34:18",
+          "text": "Cercano está Jehová á los quebrantados de corazón; y salvará á los contritos de espíritu.",
+          "sourceUrl": "https://ebible.org/spaRV1909/PSA034.htm",
+          "context": {
+            "en": "In a psalm of thanksgiving and trust amid trouble, the writer describes God as near to the brokenhearted.",
+            "pt": "Em um salmo de gratidão e confiança em meio às dificuldades, o autor descreve Deus próximo dos corações feridos.",
+            "es": "En un salmo de gratitud y confianza en medio de dificultades, el autor describe a Dios cerca de los corazones heridos.",
+            "ru": "В псалме благодарности и доверия среди бед автор говорит о близости Бога к сокрушённым сердцем."
+          }
         }
       ]
     },
@@ -415,7 +495,7 @@
       ],
       "canon": "Synodal translation; this digital source is a 66-book selection",
       "scope": "Пять отрывков из Нового Завета Синодального перевода. Это подборка, а не полное православное издание Библии.",
-      "attribution": "Синодальный перевод (Russian Synodal translation). Public domain. Text supplied by eBible.org. Five New Testament selections only.",
+      "attribution": "Синодальный перевод (Russian Synodal translation). Public domain. Text supplied by eBible.org. Six New Testament selections only.",
       "license": "Public domain",
       "licenseUrl": "https://ebible.org/russyn/copyright.htm",
       "sourceUrl": "https://ebible.org/russyn/",
@@ -483,6 +563,22 @@
             "pt": "Em seu ensinamento de despedida, Jesus passa da imagem da videira e dos ramos à permanência em seu amor.",
             "es": "En su enseñanza de despedida, Jesús pasa de la imagen de la vid y los sarmientos a permanecer en su amor.",
             "ru": "В прощальной беседе Иисус переходит от образа лозы и ветвей к пребыванию в Его любви."
+          }
+        },
+        {
+          "id": "synodal-john-11-35",
+          "theme": "rest",
+          "situations": [
+            "sad"
+          ],
+          "reference": "От Иоанна 11:35",
+          "text": "Иисус прослезился.",
+          "sourceUrl": "https://ebible.org/russyn/JHN11.htm",
+          "context": {
+            "en": "Jesus weeps after seeing Mary and those with her mourning the death of Lazarus. The verse belongs to a story of friendship, grief, and resurrection.",
+            "pt": "Jesus chora ao ver Maria e os que estavam com ela lamentando a morte de Lázaro. O versículo faz parte de uma história de amizade, luto e ressurreição.",
+            "es": "Jesús llora al ver a María y a quienes la acompañan lamentar la muerte de Lázaro. El versículo pertenece a una historia de amistad, duelo y resurrección.",
+            "ru": "Иисус плачет, увидев Марию и пришедших с ней людей, скорбящих о смерти Лазаря. Этот стих — часть повествования о дружбе, скорби и воскресении."
           }
         }
       ]

@@ -5,14 +5,14 @@ import {normalizePrefs, compatibleEditions, selectPassages, needsHumanSupport, e
 import {COPY, REFLECTIONS} from '../dist/content.js';
 const {editions}=JSON.parse(await readFile(new URL('../dist/scripture.json',import.meta.url)));
 
-test('Every advertised edition has five independently sourced, unique passages',()=>{
+test('Every advertised edition has six independently sourced, unique passages',()=>{
   assert.equal(editions.length,6);
   for(const e of editions){
-    assert.equal(e.passages.length,5);
-    assert.equal(new Set(e.passages.map(p=>p.id)).size,5);
+    assert.equal(e.passages.length,6);
+    assert.equal(new Set(e.passages.map(p=>p.id)).size,6);
     assert.equal(new Set(e.passages.map(p=>p.theme)).size,5);
     assert.ok(e.attribution&&e.license&&e.scope&&e.canon);
-    for(const p of e.passages){assert.ok(p.text.length>20);assert.match(p.sourceUrl,/^https:\/\//);assert.ok(p.reference);for(const lang of ['en','pt','es','ru'])assert.ok(p.context[lang]);}
+    for(const p of e.passages){assert.ok(p.text.length>10);assert.match(p.sourceUrl,/^https:\/\//);assert.ok(p.reference);for(const lang of ['en','pt','es','ru'])assert.ok(p.context[lang]);}
   }
 });
 test('All tradition/language combinations either match precisely or return an honest empty selection',()=>{

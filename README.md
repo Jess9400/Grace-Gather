@@ -19,10 +19,10 @@ npm run check
 
 ## Implemented
 
-- Responsive journal, eight feelings, text input, microphone recording (maximum two minutes), audio upload (maximum 20 MB), playback, and audio download.
+- Responsive journal, nine feelings, text input, microphone recording (maximum two minutes), audio upload (maximum 20 MB), playback, and audio download.
 - Mixed text/audio entries, stored together in IndexedDB.
-- Check-in → licensed scripture → curated reflection → one optional action → saved follow-up.
-- Five passages per edition, selected by feeling; up to five visible on request. No AI interpretation of private text or audio.
+- A mobile-first, four-screen journey: check-in → situation-specific scripture → a choice of relevant actions → action instructions and a saved follow-up. The opening screen immediately asks “How are you feeling today?”; scripture appears only after submission.
+- Six passages per edition. Each new journey shows only one or two matching passages, with a direct sadness passage available in each supported edition. The preview requires an explicit feeling; no AI interpretation of private text or audio is claimed.
 - Journal history, text/mood search, per-entry deletion, JSON export including base64 audio.
 - Four complete interface languages. App language, scripture language, tradition, and edition are separate settings.
 - Exact quotations with references, editions, source links, attribution, and edition-specific numbering. Historical entries retain snapshots of their original passages and reflections when preferences change.
@@ -39,7 +39,7 @@ npm run check
 | Spanish | Reina-Valera 1909 | Not yet sourced | Not yet sourced |
 | Russian | Synodal NT selections | Not yet sourced | Synodal NT selections |
 
-Unavailable combinations never silently substitute another tradition or language. An English scripture language can be selected explicitly while keeping any interface language. This is a 30-passage devotional library, not a full Bible. See `SCRIPTURE_SOURCES.md` and in-app Sources & credits.
+Unavailable combinations never silently substitute another tradition or language. An English scripture language can be selected explicitly while keeping any interface language. This is a 36-passage devotional library, not a full Bible. See `SCRIPTURE_SOURCES.md` and in-app Sources & credits.
 
 ## Privacy and data lifecycle
 
@@ -48,17 +48,19 @@ Unavailable combinations never silently substitute another tradition or language
 - Browser-local storage is **not encrypted app storage**. Anyone with access to the browser profile can read it. Clearing site data or using an ephemeral browser profile can remove it. Exports include private content and should be stored securely.
 - Local preview and the hosted site use different origins, so their browser storage is separate. Test entries are not uploaded with deployment.
 - Exports are portable JSON backups with audio data URLs. Import/restore UI is not implemented yet.
-- The hosted preview is owner-private. This access gate does not replace a production multi-user authentication, encryption, backup, and account-deletion design.
+- The hosted preview has a private custom allowlist (owner plus the explicitly approved external viewer). This access gate does not replace a production multi-user authentication, encryption, backup, and account-deletion design.
 
 ## Project structure
 
 - `dist/index.html`, `dist/styles.css`: shell, responsive styling, accessibility, self-hosted original SVG assets.
 - `dist/app.js`: views, IndexedDB, MediaRecorder, journal lifecycle, dialogs.
 - `dist/core.js`: preference/edition matching, passage selection, text escaping, local safety gate.
+- `dist/journey.js`: situation-to-scripture/action mappings and four-language journey content.
+- `dist/flow.css`: mobile-first layout, tap targets, and single-column screens.
 - `dist/content.js`: original interface text, reflections, practices, story summaries in four languages.
 - `dist/scripture.json`: verified scripture and provenance, distinct from original app-written text.
 - `scripts/serve.mjs`: local static preview server.
-- `tests/core.test.mjs`: 11 tests of content selection, coverage, localization, safety gate, input, and escaping.
+- `tests/core.test.mjs` and `tests/journey.test.mjs`: 16 tests of content selection, coverage, localization, safety gate, input, and escaping.
 
 ## Before a wider launch
 
@@ -66,10 +68,32 @@ Select approved native-language Catholic and Orthodox editions and licenses; obt
 
 ## Verification performed
 
-- All 11 automated tests pass, including exact tradition/language filtering, all four localized contexts per quotation, supported/unsupported combinations, preservation of quotation text, local support detection examples, and escaping journal content.
+- All 16 automated tests pass, including exact tradition/language filtering, all four localized contexts per quotation, supported/unsupported combinations, preservation of quotation text, local support detection examples, and escaping journal content.
 - JavaScript syntax checks pass.
 - Browser: text entry, selected action and follow-up persisted after reload; a generated one-second silent WAV uploaded and survived reload alongside its text with playback controls.
 - Browser: Portuguese unavailable Catholic state, Russian Synodal selection, Spanish mobile interface, and English defaults checked.
 - Responsive QA at 1440px and 390px. Mobile card clipping was reproduced and fixed; measured content width equals viewport width.
 - Browser: explicit-risk typed test opens human-support guidance before saving or recommending content.
 - Physical microphone recording and physical iOS/Android device behavior remain to be tested. Audio transcription is not implemented.
+
+
+## Mobile journey revision (2 November 2026)
+
+- Sadness: a passage about sorrow/comfort → prayer, a gentle walk with personally chosen music, or reaching out.
+- Losing hope in the world: hope scripture → Positive News, an act of kindness, or arranging a reading/conversation visit with an older person.
+- Anxiety, loneliness, overwhelm, gratitude, peace, hope, and uncertainty each have their own path. The person can correct the selected feeling before choosing an action.
+- Exactly quoted scripture and its source remain separate from app-written reflections and prayers. No inference of a diagnosis.
+- New flow, actions, and copy support English, Portuguese, Spanish and Russian. Scripture coverage remains as listed above.
+- The existing IndexedDB store is retained; old entries and audio are not migrated or deleted.
+
+### Still pending for the requested AI experience
+
+The OpenAI Developers plugin was offered but has not been confirmed installed/connected. No API key is configured and no journal text or audio is sent to an AI provider. The current published revision is an explicitly labelled, feeling-selected preview. Genuine interpretation must not be represented as complete.
+
+When the connection is enabled, use its API-key setup workflow, migrate the static Site to a server-capable starter while preserving Site identity/audience, and keep the API key server-only. An authenticated endpoint should transcribe opted-in audio, interpret the journal in the selected language, and return a validated situation plus an empathetic reflection. Select verse IDs and action IDs from the verified catalog, never let the model invent Bible text or live events. Let the person correct the interpretation. Include clear per-entry disclosure/consent before sending private journal text/audio; handle unavailable AI and failed transcription without losing the draft or silently pretending to personalize.
+
+[Official structured-output documentation](https://developers.openai.com/api/docs/guides/structured-outputs) and [file transcription documentation](https://developers.openai.com/api/docs/guides/speech-to-text) were checked while preparing this change.
+
+Friday sessions require an actual host, schedule, moderation and joining integration. They are labelled planned; no recurring schedule is claimed. External groups at Action for Happiness are explicitly separate from Still and from depression treatment. The good-news link is an English-language publisher, not an automated past-24-hours video feed. A live feed, licensed/approved music, and locally vetted charity/volunteer listings remain to be connected.
+
+Validation for this revision: 16 automated tests; browser check-in → verse → action → follow-up and persistence after reload; distinct sadness and loss-of-hope paths; four-language and mobile-width checks. Physical-device recording and live AI remain unverified.
