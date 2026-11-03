@@ -39,7 +39,7 @@ async function open() {
   );
   if (!cipher?.cipher_version)
     throw new Error(
-      "Encrypted storage requires an Away Church development or App Store build. Expo Go is not supported.",
+      "Encrypted storage requires a Grace & Gather development or App Store build. Expo Go is not supported.",
     );
   await database.execAsync(`PRAGMA key = "x'${key}'";`);
   await database.getFirstAsync("SELECT count(*) FROM sqlite_master");
@@ -151,7 +151,7 @@ export async function exportEncrypted() {
       "This backup exceeds the 50 MB limit. Export fewer recordings.",
     );
   const encrypted = await aesEncryptAsync(raw, backupKey);
-  const file = new File(Paths.cache, "away-church-backup.bin");
+  const file = new File(Paths.cache, "grace-and-gather-backup.bin");
   await file.write(await encrypted.combined());
   return { uri: file.uri, key: await backupKey.encoded("hex") };
 }

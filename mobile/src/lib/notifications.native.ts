@@ -12,7 +12,7 @@ export async function enableReminder(language: Language) {
   await Notifications.scheduleNotificationAsync({
     identifier: "away-daily",
     content: {
-      title: "Away Church",
+      title: "Grace & Gather",
       body: label(language, "reminderBody"),
       sound: false,
     },

@@ -19,6 +19,7 @@ before(async () => {
     "202611030001_core.sql",
     "202611030002_private_storage.sql",
     "202611030003_operations.sql",
+    "202611030004_grace_and_gather_brand.sql",
   ])
     await db.exec(
       await readFile(

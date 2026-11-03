@@ -25,11 +25,11 @@ const policy = {
     ],
     [
       "Care and moderation",
-      "Away Church is a spiritual wellbeing app, not therapy or emergency care. Journal entries are not monitored. Community harassment, hate, spam, unsafe medical advice and disclosure of another person’s private information are prohibited. Use Report or Block, or contact support. Resources and book suggestions do not promise recovery.",
+      "Grace & Gather is a spiritual wellbeing app, not therapy or emergency care. Journal entries are not monitored. Community harassment, hate, spam, unsafe medical advice and disclosure of another person’s private information are prohibited. Use Report or Block, or contact support. Resources and book suggestions do not promise recovery.",
     ],
     [
       "Questions and rights",
-      "Contact Away Church at hello@awaychurch.com to request help, access, correction or deletion of account data. You can export an encrypted local journal, delete entries and remove all device data in Account. This early-access policy must be reviewed against the final production providers and retention settings before public launch.",
+      "Contact Grace & Gather at hello@graceandgather.com to request help, access, correction or deletion of account data. You can export an encrypted local journal, delete entries and remove all device data in Account. This early-access policy must be reviewed against the final production providers and retention settings before public launch.",
     ],
   ],
   pt: [
@@ -47,11 +47,11 @@ const policy = {
     ],
     [
       "Cuidado e moderação",
-      "Away Church é um app de bem-estar espiritual, não terapia ou atendimento de emergência. O diário não é monitorado. Assédio, ódio, spam, orientações médicas perigosas e divulgação de informações privadas de terceiros são proibidos. Use Denunciar ou Bloquear, ou contate o suporte. Os recursos e livros não prometem recuperação.",
+      "Grace & Gather é um app de bem-estar espiritual, não terapia ou atendimento de emergência. O diário não é monitorado. Assédio, ódio, spam, orientações médicas perigosas e divulgação de informações privadas de terceiros são proibidos. Use Denunciar ou Bloquear, ou contate o suporte. Os recursos e livros não prometem recuperação.",
     ],
     [
       "Dúvidas e direitos",
-      "Contate Away Church em hello@awaychurch.com para solicitar ajuda, acesso, correção ou exclusão de dados. Em Conta, você pode exportar uma cópia criptografada ou excluir dados locais. Esta política inicial precisa ser revisada conforme os provedores e prazos de retenção finais antes do lançamento público.",
+      "Contate Grace & Gather em hello@graceandgather.com para solicitar ajuda, acesso, correção ou exclusão de dados. Em Conta, você pode exportar uma cópia criptografada ou excluir dados locais. Esta política inicial precisa ser revisada conforme os provedores e prazos de retenção finais antes do lançamento público.",
     ],
   ],
   es: [
@@ -69,11 +69,11 @@ const policy = {
     ],
     [
       "Cuidado y moderación",
-      "Away Church es una app de bienestar espiritual, no terapia ni atención de emergencia. No se supervisa el diario. Se prohíben acoso, odio, spam, consejos médicos peligrosos y datos privados ajenos. Usa Denunciar o Bloquear, o contacta con ayuda. Los recursos y libros no prometen recuperación.",
+      "Grace & Gather es una app de bienestar espiritual, no terapia ni atención de emergencia. No se supervisa el diario. Se prohíben acoso, odio, spam, consejos médicos peligrosos y datos privados ajenos. Usa Denunciar o Bloquear, o contacta con ayuda. Los recursos y libros no prometen recuperación.",
     ],
     [
       "Preguntas y derechos",
-      "Contacta con Away Church en hello@awaychurch.com para pedir ayuda, acceso, corrección o eliminación de datos. En Cuenta puedes exportar una copia cifrada o borrar datos locales. Esta política inicial debe revisarse según proveedores y retención finales antes del lanzamiento público.",
+      "Contacta con Grace & Gather en hello@graceandgather.com para pedir ayuda, acceso, corrección o eliminación de datos. En Cuenta puedes exportar una copia cifrada o borrar datos locales. Esta política inicial debe revisarse según proveedores y retención finales antes del lanzamiento público.",
     ],
   ],
   ru: [
@@ -91,11 +91,11 @@ const policy = {
     ],
     [
       "Забота и модерация",
-      "Away Church помогает духовному благополучию и не заменяет терапию или экстренную помощь. Дневник не отслеживается. Запрещены травля, ненависть, спам, опасные медицинские советы и чужие личные данные. Используйте жалобу или блокировку либо обратитесь в поддержку. Материалы и книги не обещают выздоровления.",
+      "Grace & Gather помогает духовному благополучию и не заменяет терапию или экстренную помощь. Дневник не отслеживается. Запрещены травля, ненависть, спам, опасные медицинские советы и чужие личные данные. Используйте жалобу или блокировку либо обратитесь в поддержку. Материалы и книги не обещают выздоровления.",
     ],
     [
       "Вопросы и права",
-      "Обратитесь в Away Church по адресу hello@awaychurch.com для помощи, доступа, исправления или удаления данных. В аккаунте можно экспортировать зашифрованную копию или удалить данные устройства. Эту предварительную политику необходимо проверить с учётом окончательных провайдеров и сроков хранения перед публичным запуском.",
+      "Обратитесь в Grace & Gather по адресу hello@graceandgather.com для помощи, доступа, исправления или удаления данных. В аккаунте можно экспортировать зашифрованную копию или удалить данные устройства. Эту предварительную политику необходимо проверить с учётом окончательных провайдеров и сроков хранения перед публичным запуском.",
     ],
   ],
 };
@@ -104,7 +104,7 @@ export default function Privacy() {
   return (
     <Screen back>
       <Heading>{label(profile.language, "privacy")}</Heading>
-      <Body small>Away Church · 3 November 2026</Body>
+      <Body small>Grace & Gather · 3 November 2026</Body>
       {policy[profile.language].map(([title, body]) => (
         <Card key={title}>
           <Subheading>{title}</Subheading>
@@ -113,8 +113,8 @@ export default function Privacy() {
       ))}
       <Body>{copy(profile.language, "supportBoundary")}</Body>
       <External
-        title="hello@awaychurch.com"
-        url="mailto:hello@awaychurch.com"
+        title="hello@graceandgather.com"
+        url="mailto:hello@graceandgather.com"
       />
     </Screen>
   );

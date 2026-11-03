@@ -34,7 +34,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       })
       .catch(() =>
         setError(
-          "Your private storage could not open. Your files have been preserved. Use a development build with encrypted storage, or contact hello@awaychurch.com.",
+          "Your private storage could not open. Your files have been preserved. Use a development build with encrypted storage, or contact hello@graceandgather.com.",
         ),
       );
     return () => {

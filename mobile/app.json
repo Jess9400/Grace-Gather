@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Away Church",
+    "name": "Grace & Gather",
     "slug": "away-church",
     "scheme": "awaychurch",
     "version": "0.4.0",
@@ -55,7 +55,7 @@
         "@config-plugins/react-native-webrtc",
         {
           "cameraPermission": false,
-          "microphonePermission": "Speak in an Away Church gathering when you choose."
+          "microphonePermission": "Speak in a Grace & Gather gathering when you choose."
         }
       ],
       "expo-asset"

@@ -18,7 +18,7 @@ export default function Restore() {
       });
       if (picked.canceled) return;
       await restoreEncrypted(picked.assets[0].uri, key.trim());
-      setNotice("Restored. Close and reopen Away Church to load your journal.");
+      setNotice("Restored. Close and reopen Grace & Gather to load your journal.");
     } catch {
       setNotice(
         "Could not restore. Check the recovery key and backup file. Existing files have been preserved.",

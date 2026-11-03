@@ -49,7 +49,7 @@ export function Screen({
         )}
         <View style={s.brand}>
           <Ionicons name="leaf-outline" size={23} color={colors.green} />
-          <Text style={s.brandText}>AWAY CHURCH</Text>
+          <Text style={s.brandText}>GRACE & GATHER</Text>
           <Pressable
             accessibilityLabel="Account and settings"
             accessibilityRole="button"

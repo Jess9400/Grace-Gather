@@ -199,10 +199,10 @@ const rows: Record<string, string[]> = {
     "Отправка писем пока не включена. Предпочтение будет сохранено.",
   ],
   launch: [
-    "Away Church · early access",
-    "Away Church · acesso antecipado",
-    "Away Church · acceso anticipado",
-    "Away Church · ранний доступ",
+    "Grace & Gather · early access",
+    "Grace & Gather · acesso antecipado",
+    "Grace & Gather · acceso anticipado",
+    "Grace & Gather · ранний доступ",
   ],
   notFound: [
     "This item is unavailable.",

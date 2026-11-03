@@ -1,6 +1,6 @@
-# Away Church — mobile MVP and private web preview
+# Grace & Gather — mobile MVP and private web preview
 
-Away Church is the current working name. Public support contact: **hello@awaychurch.com** (mailbox verification is still outstanding). The original Still web preview and its browser journals are retained. The new `mobile/` app is a separate Expo / React Native application for iPhone, with optional Supabase accounts. The two account stores are not automatically merged.
+Grace & Gather is the current working name. Public support contact: **hello@graceandgather.com** (mailbox verification is still outstanding). The original Still web preview and its browser journals are retained. The new `mobile/` app is a separate Expo / React Native application for iPhone, with optional Supabase accounts. The two account stores are not automatically merged. Existing storage keys, URL schemes and bundle identifiers retain their earlier technical names so the branding change does not reset device data or existing configuration.
 
 ## What is implemented
 
@@ -14,7 +14,7 @@ Away Church is the current working name. Public support contact: **hello@awaychu
 - Charity suggestions match city **and** state/country, with Brazil as the initial directory. Visits and donations use the organizations’ official channels; no booking or payment API is claimed.
 - Email-code authentication, optional Sign in with Apple, optional profile synchronization, local reminders, gathering notification infrastructure, in-app account deletion and device-data deletion.
 - `/staff` is the internal moderation/editorial screen, protected by a server-assigned staff role. Staff can review comments/reports, suspend abusive authors, edit curated content and publish confirmed gatherings. Staff have no journal-reading API.
-- Privacy/support pages use Away Church and hello@awaychurch.com. The Apple release preflight blocks production builds while configuration and review items are unfinished.
+- Privacy/support pages use Grace & Gather and hello@graceandgather.com. The Apple release preflight blocks production builds while configuration and review items are unfinished.
 
 ## Run the mobile app
 
@@ -38,7 +38,7 @@ The browser preview is for interface review. Native encryption, microphone permi
 
 The Supabase plugin was suggested, but no connected project or production database was available during this implementation. Nothing in `supabase/` has been applied to a remote project.
 
-1. Connect/select the intended Supabase project. Review the migrations, then apply all three files in `supabase/migrations/` using the Supabase migration workflow. Existing Sites/D1 migrations are separate and unchanged.
+1. Connect/select the intended Supabase project. Review the migrations, then apply all four files in `supabase/migrations/` using the Supabase migration workflow. Existing Sites/D1 migrations are separate and unchanged.
 2. Run `supabase/seed-content.sql` in that project to populate the sourced catalog. `npm run content:sync` regenerates the native catalog and seed from the authored web sources.
 3. Configure production Auth SMTP and the email OTP template to include `{{ .Token }}`. The native app verifies a code, not a magic-link-only email. Configure `awaychurch://auth` as the redirect scheme.
 4. Deploy the six edge functions. User functions verify the session with `auth.getUser`; the news endpoint is read-only; notification dispatch requires a separate server cron secret.

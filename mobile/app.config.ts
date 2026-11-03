@@ -1,7 +1,7 @@
 import { ExpoConfig, ConfigContext } from "expo/config";
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
-  name: "Away Church",
+  name: "Grace & Gather",
   slug: "away-church",
   ios: {
     ...config.ios,

@@ -9,8 +9,8 @@ function Routes() {
       <Screen>
         <Body>{error}</Body>
         <External
-          title="Contact Away Church"
-          url="mailto:hello@awaychurch.com"
+          title="Contact Grace & Gather"
+          url="mailto:hello@graceandgather.com"
         />
       </Screen>
     );

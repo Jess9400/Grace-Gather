@@ -235,7 +235,7 @@ export default function Account() {
                   void run(async () => {
                     await Sharing.shareAsync(backup.uri, {
                       mimeType: "application/octet-stream",
-                      dialogTitle: "Away Church encrypted backup",
+                      dialogTitle: "Grace & Gather encrypted backup",
                     });
                   })
                 }
@@ -299,7 +299,7 @@ export default function Account() {
                     setSignedIn(false);
                     if (data.appleRevokeRequired)
                       setNotice(
-                        "Your account has been deleted. Remove Away Church under Sign in with Apple in your Apple Account settings.",
+                        "Your account has been deleted. Remove Grace & Gather under Sign in with Apple in your Apple Account settings.",
                       );
                   } else {
                     await disableReminder();
@@ -321,8 +321,8 @@ export default function Account() {
         )}
       </Card>
       <External
-        title="hello@awaychurch.com"
-        url="mailto:hello@awaychurch.com"
+        title="hello@graceandgather.com"
+        url="mailto:hello@graceandgather.com"
       />
     </Screen>
   );
