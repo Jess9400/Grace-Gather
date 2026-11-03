@@ -33,10 +33,6 @@ import AudioPlayback from "../../components/AudioPlayback";
 import ConfessionAudio from "../../components/ConfessionAudio";
 import ConfessionalDoor from "../../components/ConfessionalDoor";
 import { confessionColors as room } from "../../lib/confession-theme";
-import {
-  markEntranceSeen,
-  shouldShowEntrance,
-} from "../../lib/confession-entrance-session";
 import { prepareWalnutTexture } from "../../lib/confessional-texture";
 type Page =
   "room" | "share" | "list" | "mine" | "detail" | "success" | "review";
@@ -88,10 +84,8 @@ export default function ConfessionRoom() {
   }, []);
   useFocusEffect(useCallback(() => () => setEntering(false), []));
   function startEntrance() {
-    const animate = shouldShowEntrance(reducedMotion, !!body.trim() || !!audio);
-    markEntranceSeen();
     setPage("share");
-    setEntering(animate);
+    setEntering(!reducedMotion);
   }
   useEffect(() => {
     let active = true,

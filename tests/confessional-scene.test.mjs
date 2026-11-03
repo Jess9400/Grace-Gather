@@ -2,7 +2,6 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { buildConfessionalMesh, doorProgress, DOOR_OPEN_MS, SCENE_FADE_MS, THRESHOLD_MS, entranceFrame, ENTRANCE_MS, hingePoint, DOOR_HINGE } from '../mobile/src/lib/confessional-scene.ts';
 import { confessionColors } from '../mobile/src/lib/confession-theme.ts';
-import { shouldShowEntrance, markEntranceSeen } from '../mobile/src/lib/confession-entrance-session.ts';
 import { CONFESSION_COPY } from '../dist/confession-copy.js';
 
 test('mesh stays small, finite and normalized with separate door, metal and room materials', () => {
@@ -60,14 +59,6 @@ test('entrance fades in, opens gently, pauses, and overlaps a restrained approac
   }
   assert.equal(doorProgress(-100), 0);
   assert.equal(doorProgress(DOOR_OPEN_MS), 1);
-});
-
-test('reduced motion and drafts bypass entry; a visit is remembered for this session', () => {
-  assert.equal(shouldShowEntrance(true, false), false);
-  assert.equal(shouldShowEntrance(false, true), false);
-  assert.equal(shouldShowEntrance(false, false), true);
-  markEntranceSeen();
-  assert.equal(shouldShowEntrance(false, false), false);
 });
 
 function luminance(hex) {
