@@ -1,5 +1,24 @@
 import { Language } from "./content";
 const words = {
+  compactTitle: [
+    "AI-guided reflection",
+    "Reflexão com IA",
+    "Reflexión con IA",
+    "Размышление с ИИ",
+  ],
+  compactHint: [
+    "Verses and next steps for this entry",
+    "Versículos e próximos passos para esta entrada",
+    "Versículos y próximos pasos para esta entrada",
+    "Стихи и следующие шаги для этой записи",
+  ],
+  howItWorks: [
+    "How it works",
+    "Como funciona",
+    "Cómo funciona",
+    "Как это работает",
+  ],
+  closeDetails: ["Close", "Fechar", "Cerrar", "Закрыть"],
   title: [
     "Optional AI guidance",
     "Orientação por IA opcional",

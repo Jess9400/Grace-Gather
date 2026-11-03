@@ -4,6 +4,7 @@ import AppleSignIn from "./AppleSignIn";
 import { requireBackend } from "../lib/backend";
 import { useApp } from "../lib/state";
 import { label } from "../lib/labels";
+import * as storage from "../lib/storage";
 import {
   authErrorKey,
   normalizeCode,
@@ -21,7 +22,7 @@ export default function EmailSignIn() {
       (text, [name, value]) => text.replace(`{${name}}`, String(value)),
       label(profile.language, key),
     );
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(profile.email || "");
   const [sentTo, setSentTo] = useState("");
   const [code, setCode] = useState("");
   const [notice, setNotice] = useState("");
@@ -29,7 +30,34 @@ export default function EmailSignIn() {
   const [nextSend, setNextSend] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const inFlight = useRef(false);
+  const emailEdited = useRef(false);
+  const rememberQueue = useRef(Promise.resolve());
   const suggestion = suggestedEmail(email);
+
+  useEffect(() => {
+    let active = true;
+    void storage
+      .getItem("auth-email")
+      .then((saved) => {
+        if (active && !emailEdited.current && saved && validEmail(saved))
+          setEmail(saved);
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  async function rememberEmail(value: string) {
+    rememberQueue.current = rememberQueue.current
+      .catch(() => {})
+      .then(async () => {
+        if (validEmail(value))
+          await storage.setItem("auth-email", normalizeEmail(value));
+        else if (!value.trim()) await storage.removeItem("auth-email");
+      });
+    await rememberQueue.current;
+  }
 
   useEffect(() => {
     const update = () => setSeconds(resendSeconds(nextSend));
@@ -53,6 +81,7 @@ export default function EmailSignIn() {
     setBusy("send");
     setNotice("");
     try {
+      await rememberEmail(destination);
       const { error } = await requireBackend().auth.signInWithOtp({
         email: destination,
         options: { shouldCreateUser: true },
@@ -102,6 +131,7 @@ export default function EmailSignIn() {
             value={email}
             editable={!busy}
             onChangeText={(value) => {
+              emailEdited.current = true;
               setEmail(value);
               setNotice("");
             }}
@@ -109,6 +139,11 @@ export default function EmailSignIn() {
             autoCorrect={false}
             keyboardType="email-address"
             autoComplete="email"
+            onBlur={() =>
+              void rememberEmail(email).catch(() =>
+                setNotice(l("authRememberError")),
+              )
+            }
             onSubmitEditing={() => void send()}
           />
           {!!suggestion && (
@@ -119,7 +154,11 @@ export default function EmailSignIn() {
                 disabled={!!busy}
                 title={l("authUseEmail", { email: suggestion })}
                 onPress={() => {
+                  emailEdited.current = true;
                   setEmail(suggestion);
+                  void rememberEmail(suggestion).catch(() =>
+                    setNotice(l("authRememberError")),
+                  );
                   setNotice("");
                 }}
               />

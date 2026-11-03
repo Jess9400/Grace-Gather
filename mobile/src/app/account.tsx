@@ -32,6 +32,7 @@ export default function Account() {
     l = (k: string) => label(profile.language, k);
   const [userEmail, setUserEmail] = useState(""),
     [signedIn, setSignedIn] = useState(false),
+    [authReady, setAuthReady] = useState(!backend),
     [notice, setNotice] = useState(""),
     [busy, setBusy] = useState(false),
     [reminder, setReminder] = useState(false),
@@ -39,18 +40,33 @@ export default function Account() {
     [deleting, setDeleting] = useState<"account" | "local" | null>(null),
     [backup, setBackup] = useState<{ key: string; uri: string } | null>(null);
   useEffect(() => {
+    let active = true,
+      authChanged = false;
     void remindersEnabled()
       .then(setReminder)
       .catch(() => {});
-    void backend?.auth.getSession().then(({ data }) => {
-      setSignedIn(!!data.session);
-      setUserEmail(data.session?.user.email ?? "");
-    });
+    void backend?.auth
+      .getSession()
+      .then(({ data }) => {
+        if (!active || authChanged) return;
+        setSignedIn(!!data.session);
+        setUserEmail(data.session?.user.email ?? "");
+        setAuthReady(true);
+      })
+      .catch(() => {
+        if (active) setAuthReady(true);
+      });
     const listener = backend?.auth.onAuthStateChange((_event, session) => {
+      authChanged = true;
+      if (!active) return;
       setSignedIn(!!session);
       setUserEmail(session?.user.email ?? "");
+      setAuthReady(true);
     });
-    return () => listener?.data.subscription.unsubscribe();
+    return () => {
+      active = false;
+      listener?.data.subscription.unsubscribe();
+    };
   }, []);
   async function run(fn: () => Promise<void>, failure = "accountError") {
     setBusy(true);
@@ -113,7 +129,9 @@ export default function Account() {
       <Card>
         <Subheading>{signedIn ? l("welcomeBack") : l("signIn")}</Subheading>
         <Body small>{l("optionalAccount")}</Body>
-        {!backend ? (
+        {!authReady ? (
+          <Body small>{l("authChecking")}</Body>
+        ) : !backend ? (
           <Notice text={l("unconnected")} />
         ) : signedIn ? (
           <>

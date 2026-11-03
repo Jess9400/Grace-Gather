@@ -1,7 +1,7 @@
 {
   "date": "2026-11-03",
   "automatedTests": {
-    "passed": 56,
+    "passed": 61,
     "failed": 0
   },
   "nativeTypeScript": "passed",
@@ -43,10 +43,14 @@
     "English and Portuguese email typo suggestions; explicit correction verified in English",
     "Empty email disables code sending",
     "English, Portuguese, Spanish and Russian account screens",
-    "Russian gathering calendar selected date shows the empty state"
+    "Russian gathering calendar selected date shows the empty state",
+    "Saved profile name and journal entry survive a full browser reload",
+    "Entered sign-in email survives a full browser reload without sending an email",
+    "Compact AI control with details modal; closing details leaves guidance off"
   ],
   "externalBlockers": {
     "email": "Google SMTP 535 5.7.8 continued after the owner reported replacing the app password for hello@findflockie.com; latest observed rejection 2026-11-03 16:16:42 UTC",
     "alibaba": "Owner reports identity verification submitted; approval and successful model/transcription output remain pending"
-  }
+  },
+  "sessionPersistence": "Supabase client recovery and local sign-out verified using synthetic sessions and stubbed network; real email OTP login remains blocked"
 }

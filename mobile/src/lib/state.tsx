@@ -1,8 +1,9 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { AppState } from "react-native";
+import { AppState, Platform } from "react-native";
 import { Profile, Entry, initialProfile, normalizeProfile } from "./content";
 import * as storage from "./storage";
 import { backend } from "./backend";
+import { label } from "./labels";
 interface State {
   ready: boolean;
   error: string;
@@ -35,7 +36,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       })
       .catch(() =>
         setError(
-          "Your private storage could not open. Your files have been preserved. Use a development build with encrypted storage, or contact hello@graceandgather.com.",
+          Platform.OS === "web"
+            ? label(initialProfile.language, "storageOpenError")
+            : "Your private storage could not open. Your files have been preserved. Use a development build with encrypted storage, or contact hello@graceandgather.com.",
         ),
       );
     return () => {

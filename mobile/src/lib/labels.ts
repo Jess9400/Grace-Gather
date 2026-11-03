@@ -16,10 +16,10 @@ const rows: Record<string, string[]> = {
     "Дневник зашифрован на этом устройстве. Текст или аудио отправляются ИИ только с вашего явного согласия.",
   ],
   webDemo: [
-    "Browser preview: entries disappear when you reload. Use the iPhone build to save securely.",
-    "Prévia no navegador: os registros somem ao recarregar. Use o app para iPhone para salvar com segurança.",
-    "Vista previa: los registros desaparecen al recargar. Usa la app para iPhone para guardarlos con seguridad.",
-    "Пробная версия: записи исчезнут при перезагрузке. Для сохранения используйте приложение iPhone.",
+    "Saved in this browser.",
+    "Salvo neste navegador.",
+    "Guardado en este navegador.",
+    "Сохранено в этом браузере.",
   ],
   noAI: [
     "Choose a feeling to guide your verses and next steps. AI is not connected yet.",

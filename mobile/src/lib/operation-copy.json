@@ -275,8 +275,18 @@
     "No pudimos actualizar tu mano levantada. Inténtalo de nuevo.",
     "Не удалось изменить статус поднятой руки. Попробуйте снова."
   ],
-  "participant": ["Participant", "Participante", "Participante", "Участник"],
-  "speaking": ["speaking", "falando", "hablando", "говорит"],
+  "participant": [
+    "Participant",
+    "Participante",
+    "Participante",
+    "Участник"
+  ],
+  "speaking": [
+    "speaking",
+    "falando",
+    "hablando",
+    "говорит"
+  ],
   "makeListener": [
     "Make listener",
     "Tornar ouvinte",
@@ -331,11 +341,40 @@
     "Únete a este encuentro de audio en la app para iPhone.",
     "Присоединитесь к аудиовстрече в приложении для iPhone."
   ],
-  "back": ["Back", "Voltar", "Volver", "Назад"],
+  "back": [
+    "Back",
+    "Voltar",
+    "Volver",
+    "Назад"
+  ],
   "accountSettings": [
     "Account and settings",
     "Conta e configurações",
     "Cuenta y ajustes",
     "Аккаунт и настройки"
+  ],
+  "authRememberError": [
+    "Your email could not be remembered on this device. Check that browser storage is allowed.",
+    "Não foi possível lembrar seu email neste dispositivo. Verifique se o armazenamento do navegador está permitido.",
+    "No se pudo recordar tu correo en este dispositivo. Comprueba que el almacenamiento del navegador esté permitido.",
+    "Не удалось сохранить почту на этом устройстве. Проверьте, разрешено ли хранилище браузера."
+  ],
+  "authChecking": [
+    "Checking your sign-in…",
+    "Verificando seu acesso…",
+    "Comprobando tu sesión…",
+    "Проверяем вход…"
+  ],
+  "storageOpenError": [
+    "Your saved data could not open. It has not been erased. Check that this browser allows storage, then reopen the app. Contact support if the problem continues.",
+    "Não foi possível abrir seus dados salvos. Eles não foram apagados. Verifique se este navegador permite armazenamento e reabra o app. Se o problema continuar, entre em contato com o suporte.",
+    "No se pudieron abrir tus datos guardados. No se han borrado. Comprueba que el navegador permita almacenamiento y vuelve a abrir la app. Contacta con ayuda si el problema continúa.",
+    "Не удалось открыть сохранённые данные. Они не удалены. Разрешите хранилище в браузере и откройте приложение снова. Если проблема останется, обратитесь в поддержку."
+  ],
+  "journalWritingIntro": [
+    "A few honest words. Start wherever you are.",
+    "Algumas palavras sinceras. Comece como estiver.",
+    "Unas palabras sinceras. Empieza como estés.",
+    "Несколько искренних слов. Начните с того, что чувствуете."
   ]
 }

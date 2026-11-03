@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Platform } from "react-native";
 import { router } from "expo-router";
 import { randomUUID } from "expo-crypto";
 import {
@@ -13,10 +14,10 @@ import {
   External,
 } from "../../components/ui";
 import Recorder from "../../components/Recorder";
+import GuidanceControl from "../../components/GuidanceControl";
 import { useApp } from "../../lib/state";
 import { copy, dailyVerse, needsSupport, Entry } from "../../lib/content";
 import { label } from "../../lib/labels";
-import { persistent } from "../../lib/storage";
 import { aiCopy } from "../../lib/ai-copy";
 import { suggestJourney } from "../../lib/ai";
 import { transcribeRecording } from "../../lib/ai-audio";
@@ -105,7 +106,11 @@ export default function Journal() {
           <Body>{t("unavailable")}</Body>
         )}
       </Card>
-      <Body>{t("heartSub")}</Body>
+      <Body>
+        {Platform.OS === "web"
+          ? label(profile.language, "journalWritingIntro")
+          : t("heartSub")}
+      </Body>
       <Field
         label={t("entryLabel")}
         value={text}
@@ -120,23 +125,12 @@ export default function Journal() {
         onChange={setAudio}
         onBusyChange={setRecording}
       />
-      <Card>
-        <Subheading>{aiCopy(profile.language, "title")}</Subheading>
-        <Body small>{aiCopy(profile.language, "consent")}</Body>
-        <Button
-          secondary
-          disabled={busy || recording}
-          title={aiCopy(profile.language, useAI ? "off" : "agree")}
-          onPress={() => setUseAI(!useAI)}
-        />
-        {useAI && (
-          <Button
-            secondary
-            disabled={busy}
-            title={aiCopy(profile.language, "signIn")}
-            onPress={() => router.push("/account")}
-          />
-        )}
+      <GuidanceControl
+        language={profile.language}
+        value={useAI}
+        onChange={setUseAI}
+        disabled={busy || recording}
+      >
         {useAI && audio && (
           <Button
             disabled={busy || recording}
@@ -162,7 +156,7 @@ export default function Journal() {
           />
         )}
         {transcribed && <Body small>{aiCopy(profile.language, "review")}</Body>}
-      </Card>
+      </GuidanceControl>
       {support && (
         <Card>
           <Subheading>{t("supportTitle")}</Subheading>
@@ -181,9 +175,9 @@ export default function Journal() {
         onPress={() => void submit()}
       />
       <Body small>
-        {persistent
-          ? aiCopy(profile.language, "local")
-          : label(profile.language, "webDemo")}
+        {Platform.OS === "web"
+          ? label(profile.language, "webDemo")
+          : aiCopy(profile.language, "local")}
       </Body>
       <Button
         secondary
