@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useFocusEffect } from "expo-router";
 import {
   Text,
   View,
@@ -18,7 +19,6 @@ import {
   Card,
   Button,
   Body,
-  Subheading,
   Field,
   Notice,
   Row,
@@ -29,6 +29,7 @@ import {
 import Recorder from "../../components/Recorder";
 import AudioPlayback from "../../components/AudioPlayback";
 import ConfessionAudio from "../../components/ConfessionAudio";
+import ConfessionalDoor from "../../components/ConfessionalDoor";
 type Page =
   "room" | "share" | "list" | "mine" | "detail" | "success" | "review";
 const themes = [
@@ -46,6 +47,7 @@ export default function ConfessionRoom() {
     language = profile.language,
     t = (key: string) => copy(language, key);
   const [page, setPage] = useState<Page>("room"),
+    [entering, setEntering] = useState(false),
     [body, setBody] = useState(""),
     [theme, setTheme] = useState("loneliness"),
     [responseType, setResponseType] = useState("listen"),
@@ -66,6 +68,12 @@ export default function ConfessionRoom() {
     [notes, setNotes] = useState<Record<string, string>>({}),
     [success, setSuccess] = useState("share"),
     [support, setSupport] = useState(false);
+  const enterRoom = useCallback(() => {
+    setEntering(false);
+    setPage("share");
+  }, []);
+  const cancelEntrance = useCallback(() => setEntering(false), []);
+  useFocusEffect(useCallback(() => cancelEntrance, [cancelEntrance]));
   useEffect(() => {
     let active = true;
     if (backend)
@@ -139,46 +147,10 @@ export default function ConfessionRoom() {
   const btn = (key: string, onPress: () => void, quiet = false) => (
     <Button
       title={t(key)}
-      disabled={busy || recording}
+      disabled={busy || recording || entering}
       onPress={onPress}
       secondary={quiet}
     />
-  );
-  const door = (
-    title: string,
-    description: string,
-    icon: "create-outline" | "heart-outline",
-    onPress: () => void,
-  ) => (
-    <Pressable
-      accessibilityRole="button"
-      accessibilityLabel={t(title)}
-      accessibilityHint={t(description)}
-      accessibilityState={{ disabled: busy || recording }}
-      disabled={busy || recording}
-      onPress={onPress}
-      style={({ pressed }) => ({
-        opacity: busy || recording ? 0.45 : pressed ? 0.8 : 1,
-      })}
-    >
-      <Card>
-        <View style={s.doorRow}>
-          <View style={s.doorIcon} accessible={false}>
-            <Ionicons name={icon} size={25} color={colors.cardInk} />
-          </View>
-          <View style={s.doorCopy}>
-            <Subheading>{t(title)}</Subheading>
-            <Body small>{t(description)}</Body>
-          </View>
-          <Ionicons
-            name="chevron-forward"
-            size={19}
-            color={colors.cardMuted}
-            accessible={false}
-          />
-        </View>
-      </Card>
-    </Pressable>
   );
   const status = (x: Confession) => (
     <Text style={s.status}>
@@ -255,24 +227,23 @@ export default function ConfessionRoom() {
       {page === "room" && (
         <>
           <View style={s.entrance}>
-            <View style={s.lattice} accessible={false}>
-              <Ionicons name="grid-outline" size={29} color={colors.gold} />
-            </View>
             <Text style={s.eyebrow}>{t("confession")}</Text>
             <Text accessibilityRole="header" style={[s.title, s.centered]}>
               {t("cTitle")}
             </Text>
-            <Text style={[s.intro, s.centered]}>{t("cIntro")}</Text>
           </View>
-          {door("cShare", "cShareSub", "create-outline", () =>
-            setPage("share"),
-          )}
-          {door(
-            "cOffer",
-            "cOfferSub",
-            "heart-outline",
-            () => void run(() => load("list")),
-          )}
+          <ConfessionalDoor
+            language={language}
+            opening={entering}
+            disabled={busy || recording}
+            resume={!!body.trim() || !!audio}
+            onOpen={() => setEntering(true)}
+            onEntered={enterRoom}
+            onCancel={cancelEntrance}
+          >
+            {btn("cOffer", () => void run(() => load("list")), true)}
+          </ConfessionalDoor>
+          <Text style={s.roomIntro}>{t("cIntro")}</Text>
           <Text style={s.disclaimer}>{t("cDisclaimer")}</Text>
           {btn("cMine", () => void run(() => load("mine")), true)}
           {moderator &&
@@ -284,105 +255,107 @@ export default function ConfessionRoom() {
           <Text accessibilityRole="header" style={s.title}>
             {t("cShare")}
           </Text>
-          <Card>
-            <Text style={s.subheading}>{t("cAudienceTitle")}</Text>
-            <View style={s.disclosure}>
+          <View style={s.writingRoom}>
+            <Card>
+              <Text style={s.subheading}>{t("cAudienceTitle")}</Text>
+              <View style={s.disclosure}>
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel={t("cAudienceDetails")}
+                  accessibilityState={{ expanded: audienceDetailsOpen }}
+                  onPress={() => setAudienceDetailsOpen((open) => !open)}
+                  style={({ pressed }) => [
+                    s.disclosureToggle,
+                    pressed && { opacity: 0.7 },
+                  ]}
+                >
+                  <Text style={s.disclosureLabel}>{t("cAudienceDetails")}</Text>
+                  <Ionicons
+                    name={audienceDetailsOpen ? "chevron-up" : "chevron-down"}
+                    size={19}
+                    color={colors.cardInk}
+                    accessible={false}
+                  />
+                </Pressable>
+                {audienceDetailsOpen && (
+                  <View style={s.disclosureContent}>
+                    <Body small>{t("cAudience")}</Body>
+                    <Body small>{t("cOneReply")}</Body>
+                  </View>
+                )}
+              </View>
+              <Text style={s.label}>{t("cTheme")}</Text>
+              <Row>
+                {themes.map((k) => (
+                  <Chip
+                    key={k}
+                    title={t("c_" + k)}
+                    selected={theme === k}
+                    onPress={() => setTheme(k)}
+                  />
+                ))}
+              </Row>
+              <Text style={s.label}>{t("cResponse")}</Text>
+              <Row>
+                {responses.map((k) => (
+                  <Chip
+                    key={k}
+                    title={t("c_" + k)}
+                    selected={responseType === k}
+                    onPress={() => setResponseType(k)}
+                  />
+                ))}
+              </Row>
+              <Field
+                label={t("cBody")}
+                value={body}
+                onChangeText={setBody}
+                multiline
+                maxLength={3000}
+                placeholder={t("cPlaceholder")}
+              />
+              <Text style={s.label}>{t("cAudio")}</Text>
+              <Body small>{t("cAudioNotice")}</Body>
+              <Recorder
+                language={language}
+                value={audio}
+                onChange={setAudio}
+                onBusyChange={setRecording}
+              />
+              {audio && (
+                <>
+                  <AudioPlayback id={audio} language={language} />
+                  <Button
+                    secondary
+                    title={t("cTextInstead")}
+                    onPress={() => {
+                      void removeAudio(audio).then(() => {
+                        setAudio(undefined);
+                        setTextInstead(true);
+                      });
+                    }}
+                  />
+                </>
+              )}
+              {textInstead && <Body small>{t("cTextHelp")}</Body>}
               <Pressable
-                accessibilityRole="button"
-                accessibilityLabel={t("cAudienceDetails")}
-                accessibilityState={{ expanded: audienceDetailsOpen }}
-                onPress={() => setAudienceDetailsOpen((open) => !open)}
-                style={({ pressed }) => [
-                  s.disclosureToggle,
-                  pressed && { opacity: 0.7 },
-                ]}
+                accessibilityRole="checkbox"
+                accessibilityLabel={t("cConsent")}
+                accessibilityState={{ checked: consent }}
+                onPress={() => setConsent(!consent)}
+                style={s.check}
               >
-                <Text style={s.disclosureLabel}>{t("cAudienceDetails")}</Text>
                 <Ionicons
-                  name={audienceDetailsOpen ? "chevron-up" : "chevron-down"}
-                  size={19}
+                  name={consent ? "checkbox" : "square-outline"}
+                  size={25}
                   color={colors.cardInk}
                   accessible={false}
                 />
+                <Text style={s.consent}>{t("cConsent")}</Text>
               </Pressable>
-              {audienceDetailsOpen && (
-                <View style={s.disclosureContent}>
-                  <Body small>{t("cAudience")}</Body>
-                  <Body small>{t("cOneReply")}</Body>
-                </View>
-              )}
-            </View>
-            <Text style={s.label}>{t("cTheme")}</Text>
-            <Row>
-              {themes.map((k) => (
-                <Chip
-                  key={k}
-                  title={t("c_" + k)}
-                  selected={theme === k}
-                  onPress={() => setTheme(k)}
-                />
-              ))}
-            </Row>
-            <Text style={s.label}>{t("cResponse")}</Text>
-            <Row>
-              {responses.map((k) => (
-                <Chip
-                  key={k}
-                  title={t("c_" + k)}
-                  selected={responseType === k}
-                  onPress={() => setResponseType(k)}
-                />
-              ))}
-            </Row>
-            <Field
-              label={t("cBody")}
-              value={body}
-              onChangeText={setBody}
-              multiline
-              maxLength={3000}
-              placeholder={t("cPlaceholder")}
-            />
-            <Text style={s.label}>{t("cAudio")}</Text>
-            <Body small>{t("cAudioNotice")}</Body>
-            <Recorder
-              language={language}
-              value={audio}
-              onChange={setAudio}
-              onBusyChange={setRecording}
-            />
-            {audio && (
-              <>
-                <AudioPlayback id={audio} language={language} />
-                <Button
-                  secondary
-                  title={t("cTextInstead")}
-                  onPress={() => {
-                    void removeAudio(audio).then(() => {
-                      setAudio(undefined);
-                      setTextInstead(true);
-                    });
-                  }}
-                />
-              </>
-            )}
-            {textInstead && <Body small>{t("cTextHelp")}</Body>}
-            <Pressable
-              accessibilityRole="checkbox"
-              accessibilityLabel={t("cConsent")}
-              accessibilityState={{ checked: consent }}
-              onPress={() => setConsent(!consent)}
-              style={s.check}
-            >
-              <Ionicons
-                name={consent ? "checkbox" : "square-outline"}
-                size={25}
-                color={colors.cardInk}
-                accessible={false}
-              />
-              <Text style={s.consent}>{t("cConsent")}</Text>
-            </Pressable>
-            {btn("cSubmit", () => void run(share))}
-          </Card>
+              {btn("cSubmit", () => void run(share))}
+            </Card>
+          </View>
         </>
       )}
       {page === "success" && (
@@ -632,18 +605,17 @@ export default function ConfessionRoom() {
 const s = StyleSheet.create({
   entrance: {
     alignItems: "center",
-    gap: 16,
-    paddingVertical: 16,
+    gap: 10,
+    paddingTop: 4,
     paddingHorizontal: 8,
   },
-  lattice: {
-    width: 64,
-    height: 64,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: colors.line,
-    alignItems: "center",
-    justifyContent: "center",
+  roomIntro: { color: colors.inactive, fontSize: 14, lineHeight: 22 },
+  writingRoom: {
+    borderLeftWidth: 3,
+    borderRightWidth: 3,
+    borderColor: "#82613B",
+    paddingHorizontal: 5,
+    borderRadius: 28,
   },
   eyebrow: {
     color: colors.gold,
@@ -654,16 +626,6 @@ const s = StyleSheet.create({
   title: { ...sharedStyles.heading },
   intro: { ...sharedStyles.body },
   centered: { textAlign: "center" },
-  doorRow: { flexDirection: "row", alignItems: "center", gap: 14 },
-  doorIcon: {
-    width: 44,
-    height: 44,
-    borderRadius: 14,
-    backgroundColor: colors.green,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  doorCopy: { flex: 1, minWidth: 0, gap: 6 },
   disclaimer: {
     fontSize: 13,
     lineHeight: 21,
