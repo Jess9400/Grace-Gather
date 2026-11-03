@@ -25,7 +25,13 @@ export default function History() {
       {!entries.length && <Body>{t("emptySub")}</Body>}
       {entries
         .filter((e) =>
-          (e.text + " " + e.reflection + " " + t(e.mood))
+          (
+            e.text +
+            " " +
+            e.reflection +
+            " " +
+            t(e.guidance === "general" ? "generalContext" : e.mood)
+          )
             .toLowerCase()
             .includes(query.toLowerCase()),
         )
@@ -33,7 +39,7 @@ export default function History() {
           <Card key={e.id}>
             <Body small>
               {new Date(e.createdAt).toLocaleString(profile.language)} ·{" "}
-              {t(e.mood)}
+              {t(e.guidance === "general" ? "generalContext" : e.mood)}
             </Body>
             <Body>{e.text.slice(0, 180) || t("audioEntry")}</Body>
             <Button

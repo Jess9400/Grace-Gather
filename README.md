@@ -5,7 +5,7 @@ Grace & Gather is the current working name. Public support contact: **hello@grac
 ## What is implemented
 
 - Seven-screen, optional onboarding: language, name, intention, Christian tradition, scripture language, city/state/country, and optional notification email with consent.
-- Journal, Explore, Learn and Gatherings tabs. Home has a daily verse, followed by text/audio journaling. An explicit feeling selects sourced verses, relevant actions, evidence links and book recommendations. AI is deliberately disconnected.
+- Journal, Explore, Learn and Gatherings tabs. Home has a daily verse, followed by text/audio journaling. The journal opens directly to writing or recording, with no feeling chips. While AI is disconnected, new entries receive clearly labeled general verses, actions and book recommendations; earlier entries retain their selected feelings.
 - Four interface languages: English, Portuguese, Spanish and Russian. Some new operational/error and audio-room strings still require the final four-language review tracked in `release/readiness.json`.
 - Native SQLCipher journal storage, a key in SecureStore, AES-GCM recording files, playback, history/search/deletion, and encrypted backup export/restore with a separately displayed recovery key. Native storage fails closed when SQLCipher or its key is unavailable. The browser rendering of the native app uses **temporary memory only**.
 - Sourced Explore catalog: testimonies, stories, music histories, Bible animations, psalms and Catholic saint prayers. External media opens on the publisher. Community comments are pending until moderator approval; users can like, report and block. Likes and comments require a connected account.

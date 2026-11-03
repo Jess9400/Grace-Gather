@@ -7,8 +7,6 @@ import {
   Body,
   Subheading,
   Card,
-  Row,
-  Chip,
   Field,
   Button,
   Notice,
@@ -16,13 +14,12 @@ import {
 } from "../../components/ui";
 import Recorder from "../../components/Recorder";
 import { useApp } from "../../lib/state";
-import { copy, dailyVerse, moods, Mood, needsSupport } from "../../lib/content";
+import { copy, dailyVerse, needsSupport } from "../../lib/content";
 import { label } from "../../lib/labels";
 import { persistent } from "../../lib/storage";
 export default function Journal() {
   const { profile, saveEntry } = useApp();
   const [text, setText] = useState(""),
-    [mood, setMood] = useState<Mood>(),
     [audio, setAudio] = useState<string>(),
     [error, setError] = useState(""),
     [busy, setBusy] = useState(false),
@@ -31,8 +28,8 @@ export default function Journal() {
     verse = dailyVerse(profile),
     support = needsSupport(text);
   async function submit() {
-    if (!mood) {
-      setError(t("needFeeling"));
+    if (!text.trim() && !audio) {
+      setError(t("needEntry"));
       return;
     }
     setBusy(true);
@@ -41,7 +38,8 @@ export default function Journal() {
       await saveEntry({
         id,
         createdAt: new Date().toISOString(),
-        mood,
+        mood: "unsure",
+        guidance: "general",
         text: text.trim(),
         audio,
         safety: support,
@@ -49,7 +47,6 @@ export default function Journal() {
       });
       setText("");
       setAudio(undefined);
-      setMood(undefined);
       setError("");
       router.push({ pathname: "/entry/[id]", params: { id } });
     } catch {
@@ -81,16 +78,6 @@ export default function Journal() {
         )}
       </Card>
       <Body>{t("heartSub")}</Body>
-      <Row>
-        {moods.map((m) => (
-          <Chip
-            key={m}
-            title={t(m)}
-            selected={mood === m}
-            onPress={() => setMood(m)}
-          />
-        ))}
-      </Row>
       <Field
         label={t("entryLabel")}
         value={text}
@@ -105,7 +92,7 @@ export default function Journal() {
         onChange={setAudio}
         onBusyChange={setRecording}
       />
-      <Body small>{label(profile.language, "noAI")}</Body>
+      <Body small>{t("previewExplanation")}</Body>
       {support && (
         <Card>
           <Subheading>{t("supportTitle")}</Subheading>

@@ -32,6 +32,7 @@ export interface Entry {
   id: string;
   createdAt: string;
   mood: Mood;
+  guidance?: "general" | "selected";
   text: string;
   audio?: string;
   action?: string;

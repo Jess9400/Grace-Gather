@@ -49,7 +49,7 @@ export default function EntryScreen() {
     <Screen back>
       <Body small>
         {new Date(entry.createdAt).toLocaleDateString(profile.language)} ·{" "}
-        {t(entry.mood)}
+        {t(entry.guidance === "general" ? "generalContext" : entry.mood)}
       </Body>
       <Heading>
         {t(
@@ -73,7 +73,16 @@ export default function EntryScreen() {
         <>
           {stage === 0 && (
             <>
-              <Body>{t(path.reflection)}</Body>
+              {entry.guidance === "general" && (
+                <Body small>{t("previewExplanation")}</Body>
+              )}
+              <Body>
+                {t(
+                  entry.guidance === "general"
+                    ? "generalReflection"
+                    : path.reflection,
+                )}
+              </Body>
               {verses.length ? (
                 verses.map((v) => (
                   <Card tint key={v.id}>
@@ -101,7 +110,13 @@ export default function EntryScreen() {
           )}
           {stage === 1 && (
             <>
-              <Body>{t("actionIntro")}</Body>
+              <Body>
+                {t(
+                  entry.guidance === "general"
+                    ? "generalActionIntro"
+                    : "actionIntro",
+                )}
+              </Body>
               {path.actions.map((action) => {
                 const evidence =
                   data.EVIDENCE[
