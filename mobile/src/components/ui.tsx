@@ -1,4 +1,4 @@
-import React from "react";
+import React, { createContext, useContext } from "react";
 import {
   ScrollView,
   View,
@@ -15,15 +15,28 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 export const colors = {
-  paper: "#F6F3EC",
-  ink: "#27372E",
-  muted: "#6C756C",
-  green: "#526C54",
-  pale: "#E9EDE3",
-  line: "#DBDFD4",
-  rose: "#F2E5DE",
-  white: "#FFFEFA",
+  paper: "#0D3028",
+  ink: "#FFFDF9",
+  muted: "#B7C68F",
+  inactive: "#FFFDF9B3",
+  green: "#B7C68F",
+  pale: "#FFFDF9",
+  line: "#B7C68F66",
+  white: "#FFFDF9",
+  gold: "#D7BD84",
+  cardInk: "#0D3028",
+  cardMuted: "#52634E",
+  cardLine: "#63704D",
 };
+const CardSurface = createContext(false);
+function useSurfaceColors() {
+  const card = useContext(CardSurface);
+  return {
+    ink: card ? colors.cardInk : colors.ink,
+    muted: card ? colors.cardMuted : colors.muted,
+    line: card ? colors.cardLine : colors.line,
+  };
+}
 export function Screen({
   children,
   back = false,
@@ -48,7 +61,7 @@ export function Screen({
           />
         )}
         <View style={s.brand}>
-          <Ionicons name="leaf-outline" size={23} color={colors.green} />
+          <Ionicons name="leaf-outline" size={23} color={colors.gold} />
           <Text style={s.brandText}>GRACE & GATHER</Text>
           <Pressable
             accessibilityLabel="Account and settings"
@@ -70,15 +83,23 @@ export function Screen({
   );
 }
 export function Heading({ children }: { children: React.ReactNode }) {
+  const surface = useSurfaceColors();
   return (
-    <Text accessibilityRole="header" style={s.heading}>
+    <Text
+      accessibilityRole="header"
+      style={[s.heading, { color: surface.ink }]}
+    >
       {children}
     </Text>
   );
 }
 export function Subheading({ children }: { children: React.ReactNode }) {
+  const surface = useSurfaceColors();
   return (
-    <Text accessibilityRole="header" style={s.subheading}>
+    <Text
+      accessibilityRole="header"
+      style={[s.subheading, { color: surface.ink }]}
+    >
       {children}
     </Text>
   );
@@ -90,8 +111,15 @@ export function Body({
   children: React.ReactNode;
   small?: boolean;
 }) {
+  const surface = useSurfaceColors();
   return (
-    <Text selectable style={small ? s.small : s.body}>
+    <Text
+      selectable
+      style={[
+        small ? s.small : s.body,
+        { color: small ? surface.muted : surface.ink },
+      ]}
+    >
       {children}
     </Text>
   );
@@ -104,9 +132,9 @@ export function Card({
   tint?: boolean;
 }) {
   return (
-    <View style={[s.card, tint && { backgroundColor: colors.pale }]}>
-      {children}
-    </View>
+    <CardSurface.Provider value={true}>
+      <View style={[s.card, tint && s.accentCard]}>{children}</View>
+    </CardSurface.Provider>
   );
 }
 export function Button({
@@ -122,6 +150,7 @@ export function Button({
   disabled?: boolean;
   accessibilityLabel?: string;
 }) {
+  const surface = useSurfaceColors();
   return (
     <Pressable
       accessibilityRole="button"
@@ -131,11 +160,11 @@ export function Button({
       onPress={onPress}
       style={({ pressed }) => [
         s.button,
-        secondary && s.secondary,
+        secondary && [s.secondary, { borderColor: surface.line }],
         { opacity: disabled ? 0.45 : pressed ? 0.75 : 1 },
       ]}
     >
-      <Text style={[s.buttonText, secondary && { color: colors.ink }]}>
+      <Text style={[s.buttonText, secondary && { color: surface.ink }]}>
         {title}
       </Text>
     </Pressable>
@@ -150,6 +179,7 @@ export function Chip({
   selected?: boolean;
   onPress: () => void;
 }) {
+  const surface = useSurfaceColors();
   return (
     <Pressable
       accessibilityRole="button"
@@ -157,13 +187,18 @@ export function Chip({
       onPress={onPress}
       style={[
         s.chip,
+        { borderColor: surface.line },
         selected && {
           backgroundColor: colors.green,
           borderColor: colors.green,
         },
       ]}
     >
-      <Text style={[s.chipText, selected && { color: "white" }]}>{title}</Text>
+      <Text
+        style={[s.chipText, { color: selected ? colors.cardInk : surface.ink }]}
+      >
+        {title}
+      </Text>
     </Pressable>
   );
 }
@@ -171,12 +206,13 @@ export function Row({ children }: { children: React.ReactNode }) {
   return <View style={s.row}>{children}</View>;
 }
 export function Field({ label, ...props }: TextInputProps & { label: string }) {
+  const surface = useSurfaceColors();
   return (
     <View style={{ gap: 8, marginVertical: 7 }}>
-      <Text style={s.fieldLabel}>{label}</Text>
+      <Text style={[s.fieldLabel, { color: surface.ink }]}>{label}</Text>
       <TextInput
         accessibilityLabel={label}
-        placeholderTextColor={colors.muted}
+        placeholderTextColor={colors.cardMuted}
         {...props}
         style={[
           s.field,
@@ -201,9 +237,11 @@ export function External({ title, url }: { title: string; url: string }) {
 }
 export function Notice({ text }: { text: string }) {
   return text ? (
-    <View accessibilityLiveRegion="polite" style={s.notice}>
-      <Body small>{text}</Body>
-    </View>
+    <CardSurface.Provider value={true}>
+      <View accessibilityLiveRegion="polite" style={s.notice}>
+        <Body small>{text}</Body>
+      </View>
+    </CardSurface.Provider>
   ) : null;
 }
 export function Busy() {
@@ -247,12 +285,13 @@ export const s = StyleSheet.create({
   small: { fontSize: 13, lineHeight: 20, color: colors.muted },
   card: {
     backgroundColor: colors.white,
-    borderColor: colors.line,
+    borderColor: colors.gold,
     borderWidth: 1,
     borderRadius: 22,
     padding: 21,
     gap: 14,
   },
+  accentCard: { borderTopWidth: 3 },
   button: {
     minHeight: 49,
     borderRadius: 16,
@@ -268,7 +307,7 @@ export const s = StyleSheet.create({
     borderColor: colors.line,
   },
   buttonText: {
-    color: "white",
+    color: colors.cardInk,
     fontSize: 15,
     fontWeight: "600",
     textAlign: "center",
@@ -286,11 +325,11 @@ export const s = StyleSheet.create({
   row: { flexDirection: "row", gap: 8, flexWrap: "wrap" },
   field: {
     borderWidth: 1,
-    borderColor: colors.line,
+    borderColor: colors.cardLine,
     borderRadius: 14,
     padding: 15,
     fontSize: 16,
-    color: colors.ink,
+    color: colors.cardInk,
     backgroundColor: colors.white,
     minHeight: 50,
   },

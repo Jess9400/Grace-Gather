@@ -168,7 +168,10 @@ export default function Gatherings() {
               }}
             >
               <Text
-                style={{ color: selected === key(d) ? "white" : colors.ink }}
+                style={{
+                  color:
+                    selected === key(d) || has ? colors.cardInk : colors.ink,
+                }}
               >
                 {day}
                 {has ? " •" : ""}
