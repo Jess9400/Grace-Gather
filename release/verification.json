@@ -13,9 +13,9 @@
   "notVerified": [
     "physical iPhone encryption and audio",
     "signed native compilation",
-    "successful production email authentication",
+    "physical iPhone email authentication and session recovery",
     "Apple sign-in and token revocation",
-    "email and push delivery",
+    "scheduled notification email and push delivery",
     "LiveKit gathering on real devices",
     "backup recovery on a second device"
   ],
@@ -46,11 +46,14 @@
     "Russian gathering calendar selected date shows the empty state",
     "Saved profile name and journal entry survive a full browser reload",
     "Entered sign-in email survives a full browser reload without sending an email",
-    "Compact AI control with details modal; closing details leaves guidance off"
+    "Compact AI control with details modal; closing details leaves guidance off",
+    "Live email-code request from the app succeeded; Resend confirmed delivery to the owner’s test address on 2026-11-03",
+    "Owner completed email-code sign-in against production Supabase Auth; signed-in account survived a full browser reload"
   ],
   "externalBlockers": {
-    "email": "Google SMTP 535 5.7.8 continued after the owner reported replacing the app password for hello@findflockie.com; latest observed rejection 2026-11-03 16:16:42 UTC",
     "alibaba": "Owner reports identity verification submitted; approval and successful model/transcription output remain pending"
   },
-  "sessionPersistence": "Supabase client recovery and local sign-out verified using synthetic sessions and stubbed network; real email OTP login remains blocked"
+  "targetedAuthTests": "5 passed, including server failure versus network failure regression coverage",
+  "authEmailDelivery": "Verified through Resend SMTP using the existing verified findflockie.com domain and a separate domain-restricted sending key; email delivered and owner completed live OTP verification",
+  "sessionPersistence": "Real email OTP sign-in and full-reload session recovery verified in the local web preview against production Supabase Auth; local sign-out also covered by the earlier synthetic-session test"
 }

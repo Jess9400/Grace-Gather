@@ -31,6 +31,9 @@ test('auth failures select safe actionable copy without echoing provider details
   assert.equal(authErrorKey({ code: 'over_email_send_rate_limit' }, 'send'), 'authRateLimit');
   assert.equal(authErrorKey({ status: 429 }, 'verify'), 'authRateLimit');
   assert.equal(authErrorKey(new TypeError('Failed to fetch'), 'send'), 'authNetworkError');
+  assert.equal(authErrorKey({ name: 'AuthRetryableFetchError', status: 0 }, 'send'), 'authNetworkError');
+  assert.equal(authErrorKey({ name: 'AuthRetryableFetchError', status: 500 }, 'send'), 'authSendError');
+  assert.equal(authErrorKey({ name: 'AuthRetryableFetchError', status: 503 }, 'verify'), 'authVerifyError');
   assert.equal(authErrorKey(null, 'verify'), 'authVerifyError');
 });
 

@@ -32,7 +32,7 @@ export function authErrorKey(error: unknown, action: "send" | "verify") {
   if (e?.code === "email_address_invalid" || e?.code === "validation_failed")
     return "authInvalidEmail";
   if (
-    e?.name === "AuthRetryableFetchError" ||
+    (e?.name === "AuthRetryableFetchError" && !e.status) ||
     e?.name === "TypeError" ||
     e?.code === "request_timeout"
   )
