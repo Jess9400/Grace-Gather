@@ -1,27 +1,48 @@
 // A small, self-contained mesh shared by Expo GL on iOS and WebGL on the web.
-// All materials are procedural: no remote textures, models, or tracking requests.
+// Bundled walnut albedo; all geometry and lighting are local, with no runtime remote requests.
 type Vec3 = [number, number, number];
 type Material = { color: Vec3; kind: number; moving?: boolean };
-export const DOOR_OPEN_MS = 1150;
-const DOOR_PAUSE_MS = 300;
-const APPROACH_MS = 650;
-export const ENTRANCE_MS = DOOR_PAUSE_MS + DOOR_OPEN_MS + APPROACH_MS;
+export const DOOR_OPEN_MS = 1200;
+export const SCENE_FADE_MS = 200;
+export const THRESHOLD_MS = 250;
+export const CROSSFADE_MS = 500;
+export const ENTRANCE_MS =
+  SCENE_FADE_MS + DOOR_OPEN_MS + THRESHOLD_MS + CROSSFADE_MS;
+const ease = (progress: number) => {
+  const t = Math.max(0, Math.min(1, progress));
+  return t * t * (3 - 2 * t);
+};
 export function entranceFrame(elapsed: number) {
+  const crossfade = ease(
+    (elapsed - SCENE_FADE_MS - DOOR_OPEN_MS - THRESHOLD_MS) / CROSSFADE_MS,
+  );
   return {
-    open: doorProgress(elapsed - DOOR_PAUSE_MS),
-    approach: doorProgress(
-      ((elapsed - DOOR_PAUSE_MS - DOOR_OPEN_MS) * DOOR_OPEN_MS) / APPROACH_MS,
-    ),
+    open: doorProgress(elapsed - SCENE_FADE_MS),
+    approach: crossfade,
+    sceneOpacity: ease(elapsed / SCENE_FADE_MS),
+    overlayOpacity: 1 - crossfade,
   };
 }
 export function doorProgress(elapsed: number) {
-  const t = Math.max(0, Math.min(1, elapsed / DOOR_OPEN_MS));
-  return t * t * (3 - 2 * t);
+  return ease(elapsed / DOOR_OPEN_MS);
 }
-const wood: Material = { color: [0.37, 0.215, 0.115], kind: 0 };
-const dark: Material = { color: [0.19, 0.095, 0.048], kind: 0 };
-const trim: Material = { color: [0.49, 0.3, 0.155], kind: 0 };
-const brass: Material = { color: [0.72, 0.53, 0.25], kind: 1 };
+export const DOOR_HINGE: Vec3 = [-0.79, 0, 0.22];
+export const DOOR_ANGLE = 1.48;
+// Shared with the shader and geometry checks: the pivot stays on the jamb.
+export function hingePoint(point: Vec3, progress: number): Vec3 {
+  const angle = DOOR_ANGLE * Math.max(0, Math.min(1, progress));
+  const x = point[0] - DOOR_HINGE[0],
+    z = point[2] - DOOR_HINGE[2];
+  return [
+    DOOR_HINGE[0] + Math.cos(angle) * x + Math.sin(angle) * z,
+    point[1],
+    DOOR_HINGE[2] - Math.sin(angle) * x + Math.cos(angle) * z,
+  ];
+}
+const wood: Material = { color: [0.29, 0.245, 0.205], kind: 0 };
+const dark: Material = { color: [0.19, 0.16, 0.135], kind: 0 };
+const trim: Material = { color: [0.32, 0.275, 0.23], kind: 0 };
+const brass: Material = { color: [0.43, 0.365, 0.265], kind: 1 };
 const leaf = (m: Material): Material => ({ ...m, moving: true });
 
 export function buildConfessionalMesh() {
@@ -89,40 +110,6 @@ export function buildConfessionalMesh() {
     }
     return points;
   }
-  function arch(
-    radius: number,
-    spring: number,
-    bottom: number,
-    z: number,
-    depth: number,
-    m: Material,
-  ) {
-    const points = archOutline(radius, spring, bottom);
-    const center: Vec3 = [0, (bottom + spring) / 2, z + depth / 2];
-    for (let i = 0; i < points.length; i++) {
-      const p = points[i],
-        q = points[(i + 1) % points.length];
-      triangle(
-        center,
-        [p[0], p[1], z + depth / 2],
-        [q[0], q[1], z + depth / 2],
-        m,
-      );
-      triangle(
-        [0, center[1], z - depth / 2],
-        [q[0], q[1], z - depth / 2],
-        [p[0], p[1], z - depth / 2],
-        m,
-      );
-      quad(
-        [p[0], p[1], z - depth / 2],
-        [q[0], q[1], z - depth / 2],
-        [q[0], q[1], z + depth / 2],
-        [p[0], p[1], z + depth / 2],
-        m,
-      );
-    }
-  }
   function ring(
     inner: number,
     outer: number,
@@ -172,10 +159,10 @@ export function buildConfessionalMesh() {
     }
   }
   function panel(x: number, y: number, w: number, h: number) {
-    box(x, y, 0.23, w, h, 0.14, leaf(dark));
-    box(x, y, 0.31, w - 0.035, h - 0.035, 0.06, leaf(trim));
-    box(x, y, 0.345, w - 0.095, h - 0.095, 0.04, leaf(dark));
-    box(x, y, 0.365, w - 0.14, h - 0.14, 0.035, leaf(wood));
+    // Shallow joinery and a thin lip, not a stack of exaggerated bevels.
+    box(x, y, 0.245, w, h, 0.11, leaf(dark));
+    box(x, y, 0.292, w - 0.025, h - 0.025, 0.025, leaf(trim));
+    box(x, y, 0.305, w - 0.065, h - 0.065, 0.018, leaf(wood));
   }
   function beam(
     ax: number,
@@ -202,42 +189,40 @@ export function buildConfessionalMesh() {
     for (let i = 0; i < 24; i++) {
       const a = (i * Math.PI) / 12,
         b = ((i + 1) * Math.PI) / 12;
-      const p: Vec3 = [x + Math.cos(a) * 0.052, y + Math.sin(a) * 0.052, 0.48];
-      const q: Vec3 = [x + Math.cos(b) * 0.052, y + Math.sin(b) * 0.052, 0.48];
-      triangle([x, y, 0.505], p, q, m);
-      quad([p[0], p[1], 0.4], [q[0], q[1], 0.4], q, p, m);
+      const p: Vec3 = [x + Math.cos(a) * 0.029, y + Math.sin(a) * 0.029, 0.37];
+      const q: Vec3 = [x + Math.cos(b) * 0.029, y + Math.sin(b) * 0.029, 0.37];
+      triangle([x, y, 0.38], p, q, m);
+      quad([p[0], p[1], 0.34], [q[0], q[1], 0.34], q, p, m);
     }
   }
 
-  // The actual room is behind the hinged leaf, with a lit plaster wall and a bench.
-  arch(0.84, 0.6, -1.55, -0.48, 0.1, { color: [0.24, 0.13, 0.075], kind: 0 });
-  arch(0.66, 0.6, -1.48, -0.42, 0.01, { color: [0.87, 0.72, 0.48], kind: 2 });
-  box(0, -1.21, -0.22, 1.53, 0.16, 0.48, dark);
-  box(0, -1.1, -0.21, 1.49, 0.065, 0.47, trim);
-  ring(0.8, 1.05, 0.6, -1.55, -0.02, 0.44, dark);
-  ring(0.85, 1.03, 0.6, -1.55, 0.19, 0.14, wood);
-  ring(1.0, 1.06, 0.6, -1.55, 0.28, 0.09, trim);
-  ring(0.815, 0.86, 0.6, -1.55, 0.28, 0.09, trim);
-  ring(0.885, 0.905, 0.6, -1.55, 0.285, 0.02, brass);
-  for (const x of [-0.94, 0.94]) {
-    box(x, -1.35, 0.23, 0.27, 0.43, 0.24, wood);
-    box(x, -1.55, 0.25, 0.32, 0.08, 0.3, trim);
-    box(x, 0.55, 0.24, 0.26, 0.11, 0.22, trim);
-  }
-  box(0, -1.62, 0.11, 2.25, 0.12, 0.82, dark);
-  box(0, -1.55, 0.13, 2.14, 0.055, 0.72, trim);
+  // Deep warm-charcoal walls leave physical clearance for the entire inward swing.
+  const plaster: Material = { color: [0.135, 0.125, 0.115], kind: 2 };
+  box(0, 0, -2.5, 2.0, 3.4, 0.06, plaster);
+  box(-0.98, 0, -1.15, 0.08, 3.4, 2.65, plaster);
+  box(0.98, 0, -1.15, 0.08, 3.4, 2.65, plaster);
+  box(0, -1.54, -1.1, 1.7, 0.06, 2.75, dark);
+  box(0, -1.23, -1.95, 1.46, 0.09, 0.38, dark);
+  box(0, -1.17, -1.94, 1.48, 0.035, 0.4, wood);
+  // Recessed edge light, very dim and occluded by the door while closed.
+  box(0.79, 0.03, -2.4, 0.012, 2.6, 0.018, {
+    color: [0.31, 0.22, 0.13],
+    kind: 3,
+  });
+  // The surrounding wall occludes the deep interior outside the arched opening.
+  ring(0.94, 5, 0.6, -4, 0.195, 0.01, {
+    color: [30 / 255, 28 / 255, 26 / 255],
+    kind: 3,
+  });
+  ring(0.8, 0.93, 0.6, -1.55, 0.03, 0.32, dark);
+  ring(0.815, 0.925, 0.6, -1.55, 0.2, 0.085, wood);
+  ring(0.915, 0.94, 0.6, -1.55, 0.25, 0.025, trim);
+  ring(0.805, 0.827, 0.6, -1.55, 0.255, 0.025, trim);
+  box(0, -1.58, 0.1, 1.94, 0.055, 0.55, dark);
 
   // The upper aperture remains open between its diamond lattice bars.
   ring(0.54, 0.79, 0.6, -1.49, 0.21, 0.14, leaf(wood));
-  ring(0.51, 0.565, 0.6, 0.05, 0.3, 0.055, leaf(trim));
-  arch(
-    0.52,
-    0.6,
-    0.07,
-    0.16,
-    0.01,
-    leaf({ color: [0.64, 0.43, 0.2], kind: 2 }),
-  );
+  ring(0.51, 0.565, 0.6, 0.05, 0.28, 0.025, leaf(trim));
   for (const slope of [-1, 1]) {
     for (let intercept = -1; intercept < 2; intercept += 0.22) {
       // Clip each diagonal to the arched aperture before extruding it.
@@ -251,7 +236,7 @@ export function buildConfessionalMesh() {
       if (points.length > 1) {
         const a = points[0],
           b = points[points.length - 1];
-        beam(a[0], a[1], b[0], b[1], 0.345, 0.025, leaf(dark));
+        beam(a[0], a[1], b[0], b[1], 0.29, 0.019, leaf(wood));
       }
     }
   }
@@ -263,10 +248,28 @@ export function buildConfessionalMesh() {
     panel(x, -1.09, 0.53, 0.54);
   }
   box(0, -0.75, 0.27, 0.065, 1.3, 0.19, leaf(wood));
-  box(0.655, -0.13, 0.385, 0.095, 0.32, 0.025, leaf(brass));
-  knob(0.655, -0.1);
-  box(0.655, -0.22, 0.405, 0.013, 0.035, 0.01, leaf(dark));
-  for (const y of [-1.13, 0.23]) box(-0.785, y, 0.32, 0.065, 0.19, 0.07, brass);
+  box(0.67, -0.13, 0.32, 0.048, 0.17, 0.014, leaf(brass));
+  knob(0.67, -0.1);
+  box(0.67, -0.18, 0.333, 0.008, 0.02, 0.004, leaf(dark));
+  for (const y of [-1.14, 0.25]) {
+    box(-0.815, y, 0.225, 0.045, 0.12, 0.012, brass);
+    box(-0.762, y, 0.225, 0.045, 0.12, 0.012, leaf(brass));
+    for (let i = 0; i < 16; i++) {
+      const a = (i * Math.PI) / 8,
+        b = ((i + 1) * Math.PI) / 8;
+      const x1 = DOOR_HINGE[0] + Math.cos(a) * 0.018,
+        z1 = DOOR_HINGE[2] + Math.sin(a) * 0.018;
+      const x2 = DOOR_HINGE[0] + Math.cos(b) * 0.018,
+        z2 = DOOR_HINGE[2] + Math.sin(b) * 0.018;
+      quad(
+        [x1, y - 0.065, z1],
+        [x2, y - 0.065, z2],
+        [x2, y + 0.065, z2],
+        [x1, y + 0.065, z1],
+        brass,
+      );
+    }
+  }
   return new Float32Array(data);
 }
 
@@ -280,6 +283,7 @@ attribute float aMoving;
 uniform float uOpen;
 uniform float uAspect;
 uniform float uApproach;
+varying vec3 vWorld;
 varying vec3 vPosition;
 varying vec3 vNormal;
 varying vec3 vColor;
@@ -289,63 +293,68 @@ void main() {
   vec3 p=aPosition, n=aNormal;
   vPosition=p; vColor=aColor; vKind=aKind;
   if(aMoving>.5) {
-    mat3 hinge=rotateY(uOpen*1.72);
-    p=hinge*(p-vec3(-.79,0.,.22))+vec3(-.79,0.,.22);
+    mat3 hinge=rotateY(uOpen*${DOOR_ANGLE});
+    p=hinge*(p-vec3(${DOOR_HINGE.join(",")}))+vec3(${DOOR_HINGE.join(",")});
     n=hinge*n;
   }
-  vNormal=n;
+  vNormal=n; vWorld=p;
   // Eye-level doorway, filling a portrait viewport. Move through the threshold
   // only after the leaf has opened, revealing the illuminated room behind it.
-  float camera=mix(3.65,1.30,uApproach);
+  float camera=mix(3.85,3.58,uApproach);
   float distance=camera-p.z;
   float focal=2.05;
   gl_Position=vec4(p.x*focal/uAspect,p.y*focal,(distance-0.1)*1.01-0.202,distance);
 }`;
 const FRAGMENT = `
 precision highp float;
+uniform sampler2D uWood;
+uniform float uOpen;
 varying vec3 vPosition;
+varying vec3 vWorld;
 varying vec3 vNormal;
 varying vec3 vColor;
 varying float vKind;
 float hash(vec2 p) { return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453); }
-float noise(vec2 p) {
-  vec2 i=floor(p), f=fract(p); f=f*f*(3.-2.*f);
-  return mix(mix(hash(i),hash(i+vec2(1,0)),f.x),mix(hash(i+vec2(0,1)),hash(i+vec2(1,1)),f.x),f.y);
-}
 void main() {
   vec3 n=normalize(vNormal);
   if(!gl_FrontFacing) n=-n;
-  vec3 light=normalize(vec3(-.65,.85,1.4));
+  vec3 light=normalize(vec3(-.45,.75,1.8));
   float diffuse=max(dot(n,light),0.);
   vec3 color=vColor;
   if(vKind<.5) {
-    vec2 p=vPosition.xy;
-    float warp=noise(vec2(p.x*3.,p.y*.8))*2.8+noise(p*vec2(8.,1.4))*.45;
-    float grain=sin(p.x*150.+warp*9.+sin(p.y*1.7+p.x*5.)*2.);
-    float fine=noise(vec2(p.x*380.,p.y*23.));
-    color*=.88+.045*grain+.12*fine;
-    color*=.72+diffuse*.59;
-    float sheen=pow(max(dot(reflect(-light,n),vec3(0,0,1)),0.),25.);
-    color+=vec3(.12,.08,.035)*sheen;
+    vec2 uv=fract(vec2(vPosition.x*.49+.5, vPosition.y*.30+.5));
+    vec3 timber=texture2D(uWood,uv).rgb;
+    float grain=dot(timber,vec3(.30,.59,.11));
+    color*=.62+grain*1.65;
+    color*=.68+diffuse*.40;
+    // Broad, low-contrast contact shadows in joinery and toward the threshold.
+    color*=.86+.14*smoothstep(-1.6,.8,vPosition.y);
   } else if(vKind<1.5) {
-    float spec=pow(max(dot(reflect(-light,n),vec3(0,0,1)),0.),36.);
-    color*=.58+diffuse*.65;
-    color+=vec3(.60,.46,.24)*spec;
-  } else {
-    float glow=1.-smoothstep(0.,1.4,length(vPosition.xy-vec2(-.2,.65)));
-    color*=.70+glow*.34;
+    float patina=hash(floor(vPosition.xy*340.));
+    color*=.66+diffuse*.32+patina*.04;
+    color+=vec3(.025,.022,.016)*pow(max(dot(reflect(-light,n),vec3(0,0,1)),0.),8.);
+  } else if(vKind<2.5) {
+    float edge=exp(-pow((vWorld.x-.77)*6.,2.));
+    float lightPool=exp(-pow((vWorld.y-.1)*.6,2.));
+    color*=.80+diffuse*.16;
+    color+=vec3(.042,.026,.012)*edge*lightPool;
+    // Soft door occlusion recedes naturally as it opens.
+    color*=.70+.30*uOpen;
   }
-  // Soft ambient occlusion toward the base of the booth.
-  color*=.86+.14*smoothstep(-1.6,.6,vPosition.y);
   gl_FragColor=vec4(color,1.);
 }`;
 
-export function createConfessionalRenderer(gl: WebGLRenderingContext) {
+export function createConfessionalRenderer(
+  gl: WebGLRenderingContext,
+  woodImage: TexImageSource,
+) {
   const shaders: WebGLShader[] = [];
   let buffer: WebGLBuffer | null = null,
-    program: WebGLProgram | null = null;
+    program: WebGLProgram | null = null,
+    texture: WebGLTexture | null = null;
   const dispose = () => {
     if (buffer) gl.deleteBuffer(buffer);
+    if (texture) gl.deleteTexture(texture);
     if (program) gl.deleteProgram(program);
     shaders.forEach((s) => gl.deleteShader(s));
   };
@@ -369,6 +378,28 @@ export function createConfessionalRenderer(gl: WebGLRenderingContext) {
     if (!gl.getProgramParameter(program, gl.LINK_STATUS))
       throw Error("Door program could not link");
     gl.useProgram(program);
+    texture = gl.createTexture();
+    if (!texture) throw Error("Walnut texture unavailable");
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+    gl.texImage2D(
+      gl.TEXTURE_2D,
+      0,
+      gl.RGBA,
+      gl.RGBA,
+      gl.UNSIGNED_BYTE,
+      woodImage,
+    );
+    gl.texParameteri(
+      gl.TEXTURE_2D,
+      gl.TEXTURE_MIN_FILTER,
+      gl.LINEAR_MIPMAP_LINEAR,
+    );
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+    gl.generateMipmap(gl.TEXTURE_2D);
+    gl.uniform1i(gl.getUniformLocation(program, "uWood"), 0);
     const mesh = buildConfessionalMesh();
     buffer = gl.createBuffer();
     if (!buffer) throw Error("Door mesh unavailable");
@@ -394,7 +425,7 @@ export function createConfessionalRenderer(gl: WebGLRenderingContext) {
       draw(progress: number, entry = 0) {
         gl.useProgram(program);
         gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
-        gl.clearColor(0.129, 0.09, 0.059, 1);
+        gl.clearColor(0.118, 0.11, 0.102, 1);
         gl.clearDepth(1);
         gl.enable(gl.DEPTH_TEST);
         gl.disable(gl.CULL_FACE);

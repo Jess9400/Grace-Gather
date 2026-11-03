@@ -19,7 +19,8 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { GLView, type ExpoWebGLRenderingContext } from "expo-gl";
-import { colors } from "./ui";
+import { confessionColors as room } from "../lib/confession-theme";
+import { prepareWalnutTexture } from "../lib/confessional-texture";
 import { copy, type Language } from "../lib/content";
 import {
   createConfessionalRenderer,
@@ -66,6 +67,7 @@ export default function ConfessionalDoor({
   const [reduced, setReduced] = useState<boolean | null>(null);
   const [failed, setFailed] = useState(false);
   const [opacity] = useState(() => new Animated.Value(1));
+  const [sceneOpacity] = useState(() => new Animated.Value(0));
   const renderer = useRef<ReturnType<typeof createConfessionalRenderer> | null>(
     null,
   );
@@ -78,7 +80,8 @@ export default function ConfessionalDoor({
     if (frame.current !== null) cancelAnimationFrame(frame.current);
     frame.current = null;
     opacity.stopAnimation();
-  }, [opacity]);
+    sceneOpacity.stopAnimation();
+  }, [opacity, sceneOpacity]);
   const finish = useCallback(() => {
     if (!mounted.current || finished.current) return;
     finished.current = true;
@@ -147,30 +150,28 @@ export default function ConfessionalDoor({
       const next = entranceFrame(elapsed);
       try {
         draw(next.open, next.approach);
+        sceneOpacity.setValue(next.sceneOpacity);
+        opacity.setValue(next.overlayOpacity);
       } catch {
         finish();
         return;
       }
       if (elapsed >= ENTRANCE_MS) {
         frame.current = null;
-        Animated.timing(opacity, {
-          toValue: 0,
-          duration: 280,
-          useNativeDriver: true,
-        }).start(({ finished: completed }) => {
-          if (completed) finish();
-        });
+        finish();
       } else frame.current = requestAnimationFrame(tick);
     };
     frame.current = requestAnimationFrame(tick);
     return stop;
-  }, [draw, failed, finish, opacity, ready, reduced, stop]);
+  }, [draw, failed, finish, opacity, sceneOpacity, ready, reduced, stop]);
   const onContextCreate = useCallback(
-    (gl: ExpoWebGLRenderingContext) => {
+    async (gl: ExpoWebGLRenderingContext) => {
       if (!mounted.current || finished.current) return;
       try {
+        const texture = await prepareWalnutTexture();
+        if (!mounted.current || finished.current) return;
         context.current = gl;
-        renderer.current = createConfessionalRenderer(gl);
+        renderer.current = createConfessionalRenderer(gl, texture);
         draw(0, 0);
         setReady(true);
       } catch {
@@ -195,17 +196,13 @@ export default function ConfessionalDoor({
         accessibilityViewIsModal
       >
         <View style={styles.stage}>
-          <View
+          <Animated.View
             pointerEvents="none"
             accessible={false}
             accessibilityElementsHidden
             importantForAccessibility="no-hide-descendants"
-            style={StyleSheet.absoluteFill}
+            style={[StyleSheet.absoluteFill, { opacity: sceneOpacity }]}
           >
-            <View style={styles.waitingDoor}>
-              <View style={styles.waitingWindow} />
-              <View style={styles.waitingPanel} />
-            </View>
             {!failed && (
               <SceneBoundary onFailure={fail}>
                 <GLView
@@ -233,7 +230,7 @@ export default function ConfessionalDoor({
                 />
               </SceneBoundary>
             )}
-          </View>
+          </Animated.View>
           <View style={[styles.top, { paddingTop: Math.max(insets.top, 18) }]}>
             <Pressable
               accessibilityRole="button"
@@ -269,7 +266,7 @@ export default function ConfessionalDoor({
   );
 }
 const styles = StyleSheet.create({
-  overlay: { flex: 1, backgroundColor: "#21170F" },
+  overlay: { flex: 1, backgroundColor: room.background },
   stage: {
     flex: 1,
     width: "100%",
@@ -291,18 +288,18 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: "#21170FCC",
+    backgroundColor: "#1E1C1AE6",
     justifyContent: "center",
     alignItems: "center",
   },
-  backIcon: { fontSize: 30, lineHeight: 34, color: colors.ink },
+  backIcon: { fontSize: 30, lineHeight: 34, color: room.ink },
   balance: { width: 44 },
   eyebrow: {
-    color: colors.gold,
+    color: room.accent,
     fontSize: 10,
     letterSpacing: 3,
     textTransform: "uppercase",
-    backgroundColor: "#21170FCC",
+    backgroundColor: "#1E1C1AE6",
     paddingHorizontal: 14,
     paddingVertical: 8,
     borderRadius: 16,
@@ -314,46 +311,18 @@ const styles = StyleSheet.create({
     right: 0,
     alignItems: "center",
     paddingTop: 14,
-    backgroundColor: "#21170FCC",
+    backgroundColor: "#1E1C1AE6",
   },
   hint: {
-    color: colors.ink,
+    color: room.ink,
     fontSize: 14,
     lineHeight: 20,
     textAlign: "center",
   },
   skip: { minHeight: 44, justifyContent: "center", paddingHorizontal: 24 },
   skipLabel: {
-    color: colors.gold,
+    color: room.accent,
     fontSize: 12,
     textDecorationLine: "underline",
-  },
-  waitingDoor: {
-    position: "absolute",
-    top: "5%",
-    bottom: "5%",
-    left: "3%",
-    right: "3%",
-    borderTopLeftRadius: 220,
-    borderTopRightRadius: 220,
-    borderWidth: 20,
-    borderColor: "#4F321F",
-    backgroundColor: "#644128",
-    padding: 36,
-    gap: 32,
-  },
-  waitingWindow: {
-    flex: 1,
-    borderTopLeftRadius: 150,
-    borderTopRightRadius: 150,
-    borderWidth: 5,
-    borderColor: "#322316",
-    backgroundColor: "#A37D45",
-  },
-  waitingPanel: {
-    flex: 1,
-    borderWidth: 5,
-    borderColor: "#8E653C",
-    backgroundColor: "#52351F",
   },
 });
