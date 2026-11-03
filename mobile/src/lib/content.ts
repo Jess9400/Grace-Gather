@@ -91,6 +91,7 @@ export const initialProfile: Profile = {
 };
 export function copy(language: Language, key: string): string {
   for (const source of [
+    catalog.CONFESSION_COPY,
     catalog.PROFILE_COPY,
     catalog.COMMUNITY_COPY,
     catalog.FLOW_COPY,

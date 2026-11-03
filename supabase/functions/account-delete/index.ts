@@ -30,6 +30,13 @@ serve(async (req) => {
       .remove(data.map((x) => user.id + "/" + x.name));
     if (removed.error) throw removed.error;
   }
+  // Confession media uses opaque IDs; remove owned recordings before cascading account rows.
+  const confessions = await service.from("confessions").select("id").eq("author",user.id).not("audio_type","is",null);
+  if(confessions.error) throw confessions.error;
+  for(let i=0;i<(confessions.data?.length||0);i+=100){
+    const removed=await service.storage.from("confession-audio").remove(confessions.data!.slice(i,i+100).map(x=>x.id));
+    if(removed.error)throw removed.error;
+  }
   const cancelled = await service
     .from("gatherings")
     .update({ status: "cancelled" })

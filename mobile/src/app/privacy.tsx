@@ -12,6 +12,10 @@ import { label } from "../lib/labels";
 const policy = {
   en: [
     [
+      "Confessions shared with listeners",
+      "Sharing a confession uploads only the text and optional audio you explicitly submit. All submissions and responses wait for moderator approval. Listeners see themes and requested support; one listener at a time can open a confession for six hours. Without a response, it returns to the list. Only one comfort response is permitted and is visible to the writer, listener and authorized moderators. Names and emails are hidden from listeners, but moderators can access account-linked submissions and reports. A voice or the details you write may identify you. This is not end-to-end encryption or sacramental confession. Reports hide content pending review. You can close replies, block a person, or delete your confession and response. Moderation records are stored separately; contact support for deletion requests. No real-time monitoring or immediate reply is promised.",
+    ],
+    [
       "Your private journal",
       "Text, feelings, reflections and recordings are stored in an encrypted database and encrypted audio files on your device. The encryption key is kept in the device keychain. The browser preview keeps temporary data in memory. We do not automatically upload your journal or process it with AI. Exported backups are encrypted; keep the recovery key separately. Losing the key or deleting the app may make local data unrecoverable.",
     ],
@@ -33,6 +37,10 @@ const policy = {
     ],
   ],
   pt: [
+    [
+      "Confissões compartilhadas",
+      "Compartilhar envia apenas o texto e áudio que você confirmar. Envios e respostas aguardam aprovação. Ouvintes veem temas e apoio solicitado; uma pessoa por vez pode abrir uma confissão por seis horas. Sem resposta, ela volta à lista. Uma única resposta fica visível para autor, ouvinte e moderadores autorizados. Nome e email ficam ocultos dos ouvintes; moderadores acessam envios e denúncias vinculados à conta. Voz e detalhes podem identificar você. Não é criptografia de ponta a ponta nem confissão sacramental. Denúncias ocultam conteúdo para revisão. Você pode encerrar respostas, bloquear e excluir a confissão e resposta. Registros de moderação ficam separados; contate o suporte para exclusão. Não há monitoramento em tempo real nem promessa de resposta imediata.",
+    ],
     [
       "Seu diário privado",
       "Textos, sentimentos, reflexões e gravações ficam criptografados neste dispositivo. A chave fica no chaveiro seguro do aparelho. A prévia no navegador usa memória temporária. Não enviamos seu diário automaticamente nem o processamos com IA. As cópias exportadas são criptografadas; guarde a chave de recuperação separadamente. A perda da chave ou exclusão do app pode impedir a recuperação.",
@@ -56,6 +64,10 @@ const policy = {
   ],
   es: [
     [
+      "Confesiones compartidas",
+      "Compartir envía solo el texto y audio que confirmes. Envíos y respuestas esperan aprobación. Los oyentes ven temas y apoyo solicitado; una persona a la vez puede abrir una confesión por seis horas. Sin respuesta, vuelve a la lista. Una única respuesta es visible para autor, oyente y moderadores. Nombre y correo se ocultan a oyentes; los moderadores acceden a envíos y reportes vinculados a la cuenta. Voz y detalles pueden identificarte. No es cifrado de extremo a extremo ni confesión sacramental. Los reportes ocultan contenido para revisión. Puedes cerrar respuestas, bloquear o eliminar confesión y respuesta. Los registros de moderación se guardan aparte; contacta al soporte para borrarlos. No hay supervisión en tiempo real ni promesa de respuesta inmediata.",
+    ],
+    [
       "Tu diario privado",
       "Textos, sentimientos, reflexiones y grabaciones se cifran en tu dispositivo. La clave se guarda en su llavero seguro. La vista previa usa memoria temporal. No subimos tu diario automáticamente ni lo procesamos con IA. Las copias exportadas están cifradas; guarda la clave de recuperación aparte. Perderla o borrar la app puede impedir recuperar los datos.",
     ],
@@ -77,6 +89,10 @@ const policy = {
     ],
   ],
   ru: [
+    [
+      "Признания для слушателей",
+      "Отправка загружает только подтверждённый вами текст и необязательное аудио. Признания и ответы ждут проверки. Слушатели видят тему и вид поддержки; один слушатель может открыть признание на шесть часов. Без ответа оно возвращается в список. Единственный ответ виден автору, слушателю и модераторам. Имя и почта скрыты от слушателей; модераторы видят материалы и жалобы, связанные с аккаунтом. Голос и подробности могут раскрыть личность. Это не сквозное шифрование и не таинство исповеди. Жалобы скрывают материалы до проверки. Можно закрыть ответы, заблокировать человека или удалить признание и ответ. Журналы модерации хранятся отдельно; для удаления обратитесь в поддержку. Нет наблюдения в реальном времени или обещания немедленного ответа.",
+    ],
     [
       "Личный дневник",
       "Текст, чувства, размышления и аудио хранятся на устройстве в зашифрованном виде. Ключ хранится в защищённой связке ключей. Браузерная версия использует временную память. Мы не загружаем дневник автоматически и не обрабатываем его ИИ. Экспортированные копии зашифрованы; храните ключ восстановления отдельно. Утрата ключа или удаление приложения могут сделать данные недоступными.",

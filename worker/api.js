@@ -1,3 +1,4 @@
+import {confessionAPI} from './confessions.js';
 const json=(body,status=200)=>Response.json(body,{status,headers:{'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});
 export function validateProfile(b){
  const fields={name:60,city:80,region:80,email:254};
@@ -18,6 +19,7 @@ export function createAPI(itemIds){
   return async function api(request,env){
     const url=new URL(request.url),path=url.pathname,user=request.headers.get('oai-authenticated-user-id');
     if(!user)return json({error:'sign_in_required'},401);
+    if(path==='/api/confessions')return confessionAPI(request,env,user);
     if(!['GET','POST','DELETE'].includes(request.method))return json({error:'method_not_allowed'},405);
     let payload;
     if(request.method!=='GET'){

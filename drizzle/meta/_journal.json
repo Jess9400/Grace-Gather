@@ -15,6 +15,13 @@
       "when": 1793690387003,
       "tag": "0001_fast_victor_mancha",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1793710038659,
+      "tag": "0002_large_major_mapleleaf",
+      "breakpoints": true
     }
   ]
 }

@@ -1,3 +1,4 @@
+import { Text } from "react-native";
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useApp } from "../../lib/state";
@@ -23,7 +24,8 @@ export default function TabsLayout() {
         [
           ["index", "journal", "book-outline"],
           ["explore", "explore", "compass-outline"],
-          ["learn", "learn", "school-outline"],
+          ["learn", "learn", "book-outline"],
+          ["confession", "confession", "heart-outline"],
           ["gatherings", "gather", "calendar-outline"],
         ] as const
       ).map(([name, label, icon]) => (
@@ -32,6 +34,18 @@ export default function TabsLayout() {
           name={name}
           options={{
             title: copy(profile.language, label),
+            tabBarLabel: ({ color }) => (
+              <Text
+                style={{
+                  fontSize: 10,
+                  lineHeight: 12,
+                  textAlign: "center",
+                  color: typeof color === "string" ? color : colors.muted,
+                }}
+              >
+                {copy(profile.language, label)}
+              </Text>
+            ),
             tabBarIcon: ({ color, size }) => (
               <Ionicons
                 name={icon}

@@ -16,3 +16,6 @@ verify_jwt = false
 verify_jwt = false
 [functions.llm-journey]
 verify_jwt = false
+
+[functions.confessions]
+verify_jwt = false

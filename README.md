@@ -85,3 +85,7 @@ The community preview defaults to localhost:4174. Use a separate `STILL_PREVIEW_
 Automated checks include the existing 27 web/content tests plus Postgres RLS tests for profile isolation, moderation, impersonation, hidden content, rate limits, reservations, speaking permissions, reports, suspensions and notification recipients. Native TypeScript, ESLint, Expo compatibility, iOS/web Metro bundle export and Deno edge-function checks are run separately. A successful Metro export is not a signed iOS binary or proof of physical-device behavior.
 
 The dependency audit currently reports no high/critical advisories; moderate findings stem from glob/minimatch in the Expo tooling dependency chain. Automated force-fix suggestions downgrade Expo and were not applied. Review compatible patched tooling before release. Actual production configuration, end-to-end authentication, real audio calls and notification delivery are not claimed verified.
+
+## Confession community room
+
+The web preview now has a separate anonymous peer-support room, theme-only selection, private single replies, and server-enforced six-hour reservations. Every confession and reply waits for human approval. `CONFESSION_MODERATOR_EMAILS` is a server-only verified-email allowlist; no client can approve itself. See [moderation and release notes](docs/CONFESSION.md). Native UI and Supabase migration/function are included; deploying the mobile backend and a signed iOS build remain release steps.

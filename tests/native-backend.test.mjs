@@ -20,6 +20,7 @@ before(async () => {
     "202611030002_private_storage.sql",
     "202611030003_operations.sql",
     "202611030004_grace_and_gather_brand.sql",
+    "202611030005_confession.sql",
   ])
     await db.exec(
       await readFile(
@@ -260,3 +261,18 @@ test("encrypted backup storage only accepts the owner’s fixed private object",
     1,
   );
 });
+
+ test('confession tables and atomic RPC are inaccessible to clients; server reservations expire',async()=>{
+ await assert.rejects(as(alice,"select * from public.confessions"));
+ await assert.rejects(as(alice,"select public.confession_store('queue','[]')"));
+ const call=async(op,args)=>{await db.exec('set role service_role');try{return (await db.query("select public.confession_store($1,$2::jsonb) result",[op,JSON.stringify(args)])).rows[0].result;}finally{await db.exec('reset role');}};
+ const r={id:'test-confession',kind:'confession',parent:null,author:alice,body:'A test reflection',theme:'faith',response_type:'listen',language:'en',status:'approved',priority:2,signals:'[]',closed:0,thanked:0,claimed_by:null,claimed_until:0,audio_type:null,created:Date.now()};
+ assert.equal(await call('insert',[r]),true);assert.equal((await call('list',[bob,'en'])).length,1);
+ assert.equal(await call('claim',[r.id,bob,0,1]),true);const claimed=await call('get',[r.id]);assert.ok(Math.abs(claimed.claimed_until-Date.now()-21600000)<2000);
+ assert.equal(await call('claim',[r.id,staff]),false);
+ const response={...r,id:'test-response',kind:'reply',parent:r.id,author:bob,status:'pending'};
+ assert.equal(await call('insert',[response]),true);assert.equal(await call('insert',[{...response,id:'test-second'}]),false);
+ await call('report',[{id:'test-report',target:r.id,reporter:bob,reason:'privacy'}]);assert.equal((await call('get',[r.id])).status,'reported');
+ await call('moderate',[r.id,'approved',staff,'Context reviewed.']);assert.equal((await call('get',[r.id])).status,'approved');
+ await call('remove',[r.id]);assert.equal(await call('get',['test-response']),null);
+ });

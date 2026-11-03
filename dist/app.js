@@ -1,3 +1,5 @@
+import {CONFESSION_COPY} from './confession-copy.js';
+import {createConfession} from './confession.js';
 import {PROFILE_COPY} from './profile-copy.js';
 import {createProfile} from './profile.js';
 import {bookRecommendations} from './books.js';
@@ -11,7 +13,7 @@ const app=document.querySelector('#app'), modalRoot=document.querySelector('#mod
 const state={stage:'verse',done:false,page:'journal',tab:'today',mode:'write',text:'',mood:'',audio:null,audioName:'',entries:[],activeId:null,more:false,query:'',filter:'',saving:false,storageError:false};
 let editions=[],prefs={...DEFAULT_PREFS},db=null,recorder=null,stream=null,recordTimer=null,recordSeconds=0,recordStarting=false,toastTimer=null,modalFocus=null,practiceTimer=null,practiceRemaining=60;
 const objectURLs=new Set();
-const t=key=>PROFILE_COPY[prefs.language][key]??COMMUNITY_COPY[prefs.language][key]??FLOW_COPY[prefs.language][key]??COPY[prefs.language][key]??COPY.en[key]??key;
+const t=key=>CONFESSION_COPY[prefs.language][key]??PROFILE_COPY[prefs.language][key]??COMMUNITY_COPY[prefs.language][key]??FLOW_COPY[prefs.language][key]??COPY[prefs.language][key]??COPY.en[key]??key;
 const li=()=>Object.keys(LANGUAGES).indexOf(prefs.language);
 const tx=(key)=>esc(t(key));
 const date=(value,short=false)=>new Intl.DateTimeFormat(prefs.language,{dateStyle:short?'medium':'full'}).format(new Date(value));
@@ -69,10 +71,11 @@ function persistPrefs(){try{localStorage.setItem('still-preferences',JSON.string
 function currentEntry(){return state.entries.find(e=>e.id===state.activeId);}
 const profile=createProfile({t,ico,prefs:()=>prefs,editions:()=>editions,setPrefs:(key,value)=>{prefs=normalizePrefs({...prefs,[key]:value},editions);persistPrefs();},render,focusMain,navigate,closeModal,toast,modal});
 const community=createCommunity({t,ico,prefs:()=>prefs,getEdition:()=>editions.find(e=>e.id===prefs.edition),getMood:()=>state.mood||state.entries[0]?.mood,getProfile:()=>profile.get(),navigate,render,toast,modal,closeModal,download,focusMain});
+const confession=createConfession({t,prefs:()=>prefs,render,focusMain});
 function shell(){
   if(profile.isActive())return profile.view();
   const active=state.page==='kindness'||state.page==='discover'?'explore':state.page;
-  const nav=[['journal','journal','journal'],['explore','discover','explore'],['learn','book','learn'],['gather','calendar','gather']];
+  const nav=[['journal','journal','journal'],['explore','discover','explore'],['learn','book','learn'],['confession','hands','confession'],['gather','calendar','gather']];
   return `<div class="mobile-app"><header class="app-top"><button class="mobile-wordmark" data-action="new" aria-label="Grace & Gather"><img src="./assets/mark.svg" alt=""><span>Grace &amp; Gather</span></button><div class="app-controls"><label class="sr-only" for="language">${tx('interfaceLanguage')}</label><select id="language" ${isRecording()?'disabled':''}>${languageOptions(prefs.language)}</select><button class="icon-button journal-history-button" data-action="history" aria-label="${tx('history')}">${ico('clock')}</button><button class="icon-button" data-action="settings" aria-label="${tx('settings')}">${ico('settings')}</button></div></header><main class="mobile-main" id="main" tabindex="-1">${pageContent()}<footer class="mobile-footer"><a href="./privacy.html">Grace & Gather · Privacy</a><a href="./support.html">hello@graceandgather.com</a><button data-action="support">${tx('support')}</button><button data-action="credits">${tx('sources')}</button></footer></main><nav class="bottom-nav" aria-label="${tx('privateSpace')}">${nav.map(([id,icon,label])=>`<button data-home="${id}" ${id===active?'aria-current="page"':''}>${ico(icon)}<span>${tx(label)}</span></button>`).join('')}</nav></div>`;
 }
 function stepper(current){return `<ol class="steps" aria-label="${tx('savedPath')}">${['stepJournal','stepVerse','stepAction','stepReflect'].map((key,i)=>`<li class="${i===current?'current':i<current?'complete':''}" ${i===current?'aria-current="step"':''}><span>${i<current?ico('check'):i+1}</span><small>${tx(key)}</small></li>`).join('')}</ol>`;}
@@ -81,6 +84,7 @@ function pageContent(){
   if(state.page==='journal')return state.activeId?journey(currentEntry()):state.tab==='history'?history():composer();
   if(state.page==='explore'||state.page==='discover')return community.explore();
   if(state.page==='learn')return community.learn();
+  if(state.page==='confession')return confession.view();
   if(state.page==='kindness')return community.organizations();
   return community.gathers();
 }
@@ -103,11 +107,11 @@ function journey(entry){
 }
 function chooseFeeling(){modal('changeFeeling',`<p>${tx('basedFeeling')}</p><div class="mood-grid">${MOODS.map(m=>`<button class="mood" data-correct-feeling="${m}">${ico(moodIcon[m])}${tx(m)}</button>`).join('')}</div>`);}
 
-function render(){objectURLs.forEach(url=>URL.revokeObjectURL(url));objectURLs.clear();document.documentElement.lang=prefs.language;document.title=`Grace & Gather · ${t(state.page)}`;document.querySelector('.skip-link').textContent=t('journal');app.innerHTML=shell();}
+function render(){document.body.classList.toggle('confession-room',state.page==='confession'&&!profile.isActive());objectURLs.forEach(url=>URL.revokeObjectURL(url));objectURLs.clear();document.documentElement.lang=prefs.language;document.title=`Grace & Gather · ${t(state.page)}`;document.querySelector('.skip-link').textContent=t('journal');app.innerHTML=shell();}
 function focusMain(){document.querySelector('#main')?.focus({preventScroll:true});window.scrollTo({top:0,behavior:'instant'});}
-function navigate(page,tab){if(state.saving)return;if(isRecording()){toast(t('stop'));return;}state.page=page;state.activeId=null;state.done=false;if(tab)state.tab=tab;render();focusMain();}
+function navigate(page,tab){if(state.saving)return;if(isRecording()||confession.isRecording()){toast(t('stop'));return;}state.page=page;state.activeId=null;state.done=false;if(tab)state.tab=tab;render();focusMain();}
 function closeModal(){const dialog=modalRoot.querySelector('dialog');if(dialog?.open)dialog.close();clearInterval(practiceTimer);practiceTimer=null;modalRoot.innerHTML='';modalFocus?.focus?.();}
-function modal(title,body,kind=''){if(isRecording()){toast(t('stop'));return;}modalFocus=document.activeElement;modalRoot.innerHTML=`<dialog data-kind="${kind}" aria-labelledby="modal-title"><div class="modal-header"><h2 id="modal-title">${tx(title)}</h2><button data-action="close-modal" aria-label="${tx('close')}">${ico('close')}</button></div><div class="modal-body">${body}</div></dialog>`;const dialog=modalRoot.querySelector('dialog');dialog.addEventListener('cancel',e=>{e.preventDefault();closeModal();});dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)closeModal();}});dialog.showModal();}
+function modal(title,body,kind=''){if(isRecording()||confession.isRecording()){toast(t('stop'));return;}modalFocus=document.activeElement;modalRoot.innerHTML=`<dialog data-kind="${kind}" aria-labelledby="modal-title"><div class="modal-header"><h2 id="modal-title">${tx(title)}</h2><button data-action="close-modal" aria-label="${tx('close')}">${ico('close')}</button></div><div class="modal-body">${body}</div></dialog>`;const dialog=modalRoot.querySelector('dialog');dialog.addEventListener('cancel',e=>{e.preventDefault();closeModal();});dialog.addEventListener('click',e=>{if(e.target===dialog){const r=dialog.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)closeModal();}});dialog.showModal();}
 function settings(){const options=compatibleEditions(editions,prefs),edition=options.find(e=>e.id===prefs.edition);modal('settings',`<p>${tx('preferencesSub')}</p>${profile.settings()}<div class="form-field"><label for="pref-language">${tx('interfaceLanguage')}</label><select id="pref-language" data-pref="language">${languageOptions(prefs.language)}</select></div><div class="form-field"><label for="pref-tradition">${tx('tradition')}</label><select id="pref-tradition" data-pref="tradition">${['protestant','catholic','orthodox'].map(id=>`<option value="${id}" ${prefs.tradition===id?'selected':''}>${tx(id)}</option>`).join('')}</select></div><div class="form-field"><label for="pref-scriptureLanguage">${tx('scriptureLanguage')}</label><select id="pref-scriptureLanguage" data-pref="scriptureLanguage">${languageOptions(prefs.scriptureLanguage)}</select></div><div class="form-field"><label for="pref-edition">${tx('edition')}</label><select id="pref-edition" data-pref="edition" ${options.length?'':'disabled'}>${options.length?options.map(e=>`<option value="${esc(e.id)}" ${prefs.edition===e.id?'selected':''}>${esc(e.name)}</option>`).join(''):`<option>${tx('unavailableShort')}</option>`}</select></div><p class="help">${tx('editionHelp')}</p>${edition?`<p class="help">${esc(edition.scope)}</p>`:`<p class="note-box">${tx('unavailable')}</p>`}<div class="modal-section"><h3>${tx('privacyTitle')}</h3><p>${tx('privacyDetail')}</p><p>${tx('communityPrivacy')}</p>${button('export','export','secondary','download')}<p class="help">${tx('exportHelp')}</p></div><div class="modal-actions">${button('close','close-modal')}</div>`,'settings');}
 function credits(){modal('sources',`<p>${tx('sourcesSub')}</p>${editions.map(e=>`<section class="credit-entry"><h3>${esc(e.name)}</h3><p>${esc(e.scope)}</p><p>${esc(e.attribution)}</p><a href="${esc(e.sourceUrl)}" target="_blank" rel="noopener noreferrer">${tx('source')}</a> · <a href="${esc(e.licenseUrl)}" target="_blank" rel="noopener noreferrer">${esc(e.license)}</a></section>`).join('')}<section class="credit-entry"><p>Grace & Gather · MVP 0.4 · ${tx('originalPractice')}</p><p>${tx('privacyNote')}</p></section>`);}
 function showSupport(fromSave=false){modal('support',`${supportContent()}${fromSave?`<div class="modal-actions">${button('cancel','close-modal','secondary')}${button('supportSave','save-support')}</div>`:''}`,'support');}
@@ -149,6 +153,7 @@ document.addEventListener('click',async event=>{
   const el=event.target.closest('button');if(!el||el.disabled)return;
   if(state.saving)return;
   if(await profile.click(el))return;
+  if(await confession.click(el))return;
   if(await community.handleClick(el))return;
   if(el.dataset.home){const where=el.dataset.home;community.reset(where);navigate(where,where==='journal'?'today':undefined);window.history.replaceState(null,'',location.pathname+(where==='journal'?'':'#'+where));return;}
   if(el.dataset.nav){navigate(el.dataset.nav);return;}
@@ -181,22 +186,23 @@ document.addEventListener('click',async event=>{
     case 'timer':toggleTimer();break;
   }
 });
-document.addEventListener('input',event=>{const el=event.target;profile.input(el);community.handleInput(el);if(el.id==='entry-text'){state.text=el.value;document.querySelector('#char-count').textContent=el.value.length;}if(el.id==='follow-text'){const e=currentEntry();e.followDraft={...e.followDraft,text:el.value};}if(el.id==='search'){state.query=el.value;document.querySelector('#entry-list').innerHTML=historyRows();}});
+document.addEventListener('input',event=>{const el=event.target;profile.input(el);community.handleInput(el);confession.input(el);if(el.id==='entry-text'){state.text=el.value;document.querySelector('#char-count').textContent=el.value.length;}if(el.id==='follow-text'){const e=currentEntry();e.followDraft={...e.followDraft,text:el.value};}if(el.id==='search'){state.query=el.value;document.querySelector('#entry-list').innerHTML=historyRows();}});
 document.addEventListener('change',event=>{
   const el=event.target;
+  confession.change(el);
   if(profile.change(el))return;
   if(el.id==='language'){prefs.language=el.value;persistPrefs();render();return;}
   if(el.dataset.pref){const key=el.dataset.pref;prefs=normalizePrefs({...prefs,[key]:el.value},editions);persistPrefs();closeModal();render();settings();document.querySelector(`[data-pref="${key}"]`)?.focus();return;}
   if(el.id==='filter'){state.filter=el.value;document.querySelector('#entry-list').innerHTML=historyRows();return;}
   if(el.id==='audio-upload'){const file=el.files?.[0];if(!file)return;if(!file.type.startsWith('audio/')||file.size>20*1024*1024||!file.size){toast(t('invalidAudio'));el.value='';return;}state.audio=file;state.audioName=file.name;render();toast(t('audioReady'));}
 });
-window.addEventListener('beforeunload',event=>{if(state.text.trim()||state.audio||isRecording()){event.preventDefault();event.returnValue='';}});
+window.addEventListener('beforeunload',event=>{if(state.text.trim()||state.audio||isRecording()||confession.hasDraft()||confession.isRecording()){event.preventDefault();event.returnValue='';}});
 window.addEventListener('pagehide',()=>{clearInterval(recordTimer);clearInterval(practiceTimer);stream?.getTracks().forEach(track=>track.stop());});
 
 async function init(){
   try{const response=await fetch('./scripture.json');if(!response.ok)throw new Error('Scripture unavailable');editions=(await response.json()).editions;}catch{editions=[];}
   try{prefs=normalizePrefs(JSON.parse(localStorage.getItem('still-preferences')||'null')??DEFAULT_PREFS,editions);}catch{prefs=normalizePrefs(DEFAULT_PREFS,editions);}
   try{db=await openDB();db.onversionchange=()=>{db.close();db=null;state.storageError=true;toast(t('storageError'));};state.entries=(await dbRead()).sort((a,b)=>b.createdAt.localeCompare(a.createdAt));}catch{state.storageError=true;}
-  await profile.ready();community.route();community.ready();
+  await profile.ready();community.route();community.ready();confession.ready();
 }
 init();
