@@ -50,6 +50,7 @@ export default function ConfessionRoom() {
     [theme, setTheme] = useState("loneliness"),
     [responseType, setResponseType] = useState("listen"),
     [consent, setConsent] = useState(false),
+    [audienceDetailsOpen, setAudienceDetailsOpen] = useState(false),
     [audio, setAudio] = useState<string>(),
     [recording, setRecording] = useState(false),
     [textInstead, setTextInstead] = useState(false),
@@ -285,8 +286,32 @@ export default function ConfessionRoom() {
           </Text>
           <Card>
             <Text style={s.subheading}>{t("cAudienceTitle")}</Text>
-            <Body small>{t("cAudience")}</Body>
-            <Body small>{t("cOneReply")}</Body>
+            <View style={s.disclosure}>
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel={t("cAudienceDetails")}
+                accessibilityState={{ expanded: audienceDetailsOpen }}
+                onPress={() => setAudienceDetailsOpen((open) => !open)}
+                style={({ pressed }) => [
+                  s.disclosureToggle,
+                  pressed && { opacity: 0.7 },
+                ]}
+              >
+                <Text style={s.disclosureLabel}>{t("cAudienceDetails")}</Text>
+                <Ionicons
+                  name={audienceDetailsOpen ? "chevron-up" : "chevron-down"}
+                  size={19}
+                  color={colors.cardInk}
+                  accessible={false}
+                />
+              </Pressable>
+              {audienceDetailsOpen && (
+                <View style={s.disclosureContent}>
+                  <Body small>{t("cAudience")}</Body>
+                  <Body small>{t("cOneReply")}</Body>
+                </View>
+              )}
+            </View>
             <Text style={s.label}>{t("cTheme")}</Text>
             <Row>
               {themes.map((k) => (
@@ -649,6 +674,26 @@ const s = StyleSheet.create({
     marginTop: 4,
   },
   subheading: { ...sharedStyles.subheading, color: colors.cardInk },
+  disclosure: {
+    borderBottomWidth: 1,
+    borderBottomColor: colors.cardLine,
+  },
+  disclosureToggle: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 12,
+    minHeight: 44,
+    paddingVertical: 10,
+  },
+  disclosureLabel: {
+    flex: 1,
+    color: colors.cardInk,
+    fontSize: 14,
+    lineHeight: 21,
+    fontWeight: "600",
+  },
+  disclosureContent: { gap: 14, paddingBottom: 16 },
   label: {
     color: colors.cardInk,
     fontSize: 13,
