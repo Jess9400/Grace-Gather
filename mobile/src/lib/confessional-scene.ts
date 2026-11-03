@@ -51,6 +51,8 @@ const wood: Material = { color: [0.46, 0.285, 0.17], kind: 0 };
 const dark: Material = { color: [0.29, 0.171, 0.095], kind: 0 };
 const trim: Material = { color: [0.515, 0.33, 0.205], kind: 0 };
 const brass: Material = { color: [0.43, 0.365, 0.265], kind: 1 };
+// Same espresso as confessionColors.background, including the opaque GL clear.
+const backdrop: Vec3 = [36 / 255, 29 / 255, 24 / 255];
 const leaf = (m: Material): Material => ({ ...m, moving: true });
 const rail = (m: Material): Material => ({ ...m, grain: "horizontal" });
 
@@ -300,7 +302,7 @@ export function buildConfessionalMesh() {
   });
   // The surrounding wall occludes the deep interior outside the arched opening.
   ring(0.94, 5, 0.6, -4, 0.195, 0.01, {
-    color: [30 / 255, 28 / 255, 26 / 255],
+    color: backdrop,
     kind: 3,
   });
   ring(0.8, 0.99, 0.6, -1.55, 0.03, 0.32, dark);
@@ -584,7 +586,7 @@ export function createConfessionalRenderer(
       draw(progress: number, entry = 0) {
         gl.useProgram(program);
         gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
-        gl.clearColor(0.118, 0.11, 0.102, 1);
+        gl.clearColor(...backdrop, 1);
         gl.clearDepth(1);
         gl.enable(gl.DEPTH_TEST);
         gl.disable(gl.CULL_FACE);
