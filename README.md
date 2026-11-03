@@ -111,3 +111,13 @@ Validation for this revision: 16 automated tests; browser check-in → verse →
 ## Community revision verification (2 November 2026)
 
 `npm run check`, `npm test` (22 tests), and `npm run build`. Added tests cover authentication, cross-origin write rejection, reaction idempotence, comment privacy/ownership, interest persistence, 24-hour timestamp boundaries, category coverage and calendar dates. Local mobile browser QA checks the four tabs, likes/comments after reload, mini-course progress, and the proposed calendar. The hosted build packages only authored assets and migrations; local SQLite test records are excluded.
+
+### Personal onboarding and city matching
+
+The seven-screen welcome flow collects a private account profile (name, broad city/state/country, starting intention, and an optional email with explicit opt-in). `GET/POST/DELETE /api/profile` derives identity only from Sites' authenticated header. Profiles are held in D1; journal text/audio remain in IndexedDB. Email preferences can be changed or removed in Profile. **No email delivery provider, schedule, or verification service is connected; no notifications are sent.** The interface states this before consent.
+
+Onboarding can be postponed for the browser session and reopened from Preferences. Bible preferences remain device-local, including their existing strict tradition/language compatibility. The home daily passage uses the reader's local calendar date and their selected sourced edition; unsupported combinations show an original encouragement and an availability explanation.
+
+Charities match normalized city names **and** state/country. The initial verified directory has São Paulo listings and a Rio de Janeiro network contact; an empty city displays no invented results and offers Atados and a Maps search. Visits and donations remain external to Still. Curated action-step books link to official authors/publishers, display the linked edition's language, and are separate from free Learn courses.
+
+For an isolated browser test, run `STILL_PREVIEW_PORT=4175 STILL_PREVIEW_DB=.preview/onboarding-qa.sqlite node scripts/serve-community.mjs`. This uses its own database and browser origin; do not test against a user's active draft.

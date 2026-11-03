@@ -1,4 +1,13 @@
 const json=(body,status=200)=>Response.json(body,{status,headers:{'Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});
+export function validateProfile(b){
+ const fields={name:60,city:80,region:80,email:254};
+ if(Object.entries(fields).some(([key,max])=>typeof b[key]!=='string'||b[key].length>max||/[\u0000-\u001f\u007f]/.test(b[key])))return null;
+ const name=b.name.trim(),city=b.city.trim(),region=b.region.trim(),email=b.email.trim().toLowerCase();
+ if(!name||!city||!['BR','PT','US','ES','RU','OTHER'].includes(b.country)||!['faith','calm','connection','kindness'].includes(b.intent)||typeof b.notifications!=='boolean')return null;
+ if(b.country==='BR'&&!['AC','AL','AP','AM','BA','CE','DF','ES','GO','MA','MT','MS','MG','PA','PB','PR','PE','PI','RJ','RN','RS','RO','RR','SC','SP','SE','TO'].includes(region))return null;
+ if(b.notifications?(!email||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)):!!email)return null;
+ return {name,city,region,country:b.country,intent:b.intent,email,notifications:b.notifications};
+}
 export function recentNews(xml,now=Date.now()){
   const clean=s=>String(s??'').replace(/<!\[CDATA\[([\s\S]*?)\]\]>/g,'$1').replace(/<[^>]*>/g,' ').replace(/&#(\d+);/g,(_,n)=>String.fromCodePoint(Math.min(Number(n),0x10ffff))).replace(/&amp;/g,'&').replace(/&quot;/g,'"').replace(/&#039;|&apos;/g,"'").replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/\s+/g,' ').trim();
   const field=(s,tag)=>clean(s.match(new RegExp(`<${tag}[^>]*>([\\s\\S]*?)<\\/${tag}>`,'i'))?.[1]);
@@ -27,6 +36,18 @@ export function createAPI(itemIds){
       }
       if(!env.DB)return json({error:'unavailable'},503);
       const db=env.DB;
+      if(path==='/api/profile'){
+        if(request.method==='GET'){
+          const row=await db.prepare('SELECT name,city,region,country,intent,email,notifications FROM profiles WHERE user=?').bind(user).first();
+          return json({profile:row?{...row,notifications:!!row.notifications}:null});
+        }
+        if(request.method==='DELETE'){await db.prepare('DELETE FROM profiles WHERE user=?').bind(user).run();return json({ok:true});}
+        const profile=validateProfile(payload);if(!profile)return json({error:'invalid_profile'},400);
+        const {name,city,region,country,intent,email,notifications}=profile;
+        await db.prepare('INSERT INTO profiles (user,name,city,region,country,intent,email,notifications,updated) VALUES (?,?,?,?,?,?,?,?,?) ON CONFLICT(user) DO UPDATE SET name=excluded.name,city=excluded.city,region=excluded.region,country=excluded.country,intent=excluded.intent,email=excluded.email,notifications=excluded.notifications,updated=excluded.updated').bind(user,name,city,region,country,intent,email,notifications?1:0,Date.now()).run();
+        return json({profile});
+      }
+
       if(path==='/api/social'&&request.method==='GET'){
         const [likes,comments,mine,interest]=await db.batch([
           db.prepare('SELECT item, count(*) AS count FROM likes GROUP BY item'),
