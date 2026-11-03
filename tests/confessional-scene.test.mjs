@@ -1,21 +1,23 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { buildConfessionalMesh, doorProgress, DOOR_OPEN_MS, SCENE_FADE_MS, THRESHOLD_MS, entranceFrame, ENTRANCE_MS, hingePoint, DOOR_HINGE } from '../mobile/src/lib/confessional-scene.ts';
+import { buildConfessionalMesh, MESH_STRIDE, doorProgress, DOOR_OPEN_MS, SCENE_FADE_MS, THRESHOLD_MS, entranceFrame, ENTRANCE_MS, hingePoint, DOOR_HINGE } from '../mobile/src/lib/confessional-scene.ts';
 import { confessionColors } from '../mobile/src/lib/confession-theme.ts';
 import { CONFESSION_COPY } from '../dist/confession-copy.js';
 
 test('mesh stays small, finite and normalized with separate door, metal and room materials', () => {
   const mesh = buildConfessionalMesh();
-  assert.equal(mesh.length % 33, 0);
+  assert.equal(mesh.length % (MESH_STRIDE * 3), 0);
   assert.ok(mesh.length > 1000 && mesh.byteLength < 1024 * 1024);
   const groups = new Set();
-  for (let i = 0; i < mesh.length; i += 11) {
-    const v = mesh.slice(i, i + 11);
+  for (let i = 0; i < mesh.length; i += MESH_STRIDE) {
+    const v = mesh.slice(i, i + MESH_STRIDE);
     assert.ok(v.every(Number.isFinite));
     assert.ok(Math.abs(Math.hypot(...v.slice(3, 6)) - 1) < 0.001);
     assert.ok(v.slice(6, 9).every(x => x >= 0 && x <= 1));
     assert.ok([0, 1, 2, 3].includes(v[9]));
     assert.ok([0, 1].includes(v[10]));
+    assert.equal(v.length, MESH_STRIDE);
+    assert.ok(v.slice(11).every(Number.isFinite));
     groups.add(v[10]);
   }
   assert.deepEqual([...groups].sort(), [0, 1]);
@@ -28,7 +30,7 @@ test('the hinge is fixed, the leaf swings inward and clears the back wall', () =
     const tip = hingePoint([.79, 0, .22], p);
     assert.ok(tip[2] <= .220001);
     assert.ok(Math.abs(Math.hypot(tip[0] + .79, tip[2] - .22) - 1.58) < .0001);
-    for (let i = 0; i < mesh.length; i += 11) {
+    for (let i = 0; i < mesh.length; i += MESH_STRIDE) {
       if (mesh[i + 10] !== 1) continue;
       const point = hingePoint([...mesh.slice(i, i + 3)], p);
       assert.ok(point[2] > -2.45, 'leaf must not intersect the back wall');
