@@ -14,16 +14,21 @@ import {
 } from "../../components/ui";
 import Recorder from "../../components/Recorder";
 import { useApp } from "../../lib/state";
-import { copy, dailyVerse, needsSupport } from "../../lib/content";
+import { copy, dailyVerse, needsSupport, Entry } from "../../lib/content";
 import { label } from "../../lib/labels";
 import { persistent } from "../../lib/storage";
+import { aiCopy } from "../../lib/ai-copy";
+import { suggestJourney } from "../../lib/ai";
+import { transcribeRecording } from "../../lib/ai-audio";
 export default function Journal() {
   const { profile, saveEntry } = useApp();
   const [text, setText] = useState(""),
     [audio, setAudio] = useState<string>(),
     [error, setError] = useState(""),
     [busy, setBusy] = useState(false),
-    [recording, setRecording] = useState(false);
+    [recording, setRecording] = useState(false),
+    [useAI, setUseAI] = useState(false),
+    [transcribed, setTranscribed] = useState(false);
   const t = (k: string) => copy(profile.language, k),
     verse = dailyVerse(profile),
     support = needsSupport(text);
@@ -32,10 +37,14 @@ export default function Journal() {
       setError(t("needEntry"));
       return;
     }
+    if (useAI && !text.trim()) {
+      setError(aiCopy(profile.language, "writingFirst"));
+      return;
+    }
     setBusy(true);
     const id = randomUUID();
     try {
-      await saveEntry({
+      let entry: Entry = {
         id,
         createdAt: new Date().toISOString(),
         mood: "unsure",
@@ -44,10 +53,29 @@ export default function Journal() {
         audio,
         safety: support,
         prefs: profile,
-      });
+      };
+      await saveEntry(entry);
+      if (useAI && !support) {
+        try {
+          const suggestion = await suggestJourney(text.trim(), profile);
+          entry = {
+            ...entry,
+            mood: suggestion.path,
+            guidance: "ai",
+            safety: suggestion.support,
+            passageIds: suggestion.passageIds,
+            actionIds: suggestion.actionIds,
+          };
+        } catch {
+          entry = { ...entry, aiUnavailable: true };
+        }
+        await saveEntry(entry);
+      }
       setText("");
       setAudio(undefined);
       setError("");
+      setUseAI(false);
+      setTranscribed(false);
       router.push({ pathname: "/entry/[id]", params: { id } });
     } catch {
       setError(t("storageError"));
@@ -92,7 +120,49 @@ export default function Journal() {
         onChange={setAudio}
         onBusyChange={setRecording}
       />
-      <Body small>{t("previewExplanation")}</Body>
+      <Card>
+        <Subheading>{aiCopy(profile.language, "title")}</Subheading>
+        <Body small>{aiCopy(profile.language, "consent")}</Body>
+        <Button
+          secondary
+          disabled={busy || recording}
+          title={aiCopy(profile.language, useAI ? "off" : "agree")}
+          onPress={() => setUseAI(!useAI)}
+        />
+        {useAI && (
+          <Button
+            secondary
+            disabled={busy}
+            title={aiCopy(profile.language, "signIn")}
+            onPress={() => router.push("/account")}
+          />
+        )}
+        {useAI && audio && (
+          <Button
+            disabled={busy || recording}
+            title={aiCopy(profile.language, "transcribe")}
+            onPress={() => {
+              setBusy(true);
+              setError("");
+              void transcribeRecording(audio, profile.language)
+                .then((transcript) => {
+                  setText((previous) =>
+                    [previous.trim(), transcript]
+                      .filter(Boolean)
+                      .join("\n\n")
+                      .slice(0, 30000),
+                  );
+                  setTranscribed(true);
+                })
+                .catch(() =>
+                  setError(aiCopy(profile.language, "requestFailed")),
+                )
+                .finally(() => setBusy(false));
+            }}
+          />
+        )}
+        {transcribed && <Body small>{aiCopy(profile.language, "review")}</Body>}
+      </Card>
       {support && (
         <Card>
           <Subheading>{t("supportTitle")}</Subheading>
@@ -103,11 +173,17 @@ export default function Journal() {
       <Notice text={error} />
       <Button
         disabled={busy || recording}
-        title={t(support ? "supportSave" : "continue")}
+        title={
+          busy
+            ? aiCopy(profile.language, "working")
+            : t(support ? "supportSave" : "continue")
+        }
         onPress={() => void submit()}
       />
       <Body small>
-        {label(profile.language, persistent ? "device" : "webDemo")}
+        {persistent
+          ? aiCopy(profile.language, "local")
+          : label(profile.language, "webDemo")}
       </Body>
       <Button
         secondary

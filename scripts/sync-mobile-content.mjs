@@ -8,6 +8,8 @@ import {FEED,COURSES,CATEGORIES,ORGANIZATIONS} from '../dist/community-data.js';
 import {BOOKS} from '../dist/books.js';
 import {PSALM23} from '../dist/psalms.js';
 const editions=JSON.parse(await readFile('dist/scripture.json','utf8')).editions;
+await mkdir('supabase/functions/_shared',{recursive:true});
+await writeFile('supabase/functions/_shared/journey-catalog.json',JSON.stringify({editions,PATHS}));
 await mkdir('mobile/src/generated',{recursive:true});
 await writeFile('mobile/src/generated/catalog.json',JSON.stringify({editions,COPY,CONFESSION_COPY,FLOW_COPY,COMMUNITY_COPY,PROFILE_COPY,PATHS,ACTIONS,EVIDENCE,ACTION_EVIDENCE,FEED,COURSES,CATEGORIES,ORGANIZATIONS,BOOKS,PSALM23},null,2));
 for(const f of ['core.js','journey.js','personalization.js'])await copyFile('dist/'+f,'mobile/src/generated/'+f);

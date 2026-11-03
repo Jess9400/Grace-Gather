@@ -14,8 +14,18 @@ export function env(name: string) {
   if (!value) throw new Error("service_not_configured");
   return value;
 }
+// Prefer independently rotatable keys; retain compatibility with older runtimes.
+export function apiKey(kind: "publishable" | "secret") {
+  const dictionary = Deno.env.get(kind === "secret" ? "SUPABASE_SECRET_KEYS" : "SUPABASE_PUBLISHABLE_KEYS");
+  if (dictionary) {
+    const key = JSON.parse(dictionary).default;
+    if (typeof key !== "string" || !key) throw new Error("service_not_configured");
+    return key;
+  }
+  return env(kind === "secret" ? "SUPABASE_SERVICE_ROLE_KEY" : "SUPABASE_ANON_KEY");
+}
 export const admin = () =>
-  createClient(env("SUPABASE_URL"), env("SUPABASE_SERVICE_ROLE_KEY"), {
+  createClient(env("SUPABASE_URL"), apiKey("secret"), {
     auth: { persistSession: false, autoRefreshToken: false },
   });
 export async function identity(req: Request) {
@@ -24,7 +34,7 @@ export async function identity(req: Request) {
   const service = admin();
   const { data, error } = await service.auth.getUser(token);
   if (error || !data.user) throw new Error("unauthorized");
-  const client = createClient(env("SUPABASE_URL"), env("SUPABASE_ANON_KEY"), {
+  const client = createClient(env("SUPABASE_URL"), apiKey("publishable"), {
     global: { headers: { Authorization: "Bearer " + token } },
     auth: { persistSession: false },
   });

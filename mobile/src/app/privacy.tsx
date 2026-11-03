@@ -17,7 +17,7 @@ const policy = {
     ],
     [
       "Your private journal",
-      "Text, feelings, reflections and recordings are stored in an encrypted database and encrypted audio files on your device. The encryption key is kept in the device keychain. The browser preview keeps temporary data in memory. We do not automatically upload your journal or process it with AI. Exported backups are encrypted; keep the recovery key separately. Losing the key or deleting the app may make local data unrecoverable.",
+      "Text, feelings, reflections and recordings are stored in an encrypted database and encrypted audio files on your device. The encryption key is kept in the device keychain. The browser preview keeps temporary data in memory. We do not automatically upload your journal. If you explicitly enable AI for an entry, its text and language settings are sent through Supabase to Alibaba Cloud Qwen to suggest a theme. Optional transcription sends the selected recording to Qwen only when you press Transcribe. You can review and edit the transcript before analysis, correct the suggested theme, or continue without AI. Our database does not retain AI request text, audio or transcripts; providers process them under their own terms and retention policies, potentially outside your country. Usage counters expire after two days and are removed on the next AI request. Exported backups are encrypted; keep the recovery key separately. Losing the key or deleting the app may make local data unrecoverable.",
     ],
     [
       "Your account and community",
@@ -43,7 +43,7 @@ const policy = {
     ],
     [
       "Seu diário privado",
-      "Textos, sentimentos, reflexões e gravações ficam criptografados neste dispositivo. A chave fica no chaveiro seguro do aparelho. A prévia no navegador usa memória temporária. Não enviamos seu diário automaticamente nem o processamos com IA. As cópias exportadas são criptografadas; guarde a chave de recuperação separadamente. A perda da chave ou exclusão do app pode impedir a recuperação.",
+      "Textos, sentimentos, reflexões e gravações ficam criptografados neste dispositivo. A chave fica no chaveiro seguro do aparelho. A prévia no navegador usa memória temporária. Não enviamos seu diário automaticamente. Ao ativar a IA para uma entrada, o texto e as configurações de idioma são enviados pelo Supabase ao Alibaba Cloud Qwen para sugerir um tema. A gravação só é enviada ao Qwen quando você toca em Transcrever. Você pode revisar e editar a transcrição, corrigir o tema ou continuar sem IA. Nosso banco não armazena texto, áudio ou transcrições dessas solicitações; os provedores os processam conforme seus próprios termos e políticas de retenção, possivelmente fora do seu país. Os contadores de uso expiram após dois dias e são removidos na próxima solicitação de IA. As cópias exportadas são criptografadas; guarde a chave de recuperação separadamente. A perda da chave ou exclusão do app pode impedir a recuperação.",
     ],
     [
       "Sua conta e comunidade",
@@ -69,7 +69,7 @@ const policy = {
     ],
     [
       "Tu diario privado",
-      "Textos, sentimientos, reflexiones y grabaciones se cifran en tu dispositivo. La clave se guarda en su llavero seguro. La vista previa usa memoria temporal. No subimos tu diario automáticamente ni lo procesamos con IA. Las copias exportadas están cifradas; guarda la clave de recuperación aparte. Perderla o borrar la app puede impedir recuperar los datos.",
+      "Textos, sentimientos, reflexiones y grabaciones se cifran en tu dispositivo. La clave se guarda en su llavero seguro. La vista previa usa memoria temporal. No subimos tu diario automáticamente. Si activas la IA para una entrada, el texto y los ajustes de idioma se envían mediante Supabase a Alibaba Cloud Qwen para sugerir un tema. La grabación solo se envía al pulsar Transcribir. Puedes revisar y editar la transcripción, corregir el tema o continuar sin IA. Nuestra base de datos no conserva texto, audio ni transcripciones de estas solicitudes; los proveedores los procesan según sus propios términos y políticas de retención, posiblemente fuera de tu país. Los contadores de uso caducan a los dos días y se eliminan en la siguiente solicitud de IA. Las copias exportadas están cifradas; guarda la clave de recuperación aparte. Perderla o borrar la app puede impedir recuperar los datos.",
     ],
     [
       "Tu cuenta y comunidad",
@@ -95,7 +95,7 @@ const policy = {
     ],
     [
       "Личный дневник",
-      "Текст, чувства, размышления и аудио хранятся на устройстве в зашифрованном виде. Ключ хранится в защищённой связке ключей. Браузерная версия использует временную память. Мы не загружаем дневник автоматически и не обрабатываем его ИИ. Экспортированные копии зашифрованы; храните ключ восстановления отдельно. Утрата ключа или удаление приложения могут сделать данные недоступными.",
+      "Текст, чувства, размышления и аудио хранятся на устройстве в зашифрованном виде. Ключ хранится в защищённой связке ключей. Браузерная версия использует временную память. Мы не загружаем дневник автоматически. Если вы включите ИИ для записи, текст и языковые настройки передаются через Supabase в Alibaba Cloud Qwen для определения темы. Аудиозапись передаётся только по нажатию кнопки расшифровки. Можно проверить и изменить текст, исправить тему или продолжить без ИИ. Наша база не сохраняет текст, аудио и расшифровки этих запросов; провайдеры обрабатывают их по своим условиям и правилам хранения, возможно за пределами вашей страны. Счётчики использования истекают через два дня и удаляются при следующем запросе ИИ. Экспортированные копии зашифрованы; храните ключ восстановления отдельно. Утрата ключа или удаление приложения могут сделать данные недоступными.",
     ],
     [
       "Аккаунт и сообщество",

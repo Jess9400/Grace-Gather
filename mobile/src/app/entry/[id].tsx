@@ -19,14 +19,17 @@ import {
   passagesFor,
   localized,
   needsSupport,
+  moods,
 } from "../../lib/content";
+import { aiCopy } from "../../lib/ai-copy";
 export default function EntryScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { entries, profile, saveEntry } = useApp();
   const entry = entries.find((e) => e.id === id);
   const [stage, setStage] = useState(0),
     [reflection, setReflection] = useState(entry?.reflection ?? ""),
-    [error, setError] = useState("");
+    [error, setError] = useState(""),
+    [correcting, setCorrecting] = useState(false);
   const t = (k: string) => copy(profile.language, k);
   if (!entry)
     return (
@@ -35,7 +38,9 @@ export default function EntryScreen() {
       </Screen>
     );
   const path = data.PATHS[entry.mood],
-    verses = passagesFor(entry.prefs, entry.mood);
+    verses = passagesFor(entry.prefs, entry.mood).filter(
+      (v) => !entry.passageIds || entry.passageIds.includes(v.id),
+    );
   async function choose(action: string) {
     if (!entry) return;
     try {
@@ -63,6 +68,43 @@ export default function EntryScreen() {
         )}
       </Heading>
       <Notice text={error} />
+      {entry.aiUnavailable && (
+        <Notice text={aiCopy(profile.language, "failed")} />
+      )}
+      {entry.guidance === "ai" && !entry.safety && (
+        <Card>
+          <Body>
+            {aiCopy(profile.language, "interpretation")} {t(entry.mood)}
+          </Body>
+          <Button
+            secondary
+            title={aiCopy(profile.language, "change")}
+            onPress={() => setCorrecting(!correcting)}
+          />
+          {correcting &&
+            moods.map((mood) => (
+              <Button
+                secondary
+                key={mood}
+                title={t(mood)}
+                onPress={() => {
+                  void saveEntry({
+                    ...entry,
+                    mood,
+                    guidance: "selected",
+                    passageIds: undefined,
+                    actionIds: undefined,
+                  })
+                    .then(() => {
+                      setCorrecting(false);
+                      setStage(0);
+                    })
+                    .catch(() => setError(t("storageError")));
+                }}
+              />
+            ))}
+        </Card>
+      )}
       {entry.safety ? (
         <>
           <Body>{t("supportDesc")}</Body>
@@ -74,7 +116,7 @@ export default function EntryScreen() {
           {stage === 0 && (
             <>
               {entry.guidance === "general" && (
-                <Body small>{t("previewExplanation")}</Body>
+                <Body small>{t("generalContext")}</Body>
               )}
               <Body>
                 {t(
@@ -117,59 +159,64 @@ export default function EntryScreen() {
                     : "actionIntro",
                 )}
               </Body>
-              {path.actions.map((action) => {
-                const evidence =
-                  data.EVIDENCE[
-                    data.ACTION_EVIDENCE[
-                      action as keyof typeof data.ACTION_EVIDENCE
-                    ] as keyof typeof data.EVIDENCE
-                  ];
-                return (
-                  <Card key={action}>
-                    <Subheading>{t(action)}</Subheading>
-                    <Body>{t(action + "Body")}</Body>
-                    <Body small>{t("whyHelp")}</Body>
-                    <Body>{t(evidence.key)}</Body>
-                    {"url" in evidence && (
-                      <External title={evidence.source} url={evidence.url} />
-                    )}
-                    <Body small>{t("evidenceNote")}</Body>
-                    {action === "visitElders" || action === "smallGood" ? (
+              {path.actions
+                .filter(
+                  (action) =>
+                    !entry.actionIds || entry.actionIds.includes(action),
+                )
+                .map((action) => {
+                  const evidence =
+                    data.EVIDENCE[
+                      data.ACTION_EVIDENCE[
+                        action as keyof typeof data.ACTION_EVIDENCE
+                      ] as keyof typeof data.EVIDENCE
+                    ];
+                  return (
+                    <Card key={action}>
+                      <Subheading>{t(action)}</Subheading>
+                      <Body>{t(action + "Body")}</Body>
+                      <Body small>{t("whyHelp")}</Body>
+                      <Body>{t(evidence.key)}</Body>
+                      {"url" in evidence && (
+                        <External title={evidence.source} url={evidence.url} />
+                      )}
+                      <Body small>{t("evidenceNote")}</Body>
+                      {action === "visitElders" || action === "smallGood" ? (
+                        <Button
+                          secondary
+                          title={t("pNearYou")}
+                          onPress={() => router.push("/organizations")}
+                        />
+                      ) : null}
+                      {action === "community" || action === "tellSomeone" ? (
+                        <Button
+                          secondary
+                          title={t("weeklySessionTitle")}
+                          onPress={() => router.push("/(tabs)/gatherings")}
+                        />
+                      ) : null}
+                      {action === "gentleWalk" || action === "goodNews" ? (
+                        <Button
+                          secondary
+                          title={t(action === "goodNews" ? "news" : "music")}
+                          onPress={() =>
+                            router.push({
+                              pathname: "/(tabs)/explore",
+                              params: {
+                                category:
+                                  action === "goodNews" ? "news" : "music",
+                              },
+                            })
+                          }
+                        />
+                      ) : null}
                       <Button
-                        secondary
-                        title={t("pNearYou")}
-                        onPress={() => router.push("/organizations")}
+                        title={t("chooseStep")}
+                        onPress={() => void choose(action)}
                       />
-                    ) : null}
-                    {action === "community" || action === "tellSomeone" ? (
-                      <Button
-                        secondary
-                        title={t("weeklySessionTitle")}
-                        onPress={() => router.push("/(tabs)/gatherings")}
-                      />
-                    ) : null}
-                    {action === "gentleWalk" || action === "goodNews" ? (
-                      <Button
-                        secondary
-                        title={t(action === "goodNews" ? "news" : "music")}
-                        onPress={() =>
-                          router.push({
-                            pathname: "/(tabs)/explore",
-                            params: {
-                              category:
-                                action === "goodNews" ? "news" : "music",
-                            },
-                          })
-                        }
-                      />
-                    ) : null}
-                    <Button
-                      title={t("chooseStep")}
-                      onPress={() => void choose(action)}
-                    />
-                  </Card>
-                );
-              })}
+                    </Card>
+                  );
+                })}
               <Subheading>{t("pBooks")}</Subheading>
               <Body small>{t("pBookNote")}</Body>
               {data.BOOKS.filter((b) => b.moods.includes(entry.mood))

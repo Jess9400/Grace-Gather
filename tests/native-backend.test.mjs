@@ -1,6 +1,6 @@
 import { test, before, after } from "node:test";
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
 import { PGlite } from "@electric-sql/pglite";
 let db;
 const alice = "11111111-1111-4111-8111-111111111111",
@@ -15,13 +15,9 @@ before(async () => {
   await db.exec(
     "create schema storage;create table storage.buckets(id text primary key,name text,public boolean,file_size_limit bigint,allowed_mime_types text[]);create table storage.objects(id uuid primary key default gen_random_uuid(),bucket_id text,name text);alter table storage.objects enable row level security;grant usage on schema storage to authenticated;grant select,insert,update,delete on storage.objects to authenticated;",
   );
-  for (const file of [
-    "202611030001_core.sql",
-    "202611030002_private_storage.sql",
-    "202611030003_operations.sql",
-    "202611030004_grace_and_gather_brand.sql",
-    "202611030005_confession.sql",
-  ])
+  // Match Supabase's permissive hosted defaults so grant regressions are caught.
+  await db.exec("alter default privileges in schema public grant all on tables to anon,authenticated,service_role;alter default privileges in schema public grant execute on functions to anon,authenticated,service_role;");
+  for (const file of (await readdir(new URL('../supabase/migrations/', import.meta.url))).filter(f=>f.endsWith('.sql')).sort())
     await db.exec(
       await readFile(
         new URL("../supabase/migrations/" + file, import.meta.url),
@@ -34,6 +30,20 @@ before(async () => {
 });
 after(async () => {
   await db?.close();
+});
+test('AI counters are service-only and share minute, daily and project limits', async()=>{
+  await assert.rejects(as(alice,`select public.reserve_ai_request('${alice}','journey')`));
+  await assert.rejects(as(alice,'select * from private.ai_usage'));
+  const reserve=async(user,kind='journey')=>(await as('',`select public.reserve_ai_request('${user}','${kind}') as allowed`,'service_role')).rows[0].allowed;
+  assert.equal(await reserve(event),false);
+  for(let i=0;i<5;i++)assert.equal(await reserve(alice,i%2?'journey':'transcribe'),true);
+  assert.equal(await reserve(alice),false);
+  await db.exec(`delete from private.ai_usage where key like 'minute:%';update private.ai_usage set requests=30 where key like 'day:${alice}:%';`);
+  assert.equal(await reserve(alice),false);
+  assert.equal(await reserve(bob),true);
+  await db.exec("update private.ai_usage set requests=500 where key like 'global:%'");
+  assert.equal(await reserve(staff),false);
+  await db.exec('delete from private.ai_usage');
 });
 async function as(user, sql, role = "authenticated") {
   await db.exec("reset role");

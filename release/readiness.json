@@ -9,7 +9,7 @@
   "contentRightsReviewed": false,
   "fourLanguageReviewComplete": false,
   "moderationStaffAssigned": false,
-  "backendMigrationsApplied": false,
+  "backendMigrationsApplied": true,
   "authEmailTemplateAndSMTPTested": false,
   "accountDeletionTestedOnDevice": false,
   "encryptedStorageAndRestoreTestedOnDevice": false,
@@ -21,6 +21,8 @@
   "encryptionExportComplianceReviewed": false,
   "appStoreAgeRatingReviewed": false,
   "accessibilityAndDeviceQAComplete": false,
-  "llmEnabled": false,
-  "dependencySecurityReviewed": false
+  "llmEnabled": true,
+  "dependencySecurityReviewed": false,
+  "llmPrivacyConsentSafetyReviewed": false,
+  "llmProviderConnectionVerified": false
 }

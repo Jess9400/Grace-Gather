@@ -32,7 +32,10 @@ export interface Entry {
   id: string;
   createdAt: string;
   mood: Mood;
-  guidance?: "general" | "selected";
+  guidance?: "general" | "selected" | "ai";
+  aiUnavailable?: boolean;
+  passageIds?: string[];
+  actionIds?: string[];
   text: string;
   audio?: string;
   action?: string;

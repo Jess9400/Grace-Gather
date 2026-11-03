@@ -1,6 +1,10 @@
 -- New native backend. Existing Sites/D1 data is intentionally not moved automatically.
 create schema if not exists private;
 revoke all on schema private from public, anon, authenticated;
+-- Fresh hosted projects can grant ALL to app roles by default. Start closed,
+-- then grant only the table/column operations used by the app below.
+alter default privileges in schema public revoke all on tables from public, anon, authenticated;
+alter default privileges in schema public revoke execute on functions from public, anon, authenticated;
 create table public.profiles (
  id uuid primary key references auth.users(id) on delete cascade,
  name text not null default '' check(char_length(name)<=60),
@@ -22,6 +26,7 @@ create function private.is_staff() returns boolean language sql stable security 
 create function private.can_participate() returns boolean language sql stable security definer set search_path='' as $$ select (select auth.uid()) is not null and not exists(select 1 from private.suspensions where user_id=(select auth.uid())); $$;
 grant usage on schema private to authenticated;
 grant execute on function private.is_staff(),private.can_participate() to authenticated;
+revoke execute on function private.is_staff(),private.can_participate() from public,anon;
 create table public.likes(item_id text references public.content_items(id) on delete cascade,user_id uuid references auth.users(id) on delete cascade,created_at timestamptz not null default now(),primary key(item_id,user_id));
 create table public.comments(id uuid primary key default gen_random_uuid(),item_id text not null references public.content_items(id) on delete cascade,user_id uuid not null references auth.users(id) on delete cascade,alias text not null check(char_length(trim(alias)) between 1 and 40),body text not null check(char_length(trim(body)) between 1 and 600),status text not null default 'pending' check(status in ('pending','approved','removed')),created_at timestamptz not null default now());
 create index comments_item_created on public.comments(item_id,created_at);
@@ -104,3 +109,8 @@ create function public.raise_hand(p_gathering uuid,p_raised boolean) returns voi
 create function public.staff_role() returns text language sql stable security definer set search_path='' as $$select role from private.staff where user_id=auth.uid();$$;
 revoke all on function public.post_comment(text,text,text),public.report_content(text,uuid,text,text),public.feed_stats(),public.rsvp(uuid,boolean),public.raise_hand(uuid,boolean),public.staff_role() from public,anon;
 grant execute on function public.post_comment(text,text,text),public.report_content(text,uuid,text,text),public.feed_stats(),public.rsvp(uuid,boolean),public.raise_hand(uuid,boolean),public.staff_role() to authenticated;
+grant select,insert,update,delete on all tables in schema public to service_role;
+alter table private.staff enable row level security;
+alter table private.suspensions enable row level security;
+alter table private.apple_tokens enable row level security;
+alter table private.delivery_jobs enable row level security;

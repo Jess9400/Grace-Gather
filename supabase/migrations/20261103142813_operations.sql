@@ -2,6 +2,7 @@
 grant select on public.gatherings to anon;
 create policy public_schedule on public.gatherings for select to anon using(status='published');
 create table private.gathering_bans(gathering_id uuid references public.gatherings(id) on delete cascade,user_id uuid references auth.users(id) on delete cascade,primary key(gathering_id,user_id));
+alter table private.gathering_bans enable row level security;
 create function public.participation_allowed() returns boolean language sql stable security definer set search_path='' as $$select private.can_participate();$$;
 revoke all on function public.participation_allowed() from public,anon;
 grant execute on function public.participation_allowed() to authenticated;

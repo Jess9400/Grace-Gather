@@ -18,14 +18,17 @@ const required = [
 ];
 const missing = required.filter((key) => !process.env[key]);
 for (const [key, value] of Object.entries(readiness))
-  if (typeof value === "boolean" && key !== "llmEnabled" && !value)
+  if (
+    typeof value === "boolean" &&
+    key !== "llmEnabled" &&
+    !value &&
+    (!key.startsWith("llm") || readiness.llmEnabled)
+  )
     missing.push(key);
 for (const key of ["privacyPolicyUrl", "supportUrl"])
   if (!/^https:\/\//.test(readiness[key])) missing.push(key);
 if (process.env.APPLE_BUNDLE_ID?.includes("preview"))
   missing.push("production bundle identifier");
-if (readiness.llmEnabled)
-  missing.push("LLM privacy, consent and safety review (adapter is disabled)");
 if (missing.length) {
   console.error(
     "App Store release is blocked until these settings/checks are complete:\n" +
