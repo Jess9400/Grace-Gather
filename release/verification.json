@@ -1,16 +1,52 @@
 {
   "date": "2026-11-03",
-  "automatedTests": {"passed":38,"failed":0},
+  "automatedTests": {
+    "passed": 56,
+    "failed": 0
+  },
   "nativeTypeScript": "passed",
   "nativeESLint": "passed",
   "expoDoctor": "20/20 checks passed",
   "iosJavaScriptBundle": "exported; not a signed native binary",
   "webBundle": "exported",
-  "edgeFunctionTypeChecks": "all six passed with Deno",
-  "browserChecks": ["390px mobile layout", "Portuguese onboarding", "unsupported Catholic/Portuguese scripture state", "guest journaling", "sadness to sourced verses to action to saved reflection", "Explore categories and account requirement"],
-  "notVerified": ["physical iPhone encryption and audio", "signed native compilation", "production Supabase deployment and authentication", "Apple sign-in and token revocation", "email and push delivery", "LiveKit gathering on real devices", "backup recovery on a second device"],
-  "dependencyAudit": {"high":0,"critical":0,"moderate":26,"causes":["glob filesystem cancellation advisory in toolchain","minimatch glob amplification advisory in toolchain"]},
+  "edgeFunctionTypeChecks": "Six functions passed in the earlier verification; no edge-function code changed in this mobile update",
+  "notVerified": [
+    "physical iPhone encryption and audio",
+    "signed native compilation",
+    "successful production email authentication",
+    "Apple sign-in and token revocation",
+    "email and push delivery",
+    "LiveKit gathering on real devices",
+    "backup recovery on a second device"
+  ],
+  "dependencyAudit": {
+    "high": 0,
+    "critical": 0,
+    "moderate": 26,
+    "causes": [
+      "glob filesystem cancellation advisory in toolchain",
+      "minimatch glob amplification advisory in toolchain"
+    ]
+  },
   "appStoreSubmitted": false,
   "llmConnected": false,
-  "supabaseConnected": false
+  "supabaseConnected": true,
+  "historicalBrowserChecks": [
+    "390px mobile layout",
+    "Portuguese onboarding",
+    "unsupported Catholic/Portuguese scripture state",
+    "guest journaling",
+    "sadness to sourced verses to action to saved reflection",
+    "Explore categories and account requirement"
+  ],
+  "browserChecks": [
+    "English and Portuguese email typo suggestions; explicit correction verified in English",
+    "Empty email disables code sending",
+    "English, Portuguese, Spanish and Russian account screens",
+    "Russian gathering calendar selected date shows the empty state"
+  ],
+  "externalBlockers": {
+    "email": "Google SMTP 535 5.7.8 continued after the owner reported replacing the app password for hello@findflockie.com; latest observed rejection 2026-11-03 16:16:42 UTC",
+    "alibaba": "Owner reports identity verification submitted; approval and successful model/transcription output remain pending"
+  }
 }

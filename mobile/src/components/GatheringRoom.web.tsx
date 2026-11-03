@@ -1,3 +1,5 @@
+import { useApp } from "../lib/state";
+import { label } from "../lib/labels";
 import { Body } from "./ui";
 export interface RoomAccess {
   token: string;
@@ -10,5 +12,6 @@ export default function GatheringRoom(_props: {
   id: string;
   access: RoomAccess;
 }) {
-  return <Body>Join this audio gathering in the iPhone app.</Body>;
+  const { profile } = useApp();
+  return <Body>{label(profile.language, "gatheringNative")}</Body>;
 }

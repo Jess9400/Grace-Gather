@@ -11,6 +11,8 @@ import {
 import { AudioModule } from "expo-audio";
 import { router } from "expo-router";
 import { Button, Body, Card, Notice } from "./ui";
+import { useApp } from "../lib/state";
+import { label } from "../lib/labels";
 import { requireUser } from "../lib/backend";
 registerGlobals();
 export interface RoomAccess {
@@ -21,6 +23,8 @@ export interface RoomAccess {
   canSpeak: boolean;
 }
 function Controls({ id, access }: { id: string; access: RoomAccess }) {
+  const { profile } = useApp();
+  const l = (key: string) => label(profile.language, key);
   const { localParticipant, isMicrophoneEnabled } = useLocalParticipant(),
     permissions = useLocalParticipantPermissions(),
     participants = useParticipants(),
@@ -43,7 +47,7 @@ function Controls({ id, access }: { id: string; access: RoomAccess }) {
         router.back();
       }
     } catch {
-      setNotice("Could not update the gathering. Please try again.");
+      setNotice(l("roomUpdateError"));
     }
   }
   useEffect(() => {
@@ -58,28 +62,28 @@ function Controls({ id, access }: { id: string; access: RoomAccess }) {
   }, [access.endsAt, room]);
   return (
     <>
-      <Body>
-        Audio conversation · microphone off until you choose to speak.
-      </Body>
+      <Body>{l("audioIntro")}</Body>
       <Notice text={notice} />
       {permissions?.canPublish ? (
         <Button
-          title={isMicrophoneEnabled ? "Mute microphone" : "Turn on microphone"}
+          title={isMicrophoneEnabled ? l("micMute") : l("micEnable")}
           onPress={() => {
             void (async () => {
-              const permission =
-                await AudioModule.requestRecordingPermissionsAsync();
-              if (!permission.granted) {
-                setNotice("Microphone access was not granted.");
-                return;
+              if (!isMicrophoneEnabled) {
+                const permission =
+                  await AudioModule.requestRecordingPermissionsAsync();
+                if (!permission.granted) {
+                  setNotice(l("micDenied"));
+                  return;
+                }
               }
               await localParticipant.setMicrophoneEnabled(!isMicrophoneEnabled);
-            })().catch(() => setNotice("Could not enable your microphone."));
+            })().catch(() => setNotice(l("micError")));
           }}
         />
       ) : (
         <Button
-          title={raised ? "Lower hand" : "Raise hand to speak"}
+          title={raised ? l("handLower") : l("handRaise")}
           onPress={() => {
             void requireUser()
               .then(async ({ client }) => {
@@ -90,22 +94,24 @@ function Controls({ id, access }: { id: string; access: RoomAccess }) {
                 if (error) throw error;
                 setRaised(!raised);
               })
-              .catch(() => setNotice("Could not update your hand."));
+              .catch(() => setNotice(l("handError")));
           }}
         />
       )}
       {participants.map((p) => (
         <Card key={p.identity}>
           <Body>
-            {p.name || "Participant"}
-            {p.isSpeaking ? " · speaking" : ""}
+            {p.name || l("participant")}
+            {p.isSpeaking ? " · " + l("speaking") : ""}
           </Body>
           {access.host && !p.isLocal && (
             <>
               <Button
                 secondary
                 title={
-                  p.permissions?.canPublish ? "Make listener" : "Allow to speak"
+                  p.permissions?.canPublish
+                    ? l("makeListener")
+                    : l("allowSpeaking")
                 }
                 onPress={() =>
                   void command(
@@ -117,7 +123,7 @@ function Controls({ id, access }: { id: string; access: RoomAccess }) {
               />
               <Button
                 secondary
-                title="Remove participant"
+                title={l("removeParticipant")}
                 onPress={() => void command("remove", p.identity)}
               />
             </>
@@ -127,12 +133,12 @@ function Controls({ id, access }: { id: string; access: RoomAccess }) {
       {access.host && (
         <Button
           secondary
-          title="End gathering for everyone"
+          title={l("endGathering")}
           onPress={() => void command("close")}
         />
       )}
       <Button
-        title="Leave gathering"
+        title={l("leaveGathering")}
         onPress={() => {
           void room.disconnect();
           router.back();
@@ -148,6 +154,8 @@ export default function GatheringRoom({
   id: string;
   access: RoomAccess;
 }) {
+  const { profile } = useApp();
+  const l = (key: string) => label(profile.language, key);
   const [ready, setReady] = useState(false),
     [error, setError] = useState("");
   useEffect(() => {
@@ -156,13 +164,15 @@ export default function GatheringRoom({
       .then(() => {
         if (active) setReady(true);
       })
-      .catch(() => setError("Audio could not start."));
+      .catch(() => {
+        if (active) setError("audioStartError");
+      });
     return () => {
       active = false;
       void AudioSession.stopAudioSession();
     };
   }, []);
-  if (!ready) return <Notice text={error || "Connecting audio…"} />;
+  if (!ready) return <Notice text={l(error || "audioConnecting")} />;
   return (
     <LiveKitRoom
       serverUrl={access.url}
@@ -170,9 +180,9 @@ export default function GatheringRoom({
       connect
       audio={false}
       video={false}
-      onError={() => setError("The audio connection was interrupted.")}
+      onError={() => setError("audioInterrupted")}
     >
-      <Notice text={error} />
+      <Notice text={error ? l(error) : ""} />
       <Controls id={id} access={access} />
     </LiveKitRoom>
   );

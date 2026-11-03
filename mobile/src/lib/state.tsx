@@ -12,6 +12,7 @@ interface State {
   saveEntry: (e: Entry) => Promise<void>;
   deleteEntry: (id: string) => Promise<void>;
   reset: () => Promise<void>;
+  reloadJournal: () => Promise<void>;
 }
 const Context = createContext<State | null>(null);
 export function AppProvider({ children }: { children: React.ReactNode }) {
@@ -75,6 +76,16 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setProfile(initialProfile);
     setEntries([]);
   }
+  async function reloadJournal() {
+    const [p, e] = await Promise.all([
+      storage.getItem("profile"),
+      storage.getItem("entries"),
+    ]);
+    const nextProfile = p ? normalizeProfile(JSON.parse(p)) : initialProfile;
+    const nextEntries: Entry[] = e ? JSON.parse(e) : [];
+    setProfile(nextProfile);
+    setEntries(nextEntries);
+  }
   return (
     <Context.Provider
       value={{
@@ -86,6 +97,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         saveEntry,
         deleteEntry,
         reset,
+        reloadJournal,
       }}
     >
       {children}

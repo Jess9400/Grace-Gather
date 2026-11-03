@@ -6,8 +6,7 @@ import { backend } from "./backend";
 import { getItem, setItem, removeItem } from "./storage";
 export async function enableReminder(language: Language) {
   const { status } = await Notifications.requestPermissionsAsync();
-  if (status !== "granted")
-    throw new Error(label(language, "notificationsDenied"));
+  if (status !== "granted") throw new Error("notificationsDenied");
   await disableReminder();
   await Notifications.scheduleNotificationAsync({
     identifier: "away-daily",
@@ -33,15 +32,13 @@ export async function remindersEnabled() {
 }
 export async function registerGatheringPush() {
   const projectId = Constants.expoConfig?.extra?.eas?.projectId;
-  if (!projectId || !backend)
-    throw new Error("Push notifications are not configured yet.");
+  if (!projectId || !backend) throw new Error("pushUnavailable");
   const { status } = await Notifications.requestPermissionsAsync();
-  if (status !== "granted")
-    throw new Error("Notification permission was not granted.");
+  if (status !== "granted") throw new Error("notificationsDenied");
   const {
     data: { user },
   } = await backend.auth.getUser();
-  if (!user) throw new Error("Sign in first.");
+  if (!user) throw new Error("signInRequired");
   const token = (await Notifications.getExpoPushTokenAsync({ projectId })).data;
   const { error } = await backend
     .from("devices")

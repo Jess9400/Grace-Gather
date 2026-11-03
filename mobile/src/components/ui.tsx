@@ -14,6 +14,8 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import { useApp } from "../lib/state";
+import { label } from "../lib/labels";
 export const colors = {
   paper: "#0D3028",
   ink: "#FFFDF9",
@@ -44,6 +46,7 @@ export function Screen({
   children: React.ReactNode;
   back?: boolean;
 }) {
+  const { profile } = useApp();
   return (
     <SafeAreaView style={s.safe} edges={["top", "left", "right"]}>
       <ScrollView
@@ -54,7 +57,7 @@ export function Screen({
           <Button
             secondary
             title="‹"
-            accessibilityLabel="Back"
+            accessibilityLabel={label(profile.language, "back")}
             onPress={() =>
               router.canGoBack() ? router.back() : router.replace("/(tabs)")
             }
@@ -64,7 +67,7 @@ export function Screen({
           <Ionicons name="leaf-outline" size={23} color={colors.gold} />
           <Text style={s.brandText}>GRACE & GATHER</Text>
           <Pressable
-            accessibilityLabel="Account and settings"
+            accessibilityLabel={label(profile.language, "accountSettings")}
             accessibilityRole="button"
             onPress={() => router.push("/account")}
             style={{ marginLeft: "auto", padding: 8 }}

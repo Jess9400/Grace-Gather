@@ -1,15 +1,20 @@
 import { useEffect, useState } from "react";
 import * as Apple from "expo-apple-authentication";
 import * as Crypto from "expo-crypto";
+import { label } from "../lib/labels";
+import { useApp } from "../lib/state";
 import { requireBackend } from "../lib/backend";
 export default function AppleSignIn({
   onError,
 }: {
   onError: (message: string) => void;
 }) {
+  const { profile } = useApp();
   const [available, setAvailable] = useState(false);
   useEffect(() => {
-    void Apple.isAvailableAsync().then(setAvailable);
+    void Apple.isAvailableAsync()
+      .then(setAvailable)
+      .catch(() => setAvailable(false));
   }, []);
   if (!available || process.env.EXPO_PUBLIC_APPLE_SIGN_IN_ENABLED !== "true")
     return null;
@@ -42,14 +47,11 @@ export default function AppleSignIn({
         const result = await client.functions.invoke("apple-credential", {
           body: { code: credential.authorizationCode },
         });
-        if (result.error)
-          onError(
-            "Signed in. Apple token revocation setup is incomplete; contact support before release.",
-          );
+        if (result.error) onError(label(profile.language, "appleSetup"));
       }
     } catch (e) {
       if ((e as { code?: string }).code !== "ERR_REQUEST_CANCELED")
-        onError("Apple sign-in was unsuccessful. Please try again.");
+        onError(label(profile.language, "appleError"));
     }
   }
   return (

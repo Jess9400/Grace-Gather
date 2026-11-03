@@ -14,6 +14,7 @@ export default function Gathering() {
     [busy, setBusy] = useState(false);
   async function join() {
     setBusy(true);
+    setError("");
     try {
       const { client } = await requireUser();
       const { data, error } = await client.functions.invoke("gathering-token", {
@@ -22,9 +23,7 @@ export default function Gathering() {
       if (error) throw error;
       setAccess(data);
     } catch {
-      setError(
-        "The room is unavailable. Join within 10 minutes of the scheduled start. A reservation and a configured host are required.",
-      );
+      setError(label(profile.language, "gatheringUnavailable"));
     } finally {
       setBusy(false);
     }
@@ -39,11 +38,7 @@ export default function Gathering() {
       ) : (
         <>
           <Body>{label(profile.language, "communityRules")}</Body>
-          <Body small>
-            By joining, you agree to the community rules. Your microphone starts
-            off. Other participants can hear what you choose to share; avoid
-            sharing private information.
-          </Body>
+          <Body small>{label(profile.language, "gatheringConsent")}</Body>
           <Button
             disabled={busy}
             title={label(profile.language, "join")}

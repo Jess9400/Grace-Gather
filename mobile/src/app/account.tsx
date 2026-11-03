@@ -13,7 +13,7 @@ import {
   Notice,
   External,
 } from "../components/ui";
-import AppleSignIn from "../components/AppleSignIn";
+import EmailSignIn from "../components/EmailSignIn";
 import { useApp } from "../lib/state";
 import { copy } from "../lib/content";
 import { label } from "../lib/labels";
@@ -30,20 +30,18 @@ export default function Account() {
   const { profile, reset } = useApp(),
     t = (k: string) => copy(profile.language, k),
     l = (k: string) => label(profile.language, k);
-  const [email, setEmail] = useState(""),
-    [code, setCode] = useState(""),
-    [userEmail, setUserEmail] = useState(""),
+  const [userEmail, setUserEmail] = useState(""),
     [signedIn, setSignedIn] = useState(false),
-    [sent, setSent] = useState(false),
     [notice, setNotice] = useState(""),
     [busy, setBusy] = useState(false),
     [reminder, setReminder] = useState(false),
     [confirmation, setConfirmation] = useState(""),
     [deleting, setDeleting] = useState<"account" | "local" | null>(null),
-    [backup, setBackup] = useState<{ key: string; uri: string } | null>(null),
-    [nextSend, setNextSend] = useState(0);
+    [backup, setBackup] = useState<{ key: string; uri: string } | null>(null);
   useEffect(() => {
-    void remindersEnabled().then(setReminder);
+    void remindersEnabled()
+      .then(setReminder)
+      .catch(() => {});
     void backend?.auth.getSession().then(({ data }) => {
       setSignedIn(!!data.session);
       setUserEmail(data.session?.user.email ?? "");
@@ -54,13 +52,25 @@ export default function Account() {
     });
     return () => listener?.data.subscription.unsubscribe();
   }, []);
-  async function run(fn: () => Promise<void>) {
+  async function run(fn: () => Promise<void>, failure = "accountError") {
     setBusy(true);
     setNotice("");
     try {
       await fn();
     } catch (e) {
-      setNotice(e instanceof Error ? e.message : t("socialError"));
+      const key = e instanceof Error ? e.message : "";
+      setNotice(
+        l(
+          [
+            "notificationsDenied",
+            "pushUnavailable",
+            "signInRequired",
+            "deleteFailed",
+          ].includes(key)
+            ? key
+            : failure,
+        ),
+      );
     } finally {
       setBusy(false);
     }
@@ -115,6 +125,7 @@ export default function Account() {
             />
             <Button
               secondary
+              disabled={busy}
               title={l("signOut")}
               onPress={() =>
                 void run(async () => {
@@ -126,63 +137,7 @@ export default function Account() {
             />
           </>
         ) : (
-          <>
-            <Field
-              label={t("pEmail")}
-              value={email}
-              onChangeText={setEmail}
-              autoCapitalize="none"
-              keyboardType="email-address"
-              autoComplete="email"
-            />
-            <Button
-              disabled={busy || !email.includes("@")}
-              title={l("sendCode")}
-              onPress={() =>
-                void run(async () => {
-                  if (Date.now() < nextSend)
-                    throw new Error(
-                      "Please wait a minute before requesting another code.",
-                    );
-                  const { error } = await requireBackend().auth.signInWithOtp({
-                    email: email.trim(),
-                    options: { shouldCreateUser: true },
-                  });
-                  if (error) throw error;
-                  setSent(true);
-                  setNextSend(Date.now() + 60000);
-                })
-              }
-            />
-            {sent && (
-              <>
-                <Field
-                  label={l("code")}
-                  value={code}
-                  onChangeText={setCode}
-                  keyboardType="number-pad"
-                  autoComplete="one-time-code"
-                  maxLength={10}
-                />
-                <Button
-                  disabled={busy || code.length < 6}
-                  title={l("verify")}
-                  onPress={() =>
-                    void run(async () => {
-                      const { error } = await requireBackend().auth.verifyOtp({
-                        email: email.trim(),
-                        token: code.trim(),
-                        type: "email",
-                      });
-                      if (error) throw error;
-                      setCode("");
-                    })
-                  }
-                />
-              </>
-            )}
-            <AppleSignIn onError={setNotice} />
-          </>
+          <EmailSignIn />
         )}
       </Card>
       {Platform.OS !== "web" && (
@@ -190,6 +145,7 @@ export default function Account() {
           <Subheading>{l("reminder")}</Subheading>
           <Button
             secondary
+            disabled={busy}
             title={l(reminder ? "reminderOff" : "reminderOn")}
             onPress={() =>
               void run(async () => {
@@ -202,7 +158,8 @@ export default function Account() {
           {signedIn && (
             <Button
               secondary
-              title={t("gather")}
+              disabled={busy}
+              title={l("pushEnable")}
               onPress={() =>
                 void run(async () => {
                   await registerGatheringPush();
@@ -222,7 +179,10 @@ export default function Account() {
             disabled={busy}
             title={l("backup")}
             onPress={() =>
-              void run(async () => setBackup(await storage.exportEncrypted()))
+              void run(
+                async () => setBackup(await storage.exportEncrypted()),
+                "backupError",
+              )
             }
           />
           {backup && (
@@ -235,7 +195,7 @@ export default function Account() {
                   void run(async () => {
                     await Sharing.shareAsync(backup.uri, {
                       mimeType: "application/octet-stream",
-                      dialogTitle: "Grace & Gather encrypted backup",
+                      dialogTitle: l("backupTitle"),
                     });
                   })
                 }
@@ -292,15 +252,11 @@ export default function Account() {
                       { body: { confirm: "DELETE" } },
                     );
                     if (error || !data?.deleted)
-                      throw new Error(
-                        "Account deletion did not complete. Please retry or contact support.",
-                      );
+                      throw new Error("deleteFailed");
                     await client.auth.signOut({ scope: "local" });
                     setSignedIn(false);
-                    if (data.appleRevokeRequired)
-                      setNotice(
-                        "Your account has been deleted. Remove Grace & Gather under Sign in with Apple in your Apple Account settings.",
-                      );
+                    if (data.appleRevokeRequired) setNotice(l("appleRemove"));
+                    else setNotice(l("accountDeleted"));
                   } else {
                     await disableReminder();
                     await disableGatheringPush();

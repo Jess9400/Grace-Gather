@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { router } from "expo-router";
 import { View, Text, Pressable } from "react-native";
 import {
@@ -38,7 +38,9 @@ export default function Gatherings() {
     [busy, setBusy] = useState(false),
     [selected, setSelected] = useState(""),
     [interested, setInterested] = useState(false);
+  const loadVersion = useRef(0);
   const load = useCallback(async () => {
+    const version = (loadVersion.current += 1);
     if (!backend) return;
     const { data, error } = await backend
       .from("gatherings")
@@ -47,10 +49,12 @@ export default function Gatherings() {
       .gte("ends_at", new Date().toISOString())
       .order("starts_at")
       .limit(100);
+    if (version !== loadVersion.current) return;
     if (error) {
-      setNotice("Could not load gatherings. Please try again.");
+      setNotice("gatheringsLoadError");
       return;
     }
+    setNotice("");
     setGatherings(data ?? []);
     const {
       data: { user },
@@ -60,21 +64,36 @@ export default function Gatherings() {
         .from("memberships")
         .select("gathering_id")
         .eq("user_id", user.id);
-      setReservations((m ?? []).map((x) => x.gathering_id));
       const { data: i } = await backend
         .from("series_interest")
         .select("series")
         .eq("user_id", user.id)
         .maybeSingle();
+      if (version !== loadVersion.current) return;
+      setReservations((m ?? []).map((x) => x.gathering_id));
       setInterested(!!i);
+    } else if (version === loadVersion.current) {
+      setReservations([]);
+      setInterested(false);
     }
   }, []);
   useEffect(() => {
     void Promise.resolve().then(load);
-    const sub = backend?.auth.onAuthStateChange(() => {
-      void load();
+    let timer: ReturnType<typeof setTimeout>;
+    const sub = backend?.auth.onAuthStateChange((_event, session) => {
+      loadVersion.current += 1;
+      if (!session) {
+        setReservations([]);
+        setInterested(false);
+      }
+      clearTimeout(timer);
+      timer = setTimeout(() => void load(), 0);
     });
-    return () => sub?.data.subscription.unsubscribe();
+    return () => {
+      loadVersion.current += 1;
+      clearTimeout(timer);
+      sub?.data.subscription.unsubscribe();
+    };
   }, [load]);
   async function participate(fn: () => Promise<void>) {
     if (!backend) {
@@ -93,7 +112,7 @@ export default function Gatherings() {
       await fn();
       await load();
     } catch {
-      setNotice(t("socialError"));
+      setNotice("socialError");
     } finally {
       setBusy(false);
     }
@@ -105,7 +124,14 @@ export default function Gatherings() {
     <Screen>
       <Heading>{t("gatherHeading")}</Heading>
       <Body>{t("gatherIntro")}</Body>
-      <Notice text={notice} />
+      <Notice
+        text={
+          notice === "gatheringsLoadError" ? l(notice) : notice ? t(notice) : ""
+        }
+      />
+      {!!notice && (
+        <Button secondary title={l("retry")} onPress={() => void load()} />
+      )}
       <Row>
         <Button
           secondary
@@ -151,6 +177,7 @@ export default function Gatherings() {
             <Pressable
               key={i}
               accessibilityRole="button"
+              accessibilityState={{ selected: selected === key(d) }}
               accessibilityLabel={d.toLocaleDateString(profile.language)}
               onPress={() => setSelected(selected === key(d) ? "" : key(d))}
               style={{
@@ -219,6 +246,10 @@ export default function Gatherings() {
             )}
           </Card>
         ))}
+      {!!selected &&
+        !gatherings.some((g) => key(new Date(g.starts_at)) === selected) && (
+          <Body>{l("gatheringsEmpty")}</Body>
+        )}
       <Card tint>
         <Subheading>{t("weeklySessionTitle")}</Subheading>
         <Body>{t("sessionDescription")}</Body>

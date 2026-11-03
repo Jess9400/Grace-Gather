@@ -1,0 +1,341 @@
+{
+  "authEmail": [
+    "Email address",
+    "Endereço de email",
+    "Dirección de correo",
+    "Электронная почта"
+  ],
+  "authInvalidEmail": [
+    "Enter a complete email address.",
+    "Digite um endereço de email completo.",
+    "Introduce una dirección de correo completa.",
+    "Введите полный адрес электронной почты."
+  ],
+  "authSuggestion": [
+    "Did you mean {email}?",
+    "Você quis dizer {email}?",
+    "¿Querías escribir {email}?",
+    "Вы имели в виду {email}?"
+  ],
+  "authUseEmail": [
+    "Use {email}",
+    "Usar {email}",
+    "Usar {email}",
+    "Использовать {email}"
+  ],
+  "authSent": [
+    "Check {email} for your sign-in code. If it is missing, check Spam.",
+    "Confira o código de acesso em {email}. Se não encontrar, verifique o spam.",
+    "Busca tu código de acceso en {email}. Si no aparece, revisa el correo no deseado.",
+    "Проверьте письмо с кодом на {email}. Если его нет, загляните в «Спам»."
+  ],
+  "authSending": [
+    "Sending code…",
+    "Enviando código…",
+    "Enviando código…",
+    "Отправляем код…"
+  ],
+  "authVerifying": [
+    "Checking code…",
+    "Verificando código…",
+    "Verificando código…",
+    "Проверяем код…"
+  ],
+  "authResend": [
+    "Send another code",
+    "Enviar outro código",
+    "Enviar otro código",
+    "Отправить новый код"
+  ],
+  "authCountdown": [
+    "Send again in {seconds}s",
+    "Enviar novamente em {seconds}s",
+    "Volver a enviar en {seconds}s",
+    "Повторить через {seconds} с"
+  ],
+  "authChangeEmail": [
+    "Use a different email",
+    "Usar outro email",
+    "Usar otro correo",
+    "Использовать другой адрес"
+  ],
+  "authSendError": [
+    "We couldn’t send the sign-in email. Please try again later or contact support. Your journal is still available.",
+    "Não foi possível enviar o email de acesso. Tente mais tarde ou fale com o suporte. Seu diário continua disponível.",
+    "No pudimos enviar el correo de acceso. Inténtalo más tarde o contacta con soporte. Tu diario sigue disponible.",
+    "Не удалось отправить письмо для входа. Попробуйте позже или обратитесь в поддержку. Дневник по-прежнему доступен."
+  ],
+  "authVerifyError": [
+    "We couldn’t sign you in. Please try again or request a new code.",
+    "Não foi possível entrar. Tente novamente ou solicite um novo código.",
+    "No pudimos iniciar sesión. Inténtalo de nuevo o solicita otro código.",
+    "Не удалось войти. Попробуйте ещё раз или запросите новый код."
+  ],
+  "authInvalidCode": [
+    "This code is invalid or has expired. Check the latest email or request a new code.",
+    "Este código é inválido ou expirou. Confira o email mais recente ou solicite outro código.",
+    "El código no es válido o ha caducado. Revisa el último correo o solicita otro código.",
+    "Код неверен или срок его действия истёк. Проверьте последнее письмо или запросите новый код."
+  ],
+  "authRateLimit": [
+    "Too many attempts. Please wait before trying again.",
+    "Muitas tentativas. Aguarde antes de tentar novamente.",
+    "Demasiados intentos. Espera antes de volver a intentarlo.",
+    "Слишком много попыток. Подождите перед повторной попыткой."
+  ],
+  "authNetworkError": [
+    "Couldn’t connect. Check your internet connection and try again.",
+    "Não foi possível conectar. Verifique sua conexão com a internet e tente novamente.",
+    "No pudimos conectar. Comprueba tu conexión a internet e inténtalo de nuevo.",
+    "Не удалось подключиться. Проверьте интернет-соединение и попробуйте снова."
+  ],
+  "accountError": [
+    "This change couldn’t be completed. Please try again.",
+    "Não foi possível concluir esta alteração. Tente novamente.",
+    "No pudimos completar este cambio. Inténtalo de nuevo.",
+    "Не удалось сохранить изменение. Попробуйте ещё раз."
+  ],
+  "backupError": [
+    "Couldn’t export your backup. Your journal has been preserved.",
+    "Não foi possível exportar a cópia. Seu diário foi preservado.",
+    "No pudimos exportar la copia. Tu diario se ha conservado.",
+    "Не удалось экспортировать копию. Дневник сохранён."
+  ],
+  "backupTitle": [
+    "Grace & Gather encrypted backup",
+    "Cópia criptografada do Grace & Gather",
+    "Copia cifrada de Grace & Gather",
+    "Зашифрованная копия Grace & Gather"
+  ],
+  "recoveryKey": [
+    "Recovery key",
+    "Chave de recuperação",
+    "Clave de recuperación",
+    "Ключ восстановления"
+  ],
+  "restoreEmpty": [
+    "Restore requires an empty journal. Export your existing journal before deleting it.",
+    "A restauração exige um diário vazio. Exporte seu diário atual antes de apagá-lo.",
+    "La restauración requiere un diario vacío. Exporta el actual antes de borrarlo.",
+    "Для восстановления дневник должен быть пустым. Экспортируйте текущий дневник перед удалением."
+  ],
+  "restoreDone": [
+    "Your journal has been restored.",
+    "Seu diário foi restaurado.",
+    "Tu diario se ha restaurado.",
+    "Ваш дневник восстановлен."
+  ],
+  "restoreError": [
+    "Couldn’t restore. Check the recovery key and backup file. Existing entries have been preserved.",
+    "Não foi possível restaurar. Confira a chave e o arquivo da cópia. Os registros existentes foram preservados.",
+    "No pudimos restaurar. Comprueba la clave y el archivo de copia. Las entradas existentes se han conservado.",
+    "Не удалось восстановить дневник. Проверьте ключ и файл копии. Существующие записи сохранены."
+  ],
+  "restoreNative": [
+    "Restore encrypted backups in the iPhone app.",
+    "Restaure cópias criptografadas no app para iPhone.",
+    "Restaura copias cifradas en la app para iPhone.",
+    "Восстанавливайте зашифрованные копии в приложении для iPhone."
+  ],
+  "journalOpen": [
+    "Open my journal",
+    "Abrir meu diário",
+    "Abrir mi diario",
+    "Открыть дневник"
+  ],
+  "accountDeleted": [
+    "Your account has been deleted. Your journal on this device has been kept.",
+    "Sua conta foi excluída. O diário neste dispositivo foi mantido.",
+    "Tu cuenta se ha eliminado. El diario de este dispositivo se ha conservado.",
+    "Аккаунт удалён. Дневник на этом устройстве сохранён."
+  ],
+  "deleteFailed": [
+    "Account deletion did not complete. Please retry or contact support.",
+    "A exclusão da conta não foi concluída. Tente novamente ou fale com o suporte.",
+    "No se completó la eliminación de la cuenta. Inténtalo de nuevo o contacta con soporte.",
+    "Не удалось удалить аккаунт. Попробуйте снова или обратитесь в поддержку."
+  ],
+  "appleRemove": [
+    "Your account has been deleted. Also remove Grace & Gather from Sign in with Apple in your Apple Account settings.",
+    "Sua conta foi excluída. Remova também Grace & Gather de Iniciar sessão com a Apple nos ajustes da Conta Apple.",
+    "Tu cuenta se ha eliminado. Elimina también Grace & Gather de Iniciar sesión con Apple en los ajustes de tu cuenta de Apple.",
+    "Аккаунт удалён. Также удалите Grace & Gather из раздела «Вход с Apple» в настройках Аккаунта Apple."
+  ],
+  "appleError": [
+    "Apple sign-in was unsuccessful. Please try again.",
+    "Não foi possível entrar com a Apple. Tente novamente.",
+    "No se pudo iniciar sesión con Apple. Inténtalo de nuevo.",
+    "Не удалось войти с Apple. Попробуйте снова."
+  ],
+  "appleSetup": [
+    "You’re signed in. Account services need attention; please contact support.",
+    "Você entrou. Os serviços da conta precisam de atenção; fale com o suporte.",
+    "Has iniciado sesión. Los servicios de cuenta necesitan atención; contacta con soporte.",
+    "Вы вошли. Сервису аккаунта требуется проверка; обратитесь в поддержку."
+  ],
+  "pushEnable": [
+    "Enable gathering notifications",
+    "Ativar notificações de encontros",
+    "Activar avisos de encuentros",
+    "Включить уведомления о встречах"
+  ],
+  "pushUnavailable": [
+    "Gathering notifications are not available yet.",
+    "As notificações de encontros ainda não estão disponíveis.",
+    "Los avisos de encuentros aún no están disponibles.",
+    "Уведомления о встречах пока недоступны."
+  ],
+  "signInRequired": [
+    "Sign in to continue.",
+    "Entre para continuar.",
+    "Inicia sesión para continuar.",
+    "Войдите, чтобы продолжить."
+  ],
+  "gatheringsLoadError": [
+    "Couldn’t load gatherings. Please try again.",
+    "Não foi possível carregar os encontros. Tente novamente.",
+    "No pudimos cargar los encuentros. Inténtalo de nuevo.",
+    "Не удалось загрузить встречи. Попробуйте снова."
+  ],
+  "gatheringsEmpty": [
+    "No gatherings are scheduled for this date yet.",
+    "Ainda não há encontros marcados para esta data.",
+    "Aún no hay encuentros programados para esta fecha.",
+    "На эту дату пока нет запланированных встреч."
+  ],
+  "retry": [
+    "Try again",
+    "Tentar novamente",
+    "Intentar de nuevo",
+    "Попробовать снова"
+  ],
+  "gatheringUnavailable": [
+    "The room is unavailable. Join within 10 minutes of the scheduled start. A reservation and a configured host are required.",
+    "A sala está indisponível. Entre a partir de 10 minutos antes do início. É preciso ter uma reserva e um anfitrião configurado.",
+    "La sala no está disponible. Entra a partir de 10 minutos antes del inicio. Se requiere una reserva y un anfitrión configurado.",
+    "Комната недоступна. Вход открывается за 10 минут до начала. Нужны запись на встречу и назначенный ведущий."
+  ],
+  "gatheringConsent": [
+    "By joining, you agree to the community rules. Your microphone starts off. Others can hear what you choose to share; avoid sharing private information.",
+    "Ao entrar, você aceita as regras da comunidade. Seu microfone começa desligado. As outras pessoas podem ouvir o que você compartilhar; evite informações privadas.",
+    "Al entrar, aceptas las normas de la comunidad. El micrófono empieza apagado. Los demás pueden oír lo que compartas; evita la información privada.",
+    "Присоединяясь, вы принимаете правила сообщества. Сначала микрофон выключен. Другие услышат то, чем вы решите поделиться; избегайте личных данных."
+  ],
+  "audioIntro": [
+    "Audio conversation · microphone off until you choose to speak.",
+    "Conversa por áudio · microfone desligado até você decidir falar.",
+    "Conversación de audio · micrófono apagado hasta que decidas hablar.",
+    "Аудиобеседа · микрофон выключен, пока вы не решите говорить."
+  ],
+  "roomUpdateError": [
+    "Couldn’t update the gathering. Please try again.",
+    "Não foi possível atualizar o encontro. Tente novamente.",
+    "No pudimos actualizar el encuentro. Inténtalo de nuevo.",
+    "Не удалось обновить встречу. Попробуйте снова."
+  ],
+  "micMute": [
+    "Mute microphone",
+    "Desligar microfone",
+    "Silenciar micrófono",
+    "Выключить микрофон"
+  ],
+  "micEnable": [
+    "Turn on microphone",
+    "Ligar microfone",
+    "Activar micrófono",
+    "Включить микрофон"
+  ],
+  "micDenied": [
+    "Microphone access was not granted.",
+    "O acesso ao microfone não foi permitido.",
+    "No se concedió acceso al micrófono.",
+    "Доступ к микрофону не предоставлен."
+  ],
+  "micError": [
+    "Couldn’t change your microphone. Please try again.",
+    "Não foi possível alterar o microfone. Tente novamente.",
+    "No pudimos cambiar el micrófono. Inténtalo de nuevo.",
+    "Не удалось переключить микрофон. Попробуйте снова."
+  ],
+  "handRaise": [
+    "Raise hand to speak",
+    "Levantar a mão para falar",
+    "Levantar la mano para hablar",
+    "Поднять руку, чтобы выступить"
+  ],
+  "handLower": [
+    "Lower hand",
+    "Abaixar a mão",
+    "Bajar la mano",
+    "Опустить руку"
+  ],
+  "handError": [
+    "Couldn’t update your hand. Please try again.",
+    "Não foi possível atualizar sua mão levantada. Tente novamente.",
+    "No pudimos actualizar tu mano levantada. Inténtalo de nuevo.",
+    "Не удалось изменить статус поднятой руки. Попробуйте снова."
+  ],
+  "participant": ["Participant", "Participante", "Participante", "Участник"],
+  "speaking": ["speaking", "falando", "hablando", "говорит"],
+  "makeListener": [
+    "Make listener",
+    "Tornar ouvinte",
+    "Pasar a oyente",
+    "Сделать слушателем"
+  ],
+  "allowSpeaking": [
+    "Allow to speak",
+    "Permitir falar",
+    "Permitir hablar",
+    "Разрешить говорить"
+  ],
+  "removeParticipant": [
+    "Remove participant",
+    "Remover participante",
+    "Retirar participante",
+    "Удалить участника"
+  ],
+  "endGathering": [
+    "End gathering for everyone",
+    "Encerrar encontro para todos",
+    "Finalizar encuentro para todos",
+    "Завершить встречу для всех"
+  ],
+  "leaveGathering": [
+    "Leave gathering",
+    "Sair do encontro",
+    "Salir del encuentro",
+    "Покинуть встречу"
+  ],
+  "audioStartError": [
+    "Audio could not start.",
+    "Não foi possível iniciar o áudio.",
+    "No se pudo iniciar el audio.",
+    "Не удалось включить аудио."
+  ],
+  "audioConnecting": [
+    "Connecting audio…",
+    "Conectando áudio…",
+    "Conectando audio…",
+    "Подключаем аудио…"
+  ],
+  "audioInterrupted": [
+    "The audio connection was interrupted.",
+    "A conexão de áudio foi interrompida.",
+    "Se interrumpió la conexión de audio.",
+    "Аудиосоединение прервано."
+  ],
+  "gatheringNative": [
+    "Join this audio gathering in the iPhone app.",
+    "Entre neste encontro por áudio no app para iPhone.",
+    "Únete a este encuentro de audio en la app para iPhone.",
+    "Присоединитесь к аудиовстрече в приложении для iPhone."
+  ],
+  "back": ["Back", "Voltar", "Volver", "Назад"],
+  "accountSettings": [
+    "Account and settings",
+    "Conta e configurações",
+    "Cuenta y ajustes",
+    "Аккаунт и настройки"
+  ]
+}

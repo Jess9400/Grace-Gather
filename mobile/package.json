@@ -51,7 +51,7 @@
     "typecheck": "tsc --noEmit",
     "lint": "expo lint",
     "export": "expo export --platform ios --platform web",
-    "preflight": "node scripts/preflight.mjs",
+    "preflight": "node --env-file-if-exists=.env scripts/preflight.mjs",
     "eas-build-post-install": "node scripts/preflight.mjs --if-release",
     "format": "prettier --write src app.config.ts scripts"
   },
