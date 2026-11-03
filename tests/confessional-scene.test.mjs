@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { buildConfessionalMesh, doorProgress, DOOR_OPEN_MS } from '../mobile/src/lib/confessional-scene.ts';
+import { buildConfessionalMesh, doorProgress, DOOR_OPEN_MS, entranceFrame, ENTRANCE_MS } from '../mobile/src/lib/confessional-scene.ts';
 import { CONFESSION_COPY } from '../dist/confession-copy.js';
 
 test('door mesh has finite, normalized triangles and separate moving and fixed parts', () => {
@@ -40,5 +40,17 @@ test('entrance, skip, and return-to-draft controls are translated in all four la
     for (const key of ['cDoorInvitation','cDoorHint','cDoorOpening','cDoorSkip','cReturnDraft']) {
       assert.ok(CONFESSION_COPY[language][key]?.trim(), `${language}:${key}`);
     }
+  }
+});
+
+
+test('the full-screen entrance opens before moving through the doorway', () => {
+  assert.deepEqual(entranceFrame(0), { open: 0, approach: 0 });
+  assert.deepEqual(entranceFrame(250), { open: 0, approach: 0 });
+  assert.deepEqual(entranceFrame(ENTRANCE_MS), { open: 1, approach: 1 });
+  assert.deepEqual(entranceFrame(ENTRANCE_MS * 20), { open: 1, approach: 1 });
+  for (let time = 0; time < ENTRANCE_MS; time += 16) {
+    const current = entranceFrame(time);
+    if (current.approach > 0) assert.equal(current.open, 1);
   }
 });

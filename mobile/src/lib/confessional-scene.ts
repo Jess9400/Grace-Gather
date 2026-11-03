@@ -3,7 +3,17 @@
 type Vec3 = [number, number, number];
 type Material = { color: Vec3; kind: number; moving?: boolean };
 export const DOOR_OPEN_MS = 1150;
-export const DOOR_HINGE: Vec3 = [-0.79, 0, 0.22];
+const DOOR_PAUSE_MS = 300;
+const APPROACH_MS = 650;
+export const ENTRANCE_MS = DOOR_PAUSE_MS + DOOR_OPEN_MS + APPROACH_MS;
+export function entranceFrame(elapsed: number) {
+  return {
+    open: doorProgress(elapsed - DOOR_PAUSE_MS),
+    approach: doorProgress(
+      ((elapsed - DOOR_PAUSE_MS - DOOR_OPEN_MS) * DOOR_OPEN_MS) / APPROACH_MS,
+    ),
+  };
+}
 export function doorProgress(elapsed: number) {
   const t = Math.max(0, Math.min(1, elapsed / DOOR_OPEN_MS));
   return t * t * (3 - 2 * t);
@@ -269,6 +279,7 @@ attribute float aKind;
 attribute float aMoving;
 uniform float uOpen;
 uniform float uAspect;
+uniform float uApproach;
 varying vec3 vPosition;
 varying vec3 vNormal;
 varying vec3 vColor;
@@ -282,13 +293,12 @@ void main() {
     p=hinge*(p-vec3(-.79,0.,.22))+vec3(-.79,0.,.22);
     n=hinge*n;
   }
-  mat3 turn=rotateY(-.13);
-  p=turn*p; n=turn*n;
-  float tilt=-.045;
-  mat3 pitch=mat3(1.,0.,0., 0.,cos(tilt),sin(tilt), 0.,-sin(tilt),cos(tilt));
-  p=pitch*p; vNormal=pitch*n;
-  float distance=6.4-p.z;
-  float focal=3.25;
+  vNormal=n;
+  // Eye-level doorway, filling a portrait viewport. Move through the threshold
+  // only after the leaf has opened, revealing the illuminated room behind it.
+  float camera=mix(3.65,1.30,uApproach);
+  float distance=camera-p.z;
+  float focal=2.05;
   gl_Position=vec4(p.x*focal/uAspect,p.y*focal,(distance-0.1)*1.01-0.202,distance);
 }`;
 const FRAGMENT = `
@@ -378,18 +388,20 @@ export function createConfessionalRenderer(gl: WebGLRenderingContext) {
       offset += size;
     }
     const open = gl.getUniformLocation(program, "uOpen"),
-      aspect = gl.getUniformLocation(program, "uAspect");
+      aspect = gl.getUniformLocation(program, "uAspect"),
+      approach = gl.getUniformLocation(program, "uApproach");
     return {
-      draw(progress: number) {
+      draw(progress: number, entry = 0) {
         gl.useProgram(program);
         gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
-        gl.clearColor(0, 0, 0, 0);
+        gl.clearColor(0.129, 0.09, 0.059, 1);
         gl.clearDepth(1);
         gl.enable(gl.DEPTH_TEST);
         gl.disable(gl.CULL_FACE);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         gl.uniform1f(open, Math.max(0, Math.min(1, progress)));
         gl.uniform1f(aspect, gl.drawingBufferWidth / gl.drawingBufferHeight);
+        gl.uniform1f(approach, Math.max(0, Math.min(1, entry)));
         gl.drawArrays(gl.TRIANGLES, 0, mesh.length / 11);
         gl.flush();
       },

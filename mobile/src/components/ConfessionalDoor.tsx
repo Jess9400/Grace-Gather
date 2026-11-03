@@ -8,24 +8,25 @@ import {
 } from "react";
 import {
   AccessibilityInfo,
+  Animated,
   AppState,
+  Modal,
   Platform,
   Pressable,
   StyleSheet,
   Text,
   View,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { GLView, type ExpoWebGLRenderingContext } from "expo-gl";
-import { useFocusEffect } from "expo-router";
-import { Button, colors } from "./ui";
+import { colors } from "./ui";
 import { copy, type Language } from "../lib/content";
 import {
   createConfessionalRenderer,
-  doorProgress,
-  DOOR_OPEN_MS,
+  entranceFrame,
+  ENTRANCE_MS,
 } from "../lib/confessional-scene";
 
-// Keep the single static frame visible without running an idle GPU loop.
 const WEB_GL_OPTIONS = {
   alpha: true,
   antialias: true,
@@ -33,90 +34,70 @@ const WEB_GL_OPTIONS = {
 };
 
 class SceneBoundary extends Component<
-  { children: ReactNode },
+  { children: ReactNode; onFailure: () => void },
   { failed: boolean }
 > {
   state = { failed: false };
   static getDerivedStateFromError() {
     return { failed: true };
   }
+  componentDidCatch() {
+    this.props.onFailure();
+  }
   render() {
     return this.state.failed ? null : this.props.children;
   }
 }
 
-function DoorFallback() {
-  return (
-    <View style={styles.fallback}>
-      <View style={styles.fallbackLeaf}>
-        <View style={styles.fallbackWindow}>
-          {Array.from({ length: 7 }, (_, i) => (
-            <View key={i} style={[styles.latticeLine, { left: i * 16 - 20 }]} />
-          ))}
-          {Array.from({ length: 7 }, (_, i) => (
-            <View
-              key={i}
-              style={[
-                styles.latticeLine,
-                { left: i * 16 - 20, transform: [{ rotate: "-35deg" }] },
-              ]}
-            />
-          ))}
-        </View>
-        <View style={styles.fallbackPanel} />
-        <View style={styles.fallbackHandle} />
-      </View>
-    </View>
-  );
-}
-
+// Mounted only after Share a confession. The writing room is already underneath
+// this full-screen layer, so entering ends with a continuous reveal of the form.
 export default function ConfessionalDoor({
   language,
-  opening,
-  disabled,
-  resume,
-  onOpen,
   onEntered,
   onCancel,
-  children,
 }: {
   language: Language;
-  opening: boolean;
-  disabled: boolean;
-  resume: boolean;
-  onOpen: () => void;
   onEntered: () => void;
   onCancel: () => void;
-  children?: ReactNode;
 }) {
   const t = (key: string) => copy(language, key);
+  const insets = useSafeAreaInsets();
   const [ready, setReady] = useState(false);
-  const [reduced, setReduced] = useState(true);
+  const [reduced, setReduced] = useState<boolean | null>(null);
   const [failed, setFailed] = useState(false);
+  const [opacity] = useState(() => new Animated.Value(1));
   const renderer = useRef<ReturnType<typeof createConfessionalRenderer> | null>(
     null,
   );
   const context = useRef<ExpoWebGLRenderingContext | null>(null);
   const frame = useRef<number | null>(null);
-  const layoutFrame = useRef<number | null>(null);
+  const currentFrame = useRef({ open: 0, approach: 0 });
   const mounted = useRef(true);
-  const draw = useCallback((progress: number) => {
-    renderer.current?.draw(progress);
-    context.current?.endFrameEXP();
-  }, []);
+  const finished = useRef(false);
   const stop = useCallback(() => {
     if (frame.current !== null) cancelAnimationFrame(frame.current);
     frame.current = null;
+    opacity.stopAnimation();
+  }, [opacity]);
+  const finish = useCallback(() => {
+    if (!mounted.current || finished.current) return;
+    finished.current = true;
+    stop();
+    onEntered();
+  }, [onEntered, stop]);
+  const cancel = useCallback(() => {
+    if (finished.current) return;
+    finished.current = true;
+    stop();
+    onCancel();
+  }, [onCancel, stop]);
+  const draw = useCallback((open: number, approach: number) => {
+    currentFrame.current = { open, approach };
+    renderer.current?.draw(open, approach);
+    context.current?.endFrameEXP();
   }, []);
-  useFocusEffect(
-    useCallback(
-      () => () => {
-        stop();
-        onCancel();
-      },
-      [stop, onCancel],
-    ),
-  );
+  const fail = useCallback(() => setFailed(true), []);
+
   useEffect(() => {
     mounted.current = true;
     let changed = false;
@@ -124,7 +105,9 @@ export default function ConfessionalDoor({
       .then((value) => {
         if (mounted.current && !changed) setReduced(value);
       })
-      .catch(() => {});
+      .catch(() => {
+        if (mounted.current) setReduced(true);
+      });
     const preference = AccessibilityInfo.addEventListener(
       "reduceMotionChanged",
       (value) => {
@@ -132,250 +115,245 @@ export default function ConfessionalDoor({
         setReduced(value);
       },
     );
+    const appState = AppState.addEventListener("change", (state) => {
+      if (state !== "active") cancel();
+    });
     return () => {
       mounted.current = false;
       stop();
-      if (layoutFrame.current !== null)
-        cancelAnimationFrame(layoutFrame.current);
       preference.remove();
+      appState.remove();
       renderer.current?.dispose();
       renderer.current = null;
       context.current = null;
     };
-  }, [stop]);
+  }, [cancel, stop]);
+
+  // A device with unavailable graphics must always be able to reach the form.
   useEffect(() => {
-    const subscription = AppState.addEventListener("change", (state) => {
-      if (state !== "active") {
-        stop();
-        onCancel();
-      }
-    });
-    return () => subscription.remove();
-  }, [onCancel, stop]);
-  // Do not leave a broken GPU surface in front of the fallback on older devices.
-  useEffect(() => {
-    if (ready) return;
-    const timer = setTimeout(() => setFailed(true), 2500);
+    const timer = setTimeout(finish, 5000);
     return () => clearTimeout(timer);
-  }, [ready]);
+  }, [finish]);
   useEffect(() => {
-    stop();
-    if (!opening) {
-      frame.current = requestAnimationFrame(() => {
-        frame.current = null;
-        try {
-          draw(0);
-        } catch {
-          setFailed(true);
-        }
-      });
+    if (reduced === true || failed) {
+      frame.current = requestAnimationFrame(finish);
       return stop;
     }
-    if (reduced || !ready || failed) {
-      frame.current = requestAnimationFrame(() => {
-        frame.current = null;
-        onEntered();
-      });
-      return stop;
-    }
+    if (!ready || reduced === null) return;
     const start = performance.now();
     const tick = (now: number) => {
-      if (!mounted.current) return;
+      if (!mounted.current || finished.current) return;
+      const elapsed = now - start;
+      const next = entranceFrame(elapsed);
       try {
-        draw(doorProgress(now - start));
+        draw(next.open, next.approach);
       } catch {
-        setFailed(true);
-        onEntered();
+        finish();
         return;
       }
-      if (now - start >= DOOR_OPEN_MS) {
+      if (elapsed >= ENTRANCE_MS) {
         frame.current = null;
-        onEntered();
+        Animated.timing(opacity, {
+          toValue: 0,
+          duration: 280,
+          useNativeDriver: true,
+        }).start(({ finished: completed }) => {
+          if (completed) finish();
+        });
       } else frame.current = requestAnimationFrame(tick);
     };
     frame.current = requestAnimationFrame(tick);
     return stop;
-  }, [opening, reduced, ready, failed, draw, stop, onEntered]);
+  }, [draw, failed, finish, opacity, ready, reduced, stop]);
   const onContextCreate = useCallback(
     (gl: ExpoWebGLRenderingContext) => {
-      if (!mounted.current) return;
+      if (!mounted.current || finished.current) return;
       try {
         context.current = gl;
         renderer.current = createConfessionalRenderer(gl);
-        draw(0);
+        draw(0, 0);
         setReady(true);
       } catch {
-        setFailed(true);
+        fail();
       }
     },
-    [draw],
+    [draw, fail],
   );
-  const enter = () =>
-    resume || reduced || !ready || failed ? onEntered() : onOpen();
+
   return (
-    <View style={styles.container}>
-      <Pressable
-        accessibilityRole="button"
-        accessibilityLabel={t(resume ? "cReturnDraft" : "cShare")}
-        accessibilityHint={t("cDoorHint")}
-        accessibilityState={{ disabled: disabled || opening, busy: opening }}
-        disabled={disabled || opening}
-        onPress={enter}
-        style={styles.scene}
+    <Modal
+      visible
+      transparent
+      animationType="none"
+      statusBarTranslucent
+      navigationBarTranslucent
+      presentationStyle="overFullScreen"
+      onRequestClose={cancel}
+    >
+      <Animated.View
+        style={[styles.overlay, { opacity }]}
+        accessibilityViewIsModal
       >
-        <View
-          pointerEvents="none"
-          accessible={false}
-          accessibilityElementsHidden
-          importantForAccessibility="no-hide-descendants"
-          style={styles.art}
-        >
-          <View style={styles.halo} />
-          <View style={styles.floorShadow} />
-          {(!ready || failed) && <DoorFallback />}
-          {!failed && (
-            <SceneBoundary>
-              <GLView
-                {...(Platform.OS === "web"
-                  ? {
-                      webglContextAttributes: WEB_GL_OPTIONS,
-                      onContextLost: () => setFailed(true),
-                    }
-                  : {})}
-                style={[StyleSheet.absoluteFill, { opacity: ready ? 1 : 0 }]}
-                onContextCreate={onContextCreate}
-                onLayout={() => {
-                  if (!opening) {
-                    if (layoutFrame.current !== null)
-                      cancelAnimationFrame(layoutFrame.current);
-                    layoutFrame.current = requestAnimationFrame(() => {
-                      layoutFrame.current = null;
-                      try {
-                        draw(0);
-                      } catch {
-                        setFailed(true);
+        <View style={styles.stage}>
+          <View
+            pointerEvents="none"
+            accessible={false}
+            accessibilityElementsHidden
+            importantForAccessibility="no-hide-descendants"
+            style={StyleSheet.absoluteFill}
+          >
+            <View style={styles.waitingDoor}>
+              <View style={styles.waitingWindow} />
+              <View style={styles.waitingPanel} />
+            </View>
+            {!failed && (
+              <SceneBoundary onFailure={fail}>
+                <GLView
+                  {...(Platform.OS === "web"
+                    ? {
+                        webglContextAttributes: WEB_GL_OPTIONS,
+                        onContextLost: fail,
                       }
-                    });
-                  }
-                }}
-              />
-            </SceneBoundary>
-          )}
+                    : {})}
+                  style={[StyleSheet.absoluteFill, { opacity: ready ? 1 : 0 }]}
+                  onContextCreate={onContextCreate}
+                  onLayout={() => {
+                    // Keep the current door position when the viewport changes.
+                    if (renderer.current) {
+                      try {
+                        draw(
+                          currentFrame.current.open,
+                          currentFrame.current.approach,
+                        );
+                      } catch {
+                        fail();
+                      }
+                    }
+                  }}
+                />
+              </SceneBoundary>
+            )}
+          </View>
+          <View style={[styles.top, { paddingTop: Math.max(insets.top, 18) }]}>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={t("cBack")}
+              onPress={cancel}
+              style={styles.back}
+            >
+              <Text style={styles.backIcon}>‹</Text>
+            </Pressable>
+            <Text style={styles.eyebrow}>{t("confession")}</Text>
+            <View style={styles.balance} />
+          </View>
+          <View
+            style={[
+              styles.bottom,
+              { paddingBottom: Math.max(insets.bottom, 20) },
+            ]}
+          >
+            <Text accessibilityLiveRegion="polite" style={styles.hint}>
+              {t("cDoorInvitation")}
+            </Text>
+            <Pressable
+              accessibilityRole="button"
+              onPress={finish}
+              style={styles.skip}
+            >
+              <Text style={styles.skipLabel}>{t("cDoorSkip")}</Text>
+            </Pressable>
+          </View>
         </View>
-      </Pressable>
-      <Text accessibilityLiveRegion="polite" style={styles.hint}>
-        {t(opening ? "cDoorOpening" : "cDoorInvitation")}
-      </Text>
-      <Button
-        disabled={disabled || opening}
-        title={t(resume ? "cReturnDraft" : "cShare")}
-        onPress={enter}
-      />
-      {children}
-      <Pressable
-        accessibilityRole="button"
-        disabled={disabled}
-        onPress={onEntered}
-        style={styles.skip}
-      >
-        <Text style={styles.skipLabel}>{t("cDoorSkip")}</Text>
-      </Pressable>
-    </View>
+      </Animated.View>
+    </Modal>
   );
 }
-
 const styles = StyleSheet.create({
-  container: { gap: 8, width: "100%" },
-  scene: { width: "100%", maxWidth: 340, height: 270, alignSelf: "center" },
-  art: { flex: 1 },
-  halo: {
-    position: "absolute",
-    width: 210,
-    height: 250,
-    top: 18,
-    alignSelf: "center",
-    borderRadius: 120,
-    backgroundColor: "#D7BD8406",
-  },
-  floorShadow: {
-    position: "absolute",
-    width: 190,
-    height: 15,
-    bottom: 17,
-    alignSelf: "center",
-    borderRadius: 100,
-    backgroundColor: "#00150F55",
-  },
-  hint: {
-    color: colors.gold,
-    fontSize: 13,
-    lineHeight: 19,
-    textAlign: "center",
-    marginBottom: 4,
-  },
-  skip: {
-    minHeight: 44,
-    alignSelf: "center",
-    justifyContent: "center",
-    paddingHorizontal: 20,
-  },
-  skipLabel: {
-    fontSize: 12,
-    color: colors.inactive,
-    textDecorationLine: "underline",
-  },
-  fallback: {
-    width: 174,
-    height: 264,
-    borderTopLeftRadius: 88,
-    borderTopRightRadius: 88,
-    borderWidth: 12,
-    borderColor: "#5F3C23",
-    backgroundColor: "#281A10",
-    alignSelf: "center",
-    marginTop: 19,
-    padding: 4,
-  },
-  fallbackLeaf: {
+  overlay: { flex: 1, backgroundColor: "#21170F" },
+  stage: {
     flex: 1,
-    borderTopLeftRadius: 74,
-    borderTopRightRadius: 74,
-    backgroundColor: "#704729",
-    borderWidth: 2,
-    borderColor: "#9C7545",
-    padding: 16,
-    gap: 20,
-  },
-  fallbackWindow: {
-    height: 98,
-    borderTopLeftRadius: 58,
-    borderTopRightRadius: 58,
-    backgroundColor: "#B08D50",
-    borderWidth: 4,
-    borderColor: "#362315",
+    width: "100%",
+    maxWidth: 560,
+    alignSelf: "center",
     overflow: "hidden",
   },
-  latticeLine: {
+  top: {
     position: "absolute",
-    top: -20,
-    height: 150,
-    width: 3,
-    backgroundColor: "#3B2716",
-    transform: [{ rotate: "35deg" }],
+    top: 0,
+    left: 0,
+    right: 0,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 18,
   },
-  fallbackPanel: {
+  back: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: "#21170FCC",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  backIcon: { fontSize: 30, lineHeight: 34, color: colors.ink },
+  balance: { width: 44 },
+  eyebrow: {
+    color: colors.gold,
+    fontSize: 10,
+    letterSpacing: 3,
+    textTransform: "uppercase",
+    backgroundColor: "#21170FCC",
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 16,
+  },
+  bottom: {
+    position: "absolute",
+    bottom: 0,
+    left: 0,
+    right: 0,
+    alignItems: "center",
+    paddingTop: 14,
+    backgroundColor: "#21170FCC",
+  },
+  hint: {
+    color: colors.ink,
+    fontSize: 14,
+    lineHeight: 20,
+    textAlign: "center",
+  },
+  skip: { minHeight: 44, justifyContent: "center", paddingHorizontal: 24 },
+  skipLabel: {
+    color: colors.gold,
+    fontSize: 12,
+    textDecorationLine: "underline",
+  },
+  waitingDoor: {
+    position: "absolute",
+    top: "5%",
+    bottom: "5%",
+    left: "3%",
+    right: "3%",
+    borderTopLeftRadius: 220,
+    borderTopRightRadius: 220,
+    borderWidth: 20,
+    borderColor: "#4F321F",
+    backgroundColor: "#644128",
+    padding: 36,
+    gap: 32,
+  },
+  waitingWindow: {
     flex: 1,
-    borderWidth: 4,
-    borderColor: "#49301D",
-    backgroundColor: "#634024",
+    borderTopLeftRadius: 150,
+    borderTopRightRadius: 150,
+    borderWidth: 5,
+    borderColor: "#322316",
+    backgroundColor: "#A37D45",
   },
-  fallbackHandle: {
-    position: "absolute",
-    right: 5,
-    top: 140,
-    width: 7,
-    height: 20,
-    backgroundColor: colors.gold,
-    borderRadius: 3,
+  waitingPanel: {
+    flex: 1,
+    borderWidth: 5,
+    borderColor: "#8E653C",
+    backgroundColor: "#52351F",
   },
 });
