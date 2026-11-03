@@ -1,0 +1,18 @@
+# User functions verify bearer tokens with auth.getUser inside the handler.
+# This supports current asymmetric Supabase JWTs without relying on the legacy gateway verifier.
+project_id = "still"
+[auth]
+site_url = "awaychurch://auth"
+additional_redirect_urls = ["awaychurch://auth"]
+[functions.account-delete]
+verify_jwt = false
+[functions.apple-credential]
+verify_jwt = false
+[functions.gathering-token]
+verify_jwt = false
+[functions.notifications-dispatch]
+verify_jwt = false
+[functions.news]
+verify_jwt = false
+[functions.llm-journey]
+verify_jwt = false

@@ -1,0 +1,2 @@
+insert into storage.buckets(id,name,public,file_size_limit,allowed_mime_types) values('journal-backups','journal-backups',false,52428800,array['application/octet-stream']) on conflict(id) do nothing;
+create policy own_backup_objects on storage.objects for all to authenticated using(bucket_id='journal-backups' and name=(select auth.uid())::text||'/journal.bin') with check(bucket_id='journal-backups' and name=(select auth.uid())::text||'/journal.bin');

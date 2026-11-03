@@ -1,6 +1,6 @@
 {
   "name": "still-spiritual-journal",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -8,9 +8,12 @@
     "test": "node --test tests/*.test.mjs",
     "check": "node --check dist/app.js && node --check dist/content.js && node --check dist/core.js && node --check dist/journey.js && node --check dist/community.js && node --check dist/community-data.js && node --check dist/community-copy.js && node --check worker/api.js && node --check dist/psalms.js && node --check dist/profile.js && node --check dist/profile-copy.js && node --check dist/books.js && node --check dist/personalization.js",
     "build": "node scripts/build.mjs",
-    "db:generate": "drizzle-kit generate"
+    "db:generate": "drizzle-kit generate",
+    "content:sync": "node scripts/sync-mobile-content.mjs",
+    "support:build": "node scripts/build-support-pages.mjs"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.5.14",
     "drizzle-kit": "^0.31.11",
     "drizzle-orm": "^0.45.4"
   }

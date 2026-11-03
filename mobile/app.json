@@ -1,0 +1,67 @@
+{
+  "expo": {
+    "name": "Away Church",
+    "slug": "away-church",
+    "scheme": "awaychurch",
+    "version": "0.4.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": false,
+      "usesAppleSignIn": true,
+      "infoPlist": {
+        "UIFileSharingEnabled": false
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/icon.png",
+        "backgroundColor": "#F6F3EC"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "output": "single"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-font",
+      [
+        "expo-audio",
+        {
+          "microphonePermission": "Record a private audio journal or speak in a gathering when you choose.",
+          "enableBackgroundRecording": false,
+          "enableBackgroundPlayback": false
+        }
+      ],
+      [
+        "expo-secure-store",
+        {
+          "configureAndroidBackup": true
+        }
+      ],
+      [
+        "expo-sqlite",
+        {
+          "useSQLCipher": true
+        }
+      ],
+      "expo-localization",
+      "expo-apple-authentication",
+      "expo-notifications",
+      "@livekit/react-native-expo-plugin",
+      [
+        "@config-plugins/react-native-webrtc",
+        {
+          "cameraPermission": false,
+          "microphonePermission": "Speak in an Away Church gathering when you choose."
+        }
+      ],
+      "expo-asset"
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}

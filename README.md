@@ -1,40 +1,59 @@
-# Still — Spiritual reconnection MVP
+# Away Church — mobile MVP and private web preview
 
-Working name: **Still**. Built from the Spiritual Reconnection App brief and the request for text/audio journaling, Christian tradition preferences, and English, Portuguese, Spanish, and Russian. No onboarding or commercial model is assumed.
+Away Church is the current working name. Public support contact: **hello@awaychurch.com** (mailbox verification is still outstanding). The original Still web preview and its browser journals are retained. The new `mobile/` app is a separate Expo / React Native application for iPhone, with optional Supabase accounts. The two account stores are not automatically merged.
 
-## Run locally
+## What is implemented
 
-Requires Node.js 24 for the local SQLite preview and tests. Run `npm install` for the migration tools.
+- Seven-screen, optional onboarding: language, name, intention, Christian tradition, scripture language, city/state/country, and optional notification email with consent.
+- Journal, Explore, Learn and Gatherings tabs. Home has a daily verse, followed by text/audio journaling. An explicit feeling selects sourced verses, relevant actions, evidence links and book recommendations. AI is deliberately disconnected.
+- Four interface languages: English, Portuguese, Spanish and Russian. Some new operational/error and audio-room strings still require the final four-language review tracked in `release/readiness.json`.
+- Native SQLCipher journal storage, a key in SecureStore, AES-GCM recording files, playback, history/search/deletion, and encrypted backup export/restore with a separately displayed recovery key. Native storage fails closed when SQLCipher or its key is unavailable. The browser rendering of the native app uses **temporary memory only**.
+- Sourced Explore catalog: testimonies, stories, music histories, Bible animations, psalms and Catholic saint prayers. External media opens on the publisher. Community comments are pending until moderator approval; users can like, report and block. Likes and comments require a connected account.
+- Free learning resources and three original courses with locally saved lesson progress.
+- Calendar, series interest, capacity-limited reservations, and LiveKit audio-room integration. Host controls allow speaking, remove participants and close a room. No real gathering is scheduled until a host enters confirmed details.
+- Charity suggestions match city **and** state/country, with Brazil as the initial directory. Visits and donations use the organizations’ official channels; no booking or payment API is claimed.
+- Email-code authentication, optional Sign in with Apple, optional profile synchronization, local reminders, gathering notification infrastructure, in-app account deletion and device-data deletion.
+- `/staff` is the internal moderation/editorial screen, protected by a server-assigned staff role. Staff can review comments/reports, suspend abusive authors, edit curated content and publish confirmed gatherings. Staff have no journal-reading API.
+- Privacy/support pages use Away Church and hello@awaychurch.com. The Apple release preflight blocks production builds while configuration and review items are unfinished.
+
+## Run the mobile app
+
+Use Node 24.3 or newer in the Node 24 line. Development here used Node 24.22.2. Dependencies are pinned in `mobile/package-lock.json`.
 
 ```sh
-node scripts/serve-community.mjs
+cd mobile
+npm ci
+npm run web -- --port 8082
+npm run typecheck
+npm run lint
 ```
 
-Open http://127.0.0.1:4174. `npm run dev` retains the UI-only static preview on port 4173. Recording requires HTTPS or localhost, a compatible browser, and permission from the person using the app.
+For an iPhone development build, configure an Expo project and Apple credentials, then use `npx eas-cli@latest build --platform ios --profile development`. Full Xcode is needed only for local native builds; this Mac currently has command-line tools only. **Expo Go cannot open this app’s SQLCipher/LiveKit native modules.**
 
-```sh
-npm test
-npm run check
-```
+Copy `mobile/.env.example` to an ignored local `.env` and set the Supabase public URL/publishable key and Expo project ID when available. Set `APPLE_BUNDLE_ID` to the bundle ID registered in the Apple Developer account. `com.awaychurch.preview` is a development fallback, not an approved release identifier. No service-role, Apple private key, LiveKit secret or LLM key belongs in `EXPO_PUBLIC_*` variables.
 
-## Implemented
+The browser preview is for interface review. Native encryption, microphone permissions, SecureStore recovery, audio sessions, Apple sign-in, notifications and backup restore still require a physical-device test. Browser preview data disappears on reload; existing journals in the original web app are unaffected.
 
-- Responsive journal, nine feelings, text input, microphone recording (maximum two minutes), audio upload (maximum 20 MB), playback, and audio download.
-- Mixed text/audio entries, stored together in IndexedDB.
-- A mobile-first, four-screen journey: check-in → situation-specific scripture → a choice of relevant actions → action instructions and a saved follow-up. The opening screen immediately asks “How are you feeling today?”; scripture appears only after submission.
-- Six passages per edition. Each new journey shows only one or two matching passages, with a direct sadness passage available in each supported edition. The preview requires an explicit feeling; no AI interpretation of private text or audio is claimed.
-- Journal history, text/mood search, per-entry deletion, JSON export including base64 audio.
-- Four complete interface languages. App language, scripture language, tradition, and edition are separate settings.
-- Exact quotations with references, editions, source links, attribution, and edition-specific numbering. Historical entries retain snapshots of their original passages and reflections when preferences change.
-- Four mobile tabs: Journal, Explore, Learn, and Gatherings. Explore has 12 sourced/original items with topic filters, detail pages, exact Psalm 23/22 text across the six supported editions, official media links, Catholic saint prayers, authenticated shared likes/comments, and native sharing or a copy-link fallback.
-- Learn offers six categories, three external free resources and three original mini courses with browser-local lesson progress.
-- Gatherings has a month calendar with proposed Thursdays and a persistent, reversible series-interest action. No time, host, or meeting is invented.
-- Three independent Brazilian nonprofits have verified contact/address/volunteering/donation links. Bookings and payments happen with the organization.
-- The Worker checks Positive News RSS on request (five-minute cache), filters publication dates to the past 24 hours, and displays a clear empty/error state. It does not assert the underlying events happened in that window.
-- Clear unavailable states for unlicensed scripture combinations and disconnected/failed services.
-- A local keyword gate for explicit self-harm phrases in typed entries and follow-ups, prioritizing human support; manual support access. This is a limited safeguard, not reliable risk detection, monitoring, or clinical triage. Audio is not analyzed.
+## Connect and deploy Supabase
 
-## Scripture coverage
+The Supabase plugin was suggested, but no connected project or production database was available during this implementation. Nothing in `supabase/` has been applied to a remote project.
+
+1. Connect/select the intended Supabase project. Review the migrations, then apply all three files in `supabase/migrations/` using the Supabase migration workflow. Existing Sites/D1 migrations are separate and unchanged.
+2. Run `supabase/seed-content.sql` in that project to populate the sourced catalog. `npm run content:sync` regenerates the native catalog and seed from the authored web sources.
+3. Configure production Auth SMTP and the email OTP template to include `{{ .Token }}`. The native app verifies a code, not a magic-link-only email. Configure `awaychurch://auth` as the redirect scheme.
+4. Deploy the six edge functions. User functions verify the session with `auth.getUser`; the news endpoint is read-only; notification dispatch requires a separate server cron secret.
+5. Configure only the services that will be enabled. `supabase/.env.example` lists server-side settings. Keep real secrets in Supabase secrets, never committed files. Generate a random 32-byte base64 key for Apple refresh-token encryption. Enable Apple sign-in in the app only after the native bundle ID, Apple provider and revocation flow are verified.
+6. Assign an existing authenticated owner to staff using the project SQL editor: `insert into private.staff(user_id,role) values ('CONFIRMED-OWNER-UUID','admin');`. Never make staff assignment available to ordinary clients. Open `/staff` using that account.
+7. For gatherings, configure LiveKit, confirm hosts and times, and test the host controls with two devices. Tokens authorize only an eligible member in the time window. Participants join muted. The app disconnects at the scheduled end; the protected notification scheduler also closes expired rooms when LiveKit is configured.
+8. For email/push, verify the sender domain and mailbox, configure Resend and Expo push credentials, and schedule the protected `notifications-dispatch` endpoint. No schedule was activated and no emails were sent during development. Email is sent only to a consented address matching the authenticated, verified email. Delivery jobs use locks and stable email idempotency keys; push acceptance is not proof of delivery. Device receipt/error handling needs operational verification before release.
+
+Official references: [Expo builds](https://docs.expo.dev/build/introduction/), [Supabase Apple sign-in](https://supabase.com/docs/guides/auth/social-sign-in/auth-apple), [LiveKit Expo](https://docs.livekit.io/transport/sdk-platforms/expo/), [Apple account deletion](https://developer.apple.com/documentation/technotes/tn3194-handling-account-deletions-and-revoking-tokens-for-sign-in-with-apple).
+
+## LLM connection point
+
+The user is handling the LLM provider. `supabase/functions/llm-journey/` returns an explicit `501 llm_not_connected`. Nothing sends private writing or audio to an AI provider. `mobile/src/lib/llm-contract.ts` defines a response contract limited to approved path, verse and action IDs. When implementing the provider, require a separate informed consent, protect the key server-side, handle failed transcription without losing drafts, allow the person to correct the interpretation, and retain exact scripture from the sourced catalog. The local keyword gate is limited and is not a complete risk assessment or monitoring service.
+
+## Scripture and content coverage
 
 | Scripture language | Protestant | Catholic | Orthodox |
 | --- | --- | --- | --- |
@@ -43,81 +62,26 @@ npm run check
 | Spanish | Reina-Valera 1909 | Not yet sourced | Not yet sourced |
 | Russian | Synodal NT selections | Not yet sourced | Synodal NT selections |
 
-Unavailable combinations never silently substitute another tradition or language. An English scripture language can be selected explicitly while keeping any interface language. The journal has 36 devotional quotations; Explore also includes Psalm 23/22 in each of the six supported editions. This is not a full Bible. See `SCRIPTURE_SOURCES.md` and in-app Sources & credits.
+Unsupported combinations are explained; another tradition/language is never silently substituted. There are 36 curated quotations plus Psalm 23/22 in six editions, not a full Bible. `SCRIPTURE_SOURCES.md` records provenance. Final theology, translation, content-rights and age-rating reviews remain on the release checklist. News uses the past 24 hours of **publication timestamps**, not a claim about event dates. Courses, books, music and charities are independent external resources.
 
-## Privacy and data lifecycle
+## Original web preview
 
-- Journal text, audio Blobs, scripture snapshots, chosen action, and follow-up stay in this browser's IndexedDB. Preferences and learning progress use localStorage.
-- Shared likes, explicitly submitted comments, and gathering interest use D1. Server routes require the Sites-injected stable user ID; no emails or account IDs are exposed in comment responses. Comments can be soft-deleted by their own author. Writes enforce same-origin JSON, validation, and comment rate limits.
-- No analytics, journal uploads, cloud synchronization, AI service, external font, or tracking image requests are included.
-- Browser-local storage is **not encrypted app storage**. Anyone with access to the browser profile can read it. Clearing site data or using an ephemeral browser profile can remove it. Exports include private content and should be stored securely.
-- Local preview and the hosted site use different origins, so their browser storage is separate. Test entries are not uploaded with deployment.
-- Exports are portable JSON backups with audio data URLs. Import/restore UI is not implemented yet.
-- The hosted preview has a private custom allowlist (owner plus the explicitly approved external viewer). This access gate does not replace a production multi-user authentication, encryption, backup, and account-deletion design.
+`dist/` contains authored source; **do not delete it**. Only `dist/server/` is generated. The hosted URL and private audience stay unchanged. Its journals use IndexedDB and are not encrypted app storage. Likes, comments, onboarding profiles and series interest use the existing D1 backend. This private prototype is not the Supabase production app.
 
-## Project structure
+```sh
+npm ci
+node scripts/serve-community.mjs
+npm test
+npm run check
+npm run build
+```
 
-- `dist/index.html`, `dist/styles.css`: shell, responsive styling, accessibility, self-hosted original SVG assets.
-- `dist/app.js`: views, IndexedDB, MediaRecorder, journal lifecycle, dialogs.
-- `dist/core.js`: preference/edition matching, passage selection, text escaping, local safety gate.
-- `dist/journey.js`: situation-to-scripture/action mappings and four-language journey content.
-- `dist/flow.css`: mobile-first layout, tap targets, and single-column screens.
-- `dist/content.js`: original interface text, reflections, practices, story summaries in four languages.
-- `dist/scripture.json`: verified scripture and provenance, distinct from original app-written text.
-- `worker/api.js`: authenticated social endpoints and live RSS filtering.
-- `db/schema.js` and `drizzle/`: versioned D1 schema/migration.
-- `dist/community*` and `dist/psalms.js`: localized community UI, sourced catalog, evidence notes, and exact psalm text.
-- `scripts/build.mjs`: packages the static assets into a dependency-free Worker; only generated `dist/server` and hosting metadata are ignored.
-- `scripts/serve-community.mjs`: localhost-only preview with separate SQLite test data and a fixed local test identity. Never used in production.
-- `scripts/serve.mjs`: legacy static preview server.
-- `tests/core.test.mjs` and `tests/journey.test.mjs`: 16 tests of content selection, coverage, localization, safety gate, input, and escaping.
+The community preview defaults to localhost:4174. Use a separate `STILL_PREVIEW_PORT` and `STILL_PREVIEW_DB` for QA; do not overwrite someone’s active draft. The native app has its own localhost:8082 preview.
 
-## Before a wider launch
+## Release checks and verification
 
-Select approved native-language Catholic and Orthodox editions and licenses; obtain theological and translation review; decide encrypted storage and multi-device accounts; test recording on physical iOS/Android devices; define human safety operations. Add moderated groups, vetted live opportunities, or AI transcription only with their necessary consent and operational controls. No reminders, booked sessions, completed donations, payments, or human support service are simulated. Gathering interest is real but is not a booking. A wider community needs moderation/reporting and account data-management operations.
+`release/readiness.json` contains the exact remaining launch gates. `npm run preflight --prefix mobile` reports missing values and exits nonzero. Production EAS builds run that same gate; development builds remain possible. Public App Store support/privacy URLs must be accessible without the current private Site login. The supplied domain/email are not evidence that domain hosting or mail delivery is configured.
 
-## Verification performed
+Automated checks include the existing 27 web/content tests plus Postgres RLS tests for profile isolation, moderation, impersonation, hidden content, rate limits, reservations, speaking permissions, reports, suspensions and notification recipients. Native TypeScript, ESLint, Expo compatibility, iOS/web Metro bundle export and Deno edge-function checks are run separately. A successful Metro export is not a signed iOS binary or proof of physical-device behavior.
 
-- All 16 automated tests pass, including exact tradition/language filtering, all four localized contexts per quotation, supported/unsupported combinations, preservation of quotation text, local support detection examples, and escaping journal content.
-- JavaScript syntax checks pass.
-- Browser: text entry, selected action and follow-up persisted after reload; a generated one-second silent WAV uploaded and survived reload alongside its text with playback controls.
-- Browser: Portuguese unavailable Catholic state, Russian Synodal selection, Spanish mobile interface, and English defaults checked.
-- Responsive QA at 1440px and 390px. Mobile card clipping was reproduced and fixed; measured content width equals viewport width.
-- Browser: explicit-risk typed test opens human-support guidance before saving or recommending content.
-- Physical microphone recording and physical iOS/Android device behavior remain to be tested. Audio transcription is not implemented.
-
-
-## Mobile journey revision (2 November 2026)
-
-- Sadness: a passage about sorrow/comfort → prayer, a gentle walk with personally chosen music, or reaching out.
-- Losing hope in the world: hope scripture → Positive News, an act of kindness, or arranging a reading/conversation visit with an older person.
-- Anxiety, loneliness, overwhelm, gratitude, peace, hope, and uncertainty each have their own path. The person can correct the selected feeling before choosing an action.
-- Exactly quoted scripture and its source remain separate from app-written reflections and prayers. No inference of a diagnosis.
-- New flow, actions, and copy support English, Portuguese, Spanish and Russian. Scripture coverage remains as listed above.
-- The existing IndexedDB store is retained; old entries and audio are not migrated or deleted.
-
-### Still pending for the requested AI experience
-
-The user explicitly deferred the LLM API connection until later. No API key is configured and no journal text or audio is sent to an AI provider. The current published revision is an explicitly labelled, feeling-selected preview. Genuine interpretation must not be represented as complete.
-
-When the connection is enabled, use its API-key setup workflow, retain the current Worker and Site identity/audience, and keep the API key server-only. An authenticated endpoint should transcribe opted-in audio, interpret the journal in the selected language, and return a validated situation plus an empathetic reflection. Select verse IDs and action IDs from the verified catalog, never let the model invent Bible text or live events. Let the person correct the interpretation. Include clear per-entry disclosure/consent before sending private journal text/audio; handle unavailable AI and failed transcription without losing the draft or silently pretending to personalize.
-
-[Official structured-output documentation](https://developers.openai.com/api/docs/guides/structured-outputs) and [file transcription documentation](https://developers.openai.com/api/docs/guides/speech-to-text) were checked while preparing this change.
-
-The initial weekly session will discuss depression and loneliness; Thursday is the proposed example day. Host, start date, time/timezone, moderation and joining integration remain to be confirmed. It is labelled planned; no live recurring schedule is claimed. External groups at Action for Happiness are explicitly separate from Still and from depression treatment. Explore now includes an on-demand English-language RSS news feed filtered by publication time. Official outbound music/video resources and verified Brazilian NGO links are available; media hosting rights, an organization booking API, and payment integration remain unconnected.
-
-Validation for this revision: 16 automated tests; browser check-in → verse → action → follow-up and persistence after reload; distinct sadness and loss-of-hope paths; four-language and mobile-width checks. Physical-device recording and live AI remain unverified.
-
-## Community revision verification (2 November 2026)
-
-`npm run check`, `npm test` (22 tests), and `npm run build`. Added tests cover authentication, cross-origin write rejection, reaction idempotence, comment privacy/ownership, interest persistence, 24-hour timestamp boundaries, category coverage and calendar dates. Local mobile browser QA checks the four tabs, likes/comments after reload, mini-course progress, and the proposed calendar. The hosted build packages only authored assets and migrations; local SQLite test records are excluded.
-
-### Personal onboarding and city matching
-
-The seven-screen welcome flow collects a private account profile (name, broad city/state/country, starting intention, and an optional email with explicit opt-in). `GET/POST/DELETE /api/profile` derives identity only from Sites' authenticated header. Profiles are held in D1; journal text/audio remain in IndexedDB. Email preferences can be changed or removed in Profile. **No email delivery provider, schedule, or verification service is connected; no notifications are sent.** The interface states this before consent.
-
-Onboarding can be postponed for the browser session and reopened from Preferences. Bible preferences remain device-local, including their existing strict tradition/language compatibility. The home daily passage uses the reader's local calendar date and their selected sourced edition; unsupported combinations show an original encouragement and an availability explanation.
-
-Charities match normalized city names **and** state/country. The initial verified directory has São Paulo listings and a Rio de Janeiro network contact; an empty city displays no invented results and offers Atados and a Maps search. Visits and donations remain external to Still. Curated action-step books link to official authors/publishers, display the linked edition's language, and are separate from free Learn courses.
-
-For an isolated browser test, run `STILL_PREVIEW_PORT=4175 STILL_PREVIEW_DB=.preview/onboarding-qa.sqlite node scripts/serve-community.mjs`. This uses its own database and browser origin; do not test against a user's active draft.
+The dependency audit currently reports no high/critical advisories; moderate findings stem from glob/minimatch in the Expo tooling dependency chain. Automated force-fix suggestions downgrade Expo and were not applied. Review compatible patched tooling before release. Actual production configuration, end-to-end authentication, real audio calls and notification delivery are not claimed verified.

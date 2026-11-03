@@ -4,3 +4,15 @@ node_modules/
 *.tar.gz
 dist/server/
 dist/.openai/
+.env
+.env.*
+!.env.example
+mobile/.expo/
+mobile/dist/
+mobile/ios/
+mobile/android/
+*.ipa
+*.p12
+*.p8
+*.mobileprovision
+supabase/.temp/
