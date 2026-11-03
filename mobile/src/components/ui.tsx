@@ -56,7 +56,7 @@ export function SurfaceTheme({
     </SurfaceContext.Provider>
   );
 }
-function useSurfaceColors() {
+export function useSurfaceColors() {
   const card = useContext(CardSurface);
   const theme = useContext(SurfaceContext);
   return (
@@ -72,11 +72,13 @@ export function Screen({
   back = false,
   quiet = false,
   keyboardAware = false,
+  headerAction,
 }: {
   children: React.ReactNode;
   back?: boolean;
   quiet?: boolean;
   keyboardAware?: boolean;
+  headerAction?: React.ReactNode;
 }) {
   const { profile } = useApp();
   const theme = useContext(SurfaceContext);
@@ -97,24 +99,41 @@ export function Screen({
           contentContainerStyle={s.page}
         >
           {back && (
-            <Button
-              secondary
-              title="‹"
+            <Pressable
+              accessibilityRole="button"
               accessibilityLabel={label(profile.language, "back")}
+              style={{
+                minWidth: 44,
+                minHeight: 44,
+                alignSelf: "flex-start",
+                justifyContent: "center",
+              }}
               onPress={() =>
                 router.canGoBack() ? router.back() : router.replace("/(tabs)")
               }
-            />
+            >
+              <Ionicons
+                name="arrow-back"
+                size={23}
+                color={theme?.ink ?? colors.ink}
+              />
+            </Pressable>
           )}
           {!quiet && (
             <View style={s.brand}>
               <Ionicons name="leaf-outline" size={23} color={colors.gold} />
               <Text style={s.brandText}>GRACE & GATHER</Text>
+              <View style={{ marginLeft: "auto" }}>{headerAction}</View>
               <Pressable
                 accessibilityLabel={label(profile.language, "accountSettings")}
                 accessibilityRole="button"
                 onPress={() => router.push("/account")}
-                style={{ marginLeft: "auto", padding: 8 }}
+                style={{
+                  minHeight: 44,
+                  minWidth: 44,
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
               >
                 <Ionicons
                   name="person-circle-outline"
@@ -283,12 +302,18 @@ export function Chip({
 export function Row({ children }: { children: React.ReactNode }) {
   return <View style={s.row}>{children}</View>;
 }
-export function Field({ label, ...props }: TextInputProps & { label: string }) {
+export function Field({
+  label,
+  hideLabel = false,
+  ...props
+}: TextInputProps & { label: string; hideLabel?: boolean }) {
   const surface = useSurfaceColors();
   const theme = useContext(SurfaceContext);
   return (
     <View style={{ gap: 8, marginVertical: 7 }}>
-      <Text style={[s.fieldLabel, { color: surface.ink }]}>{label}</Text>
+      {!hideLabel && (
+        <Text style={[s.fieldLabel, { color: surface.ink }]}>{label}</Text>
+      )}
       <TextInput
         accessibilityLabel={label}
         placeholderTextColor={theme?.muted ?? colors.cardMuted}

@@ -1,5 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
-import { useFocusEffect, useNavigation } from "expo-router";
+import {
+  useFocusEffect,
+  useNavigation,
+  useLocalSearchParams,
+  router,
+} from "expo-router";
 import {
   Text,
   View,
@@ -28,6 +33,12 @@ import {
   colors,
   s as sharedStyles,
 } from "../../components/ui";
+import {
+  ActionCard,
+  Disclosure,
+  TextAction,
+} from "../../components/QuietControls";
+import { designCopy } from "../../lib/design-copy";
 import Recorder from "../../components/Recorder";
 import AudioPlayback from "../../components/AudioPlayback";
 import ConfessionAudio from "../../components/ConfessionAudio";
@@ -51,6 +62,11 @@ export default function ConfessionRoom() {
     language = profile.language,
     t = (key: string) => copy(language, key);
   const navigation = useNavigation();
+  const { view } = useLocalSearchParams<{ view?: string }>();
+  const d = (key: Parameters<typeof designCopy>[1]) =>
+    designCopy(language, key);
+  const [themeOpen, setThemeOpen] = useState(false),
+    [responseOpen, setResponseOpen] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(true);
   const [page, setPage] = useState<Page>("room"),
     [entering, setEntering] = useState(false),
@@ -64,7 +80,6 @@ export default function ConfessionRoom() {
     [textInstead, setTextInstead] = useState(false),
     [busy, setBusy] = useState(false),
     [error, setError] = useState(""),
-    [moderator, setModerator] = useState(false),
     [items, setItems] = useState<Confession[]>([]),
     [reserved, setReserved] = useState<Confession[]>([]),
     [detail, setDetail] = useState<Confession | null>(null),
@@ -120,19 +135,32 @@ export default function ConfessionRoom() {
     });
   }, [navigation, page]);
   useEffect(() => {
+    if (view !== "review") return;
     let active = true;
-    if (backend)
-      void confessionAPI("status")
-        .then((r) => {
-          if (active) setModerator(r.moderator);
-        })
-        .catch(() => {});
+    // The API verifies moderator authorization; the account link is only navigation.
+    void confessionAPI("queue", { language })
+      .then((result) => {
+        if (!active) return;
+        setError("");
+        setItems(result.items);
+        setReserved([]);
+        setReport(null);
+        setPage("review");
+      })
+      .catch(() => {
+        if (active) setError(copy(language, "cError"));
+      })
+      .finally(() => {
+        if (active) {
+          router.setParams({ view: "" });
+        }
+      });
     return () => {
       active = false;
     };
-  }, []);
+  }, [view, language]);
   async function run(fn: () => Promise<void>) {
-    if (busy || recording) return;
+    if (busy || recording || view === "review") return;
     setBusy(true);
     setError("");
     try {
@@ -192,7 +220,7 @@ export default function ConfessionRoom() {
   const btn = (key: string, onPress: () => void, quiet = false) => (
     <Button
       title={t(key)}
-      disabled={busy || recording || entering}
+      disabled={busy || view === "review" || recording || entering}
       onPress={onPress}
       secondary={quiet}
     />
@@ -261,176 +289,192 @@ export default function ConfessionRoom() {
       >
         <SurfaceTheme palette={page === "share" ? room : null}>
           <Screen quiet={page === "share"} keyboardAware={page === "share"}>
-            {page !== "room" &&
-              btn(
-                "cBack",
-                () => {
+            {page !== "room" && (
+              <TextAction
+                title={t("cBack")}
+                icon="arrow-back"
+                disabled={busy || view === "review" || recording}
+                onPress={() => {
+                  setEntering(false);
                   setPage("room");
                   setReport(null);
-                },
-                true,
-              )}
+                }}
+              />
+            )}
             {!backend && <Text style={s.note}>{t("cOffline")}</Text>}
             {!!error && <Notice text={error} />}
-            {busy && (
+            {(busy || view === "review") && (
               <Text accessibilityLiveRegion="polite" style={s.note}>
                 {t("cLoading")}
               </Text>
             )}
             {page === "room" && (
               <>
-                <View style={s.entrance}>
-                  <View style={s.roomSymbol}>
-                    <Ionicons
-                      name="grid-outline"
-                      size={24}
-                      color={colors.gold}
-                      accessible={false}
-                    />
-                  </View>
-                  <Text style={s.eyebrow}>{t("confession")}</Text>
-                  <Text
-                    accessibilityRole="header"
-                    style={[s.title, s.centered]}
-                  >
-                    {t("cTitle")}
+                <View style={{ gap: 12, paddingTop: 12, paddingBottom: 10 }}>
+                  <Ionicons
+                    name="grid-outline"
+                    size={25}
+                    color={colors.gold}
+                    accessible={false}
+                  />
+                  <Text accessibilityRole="header" style={s.title}>
+                    {t("confession")}
                   </Text>
+                  <Body>{d("confessionIntro")}</Body>
                 </View>
-                <Text style={s.roomIntro}>{t("cIntro")}</Text>
-                <View style={s.actions}>
-                  {btn(
-                    body.trim() || audio ? "cReturnDraft" : "cShare",
-                    startEntrance,
-                  )}
-                  <Text style={s.actionHint}>{t("cShareSub")}</Text>
-                  {btn("cOffer", () => void run(() => load("list")), true)}
-                  <Text style={s.actionHint}>{t("cOfferSub")}</Text>
+                <View style={{ gap: 12 }}>
+                  <ActionCard
+                    title={t(body.trim() || audio ? "cReturnDraft" : "cShare")}
+                    description={d("shareHint")}
+                    icon="create-outline"
+                    primary
+                    disabled={busy || view === "review" || recording}
+                    onPress={startEntrance}
+                  />
+                  <ActionCard
+                    title={t("cOffer")}
+                    description={d("comfortHint")}
+                    icon="ear-outline"
+                    disabled={busy || view === "review" || recording}
+                    onPress={() => void run(() => load("list"))}
+                  />
+                  <TextAction
+                    title={t("cMine")}
+                    icon="mail-open-outline"
+                    disabled={busy}
+                    onPress={() => void run(() => load("mine"))}
+                  />
                 </View>
-                <Text style={s.disclaimer}>{t("cDisclaimer")}</Text>
-                {btn("cMine", () => void run(() => load("mine")), true)}
-                {moderator &&
-                  btn("cReview", () => void run(() => load("review")), true)}
+                <View style={{ marginTop: 6, gap: 4 }}>
+                  <Body small>{d("peerSupport")}</Body>
+                  <Disclosure title={d("aboutSpace")}>
+                    <Body small>{t("cDisclaimer")}</Body>
+                  </Disclosure>
+                </View>
               </>
             )}
             {page === "share" && (
               <>
-                <Text
-                  accessibilityRole="header"
-                  style={[s.title, { color: room.ink }]}
-                >
-                  {t("cShare")}
-                </Text>
-                <View style={s.writingRoom}>
-                  <Card>
-                    <Text
-                      style={[
-                        s.subheading,
-                        { color: room.ink, fontSize: 20, lineHeight: 28 },
-                      ]}
+                <View style={{ gap: 10 }}>
+                  <Text
+                    accessibilityRole="header"
+                    style={[s.title, { color: room.ink }]}
+                  >
+                    {t("cShare")}
+                  </Text>
+                  <Body small>{d("audienceSummary")}</Body>
+                  <Disclosure
+                    title={t("cAudienceDetails")}
+                    open={audienceDetailsOpen}
+                    onToggle={() =>
+                      setAudienceDetailsOpen(!audienceDetailsOpen)
+                    }
+                  >
+                    <Body small>{t("cAudience")}</Body>
+                    <Body small>{t("cOneReply")}</Body>
+                  </Disclosure>
+                </View>
+                <View style={{ gap: 8 }}>
+                  <Field
+                    label={t("cBody")}
+                    hideLabel
+                    value={body}
+                    onChangeText={setBody}
+                    multiline
+                    maxLength={3000}
+                    placeholder={t("cPlaceholder")}
+                    style={{ minHeight: 220, lineHeight: 26 }}
+                  />
+                  {Platform.OS !== "web" && (
+                    <Disclosure
+                      title={t("cAudio")}
+                      disabled={recording || !!audio}
                     >
-                      {t("cAudienceTitle")}
-                    </Text>
-                    <View style={s.disclosure}>
-                      <Pressable
-                        accessibilityRole="button"
-                        accessibilityLabel={t("cAudienceDetails")}
-                        accessibilityState={{ expanded: audienceDetailsOpen }}
-                        onPress={() => setAudienceDetailsOpen((open) => !open)}
-                        style={({ pressed }) => [
-                          s.disclosureToggle,
-                          pressed && { opacity: 0.7 },
-                        ]}
-                      >
-                        <Text style={s.disclosureLabel}>
-                          {t("cAudienceDetails")}
-                        </Text>
-                        <Ionicons
-                          name={
-                            audienceDetailsOpen ? "chevron-up" : "chevron-down"
-                          }
-                          size={19}
-                          color={room.ink}
-                          accessible={false}
-                        />
-                      </Pressable>
-                      {audienceDetailsOpen && (
-                        <View style={s.disclosureContent}>
-                          <Body small>{t("cAudience")}</Body>
-                          <Body small>{t("cOneReply")}</Body>
-                        </View>
+                      <Body small>{t("cAudioNotice")}</Body>
+                      <Recorder
+                        language={language}
+                        value={audio}
+                        onChange={setAudio}
+                        onBusyChange={setRecording}
+                      />
+                      {audio && (
+                        <>
+                          <AudioPlayback id={audio} language={language} />
+                          <TextAction
+                            title={t("cTextInstead")}
+                            icon="create-outline"
+                            onPress={() => {
+                              void removeAudio(audio).then(() => {
+                                setAudio(undefined);
+                                setTextInstead(true);
+                              });
+                            }}
+                          />
+                        </>
                       )}
-                    </View>
-                    <Text style={s.label}>{t("cTheme")}</Text>
+                      {textInstead && <Body small>{t("cTextHelp")}</Body>}
+                    </Disclosure>
+                  )}
+                </View>
+                <View>
+                  <Disclosure
+                    title={t("cTheme")}
+                    summary={t("c_" + theme)}
+                    open={themeOpen}
+                    onToggle={() => setThemeOpen(!themeOpen)}
+                  >
                     <Row>
                       {themes.map((k) => (
                         <Chip
                           key={k}
                           title={t("c_" + k)}
                           selected={theme === k}
-                          onPress={() => setTheme(k)}
+                          onPress={() => {
+                            setTheme(k);
+                            setThemeOpen(false);
+                          }}
                         />
                       ))}
                     </Row>
-                    <Text style={s.label}>{t("cResponse")}</Text>
+                  </Disclosure>
+                  <Disclosure
+                    title={t("cResponse")}
+                    summary={t("c_" + responseType)}
+                    open={responseOpen}
+                    onToggle={() => setResponseOpen(!responseOpen)}
+                  >
                     <Row>
                       {responses.map((k) => (
                         <Chip
                           key={k}
                           title={t("c_" + k)}
                           selected={responseType === k}
-                          onPress={() => setResponseType(k)}
+                          onPress={() => {
+                            setResponseType(k);
+                            setResponseOpen(false);
+                          }}
                         />
                       ))}
                     </Row>
-                    <Field
-                      label={t("cBody")}
-                      value={body}
-                      onChangeText={setBody}
-                      multiline
-                      maxLength={3000}
-                      placeholder={t("cPlaceholder")}
+                  </Disclosure>
+                </View>
+                <View style={{ gap: 8 }}>
+                  <Pressable
+                    accessibilityRole="checkbox"
+                    accessibilityLabel={t("cConsent")}
+                    accessibilityState={{ checked: consent }}
+                    onPress={() => setConsent(!consent)}
+                    style={s.check}
+                  >
+                    <Ionicons
+                      name={consent ? "checkbox" : "square-outline"}
+                      size={25}
+                      color={room.ink}
+                      accessible={false}
                     />
-                    <Text style={s.label}>{t("cAudio")}</Text>
-                    <Body small>{t("cAudioNotice")}</Body>
-                    <Recorder
-                      language={language}
-                      value={audio}
-                      onChange={setAudio}
-                      onBusyChange={setRecording}
-                    />
-                    {audio && (
-                      <>
-                        <AudioPlayback id={audio} language={language} />
-                        <Button
-                          secondary
-                          title={t("cTextInstead")}
-                          onPress={() => {
-                            void removeAudio(audio).then(() => {
-                              setAudio(undefined);
-                              setTextInstead(true);
-                            });
-                          }}
-                        />
-                      </>
-                    )}
-                    {textInstead && <Body small>{t("cTextHelp")}</Body>}
-                    <Pressable
-                      accessibilityRole="checkbox"
-                      accessibilityLabel={t("cConsent")}
-                      accessibilityState={{ checked: consent }}
-                      onPress={() => setConsent(!consent)}
-                      style={s.check}
-                    >
-                      <Ionicons
-                        name={consent ? "checkbox" : "square-outline"}
-                        size={25}
-                        color={room.ink}
-                        accessible={false}
-                      />
-                      <Text style={s.consent}>{t("cConsent")}</Text>
-                    </Pressable>
-                    {btn("cSubmit", () => void run(share))}
-                  </Card>
+                    <Text style={s.consent}>{t("cConsent")}</Text>
+                  </Pressable>
+                  {btn("cSubmit", () => void run(share))}
                 </View>
               </>
             )}
@@ -702,83 +746,9 @@ export default function ConfessionRoom() {
   );
 }
 const s = StyleSheet.create({
-  entrance: {
-    alignItems: "center",
-    gap: 10,
-    paddingTop: 20,
-    paddingHorizontal: 8,
-  },
-  roomSymbol: {
-    width: 58,
-    height: 58,
-    borderRadius: 29,
-    borderWidth: 1,
-    borderColor: colors.line,
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 10,
-  },
-  roomIntro: {
-    color: colors.inactive,
-    fontSize: 15,
-    lineHeight: 24,
-    textAlign: "center",
-    paddingHorizontal: 10,
-  },
-  actions: { gap: 10, marginTop: 10 },
-  actionHint: {
-    color: colors.inactive,
-    fontSize: 12,
-    lineHeight: 18,
-    textAlign: "center",
-    marginBottom: 10,
-  },
-  writingRoom: { marginTop: 2 },
-  eyebrow: {
-    color: colors.gold,
-    letterSpacing: 2.4,
-    fontSize: 11,
-    textTransform: "uppercase",
-  },
   title: { ...sharedStyles.heading },
   intro: { ...sharedStyles.body },
-  centered: { textAlign: "center" },
-  disclaimer: {
-    fontSize: 13,
-    lineHeight: 21,
-    color: colors.inactive,
-    borderTopWidth: 1,
-    borderTopColor: colors.line,
-    paddingTop: 18,
-    marginTop: 4,
-  },
   subheading: { ...sharedStyles.subheading, color: colors.cardInk },
-  disclosure: {
-    borderBottomWidth: 1,
-    borderBottomColor: room.line,
-  },
-  disclosureToggle: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    gap: 12,
-    minHeight: 44,
-    paddingVertical: 10,
-  },
-  disclosureLabel: {
-    flex: 1,
-    color: room.ink,
-    fontSize: 14,
-    lineHeight: 21,
-    fontWeight: "600",
-  },
-  disclosureContent: { gap: 14, paddingBottom: 16 },
-  label: {
-    color: room.ink,
-    fontSize: 13,
-    fontWeight: "600",
-    marginTop: 12,
-  },
   tags: { flexDirection: "row", flexWrap: "wrap", gap: 7 },
   tag: {
     color: colors.cardInk,

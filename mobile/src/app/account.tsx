@@ -13,6 +13,9 @@ import {
   Notice,
   External,
 } from "../components/ui";
+import { TextAction } from "../components/QuietControls";
+import { designCopy } from "../lib/design-copy";
+import { confessionAPI } from "../lib/confession";
 import EmailSignIn from "../components/EmailSignIn";
 import { useApp } from "../lib/state";
 import { copy } from "../lib/content";
@@ -30,6 +33,10 @@ export default function Account() {
   const { profile, reset } = useApp(),
     t = (k: string) => copy(profile.language, k),
     l = (k: string) => label(profile.language, k);
+  const [moderator, setModerator] = useState<{
+    email: string;
+    enabled: boolean;
+  } | null>(null);
   const [userEmail, setUserEmail] = useState(""),
     [signedIn, setSignedIn] = useState(false),
     [authReady, setAuthReady] = useState(!backend),
@@ -68,6 +75,19 @@ export default function Account() {
       listener?.data.subscription.unsubscribe();
     };
   }, []);
+  useEffect(() => {
+    let active = true;
+    if (signedIn)
+      void confessionAPI("status")
+        .then((result) => {
+          if (active)
+            setModerator({ email: userEmail, enabled: !!result.moderator });
+        })
+        .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, [signedIn, userEmail]);
   async function run(fn: () => Promise<void>, failure = "accountError") {
     setBusy(true);
     setNotice("");
@@ -294,6 +314,23 @@ export default function Account() {
           </>
         )}
       </Card>
+      {signedIn && moderator?.email === userEmail && moderator.enabled && (
+        <Card>
+          <Subheading>
+            {designCopy(profile.language, "communityTools")}
+          </Subheading>
+          <TextAction
+            title={t("cReview")}
+            icon="shield-checkmark-outline"
+            onPress={() =>
+              router.push({
+                pathname: "/(tabs)/confession",
+                params: { view: "review" },
+              })
+            }
+          />
+        </Card>
+      )}
       <External
         title="hello@graceandgather.com"
         url="mailto:hello@graceandgather.com"

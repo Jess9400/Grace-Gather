@@ -22,7 +22,7 @@ export default function TabsLayout() {
     >
       {(
         [
-          ["index", "journal", "book-outline"],
+          ["index", "journal", "create-outline"],
           ["explore", "explore", "compass-outline"],
           ["learn", "learn", "book-outline"],
           ["confession", "confession", "heart-outline"],

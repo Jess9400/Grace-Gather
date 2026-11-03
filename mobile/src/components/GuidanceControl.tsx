@@ -54,8 +54,19 @@ export default function GuidanceControl({
         <Ionicons name="sparkles-outline" size={20} color={colors.gold} />
         <View style={{ flex: 1, gap: 2 }}>
           <Text style={styles.title}>{aiCopy(language, "compactTitle")}</Text>
-          <Text style={styles.hint}>{aiCopy(language, "compactHint")}</Text>
         </View>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={aiCopy(language, "howItWorks")}
+          onPress={() => setDetails(true)}
+          style={styles.info}
+        >
+          <Ionicons
+            name="information-circle-outline"
+            size={21}
+            color={colors.muted}
+          />
+        </Pressable>
         <Switch
           accessibilityLabel={aiCopy(language, "compactTitle")}
           value={value}
@@ -67,13 +78,6 @@ export default function GuidanceControl({
           }
         />
       </View>
-      <Pressable
-        accessibilityRole="button"
-        onPress={() => setDetails(true)}
-        style={styles.link}
-      >
-        <Text style={styles.linkText}>{aiCopy(language, "howItWorks")}</Text>
-      </Pressable>
       {value && !signedIn && (
         <Button
           secondary
@@ -120,21 +124,15 @@ export default function GuidanceControl({
   );
 }
 const styles = StyleSheet.create({
-  control: { gap: 4 },
-  row: { flexDirection: "row", alignItems: "center", gap: 12 },
-  title: { color: colors.ink, fontSize: 15, fontWeight: "600", lineHeight: 22 },
-  hint: { color: colors.inactive, fontSize: 12, lineHeight: 18 },
-  link: {
-    alignSelf: "flex-start",
+  control: { gap: 8 },
+  info: {
+    minWidth: 44,
     minHeight: 44,
+    alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: 32,
   },
-  linkText: {
-    color: colors.muted,
-    fontSize: 13,
-    textDecorationLine: "underline",
-  },
+  row: { flexDirection: "row", alignItems: "center", gap: 7 },
+  title: { color: colors.ink, fontSize: 15, fontWeight: "600", lineHeight: 22 },
   backdrop: {
     flex: 1,
     backgroundColor: "#00000088",
