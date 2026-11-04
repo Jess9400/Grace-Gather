@@ -76,6 +76,9 @@ export default function CommunityPreview() {
       : p.status === "removed"
         ? "Not published"
         : "Published in this preview";
+  const postContext = (p: Post) =>
+    state.topics.find((t) => t.id === p.id)?.title ??
+    `Reply to ${state.topics.find((t) => t.replies.some((r) => r.id === p.id))?.title ?? "a conversation"}`;
   function PostActions({ post }: { post: Post }) {
     if (post.author === "you") return null;
     return (
@@ -260,6 +263,7 @@ export default function CommunityPreview() {
                 )}
                 {mine.map((p) => (
                   <Card key={p.id}>
+                    <Text style={s.topicTitle}>{postContext(p)}</Text>
                     <Text style={s.tag}>{statusLabel(p)}</Text>
                     <Body>{p.body}</Body>
                   </Card>
@@ -539,6 +543,7 @@ export default function CommunityPreview() {
             {!pending.length && <Body small>No submissions waiting.</Body>}
             {pending.map((p) => (
               <Card key={p.id}>
+                <Text style={s.topicTitle}>{postContext(p)}</Text>
                 <Text style={s.author}>
                   {p.name} · {p.perspective}
                 </Text>
