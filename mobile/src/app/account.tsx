@@ -18,6 +18,7 @@ import { useQuiet } from "../lib/quiet-state";
 import { useApp } from "../lib/state";
 import { copy } from "../lib/content";
 import { label } from "../lib/labels";
+import { q } from "../lib/quiet-copy";
 import { backend, requireUser, requireBackend } from "../lib/backend";
 import * as storage from "../lib/storage";
 import {
@@ -90,7 +91,28 @@ export default function Account() {
   }
   return (
     <Screen back>
-      <Heading>{l("account")}</Heading>
+      <Heading>{q(profile.language, "more")}</Heading>
+      <Button
+        secondary
+        title="Community"
+        onPress={() => router.push("/community")}
+      />
+      <Button
+        secondary
+        title={q(profile.language, "library")}
+        onPress={() => router.push("/library")}
+      />
+      <Button
+        secondary
+        title={t("history")}
+        onPress={() => router.push("/history")}
+      />
+      <Button
+        secondary
+        title={q(profile.language, "tradition")}
+        onPress={() => router.push("/onboarding")}
+      />
+      <Subheading>{l("account")}</Subheading>
       <Notice text={notice} />
       <Button
         secondary
