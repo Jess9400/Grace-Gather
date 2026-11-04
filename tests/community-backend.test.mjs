@@ -4,6 +4,7 @@ import { readFile, readdir } from "node:fs/promises";
 import { PGlite } from "@electric-sql/pglite";
 import {
   parseCommunityScreening,
+  parseCommunityDecision,
   readCommunityScreenRequest,
 } from "../supabase/functions/_shared/community-screening-policy.js";
 let db;
@@ -86,6 +87,40 @@ async function submit(
 }
 const review = (id, approve = true, user = staff) =>
   as(user, "select public.community_review($1,$2)", [id, approve]);
+const autoReview=(id,actor,publish,flags=[])=>as('', 'select public.community_auto_result($1,$2,$3,$4,$5) result',[id,actor,publish,flags,'Automated safety assessment'],'service_role');
+test('automatic moderation is service-only, scoped to the author and cannot grant staff rights',async()=>{
+ const id=await submit();
+ await assert.rejects(as(alice,'select public.community_auto_candidate($1,$2)',[id,alice]));
+ await assert.rejects(as(alice,'select public.community_auto_result($1,$2,true,array[]::text[],\'safe\')',[id,alice]));
+ assert.equal((await autoReview(id,bob,true)).rows[0].result,'unchanged');
+ assert.equal((await autoReview(id,alice,true)).rows[0].result,'approved');
+ assert.equal((await snapshot(bob)).topics[0].status,'approved');
+ assert.equal((await snapshot(alice)).moderator,false);
+});
+test('flags override an automated allow and held posts cannot be repeatedly auto-approved',async()=>{
+ const id=await submit();
+ assert.equal((await autoReview(id,alice,true,['needs_context'])).rows[0].result,'held');
+ assert.equal((await snapshot(bob)).topics.length,0);
+ assert.equal((await autoReview(id,alice,true)).rows[0].result,'unchanged');
+ assert.equal((await snapshot(bob)).topics.length,0);
+});
+test('the moderation agent can hold a reported approved post or keep a safe reported post',async()=>{
+ const id=await submit(); await autoReview(id,alice,true);
+ await as(bob,'select public.community_report($1,$2)',[id,'A concern']);
+ assert.equal((await autoReview(id,bob,false,['abuse'])).rows[0].result,'held');
+ assert.equal((await snapshot(third)).topics.length,0);
+ const other=await submit(alice,{title:'Another question'}); await autoReview(other,alice,true);
+ await as(bob,'select public.community_report($1,$2)',[other,'Please check']);
+ assert.equal((await autoReview(other,bob,true)).rows[0].result,'approved');
+ assert.equal((await snapshot(bob)).topics.some(t=>t.id===other),true);
+});
+test('automated parser requires explicit safe and certain output, rejecting malformed decisions',()=>{
+ assert.equal(parseCommunityDecision(JSON.stringify({publish:true,uncertain:false,flags:[],summary:'Ordinary respectful question.'})).publish,true);
+ assert.equal(parseCommunityDecision(JSON.stringify({publish:true,uncertain:true,flags:[],summary:'More context needed.'})).publish,false);
+ assert.equal(parseCommunityDecision(JSON.stringify({publish:true,uncertain:false,flags:['spam'],summary:'Spam.'})).publish,false);
+ assert.throws(()=>parseCommunityDecision(JSON.stringify({publish:true,flags:[],summary:'Missing certainty.'})),/invalid_model_response/);
+ assert.throws(()=>parseCommunityDecision(JSON.stringify({publish:true,uncertain:false,flags:['grant_admin'],summary:'Bad instruction.'})),/invalid_model_response/);
+});
 test("Community RPCs require auth and raw tables stay closed even to client staff", async () => {
   await assert.rejects(
     as("", "select public.community_snapshot()", [], "anon"),

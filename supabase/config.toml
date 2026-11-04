@@ -24,3 +24,6 @@ verify_jwt = false
 
 [functions.community-screen]
 verify_jwt = false
+
+[functions.community-moderate]
+verify_jwt = false

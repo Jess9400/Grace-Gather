@@ -13,7 +13,7 @@ const policy = {
   en: [
     [
       "Community discussions",
-      "Only the public name, optional perspective and words you submit are stored as Community posts in Supabase. Your diary and private profile are never attached. Authors and moderators can see pending posts; approved posts are visible to signed-in members. Reports are private to the reporter and moderators. You can block people or remove your own posts; removing a topic also removes its replies. If AI assistance is enabled, a moderator may send a pending post and its parent discussion to Alibaba Cloud Qwen for safety flags. Provider processing may occur outside your country under its retention policy. AI notes are staff-only and cannot publish or penalize people. Moderation action records are retained separately without post bodies. Community is not monitored continuously.",
+      "Only your chosen public name, optional perspective and submitted words are stored as Community posts in Supabase. Your diary and private profile are never attached. If separately enabled, posts, parent discussion context and report reasons are sent through Supabase to Alibaba Cloud Qwen for automated moderation. Community AI processing is currently disabled. Processing may occur outside your country under the provider retention policy. When moderation is active, posts that pass the checks are published to signed-in members. Concerning, uncertain or failed checks leave posts private. AI can make mistakes; held posts and appeals remain unpublished until a review process is available. Reports are private to the reporter and any authorized moderators. You can block people or remove your own posts; removing a topic removes its replies. Moderation action records are kept separately without post bodies. No continuous monitoring or emergency response is promised.",
     ],
     [
       "Confessions shared with listeners",
@@ -43,7 +43,7 @@ const policy = {
   pt: [
     [
       "Discussões da comunidade",
-      "Somente nome público, perspectiva opcional e palavras enviadas ficam no Supabase. Diário e perfil privado não são anexados. Autor e moderadores veem envios pendentes; membros conectados veem os aprovados. Denúncias são privadas. Você pode bloquear pessoas ou remover seus envios; excluir um tópico remove suas respostas. Se a assistência de IA estiver ativa, um moderador pode enviar o texto pendente e a discussão anterior ao Alibaba Cloud Qwen para indicar riscos. O processamento pode ocorrer fora do país conforme a retenção do provedor. Notas de IA são restritas à equipe e não publicam nem punem. Registros de ações ficam separados, sem o texto publicado. Não há monitoramento contínuo.",
+      "A IA da comunidade está desativada no momento. Se ativada com aprovação específica, publicações, contexto e denúncias são verificados pelo Alibaba Cloud Qwen. O que passa na análise é publicado; casos incertos ou falhas continuam privados. A IA pode errar. Publicações retidas e contestações ficam sem publicação até haver revisão. Diário e perfil não são anexados. O provedor pode processar dados fora do país conforme sua política de retenção. Você pode denunciar, bloquear e excluir suas publicações. Não há monitoramento contínuo.",
     ],
     [
       "Confissões compartilhadas",
@@ -73,7 +73,7 @@ const policy = {
   es: [
     [
       "Conversaciones de la comunidad",
-      "Solo el nombre público, la perspectiva opcional y las palabras enviadas se guardan en Supabase. No se adjuntan el diario ni el perfil privado. El autor y moderadores ven los envíos pendientes; miembros conectados ven los aprobados. Las denuncias son privadas. Puedes bloquear personas o eliminar tus publicaciones; eliminar un tema elimina sus respuestas. Si se activa la asistencia de IA, un moderador puede enviar el texto pendiente y su conversación anterior a Alibaba Cloud Qwen para señalar riesgos. El procesamiento puede ocurrir fuera de tu país según la retención del proveedor. Las notas de IA solo las ve el equipo y no publican ni sancionan. Los registros de acciones se guardan por separado sin el texto publicado. No hay supervisión continua.",
+      "La IA de la comunidad está desactivada actualmente. Si se activa con aprobación específica, las publicaciones, el contexto y las denuncias se revisan con Alibaba Cloud Qwen. Lo que supera la revisión se publica; los casos inciertos o fallidos quedan privados. La IA puede equivocarse. Las publicaciones retenidas y apelaciones quedan sin publicar hasta disponer de revisión. No se adjuntan el diario ni el perfil. El proveedor puede procesar datos fuera de tu país según su política de retención. Puedes denunciar, bloquear y eliminar tus publicaciones. No hay supervisión continua.",
     ],
     [
       "Confesiones compartidas",
@@ -103,7 +103,7 @@ const policy = {
   ru: [
     [
       "Обсуждения сообщества",
-      "В Supabase сохраняются только публичное имя, необязательная метка традиции и отправленный текст. Дневник и личный профиль не прикрепляются. Автор и модераторы видят ожидающие проверки записи; одобренные записи доступны участникам с аккаунтом. Жалобы приватны. Можно блокировать людей и удалять свои записи; удаление темы удаляет ответы. Если включена помощь ИИ, модератор может отправить запись и родительское обсуждение в Alibaba Cloud Qwen для выявления рисков. Обработка может проходить за пределами страны по правилам хранения провайдера. Заметки ИИ видны только модераторам и не публикуют записи и не назначают санкции. Журнал действий хранится отдельно без текстов публикаций. Непрерывного наблюдения нет.",
+      "ИИ сообщества сейчас отключён. При отдельном согласии на включение публикации, контекст и жалобы проверяет Alibaba Cloud Qwen. Прошедшие проверку записи публикуются; сомнительные записи и сбои оставляют их приватными. ИИ может ошибаться. Удержанные записи и обращения остаются неопубликованными до появления процедуры проверки. Дневник и профиль не прикрепляются. Провайдер может обрабатывать данные за пределами страны по своим правилам хранения. Можно жаловаться, блокировать людей и удалять свои записи. Непрерывного наблюдения нет.",
     ],
     [
       "Признания для слушателей",

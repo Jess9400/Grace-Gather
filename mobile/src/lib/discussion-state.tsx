@@ -21,6 +21,7 @@ import {
   type DiscussionAction,
 } from "./discussion-model";
 const demo = process.env.EXPO_PUBLIC_COMMUNITY_DEMO === "true" && !backend;
+const automatic = process.env.EXPO_PUBLIC_COMMUNITY_AUTO_MODERATION === "true";
 const empty = (): DiscussionState => ({
   topics: [],
   blocked: [],
@@ -30,6 +31,7 @@ const empty = (): DiscussionState => ({
 const CommunityContext = createContext<{
   state: DiscussionState;
   demo: boolean;
+  automatic: boolean;
   connected: boolean;
   userId: string | null;
   moderator: boolean;
@@ -39,6 +41,7 @@ const CommunityContext = createContext<{
   reload: (topic?: string) => Promise<void>;
   perform: (action: DiscussionAction, alias?: string) => Promise<boolean>;
   screen: (postId: string) => Promise<string>;
+  moderate: (postId: string) => Promise<void>;
 } | null>(null);
 export function CommunityProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<DiscussionState>(() =>
@@ -86,7 +89,11 @@ export function CommunityProvider({ children }: { children: ReactNode }) {
       setLimits(snapshot.limits);
       setError("");
     } catch (e) {
-      if (active.current && ticket === generation.current)
+      if (
+        active.current &&
+        ticket === generation.current &&
+        loadId === request.current
+      )
         setError(communityError(e));
     }
   }, []);
@@ -141,12 +148,25 @@ export function CommunityProvider({ children }: { children: ReactNode }) {
       setBusy(true);
       setError("");
       try {
-        await saveCommunityAction(
+        const savedId = await saveCommunityAction(
           backend as unknown as CommunityClient,
           uid,
           action,
           alias,
         );
+        const postId =
+          action.type === "report"
+            ? action.postId
+            : (action.type === "topic" || action.type === "reply") &&
+                typeof savedId === "string"
+              ? savedId
+              : null;
+        if (automatic && postId && ticket === generation.current) {
+          // A saved post remains pending if screening fails or the client closes.
+          await backend.functions
+            .invoke("community-moderate", { body: { postId } })
+            .catch(() => undefined);
+        }
         if (ticket !== generation.current || !active.current) return false;
         await reload(selectedTopic.current);
         return true;
@@ -185,11 +205,42 @@ export function CommunityProvider({ children }: { children: ReactNode }) {
       if (active.current) setBusy(false);
     }
   };
+  const moderate = async (postId: string) => {
+    if (!automatic) {
+      setError(
+        "Automatic moderation is not active. This post remains private.",
+      );
+      return;
+    }
+    if (!backend || !identity.current || working.current) return;
+    working.current = true;
+    setBusy(true);
+    const ticket = generation.current;
+    try {
+      const result = await backend.functions.invoke("community-moderate", {
+        body: { postId },
+      });
+      if (active.current && ticket === generation.current) {
+        await reload(selectedTopic.current);
+        if (result.error || result.data?.publication === "pending")
+          setError(
+            "This post is still private. The safety check is unavailable or it needs further review.",
+          );
+      }
+    } catch {
+      if (active.current && ticket === generation.current)
+        setError("The check could not finish. This post remains private.");
+    } finally {
+      working.current = false;
+      if (active.current) setBusy(false);
+    }
+  };
   return (
     <CommunityContext.Provider
       value={{
         state,
         demo,
+        automatic,
         connected: !!backend,
         userId,
         moderator,
@@ -199,6 +250,7 @@ export function CommunityProvider({ children }: { children: ReactNode }) {
         reload,
         perform,
         screen,
+        moderate,
       }}
     >
       {children}

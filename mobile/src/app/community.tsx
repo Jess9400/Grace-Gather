@@ -38,6 +38,7 @@ function CommunityScreen() {
   const {
     state,
     demo,
+    automatic,
     connected,
     userId,
     moderator,
@@ -47,6 +48,7 @@ function CommunityScreen() {
     reload,
     perform,
     screen,
+    moderate,
   } = useCommunity();
   const [alias, setAlias] = useState("");
   const [mode, setMode] = useState<ViewMode>("list"),
@@ -100,7 +102,7 @@ function CommunityScreen() {
   };
   const statusLabel = (p: Post) =>
     p.status === "pending"
-      ? "Awaiting review"
+      ? "Awaiting a safety check or held"
       : p.status === "removed"
         ? "Not published"
         : demo
@@ -348,8 +350,8 @@ function CommunityScreen() {
             {filter === "mine" ? (
               <>
                 <Body small>
-                  Your submissions stay out of conversations until approved by a
-                  moderator.
+                  Posts that pass safety checks are published automatically.
+                  Anything uncertain stays private.
                 </Body>
                 {!mine.length && (
                   <Card>
@@ -367,6 +369,14 @@ function CommunityScreen() {
                     <Text style={s.tag}>{statusLabel(p)}</Text>
                     <Body>{p.body}</Body>
                     {OwnRemoval(p)}
+                    {!demo && automatic && own(p) && p.status === "pending" && (
+                      <Button
+                        secondary
+                        disabled={busy}
+                        title="Check publication"
+                        onPress={() => void moderate(p.id)}
+                      />
+                    )}
                   </Card>
                 ))}
               </>
@@ -546,10 +556,21 @@ function CommunityScreen() {
                   .map((p) => (
                     <Card key={p.id}>
                       <Text style={s.tag}>
-                        Awaiting review · visible to you and moderators
+                        Awaiting a safety check or held · not public
                       </Text>
                       <Body>{p.body}</Body>
                       {OwnRemoval(p)}
+                      {!demo &&
+                        automatic &&
+                        own(p) &&
+                        p.status === "pending" && (
+                          <Button
+                            secondary
+                            disabled={busy}
+                            title="Check publication"
+                            onPress={() => void moderate(p.id)}
+                          />
+                        )}
                     </Card>
                   ))}
                 <View style={s.composer}>
@@ -574,10 +595,20 @@ function CommunityScreen() {
                   <Body small>
                     {demo
                       ? "Posted as You in this demo. Replies are held for review."
-                      : "Your display name and reply will be public after moderator approval."}
+                      : automatic
+                        ? "Your display name and reply become public if they pass automated moderation."
+                        : "Automatic moderation is not active. This reply stays private."}
                   </Body>
                   <Button
-                    title="Send for review"
+                    title={
+                      busy
+                        ? "Checking..."
+                        : demo
+                          ? "Send for review"
+                          : automatic
+                            ? "Share"
+                            : "Save for review"
+                    }
                     disabled={!reply.trim() || !canPost}
                     onPress={() =>
                       void act(
@@ -590,7 +621,9 @@ function CommunityScreen() {
                         () => {
                           setReply("");
                           setNotice(
-                            "Your reply is awaiting review. It is visible to you and moderators until approved.",
+                            automatic
+                              ? "Your reply was submitted. Posts that pass the safety check appear automatically; others remain private."
+                              : "Your reply was saved privately while moderation is prepared.",
                           );
                         },
                       )
@@ -661,10 +694,20 @@ function CommunityScreen() {
             <Body small>
               {demo
                 ? "Shared as You. Your diary is never attached. This preview holds every submission for manual review."
-                : "Your display name and words will be public after moderator approval. Your diary and profile are never attached. Posts are checked for safety and reviewed by moderators."}
+                : automatic
+                  ? "Your public name and words are checked automatically using Alibaba Cloud Qwen. Posts that pass appear to members; uncertain posts stay private. AI can make mistakes. Your diary and profile are never attached."
+                  : "Automatic moderation is not active. This submission stays private. Your diary and profile are never attached."}
             </Body>
             <Button
-              title="Send for review"
+              title={
+                busy
+                  ? "Checking..."
+                  : demo
+                    ? "Send for review"
+                    : automatic
+                      ? "Share"
+                      : "Save for review"
+              }
               disabled={!title.trim() || !body.trim() || !canPost}
               onPress={() =>
                 void act(
@@ -681,7 +724,7 @@ function CommunityScreen() {
                     setMode("list");
                     setFilter("mine");
                     setNotice(
-                      "Your topic is awaiting review. It has not been added to conversations.",
+                      "Your topic was submitted. Check My submissions for its publication status.",
                     );
                   },
                 )
@@ -698,7 +741,7 @@ function CommunityScreen() {
               text={
                 demo
                   ? "Preview tools only. You are trying a manual moderator workflow. No AI is connected, and these decisions affect only your local demo."
-                  : "Review the words in context. All publication decisions require a moderator. Automated screening is advisory and can make mistakes."
+                  : "Review the words in context. Automated moderation can make mistakes. These controls override publication only for authorized staff."
               }
             />
             <Text style={s.sectionLabel}>

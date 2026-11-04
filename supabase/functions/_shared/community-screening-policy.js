@@ -7,6 +7,8 @@ export const SCREENING_FLAGS = Object.freeze([
   "spam",
   "self_harm",
   "needs_context",
+  "scam",
+  "harmful_advice",
 ]);
 // Model output is an untrusted annotation. It carries no publication authority.
 export function parseCommunityScreening(raw) {
@@ -31,6 +33,15 @@ export function parseCommunityScreening(raw) {
   )
     throw Error("invalid_model_response");
   return { flags: [...new Set(value.flags)], summary: value.summary.trim() };
+}
+
+export function parseCommunityDecision(raw) {
+  const value = parseCommunityScreening(raw);
+  const decision = JSON.parse(raw);
+  if (typeof decision.publish !== "boolean" || typeof decision.uncertain !== "boolean") throw Error("invalid_model_response");
+  // Model suggestions never grant an identity or permission. Publication requires
+  // an explicit allow with no concerns, then a separate service-only SQL check.
+  return {...value, publish: decision.publish === true && decision.uncertain === false && value.flags.length === 0};
 }
 
 export async function readCommunityScreenRequest(request) {

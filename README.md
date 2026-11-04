@@ -164,12 +164,16 @@ Verse threads match exact collection and passage IDs, avoiding guessed links
 between editions with different Psalm numbering.
 
 Topics and replies are stored through authenticated Supabase RPCs and remain
-pending until authorized staff approve them. Members can report, block, unblock
-and remove their own posts. Staff have a separate queue and optional advisory
-AI checks. Account changes clear cached community data. Failed submissions keep
+pending until they pass the automated Community moderation check. Uncertain or
+concerning posts stay private. Members can report, block, unblock and remove
+their own posts. No human moderators are assigned by this change. A separate
+staff queue remains available for a future review process. Account changes clear
+cached community data. Failed submissions keep
 the draft. Live API failures never fall back to sample conversations.
 
 Local examples require EXPO_PUBLIC_COMMUNITY_DEMO=true without a Supabase connection.
 That mode is labelled and uses memory only. Keep the flag false in real builds.
-The new migration and optional AI function require deployment and a real moderator
-account before public use. See [Community deployment notes](docs/COMMUNITY.md).
+The two migrations and community-moderate function are deployed to the existing
+Grace & Gather project. Automatic Community moderation remains disabled on both
+client and server. No human moderator has been assigned. Posts stay private while
+a private moderation setup is selected. See [Community deployment notes](docs/COMMUNITY.md).

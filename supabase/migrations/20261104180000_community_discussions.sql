@@ -192,7 +192,7 @@ create function public.community_screening_candidate(p_post uuid) returns jsonb 
 $$;
 create function public.community_screening_result(p_post uuid,p_flags text[],p_summary text) returns void language plpgsql security definer set search_path='' as $$
 begin
- if p_flags is null or p_summary is null or not p_flags <@ array['abuse','threat','hate','sexual_exploitation','privacy','spam','self_harm','needs_context']::text[] then raise exception 'invalid_screening';end if;
+ if p_flags is null or p_summary is null or not p_flags <@ array['abuse','threat','hate','sexual_exploitation','privacy','spam','self_harm','needs_context','scam','harmful_advice']::text[] then raise exception 'invalid_screening';end if;
  perform 1 from public.community_posts where id=p_post and status='pending' for update;
  if not found then raise exception 'not_found';end if;
  insert into private.community_screening(post_id,flags,summary) values(p_post,p_flags,left(p_summary,600)) on conflict(post_id) do update set flags=excluded.flags,summary=excluded.summary,created_at=now();
