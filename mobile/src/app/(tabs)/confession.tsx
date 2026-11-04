@@ -303,10 +303,17 @@ export default function ConfessionRoom() {
                 }}
               />
             )}
-            {!backend && <Text style={[s.note, page === "share" && { color: room.muted }]}>{t("cOffline")}</Text>}
+            {!backend && (
+              <Text style={[s.note, page === "share" && { color: room.muted }]}>
+                {t("cOffline")}
+              </Text>
+            )}
             {!!error && <Notice text={error} />}
             {(busy || view === "review") && (
-              <Text accessibilityLiveRegion="polite" style={[s.note, page === "share" && { color: room.muted }]}>
+              <Text
+                accessibilityLiveRegion="polite"
+                style={[s.note, page === "share" && { color: room.muted }]}
+              >
                 {t("cLoading")}
               </Text>
             )}
@@ -488,10 +495,10 @@ export default function ConfessionRoom() {
                 {success !== "reply" && (
                   <Text style={s.intro}>{t("cAfter")}</Text>
                 )}
-                <Text style={[s.note, page === "share" && { color: room.muted }]}>
+                <Text style={s.note}>
                   {t(success === "reply" ? "cReplyPending" : "cPending")}
                 </Text>
-                {support && <Text style={[s.note, page === "share" && { color: room.muted }]}>{t("cSupport")}</Text>}
+                {support && <Text style={s.note}>{t("cSupport")}</Text>}
                 {btn("cMine", () => void run(() => load("mine")))}
               </>
             )}
@@ -525,7 +532,7 @@ export default function ConfessionRoom() {
                     </Pressable>
                   ))
                 ) : (
-                  <Text style={[s.note, page === "share" && { color: room.muted }]}>{t("cEmpty")}</Text>
+                  <Text style={s.note}>{t("cEmpty")}</Text>
                 )}
                 {btn("cRefresh", () => void run(() => load("list")), true)}
               </>
@@ -551,7 +558,7 @@ export default function ConfessionRoom() {
                     </Pressable>
                   ))
                 ) : (
-                  <Text style={[s.note, page === "share" && { color: room.muted }]}>{t("cNoMine")}</Text>
+                  <Text style={s.note}>{t("cNoMine")}</Text>
                 )}
                 {btn("cRefresh", () => void run(() => load("mine")), true)}
               </>
@@ -589,7 +596,7 @@ export default function ConfessionRoom() {
                                   }),
                               )
                             ) : (
-                              <Text style={[s.note, page === "share" && { color: room.muted }]}>{t("cThanked")}</Text>
+                              <Text style={s.note}>{t("cThanked")}</Text>
                             )}
                             {btn("cReport", () => setReport(reply.id), true)}
                             {btn(
@@ -610,7 +617,7 @@ export default function ConfessionRoom() {
                   </>
                 ) : !detail.mine && detail.kind === "confession" ? (
                   <>
-                    <Text style={[s.note, page === "share" && { color: room.muted }]}>
+                    <Text style={s.note}>
                       {t("cReserved")}{" "}
                       {new Date(detail.reservedUntil!).toLocaleString(language)}
                       {"\n"}
@@ -697,7 +704,7 @@ export default function ConfessionRoom() {
               <>
                 <Text style={s.title}>{t("cReview")}</Text>
                 <Text style={s.intro}>{t("cReviewIntro")}</Text>
-                <Text style={[s.note, page === "share" && { color: room.muted }]}>{t("cSupport")}</Text>
+                <Text style={s.note}>{t("cSupport")}</Text>
                 {items.map((x) => (
                   <View key={x.id}>
                     {card(x)}
