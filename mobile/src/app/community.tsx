@@ -14,6 +14,7 @@ import {
   colors,
   serif,
 } from "../components/quiet-ui";
+import privateRules from "../generated/community-private-rules.json";
 import Disclosure from "../components/Disclosure";
 import { useCommunity } from "../lib/discussion-state";
 import {
@@ -50,7 +51,7 @@ function CommunityScreen() {
     screen,
     moderate,
   } = useCommunity();
-  const [alias, setAlias] = useState("");
+  const [alias, setAlias] = useState("Member");
   const [mode, setMode] = useState<ViewMode>("list"),
     [selected, setSelected] = useState<string | null>(null);
   const [filter, setFilter] = useState<"all" | "verse" | "mine">(
@@ -587,6 +588,16 @@ function CommunityScreen() {
                     </Card>
                   ))}
                 <View style={s.composer}>
+                  {!demo && automatic && (
+                    <Button
+                      secondary
+                      title="Thank you for sharing."
+                      onPress={() => {
+                        setReply("Thank you for sharing.");
+                        setAlias("Member");
+                      }}
+                    />
+                  )}
                   <Field
                     label="Your reply"
                     placeholder="Share a thought or ask a question…"
@@ -609,7 +620,7 @@ function CommunityScreen() {
                     {demo
                       ? "Posted as You in this demo. Replies are held for review."
                       : automatic
-                        ? "Your display name and reply become public if they pass automated moderation."
+                        ? "Private rules can publish simple matching replies. Other replies stay private. No external AI provider receives them."
                         : "Automatic moderation is not active. This reply stays private."}
                   </Body>
                   <Button
@@ -635,7 +646,7 @@ function CommunityScreen() {
                           setReply("");
                           setNotice(
                             automatic
-                              ? "Your reply was submitted. Posts that pass the safety check appear automatically; others remain private."
+                              ? "Your reply was checked by private rules. See its publication status below."
                               : "Your reply was saved privately while moderation is prepared.",
                           );
                         },
@@ -662,6 +673,27 @@ function CommunityScreen() {
                 />
                 <Text style={s.link}>{verse.reference}</Text>
               </View>
+            )}
+            {!demo && automatic && (
+              <Disclosure title="Start with a simple reflection">
+                <Body small>
+                  These short starters can publish automatically with the public
+                  name Member. You can edit freely, but other wording or names
+                  will be held privately.
+                </Body>
+                {privateRules.presets.map((p) => (
+                  <Button
+                    key={p.title}
+                    secondary
+                    title={p.title}
+                    onPress={() => {
+                      setTitle(p.title);
+                      setBody(p.body);
+                      setAlias("Member");
+                    }}
+                  />
+                ))}
+              </Disclosure>
             )}
             <Field
               label="Topic"
@@ -708,7 +740,7 @@ function CommunityScreen() {
               {demo
                 ? "Shared as You. Your diary is never attached. This preview holds every submission for manual review."
                 : automatic
-                  ? "Your public name and words are checked automatically using Alibaba Cloud Qwen. Posts that pass appear to members; uncertain posts stay private. AI can make mistakes. Your diary and profile are never attached."
+                  ? "Private rules check your chosen public name and words inside our app backend. Simple matching messages can publish; other posts stay private. No AI provider receives them. Your diary and profile are never attached."
                   : "Automatic moderation is not active. This submission stays private. Your diary and profile are never attached."}
             </Body>
             <Button
@@ -754,7 +786,7 @@ function CommunityScreen() {
               text={
                 demo
                   ? "Preview tools only. You are trying a manual moderator workflow. No AI is connected, and these decisions affect only your local demo."
-                  : "Review the words in context. Automated moderation can make mistakes. These controls override publication only for authorized staff."
+                  : "Review the words in context. Private rules have limited coverage. These controls override publication only for authorized staff."
               }
             />
             <Text style={s.sectionLabel}>
@@ -772,7 +804,7 @@ function CommunityScreen() {
                   <>
                     {p.screening && (
                       <View style={{ gap: 8 }}>
-                        <Text style={s.tag}>AI notes · advisory</Text>
+                        <Text style={s.tag}>Private rule notes</Text>
                         <Body small>
                           {p.screening.flags.join(", ") || "No flags returned"}
                         </Body>
@@ -782,7 +814,7 @@ function CommunityScreen() {
                     <Button
                       secondary
                       disabled={busy}
-                      title="Check with AI"
+                      title="Check private rules"
                       onPress={() => void screen(p.id).then(setNotice)}
                     />
                   </>

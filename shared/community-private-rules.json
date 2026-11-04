@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "aliases": ["Member", "Friend", "A friend"],
+  "titles": ["A question about this verse", "A quiet moment", "A moment of gratitude", "A small act of kindness", "A prayer for today", "What does this verse mean?", "Learning together"],
+  "messages": [
+    "Could someone help me understand this verse?",
+    "What does this verse mean?",
+    "How can I put this verse into practice?",
+    "What is the context of this passage?",
+    "Which chapter should I read next?",
+    "Thank you for sharing.",
+    "Thank you for explaining this.",
+    "I am grateful for a quiet moment today.",
+    "I would like to learn more about prayer.",
+    "I am taking a quiet moment to reflect.",
+    "I would like to hear how others read this passage.",
+    "I am grateful for a small act of kindness today.",
+    "I hope you find a moment of peace today."
+  ],
+  "presets": [
+    {"title":"A question about this verse", "body":"Could someone help me understand this verse?"},
+    {"title":"A moment of gratitude", "body":"I am grateful for a quiet moment today."},
+    {"title":"A small act of kindness", "body":"I am grateful for a small act of kindness today."}
+  ]
+}

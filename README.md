@@ -163,9 +163,12 @@ Their private profile and diary are never copied into posts.
 Verse threads match exact collection and passage IDs, avoiding guessed links
 between editions with different Psalm numbering.
 
-Topics and replies are stored through authenticated Supabase RPCs and remain
-pending until they pass the automated Community moderation check. Uncertain or
-concerning posts stay private. Members can report, block, unblock and remove
+Topics and replies use authenticated Supabase RPCs. A private rule-based agent
+reviews them in the same database transaction, with no model or external AI
+processor. Only vetted whole starter messages, titles and neutral names can
+publish automatically. Free-form writing and reported posts stay private until
+a review process is available. This limited first stage is not human-equivalent
+moderation for unrestricted discussions. Members can report, block, unblock and remove
 their own posts. No human moderators are assigned by this change. A separate
 staff queue remains available for a future review process. Account changes clear
 cached community data. Failed submissions keep
@@ -173,7 +176,8 @@ the draft. Live API failures never fall back to sample conversations.
 
 Local examples require EXPO_PUBLIC_COMMUNITY_DEMO=true without a Supabase connection.
 That mode is labelled and uses memory only. Keep the flag false in real builds.
-The two migrations and community-moderate function are deployed to the existing
-Grace & Gather project. Automatic Community moderation remains disabled on both
-client and server. No human moderator has been assigned. Posts stay private while
-a private moderation setup is selected. See [Community deployment notes](docs/COMMUNITY.md).
+The two private-moderation migrations and private-only compatibility endpoint
+are deployed to the existing Grace & Gather project, with private rules active.
+The app discovers their state from the server.
+No human moderator is assigned. No laptop model or new AI subscription is used;
+existing Supabase usage limits still apply. See [Community deployment notes](docs/COMMUNITY.md).
