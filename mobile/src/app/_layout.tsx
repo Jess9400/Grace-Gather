@@ -4,6 +4,7 @@ import { StatusBar } from "expo-status-bar";
 import { AppProvider, useApp } from "../lib/state";
 import { Busy, Screen, Body, External, colors } from "../components/ui";
 import { hasAnsweredTraditionQuestion } from "../lib/onboarding";
+import { CommunityProvider } from "../lib/discussion-state";
 function Routes() {
   const { ready, error, profile } = useApp();
   const legacy = useSegments().some((s) => s === "confession");
@@ -44,6 +45,7 @@ function Routes() {
             "index",
             "(tabs)",
             "library",
+            "community",
             "diary",
             "entry/[id]",
             "verse/[id]",
@@ -67,7 +69,9 @@ export default function Layout() {
   return (
     <AppProvider>
       <QuietProvider>
-        <Routes />
+        <CommunityProvider>
+          <Routes />
+        </CommunityProvider>
       </QuietProvider>
     </AppProvider>
   );

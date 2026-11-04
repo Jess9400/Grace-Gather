@@ -25,6 +25,7 @@ import {
   getBook,
   readingLocation,
   chapterSource,
+  discussionVerseId,
 } from "../../lib/bible";
 import { useApp } from "../../lib/state";
 import { q } from "../../lib/quiet-copy";
@@ -197,6 +198,18 @@ function StudyPage({ id }: { id: string }) {
             )}
           </Disclosure>
         )}
+        <Button
+          secondary
+          title={
+            discussionVerseId(id) ? "Discuss this verse" : "Explore Community"
+          }
+          onPress={() =>
+            router.push({
+              pathname: "/community",
+              params: { verse: discussionVerseId(id) ?? undefined },
+            })
+          }
+        />
         <View style={s.further}>
           <Text style={s.eyebrow}>AT YOUR OWN PACE</Text>
           <Disclosure title="Sit with a question">

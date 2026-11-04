@@ -154,3 +154,26 @@ legacy Explore catalogue still includes twelve sourced items. In SDK 58,
 href:null marks tab routes hidden and redirects navigation; secondary tab buttons
 are instead hidden without disabling their routes. Confession content and
 services remain unchanged.
+
+## Native Community
+
+Community opens from More and Discuss this verse, using the approved quiet design.
+Signed-in members choose a public display name and optional conversation perspective.
+Their private profile and diary are never copied into posts.
+Verse threads match exact collection and passage IDs, avoiding guessed links
+between editions with different Psalm numbering.
+
+Topics and replies are stored through authenticated Supabase RPCs and remain
+pending until they pass the automated Community moderation check. Uncertain or
+concerning posts stay private. Members can report, block, unblock and remove
+their own posts. No human moderators are assigned by this change. A separate
+staff queue remains available for a future review process. Account changes clear
+cached community data. Failed submissions keep
+the draft. Live API failures never fall back to sample conversations.
+
+Local examples require EXPO_PUBLIC_COMMUNITY_DEMO=true without a Supabase connection.
+That mode is labelled and uses memory only. Keep the flag false in real builds.
+The two migrations and community-moderate function are deployed to the existing
+Grace & Gather project. Automatic Community moderation remains disabled on both
+client and server. No human moderator has been assigned. Posts stay private while
+a private moderation setup is selected. See [Community deployment notes](docs/COMMUNITY.md).

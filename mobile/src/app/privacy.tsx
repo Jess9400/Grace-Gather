@@ -12,6 +12,10 @@ import { label } from "../lib/labels";
 const policy = {
   en: [
     [
+      "Community discussions",
+      "Only your chosen public name, optional perspective and submitted words are stored as Community posts in Supabase. Your diary and private profile are never attached. If separately enabled, posts, parent discussion context and report reasons are sent through Supabase to Alibaba Cloud Qwen for automated moderation. Community AI processing is currently disabled. Processing may occur outside your country under the provider retention policy. When moderation is active, posts that pass the checks are published to signed-in members. Concerning, uncertain or failed checks leave posts private. AI can make mistakes; held posts and appeals remain unpublished until a review process is available. Reports are private to the reporter and any authorized moderators. You can block people or remove your own posts; removing a topic removes its replies. Moderation action records are kept separately without post bodies. No continuous monitoring or emergency response is promised.",
+    ],
+    [
       "Confessions shared with listeners",
       "Sharing a confession uploads only the text and optional audio you explicitly submit. All submissions and responses wait for moderator approval. Listeners see themes and requested support; one listener at a time can open a confession for six hours. Without a response, it returns to the list. Only one comfort response is permitted and is visible to the writer, listener and authorized moderators. Names and emails are hidden from listeners, but moderators can access account-linked submissions and reports. A voice or the details you write may identify you. This is not end-to-end encryption or sacramental confession. Reports hide content pending review. You can close replies, block a person, or delete your confession and response. Moderation records are stored separately; contact support for deletion requests. No real-time monitoring or immediate reply is promised.",
     ],
@@ -37,6 +41,10 @@ const policy = {
     ],
   ],
   pt: [
+    [
+      "Discussões da comunidade",
+      "A IA da comunidade está desativada no momento. Se ativada com aprovação específica, publicações, contexto e denúncias são verificados pelo Alibaba Cloud Qwen. O que passa na análise é publicado; casos incertos ou falhas continuam privados. A IA pode errar. Publicações retidas e contestações ficam sem publicação até haver revisão. Diário e perfil não são anexados. O provedor pode processar dados fora do país conforme sua política de retenção. Você pode denunciar, bloquear e excluir suas publicações. Não há monitoramento contínuo.",
+    ],
     [
       "Confissões compartilhadas",
       "Compartilhar envia apenas o texto e áudio que você confirmar. Envios e respostas aguardam aprovação. Ouvintes veem temas e apoio solicitado; uma pessoa por vez pode abrir uma confissão por seis horas. Sem resposta, ela volta à lista. Uma única resposta fica visível para autor, ouvinte e moderadores autorizados. Nome e email ficam ocultos dos ouvintes; moderadores acessam envios e denúncias vinculados à conta. Voz e detalhes podem identificar você. Não é criptografia de ponta a ponta nem confissão sacramental. Denúncias ocultam conteúdo para revisão. Você pode encerrar respostas, bloquear e excluir a confissão e resposta. Registros de moderação ficam separados; contate o suporte para exclusão. Não há monitoramento em tempo real nem promessa de resposta imediata.",
@@ -64,6 +72,10 @@ const policy = {
   ],
   es: [
     [
+      "Conversaciones de la comunidad",
+      "La IA de la comunidad está desactivada actualmente. Si se activa con aprobación específica, las publicaciones, el contexto y las denuncias se revisan con Alibaba Cloud Qwen. Lo que supera la revisión se publica; los casos inciertos o fallidos quedan privados. La IA puede equivocarse. Las publicaciones retenidas y apelaciones quedan sin publicar hasta disponer de revisión. No se adjuntan el diario ni el perfil. El proveedor puede procesar datos fuera de tu país según su política de retención. Puedes denunciar, bloquear y eliminar tus publicaciones. No hay supervisión continua.",
+    ],
+    [
       "Confesiones compartidas",
       "Compartir envía solo el texto y audio que confirmes. Envíos y respuestas esperan aprobación. Los oyentes ven temas y apoyo solicitado; una persona a la vez puede abrir una confesión por seis horas. Sin respuesta, vuelve a la lista. Una única respuesta es visible para autor, oyente y moderadores. Nombre y correo se ocultan a oyentes; los moderadores acceden a envíos y reportes vinculados a la cuenta. Voz y detalles pueden identificarte. No es cifrado de extremo a extremo ni confesión sacramental. Los reportes ocultan contenido para revisión. Puedes cerrar respuestas, bloquear o eliminar confesión y respuesta. Los registros de moderación se guardan aparte; contacta al soporte para borrarlos. No hay supervisión en tiempo real ni promesa de respuesta inmediata.",
     ],
@@ -89,6 +101,10 @@ const policy = {
     ],
   ],
   ru: [
+    [
+      "Обсуждения сообщества",
+      "ИИ сообщества сейчас отключён. При отдельном согласии на включение публикации, контекст и жалобы проверяет Alibaba Cloud Qwen. Прошедшие проверку записи публикуются; сомнительные записи и сбои оставляют их приватными. ИИ может ошибаться. Удержанные записи и обращения остаются неопубликованными до появления процедуры проверки. Дневник и профиль не прикрепляются. Провайдер может обрабатывать данные за пределами страны по своим правилам хранения. Можно жаловаться, блокировать людей и удалять свои записи. Непрерывного наблюдения нет.",
+    ],
     [
       "Признания для слушателей",
       "Отправка загружает только подтверждённый вами текст и необязательное аудио. Признания и ответы ждут проверки. Слушатели видят тему и вид поддержки; один слушатель может открыть признание на шесть часов. Без ответа оно возвращается в список. Единственный ответ виден автору, слушателю и модераторам. Имя и почта скрыты от слушателей; модераторы видят материалы и жалобы, связанные с аккаунтом. Голос и подробности могут раскрыть личность. Это не сквозное шифрование и не таинство исповеди. Жалобы скрывают материалы до проверки. Можно закрыть ответы, заблокировать человека или удалить признание и ответ. Журналы модерации хранятся отдельно; для удаления обратитесь в поддержку. Нет наблюдения в реальном времени или обещания немедленного ответа.",

@@ -198,6 +198,19 @@ export function studyFor(id: string) {
       v.aliases.includes(id),
   );
 }
+export function discussionVerseId(id: string): string | null {
+  const direct = id.includes(":") ? id : `web:${id}`;
+  if (/^(web|dra|brenton):[A-Z0-9]{3}\.\d+\.\d+$/.test(direct)) {
+    return getReadingVerse(direct) ? direct : null;
+  }
+  const edition = data.editions.find((e) =>
+    e.passages.some((v) => v.id === id),
+  );
+  const alias = studyFor(id)?.aliases.find((a) =>
+    a.startsWith(`${edition?.id}:`),
+  );
+  return alias && getReadingVerse(alias) ? alias : null;
+}
 const readerLocations: Partial<
   Record<CollectionId, { book: number; chapter: number }>
 > = {};
