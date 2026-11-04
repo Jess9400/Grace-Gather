@@ -1,6 +1,13 @@
 import { useState } from "react";
 import * as DocumentPicker from "expo-document-picker";
-import { Screen, Heading, Body, Field, Button, Notice } from "../components/ui";
+import {
+  Screen,
+  Heading,
+  Body,
+  Field,
+  Button,
+  Notice,
+} from "../components/quiet-ui";
 import { useApp } from "../lib/state";
 import { label } from "../lib/labels";
 import { restoreEncrypted } from "../lib/storage";
@@ -18,7 +25,9 @@ export default function Restore() {
       });
       if (picked.canceled) return;
       await restoreEncrypted(picked.assets[0].uri, key.trim());
-      setNotice("Restored. Close and reopen Grace & Gather to load your journal.");
+      setNotice(
+        "Restored. Close and reopen Grace & Gather to load your journal.",
+      );
     } catch {
       setNotice(
         "Could not restore. Check the recovery key and backup file. Existing files have been preserved.",

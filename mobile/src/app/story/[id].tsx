@@ -14,7 +14,7 @@ import {
   External,
   Chip,
   Busy,
-} from "../../components/ui";
+} from "../../components/quiet-ui";
 import { useApp } from "../../lib/state";
 import { copy, localized, data } from "../../lib/content";
 import { label } from "../../lib/labels";

@@ -11,7 +11,7 @@ import {
   Button,
   Notice,
   colors,
-} from "../../components/ui";
+} from "../../components/quiet-ui";
 import { useApp } from "../../lib/state";
 import { copy, localized, Localized } from "../../lib/content";
 import { label } from "../../lib/labels";

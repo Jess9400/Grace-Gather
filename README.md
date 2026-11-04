@@ -1,11 +1,11 @@
-# Grace & Gather — mobile MVP and private web preview
+# Grace & Gather: native app and retained web preview
 
 Grace & Gather is the current working name. Public support contact: **hello@graceandgather.com** (mailbox verification is still outstanding). The original Still web preview and its browser journals are retained. The new `mobile/` app is a separate Expo / React Native application for iPhone, with optional Supabase accounts. The two account stores are not automatically merged. Existing storage keys, URL schemes and bundle identifiers retain their earlier technical names so the branding change does not reset device data or existing configuration.
 
 ## What is implemented
 
-- Seven-screen, optional onboarding: language, name, intention, Christian tradition, scripture language, city/state/country, and optional notification email with consent.
-- Journal, Explore, Bible Study, Confession and Gatherings tabs. Home has a daily verse, followed by text/audio journaling. The journal opens directly to writing or recording, with no feeling chips. Native users can explicitly opt into Qwen theme suggestions and audio transcription; without AI or when it fails, entries receive labeled general guidance. Users can correct the suggested theme. The original web preview still uses general guidance.
+- A short optional Christian-tradition question first, then the floating-feelings home screen. The original language, name, intention, scripture, location and email preferences remain available through Account and settings.
+- Home, Bible, Diary and More navigation. Floating feelings lead into a dated diary and a glass conversation with exactly one sourced verse plus three visible care actions. Follow-ups remain temporary curated reflections. More retains Explore, learning, Gatherings and the existing Confession room. Native recording and explicit Qwen opt-in remain in Writing options. Local word matching is limited to English; explicit feelings and neutral fallback work in all four interface languages.
 - Four interface languages: English, Portuguese, Spanish and Russian. Some new operational/error and audio-room strings still require the final four-language review tracked in `release/readiness.json`.
 - Native SQLCipher journal storage, a key in SecureStore, AES-GCM recording files, playback, history/search/deletion, and encrypted backup export/restore with a separately displayed recovery key. Native storage fails closed when SQLCipher or its key is unavailable. The browser rendering of the native app uses **temporary memory only**.
 - Sourced Explore catalog: testimonies, stories, music histories, Bible animations, psalms and Catholic saint prayers. External media opens on the publisher. Community comments are pending until moderator approval; users can like, report and block. Likes and comments require a connected account.
@@ -65,12 +65,12 @@ Google Workspace SMTP uses `hello@findflockie.com` as sender with display name G
 
 | Scripture language | Protestant | Catholic | Orthodox |
 | --- | --- | --- | --- |
-| English | World English Bible | Douay-Rheims 1899 | Brenton Septuagint, Old Testament selections |
+| English | Full 66-book World English Bible | Full 73-book Douay-Rheims 1899 | Brenton Septuagint with separately labelled WEB New Testament and 2 Esdras supplement |
 | Portuguese | Bíblia Livre (Feb 2018) | Not yet sourced | Not yet sourced |
 | Spanish | Reina-Valera 1909 | Not yet sourced | Not yet sourced |
 | Russian | Synodal NT selections | Not yet sourced | Synodal NT selections |
 
-Unsupported combinations are explained; another tradition/language is never silently substituted. There are 36 curated quotations plus Psalm 23/22 in six editions, not a full Bible. `SCRIPTURE_SOURCES.md` records provenance. Final theology, translation, content-rights and age-rating reviews remain on the release checklist. News uses the past 24 hours of **publication timestamps**, not a claim about event dates. Courses, books, music and charities are independent external resources.
+Unsupported combinations are explained; another tradition/language is never silently substituted. The journal retains 36 curated quotations plus Psalm 23/22 in six editions. The new mobile Bible reader additionally bundles full English book collections; see [Bible source and coverage notes](BIBLE_COLLECTIONS.md). `SCRIPTURE_SOURCES.md` records provenance. Final theology, translation, content-rights and age-rating reviews remain on the release checklist. News uses the past 24 hours of **publication timestamps**, not a claim about event dates. Courses, books, music and charities are independent external resources.
 
 ## Original web preview
 
@@ -97,3 +97,35 @@ The dependency audit currently reports no high/critical advisories; moderate fin
 ## Confession community room
 
 The web preview now has a separate anonymous peer-support room, theme-only selection, private single replies, and server-enforced six-hour reservations. Every confession and reply waits for human approval. `CONFESSION_MODERATOR_EMAILS` is a server-only verified-email allowlist; no client can approve itself. See [moderation and release notes](docs/CONFESSION.md). Native UI and the Supabase backend are deployed; a signed iOS build and device tests remain release steps.
+
+## Approved quiet-diary integration
+
+The native app now implements the approved ivory prototype: #FFFCF3 background,
+#FFFFFF reading surfaces, #302C28 text and buttons, and #B28A3E accents. The
+Confession room retains its own original components and colors. No Confession
+service, screen, recorder or playback code is restyled.
+
+Home preserves gently floating feelings and respects reduced motion. Large
+accessibility text uses a wrapping layout so choices remain reachable. Diary
+drafts survive screen navigation. A single explicit finish action enters the
+conversation. The original words and date remain separate from suggestions.
+Exactly one curated quotation and three compact actions appear per response.
+Follow-up text and conversation state are never written to journal storage.
+
+Saving a page is optional. Kept native pages still use the existing encrypted
+vault; unsaved pages remain in memory. Encrypted recordings may remain on the
+device, but backups now include recordings referenced by saved journal pages
+only. Backup format and existing saved pages remain compatible. Browser QA uses
+temporary memory and does not prove native encryption, microphone, keyboard,
+blur or backup behavior. Those checks still need a development build on a phone.
+
+Bible reading is virtualized and loads successive chapters across books. A
+book/chapter picker jumps directly. Scripture routes include the collection
+identifier, keeping quotations, chapter context and citations within the same
+source. The nine existing English WEB study notes are labelled as awaiting
+theological review. Other verses offer reading questions and publisher notes,
+not fabricated verse-specific commentary. Full non-English readers and church
+calendars are not implemented.
+
+The native design is implemented in React Native components, not a WebView.
+The retained web prototype and its separate storage have not been replaced.

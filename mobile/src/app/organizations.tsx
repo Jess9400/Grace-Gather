@@ -7,7 +7,7 @@ import {
   Subheading,
   Button,
   External,
-} from "../components/ui";
+} from "../components/quiet-ui";
 import { useApp } from "../lib/state";
 import { copy, localOrganizations } from "../lib/content";
 export default function Organizations() {

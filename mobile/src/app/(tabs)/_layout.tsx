@@ -1,60 +1,48 @@
-import { Text } from "react-native";
-import { Tabs } from "expo-router";
+import { Tabs, useSegments } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useApp } from "../../lib/state";
-import { copy } from "../../lib/content";
-import { colors } from "../../components/ui";
+import { q } from "../../lib/quiet-copy";
+import { colors } from "../../components/quiet-ui";
+import { colors as legacyColors } from "../../components/ui";
 export default function TabsLayout() {
   const { profile } = useApp();
+  const legacy = useSegments().some((s) => s === "confession"),
+    palette = legacy ? legacyColors : colors;
   return (
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: colors.green,
-        tabBarInactiveTintColor: colors.inactive,
+        tabBarActiveTintColor: palette.green,
+        tabBarInactiveTintColor: palette.inactive,
         tabBarStyle: {
-          backgroundColor: colors.paper,
-          borderTopColor: colors.line,
+          backgroundColor: palette.paper,
+          borderTopColor: palette.line,
         },
         tabBarLabelStyle: { fontSize: 11 },
-        sceneStyle: { backgroundColor: colors.paper },
+        sceneStyle: { backgroundColor: palette.paper },
       }}
     >
       {(
         [
-          ["index", "journal", "book-outline"],
-          ["explore", "explore", "compass-outline"],
-          ["learn", "learn", "book-outline"],
-          ["confession", "confession", "heart-outline"],
-          ["gatherings", "gather", "calendar-outline"],
+          ["index", "home", "home-outline"],
+          ["bible", "bible", "book-outline"],
+          ["diary", "diary", "create-outline"],
+          ["more", "more", "ellipsis-horizontal"],
         ] as const
       ).map(([name, label, icon]) => (
         <Tabs.Screen
           key={name}
           name={name}
           options={{
-            title: copy(profile.language, label),
-            tabBarLabel: ({ color }) => (
-              <Text
-                style={{
-                  fontSize: 10,
-                  lineHeight: 12,
-                  textAlign: "center",
-                  color: typeof color === "string" ? color : colors.muted,
-                }}
-              >
-                {copy(profile.language, label)}
-              </Text>
-            ),
+            title: q(profile.language, label),
             tabBarIcon: ({ color, size }) => (
-              <Ionicons
-                name={icon}
-                color={typeof color === "string" ? color : colors.muted}
-                size={size}
-              />
+              <Ionicons name={icon} color={color as string} size={size} />
             ),
           }}
         />
+      ))}
+      {["explore", "learn", "confession", "gatherings"].map((name) => (
+        <Tabs.Screen key={name} name={name} options={{ href: null }} />
       ))}
     </Tabs>
   );

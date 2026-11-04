@@ -1,7 +1,14 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useRef,
+} from "react";
 import { AppState } from "react-native";
 import { Profile, Entry, initialProfile, normalizeProfile } from "./content";
 import * as storage from "./storage";
+import { savedJournalEntries } from "../generated/quiet-diary";
 import { backend } from "./backend";
 interface State {
   ready: boolean;
@@ -9,7 +16,7 @@ interface State {
   profile: Profile;
   entries: Entry[];
   saveProfile: (p: Profile) => Promise<void>;
-  saveEntry: (e: Entry) => Promise<void>;
+  saveEntry: (e: Entry, keep?: boolean) => Promise<void>;
   deleteEntry: (id: string) => Promise<void>;
   reset: () => Promise<void>;
 }
@@ -19,6 +26,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     [error, setError] = useState(""),
     [profile, setProfile] = useState(initialProfile),
     [entries, setEntries] = useState<Entry[]>([]);
+  const entryRef = useRef<Entry[]>([]);
+  const writes = useRef(Promise.resolve());
   useEffect(() => {
     let mounted = true;
     storage
@@ -28,7 +37,10 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
           e = await storage.getItem("entries");
         if (mounted) {
           if (p) setProfile(normalizeProfile(JSON.parse(p)));
-          if (e) setEntries(JSON.parse(e));
+          if (e) {
+            entryRef.current = JSON.parse(e);
+            setEntries(entryRef.current);
+          }
           setReady(true);
         }
       })
@@ -56,24 +68,51 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     await storage.setItem("profile", JSON.stringify(next));
     setProfile(next);
   }
-  async function saveEntry(entry: Entry) {
-    const next = [entry, ...entries.filter((e) => e.id !== entry.id)].sort(
-      (a, b) => b.createdAt.localeCompare(a.createdAt),
-    );
-    await storage.setItem("entries", JSON.stringify(next));
-    setEntries(next);
+  async function saveEntry(entry: Entry, keep?: boolean) {
+    const task = writes.current.then(async () => {
+      const previous = entryRef.current.find((e) => e.id === entry.id);
+      const sessionOnly =
+        keep === undefined
+          ? (previous?.sessionOnly ?? entry.sessionOnly ?? false)
+          : !keep;
+      const next = [
+        { ...entry, sessionOnly },
+        ...entryRef.current.filter((e) => e.id !== entry.id),
+      ].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+      await storage.setItem(
+        "entries",
+        JSON.stringify(savedJournalEntries(next)),
+      );
+      entryRef.current = next;
+      setEntries(next);
+    });
+    writes.current = task.catch(() => {});
+    return task;
   }
   async function deleteEntry(id: string) {
-    const entry = entries.find((e) => e.id === id);
-    const next = entries.filter((e) => e.id !== id);
-    await storage.setItem("entries", JSON.stringify(next));
-    setEntries(next);
-    if (entry?.audio) await storage.removeAudio(entry.audio);
+    const task = writes.current.then(async () => {
+      const entry = entryRef.current.find((e) => e.id === id);
+      const next = entryRef.current.filter((e) => e.id !== id);
+      await storage.setItem(
+        "entries",
+        JSON.stringify(savedJournalEntries(next)),
+      );
+      entryRef.current = next;
+      setEntries(next);
+      if (entry?.audio) await storage.removeAudio(entry.audio);
+    });
+    writes.current = task.catch(() => {});
+    return task;
   }
   async function reset() {
-    await storage.clearVault();
-    setProfile(initialProfile);
-    setEntries([]);
+    const task = writes.current.then(async () => {
+      await storage.clearVault();
+      setProfile(initialProfile);
+      entryRef.current = [];
+      setEntries([]);
+    });
+    writes.current = task.catch(() => {});
+    return task;
   }
   return (
     <Context.Provider

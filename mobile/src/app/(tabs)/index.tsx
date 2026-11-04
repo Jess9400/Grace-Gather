@@ -1,195 +1,63 @@
-import { useState } from "react";
+import { View, Text, StyleSheet } from "react-native";
 import { router } from "expo-router";
-import { randomUUID } from "expo-crypto";
-import {
-  Screen,
-  Heading,
-  Body,
-  Subheading,
-  Card,
-  Field,
-  Button,
-  Notice,
-  External,
-} from "../../components/ui";
-import Recorder from "../../components/Recorder";
+import { Screen, Button, colors, serif } from "../../components/quiet-ui";
+import FloatingFeelings from "../../components/FloatingFeelings";
 import { useApp } from "../../lib/state";
-import { copy, dailyVerse, needsSupport, Entry } from "../../lib/content";
-import { label } from "../../lib/labels";
-import { persistent } from "../../lib/storage";
-import { aiCopy } from "../../lib/ai-copy";
-import { suggestJourney } from "../../lib/ai";
-import { transcribeRecording } from "../../lib/ai-audio";
-export default function Journal() {
-  const { profile, saveEntry } = useApp();
-  const [text, setText] = useState(""),
-    [audio, setAudio] = useState<string>(),
-    [error, setError] = useState(""),
-    [busy, setBusy] = useState(false),
-    [recording, setRecording] = useState(false),
-    [useAI, setUseAI] = useState(false),
-    [transcribed, setTranscribed] = useState(false);
-  const t = (k: string) => copy(profile.language, k),
-    verse = dailyVerse(profile),
-    support = needsSupport(text);
-  async function submit() {
-    if (!text.trim() && !audio) {
-      setError(t("needEntry"));
-      return;
-    }
-    if (useAI && !text.trim()) {
-      setError(aiCopy(profile.language, "writingFirst"));
-      return;
-    }
-    setBusy(true);
-    const id = randomUUID();
-    try {
-      let entry: Entry = {
-        id,
-        createdAt: new Date().toISOString(),
-        mood: "unsure",
-        guidance: "general",
-        text: text.trim(),
-        audio,
-        safety: support,
-        prefs: profile,
-      };
-      await saveEntry(entry);
-      if (useAI && !support) {
-        try {
-          const suggestion = await suggestJourney(text.trim(), profile);
-          entry = {
-            ...entry,
-            mood: suggestion.path,
-            guidance: "ai",
-            safety: suggestion.support,
-            passageIds: suggestion.passageIds,
-            actionIds: suggestion.actionIds,
-          };
-        } catch {
-          entry = { ...entry, aiUnavailable: true };
-        }
-        await saveEntry(entry);
-      }
-      setText("");
-      setAudio(undefined);
-      setError("");
-      setUseAI(false);
-      setTranscribed(false);
-      router.push({ pathname: "/entry/[id]", params: { id } });
-    } catch {
-      setError(t("storageError"));
-    } finally {
-      setBusy(false);
-    }
-  }
+import { useQuiet } from "../../lib/quiet-state";
+import { q } from "../../lib/quiet-copy";
+export default function Home() {
+  const { profile } = useApp();
+  const { draft, update, clear } = useQuiet();
   return (
     <Screen>
-      <Body small>
-        {profile.name
-          ? `${t("pHello")}, ${profile.name}`
-          : label(profile.language, "launch")}
-      </Body>
-      <Heading>{t("heart")}</Heading>
-      <Card tint>
-        <Body small>{t("pDaily")}</Body>
-        {verse ? (
-          <>
-            <Subheading>“{verse.text}”</Subheading>
-            <Body small>
-              {verse.reference} · {verse.editionName}
-            </Body>
-            <External title={t("source")} url={verse.sourceUrl} />
-          </>
-        ) : (
-          <Body>{t("unavailable")}</Body>
-        )}
-      </Card>
-      <Body>{t("heartSub")}</Body>
-      <Field
-        label={t("entryLabel")}
-        value={text}
-        onChangeText={setText}
-        placeholder={t("prompt")}
-        multiline
-        maxLength={30000}
-      />
-      <Recorder
+      <Text style={s.date}>
+        {new Date().toLocaleDateString(profile.language, {
+          weekday: "long",
+          month: "long",
+          day: "numeric",
+        })}{" "}
+        · {q(profile.language, "moment")}
+      </Text>
+      <FloatingFeelings
+        chosen={draft.chosen}
+        onChange={(chosen) => update({ chosen })}
         language={profile.language}
-        value={audio}
-        onChange={setAudio}
-        onBusyChange={setRecording}
       />
-      <Card>
-        <Subheading>{aiCopy(profile.language, "title")}</Subheading>
-        <Body small>{aiCopy(profile.language, "consent")}</Body>
+      <View style={s.actions}>
         <Button
-          secondary
-          disabled={busy || recording}
-          title={aiCopy(profile.language, useAI ? "off" : "agree")}
-          onPress={() => setUseAI(!useAI)}
+          title={q(profile.language, "write")}
+          onPress={() => router.push("/(tabs)/diary")}
         />
-        {useAI && (
+        {draft.entryId && (
           <Button
             secondary
-            disabled={busy}
-            title={aiCopy(profile.language, "signIn")}
-            onPress={() => router.push("/account")}
-          />
-        )}
-        {useAI && audio && (
-          <Button
-            disabled={busy || recording}
-            title={aiCopy(profile.language, "transcribe")}
+            title={q(profile.language, "newPage")}
             onPress={() => {
-              setBusy(true);
-              setError("");
-              void transcribeRecording(audio, profile.language)
-                .then((transcript) => {
-                  setText((previous) =>
-                    [previous.trim(), transcript]
-                      .filter(Boolean)
-                      .join("\n\n")
-                      .slice(0, 30000),
-                  );
-                  setTranscribed(true);
-                })
-                .catch(() =>
-                  setError(aiCopy(profile.language, "requestFailed")),
-                )
-                .finally(() => setBusy(false));
+              clear();
+              router.push("/(tabs)/diary");
             }}
           />
         )}
-        {transcribed && <Body small>{aiCopy(profile.language, "review")}</Body>}
-      </Card>
-      {support && (
-        <Card>
-          <Subheading>{t("supportTitle")}</Subheading>
-          <Body>{t("supportDesc")}</Body>
-          <Body small>{t("supportBoundary")}</Body>
-        </Card>
-      )}
-      <Notice text={error} />
-      <Button
-        disabled={busy || recording}
-        title={
-          busy
-            ? aiCopy(profile.language, "working")
-            : t(support ? "supportSave" : "continue")
-        }
-        onPress={() => void submit()}
-      />
-      <Body small>
-        {persistent
-          ? aiCopy(profile.language, "local")
-          : label(profile.language, "webDemo")}
-      </Body>
-      <Button
-        secondary
-        title={t("history")}
-        onPress={() => router.push("/history")}
-      />
+        <Text style={s.whisper}>{q(profile.language, "whisper")}</Text>
+      </View>
     </Screen>
   );
 }
+const s = StyleSheet.create({
+  date: {
+    fontSize: 11,
+    letterSpacing: 1.2,
+    textAlign: "center",
+    textTransform: "uppercase",
+    color: colors.muted,
+    marginTop: 10,
+  },
+  actions: { gap: 17, marginTop: 8 },
+  whisper: {
+    textAlign: "center",
+    fontFamily: serif,
+    fontStyle: "italic",
+    fontSize: 15,
+    color: colors.muted,
+  },
+});

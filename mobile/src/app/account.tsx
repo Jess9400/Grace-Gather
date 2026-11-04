@@ -12,8 +12,9 @@ import {
   Field,
   Notice,
   External,
-} from "../components/ui";
+} from "../components/quiet-ui";
 import AppleSignIn from "../components/AppleSignIn";
+import { useQuiet } from "../lib/quiet-state";
 import { useApp } from "../lib/state";
 import { copy } from "../lib/content";
 import { label } from "../lib/labels";
@@ -27,6 +28,7 @@ import {
   registerGatheringPush,
 } from "../lib/notifications";
 export default function Account() {
+  const { clear } = useQuiet();
   const { profile, reset } = useApp(),
     t = (k: string) => copy(profile.language, k),
     l = (k: string) => label(profile.language, k);
@@ -93,7 +95,7 @@ export default function Account() {
       <Button
         secondary
         title={t("pEditProfile")}
-        onPress={() => router.push("/onboarding")}
+        onPress={() => router.push("/preferences")}
       />
       <Button
         secondary
@@ -306,6 +308,7 @@ export default function Account() {
                     await disableGatheringPush();
                     await backend?.auth.signOut({ scope: "local" });
                     await reset();
+                    clear();
                     router.replace("/onboarding");
                   }
                   setDeleting(null);
