@@ -286,3 +286,77 @@ test("encrypted backup storage only accepts the owner’s fixed private object",
  await call('moderate',[r.id,'approved',staff,'Context reviewed.']);assert.equal((await call('get',[r.id])).status,'approved');
  await call('remove',[r.id]);assert.equal(await call('get',['test-response']),null);
  });
+
+async function command(user,fn,action,data={},role='authenticated'){
+ await db.exec('reset role');await db.query("select set_config('request.jwt.claim.sub',$1,false)",[user]);await db.exec('set role '+role);
+ try{return (await db.query(`select public.${fn}($1,$2::jsonb) result`,[action,JSON.stringify(data)])).rows[0].result;}finally{await db.exec('reset role');}
+}
+const words={title:'My own words',body:'First paragraph, with my own wording.\n\nSecond paragraph — unchanged.',displayName:'Alice',anonymous:true,tags:['hope'],language:'en'};
+test('testimonies require explicit preview, are private until reviewed, and keep anonymous authorship private',async()=>{
+ await assert.rejects(command(alice,'testimony_command','publish',words),/Preview/);
+ await assert.rejects(command(alice,'testimony_command','publish',{...words,previewed:null,audience:'discover_public'}),/Preview/);
+ const draft=await command(alice,'testimony_command','draft',words);assert.equal(draft.status,'draft');assert.equal(draft.author,undefined);assert.equal(draft.body,words.body);
+ assert.equal((await as('',`select * from public.content_items where id='testimony-${draft.id}'`,'anon')).rows.length,0);
+ await assert.rejects(command(bob,'testimony_command','read',{id:draft.id}),/not found/);
+ await assert.rejects(as(alice,'select * from private.testimonies'));
+ const pending=await command(alice,'testimony_command','publish',{...words,id:draft.id,revision:1,previewed:true,audience:'discover_public'});assert.equal(pending.status,'pending');
+ await assert.rejects(command(alice,'testimony_command','review',{id:draft.id,revision:pending.revision,decision:'approve'}),/Moderator/);
+ await assert.rejects(command(staff,'testimony_command','review',{id:draft.id,revision:null,decision:'approve'}),/version changed/);
+ await command(staff,'testimony_command','review',{id:draft.id,revision:pending.revision,decision:'approve'});
+ const item=(await as('',`select data from public.content_items where id='testimony-${draft.id}'`,'anon')).rows[0].data;
+ assert.equal(item.body.en,words.body);assert.equal(item.source,'Anonymous member');assert.ok(!JSON.stringify(item).includes(alice));assert.ok(!JSON.stringify(item).includes('Alice'));
+ await command(alice,'testimony_command','draft',{...words,id:draft.id,revision:pending.revision,body:words.body+' Updated.'});
+ assert.equal((await as('',`select * from public.content_items where id='testimony-${draft.id}'`,'anon')).rows.length,0);
+ await assert.rejects(command(staff,'testimony_command','review',{id:draft.id,revision:pending.revision,decision:'approve'}),/version changed/);
+ const revised=await command(alice,'testimony_command','publish',{...words,id:draft.id,revision:3,previewed:true,audience:'discover_public'});
+ await command(staff,'testimony_command','review',{id:draft.id,revision:revised.revision,decision:'reject',reason:'Please remove identifying details.'});
+ assert.equal((await command(alice,'testimony_command','read',{id:draft.id})).rejection_reason,'Please remove identifying details.');
+ await assert.rejects(command(bob,'testimony_command','read',{id:draft.id}),/not found/);
+ await command(alice,'testimony_command','delete',{id:draft.id});
+ assert.ok(!(await command(alice,'testimony_command','mine')).some(x=>x.id===draft.id));
+});
+test('saved stories are owner-only; aggregate counts never expose hidden material',async()=>{
+ await as(alice,`insert into public.saved_items(item_id,user_id) values('story','${alice}')`);
+ assert.equal((await as(bob,'select * from public.saved_items')).rows.length,0);
+ await assert.rejects(as(alice,`insert into public.saved_items(item_id,user_id) values('hidden','${alice}')`));
+ await assert.rejects(as(alice,`insert into public.shared_items(item_id,user_id) values('story','${bob}')`));
+ const state=(await as('',"select public.discover_state(array['story','hidden']) state",'anon')).rows[0].state;
+ assert.equal(state.length,1);assert.equal(state[0].saved,false);assert.equal(state[0].liked,false);
+ assert.equal((await as(alice,"select public.discover_state(array['story']) state")).rows[0].state[0].saved,true);
+});
+test('news cache deduplicates, preserves good data on failure, and filters a strict rolling 24 hours',async()=>{
+ const make=(id,url,title,date)=>({id,type:'news',origin:'news',url,fingerprint:title,title:{en:title},publishedAt:date});
+ const now=(await db.query('select now() as now')).rows[0].now;
+ const items=[make('news-current','https://www.nasa.gov/a','Alpha',new Date(+new Date(now)-3600000).toISOString()),make('news-old','https://www.nasa.gov/b','Beta',new Date(+new Date(now)-48*3600000).toISOString()),make('news-future','https://www.nasa.gov/c','Gamma',new Date(+new Date(now)+3600000).toISOString())];
+ await assert.rejects(command(alice,'news_store','sources'));
+ await command('','news_store','save',{id:'nasa',items},'service_role');
+ await command('','news_store','save',{id:'nasa',items:[{...items[0],id:'news-duplicate',url:'https://www.nasa.gov/another'}]},'service_role');
+ assert.equal((await db.query("select count(*)::int n from private.news_imports")).rows[0].n,2);
+ await command('','news_store','failure',{id:'nasa',error:'publisher_http_503'},'service_role');
+ assert.equal((await as('',"select id from public.discover_page('news')",'anon')).rows.map(x=>x.id).join(','),'news-current');
+ assert.equal((await as('',"select id from public.discover_page('older')",'anon')).rows.map(x=>x.id).join(','),'news-old');
+ const page=(await as('',"select * from public.discover_page('all',null,'',1)",'anon')).rows[0];
+ const next=(await as('',`select * from public.discover_page('all','${new Date(page.sort_at).toISOString()}','${page.id}',1)`,'anon')).rows[0];assert.notEqual(page.id,next.id);
+ assert.ok((await command('','news_store','health',{},'service_role')).some(s=>s.name==='NASA'&&s.error==='publisher_http_503'));
+});
+test('gathering creation, private invitations, capacity and timezones are enforced in the database',async()=>{
+ const person='55555555-5555-4555-8555-555555555555';await db.exec(`insert into auth.users(id,email,email_confirmed_at) values('${person}','listener@example.com',now())`);
+ const input={title:'A real circle',description:'A quiet conversation about belonging.',name:'Alice',language:'en',topic:'Belonging',now:true,timezone:'America/Sao_Paulo',visibility:'invite',capacity:2,minutes:60};
+ await assert.rejects(command('','gathering_command','create',input,'anon'),/Sign in/);
+ const g=await command(alice,'gathering_command','create',input);assert.equal(g.host_id,alice);assert.equal(g.room_name,undefined);assert.equal(g.status,'published');
+ assert.equal((await as('',`select * from public.gatherings where id='${g.id}'`,'anon')).rows.length,0);
+ assert.ok(!(await command(person,'gathering_command','list')).some(x=>x.id===g.id));
+ await assert.rejects(command(person,'gathering_command','reserve',{id:g.id}),/invite_required/);
+ await assert.rejects(command(person,'gathering_command','invite',{id:g.id}),/host_required/);
+ const {token}=await command(alice,'gathering_command','invite',{id:g.id});
+ await command(person,'gathering_command','reserve',{id:g.id,invite:token});
+ assert.ok((await command(person,'gathering_command','list')).some(x=>x.id===g.id));
+ await assert.rejects(command(staff,'gathering_command','reserve',{id:g.id,invite:token}),/full/);
+ await command(person,'gathering_command','leave',{id:g.id});await command(staff,'gathering_command','reserve',{id:g.id,invite:token});
+ const future=(await db.query(`select to_char(now()+interval '3 days','YYYY-MM-DD"T"HH24:MI') local`)).rows[0].local;
+ const scheduled=await command(alice,'gathering_command','create',{...input,now:false,localStart:future,timezone:'UTC',visibility:'public'});
+ assert.equal(new Date(scheduled.starts_at).toISOString(),future+':00.000Z');
+ await assert.rejects(command(alice,'gathering_command','create',{...input,timezone:'Not/AZone'}),/timezone/);
+ await assert.rejects(command(alice,'gathering_command','create',{...input,now:false,localStart:'2027-03-14T02:30',timezone:'America/New_York'}),/does not exist/);
+ await assert.rejects(command(alice,'gathering_command','create',{...input,capacity:101}));
+});

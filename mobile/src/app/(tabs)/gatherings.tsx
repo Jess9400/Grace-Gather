@@ -1,324 +1,226 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { router } from "expo-router";
-import { View, Text, Pressable } from "react-native";
+import { useClock } from "../../lib/use-clock";
+import { useCallback, useState, useEffect } from "react";
+import { router, useFocusEffect } from "expo-router";
+import { View } from "react-native";
 import {
   Screen,
   Heading,
   Body,
-  Card,
-  Subheading,
   Button,
   Notice,
-  colors,
+  Subheading,
+  Busy,
 } from "../../components/ui";
-import { Disclosure, TextAction } from "../../components/QuietControls";
-import { designCopy } from "../../lib/design-copy";
+import {
+  FilterStrip,
+  TextAction,
+  Disclosure,
+} from "../../components/QuietControls";
+import GatheringCalendar from "../../components/GatheringCalendar";
 import { useApp } from "../../lib/state";
-import { copy, localized, Localized } from "../../lib/content";
-import { label } from "../../lib/labels";
+import { communityCopy } from "../../lib/community-copy";
+import { copy } from "../../lib/content";
 import { backend, requireUser } from "../../lib/backend";
-interface Gathering {
-  id: string;
-  title: Localized;
-  description: Localized;
-  starts_at: string;
-  ends_at: string;
-  host_name: string;
-  timezone: string;
-}
+import { gathering, audioCommand, Gathering } from "../../lib/gatherings";
+import { storyText } from "../../lib/discover";
 export default function Gatherings() {
+  const now = useClock();
   const { profile } = useApp(),
-    t = (k: string) => copy(profile.language, k),
-    l = (k: string) => label(profile.language, k);
-  const [month, setMonth] = useState(
-      () => new Date(new Date().getFullYear(), new Date().getMonth(), 1),
-    ),
-    [gatherings, setGatherings] = useState<Gathering[]>([]),
-    [reservations, setReservations] = useState<string[]>([]),
-    [notice, setNotice] = useState(""),
-    [busy, setBusy] = useState(false),
+    c = (k: string) => communityCopy(profile.language, k),
+    t = (k: string) => copy(profile.language, k);
+  const [items, setItems] = useState<Gathering[]>([]),
+    [counts, setCounts] = useState<Record<string, number>>({}),
+    [tab, setTab] = useState("live"),
+    [error, setError] = useState(""),
+    [loading, setLoading] = useState(true),
     [selected, setSelected] = useState(""),
-    [interested, setInterested] = useState(false);
-  const d = (key: Parameters<typeof designCopy>[1]) =>
-    designCopy(profile.language, key);
-  const loadVersion = useRef(0);
+    [interested, setInterested] = useState(false),
+    [configured, setConfigured] = useState<boolean | null>(null);
   const load = useCallback(async () => {
-    const version = (loadVersion.current += 1);
-    if (!backend) return;
-    const { data, error } = await backend
-      .from("gatherings")
-      .select("id,title,description,starts_at,ends_at,host_name,timezone")
-      .eq("status", "published")
-      .gte("ends_at", new Date().toISOString())
-      .order("starts_at")
-      .limit(100);
-    if (version !== loadVersion.current) return;
-    if (error) {
-      setNotice("gatheringsLoadError");
-      return;
-    }
-    setNotice("");
-    setGatherings(data ?? []);
-    const {
-      data: { user },
-    } = await backend.auth.getUser();
-    if (user) {
-      const { data: m } = await backend
-        .from("memberships")
-        .select("gathering_id")
-        .eq("user_id", user.id);
-      const { data: i } = await backend
-        .from("series_interest")
-        .select("series")
-        .eq("user_id", user.id)
-        .maybeSingle();
-      if (version !== loadVersion.current) return;
-      setReservations((m ?? []).map((x) => x.gathering_id));
-      setInterested(!!i);
-    } else if (version === loadVersion.current) {
-      setReservations([]);
-      setInterested(false);
+    try {
+      setItems(await gathering("list"));
+      setError("");
+      if ((await backend?.auth.getSession())?.data.session) {
+        const interest = await backend!
+          .from("series_interest")
+          .select("series")
+          .maybeSingle();
+        setInterested(!!interest.data);
+        try {
+          const data = await audioCommand("catalog");
+          setCounts(
+            Object.fromEntries(
+              data.rooms.map((r: { id: string; participants: number }) => [
+                r.id,
+                r.participants,
+              ]),
+            ),
+          );
+        } catch {
+          setCounts({});
+        }
+      }
+    } catch {
+      setError("gatheringsLoadError");
+    } finally {
+      setLoading(false);
     }
   }, []);
+  useFocusEffect(
+    useCallback(() => {
+      void load();
+      const timer = setInterval(() => void load(), 30000);
+      return () => clearInterval(timer);
+    }, [load]),
+  );
   useEffect(() => {
-    void Promise.resolve().then(load);
-    let timer: ReturnType<typeof setTimeout>;
-    const sub = backend?.auth.onAuthStateChange((_event, session) => {
-      loadVersion.current += 1;
-      if (!session) {
-        setReservations([]);
-        setInterested(false);
-      }
-      clearTimeout(timer);
-      timer = setTimeout(() => void load(), 0);
-    });
-    return () => {
-      loadVersion.current += 1;
-      clearTimeout(timer);
-      sub?.data.subscription.unsubscribe();
-    };
-  }, [load]);
-  async function participate(fn: () => Promise<void>) {
-    if (!backend) {
-      router.push("/account");
-      return;
-    }
-    const {
-      data: { user },
-    } = await backend.auth.getUser();
-    if (!user) {
-      router.push("/account");
-      return;
-    }
-    setBusy(true);
+    void backend?.functions
+      .invoke("gathering-token", { method: "GET" })
+      .then((r) => setConfigured(r.error ? null : r.data?.configured === true));
+  }, []);
+  const key = (d: Date) => `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+  const visible = items.filter(
+    (g) =>
+      (tab === "mine"
+        ? g.reserved || g.hosting
+        : g.status === "published" &&
+          Date.parse(g.ends_at) > now &&
+          (tab === "live"
+            ? Date.parse(g.starts_at) <= now
+            : Date.parse(g.starts_at) > now)) &&
+      (!selected || key(new Date(g.starts_at)) === selected),
+  );
+  async function interest() {
     try {
-      await fn();
-      await load();
+      const { client, user } = await requireUser();
+      const r = interested
+        ? await client.from("series_interest").delete().eq("user_id", user.id)
+        : await client.from("series_interest").insert({ user_id: user.id });
+      if (r.error) throw r.error;
+      setInterested(!interested);
     } catch {
-      setNotice("socialError");
-    } finally {
-      setBusy(false);
+      router.push("/account");
     }
   }
-  const days = new Date(month.getFullYear(), month.getMonth() + 1, 0).getDate(),
-    offset = month.getDay();
-  const key = (d: Date) => `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
   return (
     <Screen>
-      <View style={{ gap: 8 }}>
-        <Heading>{t("gather")}</Heading>
-        <Body small>{d("gatheringIntro")}</Body>
-      </View>
-      <Notice
-        text={
-          notice === "gatheringsLoadError" ? l(notice) : notice ? t(notice) : ""
-        }
+      <Heading>{c("gatherings")}</Heading>
+      <Button
+        title={c("createGathering")}
+        onPress={() => router.push("/gathering/create")}
       />
-      {!!notice && (
-        <Button secondary title={l("retry")} onPress={() => void load()} />
-      )}
+      <FilterStrip
+        value={tab}
+        onChange={setTab}
+        options={["live", "upcoming", "mine"].map((value) => ({
+          value,
+          label: c(value),
+        }))}
+      />
+      <Notice text={error ? c(error) : ""} />
+      {!!error && (
+        <Button secondary title={c("retry")} onPress={() => void load()} />
+      )}{" "}
+      {configured === false && <Body small>{c("audioSetupNote")}</Body>}
       {!!selected && (
         <TextAction
-          title={d("clearDate")}
+          title={c("clearDate")}
           icon="close-circle-outline"
           onPress={() => setSelected("")}
         />
       )}
-      {!!gatherings.length && <Body small>{d("nextGatherings")}</Body>}
-      {gatherings
-        .filter((g) => !selected || key(new Date(g.starts_at)) === selected)
-        .map((g) => (
-          <Card key={g.id}>
-            <Subheading>{localized(g.title, profile.language)}</Subheading>
-            <Body>{localized(g.description, profile.language)}</Body>
-            <Body small>
-              {new Date(g.starts_at).toLocaleString(profile.language)} ·{" "}
-              {Intl.DateTimeFormat().resolvedOptions().timeZone}
-            </Body>
-            <Body small>{g.host_name}</Body>
-            <Button
-              disabled={busy}
-              title={l(reservations.includes(g.id) ? "leave" : "rsvp")}
-              onPress={() =>
-                void participate(async () => {
-                  const { client } = await requireUser();
-                  const { error } = await client.rpc("rsvp", {
-                    p_gathering: g.id,
-                    p_join: !reservations.includes(g.id),
-                  });
-                  if (error) throw error;
-                })
-              }
-            />
-            {reservations.includes(g.id) && (
-              <Button
-                secondary
-                title={l("join")}
-                onPress={() =>
-                  router.push({
-                    pathname: "/gathering/[id]",
-                    params: { id: g.id },
-                  })
-                }
-              />
-            )}
-          </Card>
-        ))}
-      {!!selected &&
-        !gatherings.some((g) => key(new Date(g.starts_at)) === selected) && (
-          <Body>{l("gatheringsEmpty")}</Body>
-        )}
-      <Card tint>
-        <View style={{ gap: 9 }}>
-          <Text
-            style={{
-              color: colors.cardMuted,
-              fontSize: 11,
-              letterSpacing: 1.5,
-              fontWeight: "600",
-            }}
-          >
-            {d("comingSoon")}
-          </Text>
-          <Subheading>{d("plannedTitle")}</Subheading>
-          <Body>{d("plannedSummary")}</Body>
-          <Body small>{d("plannedDate")}</Body>
-        </View>
-        <Button
-          disabled={busy}
-          title={t(interested ? "interestSaved" : "interested")}
-          onPress={() =>
-            void participate(async () => {
-              const { client, user } = await requireUser();
-              const result = interested
-                ? await client
-                    .from("series_interest")
-                    .delete()
-                    .eq("user_id", user.id)
-                : await client
-                    .from("series_interest")
-                    .insert({ user_id: user.id });
-              if (result.error) throw result.error;
-            })
-          }
-        />
-        <Body small>{t("interestNote")}</Body>
-        <Disclosure title={d("sessionDetails")}>
-          <Body small>{t("weeklySessionNote")}</Body>
-          <Body small>{t("groupBoundary")}</Body>
-        </Disclosure>
-      </Card>
-      <Disclosure title={d("calendar")}>
+      {loading && <Busy />}
+      {!loading && !visible.length && (
+        <Body>
+          {c(
+            tab === "live"
+              ? "noLive"
+              : tab === "mine"
+                ? "noMySessions"
+                : "noUpcoming",
+          )}
+        </Body>
+      )}
+      {visible.map((g) => (
         <View
+          key={g.id}
           style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
+            gap: 10,
+            paddingVertical: 20,
+            borderBottomWidth: 1,
+            borderBottomColor: "#B7C68F66",
           }}
         >
+          <Body small>
+            {Date.parse(g.ends_at) <= now || g.status === "ended"
+              ? c("ended")
+              : counts[g.id] > 0
+                ? c("live") + " · " + counts[g.id] + " " + c("listening")
+                : Date.parse(g.starts_at) <= now
+                  ? c("readyToJoin")
+                  : new Date(g.starts_at).toLocaleString(profile.language, {
+                      timeZone: g.timezone,
+                    }) +
+                    " · " +
+                    g.timezone}
+          </Body>
+          <Subheading>{storyText(g.title, profile.language)}</Subheading>
+          <Body>{storyText(g.description, profile.language)}</Body>
+          <Body small>
+            {g.host_name} · {g.topic} · {g.language.toUpperCase()}
+            {g.visibility === "invite" ? " · " + c("inviteOnly") : ""}
+          </Body>
           <TextAction
-            icon="chevron-back"
-            iconOnly
-            title={t("previousMonth")}
-            onPress={() =>
-              setMonth(new Date(month.getFullYear(), month.getMonth() - 1, 1))
-            }
+            title={c(
+              Date.parse(g.starts_at) <= now
+                ? "openRoom"
+                : g.reserved
+                  ? "viewGathering"
+                  : "reserve",
+            )}
+            icon="arrow-forward"
+            onPress={() => {
+              if (Date.parse(g.starts_at) > now && !g.reserved) {
+                void gathering("reserve", { id: g.id })
+                  .then(load)
+                  .catch((e) =>
+                    setError(
+                      e.message === "full" ? "full" : "signInGatherings",
+                    ),
+                  );
+              } else
+                router.push({
+                  pathname: "/gathering/[id]",
+                  params: { id: g.id },
+                });
+            }}
           />
-          <Subheading>
-            {month.toLocaleDateString(profile.language, {
-              month: "long",
-              year: "numeric",
-            })}
-          </Subheading>
-          <TextAction
-            icon="chevron-forward"
-            iconOnly
-            title={t("nextMonth")}
-            onPress={() =>
-              setMonth(new Date(month.getFullYear(), month.getMonth() + 1, 1))
-            }
-          />
+          {g.reserved && Date.parse(g.starts_at) > now && (
+            <TextAction
+              title={c("cancelReservation")}
+              onPress={() =>
+                void gathering("leave", { id: g.id })
+                  .then(load)
+                  .catch(() => setError("actionError"))
+              }
+            />
+          )}
         </View>
-        <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-          {Array.from({ length: 7 }, (_, i) => (
-            <View key={"w" + i} style={{ width: "14.28%", paddingVertical: 9 }}>
-              <Text
-                style={{
-                  textAlign: "center",
-                  fontSize: 11,
-                  color: colors.muted,
-                }}
-              >
-                {new Date(2026, 10, 1 + i).toLocaleDateString(
-                  profile.language,
-                  {
-                    weekday: "short",
-                  },
-                )}
-              </Text>
-            </View>
-          ))}
-          {Array.from({ length: offset + days }, (_, i) => {
-            const day = i - offset + 1;
-            if (day < 1) return <View key={i} style={{ width: "14.28%" }} />;
-            const d = new Date(month.getFullYear(), month.getMonth(), day),
-              has = gatherings.some(
-                (g) => key(new Date(g.starts_at)) === key(d),
-              );
-            return (
-              <Pressable
-                key={i}
-                accessibilityRole="button"
-                accessibilityState={{ selected: selected === key(d) }}
-                accessibilityLabel={d.toLocaleDateString(profile.language)}
-                onPress={() => setSelected(selected === key(d) ? "" : key(d))}
-                style={{
-                  width: "14.28%",
-                  height: 48,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: 16,
-                  backgroundColor:
-                    selected === key(d)
-                      ? colors.green
-                      : has
-                        ? colors.pale
-                        : "transparent",
-                }}
-              >
-                <Text
-                  style={{
-                    color:
-                      selected === key(d) || has ? colors.cardInk : colors.ink,
-                  }}
-                >
-                  {day}
-                  {has ? " •" : ""}
-                </Text>
-              </Pressable>
-            );
-          })}
-        </View>
+      ))}
+      <GatheringCalendar
+        gatherings={items}
+        selected={selected}
+        onSelect={setSelected}
+      />
+      <Disclosure title={c("plannedCircle")}>
+        <Body>{t("weeklySessionNote")}</Body>
+        <Body small>{t("groupBoundary")}</Body>
+        <Button
+          secondary
+          title={t(interested ? "interestSaved" : "interested")}
+          onPress={() => void interest()}
+        />
+        <Body small>{t("interestNote")}</Body>
       </Disclosure>
     </Screen>
   );

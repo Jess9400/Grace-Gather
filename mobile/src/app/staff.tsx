@@ -1,3 +1,4 @@
+import { router } from "expo-router";
 import { useCallback, useEffect, useState } from "react";
 import {
   Screen,
@@ -87,6 +88,10 @@ export default function Staff() {
             Only approved comments appear to other people. Investigate reports
             promptly and remove abusive content.
           </Body>
+          <Button
+            title="Review community testimonies"
+            onPress={() => router.push("/testimonies/review")}
+          />
           <Subheading>Pending comments</Subheading>
           {comments.map((c) => (
             <Card key={c.id}>
@@ -136,6 +141,18 @@ export default function Staff() {
               <Body small>
                 {r.item_id} · {r.comment_id}
               </Body>
+              {r.item_id?.startsWith("testimony-") && (
+                <Button
+                  secondary
+                  title="Review reported testimony"
+                  onPress={() =>
+                    router.push({
+                      pathname: "/testimonies/review",
+                      params: { id: r.item_id!.slice(10) },
+                    })
+                  }
+                />
+              )}
               {r.comment_id && (
                 <Button
                   secondary

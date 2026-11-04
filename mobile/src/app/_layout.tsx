@@ -1,3 +1,6 @@
+import { View } from "react-native";
+import { AudioRoomProvider } from "../lib/audio-room";
+import ActiveRoomBar from "../components/ActiveRoomBar";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { AppProvider, useApp } from "../lib/state";
@@ -23,19 +26,24 @@ function Routes() {
   return (
     <>
       <StatusBar style="light" />
-      <Stack
-        screenOptions={{
-          headerShown: false,
-          contentStyle: { backgroundColor: colors.paper },
-        }}
-      />
+      <View style={{ flex: 1 }}>
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            contentStyle: { backgroundColor: colors.paper },
+          }}
+        />
+      </View>
+      <ActiveRoomBar />
     </>
   );
 }
 export default function Layout() {
   return (
     <AppProvider>
-      <Routes />
+      <AudioRoomProvider>
+        <Routes />
+      </AudioRoomProvider>
     </AppProvider>
   );
 }

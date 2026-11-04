@@ -314,11 +314,37 @@ export default function Account() {
           </>
         )}
       </Card>
+      {signedIn && (
+        <TextAction
+          title={
+            {
+              en: "My testimonies",
+              pt: "Meus testemunhos",
+              es: "Mis testimonios",
+              ru: "Мои свидетельства",
+            }[profile.language]
+          }
+          icon="create-outline"
+          onPress={() => router.push("/testimonies")}
+        />
+      )}
       {signedIn && moderator?.email === userEmail && moderator.enabled && (
         <Card>
           <Subheading>
             {designCopy(profile.language, "communityTools")}
           </Subheading>
+          <TextAction
+            title={
+              {
+                en: "Stories & comments moderation",
+                pt: "Moderação de histórias e comentários",
+                es: "Moderación de historias y comentarios",
+                ru: "Модерация историй и комментариев",
+              }[profile.language]
+            }
+            icon="shield-checkmark-outline"
+            onPress={() => router.push("/staff")}
+          />
           <TextAction
             title={t("cReview")}
             icon="shield-checkmark-outline"

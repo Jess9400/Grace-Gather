@@ -5,10 +5,10 @@ Grace & Gather is the current working name. Public support contact: **hello@grac
 ## What is implemented
 
 - Seven-screen, optional onboarding: language, name, intention, Christian tradition, scripture language, city/state/country, and optional notification email with consent.
-- Journal, Explore, Bible Study, Confession and Gatherings tabs. Home has a daily verse, followed by text/audio journaling. The journal opens directly to writing or recording, with no feeling chips. Native users can explicitly opt into Qwen theme suggestions and audio transcription; without AI or when it fails, entries receive labeled general guidance. Users can correct the suggested theme. The original web preview still uses general guidance.
+- Journal, Discover, Bible Study, Confession and Gatherings tabs. Home has a daily verse, followed by text/audio journaling. The journal opens directly to writing or recording, with no feeling chips. Native users can explicitly opt into Qwen theme suggestions and audio transcription; without AI or when it fails, entries receive labeled general guidance. Users can correct the suggested theme. The original web preview still uses general guidance.
 - Four interface languages: English, Portuguese, Spanish and Russian. Account, email-code, backup/restore and audio-room controls include all four languages. Final native-speaker and editorial review, including internal staff tools, remains tracked in `release/readiness.json`.
 - Native SQLCipher journal storage, a key in SecureStore, AES-GCM recording files, playback, history/search/deletion, and encrypted backup export/restore with a separately displayed recovery key. Native storage fails closed when SQLCipher or its key is unavailable. The browser rendering persists profile details, journals and Supabase sessions in IndexedDB, encrypted with AES-GCM and a non-exportable browser-local key. The key lives in the same browser; this is not protection against an unlocked browser or same-origin malicious scripts. Storage failures do not silently fall back to temporary memory.
-- Sourced Explore catalog: testimonies, stories, music histories, Bible animations, psalms and Catholic saint prayers. External media opens on the publisher. Community comments are pending until moderator approval; users can like, report and block. Likes and comments require a connected account.
+- Sourced Discover catalog: testimonies, stories, music histories, Bible animations, psalms and Catholic saint prayers. External media opens on the publisher. Community comments are pending until moderator approval; users can like, report and block. Likes and comments require a connected account.
 - Free learning resources and three original courses with locally saved lesson progress.
 - Calendar, series interest, capacity-limited reservations, and LiveKit audio-room integration. Host controls allow speaking, remove participants and close a room. No real gathering is scheduled until a host enters confirmed details.
 - Charity suggestions match city **and** state/country, with Brazil as the initial directory. Visits and donations use the organizations’ official channels; no booking or payment API is claimed.
@@ -113,3 +113,17 @@ The dependency audit currently reports no high/critical advisories; moderate fin
 ## Confession community room
 
 The web preview now has a separate anonymous peer-support room, theme-only selection, private single replies, and server-enforced six-hour reservations. Every confession and reply waits for human approval. `CONFESSION_MODERATOR_EMAILS` is a server-only verified-email allowlist; no client can approve itself. See [moderation and release notes](docs/CONFESSION.md). Native UI and the Supabase backend are deployed; a signed iOS build and device tests remain release steps.
+
+
+## Discover and Gatherings update (4 November 2026)
+
+Discover now includes moderated member testimonies with exact original wording,
+private drafts, preview/Publish consent, named or anonymous authorship, author
+management, reports, and persistent likes/comments/saves/share actions. Full
+stories stay inside the app. NASA and Global Voices feeds refresh into a durable
+Supabase cache every 15 minutes; current and older reporting are separate.
+
+Gatherings has Live, Upcoming and My sessions, creation and scheduling with
+explicit timezones, public/invite-only access and persistent in-app audio controls.
+LiveKit credentials are still required before calls can work. See
+[the audit, data flow, verification and exact configuration steps](docs/DISCOVER-GATHERINGS.md).

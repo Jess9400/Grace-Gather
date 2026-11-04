@@ -73,12 +73,14 @@ export function Screen({
   quiet = false,
   keyboardAware = false,
   headerAction,
+  scrollRef,
 }: {
   children: React.ReactNode;
   back?: boolean;
   quiet?: boolean;
   keyboardAware?: boolean;
   headerAction?: React.ReactNode;
+  scrollRef?: React.RefObject<React.ComponentRef<typeof ScrollView> | null>;
 }) {
   const { profile } = useApp();
   const theme = useContext(SurfaceContext);
@@ -93,6 +95,7 @@ export function Screen({
         behavior="height"
       >
         <ScrollView
+          ref={scrollRef}
           automaticallyAdjustKeyboardInsets={keyboardAware}
           keyboardDismissMode={keyboardAware ? "interactive" : "none"}
           keyboardShouldPersistTaps="handled"
