@@ -96,7 +96,10 @@ const words = {
     "No hay una respuesta correcta. Solo la tuya.",
     "Нет правильного ответа. Есть ваш.",
   ),
-  home: L("Home", "Início", "Inicio", "Главная"),
+  home: L("Journal", "Diário", "Diario", "Дневник"),
+  languagePreferences: L("Language & preferences", "Idioma e preferências", "Idioma y preferencias", "Язык и настройки"),
+  setup: L("Personalize your experience", "Personalize sua experiência", "Personaliza tu experiencia", "Настроить приложение"),
+  savePreferences: L("Save preferences", "Salvar preferências", "Guardar preferencias", "Сохранить настройки"),
   bible: L("Bible", "Bíblia", "Biblia", "Библия"),
   diary: L("Diary", "Diário", "Diario", "Дневник"),
   done: L(

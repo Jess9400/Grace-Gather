@@ -109,14 +109,14 @@ export default function Account() {
       />
       <Button
         secondary
-        title={q(profile.language, "tradition")}
+        title={q(profile.language, "setup")}
         onPress={() => router.push("/onboarding")}
       />
       <Subheading>{l("account")}</Subheading>
       <Notice text={notice} />
       <Button
         secondary
-        title={t("pEditProfile")}
+        title={q(profile.language, "languagePreferences")}
         onPress={() => router.push("/preferences")}
       />
       <Button
