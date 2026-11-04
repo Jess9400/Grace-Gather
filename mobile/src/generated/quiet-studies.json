@@ -173,7 +173,9 @@
       "reflection": "Read the words slowly, in the passage around them.",
       "editionId": "web",
       "aliases": [
-        "web:GEN.1.1"
+        "web:GEN.1.1",
+        "dra:GEN.1.1",
+        "brenton:GEN.1.1"
       ]
     },
     {
@@ -194,7 +196,9 @@
       "reflection": "Read the words slowly, in the passage around them.",
       "editionId": "web",
       "aliases": [
-        "web:GEN.1.2"
+        "web:GEN.1.2",
+        "dra:GEN.1.2",
+        "brenton:GEN.1.2"
       ]
     },
     {
@@ -215,7 +219,9 @@
       "reflection": "Read the words slowly, in the passage around them.",
       "editionId": "web",
       "aliases": [
-        "web:GEN.1.3"
+        "web:GEN.1.3",
+        "dra:GEN.1.3",
+        "brenton:GEN.1.3"
       ]
     },
     {

@@ -6,6 +6,36 @@ const L = (en: string, pt: string, es: string, ru: string) => ({
   ru,
 });
 const words = {
+  yourTradition: L(
+    "Your tradition",
+    "Sua tradição",
+    "Tu tradición",
+    "Ваша традиция",
+  ),
+  allPerspectives: L(
+    "All perspectives",
+    "Todas as perspectivas",
+    "Todas las perspectivas",
+    "Все направления",
+  ),
+  faithReading: L(
+    "Christian reading",
+    "Leitura cristã",
+    "Lecturas cristianas",
+    "Христианские книги",
+  ),
+  generalReading: L(
+    "General wellbeing",
+    "Bem-estar geral",
+    "Bienestar general",
+    "Общее благополучие",
+  ),
+  generalReadingNote: L(
+    "Optional reading about everyday life, separate from faith-specific study.",
+    "Leituras opcionais sobre a vida cotidiana, separadas do estudo da fé.",
+    "Lecturas opcionales sobre la vida cotidiana, separadas del estudio de la fe.",
+    "Необязательные книги о повседневной жизни, отдельно от изучения веры.",
+  ),
   library: L(
     "Courses and books",
     "Cursos e livros",

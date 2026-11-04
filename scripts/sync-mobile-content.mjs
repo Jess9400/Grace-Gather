@@ -19,4 +19,4 @@ console.log('Synced sourced mobile content and backend seed.');
 
 for(const f of ['confession-policy.js','confession-service.js'])await copyFile('shared/'+f,'supabase/functions/_shared/'+f);
 
-for (const file of ["quiet-feelings.js", "quiet-diary.js", "quiet-studies.json"]) await copyFile("shared/"+file,"mobile/src/generated/"+file);
+for (const file of ["quiet-feelings.js", "quiet-diary.js", "quiet-studies.json", "reading-resources.json"]) await copyFile("shared/"+file,"mobile/src/generated/"+file);

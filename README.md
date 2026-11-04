@@ -136,15 +136,19 @@ Existing preview profiles without an explicit answer/skip version see the
 question once after this correction. The stored reading tradition by itself is
 not treated as the user's answer. Account, privacy and restore remain reachable.
 
-Verse study restores the approved reading-paper layout: Simple, Deeper and
-Theology, with context, meaning, everyday application, reflection, source notes
-and complete chapter access. Curated quotations keep their exact wording and
+Verse study presents a quiet overview with Simple, Deeper and Theology choices.
+Each opens a focused reading sheet with context, meaning, everyday application
+and reflection. Complete chapters open in a bounded, independently scrollable
+window. Curated quotations keep their exact wording and
 publisher links. Shared reflections use explicit aliases, never a guessed Psalm
 offset or a theme-only match. The canonical notes live in shared/quiet-studies.json
 and are copied by content:sync. English notes are not denominational approval.
 
-The Courses and Books library exposes all six existing courses and all six
-publisher-linked reading suggestions from the repository. It opens from Bible,
+The Courses and Books library exposes all six existing courses and seven
+publisher-linked reading suggestions, including The Orthodox Way. Faith books
+follow the explicitly chosen tradition by default, with an All perspectives
+option. General wellbeing books remain in their own section. Author perspective
+labels have linked sources and do not claim church approval. It opens from Bible,
 More, verse study and conversation options. Full book text is not bundled. The
 legacy Explore catalogue still includes twelve sourced items. In SDK 58,
 href:null marks tab routes hidden and redirects navigation; secondary tab buttons

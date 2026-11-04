@@ -34,8 +34,10 @@ test('native verse routes retain their collection and require explicit study map
   assert.equal(orthodox.collection, 'brenton');
   assert.equal(new Set([web.text, catholic.text, orthodox.text]).size, 3);
   assert.ok(reader.studyFor(web.id));
-  assert.equal(reader.studyFor(catholic.id), undefined);
-  assert.equal(reader.studyFor(orthodox.id), undefined);
+  assert.ok(reader.studyFor(catholic.id));
+  assert.equal(reader.studyFor('dra:GEN.1.4'),undefined);
+  assert.ok(reader.studyFor(orthodox.id));
+  assert.equal(reader.studyFor('brenton:GEN.1.4'),undefined);
   assert.equal(reader.getReadingVerse('unknown:GEN.1.1'), null);
 });
 
@@ -91,4 +93,28 @@ test('the tradition question requires a recorded answer or explicit skip, includ
 
 test('all restored study sections reproduce from the shared authored source', () => {
   assert.equal(readFileSync(resolve(root,'shared/quiet-studies.json'),'utf8'),readFileSync(resolve(root,'mobile/src/generated/quiet-studies.json'),'utf8'));
+});
+
+test('faith reading follows the actual chosen tradition and keeps general wellbeing separate', () => {
+ const {readingBooks,bookPerspective}=load(resolve(root,'mobile/src/lib/reading-resources.ts'));
+ for (const [tradition,expected] of [['orthodox','orthodox-way'],['catholic','return'],['protestant','grief']]) {
+  const selection=readingBooks({faithChoice:tradition,language:'en'});
+  assert.equal(selection.faith.length,1);
+  assert.equal(selection.faith[0].id,expected);
+  assert.equal(selection.general.length,4);
+  for(const book of selection.faith) assert.ok(bookPerspective(book.id).traditions.includes(tradition));
+  assert.equal(selection.unclassified.length,0);
+ }
+ assert.equal(readingBooks({faithChoice:'orthodox',language:'en'},true).faith.length,3);
+ assert.equal(readingBooks({faithChoice:'exploring',language:'en'}).faith.length,3);
+ assert.equal(readingBooks({faithChoice:'unspecified',language:'en'}).faith.length,3);
+ assert.equal(bookPerspective('unknown-book').kind,'unclassified');
+});
+
+test('resource labels retain their publisher or author sources and reproduce from authored data', () => {
+ const {bookPerspective}=load(resolve(root,'mobile/src/lib/reading-resources.ts'));
+ assert.equal(bookPerspective('orthodox-way').sourceUrl,'https://svspress.com/the-orthodox-way-classics-series-vol-2/');
+ assert.equal(bookPerspective('grief').perspective.en,'Anglican author');
+ assert.equal(bookPerspective('return').perspective.en,'Catholic author');
+ assert.equal(readFileSync(resolve(root,'shared/reading-resources.json'),'utf8'),readFileSync(resolve(root,'mobile/src/generated/reading-resources.json'),'utf8'));
 });

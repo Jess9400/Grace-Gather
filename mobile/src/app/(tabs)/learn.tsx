@@ -16,9 +16,15 @@ import {
   colors,
 } from "../../components/quiet-ui";
 import { useApp } from "../../lib/state";
-import { copy, localized, data } from "../../lib/content";
+import { copy, localized } from "../../lib/content";
+import Disclosure from "../../components/Disclosure";
 import { useCatalog } from "../../lib/community";
 import { q } from "../../lib/quiet-copy";
+import {
+  readingBooks,
+  bookPerspective,
+  ReadingBook,
+} from "../../lib/reading-resources";
 export default function Learn() {
   const params = useLocalSearchParams<{
     view?: string;
@@ -50,11 +56,36 @@ function Library({
       params.category === "theology" ? "theology" : "allCourses",
     );
   const t = (key: string) => copy(profile.language, key);
-  const books = [...data.BOOKS].sort(
-    (a, b) =>
-      Number(b.moods.includes(params.mood ?? "")) -
-      Number(a.moods.includes(params.mood ?? "")),
-  );
+  const [allPerspectives, setAllPerspectives] = useState(false);
+  const selection = readingBooks(profile, allPerspectives, params.mood ?? "");
+  const traditionName = selection.tradition
+    ? copy(profile.language, selection.tradition)
+    : "";
+  function bookCard(book: ReadingBook) {
+    const perspective = bookPerspective(book.id);
+    return (
+      <Card key={book.id}>
+        <Body small>
+          {localized(perspective.perspective, profile.language)} ·{" "}
+          {book.language}
+        </Body>
+        <Subheading>{book.title}</Subheading>
+        <Body small>{book.author}</Body>
+        <Body>{localized(book.note, profile.language)}</Body>
+        <External title={t("pBookSource")} url={book.url} />
+        <Disclosure title="About this perspective">
+          <Body small>
+            Labels describe the author or the resource. They are not a church
+            endorsement, and readers within a tradition may differ.
+          </Body>
+          <External
+            title="Source for this label"
+            url={perspective.sourceUrl || book.url}
+          />
+        </Disclosure>
+      </Card>
+    );
+  }
   return (
     <Screen back>
       <Heading>{q(profile.language, "library")}</Heading>
@@ -136,15 +167,36 @@ function Library({
       ) : (
         <>
           <Body small>{t("pBookIntro")}</Body>
-          {books.map((book) => (
-            <Card key={book.id}>
-              <Body small>{book.language}</Body>
-              <Subheading>{book.title}</Subheading>
-              <Body small>{book.author}</Body>
-              <Body>{localized(book.note, profile.language)}</Body>
-              <External title={t("pBookSource")} url={book.url} />
-            </Card>
-          ))}
+          {!!selection.tradition && (
+            <Row>
+              <Chip
+                title={q(profile.language, "yourTradition")}
+                selected={!allPerspectives}
+                onPress={() => setAllPerspectives(false)}
+              />
+              <Chip
+                title={q(profile.language, "allPerspectives")}
+                selected={allPerspectives}
+                onPress={() => setAllPerspectives(true)}
+              />
+            </Row>
+          )}
+          <Subheading>
+            {selection.tradition && !allPerspectives
+              ? `${traditionName} reading`
+              : q(profile.language, "faithReading")}
+          </Subheading>
+          {selection.faith.length ? (
+            selection.faith.map(bookCard)
+          ) : (
+            <Body small>
+              Specific reading for this tradition is still being sourced.
+            </Body>
+          )}
+          <Subheading>{q(profile.language, "generalReading")}</Subheading>
+          <Body small>{q(profile.language, "generalReadingNote")}</Body>
+          {selection.general.map(bookCard)}
+          {selection.unclassified.map(bookCard)}
           <Body small>{t("pBookNote")}</Body>
         </>
       )}
