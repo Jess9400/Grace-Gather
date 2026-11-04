@@ -1,77 +1,70 @@
-# Community implementation and moderation
+# Private Community moderation
 
-Community uses Supabase authentication and the approved native design. Members
-choose a public alias and optional perspective. Diary entries, private profile
-faith and account email are never copied into posts. Returned author UUIDs are
-opaque account identifiers for blocking, not verified public identities.
+The Community agent runs inside the existing Supabase Postgres database. It is
+rule-based software, not an AI model or a human replacement. It installs no model
+on a laptop, creates no new service subscription, and makes no requests to AI
+providers. Existing database/storage/traffic usage still counts toward Supabase
+quotas and billing. The old moderation Edge endpoints now only check these rules;
+they do not import Qwen or send Community text outside the app backend.
 
-## Automated moderation
+## Publication rules
 
-No human moderator is assigned by this change. Every submitted topic or reply
-starts pending. The app requests community-moderate, which verifies the caller,
-loads that caller's pending post or a post they reported, and sends bounded post
-text, parent discussion and report context to the existing Alibaba Cloud Qwen
-service. The provider endpoint is allowlisted and secrets remain server-only.
-The agent can publish only an explicit acceptable result with no flags and no
-uncertainty. A service-only SQL function rechecks ownership/report scope, pending
-state, account eligibility, parent publication and flags before changing status.
-It cannot grant roles, ban users or access private journals.
+The authored versioned catalogue is shared/community-private-rules.json. Only
+complete matching starter messages, matching topic titles and neutral public
+names (Member, Friend, A friend) are automatically published. Case and whitespace
+may differ; extra text, hidden characters, links, custom titles/names and all
+other free-form messages are held privately. This does not classify held writing
+as bad, unsafe or theologically incorrect. It has deliberately narrow coverage.
+Most open-ended conversations will need a future reviewer or a more capable
+privately hosted model. Held posts and appeals stay unpublished in the meantime.
 
-Concerning or uncertain results hold the post privately. Malformed output,
-timeout, missing configuration and quota exhaustion leave it pending. Held posts
-cannot be automatically re-approved by repeated checks. Authors can check an
-unfinished publication attempt again or delete their own post. Held posts and
-appeals remain unpublished until a review process is introduced. This is not
-human-equivalent judgment or continuous monitoring. No emergency response is
-promised. Reports trigger a fresh agent check; concerning reported posts are
-held, while acceptable reported posts remain published and that report resolves.
+Every public field is checked. Scripture reference labels are derived from the
+bundled edition metadata, and linked verse numbers must actually exist in that
+edition. Clients cannot inject unchecked public reference text. The server does
+not guess equivalents between Bible editions.
 
-The initial RPC and subsequent agent request are separate. If a client closes
-between them, the saved post stays pending. Check publication retries unfinished
-checks. No background worker or guaranteed review time is claimed.
+Review runs in the same transaction as submission, including when a client
+closes immediately. A report holds the reported item for all members. Held posts
+cannot pass repeated checks automatically. Authors can remove their own posts;
+removing a topic removes its replies. Existing account, block, rate-limit,
+suspension, audit, privacy and deletion rules remain in force. The engine cannot
+create staff roles, execute submitted instructions, read private journals or
+change Confession content. It receives no terminal or laptop-file access.
 
-AI calls share the existing request budget: 5/minute/account, 30/day/account and
-500/day/project across all AI features. These are request limits, not a currency
-spending cap. Community AI processing is disclosed before posting and in all
-four privacy-policy languages. Interface Community copy currently uses English.
+## Rollout and stop control
 
-## Deployment
+Run node scripts/build-community-private-rules.mjs to reproduce the private
+catalogue migration and native starter copy. Apply migrations
+20261104200000_private_moderation_catalog.sql and
+20261104200100_private_moderation_rules.sql after the existing Community schema.
+The catalogue starts inactive. After permission/content checks, a privileged
+administrator may set private.community_rule_config.active=true. Set it false
+to stop automatic publication. Clients have no table or activation privileges.
+No public build-time switch can enable a different moderation processor.
 
-On November 4, 2026, both migrations and community-moderate were deployed to
-Grace & Gather project gxuwmgztksktacwvdipy. No human moderator was assigned.
-Automatic Community processing remains OFF. The user prefers a private/local
-moderation option; no local model was installed or launched. The app can save
-private pending submissions, but automated publication is not active.
+The native app reads community_moderation_status; missing metadata disables its
+automatic-publication UI. It never falls back to example conversations after a
+live failure. Demo mode remains explicit and independent. Pending text is visible
+to the author and any authorized staff only, not to other members.
 
-Apply 20261104180000_community_discussions.sql followed by
-20261104190000_community_agent.sql. Deploy community-moderate and set server-only
-COMMUNITY_AUTO_MODERATION_ENABLED=true and client
-EXPO_PUBLIC_COMMUNITY_AUTO_MODERATION=true only after explicit approval of the
-processor and payload. That approval has not been given. Never put provider credentials in Expo public variables. The
-optional community-screen endpoint is retained for a future authorized staff
-workflow; it is not required for automatic posting. Existing Confession screens,
-services and their separate human moderation remain unchanged.
+## Deployment status
 
-Local examples require EXPO_PUBLIC_COMMUNITY_DEMO=true and no Supabase backend.
-Live builds never fall back to examples after request failure. Sign-out and
-account changes clear cached content and stale responses are discarded. Members
-can report, block, unblock and permanently delete their posts. Topic deletion
-also removes replies. Auth deletion cascades related data. Private audit records
-store actions without post bodies; identifiers are nulled on deletion. Rate-limit
-activity survives post deletion and cascades on account deletion. Production
-retention and appeals operations still need decisions before public release.
+The catalogue and private-rule migrations are deployed to the existing
+Grace & Gather Supabase project, with private rules active. The deployed
+community-moderate compatibility endpoint also uses only private database rules.
+This change does not assign a human moderator or enable an external AI processor.
 
-Snapshots show recent30 topics, selected/own/pending/report targets and bounded
-recent100 replies plus review targets. This is not a complete searchable archive.
-Held content is excluded from public reads. Exact Bible edition IDs are retained;
-only explicitly mapped curated quotations join full-reader threads.
+The hosted rollback-only check verified publication, custom-text privacy,
+canonical references, reports and restricted privileges. Its synthetic accounts
+and posts were rolled back. Automated validation passes 92 backend/content tests
+and 19 native tests, plus native typecheck, lint and Edge Function type checks.
 
-## Validation
+## Verification and limits
 
-Permission tests use Postgres with Supabase-like permissive grants to verify
-client table isolation, author privacy, service-only agent actions, human role
-restrictions, reports, blocks, rate limits, deletion and bounded queues. Model
-parser tests reject malformed/uncertain/flagged allows. Before public release,
-validate the full flow with real signed-in accounts and device keyboards,
-accessibility, provider failures, false positives and false negatives. Test each
-supported Community language before advertising multilingual moderation quality.
+Tests cover allow-listed publication, unknown/unsafe payload holds, every public
+field, spoofed scripture labels, real verse coverage, hidden text, reports,
+rechecks, permissions, stopping/restarting, model-free endpoints and reproducible
+catalogues. This is a private, inexpensive first stage. It is not a complete
+moderator for unrestricted public discussions, and it cannot offer nuanced
+judgment or promise error-free outcomes. Device and real-account staging checks
+remain necessary before a public release.

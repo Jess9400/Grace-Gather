@@ -27,3 +27,12 @@ test('failed Community reads and writes propagate errors rather than showing sam
  assert.match(communityError(new Error('rate_limited')),/pause/);
  assert.doesNotMatch(communityError(new Error('provider echoed sensitive data')),/sensitive data/);
 });
+test('Community discovers private moderation from the server and fails closed without its status',async()=>{
+ const calls=[];
+ const snapshot={topics:[],blocked:[],reports:[],userId:'actor',moderator:false};
+ const client={rpc:async(name)=>{calls.push(name);return {data:name==='community_snapshot'?snapshot:{active:true,mode:'private_rules',externalProcessing:false,version:1},error:null};}};
+ assert.equal((await load(client)).moderation.mode,'private_rules');
+ assert.deepEqual(calls,['community_snapshot','community_moderation_status']);
+ const unavailable={rpc:async(name)=>name==='community_snapshot'?{data:snapshot,error:null}:{data:null,error:{message:'missing function'}}};
+ assert.equal((await load(unavailable)).moderation,undefined);
+});

@@ -21,7 +21,7 @@ import {
   type DiscussionAction,
 } from "./discussion-model";
 const demo = process.env.EXPO_PUBLIC_COMMUNITY_DEMO === "true" && !backend;
-const automatic = process.env.EXPO_PUBLIC_COMMUNITY_AUTO_MODERATION === "true";
+
 const empty = (): DiscussionState => ({
   topics: [],
   blocked: [],
@@ -47,6 +47,7 @@ export function CommunityProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<DiscussionState>(() =>
     demo ? initialDiscussions() : empty(),
   );
+  const [automatic, setAutomatic] = useState(false);
   const [userId, setUserId] = useState<string | null>(demo ? "you" : null);
   const [moderator, setModerator] = useState(demo),
     [busy, setBusy] = useState(false),
@@ -85,6 +86,11 @@ export function CommunityProvider({ children }: { children: ReactNode }) {
         reports: snapshot.reports,
         nextId: 1,
       });
+      setAutomatic(
+        snapshot.moderation?.active === true &&
+          snapshot.moderation.mode === "private_rules" &&
+          snapshot.moderation.externalProcessing === false,
+      );
       setModerator(snapshot.moderator);
       setLimits(snapshot.limits);
       setError("");
@@ -110,6 +116,7 @@ export function CommunityProvider({ children }: { children: ReactNode }) {
       setUserId(uid);
       setState(empty());
       setModerator(false);
+      setAutomatic(false);
       setError("");
       setLimits(undefined);
     }
@@ -148,25 +155,13 @@ export function CommunityProvider({ children }: { children: ReactNode }) {
       setBusy(true);
       setError("");
       try {
-        const savedId = await saveCommunityAction(
+        await saveCommunityAction(
           backend as unknown as CommunityClient,
           uid,
           action,
           alias,
         );
-        const postId =
-          action.type === "report"
-            ? action.postId
-            : (action.type === "topic" || action.type === "reply") &&
-                typeof savedId === "string"
-              ? savedId
-              : null;
-        if (automatic && postId && ticket === generation.current) {
-          // A saved post remains pending if screening fails or the client closes.
-          await backend.functions
-            .invoke("community-moderate", { body: { postId } })
-            .catch(() => undefined);
-        }
+        // The database reviews the saved post atomically, including when a client closes.
         if (ticket !== generation.current || !active.current) return false;
         await reload(selectedTopic.current);
         return true;
@@ -183,23 +178,23 @@ export function CommunityProvider({ children }: { children: ReactNode }) {
   );
   const screen = async (postId: string) => {
     if (!backend || !moderator || working.current)
-      return "AI screening is not available.";
+      return "Private rules are not available.";
     working.current = true;
     setBusy(true);
     const ticket = generation.current;
     try {
-      const result = await backend.functions.invoke("community-screen", {
-        body: { postId },
+      const result = await backend.rpc("community_check_private", {
+        p_post: postId,
       });
       if (ticket !== generation.current || !active.current) return "";
-      if (result.error)
-        return "AI screening could not finish. This post still needs human review.";
       await reload(selectedTopic.current);
-      return result.data?.enabled
-        ? "AI notes are ready. Read the post in context before deciding."
-        : "AI screening is not enabled. This post still needs human review.";
+      return result.error
+        ? "The rules could not be checked. Nothing was published."
+        : "Private rules checked. No external AI service was used.";
     } catch {
-      return "AI screening could not finish. This post still needs human review.";
+      return ticket === generation.current && active.current
+        ? "The check could not finish. Publication status has not changed."
+        : "";
     } finally {
       working.current = false;
       if (active.current) setBusy(false);
@@ -217,14 +212,14 @@ export function CommunityProvider({ children }: { children: ReactNode }) {
     setBusy(true);
     const ticket = generation.current;
     try {
-      const result = await backend.functions.invoke("community-moderate", {
-        body: { postId },
+      const result = await backend.rpc("community_check_private", {
+        p_post: postId,
       });
       if (active.current && ticket === generation.current) {
         await reload(selectedTopic.current);
-        if (result.error || result.data?.publication === "pending")
+        if (result.error || result.data !== "approved")
           setError(
-            "This post is still private. The safety check is unavailable or it needs further review.",
+            "This post is still private. It does not match the limited rules or could not be checked.",
           );
       }
     } catch {

@@ -13,7 +13,7 @@ const policy = {
   en: [
     [
       "Community discussions",
-      "Only your chosen public name, optional perspective and submitted words are stored as Community posts in Supabase. Your diary and private profile are never attached. If separately enabled, posts, parent discussion context and report reasons are sent through Supabase to Alibaba Cloud Qwen for automated moderation. Community AI processing is currently disabled. Processing may occur outside your country under the provider retention policy. When moderation is active, posts that pass the checks are published to signed-in members. Concerning, uncertain or failed checks leave posts private. AI can make mistakes; held posts and appeals remain unpublished until a review process is available. Reports are private to the reporter and any authorized moderators. You can block people or remove your own posts; removing a topic removes its replies. Moderation action records are kept separately without post bodies. No continuous monitoring or emergency response is promised.",
+      "Your chosen public name, optional perspective and submitted words are stored in the existing Supabase backend. Your diary and private profile are never attached. Community moderation uses rules inside that database, with no external AI provider or laptop model. Only complete matching starter messages with neutral names can publish automatically. Other text and reported posts stay private until a review process is available. This limited checker does not provide human judgment or decide religious truth. Approved posts are visible to signed-in members. Reports are private to the reporter and any authorized staff. You can block people or remove your posts; removing a topic removes its replies. Moderation actions are recorded separately without post bodies. No continuous human monitoring or emergency response is promised.",
     ],
     [
       "Confessions shared with listeners",
@@ -43,7 +43,7 @@ const policy = {
   pt: [
     [
       "Discussões da comunidade",
-      "A IA da comunidade está desativada no momento. Se ativada com aprovação específica, publicações, contexto e denúncias são verificados pelo Alibaba Cloud Qwen. O que passa na análise é publicado; casos incertos ou falhas continuam privados. A IA pode errar. Publicações retidas e contestações ficam sem publicação até haver revisão. Diário e perfil não são anexados. O provedor pode processar dados fora do país conforme sua política de retenção. Você pode denunciar, bloquear e excluir suas publicações. Não há monitoramento contínuo.",
+      "Nome público, perspectiva opcional e texto ficam no Supabase. Diário e perfil privado não são anexados. A comunidade usa regras dentro desse banco, sem provedor externo de IA nem modelo no computador. Apenas mensagens prontas correspondentes e nomes neutros podem ser publicados automaticamente. Outros textos e publicações denunciadas ficam privados até haver revisão. Esse verificador limitado não substitui uma pessoa nem decide a verdade religiosa. Membros conectados veem as publicações aprovadas. Denúncias são privadas para o autor da denúncia e equipe autorizada. Você pode bloquear pessoas e excluir suas publicações; excluir um tópico remove suas respostas. Não há monitoramento humano contínuo.",
     ],
     [
       "Confissões compartilhadas",
@@ -73,7 +73,7 @@ const policy = {
   es: [
     [
       "Conversaciones de la comunidad",
-      "La IA de la comunidad está desactivada actualmente. Si se activa con aprobación específica, las publicaciones, el contexto y las denuncias se revisan con Alibaba Cloud Qwen. Lo que supera la revisión se publica; los casos inciertos o fallidos quedan privados. La IA puede equivocarse. Las publicaciones retenidas y apelaciones quedan sin publicar hasta disponer de revisión. No se adjuntan el diario ni el perfil. El proveedor puede procesar datos fuera de tu país según su política de retención. Puedes denunciar, bloquear y eliminar tus publicaciones. No hay supervisión continua.",
+      "El nombre público, la perspectiva opcional y el texto se guardan en Supabase. No se adjuntan el diario ni el perfil privado. La comunidad usa reglas dentro de esa base, sin proveedor externo de IA ni modelo en tu ordenador. Solo mensajes predefinidos coincidentes y nombres neutros pueden publicarse automáticamente. Otros textos y publicaciones denunciadas quedan privados hasta disponer de revisión. Este verificador limitado no sustituye a una persona ni decide la verdad religiosa. Los miembros conectados ven las publicaciones aprobadas. Las denuncias son privadas para quien denuncia y el equipo autorizado. Puedes bloquear personas y eliminar tus publicaciones; eliminar un tema elimina sus respuestas. No hay supervisión humana continua.",
     ],
     [
       "Confesiones compartidas",
@@ -103,7 +103,7 @@ const policy = {
   ru: [
     [
       "Обсуждения сообщества",
-      "ИИ сообщества сейчас отключён. При отдельном согласии на включение публикации, контекст и жалобы проверяет Alibaba Cloud Qwen. Прошедшие проверку записи публикуются; сомнительные записи и сбои оставляют их приватными. ИИ может ошибаться. Удержанные записи и обращения остаются неопубликованными до появления процедуры проверки. Дневник и профиль не прикрепляются. Провайдер может обрабатывать данные за пределами страны по своим правилам хранения. Можно жаловаться, блокировать людей и удалять свои записи. Непрерывного наблюдения нет.",
+      "Публичное имя, необязательная метка традиции и текст хранятся в Supabase. Дневник и личный профиль не прикрепляются. Модерация сообщества использует правила внутри этой базы, без внешнего поставщика ИИ и без модели на вашем компьютере. Автоматически публикуются только точные варианты подготовленных сообщений с нейтральными именами. Другой текст и записи с жалобами остаются приватными до появления процедуры проверки. Ограниченный проверяющий не заменяет человека и не решает вопросы религиозной истины. Одобренные записи доступны участникам с аккаунтом. Жалобы видны заявителю и уполномоченным сотрудникам. Можно блокировать людей и удалять свои записи; удаление темы удаляет ответы. Постоянного наблюдения человеком нет.",
     ],
     [
       "Признания для слушателей",

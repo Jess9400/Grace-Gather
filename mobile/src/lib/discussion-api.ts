@@ -1,6 +1,12 @@
 import type { DiscussionAction, DiscussionState } from "./discussion-model";
 
 export type CommunitySnapshot = DiscussionState & {
+  moderation?: {
+    active: boolean;
+    mode: string;
+    externalProcessing: boolean;
+    version: number;
+  };
   moderator: boolean;
   userId: string;
   limits?: { topics: number; repliesPerTopic: number };
@@ -33,9 +39,17 @@ export async function loadCommunity(
   client: CommunityClient,
   topic?: string,
 ): Promise<CommunitySnapshot> {
-  return (await checked(
+  const snapshot = (await checked(
     client.rpc("community_snapshot", { p_topic: topic ?? null }),
   )) as CommunitySnapshot;
+  const status = await client.rpc("community_moderation_status");
+  // Missing rollout metadata cannot silently enable publication in the UI.
+  return {
+    ...snapshot,
+    moderation: status.error
+      ? undefined
+      : (status.data as CommunitySnapshot["moderation"]),
+  };
 }
 export async function saveCommunityAction(
   client: CommunityClient,
