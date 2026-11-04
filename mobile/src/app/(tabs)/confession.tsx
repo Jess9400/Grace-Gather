@@ -1,3 +1,4 @@
+import { StatusBar } from "expo-status-bar";
 import { useCallback, useEffect, useState } from "react";
 import {
   useFocusEffect,
@@ -32,12 +33,12 @@ import {
   Chip,
   colors,
   s as sharedStyles,
-} from "../../components/ui";
+} from "../../components/community-ui";
 import {
   ActionCard,
   Disclosure,
   TextAction,
-} from "../../components/QuietControls";
+} from "../../components/CommunityControls";
 import { designCopy } from "../../lib/design-copy";
 import Recorder from "../../components/Recorder";
 import AudioPlayback from "../../components/AudioPlayback";
@@ -281,6 +282,7 @@ export default function ConfessionRoom() {
   }
   return (
     <>
+      <StatusBar style={page === "share" ? "light" : "dark"} />
       <View
         style={{ flex: 1 }}
         accessibilityElementsHidden={entering}
@@ -301,10 +303,17 @@ export default function ConfessionRoom() {
                 }}
               />
             )}
-            {!backend && <Text style={s.note}>{t("cOffline")}</Text>}
+            {!backend && (
+              <Text style={[s.note, page === "share" && { color: room.muted }]}>
+                {t("cOffline")}
+              </Text>
+            )}
             {!!error && <Notice text={error} />}
             {(busy || view === "review") && (
-              <Text accessibilityLiveRegion="polite" style={s.note}>
+              <Text
+                accessibilityLiveRegion="polite"
+                style={[s.note, page === "share" && { color: room.muted }]}
+              >
                 {t("cLoading")}
               </Text>
             )}

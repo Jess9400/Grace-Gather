@@ -1,14 +1,12 @@
-import { Tabs, useSegments } from "expo-router";
+import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useApp } from "../../lib/state";
 import { copy } from "../../lib/content";
 import { q } from "../../lib/quiet-copy";
 import { colors } from "../../components/quiet-ui";
-import { colors as legacyColors } from "../../components/ui";
 export default function TabsLayout() {
   const { profile } = useApp();
-  const legacy = useSegments().some((s) => s === "confession"),
-    palette = legacy ? legacyColors : colors;
+  const palette = colors;
   return (
     <Tabs
       screenOptions={{
