@@ -8,11 +8,15 @@ import {
   Button,
   Field,
   Notice,
-} from "../components/ui";
+} from "../components/quiet-ui";
+import { useQuiet } from "../lib/quiet-state";
+import { q } from "../lib/quiet-copy";
 import { useApp } from "../lib/state";
 import { copy } from "../lib/content";
 export default function History() {
-  const { entries, profile, deleteEntry } = useApp();
+  const { entries: allEntries, profile, deleteEntry } = useApp();
+  const { clear } = useQuiet();
+  const entries = allEntries.filter((e) => !e.sessionOnly);
   const [query, setQuery] = useState(""),
     [confirm, setConfirm] = useState(""),
     [error, setError] = useState("");
@@ -20,6 +24,13 @@ export default function History() {
   return (
     <Screen back>
       <Heading>{t("history")}</Heading>
+      <Button
+        title={q(profile.language, "newPage")}
+        onPress={() => {
+          clear();
+          router.push("/(tabs)/diary");
+        }}
+      />
       <Field label={t("search")} value={query} onChangeText={setQuery} />
       <Notice text={error} />
       {!entries.length && <Body>{t("emptySub")}</Body>}

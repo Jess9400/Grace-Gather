@@ -18,3 +18,5 @@ await writeFile('supabase/seed-content.sql',rows.map(x=>`INSERT INTO public.cont
 console.log('Synced sourced mobile content and backend seed.');
 
 for(const f of ['confession-policy.js','confession-service.js'])await copyFile('shared/'+f,'supabase/functions/_shared/'+f);
+
+for (const file of ["quiet-feelings.js", "quiet-diary.js"]) await copyFile("shared/"+file,"mobile/src/generated/"+file);

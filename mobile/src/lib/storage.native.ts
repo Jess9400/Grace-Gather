@@ -1,3 +1,4 @@
+import { journalBackupAudioNames } from "../generated/quiet-diary";
 import * as SQLite from "expo-sqlite";
 import * as SecureStore from "expo-secure-store";
 import {
@@ -131,7 +132,13 @@ export async function exportEncrypted() {
     "SELECT key,value FROM vault WHERE key IN ('profile','entries') OR key LIKE 'course:%'",
   );
   const audio: Record<string, string> = {};
+  const included = new Set(
+    journalBackupAudioNames(
+      JSON.parse(rows.find((r) => r.key === "entries")?.value ?? "[]"),
+    ),
+  );
   for (const f of audioDir().list()) {
+    if (!included.has(f.name)) continue;
     if (f instanceof File)
       audio[f.name] = base64(
         new Uint8Array(

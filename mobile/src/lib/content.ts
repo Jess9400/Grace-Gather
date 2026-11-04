@@ -19,6 +19,7 @@ export interface Preferences {
   edition: string;
 }
 export interface Profile extends Preferences {
+  faithChoice?: Tradition | "exploring" | "unspecified";
   name: string;
   city: string;
   region: string;
@@ -32,7 +33,9 @@ export interface Entry {
   id: string;
   createdAt: string;
   mood: Mood;
-  guidance?: "general" | "selected" | "ai";
+  guidance?: "general" | "selected" | "ai" | "local";
+  sessionOnly?: boolean;
+  feelings?: Record<string, number>;
   aiUnavailable?: boolean;
   passageIds?: string[];
   actionIds?: string[];

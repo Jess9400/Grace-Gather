@@ -14,7 +14,7 @@ import {
   Notice,
   External,
   Busy,
-} from "../../components/ui";
+} from "../../components/quiet-ui";
 import { useApp } from "../../lib/state";
 import { copy, localized } from "../../lib/content";
 import { useCatalog, useReactions } from "../../lib/community";

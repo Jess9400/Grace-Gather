@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { useLocalSearchParams } from "expo-router";
-import { Screen, Heading, Body, Button, Notice } from "../../components/ui";
+import {
+  Screen,
+  Heading,
+  Body,
+  Button,
+  Notice,
+} from "../../components/quiet-ui";
 import GatheringRoom, { RoomAccess } from "../../components/GatheringRoom";
 import { requireUser } from "../../lib/backend";
 import { useApp } from "../../lib/state";

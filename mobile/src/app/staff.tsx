@@ -8,7 +8,7 @@ import {
   Button,
   Field,
   Notice,
-} from "../components/ui";
+} from "../components/quiet-ui";
 import { requireUser } from "../lib/backend";
 interface Comment {
   id: string;

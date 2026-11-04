@@ -1,250 +1,157 @@
 import { useState } from "react";
+import { View, Text, Pressable, StyleSheet } from "react-native";
 import { router } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 import {
   Screen,
-  Heading,
-  Body,
   Button,
-  Chip,
-  Row,
-  Field,
+  Body,
   Notice,
-  Card,
-} from "../components/ui";
+  colors,
+  serif,
+} from "../components/quiet-ui";
 import { useApp } from "../lib/state";
-import {
-  copy,
-  languages,
-  Language,
-  Tradition,
-  editionsFor,
-  normalizeProfile,
-} from "../lib/content";
-import { label } from "../lib/labels";
-import { persistent } from "../lib/storage";
-const headings = [
-  "pWelcome",
-  "pYourName",
-  "pIntent",
-  "pFaith",
-  "pLocation",
-  "pNotifications",
-  "pReady",
-];
+import { Tradition } from "../lib/content";
+import { q } from "../lib/quiet-copy";
 export default function Onboarding() {
   const { profile, saveProfile } = useApp();
-  const [p, setP] = useState(profile),
-    [step, setStep] = useState(0),
-    [error, setError] = useState(""),
-    [busy, setBusy] = useState(false);
-  const t = (k: string) => copy(p.language, k);
-  const update = (v: Partial<typeof p>) =>
-    setP(normalizeProfile({ ...p, ...v }));
-  async function next() {
-    setError("");
-    if (
-      step === 5 &&
-      p.emailConsent &&
-      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(p.email)
-    ) {
-      setError(t("pEmailConsent"));
-      return;
-    }
-    if (step < 6) {
-      setStep(step + 1);
-      return;
-    }
+  const [choice, setChoice] = useState<Tradition | "exploring" | null>(
+      profile.faithChoice === "unspecified"
+        ? null
+        : (profile.faithChoice ?? null),
+    ),
+    [about, setAbout] = useState(false),
+    [busy, setBusy] = useState(false),
+    [error, setError] = useState("");
+  const lang = profile.language;
+  async function finish(value: Tradition | "exploring" | "unspecified") {
     setBusy(true);
+    setError("");
     try {
       await saveProfile({
-        ...p,
-        email: p.emailConsent ? p.email.trim() : "",
+        ...profile,
+        faithChoice: value,
+        tradition:
+          value === "exploring" || value === "unspecified"
+            ? profile.tradition
+            : value,
         onboarded: true,
       });
       router.replace("/(tabs)");
     } catch {
-      setError(t("pSaveError"));
+      setError("Your choice could not be saved. Please try again.");
     } finally {
       setBusy(false);
     }
   }
+  const labels = {
+    orthodox:
+      lang === "ru"
+        ? "Православие"
+        : lang === "pt"
+          ? "Ortodoxa"
+          : lang === "es"
+            ? "Ortodoxa"
+            : "Orthodox",
+    catholic:
+      lang === "ru"
+        ? "Католицизм"
+        : lang === "pt"
+          ? "Católica"
+          : lang === "es"
+            ? "Católica"
+            : "Catholic",
+    protestant:
+      lang === "ru"
+        ? "Протестантизм"
+        : lang === "pt"
+          ? "Protestante"
+          : lang === "es"
+            ? "Protestante"
+            : "Protestant",
+    exploring: q(lang, "exploring"),
+  };
   return (
     <Screen>
-      <Body small>
-        {t("pStep")} {step + 1} / 7
-      </Body>
-      <Heading>{t(headings[step])}</Heading>
-      {step === 0 && (
-        <>
-          <Body>{t("pWelcomeSub")}</Body>
-          <Row>
-            {Object.entries(languages).map(([k, v]) => (
-              <Chip
-                key={k}
-                title={v}
-                selected={p.language === k}
-                onPress={() =>
-                  update({
-                    language: k as Language,
-                    scriptureLanguage: k as Language,
-                  })
-                }
-              />
-            ))}
-          </Row>
-          <Card tint>
-            <Body>{label(p.language, persistent ? "device" : "webDemo")}</Body>
-          </Card>
-        </>
-      )}
-      {step === 1 && (
-        <>
-          <Body>{t("pNameSub")}</Body>
-          <Field
-            label={t("pName")}
-            value={p.name}
-            maxLength={60}
-            onChangeText={(name) => update({ name })}
+      <View style={s.page}>
+        <Ionicons name="leaf-outline" size={34} color={colors.gold} />
+        <Text accessibilityRole="header" style={s.title}>
+          {q(lang, "tradition")}
+        </Text>
+        <Body>{q(lang, "closest")}</Body>
+        <View accessibilityRole="radiogroup" style={s.options}>
+          {(["orthodox", "catholic", "protestant", "exploring"] as const).map(
+            (value) => (
+              <Pressable
+                key={value}
+                accessibilityRole="radio"
+                accessibilityLabel={labels[value]}
+                accessibilityState={{ checked: choice === value }}
+                onPress={() => setChoice(value)}
+                style={[s.option, choice === value && s.selected]}
+              >
+                <Text style={s.label}>{labels[value]}</Text>
+                <Ionicons
+                  name={
+                    choice === value ? "radio-button-on" : "radio-button-off"
+                  }
+                  size={21}
+                  color={colors.ink}
+                />
+              </Pressable>
+            ),
+          )}
+        </View>
+        <View style={{ alignSelf: "stretch" }}>
+          <Button
+            title={q(lang, "continue")}
+            disabled={!choice || busy}
+            onPress={() => choice && void finish(choice)}
           />
-        </>
-      )}
-      {step === 2 && (
-        <>
-          <Body>{t("pIntentSub")}</Body>
-          {["faith", "calm", "connection", "kindness"].map((x) => (
-            <Chip
-              key={x}
-              title={t("p" + x[0].toUpperCase() + x.slice(1) + "Goal")}
-              selected={p.intent === x}
-              onPress={() => update({ intent: x })}
-            />
-          ))}
-        </>
-      )}
-      {step === 3 && (
-        <>
-          <Body>{t("pFaithSub")}</Body>
-          <Row>
-            {["protestant", "catholic", "orthodox"].map((x) => (
-              <Chip
-                key={x}
-                title={t(x)}
-                selected={p.tradition === x}
-                onPress={() => update({ tradition: x as Tradition })}
-              />
-            ))}
-          </Row>
-          <Body small>{t("scriptureLanguage")}</Body>
-          <Row>
-            {Object.entries(languages).map(([k, v]) => (
-              <Chip
-                key={k}
-                title={v}
-                selected={p.scriptureLanguage === k}
-                onPress={() => update({ scriptureLanguage: k as Language })}
-              />
-            ))}
-          </Row>
-          {editionsFor(p).map((e) => (
-            <Chip
-              key={e.id}
-              title={e.name}
-              selected={e.id === p.edition}
-              onPress={() => update({ edition: e.id })}
-            />
-          ))}
-          {!editionsFor(p).length && <Notice text={t("unavailable")} />}
-          <Body small>{t("editionHelp")}</Body>
-        </>
-      )}
-      {step === 4 && (
-        <>
-          <Body>{t("pLocationSub")}</Body>
-          <Row>
-            <Chip
-              title={t("pBrazil")}
-              selected={p.country === "BR"}
-              onPress={() => update({ country: "BR" })}
-            />
-            <Chip
-              title={t("pOther")}
-              selected={p.country !== "BR"}
-              onPress={() => update({ country: "OTHER" })}
-            />
-          </Row>
-          <Field
-            label={t("pCity")}
-            value={p.city}
-            maxLength={80}
-            onChangeText={(city) => update({ city })}
+          <Button
+            secondary
+            title={q(lang, "skip")}
+            disabled={busy}
+            onPress={() => void finish("unspecified")}
           />
-          <Field
-            label={t("pRegion") + (p.country === "BR" ? " (SP, RJ…)" : "")}
-            autoCapitalize="characters"
-            value={p.region}
-            maxLength={80}
-            onChangeText={(region) => update({ region: region.toUpperCase() })}
-          />
-          <Body small>{t("pBrazilNote")}</Body>
-        </>
-      )}
-      {step === 5 && (
-        <>
-          <Body>{t("pNotificationsSub")}</Body>
-          <Field
-            label={t("pEmail")}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            value={p.email}
-            maxLength={254}
-            onChangeText={(email) => update({ email })}
-          />
-          <Chip
-            title={(p.emailConsent ? "✓ " : "") + t("pConsent")}
-            selected={p.emailConsent}
-            onPress={() => update({ emailConsent: !p.emailConsent })}
-          />
-          <Notice text={label(p.language, "emailNotLive")} />
-        </>
-      )}
-      {step === 6 && (
-        <>
-          <Body>{t("pReadySub")}</Body>
-          <Card tint>
-            <Body>
-              {t("pDaily")} → {t("journal")} → {t("stepVerse")} →{" "}
-              {t("stepAction")}
-            </Body>
-          </Card>
-        </>
-      )}
-      <Notice text={error} />
-      <Button
-        title={t(step === 6 ? "pStartJournal" : "pContinue")}
-        onPress={() => void next()}
-        disabled={busy}
-      />
-      {step > 0 && (
-        <Button
-          secondary
-          title={t("pBack")}
-          onPress={() => setStep(step - 1)}
-        />
-      )}
-      <Button
-        secondary
-        title={t("pLater")}
-        onPress={() => {
-          void saveProfile({
-            ...p,
-            email: "",
-            emailConsent: false,
-            onboarded: true,
-          })
-            .then(() => router.replace("/(tabs)"))
-            .catch(() => setError(t("pSaveError")));
-        }}
-      />
+        </View>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityState={{ expanded: about }}
+          onPress={() => setAbout(!about)}
+          style={{ padding: 12 }}
+        >
+          <Text style={s.about}>{q(lang, "about")}</Text>
+        </Pressable>
+        {about && <Body small>{q(lang, "aboutText")}</Body>}
+        <Notice text={error} />
+      </View>
     </Screen>
   );
 }
+const s = StyleSheet.create({
+  page: { alignItems: "center", gap: 20, paddingTop: 18, paddingBottom: 20 },
+  title: {
+    fontFamily: serif,
+    fontSize: 36,
+    lineHeight: 43,
+    color: colors.ink,
+    textAlign: "center",
+    maxWidth: 460,
+  },
+  options: { alignSelf: "stretch", gap: 11, marginTop: 8 },
+  option: {
+    minHeight: 59,
+    borderWidth: 1,
+    borderColor: colors.line,
+    backgroundColor: "#FFFFFFB8",
+    borderRadius: 17,
+    padding: 17,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  selected: { backgroundColor: "#B28A3E14", borderColor: colors.ink },
+  label: { fontSize: 18, color: colors.ink },
+  about: { fontSize: 13, color: colors.muted, textDecorationLine: "underline" },
+});
