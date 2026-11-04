@@ -97,6 +97,10 @@ export const initialProfile: Profile = {
   onboarded: false,
 };
 export function copy(language: Language, key: string): string {
+  if (key === "explore")
+    return { en: "Discover", pt: "Descobrir", es: "Descubrir", ru: "Обзор" }[
+      language
+    ];
   for (const source of [
     catalog.CONFESSION_COPY,
     catalog.PROFILE_COPY,

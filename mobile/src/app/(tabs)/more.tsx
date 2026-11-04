@@ -16,23 +16,8 @@ export default function More() {
       />
       <Button
         secondary
-        title={copy(lang, "explore")}
-        onPress={() => router.push("/(tabs)/explore")}
-      />
-      <Button
-        secondary
         title={q(lang, "library")}
         onPress={() => router.push("/library")}
-      />
-      <Button
-        secondary
-        title={copy(lang, "gather")}
-        onPress={() => router.push("/(tabs)/gatherings")}
-      />
-      <Button
-        secondary
-        title={copy(lang, "confession")}
-        onPress={() => router.push("/(tabs)/confession")}
       />
       <Button
         secondary

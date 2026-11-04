@@ -1,6 +1,7 @@
 import React, { createContext, useContext } from "react";
 import {
   ScrollView,
+  KeyboardAvoidingView,
   View,
   Text,
   Pressable,
@@ -14,6 +15,8 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import { useApp } from "../lib/state";
+import { label } from "../lib/labels";
 export const colors = {
   paper: "#0D3028",
   ink: "#FFFDF9",
@@ -29,56 +32,124 @@ export const colors = {
   cardLine: "#63704D",
 };
 const CardSurface = createContext(false);
-function useSurfaceColors() {
+type SurfacePalette = {
+  background: string;
+  surface: string;
+  field: string;
+  ink: string;
+  muted: string;
+  line: string;
+  accent: string;
+  accentInk: string;
+};
+const SurfaceContext = createContext<SurfacePalette | null>(null);
+export function SurfaceTheme({
+  palette,
+  children,
+}: {
+  palette: SurfacePalette | null;
+  children: React.ReactNode;
+}) {
+  return (
+    <SurfaceContext.Provider value={palette}>
+      {children}
+    </SurfaceContext.Provider>
+  );
+}
+export function useSurfaceColors() {
   const card = useContext(CardSurface);
-  return {
-    ink: card ? colors.cardInk : colors.ink,
-    muted: card ? colors.cardMuted : colors.muted,
-    line: card ? colors.cardLine : colors.line,
-  };
+  const theme = useContext(SurfaceContext);
+  return (
+    theme || {
+      ink: card ? colors.cardInk : colors.ink,
+      muted: card ? colors.cardMuted : colors.muted,
+      line: card ? colors.cardLine : colors.line,
+    }
+  );
 }
 export function Screen({
   children,
   back = false,
+  quiet = false,
+  keyboardAware = false,
+  headerAction,
+  scrollRef,
 }: {
   children: React.ReactNode;
   back?: boolean;
+  quiet?: boolean;
+  keyboardAware?: boolean;
+  headerAction?: React.ReactNode;
+  scrollRef?: React.RefObject<React.ComponentRef<typeof ScrollView> | null>;
 }) {
+  const { profile } = useApp();
+  const theme = useContext(SurfaceContext);
   return (
-    <SafeAreaView style={s.safe} edges={["top", "left", "right"]}>
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={s.page}
+    <SafeAreaView
+      style={[s.safe, theme && { backgroundColor: theme.background }]}
+      edges={["top", "left", "right"]}
+    >
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        enabled={keyboardAware && Platform.OS === "android"}
+        behavior="height"
       >
-        {back && (
-          <Button
-            secondary
-            title="‹"
-            accessibilityLabel="Back"
-            onPress={() =>
-              router.canGoBack() ? router.back() : router.replace("/(tabs)")
-            }
-          />
-        )}
-        <View style={s.brand}>
-          <Ionicons name="leaf-outline" size={23} color={colors.gold} />
-          <Text style={s.brandText}>GRACE & GATHER</Text>
-          <Pressable
-            accessibilityLabel="Account and settings"
-            accessibilityRole="button"
-            onPress={() => router.push("/account")}
-            style={{ marginLeft: "auto", padding: 8 }}
-          >
-            <Ionicons
-              name="person-circle-outline"
-              size={26}
-              color={colors.ink}
-            />
-          </Pressable>
-        </View>
-        {children}
-        <View style={{ height: 26 }} />
-      </ScrollView>
+        <ScrollView
+          ref={scrollRef}
+          automaticallyAdjustKeyboardInsets={keyboardAware}
+          keyboardDismissMode={keyboardAware ? "interactive" : "none"}
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={s.page}
+        >
+          {back && (
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={label(profile.language, "back")}
+              style={{
+                minWidth: 44,
+                minHeight: 44,
+                alignSelf: "flex-start",
+                justifyContent: "center",
+              }}
+              onPress={() =>
+                router.canGoBack() ? router.back() : router.replace("/(tabs)")
+              }
+            >
+              <Ionicons
+                name="arrow-back"
+                size={23}
+                color={theme?.ink ?? colors.ink}
+              />
+            </Pressable>
+          )}
+          {!quiet && (
+            <View style={s.brand}>
+              <Ionicons name="leaf-outline" size={23} color={colors.gold} />
+              <Text style={s.brandText}>GRACE & GATHER</Text>
+              <View style={{ marginLeft: "auto" }}>{headerAction}</View>
+              <Pressable
+                accessibilityLabel={label(profile.language, "accountSettings")}
+                accessibilityRole="button"
+                onPress={() => router.push("/account")}
+                style={{
+                  minHeight: 44,
+                  minWidth: 44,
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <Ionicons
+                  name="person-circle-outline"
+                  size={26}
+                  color={colors.ink}
+                />
+              </Pressable>
+            </View>
+          )}
+          {children}
+          <View style={{ height: 26 }} />
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
@@ -131,9 +202,22 @@ export function Card({
   children: React.ReactNode;
   tint?: boolean;
 }) {
+  const theme = useContext(SurfaceContext);
   return (
     <CardSurface.Provider value={true}>
-      <View style={[s.card, tint && s.accentCard]}>{children}</View>
+      <View
+        style={[
+          s.card,
+          tint && s.accentCard,
+          theme && {
+            backgroundColor: theme.surface,
+            borderColor: theme.line,
+            borderRadius: 16,
+          },
+        ]}
+      >
+        {children}
+      </View>
     </CardSurface.Provider>
   );
 }
@@ -151,6 +235,7 @@ export function Button({
   accessibilityLabel?: string;
 }) {
   const surface = useSurfaceColors();
+  const theme = useContext(SurfaceContext);
   return (
     <Pressable
       accessibilityRole="button"
@@ -160,11 +245,18 @@ export function Button({
       onPress={onPress}
       style={({ pressed }) => [
         s.button,
+        theme && { backgroundColor: theme.accent },
         secondary && [s.secondary, { borderColor: surface.line }],
         { opacity: disabled ? 0.45 : pressed ? 0.75 : 1 },
       ]}
     >
-      <Text style={[s.buttonText, secondary && { color: surface.ink }]}>
+      <Text
+        style={[
+          s.buttonText,
+          theme && { color: theme.accentInk },
+          secondary && { color: surface.ink },
+        ]}
+      >
         {title}
       </Text>
     </Pressable>
@@ -180,6 +272,7 @@ export function Chip({
   onPress: () => void;
 }) {
   const surface = useSurfaceColors();
+  const theme = useContext(SurfaceContext);
   return (
     <Pressable
       accessibilityRole="button"
@@ -189,13 +282,20 @@ export function Chip({
         s.chip,
         { borderColor: surface.line },
         selected && {
-          backgroundColor: colors.green,
-          borderColor: colors.green,
+          backgroundColor: theme?.accent ?? colors.green,
+          borderColor: theme?.accent ?? colors.green,
         },
       ]}
     >
       <Text
-        style={[s.chipText, { color: selected ? colors.cardInk : surface.ink }]}
+        style={[
+          s.chipText,
+          {
+            color: selected
+              ? (theme?.accentInk ?? colors.cardInk)
+              : surface.ink,
+          },
+        ]}
       >
         {title}
       </Text>
@@ -205,17 +305,29 @@ export function Chip({
 export function Row({ children }: { children: React.ReactNode }) {
   return <View style={s.row}>{children}</View>;
 }
-export function Field({ label, ...props }: TextInputProps & { label: string }) {
+export function Field({
+  label,
+  hideLabel = false,
+  ...props
+}: TextInputProps & { label: string; hideLabel?: boolean }) {
   const surface = useSurfaceColors();
+  const theme = useContext(SurfaceContext);
   return (
     <View style={{ gap: 8, marginVertical: 7 }}>
-      <Text style={[s.fieldLabel, { color: surface.ink }]}>{label}</Text>
+      {!hideLabel && (
+        <Text style={[s.fieldLabel, { color: surface.ink }]}>{label}</Text>
+      )}
       <TextInput
         accessibilityLabel={label}
-        placeholderTextColor={colors.cardMuted}
+        placeholderTextColor={theme?.muted ?? colors.cardMuted}
         {...props}
         style={[
           s.field,
+          theme && {
+            backgroundColor: theme.field,
+            color: theme.ink,
+            borderColor: theme.line,
+          },
           props.multiline && { minHeight: 130, textAlignVertical: "top" },
           props.style,
         ]}
@@ -236,9 +348,20 @@ export function External({ title, url }: { title: string; url: string }) {
   );
 }
 export function Notice({ text }: { text: string }) {
+  const theme = useContext(SurfaceContext);
   return text ? (
     <CardSurface.Provider value={true}>
-      <View accessibilityLiveRegion="polite" style={s.notice}>
+      <View
+        accessibilityLiveRegion="polite"
+        style={[
+          s.notice,
+          theme && {
+            backgroundColor: theme.field,
+            borderColor: theme.line,
+            borderWidth: 1,
+          },
+        ]}
+      >
         <Body small>{text}</Body>
       </View>
     </CardSurface.Provider>

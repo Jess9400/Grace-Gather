@@ -1,5 +1,7 @@
-import { Language } from "./content";
+import type { Language } from "./content";
+import operationCopy from "./operation-copy.json";
 const rows: Record<string, string[]> = {
+  ...operationCopy,
   account: ["Account", "Conta", "Cuenta", "Аккаунт"],
   privacy: [
     "Privacy & support",
@@ -8,16 +10,16 @@ const rows: Record<string, string[]> = {
     "Конфиденциальность и помощь",
   ],
   device: [
-    "Your journal is encrypted on this device. Nothing is sent to AI.",
-    "Seu diário é criptografado neste dispositivo. Nada é enviado à IA.",
-    "Tu diario está cifrado en este dispositivo. No se envía nada a la IA.",
-    "Дневник зашифрован на этом устройстве. Данные не отправляются ИИ.",
+    "Your journal is encrypted on this device. Text or audio is sent to AI only when you explicitly choose it.",
+    "Seu diário é criptografado neste dispositivo. Texto ou áudio só é enviado à IA quando você escolhe isso explicitamente.",
+    "Tu diario está cifrado en este dispositivo. Solo se envían texto o audio a la IA cuando lo eliges expresamente.",
+    "Дневник зашифрован на этом устройстве. Текст или аудио отправляются ИИ только с вашего явного согласия.",
   ],
   webDemo: [
-    "Browser preview: entries disappear when you reload. Use the iPhone build to save securely.",
-    "Prévia no navegador: os registros somem ao recarregar. Use o app para iPhone para salvar com segurança.",
-    "Vista previa: los registros desaparecen al recargar. Usa la app para iPhone para guardarlos con seguridad.",
-    "Пробная версия: записи исчезнут при перезагрузке. Для сохранения используйте приложение iPhone.",
+    "Saved in this browser.",
+    "Salvo neste navegador.",
+    "Guardado en este navegador.",
+    "Сохранено в этом браузере.",
   ],
   noAI: [
     "Choose a feeling to guide your verses and next steps. AI is not connected yet.",
@@ -132,10 +134,10 @@ const rows: Record<string, string[]> = {
     "Удалить все данные на устройстве",
   ],
   deleteWarning: [
-    "This permanently removes your account, profile, comments and reservations. Your private journal can be kept or deleted separately.",
-    "Isso remove permanentemente sua conta, perfil, comentários e reservas. Seu diário privado pode ser mantido ou excluído separadamente.",
-    "Esto elimina tu cuenta, perfil, comentarios y reservas de forma permanente. Tu diario privado puede conservarse o borrarse aparte.",
-    "Это навсегда удалит аккаунт, профиль, комментарии и бронирования. Личный дневник можно сохранить или удалить отдельно.",
+    "This permanently removes your account, profile, comments, confessions, comfort replies, uploaded confession audio and reservations. Your private journal can be kept or deleted separately.",
+    "Isso remove permanentemente sua conta, perfil, comentários, confissões, respostas de acolhimento, áudios de confissão enviados e reservas. Seu diário privado pode ser mantido ou excluído separadamente.",
+    "Esto elimina tu cuenta, perfil, comentarios, confesiones, respuestas de apoyo, audios de confesión subidos y reservas de forma permanente. Tu diario privado puede conservarse o borrarse aparte.",
+    "Это навсегда удалит аккаунт, профиль, комментарии, признания, ответы поддержки, загруженные аудиопризнания и записи на встречи. Личный дневник можно сохранить или удалить отдельно.",
   ],
   confirmDelete: [
     "Type DELETE to confirm",

@@ -1,6 +1,7 @@
 import { Tabs, useSegments } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useApp } from "../../lib/state";
+import { copy } from "../../lib/content";
 import { q } from "../../lib/quiet-copy";
 import { colors } from "../../components/quiet-ui";
 import { colors as legacyColors } from "../../components/ui";
@@ -25,8 +26,10 @@ export default function TabsLayout() {
       {(
         [
           ["index", "home", "home-outline"],
+          ["explore", "explore", "compass-outline"],
           ["bible", "bible", "book-outline"],
-          ["diary", "diary", "create-outline"],
+          ["confession", "confession", "heart-outline"],
+          ["gatherings", "gather", "calendar-outline"],
           ["more", "more", "ellipsis-horizontal"],
         ] as const
       ).map(([name, label, icon]) => (
@@ -34,14 +37,17 @@ export default function TabsLayout() {
           key={name}
           name={name}
           options={{
-            title: q(profile.language, label),
+            title:
+              label === "home" || label === "bible" || label === "more"
+                ? q(profile.language, label)
+                : copy(profile.language, label),
             tabBarIcon: ({ color, size }) => (
               <Ionicons name={icon} color={color as string} size={size} />
             ),
           }}
         />
       ))}
-      {["explore", "learn", "confession", "gatherings"].map((name) => (
+      {["diary", "learn"].map((name) => (
         <Tabs.Screen
           key={name}
           name={name}
