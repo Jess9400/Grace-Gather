@@ -197,6 +197,13 @@ function StudyPage({ id }: { id: string }) {
             )}
           </Disclosure>
         )}
+        <Button
+          secondary
+          title="Discuss this verse"
+          onPress={() =>
+            router.push({ pathname: "/community", params: { verse: id } })
+          }
+        />
         <View style={s.further}>
           <Text style={s.eyebrow}>AT YOUR OWN PACE</Text>
           <Disclosure title="Sit with a question">

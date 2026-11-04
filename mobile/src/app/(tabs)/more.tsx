@@ -11,6 +11,11 @@ export default function More() {
       <Heading>{q(lang, "more")}</Heading>
       <Button
         secondary
+        title="Community"
+        onPress={() => router.push("/community")}
+      />
+      <Button
+        secondary
         title={copy(lang, "explore")}
         onPress={() => router.push("/(tabs)/explore")}
       />

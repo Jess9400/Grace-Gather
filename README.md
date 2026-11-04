@@ -154,3 +154,24 @@ legacy Explore catalogue still includes twelve sourced items. In SDK 58,
 href:null marks tab routes hidden and redirects navigation; secondary tab buttons
 are instead hidden without disabling their routes. Confession content and
 services remain unchanged.
+
+## Native Community preview
+
+The isolated Community prototype opens from More and from Discuss this verse.
+It contains labelled sample topics, verse-linked conversations, local replies,
+and optional conversation perspective labels. These labels are chosen manually;
+the private profile tradition and diary contents are never copied into posts.
+Verse threads match exact collection and passage IDs, avoiding guessed links
+between editions with different Psalm numbering.
+
+Every new topic and reply starts as pending and stays out of published
+conversations. My submissions shows its local status. Report hides a post for
+the reader and adds a reason to the local review queue. Block hides an author's
+topics and replies, with an undo control. Preview tools demonstrate manual
+approval, rejection and report resolution. They are explicitly not production
+moderator access. AI screening, public posting, real member identities, backend
+forum storage and moderation notifications are not connected.
+
+All Community changes remain in memory and reset when the app reloads. Do not
+enter sensitive information into a shared preview. Existing Confession screens,
+recorders, playback components and service modules remain unchanged.
