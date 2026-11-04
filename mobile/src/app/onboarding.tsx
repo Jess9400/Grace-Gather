@@ -13,6 +13,7 @@ import {
 import { useApp } from "../lib/state";
 import { Tradition } from "../lib/content";
 import { q } from "../lib/quiet-copy";
+import { TRADITION_QUESTION_VERSION } from "../lib/onboarding";
 export default function Onboarding() {
   const { profile, saveProfile } = useApp();
   const [choice, setChoice] = useState<Tradition | "exploring" | null>(
@@ -31,6 +32,7 @@ export default function Onboarding() {
       await saveProfile({
         ...profile,
         faithChoice: value,
+        traditionQuestionVersion: TRADITION_QUESTION_VERSION,
         tradition:
           value === "exploring" || value === "unspecified"
             ? profile.tradition

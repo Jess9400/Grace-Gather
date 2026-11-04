@@ -346,6 +346,17 @@ export default function EntryScreen() {
                       router.push("/onboarding");
                     }}
                   />
+                  <Button
+                    secondary
+                    title={q(lang, "library")}
+                    onPress={() => {
+                      setMenu(false);
+                      router.push({
+                        pathname: "/library",
+                        params: { mood: entry.mood },
+                      });
+                    }}
+                  />
                   <Body small>{q(lang, "privacy")}</Body>
                   <Body small>
                     Replies use curated passages and limited local matching.

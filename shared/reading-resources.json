@@ -1,0 +1,109 @@
+{
+  "version": 1,
+  "classificationNote": "Tradition labels describe an author or a resource perspective. They do not imply church approval or suitability for every reader. General wellbeing is a separate reading category, not a theological endorsement.",
+  "metadata": {
+    "comfort": {
+      "kind": "general",
+      "traditions": [],
+      "perspective": {
+        "en": "General wellbeing",
+        "pt": "Bem-estar geral",
+        "es": "Bienestar general",
+        "ru": "Общее благополучие"
+      },
+      "sourceUrl": "https://loja.intrinseca.com.br/o-livro-do-conforto/"
+    },
+    "happiness-trap": {
+      "kind": "general",
+      "traditions": [],
+      "perspective": {
+        "en": "General wellbeing",
+        "pt": "Bem-estar geral",
+        "es": "Bienestar general",
+        "ru": "Общее благополучие"
+      },
+      "sourceUrl": "https://www.shambhala.com/the-happiness-trap-second-edition.html"
+    },
+    "meaning": {
+      "kind": "general",
+      "traditions": [],
+      "perspective": {
+        "en": "General wellbeing",
+        "pt": "Bem-estar geral",
+        "es": "Bienestar general",
+        "ru": "Общее благополучие"
+      },
+      "sourceUrl": "https://www.livrariavozes.com.br/embuscadesentido8532606261/p?idsku=264"
+    },
+    "delights": {
+      "kind": "general",
+      "traditions": [],
+      "perspective": {
+        "en": "General wellbeing",
+        "pt": "Bem-estar geral",
+        "es": "Bienestar general",
+        "ru": "Общее благополучие"
+      },
+      "sourceUrl": "https://www.hachettebookgroup.com/titles/ross-gay/the-book-of-delights/9781643753287/"
+    },
+    "return": {
+      "kind": "faith",
+      "traditions": [
+        "catholic"
+      ],
+      "perspective": {
+        "en": "Catholic author",
+        "pt": "Autor católico",
+        "es": "Autor católico",
+        "ru": "Католический автор"
+      },
+      "sourceUrl": "https://www.henrinouwen.org/about-henri-nouwen"
+    },
+    "grief": {
+      "kind": "faith",
+      "traditions": [
+        "protestant"
+      ],
+      "perspective": {
+        "en": "Anglican author",
+        "pt": "Autor anglicano",
+        "es": "Autor anglicano",
+        "ru": "Англиканский автор"
+      },
+      "sourceUrl": "https://www.cslewis.com/regarding-church/"
+    },
+    "orthodox-way": {
+      "kind": "faith",
+      "traditions": [
+        "orthodox"
+      ],
+      "perspective": {
+        "en": "Orthodox Christianity",
+        "pt": "Cristianismo ortodoxo",
+        "es": "Cristianismo ortodoxo",
+        "ru": "Православное христианство"
+      },
+      "sourceUrl": "https://svspress.com/the-orthodox-way-classics-series-vol-2/"
+    }
+  },
+  "extraBooks": [
+    {
+      "id": "orthodox-way",
+      "title": "The Orthodox Way",
+      "author": "Kallistos Ware",
+      "language": "English",
+      "moods": [
+        "unsure",
+        "hopeful",
+        "lonely"
+      ],
+      "url": "https://svspress.com/the-orthodox-way-classics-series-vol-2/",
+      "note": {
+        "en": "An introduction to Orthodox Christian belief and spiritual life, with prayer and the relationship between faith and daily living at its centre.",
+        "pt": "Uma introdução à fé e à vida espiritual ortodoxas, com foco na oração e na relação entre a fé e a vida cotidiana.",
+        "es": "Una introducción a la fe y la vida espiritual ortodoxas, centrada en la oración y en la relación entre la fe y la vida cotidiana.",
+        "ru": "Введение в православную веру и духовную жизнь, с вниманием к молитве и связи веры с повседневной жизнью."
+      }
+    }
+  ]
+}

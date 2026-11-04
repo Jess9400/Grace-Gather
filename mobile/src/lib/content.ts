@@ -20,6 +20,7 @@ export interface Preferences {
 }
 export interface Profile extends Preferences {
   faithChoice?: Tradition | "exploring" | "unspecified";
+  traditionQuestionVersion?: number;
   name: string;
   city: string;
   region: string;

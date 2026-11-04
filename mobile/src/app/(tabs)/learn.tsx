@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { router } from "expo-router";
+import { View, Text, Pressable, StyleSheet } from "react-native";
+import { router, useLocalSearchParams } from "expo-router";
 import {
   Screen,
   Heading,
@@ -11,60 +12,209 @@ import {
   Button,
   Busy,
   Notice,
+  External,
+  colors,
 } from "../../components/quiet-ui";
 import { useApp } from "../../lib/state";
 import { copy, localized } from "../../lib/content";
+import Disclosure from "../../components/Disclosure";
 import { useCatalog } from "../../lib/community";
+import { q } from "../../lib/quiet-copy";
+import {
+  readingBooks,
+  bookPerspective,
+  ReadingBook,
+} from "../../lib/reading-resources";
 export default function Learn() {
+  const params = useLocalSearchParams<{
+    view?: string;
+    category?: string;
+    mood?: string;
+  }>();
+  return (
+    <Library
+      key={
+        (params.view ?? "courses") +
+        ":" +
+        (params.category ?? "allCourses") +
+        ":" +
+        (params.mood ?? "")
+      }
+      params={params}
+    />
+  );
+}
+function Library({
+  params,
+}: {
+  params: { view?: string; category?: string; mood?: string };
+}) {
   const { profile } = useApp(),
     { items, loading, failed } = useCatalog("course");
-  const [category, setCategory] = useState("allCourses");
-  const t = (k: string) => copy(profile.language, k);
-  return (
-    <Screen>
-      <Heading>{t("learnHeading")}</Heading>
-      <Body>{t("learnIntro")}</Body>
-      <Row>
-        {[
-          "allCourses",
-          "theology",
-          "mindfulness",
-          "breathwork",
-          "journaling",
-          "music",
-          "art",
-        ].map((c) => (
-          <Chip
-            key={c}
-            title={t(c)}
-            selected={c === category}
-            onPress={() => setCategory(c)}
+  const [tab, setTab] = useState(params.view === "books" ? "books" : "courses"),
+    [category, setCategory] = useState(
+      params.category === "theology" ? "theology" : "allCourses",
+    );
+  const t = (key: string) => copy(profile.language, key);
+  const [allPerspectives, setAllPerspectives] = useState(false);
+  const selection = readingBooks(profile, allPerspectives, params.mood ?? "");
+  const traditionName = selection.tradition
+    ? copy(profile.language, selection.tradition)
+    : "";
+  function bookCard(book: ReadingBook) {
+    const perspective = bookPerspective(book.id);
+    return (
+      <Card key={book.id}>
+        <Body small>
+          {localized(perspective.perspective, profile.language)} ·{" "}
+          {book.language}
+        </Body>
+        <Subheading>{book.title}</Subheading>
+        <Body small>{book.author}</Body>
+        <Body>{localized(book.note, profile.language)}</Body>
+        <External title={t("pBookSource")} url={book.url} />
+        <Disclosure title="About this perspective">
+          <Body small>
+            Labels describe the author or the resource. They are not a church
+            endorsement, and readers within a tradition may differ.
+          </Body>
+          <External
+            title="Source for this label"
+            url={perspective.sourceUrl || book.url}
           />
+        </Disclosure>
+      </Card>
+    );
+  }
+  return (
+    <Screen back>
+      <Heading>{q(profile.language, "library")}</Heading>
+      <View accessibilityRole="tablist" style={s.tabs}>
+        {(["courses", "books"] as const).map((mode) => (
+          <Pressable
+            key={mode}
+            accessibilityRole="tab"
+            accessibilityState={{ selected: tab === mode }}
+            onPress={() => setTab(mode)}
+            style={[s.tab, tab === mode && s.active]}
+          >
+            <Text
+              style={{
+                color: tab === mode ? colors.ink : colors.muted,
+                fontSize: 17,
+              }}
+            >
+              {q(profile.language, mode)}
+            </Text>
+          </Pressable>
         ))}
-      </Row>
-      {loading && <Busy />}
-      <Notice text={failed ? t("socialError") : ""} />
-      {items
-        .filter((c) => category === "allCourses" || c.category === category)
-        .map((c) => (
-          <Card key={c.id}>
+      </View>
+      {tab === "courses" ? (
+        <>
+          <Body small>{t("learnIntro")}</Body>
+          <Row>
+            {[
+              "allCourses",
+              "theology",
+              "mindfulness",
+              "breathwork",
+              "journaling",
+              "music",
+              "art",
+            ].map((c) => (
+              <Chip
+                key={c}
+                title={t(c)}
+                selected={c === category}
+                onPress={() => setCategory(c)}
+              />
+            ))}
+          </Row>
+          {loading && <Busy />}
+          <Notice
+            text={
+              failed
+                ? "Showing the bundled courses. The latest catalogue could not be refreshed."
+                : ""
+            }
+          />
+          {items
+            .filter((c) => category === "allCourses" || c.category === category)
+            .map((c) => (
+              <Card key={c.id}>
+                <Body small>
+                  {t("free")} · {t(c.category ?? "course")}
+                </Body>
+                <Subheading>{localized(c.title, profile.language)}</Subheading>
+                <Body>{localized(c.summary, profile.language)}</Body>
+                <Body small>
+                  {c.provider} · {c.lang}
+                </Body>
+                <Button
+                  secondary
+                  title={t("viewCourse")}
+                  onPress={() =>
+                    router.push({
+                      pathname: "/course/[id]",
+                      params: { id: c.id },
+                    })
+                  }
+                />
+              </Card>
+            ))}
+          <Body small>{t("courseNote")}</Body>
+        </>
+      ) : (
+        <>
+          <Body small>{t("pBookIntro")}</Body>
+          {!!selection.tradition && (
+            <Row>
+              <Chip
+                title={q(profile.language, "yourTradition")}
+                selected={!allPerspectives}
+                onPress={() => setAllPerspectives(false)}
+              />
+              <Chip
+                title={q(profile.language, "allPerspectives")}
+                selected={allPerspectives}
+                onPress={() => setAllPerspectives(true)}
+              />
+            </Row>
+          )}
+          <Subheading>
+            {selection.tradition && !allPerspectives
+              ? `${traditionName} reading`
+              : q(profile.language, "faithReading")}
+          </Subheading>
+          {selection.faith.length ? (
+            selection.faith.map(bookCard)
+          ) : (
             <Body small>
-              {t("free")} · {t(c.category ?? "course")}
+              Specific reading for this tradition is still being sourced.
             </Body>
-            <Subheading>{localized(c.title, profile.language)}</Subheading>
-            <Body>{localized(c.summary, profile.language)}</Body>
-            <Body small>
-              {c.provider} · {c.lang}
-            </Body>
-            <Button
-              secondary
-              title={t("viewCourse")}
-              onPress={() =>
-                router.push({ pathname: "/course/[id]", params: { id: c.id } })
-              }
-            />
-          </Card>
-        ))}
+          )}
+          <Subheading>{q(profile.language, "generalReading")}</Subheading>
+          <Body small>{q(profile.language, "generalReadingNote")}</Body>
+          {selection.general.map(bookCard)}
+          {selection.unclassified.map(bookCard)}
+          <Body small>{t("pBookNote")}</Body>
+        </>
+      )}
     </Screen>
   );
 }
+const s = StyleSheet.create({
+  tabs: {
+    flexDirection: "row",
+    borderBottomWidth: 1,
+    borderColor: colors.line,
+  },
+  tab: {
+    flex: 1,
+    padding: 16,
+    alignItems: "center",
+    borderBottomWidth: 2,
+    borderBottomColor: "transparent",
+  },
+  active: { borderBottomColor: colors.ink },
+});

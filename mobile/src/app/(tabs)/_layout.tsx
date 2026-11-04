@@ -42,7 +42,14 @@ export default function TabsLayout() {
         />
       ))}
       {["explore", "learn", "confession", "gatherings"].map((name) => (
-        <Tabs.Screen key={name} name={name} options={{ href: null }} />
+        <Tabs.Screen
+          key={name}
+          name={name}
+          options={{
+            tabBarButton: () => null,
+            tabBarItemStyle: { display: "none" },
+          }}
+        />
       ))}
     </Tabs>
   );

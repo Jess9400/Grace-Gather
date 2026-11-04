@@ -116,7 +116,46 @@ export function readingLocation(
   const [prefix, rest] = id.includes(":") ? id.split(":") : ["web", id];
   if (!Object.hasOwn(collections, prefix)) return null;
   const [code, chapter] = rest.split(".");
-  return { collection: prefix as CollectionId, code, chapter: Number(chapter) };
+  if (
+    collections[prefix as CollectionId].index.books.some(
+      (b) => b.code === code,
+    ) &&
+    Number(chapter) > 0
+  )
+    return {
+      collection: prefix as CollectionId,
+      code,
+      chapter: Number(chapter),
+    };
+  for (const edition of data.editions) {
+    const verse = edition.passages.find((v) => v.id === id);
+    if (!verse || !["web", "dra", "brenton"].includes(edition.id)) continue;
+    const match = verse.sourceUrl.match(/([A-Z0-9]{3})([0-9]+)\.htm$/);
+    if (
+      match &&
+      collections[edition.id as CollectionId].index.books.some(
+        (b) => b.code === match[1],
+      )
+    )
+      return {
+        collection: edition.id as CollectionId,
+        code: match[1],
+        chapter: Number(match[2]),
+      };
+    // Douay-Rheims curated quotations use drbo.org; match only an explicit alias.
+    const alias = studyFor(id)?.aliases.find((a) =>
+      a.startsWith(edition.id + ":"),
+    );
+    if (alias) {
+      const [code, chapter] = alias.split(":")[1].split(".");
+      return {
+        collection: edition.id as CollectionId,
+        code,
+        chapter: Number(chapter),
+      };
+    }
+  }
+  return null;
 }
 export function getReadingVerse(id: string): ReadingVerse | null {
   const location = readingLocation(id);
@@ -124,7 +163,10 @@ export function getReadingVerse(id: string): ReadingVerse | null {
     const { collection, code, chapter } = location,
       index = collections[collection].index,
       b = index.books.findIndex((b) => b.code === code);
-    if (b >= 0) {
+    if (
+      b >= 0 &&
+      /^[a-z]+:[A-Z0-9]{3}\.\d+\.[^:]+$|^[A-Z0-9]{3}\.\d+\.[^:]+$/.test(id)
+    ) {
       const qualified = id.includes(":") ? id : `web:${id}`;
       return (
         chapterRows(b, chapter, collection).find((v) => v.id === qualified) ??
@@ -146,9 +188,15 @@ export function getReadingVerse(id: string): ReadingVerse | null {
   return null;
 }
 export function studyFor(id: string) {
-  if (id.includes(":") && !id.startsWith("web:")) return undefined;
+  // Curated IDs and full-reader aliases are explicit, including Psalm numbering.
+  // Reflections are shared only for the identified passage, never by theme alone.
   const clean = id.replace(/^web:/, "");
-  return studies.verses.find((v) => v.id === clean || v.bibleId === clean);
+  return studies.verses.find(
+    (v) =>
+      v.id === id ||
+      (v.editionId === "web" && v.bibleId === clean) ||
+      v.aliases.includes(id),
+  );
 }
 const readerLocations: Partial<
   Record<CollectionId, { book: number; chapter: number }>

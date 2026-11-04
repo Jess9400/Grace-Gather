@@ -16,8 +16,8 @@ export default function More() {
       />
       <Button
         secondary
-        title={q(lang, "learning")}
-        onPress={() => router.push("/(tabs)/learn")}
+        title={q(lang, "library")}
+        onPress={() => router.push("/library")}
       />
       <Button
         secondary
