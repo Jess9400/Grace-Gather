@@ -32,7 +32,7 @@ For an iPhone development build, configure an Expo project and Apple credentials
 
 Copy `mobile/.env.example` to an ignored local `.env` and set the Supabase public URL/publishable key and Expo project ID when available. Set `APPLE_BUNDLE_ID` to the bundle ID registered in the Apple Developer account. `com.awaychurch.preview` is a development fallback, not an approved release identifier. No service-role, Apple private key, LiveKit secret or LLM key belongs in `EXPO_PUBLIC_*` variables.
 
-The browser preview is for interface review. Native encryption, microphone permissions, SecureStore recovery, audio sessions, Apple sign-in, notifications and backup restore still require a physical-device test. Browser preview data disappears on reload; existing journals in the original web app are unaffected.
+The browser preview is for interface review. Native encryption, microphone permissions, SecureStore recovery, audio sessions, Apple sign-in, notifications and backup restore still require a physical-device test. Browser sign-in, preferences, and explicitly kept journal entries persist in an encrypted IndexedDB vault on this browser and origin. Unkept entries remain session-only. Clearing browser site data removes this local vault; the original web app uses separate storage.
 
 ## Connect and deploy Supabase
 

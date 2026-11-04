@@ -1,14 +1,20 @@
-const memory = new Map<string, string>();
-export const persistent = false;
-export async function initialize() {}
+import { createWebVault } from "./web-vault";
+let vault: ReturnType<typeof createWebVault> | undefined;
+function browserVault() {
+  return (vault ??= createWebVault(globalThis.indexedDB, globalThis.crypto));
+}
+export const persistent = true;
+export async function initialize() {
+  await browserVault().initialize();
+}
 export async function getItem(key: string) {
-  return memory.get(key) ?? null;
+  return browserVault().getItem(key);
 }
 export async function setItem(key: string, value: string) {
-  memory.set(key, value);
+  await browserVault().setItem(key, value);
 }
 export async function removeItem(key: string) {
-  memory.delete(key);
+  await browserVault().removeItem(key);
 }
 export async function protectAudio(_uri: string, _id: string): Promise<string> {
   throw new Error("Use the iPhone app for encrypted audio.");
@@ -19,7 +25,7 @@ export async function playableAudio(_id: string): Promise<string> {
 export function clearPlayback() {}
 export async function removeAudio(_id: string) {}
 export async function clearVault() {
-  memory.clear();
+  await browserVault().clearVault();
 }
 export async function exportEncrypted(): Promise<{ uri: string; key: string }> {
   throw new Error("Backups are available in the iPhone app.");
