@@ -25,7 +25,7 @@ function load(path) {
 }
 const reader = load(resolve(root, 'mobile/src/lib/bible.ts'));
 
-test('native verse routes retain each collection and do not reuse WEB studies across editions', () => {
+test('native verse routes retain their collection and require explicit study mappings', () => {
   const web = reader.getReadingVerse('web:GEN.1.1');
   const catholic = reader.getReadingVerse('dra:GEN.1.1');
   const orthodox = reader.getReadingVerse('brenton:GEN.1.1');
@@ -60,4 +60,35 @@ test('native collection selection requires an available language and matching tr
   assert.equal(reader.collectionFor({scriptureLanguage:'en', tradition:'protestant', edition:'web'}), 'web');
   assert.equal(reader.collectionFor({scriptureLanguage:'pt', tradition:'catholic', edition:'dra'}), null);
   assert.equal(reader.collectionFor({scriptureLanguage:'en', tradition:'orthodox', edition:'web'}), null);
+});
+
+test('every English diary reply has a full reflection and correct chapter in its own edition', () => {
+  const catalog = load(resolve(root,'mobile/src/generated/catalog.json'));
+  for (const edition of catalog.editions.filter(e=>['web','dra','brenton'].includes(e.id))) {
+    for (const passage of edition.passages) {
+      const study=reader.studyFor(passage.id);
+      assert.ok(study, passage.id);
+      for(const field of ['simple','context','meaning','today','theology','question']) assert.ok(study[field]?.length>35, passage.id+':'+field);
+      const location=reader.readingLocation(passage.id);
+      assert.equal(location.collection,edition.id);
+      assert.ok(reader.getBook(location.code,location.collection).chapters[String(location.chapter)],passage.id);
+      assert.equal(reader.getReadingVerse(passage.id).text,passage.text);
+    }
+  }
+  assert.equal(reader.studyFor('dra:PSA.22.2'),undefined);
+  assert.ok(reader.studyFor('brenton:PSA.22.2'));
+});
+
+test('the tradition question requires a recorded answer or explicit skip, including after migration', () => {
+  const {hasAnsweredTraditionQuestion:answered}=load(resolve(root,'mobile/src/lib/onboarding.ts'));
+  assert.equal(answered({onboarded:true,tradition:'orthodox',faithChoice:'orthodox'}),false);
+  assert.equal(answered({onboarded:true,faithChoice:'unspecified',traditionQuestionVersion:1}),true);
+  assert.equal(answered({onboarded:true,faithChoice:'exploring',traditionQuestionVersion:1}),true);
+  assert.equal(answered({onboarded:false,faithChoice:'orthodox',traditionQuestionVersion:1}),false);
+  assert.equal(answered({onboarded:true,traditionQuestionVersion:1}),false);
+  assert.equal(answered({onboarded:true,faithChoice:'catholic',traditionQuestionVersion:1}),true);
+});
+
+test('all restored study sections reproduce from the shared authored source', () => {
+  assert.equal(readFileSync(resolve(root,'shared/quiet-studies.json'),'utf8'),readFileSync(resolve(root,'mobile/src/generated/quiet-studies.json'),'utf8'));
 });

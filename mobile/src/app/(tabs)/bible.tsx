@@ -130,7 +130,25 @@ function BibleReader({ collection }: { collection: CollectionId | null }) {
               : (edition?.name ?? "Unavailable")}
           </Text>
         </View>
-        <Body small>{q(lang, "tap")}</Body>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: 12,
+          }}
+        >
+          <Body small>{q(lang, "tap")}</Body>
+          <Pressable
+            accessibilityRole="button"
+            onPress={() => router.push("/library")}
+            style={{ minHeight: 44, justifyContent: "center" }}
+          >
+            <Text style={{ fontSize: 12, color: colors.goldInk }}>
+              {q(lang, "library")}
+            </Text>
+          </Pressable>
+        </View>
         {!full && <Body small>{q(lang, "limited")}</Body>}
         <Text style={s.source}>
           {full ? bibleIndex.edition : edition?.scope}

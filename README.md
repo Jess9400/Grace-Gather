@@ -122,10 +122,31 @@ blur or backup behavior. Those checks still need a development build on a phone.
 Bible reading is virtualized and loads successive chapters across books. A
 book/chapter picker jumps directly. Scripture routes include the collection
 identifier, keeping quotations, chapter context and citations within the same
-source. The nine existing English WEB study notes are labelled as awaiting
+source. Fourteen English editorial study notes cover all eighteen English diary quotations through explicit passage mappings, including Septuagint Psalm numbering. They are labelled as awaiting
 theological review. Other verses offer reading questions and publisher notes,
 not fabricated verse-specific commentary. Full non-English readers and church
 calendars are not implemented.
 
 The native design is implemented in React Native components, not a WebView.
 The retained web prototype and its separate storage have not been replaced.
+
+
+The tradition question is checked by the root navigator, including direct links.
+Existing preview profiles without an explicit answer/skip version see the
+question once after this correction. The stored reading tradition by itself is
+not treated as the user's answer. Account, privacy and restore remain reachable.
+
+Verse study restores the approved reading-paper layout: Simple, Deeper and
+Theology, with context, meaning, everyday application, reflection, source notes
+and complete chapter access. Curated quotations keep their exact wording and
+publisher links. Shared reflections use explicit aliases, never a guessed Psalm
+offset or a theme-only match. The canonical notes live in shared/quiet-studies.json
+and are copied by content:sync. English notes are not denominational approval.
+
+The Courses and Books library exposes all six existing courses and all six
+publisher-linked reading suggestions from the repository. It opens from Bible,
+More, verse study and conversation options. Full book text is not bundled. The
+legacy Explore catalogue still includes twelve sourced items. In SDK 58,
+href:null marks tab routes hidden and redirects navigation; secondary tab buttons
+are instead hidden without disabling their routes. Confession content and
+services remain unchanged.

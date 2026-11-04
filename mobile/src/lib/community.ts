@@ -3,7 +3,7 @@ import { backend } from "./backend";
 import { data, Resource } from "./content";
 export function useCatalog(kind: "feed" | "course") {
   const [items, setItems] = useState<Resource[]>(
-      backend ? [] : kind === "feed" ? data.FEED : data.COURSES,
+      kind === "course" ? data.COURSES : backend ? [] : data.FEED,
     ),
     [loading, setLoading] = useState(!!backend),
     [failed, setFailed] = useState(false);

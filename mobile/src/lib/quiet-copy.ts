@@ -6,6 +6,14 @@ const L = (en: string, pt: string, es: string, ru: string) => ({
   ru,
 });
 const words = {
+  library: L(
+    "Courses and books",
+    "Cursos e livros",
+    "Cursos y libros",
+    "Курсы и книги",
+  ),
+  courses: L("Courses", "Cursos", "Cursos", "Курсы"),
+  books: L("Books", "Livros", "Libros", "Книги"),
   newPage: L(
     "Start a new page",
     "Começar uma nova página",
