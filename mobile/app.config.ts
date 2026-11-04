@@ -3,6 +3,12 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   name: "Grace & Gather",
   slug: "away-church",
+  experiments: {
+    ...config.experiments,
+    ...(process.env.GRACE_GATHER_SITES_PREVIEW === "1"
+      ? { baseUrl: "/app" }
+      : {}),
+  },
   ios: {
     ...config.ios,
     bundleIdentifier: process.env.APPLE_BUNDLE_ID || "com.awaychurch.preview",

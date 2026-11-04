@@ -9,6 +9,7 @@ dist/.openai/
 !.env.example
 mobile/.expo/
 mobile/dist/
+mobile/site-dist/
 mobile/ios/
 mobile/android/
 *.ipa

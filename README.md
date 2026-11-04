@@ -86,6 +86,22 @@ npm run build
 
 The community preview defaults to localhost:4174. Use a separate `STILL_PREVIEW_PORT` and `STILL_PREVIEW_DB` for QA; do not overwrite someone’s active draft. The native app has its own localhost:8082 preview.
 
+## Sharing the current mobile app on the web
+
+The current Expo web app is hosted at `/app/` on the existing private Site. The original prototype remains at `/`, with its D1/R2 bindings unchanged. Direct links such as `/app/explore` and `/app/confession` work. Site access and the app's email-code sign-in are separate; local-device journals are not uploaded by publishing this preview.
+
+Build with the public Supabase settings in the ignored `mobile/.env` or build environment:
+
+```sh
+cd mobile
+GRACE_GATHER_SITES_PREVIEW=1 npx expo export --platform web --output-dir site-dist
+cd ..
+GRACE_GATHER_SITES_PREVIEW=1 npm run build
+node --test tests/hosted-preview.test.mjs
+```
+
+Publish the resulting Worker through the Sites source/version workflow. The opt-in base path affects only this web export; local previews and iOS builds keep their existing routes. Binary textures and fonts are included in the Worker with their original MIME types.
+
 ## Release checks and verification
 
 `release/readiness.json` contains the exact remaining launch gates. `npm run preflight --prefix mobile` loads the ignored mobile `.env`, reports missing values and exits nonzero. Existing shell/build environment values take precedence. Production EAS builds run that same gate; development builds remain possible. Public App Store support/privacy URLs must be accessible without the current private Site login. The supplied domain/email are not evidence that domain hosting or mail delivery is configured.
