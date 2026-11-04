@@ -94,6 +94,10 @@ function CommunityScreen() {
     setActionsFor(null);
   };
   const startTopic = () => {
+    if (!userId) {
+      router.push("/account");
+      return;
+    }
     setTitle("");
     setBody("");
     setPerspective("Open discussion");
@@ -275,7 +279,11 @@ function CommunityScreen() {
         contentContainerStyle={s.page}
       >
         <View style={s.preview}>
-          <Ionicons name="flask-outline" size={15} color={colors.goldInk} />
+          <Ionicons
+            name={demo ? "flask-outline" : "people-outline"}
+            size={15}
+            color={colors.goldInk}
+          />
           <Text style={s.small}>
             {demo
               ? "Community preview · sample conversations · nothing is public"
@@ -315,6 +323,11 @@ function CommunityScreen() {
               A little space{String.fromCharCode(10)}to listen.
             </Text>
             <Body>Questions, reflections and faith, shared gently.</Body>
+            {!demo && !automatic && (
+              <Body small>
+                New submissions stay private while moderation is being prepared.
+              </Body>
+            )}
             <View style={s.sectionBar}>
               <Text style={s.sectionLabel}>COMMUNITY</Text>
               <Pressable
