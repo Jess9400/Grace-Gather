@@ -28,7 +28,6 @@ export default function TabsLayout() {
           ["bible", "bible", "book-outline"],
           ["confession", "confession", "heart-outline"],
           ["gatherings", "gather", "calendar-outline"],
-          ["more", "more", "ellipsis-horizontal"],
         ] as const
       ).map(([name, label, icon]) => (
         <Tabs.Screen
@@ -36,7 +35,7 @@ export default function TabsLayout() {
           name={name}
           options={{
             title:
-              label === "home" || label === "bible" || label === "more"
+              label === "home" || label === "bible"
                 ? q(profile.language, label)
                 : copy(profile.language, label),
             tabBarIcon: ({ color, size }) => (
@@ -45,7 +44,7 @@ export default function TabsLayout() {
           }}
         />
       ))}
-      {["diary", "learn"].map((name) => (
+      {["diary", "learn", "more"].map((name) => (
         <Tabs.Screen
           key={name}
           name={name}
