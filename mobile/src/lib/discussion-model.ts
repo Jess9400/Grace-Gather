@@ -12,6 +12,7 @@ export type Post = {
   body: string;
   status: "approved" | "pending" | "removed";
   perspective: Perspective;
+  screening?: { flags: string[]; summary: string; createdAt: string } | null;
 };
 export type Topic = Post & {
   title: string;
@@ -45,7 +46,8 @@ export type DiscussionAction =
   | { type: "report"; postId: string; reason: string }
   | { type: "resolve"; reportId: string; remove: boolean }
   | { type: "block"; author: string }
-  | { type: "unblock"; author: string };
+  | { type: "unblock"; author: string }
+  | { type: "delete"; postId: string };
 const sample = (
   id: string,
   author: string,
@@ -240,6 +242,22 @@ export function discussionReducer(
           },
         ],
       };
+    }
+    case "delete": {
+      const post = state.topics
+        .flatMap((t) => [t, ...t.replies])
+        .find((p) => p.id === action.postId);
+      return post?.author === "you"
+        ? {
+            ...state,
+            topics: state.topics
+              .filter((t) => t.id !== action.postId)
+              .map((t) => ({
+                ...t,
+                replies: t.replies.filter((p) => p.id !== action.postId),
+              })),
+          }
+        : state;
     }
     case "resolve": {
       const report = state.reports.find(

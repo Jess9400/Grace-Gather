@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View, Text, Pressable, ScrollView, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -15,21 +15,40 @@ import {
   serif,
 } from "../components/quiet-ui";
 import Disclosure from "../components/Disclosure";
-import { useCommunityPreview } from "../lib/discussion-state";
+import { useCommunity } from "../lib/discussion-state";
 import {
   perspectives,
   canReadPost,
   visibleTopics,
   type Post,
   type Perspective,
+  type DiscussionAction,
 } from "../lib/discussion-model";
-import { getReadingVerse } from "../lib/bible";
+import { getReadingVerse, discussionVerseId } from "../lib/bible";
 
 type ViewMode = "list" | "thread" | "compose" | "review";
-export default function CommunityPreview() {
+export default function Community() {
+  const { userId } = useCommunity();
+  return <CommunityScreen key={userId ?? "signed-out"} />;
+}
+function CommunityScreen() {
   const params = useLocalSearchParams<{ verse?: string }>();
-  const verse = params.verse ? getReadingVerse(params.verse) : null;
-  const { state, dispatch } = useCommunityPreview();
+  const linkedVerse = params.verse ? discussionVerseId(params.verse) : null;
+  const verse = linkedVerse ? getReadingVerse(linkedVerse) : null;
+  const {
+    state,
+    demo,
+    connected,
+    userId,
+    moderator,
+    busy,
+    error,
+    limits,
+    reload,
+    perform,
+    screen,
+  } = useCommunity();
+  const [alias, setAlias] = useState("");
   const [mode, setMode] = useState<ViewMode>("list"),
     [selected, setSelected] = useState<string | null>(null);
   const [filter, setFilter] = useState<"all" | "verse" | "mine">(
@@ -43,12 +62,21 @@ export default function CommunityPreview() {
   const [notice, setNotice] = useState(""),
     [actionsFor, setActionsFor] = useState<string | null>(null),
     [reportReason, setReportReason] = useState("");
+  useEffect(() => {
+    void reload(selected ?? undefined);
+  }, [reload, selected, userId]);
+  const own = (post: Post) => post.author === userId;
+  async function act(action: DiscussionAction, success?: () => void) {
+    if (await perform(action, demo ? "You" : alias)) success?.();
+  }
+  const canPost = !busy && !!userId && (demo || !!alias.trim());
+  const [removing, setRemoving] = useState<string | null>(null);
   const topic = state.topics.find((t) => t.id === selected);
   const readable = topic && canReadPost(state, topic);
   const allPosts = state.topics.flatMap((t) => [t, ...t.replies]);
   const pending = allPosts.filter((p) => p.status === "pending");
   const reports = state.reports.filter((r) => !r.resolved);
-  const mine = allPosts.filter((p) => p.author === "you");
+  const mine = allPosts.filter((p) => own(p));
   const topics = visibleTopics(
     state,
     filter === "verse" ? verse?.id : undefined,
@@ -75,12 +103,43 @@ export default function CommunityPreview() {
       ? "Awaiting review"
       : p.status === "removed"
         ? "Not published"
-        : "Published in this preview";
+        : demo
+          ? "Published in this preview"
+          : "Published";
   const postContext = (p: Post) =>
     state.topics.find((t) => t.id === p.id)?.title ??
     `Reply to ${state.topics.find((t) => t.replies.some((r) => r.id === p.id))?.title ?? "a conversation"}`;
+  function OwnRemoval(post: Post) {
+    if (!own(post)) return null;
+    return removing === post.id ? (
+      <View style={{ gap: 10 }}>
+        <Body small>
+          Remove this post? Removing a topic also removes its replies.
+        </Body>
+        <Button
+          secondary
+          disabled={busy}
+          title="Confirm removal"
+          onPress={() =>
+            void act({ type: "delete", postId: post.id }, () => {
+              setRemoving(null);
+              setNotice("Your post was removed.");
+            })
+          }
+        />
+        <Button secondary title="Keep post" onPress={() => setRemoving(null)} />
+      </View>
+    ) : (
+      <Button
+        secondary
+        disabled={busy}
+        title="Remove your post"
+        onPress={() => setRemoving(post.id)}
+      />
+    );
+  }
   function PostActions({ post }: { post: Post }) {
-    if (post.author === "you") return null;
+    if (own(post)) return null;
     return (
       <View>
         {actionsFor === post.id && (
@@ -95,29 +154,35 @@ export default function CommunityPreview() {
             />
             <Button
               title="Send report"
-              disabled={!reportReason.trim()}
-              onPress={() => {
-                dispatch({
-                  type: "report",
-                  postId: post.id,
-                  reason: reportReason.trim(),
-                });
-                setActionsFor(null);
-                setNotice(
-                  "Report added to the preview review queue. This post is hidden for you.",
-                );
-              }}
+              disabled={!reportReason.trim() || busy}
+              onPress={() =>
+                void act(
+                  {
+                    type: "report",
+                    postId: post.id,
+                    reason: reportReason.trim(),
+                  },
+                  () => {
+                    setActionsFor(null);
+                    setNotice(
+                      "Report sent for review. This post is hidden for you.",
+                    );
+                  },
+                )
+              }
             />
             <Button
               secondary
               title={`Block ${post.name}`}
-              onPress={() => {
-                dispatch({ type: "block", author: post.author });
-                setActionsFor(null);
-                setNotice(
-                  `${post.name}'s posts and replies are hidden for you. You can undo this below.`,
-                );
-              }}
+              disabled={busy}
+              onPress={() =>
+                void act({ type: "block", author: post.author }, () => {
+                  setActionsFor(null);
+                  setNotice(
+                    `${post.name}'s posts and replies are hidden for you. You can undo this below.`,
+                  );
+                })
+              }
             />
           </View>
         )}
@@ -140,12 +205,16 @@ export default function CommunityPreview() {
           <View style={{ flex: 1 }}>
             <Text style={s.author}>{post.name}</Text>
             <Text style={s.small}>
-              {post.author === "you"
-                ? "Local preview submission"
-                : "Example conversation"}
+              {own(post)
+                ? demo
+                  ? "Local preview submission"
+                  : "Your post"
+                : demo
+                  ? "Example conversation"
+                  : "Community member"}
             </Text>
           </View>
-          {post.author !== "you" && (
+          {!own(post) && (
             <Pressable
               accessibilityRole="button"
               accessibilityLabel={`Options for ${post.name}'s post`}
@@ -172,6 +241,7 @@ export default function CommunityPreview() {
           </Text>
         )}
         <Body>{post.body}</Body>
+        {OwnRemoval(post)}
         {actionsFor === post.id && PostActions({ post })}
       </Card>
     );
@@ -205,10 +275,38 @@ export default function CommunityPreview() {
         <View style={s.preview}>
           <Ionicons name="flask-outline" size={15} color={colors.goldInk} />
           <Text style={s.small}>
-            Community preview · sample conversations · nothing is public
+            {demo
+              ? "Community preview · sample conversations · nothing is public"
+              : "Community · questions and reflections"}
           </Text>
         </View>
-        <Notice text={notice} />
+        <Notice text={error || notice} />
+        {!demo && (!connected || !userId) && (
+          <Card>
+            <Body>
+              {connected
+                ? "Sign in to join the conversation."
+                : "Community is not connected on this build yet."}
+            </Body>
+            <Body small>
+              Your private diary stays separate. Only the words you choose to
+              post are shared.
+            </Body>
+            <Button
+              secondary
+              title="Account and sign in"
+              onPress={() => router.push("/account")}
+            />
+          </Card>
+        )}
+        {!demo && userId && (
+          <Button
+            secondary
+            disabled={busy}
+            title="Refresh conversations"
+            onPress={() => void reload(selected ?? undefined)}
+          />
+        )}
         {mode === "list" && (
           <>
             <Text accessibilityRole="header" style={s.heading}>
@@ -219,7 +317,9 @@ export default function CommunityPreview() {
               <Text style={s.sectionLabel}>COMMUNITY</Text>
               <Pressable
                 accessibilityRole="button"
-                onPress={startTopic}
+                onPress={() =>
+                  userId ? startTopic() : router.push("/account")
+                }
                 style={s.newTopic}
               >
                 <Ionicons name="add" size={18} color={colors.white} />
@@ -248,8 +348,8 @@ export default function CommunityPreview() {
             {filter === "mine" ? (
               <>
                 <Body small>
-                  Your submissions stay out of conversations until approved in
-                  this local demo.
+                  Your submissions stay out of conversations until approved by a
+                  moderator.
                 </Body>
                 {!mine.length && (
                   <Card>
@@ -266,6 +366,7 @@ export default function CommunityPreview() {
                     <Text style={s.topicTitle}>{postContext(p)}</Text>
                     <Text style={s.tag}>{statusLabel(p)}</Text>
                     <Body>{p.body}</Body>
+                    {OwnRemoval(p)}
                   </Card>
                 ))}
               </>
@@ -290,7 +391,9 @@ export default function CommunityPreview() {
                       There is room for your question.
                     </Text>
                     <Body>
-                      Be the first to start a conversation about this verse.
+                      {verse && filter === "verse"
+                        ? "Be the first to start a conversation about this verse."
+                        : "Start with a question or a reflection."}
                     </Body>
                     <Button title="Start a conversation" onPress={startTopic} />
                   </Card>
@@ -314,7 +417,13 @@ export default function CommunityPreview() {
                     <View style={s.topicFooter}>
                       <Text style={s.small}>
                         {t.name} ·{" "}
-                        {t.author === "you" ? "Your preview post" : "Example"}
+                        {own(t)
+                          ? demo
+                            ? "Your preview post"
+                            : "Your post"
+                          : demo
+                            ? "Example"
+                            : "Community member"}
                       </Text>
                       <View style={s.count}>
                         <Ionicons
@@ -350,21 +459,37 @@ export default function CommunityPreview() {
                 faith stay separate. You choose any perspective label yourself.
               </Body>
             </Disclosure>
-            <Disclosure title="Preview tools">
+            {demo ? (
+              <Disclosure title="Preview tools">
+                <Body small>
+                  This demo uses local memory and manual review. AI screening,
+                  real accounts and public posting are not connected. Changes
+                  reset when the app reloads.
+                </Body>
+                <Button
+                  secondary
+                  title={`Open demo review queue (${pending.length + reports.length})`}
+                  onPress={() => {
+                    setNotice("");
+                    setMode("review");
+                  }}
+                />
+              </Disclosure>
+            ) : (
+              moderator && (
+                <Button
+                  secondary
+                  title={`Moderation queue (${pending.length + reports.length})`}
+                  onPress={() => setMode("review")}
+                />
+              )
+            )}
+            {!demo && limits && (
               <Body small>
-                This demo uses local memory and manual review. AI screening,
-                real accounts and public posting are not connected. Changes
-                reset when the app reloads.
+                Showing recent conversations and up to {limits.repliesPerTopic}{" "}
+                replies per conversation. Refresh for updates.
               </Body>
-              <Button
-                secondary
-                title={`Open demo review queue (${pending.length + reports.length})`}
-                onPress={() => {
-                  setNotice("");
-                  setMode("review");
-                }}
-              />
-            </Disclosure>
+            )}
           </>
         )}
         {mode === "thread" && (
@@ -417,13 +542,14 @@ export default function CommunityPreview() {
                   </Body>
                 )}
                 {topic.replies
-                  .filter((p) => p.author === "you" && p.status === "pending")
+                  .filter((p) => own(p) && p.status === "pending")
                   .map((p) => (
                     <Card key={p.id}>
                       <Text style={s.tag}>
-                        Awaiting review · only visible to you
+                        Awaiting review · visible to you and moderators
                       </Text>
                       <Body>{p.body}</Body>
+                      {OwnRemoval(p)}
                     </Card>
                   ))}
                 <View style={s.composer}>
@@ -435,24 +561,40 @@ export default function CommunityPreview() {
                     value={reply}
                     onChangeText={setReply}
                   />
+                  {!demo && (
+                    <Field
+                      label="Public display name"
+                      placeholder="Choose a name for this post"
+                      value={alias}
+                      onChangeText={setAlias}
+                      maxLength={40}
+                      autoCapitalize="words"
+                    />
+                  )}
                   <Body small>
-                    Posted as You in this demo. Replies are held for review.
+                    {demo
+                      ? "Posted as You in this demo. Replies are held for review."
+                      : "Your display name and reply will be public after moderator approval."}
                   </Body>
                   <Button
                     title="Send for review"
-                    disabled={!reply.trim()}
-                    onPress={() => {
-                      dispatch({
-                        type: "reply",
-                        topicId: topic.id,
-                        body: reply,
-                        perspective: "Open discussion",
-                      });
-                      setReply("");
-                      setNotice(
-                        "Your reply is awaiting review. Only you can see it until it is approved in this demo.",
-                      );
-                    }}
+                    disabled={!reply.trim() || !canPost}
+                    onPress={() =>
+                      void act(
+                        {
+                          type: "reply",
+                          topicId: topic.id,
+                          body: reply,
+                          perspective: "Open discussion",
+                        },
+                        () => {
+                          setReply("");
+                          setNotice(
+                            "Your reply is awaiting review. It is visible to you and moderators until approved.",
+                          );
+                        },
+                      )
+                    }
                   />
                 </View>
               </>
@@ -506,37 +648,59 @@ export default function CommunityPreview() {
                 ))}
               </Row>
             </Disclosure>
+            {!demo && (
+              <Field
+                label="Public display name"
+                placeholder="Choose a name for this post"
+                value={alias}
+                onChangeText={setAlias}
+                maxLength={40}
+                autoCapitalize="words"
+              />
+            )}
             <Body small>
-              Shared as You. Your diary is never attached. This preview holds
-              every submission for manual review.
+              {demo
+                ? "Shared as You. Your diary is never attached. This preview holds every submission for manual review."
+                : "Your display name and words will be public after moderator approval. Your diary and profile are never attached. Posts are checked for safety and reviewed by moderators."}
             </Body>
             <Button
               title="Send for review"
-              disabled={!title.trim() || !body.trim()}
-              onPress={() => {
-                dispatch({
-                  type: "topic",
-                  title,
-                  body,
-                  perspective,
-                  verseId: filter === "verse" ? verse?.id : undefined,
-                  reference: filter === "verse" ? verse?.reference : undefined,
-                });
-                setMode("list");
-                setFilter("mine");
-                setNotice(
-                  "Your topic is awaiting review. It has not been added to conversations.",
-                );
-              }}
+              disabled={!title.trim() || !body.trim() || !canPost}
+              onPress={() =>
+                void act(
+                  {
+                    type: "topic",
+                    title,
+                    body,
+                    perspective,
+                    verseId: filter === "verse" ? verse?.id : undefined,
+                    reference:
+                      filter === "verse" ? verse?.reference : undefined,
+                  },
+                  () => {
+                    setMode("list");
+                    setFilter("mine");
+                    setNotice(
+                      "Your topic is awaiting review. It has not been added to conversations.",
+                    );
+                  },
+                )
+              }
             />
           </>
         )}
-        {mode === "review" && (
+        {mode === "review" && moderator && (
           <>
             <Text accessibilityRole="header" style={s.heading}>
-              Demo review
+              {demo ? "Demo review" : "Moderation"}
             </Text>
-            <Notice text="Preview tools only. You are trying a manual moderator workflow. No AI is connected, and these decisions affect only your local demo." />
+            <Notice
+              text={
+                demo
+                  ? "Preview tools only. You are trying a manual moderator workflow. No AI is connected, and these decisions affect only your local demo."
+                  : "Review the words in context. All publication decisions require a moderator. Automated screening is advisory and can make mistakes."
+              }
+            />
             <Text style={s.sectionLabel}>
               AWAITING REVIEW · {pending.length}
             </Text>
@@ -548,17 +712,38 @@ export default function CommunityPreview() {
                   {p.name} · {p.perspective}
                 </Text>
                 <Body>{p.body}</Body>
+                {!demo && (
+                  <>
+                    {p.screening && (
+                      <View style={{ gap: 8 }}>
+                        <Text style={s.tag}>AI notes · advisory</Text>
+                        <Body small>
+                          {p.screening.flags.join(", ") || "No flags returned"}
+                        </Body>
+                        <Body>{p.screening.summary}</Body>
+                      </View>
+                    )}
+                    <Button
+                      secondary
+                      disabled={busy}
+                      title="Check with AI"
+                      onPress={() => void screen(p.id).then(setNotice)}
+                    />
+                  </>
+                )}
                 <Button
-                  title="Approve in preview"
+                  disabled={busy}
+                  title={demo ? "Approve in preview" : "Approve"}
                   onPress={() =>
-                    dispatch({ type: "review", postId: p.id, approve: true })
+                    void act({ type: "review", postId: p.id, approve: true })
                   }
                 />
                 <Button
                   secondary
+                  disabled={busy}
                   title="Do not publish"
                   onPress={() =>
-                    dispatch({ type: "review", postId: p.id, approve: false })
+                    void act({ type: "review", postId: p.id, approve: false })
                   }
                 />
               </Card>
@@ -572,16 +757,18 @@ export default function CommunityPreview() {
                 <Text style={s.tag}>Reason: {r.reason}</Text>
                 <Body>{allPosts.find((p) => p.id === r.postId)?.body}</Body>
                 <Button
-                  title="Remove in preview"
+                  disabled={busy}
+                  title={demo ? "Remove in preview" : "Remove post"}
                   onPress={() =>
-                    dispatch({ type: "resolve", reportId: r.id, remove: true })
+                    void act({ type: "resolve", reportId: r.id, remove: true })
                   }
                 />
                 <Button
                   secondary
+                  disabled={busy}
                   title="Keep post and resolve report"
                   onPress={() =>
-                    dispatch({ type: "resolve", reportId: r.id, remove: false })
+                    void act({ type: "resolve", reportId: r.id, remove: false })
                   }
                 />
               </Card>
@@ -595,7 +782,7 @@ export default function CommunityPreview() {
                 key={a}
                 secondary
                 title={`Unblock ${allPosts.find((p) => p.author === a)?.name ?? a}`}
-                onPress={() => dispatch({ type: "unblock", author: a })}
+                onPress={() => void act({ type: "unblock", author: a })}
               />
             ))}
           </Disclosure>

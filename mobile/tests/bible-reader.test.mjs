@@ -25,6 +25,15 @@ function load(path) {
 }
 const reader = load(resolve(root, 'mobile/src/lib/bible.ts'));
 
+test('Community maps curated quotations only through explicit edition-specific verse aliases', () => {
+  assert.equal(reader.discussionVerseId('brenton-psalm-22-2'),'brenton:PSA.22.2');
+  assert.equal(reader.discussionVerseId('web:GEN.1.27'),'web:GEN.1.27');
+  assert.equal(reader.discussionVerseId('brenton:PSA.22.2'),'brenton:PSA.22.2');
+  assert.equal(reader.discussionVerseId('web:PSA.22.2'),'web:PSA.22.2');
+  assert.equal(reader.discussionVerseId('web:GEN.999.1'),null);
+  assert.equal(reader.discussionVerseId('unmapped-curated-verse'),null);
+});
+
 test('native verse routes retain their collection and require explicit study mappings', () => {
   const web = reader.getReadingVerse('web:GEN.1.1');
   const catholic = reader.getReadingVerse('dra:GEN.1.1');

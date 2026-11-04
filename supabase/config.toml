@@ -21,3 +21,6 @@ verify_jwt = false
 
 [functions.confessions]
 verify_jwt = false
+
+[functions.community-screen]
+verify_jwt = false

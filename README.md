@@ -155,23 +155,21 @@ href:null marks tab routes hidden and redirects navigation; secondary tab button
 are instead hidden without disabling their routes. Confession content and
 services remain unchanged.
 
-## Native Community preview
+## Native Community
 
-The isolated Community prototype opens from More and from Discuss this verse.
-It contains labelled sample topics, verse-linked conversations, local replies,
-and optional conversation perspective labels. These labels are chosen manually;
-the private profile tradition and diary contents are never copied into posts.
+Community opens from More and Discuss this verse, using the approved quiet design.
+Signed-in members choose a public display name and optional conversation perspective.
+Their private profile and diary are never copied into posts.
 Verse threads match exact collection and passage IDs, avoiding guessed links
 between editions with different Psalm numbering.
 
-Every new topic and reply starts as pending and stays out of published
-conversations. My submissions shows its local status. Report hides a post for
-the reader and adds a reason to the local review queue. Block hides an author's
-topics and replies, with an undo control. Preview tools demonstrate manual
-approval, rejection and report resolution. They are explicitly not production
-moderator access. AI screening, public posting, real member identities, backend
-forum storage and moderation notifications are not connected.
+Topics and replies are stored through authenticated Supabase RPCs and remain
+pending until authorized staff approve them. Members can report, block, unblock
+and remove their own posts. Staff have a separate queue and optional advisory
+AI checks. Account changes clear cached community data. Failed submissions keep
+the draft. Live API failures never fall back to sample conversations.
 
-All Community changes remain in memory and reset when the app reloads. Do not
-enter sensitive information into a shared preview. Existing Confession screens,
-recorders, playback components and service modules remain unchanged.
+Local examples require EXPO_PUBLIC_COMMUNITY_DEMO=true without a Supabase connection.
+That mode is labelled and uses memory only. Keep the flag false in real builds.
+The new migration and optional AI function require deployment and a real moderator
+account before public use. See [Community deployment notes](docs/COMMUNITY.md).

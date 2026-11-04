@@ -102,6 +102,14 @@ test("blocking hides author topics and replies and can be undone", () => {
   );
   assert.equal(canReadPost(state, state.topics[0].replies[0]), false);
 });
+test("demo deletion removes only your post and removes a topic with its replies", () => {
+  let state=initialDiscussions();
+  assert.equal(act(state,{type:'delete',postId:'light'}),state);
+  state=act(state,{type:'topic',title:'My topic',body:'My words',perspective:'Open discussion'});
+  const id=state.topics[0].id;
+  state=act(state,{type:'delete',postId:id});
+  assert.equal(state.topics.some(t=>t.id===id),false);
+});
 test("verse links keep exact collection IDs, including different Psalm numbering", () => {
   assert.notEqual(verseKey("brenton:PSA.22.1"), verseKey("web:PSA.22.1"));
   const state = initialDiscussions();
