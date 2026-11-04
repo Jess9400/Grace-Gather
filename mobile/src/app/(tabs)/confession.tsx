@@ -1,23 +1,50 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import {
+  useFocusEffect,
+  useNavigation,
+  useLocalSearchParams,
+  router,
+} from "expo-router";
 import {
   Text,
   View,
-  ScrollView,
   Pressable,
   StyleSheet,
   Platform,
   Alert,
+  AccessibilityInfo,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Ionicons } from "@expo/vector-icons";
 import { useApp } from "../../lib/state";
 import { copy } from "../../lib/content";
 import { backend } from "../../lib/backend";
 import { confessionAPI, Confession } from "../../lib/confession";
 import { removeAudio } from "../../lib/storage";
-import { Button, Body, Field, Notice, Row, Chip } from "../../components/ui";
+import {
+  Screen,
+  SurfaceTheme,
+  Card,
+  Button,
+  Body,
+  Field,
+  Notice,
+  Row,
+  Chip,
+  colors,
+  s as sharedStyles,
+} from "../../components/ui";
+import {
+  ActionCard,
+  Disclosure,
+  TextAction,
+} from "../../components/QuietControls";
+import { designCopy } from "../../lib/design-copy";
 import Recorder from "../../components/Recorder";
 import AudioPlayback from "../../components/AudioPlayback";
 import ConfessionAudio from "../../components/ConfessionAudio";
+import ConfessionalDoor from "../../components/ConfessionalDoor";
+import { confessionColors as room } from "../../lib/confession-theme";
+import { prepareWalnutTexture } from "../../lib/confessional-texture";
 type Page =
   "room" | "share" | "list" | "mine" | "detail" | "success" | "review";
 const themes = [
@@ -34,17 +61,25 @@ export default function ConfessionRoom() {
   const { profile } = useApp(),
     language = profile.language,
     t = (key: string) => copy(language, key);
+  const navigation = useNavigation();
+  const { view } = useLocalSearchParams<{ view?: string }>();
+  const d = (key: Parameters<typeof designCopy>[1]) =>
+    designCopy(language, key);
+  const [themeOpen, setThemeOpen] = useState(false),
+    [responseOpen, setResponseOpen] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(true);
   const [page, setPage] = useState<Page>("room"),
+    [entering, setEntering] = useState(false),
     [body, setBody] = useState(""),
     [theme, setTheme] = useState("loneliness"),
     [responseType, setResponseType] = useState("listen"),
     [consent, setConsent] = useState(false),
+    [audienceDetailsOpen, setAudienceDetailsOpen] = useState(false),
     [audio, setAudio] = useState<string>(),
     [recording, setRecording] = useState(false),
     [textInstead, setTextInstead] = useState(false),
     [busy, setBusy] = useState(false),
     [error, setError] = useState(""),
-    [moderator, setModerator] = useState(false),
     [items, setItems] = useState<Confession[]>([]),
     [reserved, setReserved] = useState<Confession[]>([]),
     [detail, setDetail] = useState<Confession | null>(null),
@@ -54,20 +89,78 @@ export default function ConfessionRoom() {
     [notes, setNotes] = useState<Record<string, string>>({}),
     [success, setSuccess] = useState("share"),
     [support, setSupport] = useState(false);
+  const enterRoom = useCallback(() => {
+    setEntering(false);
+    setPage("share");
+  }, []);
+  const cancelEntrance = useCallback(() => {
+    setEntering(false);
+    setPage("room");
+  }, []);
+  useFocusEffect(useCallback(() => () => setEntering(false), []));
+  function startEntrance() {
+    setPage("share");
+    setEntering(!reducedMotion);
+  }
   useEffect(() => {
+    let active = true,
+      changed = false;
+    void AccessibilityInfo.isReduceMotionEnabled()
+      .then((value) => {
+        if (active && !changed) setReducedMotion(value);
+      })
+      .catch(() => {});
+    const sub = AccessibilityInfo.addEventListener(
+      "reduceMotionChanged",
+      (value) => {
+        changed = true;
+        setReducedMotion(value);
+      },
+    );
+    void prepareWalnutTexture().catch(() => {});
+    return () => {
+      active = false;
+      sub.remove();
+    };
+  }, []);
+  useEffect(() => {
+    navigation.setOptions({
+      tabBarHideOnKeyboard: page === "share",
+      tabBarStyle:
+        page === "share"
+          ? { backgroundColor: room.background, borderTopColor: room.line }
+          : { backgroundColor: colors.paper, borderTopColor: colors.line },
+      tabBarActiveTintColor: page === "share" ? room.accent : colors.green,
+      tabBarInactiveTintColor: page === "share" ? room.muted : colors.inactive,
+    });
+  }, [navigation, page]);
+  useEffect(() => {
+    if (view !== "review") return;
     let active = true;
-    if (backend)
-      void confessionAPI("status")
-        .then((r) => {
-          if (active) setModerator(r.moderator);
-        })
-        .catch(() => {});
+    // The API verifies moderator authorization; the account link is only navigation.
+    void confessionAPI("queue", { language })
+      .then((result) => {
+        if (!active) return;
+        setError("");
+        setItems(result.items);
+        setReserved([]);
+        setReport(null);
+        setPage("review");
+      })
+      .catch(() => {
+        if (active) setError(copy(language, "cError"));
+      })
+      .finally(() => {
+        if (active) {
+          router.setParams({ view: "" });
+        }
+      });
     return () => {
       active = false;
     };
-  }, []);
+  }, [view, language]);
   async function run(fn: () => Promise<void>) {
-    if (busy || recording) return;
+    if (busy || recording || view === "review") return;
     setBusy(true);
     setError("");
     try {
@@ -125,21 +218,20 @@ export default function ConfessionRoom() {
     setPage("success");
   }
   const btn = (key: string, onPress: () => void, quiet = false) => (
-    <Pressable
-      accessibilityRole="button"
-      accessibilityState={{ disabled: busy || recording }}
-      disabled={busy || recording}
+    <Button
+      title={t(key)}
+      disabled={busy || view === "review" || recording || entering}
       onPress={onPress}
-      style={[s.button, quiet && s.quiet]}
-    >
-      <Text style={[s.buttonText, quiet && s.ivory]}>{t(key)}</Text>
-    </Pressable>
+      secondary={quiet}
+    />
   );
   const status = (x: Confession) => (
     <Text style={s.status}>
       {t(
         x.status === "pending"
-          ? (x.kind === "reply" ? "cReplyPending" : "cPending")
+          ? x.kind === "reply"
+            ? "cReplyPending"
+            : "cPending"
           : x.status === "reported"
             ? "cReported"
             : x.status === "rejected"
@@ -157,7 +249,7 @@ export default function ConfessionRoom() {
     </View>
   );
   const card = (x: Confession) => (
-    <View style={s.paper}>
+    <Card>
       {meta(x)}
       {!!x.body && (
         <Text selectable style={s.confession}>
@@ -171,7 +263,7 @@ export default function ConfessionRoom() {
           {x.signals?.join(" · ") || "Routine review"} · {x.priority}
         </Body>
       )}
-    </View>
+    </Card>
   );
   function remove() {
     const action = () =>
@@ -188,486 +280,500 @@ export default function ConfessionRoom() {
       ]);
   }
   return (
-    <SafeAreaView style={s.safe} edges={["top", "left", "right"]}>
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={s.page}
+    <>
+      <View
+        style={{ flex: 1 }}
+        accessibilityElementsHidden={entering}
+        importantForAccessibility={entering ? "no-hide-descendants" : "auto"}
+        aria-hidden={entering}
       >
-        <Text style={s.brand}>GRACE & GATHER</Text>
-        {page !== "room" &&
-          btn(
-            "cBack",
-            () => {
-              setPage("room");
-              setReport(null);
-            },
-            true,
-          )}
-        {!backend && <Text style={s.note}>{t("cOffline")}</Text>}
-        {!!error && <Notice text={error} />}{" "}
-        {busy && (
-          <Text accessibilityLiveRegion="polite" style={s.note}>
-            {t("cLoading")}
-          </Text>
-        )}
-        {page === "room" && (
-          <>
-            <View style={s.entrance}>
-              <Text style={s.lattice} accessibilityElementsHidden>
-                ╳╳{"\n"}╳╳
-              </Text>
-              <Text style={s.eyebrow}>{t("confession")}</Text>
-              <Text accessibilityRole="header" style={s.title}>
-                {t("cTitle")}
-              </Text>
-              <Text style={s.intro}>{t("cIntro")}</Text>
-            </View>
-            <Pressable
-              accessibilityRole="button"
-              onPress={() => setPage("share")}
-              style={s.door}
-            >
-              <Text style={s.doorTitle}>{t("cShare")} ↗</Text>
-              <Text style={s.doorBody}>{t("cShareSub")}</Text>
-            </Pressable>
-            <Pressable
-              accessibilityRole="button"
-              onPress={() => void run(() => load("list"))}
-              style={[s.door, s.doorDark]}
-            >
-              <Text style={[s.doorTitle, s.ivory]}>{t("cOffer")} ↗</Text>
-              <Text style={[s.doorBody, s.ivory]}>{t("cOfferSub")}</Text>
-            </Pressable>
-            <Text style={s.disclaimer}>{t("cDisclaimer")}</Text>
-            {btn("cMine", () => void run(() => load("mine")), true)}
-            {moderator &&
-              btn("cReview", () => void run(() => load("review")), true)}
-          </>
-        )}
-        {page === "share" && (
-          <>
-            <Text accessibilityRole="header" style={s.title}>
-              {t("cShare")}
-            </Text>
-            <View style={s.paper}>
-              <Text style={s.subheading}>{t("cAudienceTitle")}</Text>
-              <Body small>{t("cAudience")}</Body>
-              <Body small>{t("cOneReply")}</Body>
-              <Text style={s.label}>{t("cTheme")}</Text>
-              <Row>
-                {themes.map((k) => (
-                  <Chip
-                    key={k}
-                    title={t("c_" + k)}
-                    selected={theme === k}
-                    onPress={() => setTheme(k)}
-                  />
-                ))}
-              </Row>
-              <Text style={s.label}>{t("cResponse")}</Text>
-              <Row>
-                {responses.map((k) => (
-                  <Chip
-                    key={k}
-                    title={t("c_" + k)}
-                    selected={responseType === k}
-                    onPress={() => setResponseType(k)}
-                  />
-                ))}
-              </Row>
-              <Field
-                label={t("cBody")}
-                value={body}
-                onChangeText={setBody}
-                multiline
-                maxLength={3000}
-                placeholder={t("cPlaceholder")}
+        <SurfaceTheme palette={page === "share" ? room : null}>
+          <Screen quiet={page === "share"} keyboardAware={page === "share"}>
+            {page !== "room" && (
+              <TextAction
+                title={t("cBack")}
+                icon="arrow-back"
+                disabled={busy || view === "review" || recording}
+                onPress={() => {
+                  setEntering(false);
+                  setPage("room");
+                  setReport(null);
+                }}
               />
-              <Text style={s.label}>{t("cAudio")}</Text>
-              <Body small>{t("cAudioNotice")}</Body>
-              <Recorder
-                language={language}
-                value={audio}
-                onChange={setAudio}
-                onBusyChange={setRecording}
-              />
-              {audio && (
-                <>
-                  <AudioPlayback id={audio} language={language} />
-                  <Button
-                    secondary
-                    title={t("cTextInstead")}
-                    onPress={() => {
-                      void removeAudio(audio).then(() => {
-                        setAudio(undefined);
-                        setTextInstead(true);
-                      });
-                    }}
-                  />
-                </>
-              )}
-              {textInstead && <Body small>{t("cTextHelp")}</Body>}
-              <Pressable
-                accessibilityRole="checkbox"
-                accessibilityState={{ checked: consent }}
-                onPress={() => setConsent(!consent)}
-                style={s.check}
-              >
-                <Text style={s.checkMark}>{consent ? "☑" : "□"}</Text>
-                <Text style={s.consent}>{t("cConsent")}</Text>
-              </Pressable>
-              {btn("cSubmit", () => void run(share))}
-            </View>
-          </>
-        )}
-        {page === "success" && (
-          <>
-            <Text style={s.title}>
-              {t(success === "reply" ? "cReplySent" : "cSuccess")}
-            </Text>
-            {success !== "reply" && <Text style={s.intro}>{t("cAfter")}</Text>}
-            <Text style={s.note}>{t(success === "reply" ? "cReplyPending" : "cPending")}</Text>
-            {support && <Text style={s.note}>{t("cSupport")}</Text>}
-            {btn("cMine", () => void run(() => load("mine")))}
-          </>
-        )}
-        {page === "list" && (
-          <>
-            <Text style={s.title}>{t("cChoose")}</Text>
-            <Text style={s.intro}>{t("cChooseSub")}</Text>
-            {reserved.map((x) => (
-              <View key={x.id} style={s.paper}>
-                {meta(x)}
-                <Body small>
-                  {t("cReserved")}{" "}
-                  {new Date(x.reservedUntil!).toLocaleString(language)}
-                </Body>
-                {btn("cResume", () => void run(() => open(x.id)))}
-              </View>
-            ))}
-            {items.length ? (
-              items.map((x) => (
-                <Pressable
-                  key={x.id}
-                  accessibilityRole="button"
-                  style={s.paper}
-                  onPress={() => void run(() => open(x.id, true))}
-                >
-                  {meta(x)}
-                  <Text style={s.status}>
-                    {t(x.hasAudio ? "cAudio" : "cBody")} ↗
-                  </Text>
-                </Pressable>
-              ))
-            ) : (
-              <Text style={s.note}>{t("cEmpty")}</Text>
             )}
-            {btn("cRefresh", () => void run(() => load("list")), true)}
-          </>
-        )}
-        {page === "mine" && (
-          <>
-            <Text style={s.title}>{t("cMine")}</Text>
-            {items.length ? (
-              items.map((x) => (
-                <Pressable
-                  key={x.id}
-                  accessibilityRole="button"
-                  onPress={() => void run(() => open(x.id))}
-                  style={s.paper}
-                >
-                  {meta(x)}
-                  <Text style={s.subheading}>
-                    {t(x.kind === "reply" ? "cOffer" : "cShare")}
-                  </Text>
-                  {status(x)}
-                  {x.thanked && <Body small>{t("cReceivedThanks")}</Body>}
-                </Pressable>
-              ))
-            ) : (
-              <Text style={s.note}>{t("cNoMine")}</Text>
+            {!backend && <Text style={s.note}>{t("cOffline")}</Text>}
+            {!!error && <Notice text={error} />}
+            {(busy || view === "review") && (
+              <Text accessibilityLiveRegion="polite" style={s.note}>
+                {t("cLoading")}
+              </Text>
             )}
-            {btn("cRefresh", () => void run(() => load("mine")), true)}
-          </>
-        )}
-        {page === "detail" && detail && (
-          <>
-            {card(detail)}
-            {detail.mine && detail.kind === "confession" ? (
+            {page === "room" && (
               <>
-                {!detail.closed &&
-                  btn(
-                    "cClose",
-                    () =>
-                      void run(async () => {
-                        await confessionAPI("close", { id: detail.id });
-                        await open(detail.id);
-                      }),
-                    true,
+                <View style={{ gap: 12, paddingTop: 12, paddingBottom: 10 }}>
+                  <Ionicons
+                    name="grid-outline"
+                    size={25}
+                    color={colors.gold}
+                    accessible={false}
+                  />
+                  <Text accessibilityRole="header" style={s.title}>
+                    {t("confession")}
+                  </Text>
+                  <Body>{d("confessionIntro")}</Body>
+                </View>
+                <View style={{ gap: 12 }}>
+                  <ActionCard
+                    title={t(body.trim() || audio ? "cReturnDraft" : "cShare")}
+                    description={d("shareHint")}
+                    icon="create-outline"
+                    primary
+                    disabled={busy || view === "review" || recording}
+                    onPress={startEntrance}
+                  />
+                  <ActionCard
+                    title={t("cOffer")}
+                    description={d("comfortHint")}
+                    icon="ear-outline"
+                    disabled={busy || view === "review" || recording}
+                    onPress={() => void run(() => load("list"))}
+                  />
+                  <TextAction
+                    title={t("cMine")}
+                    icon="mail-open-outline"
+                    disabled={busy}
+                    onPress={() => void run(() => load("mine"))}
+                  />
+                </View>
+                <View style={{ marginTop: 6, gap: 4 }}>
+                  <Body small>{d("peerSupport")}</Body>
+                  <Disclosure title={d("aboutSpace")}>
+                    <Body small>{t("cDisclaimer")}</Body>
+                  </Disclosure>
+                </View>
+              </>
+            )}
+            {page === "share" && (
+              <>
+                <View style={{ gap: 10 }}>
+                  <Text
+                    accessibilityRole="header"
+                    style={[s.title, { color: room.ink }]}
+                  >
+                    {t("cShare")}
+                  </Text>
+                  <Body small>{d("audienceSummary")}</Body>
+                  <Disclosure
+                    title={t("cAudienceDetails")}
+                    open={audienceDetailsOpen}
+                    onToggle={() =>
+                      setAudienceDetailsOpen(!audienceDetailsOpen)
+                    }
+                  >
+                    <Body small>{t("cAudience")}</Body>
+                    <Body small>{t("cOneReply")}</Body>
+                  </Disclosure>
+                </View>
+                <View style={{ gap: 8 }}>
+                  <Field
+                    label={t("cBody")}
+                    hideLabel
+                    value={body}
+                    onChangeText={setBody}
+                    multiline
+                    maxLength={3000}
+                    placeholder={t("cPlaceholder")}
+                    style={{ minHeight: 220, lineHeight: 26 }}
+                  />
+                  {Platform.OS !== "web" && (
+                    <Disclosure
+                      title={t("cAudio")}
+                      disabled={recording || !!audio}
+                    >
+                      <Body small>{t("cAudioNotice")}</Body>
+                      <Recorder
+                        language={language}
+                        value={audio}
+                        onChange={setAudio}
+                        onBusyChange={setRecording}
+                      />
+                      {audio && (
+                        <>
+                          <AudioPlayback id={audio} language={language} />
+                          <TextAction
+                            title={t("cTextInstead")}
+                            icon="create-outline"
+                            onPress={() => {
+                              void removeAudio(audio).then(() => {
+                                setAudio(undefined);
+                                setTextInstead(true);
+                              });
+                            }}
+                          />
+                        </>
+                      )}
+                      {textInstead && <Body small>{t("cTextHelp")}</Body>}
+                    </Disclosure>
                   )}
-                {btn("cDelete", remove, true)}
-                {reply && (
+                </View>
+                <View>
+                  <Disclosure
+                    title={t("cTheme")}
+                    summary={t("c_" + theme)}
+                    open={themeOpen}
+                    onToggle={() => setThemeOpen(!themeOpen)}
+                  >
+                    <Row>
+                      {themes.map((k) => (
+                        <Chip
+                          key={k}
+                          title={t("c_" + k)}
+                          selected={theme === k}
+                          onPress={() => {
+                            setTheme(k);
+                            setThemeOpen(false);
+                          }}
+                        />
+                      ))}
+                    </Row>
+                  </Disclosure>
+                  <Disclosure
+                    title={t("cResponse")}
+                    summary={t("c_" + responseType)}
+                    open={responseOpen}
+                    onToggle={() => setResponseOpen(!responseOpen)}
+                  >
+                    <Row>
+                      {responses.map((k) => (
+                        <Chip
+                          key={k}
+                          title={t("c_" + k)}
+                          selected={responseType === k}
+                          onPress={() => {
+                            setResponseType(k);
+                            setResponseOpen(false);
+                          }}
+                        />
+                      ))}
+                    </Row>
+                  </Disclosure>
+                </View>
+                <View style={{ gap: 8 }}>
+                  <Pressable
+                    accessibilityRole="checkbox"
+                    accessibilityLabel={t("cConsent")}
+                    accessibilityState={{ checked: consent }}
+                    onPress={() => setConsent(!consent)}
+                    style={s.check}
+                  >
+                    <Ionicons
+                      name={consent ? "checkbox" : "square-outline"}
+                      size={25}
+                      color={room.ink}
+                      accessible={false}
+                    />
+                    <Text style={s.consent}>{t("cConsent")}</Text>
+                  </Pressable>
+                  {btn("cSubmit", () => void run(share))}
+                </View>
+              </>
+            )}
+            {page === "success" && (
+              <>
+                <Text style={s.title}>
+                  {t(success === "reply" ? "cReplySent" : "cSuccess")}
+                </Text>
+                {success !== "reply" && (
+                  <Text style={s.intro}>{t("cAfter")}</Text>
+                )}
+                <Text style={s.note}>
+                  {t(success === "reply" ? "cReplyPending" : "cPending")}
+                </Text>
+                {support && <Text style={s.note}>{t("cSupport")}</Text>}
+                {btn("cMine", () => void run(() => load("mine")))}
+              </>
+            )}
+            {page === "list" && (
+              <>
+                <Text style={s.title}>{t("cChoose")}</Text>
+                <Text style={s.intro}>{t("cChooseSub")}</Text>
+                {reserved.map((x) => (
+                  <Card key={x.id}>
+                    {meta(x)}
+                    <Body small>
+                      {t("cReserved")}{" "}
+                      {new Date(x.reservedUntil!).toLocaleString(language)}
+                    </Body>
+                    {btn("cResume", () => void run(() => open(x.id)))}
+                  </Card>
+                ))}
+                {items.length ? (
+                  items.map((x) => (
+                    <Pressable
+                      key={x.id}
+                      accessibilityRole="button"
+                      onPress={() => void run(() => open(x.id, true))}
+                    >
+                      <Card>
+                        {meta(x)}
+                        <Text style={s.status}>
+                          {t(x.hasAudio ? "cAudio" : "cBody")} ↗
+                        </Text>
+                      </Card>
+                    </Pressable>
+                  ))
+                ) : (
+                  <Text style={s.note}>{t("cEmpty")}</Text>
+                )}
+                {btn("cRefresh", () => void run(() => load("list")), true)}
+              </>
+            )}
+            {page === "mine" && (
+              <>
+                <Text style={s.title}>{t("cMine")}</Text>
+                {items.length ? (
+                  items.map((x) => (
+                    <Pressable
+                      key={x.id}
+                      accessibilityRole="button"
+                      onPress={() => void run(() => open(x.id))}
+                    >
+                      <Card>
+                        {meta(x)}
+                        <Text style={s.subheading}>
+                          {t(x.kind === "reply" ? "cOffer" : "cShare")}
+                        </Text>
+                        {status(x)}
+                        {x.thanked && <Body small>{t("cReceivedThanks")}</Body>}
+                      </Card>
+                    </Pressable>
+                  ))
+                ) : (
+                  <Text style={s.note}>{t("cNoMine")}</Text>
+                )}
+                {btn("cRefresh", () => void run(() => load("mine")), true)}
+              </>
+            )}
+            {page === "detail" && detail && (
+              <>
+                {card(detail)}
+                {detail.mine && detail.kind === "confession" ? (
                   <>
-                    {card(reply)}
-                    {reply.status === "approved" && (
+                    {!detail.closed &&
+                      btn(
+                        "cClose",
+                        () =>
+                          void run(async () => {
+                            await confessionAPI("close", { id: detail.id });
+                            await open(detail.id);
+                          }),
+                        true,
+                      )}
+                    {btn("cDelete", remove, true)}
+                    {reply && (
                       <>
-                        {!reply.thanked ? (
-                          btn(
-                            "cThank",
-                            () =>
-                              void run(async () => {
-                                await confessionAPI("thank", { id: reply.id });
-                                await open(detail.id);
-                              }),
-                          )
-                        ) : (
-                          <Text style={s.note}>{t("cThanked")}</Text>
-                        )}
-                        {btn("cReport", () => setReport(reply.id), true)}
-                        {btn(
-                          "cBlock",
-                          () =>
-                            void run(async () => {
-                              await confessionAPI("block", { id: reply.id });
-                              setError(t("cBlocked"));
-                            }),
-                          true,
+                        {card(reply)}
+                        {reply.status === "approved" && (
+                          <>
+                            {!reply.thanked ? (
+                              btn(
+                                "cThank",
+                                () =>
+                                  void run(async () => {
+                                    await confessionAPI("thank", {
+                                      id: reply.id,
+                                    });
+                                    await open(detail.id);
+                                  }),
+                              )
+                            ) : (
+                              <Text style={s.note}>{t("cThanked")}</Text>
+                            )}
+                            {btn("cReport", () => setReport(reply.id), true)}
+                            {btn(
+                              "cBlock",
+                              () =>
+                                void run(async () => {
+                                  await confessionAPI("block", {
+                                    id: reply.id,
+                                  });
+                                  setError(t("cBlocked"));
+                                }),
+                              true,
+                            )}
+                          </>
                         )}
                       </>
                     )}
                   </>
-                )}
-              </>
-            ) : !detail.mine && detail.kind === "confession" ? (
-              <>
-                <Text style={s.note}>
-                  {t("cReserved")}{" "}
-                  {new Date(detail.reservedUntil!).toLocaleString(language)}
-                  {"\n"}
-                  {t("cReservedNote")}
-                </Text>
-                <View style={s.paper}>
-                  <Text style={s.subheading}>{t("cListen")}</Text>
-                  <Body>{t("cListenSub")}</Body>
-                  <Field
-                    label={t("cReplyLabel")}
-                    value={draft}
-                    onChangeText={setDraft}
-                    multiline
-                    maxLength={3000}
-                  />
-                  {btn(
-                    "cOffer",
-                    () =>
-                      void run(async () => {
-                        if (draft.trim().length < 3) {
-                          setError(t("cNeed"));
-                          return;
-                        }
-                        const r = await confessionAPI("reply", {
-                          id: detail.id,
-                          body: draft,
-                          theme: detail.theme,
-                          responseType: detail.responseType,
-                          language: detail.language,
-                          consent: true,
-                        });
-                        setDraft("");
-                        setSuccess("reply");
-                        setSupport(r.supportSuggested);
-                        setPage("success");
-                      }),
-                  )}
-                </View>
-                {btn("cReport", () => setReport(detail.id), true)}
-                {btn(
-                  "cBlock",
-                  () =>
-                    void run(async () => {
-                      await confessionAPI("block", { id: detail.id });
-                      await load("list");
-                      setError(t("cBlocked"));
-                    }),
-                  true,
-                )}
-              </>
-            ) : null}
-          </>
-        )}
-        {report && (
-          <View style={s.paper}>
-            <Text style={s.subheading}>{t("cReportTitle")}</Text>
-            {["unkind", "pressure", "danger", "privacy", "other"].map((k) => (
-              <Button
-                key={k}
-                secondary
-                title={t("c_" + k)}
-                onPress={() =>
-                  void run(async () => {
-                    await confessionAPI("report", { id: report, reason: k });
-                    await load("mine");
-                    setError(t("cReported"));
-                  })
-                }
-              />
-            ))}
-            <Button
-              secondary
-              title={t("cancel")}
-              onPress={() => setReport(null)}
-            />
-          </View>
-        )}
-        {page === "review" && (
-          <>
-            <Text style={s.title}>{t("cReview")}</Text>
-            <Text style={s.intro}>{t("cReviewIntro")}</Text>
-            <Text style={s.note}>{t("cSupport")}</Text>
-            {items.map((x) => (
-              <View key={x.id}>
-                {card(x)}
-                <View style={s.paper}>
-                  <Field
-                    label={t("cNote")}
-                    value={notes[x.id] || ""}
-                    onChangeText={(value) =>
-                      setNotes((n) => ({ ...n, [x.id]: value }))
-                    }
-                  />
-                  {["approved", "rejected"].map((decision) => (
-                    <Button
-                      key={decision}
-                      secondary
-                      title={t(
-                        decision === "approved" ? "cApprove" : "cReject",
+                ) : !detail.mine && detail.kind === "confession" ? (
+                  <>
+                    <Text style={s.note}>
+                      {t("cReserved")}{" "}
+                      {new Date(detail.reservedUntil!).toLocaleString(language)}
+                      {"\n"}
+                      {t("cReservedNote")}
+                    </Text>
+                    <Card>
+                      <Text style={s.subheading}>{t("cListen")}</Text>
+                      <Body>{t("cListenSub")}</Body>
+                      <Field
+                        label={t("cReplyLabel")}
+                        value={draft}
+                        onChangeText={setDraft}
+                        multiline
+                        maxLength={3000}
+                      />
+                      {btn(
+                        "cOffer",
+                        () =>
+                          void run(async () => {
+                            if (draft.trim().length < 3) {
+                              setError(t("cNeed"));
+                              return;
+                            }
+                            const r = await confessionAPI("reply", {
+                              id: detail.id,
+                              body: draft,
+                              theme: detail.theme,
+                              responseType: detail.responseType,
+                              language: detail.language,
+                              consent: true,
+                            });
+                            setDraft("");
+                            setSuccess("reply");
+                            setSupport(r.supportSuggested);
+                            setPage("success");
+                          }),
                       )}
+                    </Card>
+                    {btn("cReport", () => setReport(detail.id), true)}
+                    {btn(
+                      "cBlock",
+                      () =>
+                        void run(async () => {
+                          await confessionAPI("block", { id: detail.id });
+                          await load("list");
+                          setError(t("cBlocked"));
+                        }),
+                      true,
+                    )}
+                  </>
+                ) : null}
+              </>
+            )}
+            {report && (
+              <Card>
+                <Text style={s.subheading}>{t("cReportTitle")}</Text>
+                {["unkind", "pressure", "danger", "privacy", "other"].map(
+                  (k) => (
+                    <Button
+                      key={k}
+                      secondary
+                      title={t("c_" + k)}
                       onPress={() =>
                         void run(async () => {
-                          await confessionAPI("moderate", {
-                            id: x.id,
-                            decision,
-                            note: notes[x.id] || "",
+                          await confessionAPI("report", {
+                            id: report,
+                            reason: k,
                           });
-                          await load("review");
+                          await load("mine");
+                          setError(t("cReported"));
                         })
                       }
                     />
-                  ))}
-                </View>
-              </View>
-            ))}
-            {btn("cRefresh", () => void run(() => load("review")), true)}
-          </>
-        )}
-      </ScrollView>
-    </SafeAreaView>
+                  ),
+                )}
+                <Button
+                  secondary
+                  title={t("cancel")}
+                  onPress={() => setReport(null)}
+                />
+              </Card>
+            )}
+            {page === "review" && (
+              <>
+                <Text style={s.title}>{t("cReview")}</Text>
+                <Text style={s.intro}>{t("cReviewIntro")}</Text>
+                <Text style={s.note}>{t("cSupport")}</Text>
+                {items.map((x) => (
+                  <View key={x.id}>
+                    {card(x)}
+                    <Card>
+                      <Field
+                        label={t("cNote")}
+                        value={notes[x.id] || ""}
+                        onChangeText={(value) =>
+                          setNotes((n) => ({ ...n, [x.id]: value }))
+                        }
+                      />
+                      {["approved", "rejected"].map((decision) => (
+                        <Button
+                          key={decision}
+                          secondary
+                          title={t(
+                            decision === "approved" ? "cApprove" : "cReject",
+                          )}
+                          onPress={() =>
+                            void run(async () => {
+                              await confessionAPI("moderate", {
+                                id: x.id,
+                                decision,
+                                note: notes[x.id] || "",
+                              });
+                              await load("review");
+                            })
+                          }
+                        />
+                      ))}
+                    </Card>
+                  </View>
+                ))}
+                {btn("cRefresh", () => void run(() => load("review")), true)}
+              </>
+            )}
+          </Screen>
+        </SurfaceTheme>
+      </View>
+      {entering && (
+        <ConfessionalDoor
+          language={language}
+          onEntered={enterRoom}
+          onCancel={cancelEntrance}
+        />
+      )}
+    </>
   );
 }
 const s = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: "#211d19" },
-  page: {
-    padding: 22,
-    paddingBottom: 40,
-    gap: 16,
-    maxWidth: 620,
-    width: "100%",
-    alignSelf: "center",
-  },
-  brand: {
-    color: "#d8c6ab",
-    fontSize: 11,
-    letterSpacing: 2.3,
-    marginBottom: 12,
-  },
-  entrance: { alignItems: "center", gap: 20, paddingVertical: 16 },
-  lattice: { fontSize: 25, lineHeight: 20, color: "#c9a06b", letterSpacing: 4 },
-  eyebrow: {
-    color: "#c9a877",
-    letterSpacing: 2.5,
-    fontSize: 11,
-    textTransform: "uppercase",
-  },
-  title: {
-    fontFamily: Platform.OS === "android" ? "serif" : "Georgia",
-    color: "#f4ecde",
-    fontSize: 36,
-    lineHeight: 43,
-    letterSpacing: -0.5,
-  },
-  intro: { color: "#dbcfbe", fontSize: 16, lineHeight: 27 },
-  door: {
-    backgroundColor: "#eee2ce",
-    borderColor: "#bda482",
-    borderWidth: 1,
-    borderRadius: 19,
-    padding: 23,
-    gap: 12,
-    minHeight: 127,
-    justifyContent: "center",
-  },
-  doorDark: { backgroundColor: "#302820", borderColor: "#796044" },
-  doorTitle: {
-    fontFamily: Platform.OS === "android" ? "serif" : "Georgia",
-    fontSize: 25,
-    color: "#342a22",
-  },
-  doorBody: { fontSize: 14, lineHeight: 23, color: "#42372c" },
-  ivory: { color: "#f0e4cf" },
-  disclaimer: { fontSize: 12, lineHeight: 21, color: "#c6b6a1", marginTop: 8 },
-  button: {
-    backgroundColor: "#d9b887",
-    borderRadius: 13,
-    padding: 15,
-    minHeight: 49,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  buttonText: {
-    color: "#30251b",
-    fontSize: 14,
-    fontWeight: "600",
-    textAlign: "center",
-  },
-  quiet: { backgroundColor: "transparent" },
-  paper: {
-    backgroundColor: "#f2e8d7",
-    padding: 22,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: "#c5ac87",
-    gap: 14,
-  },
-  subheading: {
-    fontFamily: Platform.OS === "android" ? "serif" : "Georgia",
-    fontSize: 24,
-    lineHeight: 31,
-    color: "#352d26",
-  },
-  label: { color: "#352d26", fontSize: 13, fontWeight: "600", marginTop: 12 },
+  title: { ...sharedStyles.heading },
+  intro: { ...sharedStyles.body },
+  subheading: { ...sharedStyles.subheading, color: colors.cardInk },
   tags: { flexDirection: "row", flexWrap: "wrap", gap: 7 },
   tag: {
-    color: "#584632",
+    color: colors.cardInk,
     fontSize: 12,
+    lineHeight: 18,
     borderWidth: 1,
-    borderColor: "#b09c7f",
+    borderColor: colors.cardLine,
     borderRadius: 16,
     paddingVertical: 6,
     paddingHorizontal: 10,
   },
-  status: { color: "#62513e", fontSize: 12, lineHeight: 20 },
+  status: { color: colors.cardMuted, fontSize: 13, lineHeight: 20 },
   confession: {
     fontFamily: Platform.OS === "android" ? "serif" : "Georgia",
-    color: "#352d26",
+    color: colors.cardInk,
     fontSize: 22,
     lineHeight: 36,
   },
-  note: { color: "#dcc8a9", fontSize: 13, lineHeight: 22 },
+  note: { color: colors.muted, fontSize: 13, lineHeight: 22 },
   check: {
     flexDirection: "row",
     gap: 10,
     alignItems: "flex-start",
     paddingVertical: 12,
+    minHeight: 49,
   },
-  checkMark: { fontSize: 25, color: "#624a2e" },
-  consent: { flex: 1, fontSize: 13, lineHeight: 22, color: "#463627" },
+  consent: { flex: 1, fontSize: 13, lineHeight: 22, color: room.ink },
 });

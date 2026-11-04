@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useClock } from "../../lib/use-clock";
+import { useEffect, useState } from "react";
 import { useLocalSearchParams } from "expo-router";
 import {
   Screen,
@@ -6,55 +7,85 @@ import {
   Body,
   Button,
   Notice,
-} from "../../components/quiet-ui";
-import GatheringRoom, { RoomAccess } from "../../components/GatheringRoom";
-import { requireUser } from "../../lib/backend";
+  Busy,
+} from "../../components/community-ui";
+import RoomControls from "../../components/RoomControls";
+import { useAudioRoom } from "../../lib/audio-room";
+import { gathering, Gathering } from "../../lib/gatherings";
+import { storyText } from "../../lib/discover";
 import { useApp } from "../../lib/state";
-import { copy } from "../../lib/content";
-import { label } from "../../lib/labels";
-export default function Gathering() {
-  const { id } = useLocalSearchParams<{ id: string }>(),
-    { profile } = useApp();
-  const [access, setAccess] = useState<RoomAccess>(),
+import { communityCopy } from "../../lib/community-copy";
+export default function GatheringPage() {
+  const now = useClock();
+  const { id, invite } = useLocalSearchParams<{
+      id: string;
+      invite?: string;
+    }>(),
+    { profile } = useApp(),
+    audio = useAudioRoom(),
+    c = (k: string) => communityCopy(profile.language, k);
+  const [item, setItem] = useState<Gathering | null>(null),
     [error, setError] = useState(""),
-    [busy, setBusy] = useState(false);
-  async function join() {
-    setBusy(true);
-    try {
-      const { client } = await requireUser();
-      const { data, error } = await client.functions.invoke("gathering-token", {
-        body: { gatheringId: id, action: "join" },
+    [loading, setLoading] = useState(true);
+  useEffect(() => {
+    let active = true;
+    void gathering("details", { id, invite })
+      .then((data) => {
+        if (active) setItem(data);
+      })
+      .catch(() => {
+        if (active) setError("gatheringUnavailable");
+      })
+      .finally(() => {
+        if (active) setLoading(false);
       });
-      if (error) throw error;
-      setAccess(data);
-    } catch {
-      setError(
-        "The room is unavailable. Join within 10 minutes of the scheduled start. A reservation and a configured host are required.",
-      );
-    } finally {
-      setBusy(false);
-    }
-  }
+    return () => {
+      active = false;
+    };
+  }, [id, invite]);
   return (
     <Screen back>
-      <Heading>{copy(profile.language, "gather")}</Heading>
-      <Body>{copy(profile.language, "groupBoundary")}</Body>
-      <Notice text={error} />
-      {access ? (
-        <GatheringRoom id={id} access={access} />
-      ) : (
+      <Heading>
+        {item ? storyText(item.title, profile.language) : c("gatherings")}
+      </Heading>
+      <Notice text={c(error)} />
+      {loading && <Busy />}
+      {item && (
         <>
-          <Body>{label(profile.language, "communityRules")}</Body>
+          <Body>{storyText(item.description, profile.language)}</Body>
           <Body small>
-            By joining, you agree to the community rules. Your microphone starts
-            off. Other participants can hear what you choose to share; avoid
-            sharing private information.
+            {item.host_name} · {item.topic} · {item.language.toUpperCase()}
           </Body>
-          <Button
-            disabled={busy}
-            title={label(profile.language, "join")}
-            onPress={() => void join()}
-          />
+          {audio.session?.id === id ? (
+            <RoomControls />
+          ) : (
+            <>
+              <Body small>
+                {new Date(item.starts_at).toLocaleString(profile.language, {
+                  timeZone: item.timezone,
+                })}{" "}
+                · {item.timezone}
+              </Body>
+              <Notice text={c(audio.notice)} />
+              <Body>{c("joinNotice")}</Body>
+              {audio.session && <Body small>{c("switchRoom")}</Body>}
+              {item.status === "ended" || Date.parse(item.ends_at) <= now ? (
+                <Body>{c("ended")}</Body>
+              ) : (
+                <Button
+                  title={c(
+                    audio.busy
+                      ? "connecting"
+                      : Date.parse(item.starts_at) > now
+                        ? "not_started"
+                        : "joinMuted",
+                  )}
+                  disabled={audio.busy || Date.parse(item.starts_at) > now}
+                  onPress={() => void audio.join(id, invite)}
+                />
+              )}
+            </>
+          )}
         </>
       )}
     </Screen>

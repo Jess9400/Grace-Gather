@@ -1,3 +1,6 @@
+import { View } from "react-native";
+import { AudioRoomProvider } from "../lib/audio-room";
+import ActiveRoomBar from "../components/ActiveRoomBar";
 import { Stack, useSegments } from "expo-router";
 import { QuietProvider } from "../lib/quiet-state";
 import { StatusBar } from "expo-status-bar";
@@ -27,41 +30,50 @@ function Routes() {
   return (
     <>
       <StatusBar style={legacy ? "light" : "dark"} />
-      <Stack
-        screenOptions={{
-          headerShown: false,
-          contentStyle: { backgroundColor: legacy ? colors.paper : "#FFFCF3" },
-        }}
-      >
-        <Stack.Screen name="onboarding" />
-        <Stack.Screen name="account" />
-        <Stack.Screen name="privacy" />
-        <Stack.Screen name="restore" />
-        <Stack.Protected
-          guard={hasAnsweredTraditionQuestion(profile)}
-          redirectTo="/onboarding"
+      <View style={{ flex: 1 }}>
+        <Stack
+          screenOptions={{
+            headerShown: false,
+            contentStyle: {
+              backgroundColor: legacy ? colors.paper : "#FFFCF3",
+            },
+          }}
         >
-          {[
-            "index",
-            "(tabs)",
-            "library",
-            "community",
-            "diary",
-            "entry/[id]",
-            "verse/[id]",
-            "preferences",
-            "giving",
-            "history",
-            "organizations",
-            "course/[id]",
-            "story/[id]",
-            "gathering/[id]",
-            "staff",
-          ].map((name) => (
-            <Stack.Screen key={name} name={name} />
-          ))}
-        </Stack.Protected>
-      </Stack>
+          <Stack.Screen name="onboarding" />
+          <Stack.Screen name="account" />
+          <Stack.Screen name="privacy" />
+          <Stack.Screen name="restore" />
+          <Stack.Protected
+            guard={hasAnsweredTraditionQuestion(profile)}
+            redirectTo="/onboarding"
+          >
+            {[
+              "index",
+              "(tabs)",
+              "library",
+              "community",
+              "diary",
+              "entry/[id]",
+              "verse/[id]",
+              "preferences",
+              "giving",
+              "history",
+              "organizations",
+              "course/[id]",
+              "story/[id]",
+              "gathering/[id]",
+              "gathering/create",
+              "testimonies/edit",
+              "testimonies/index",
+              "testimonies/review",
+              "staff",
+            ].map((name) => (
+              <Stack.Screen key={name} name={name} />
+            ))}
+          </Stack.Protected>
+        </Stack>
+      </View>
+      <ActiveRoomBar />
     </>
   );
 }
@@ -70,7 +82,9 @@ export default function Layout() {
     <AppProvider>
       <QuietProvider>
         <CommunityProvider>
-          <Routes />
+          <AudioRoomProvider>
+            <Routes />
+          </AudioRoomProvider>
         </CommunityProvider>
       </QuietProvider>
     </AppProvider>

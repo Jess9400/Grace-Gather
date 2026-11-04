@@ -1,0 +1,9 @@
+# Confessional walnut
+
+`walnut-albedo.jpg` is a locally bundled 1024 × 1024 warm antique walnut albedo texture (JPEG quality 90). Created with the built-in image generation tool using the user's `IMG_6054.JPG` as a timber-color reference, then resized and compressed for mobile. The photograph itself is not shipped. No runtime image service or remote texture is required.
+
+Generation prompt (built-in tool):
+
+> Use case: photorealistic-natural. Asset type: seamless wood albedo texture for the moving 3D confessional door in a mobile app. Reference image: use ONLY the timber color, richness and fine natural grain of the antique Catholic confessional in the attached photo. Create a new original square, edge-to-edge material swatch of warm medium-dark reddish walnut / aged chestnut heartwood, with nuanced russet brown and tobacco brown, realistic long irregular fine vertical grain, fine pores, occasional gentle cathedral grain figure. Hand-finished antique church furniture with a restrained satin finish, no glossy highlights. The wood must look real and richly colored like the reference, not gray, flat, orange plastic, or digitally drawn. Orthographic close-up material scan with even diffuse neutral light, no baked shadows, reflections or vignette, seamlessly tileable edges. Only timber surface filling the whole image, no door, no carvings, no planks/seams, no handles, no text, no watermark. 1024x1024 square. This is an original material inspired by the reference, not a crop of the photograph.
+
+The mesh samples the full photographic color, with grain oriented along its rails and stiles. Layered arch molding, turned columns, tall interwoven lattice, cut-corner lower panel, shallow boat relief, crown cross, lighting, hinge movement and aged-brass hardware are generated in code. The source PNG remains outside the repository; this optimized JPEG is the production asset.
