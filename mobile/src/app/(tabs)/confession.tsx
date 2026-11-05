@@ -1,3 +1,4 @@
+import { useInterfaceCopy } from "../../lib/use-interface-copy";
 import { StatusBar } from "expo-status-bar";
 import { useCallback, useEffect, useState } from "react";
 import {
@@ -59,6 +60,8 @@ const themes = [
   ],
   responses = ["listen", "encouragement", "prayer"];
 export default function ConfessionRoom() {
+  const tr = useInterfaceCopy();
+  const [needsSignIn, setNeedsSignIn] = useState(false);
   const { profile } = useApp(),
     language = profile.language,
     t = (key: string) => copy(language, key);
@@ -163,11 +166,21 @@ export default function ConfessionRoom() {
   async function run(fn: () => Promise<void>) {
     if (busy || recording || view === "review") return;
     setBusy(true);
+    setNeedsSignIn(false);
     setError("");
     try {
       await fn();
     } catch (e) {
       const msg = e instanceof Error ? e.message : "";
+      if (msg === "sign_in_required" || msg === "unauthorized") {
+        setNeedsSignIn(true);
+        setError(
+          tr(
+            "Sign in to offer comfort or share a confession. Your draft stays here.",
+          ),
+        );
+        return;
+      }
       setError(
         t(
           !backend
@@ -309,6 +322,12 @@ export default function ConfessionRoom() {
               </Text>
             )}
             {!!error && <Notice text={error} />}
+            {needsSignIn && (
+              <Button
+                title={tr("Sign in")}
+                onPress={() => router.push("/profile")}
+              />
+            )}
             {(busy || view === "review") && (
               <Text
                 accessibilityLiveRegion="polite"

@@ -1053,5 +1053,65 @@
     "pt": "Excluir dados ou conta",
     "es": "Eliminar datos o cuenta",
     "ru": "Удалить данные или аккаунт"
+  },
+  "My calendar": {
+    "pt": "Meu calendário",
+    "es": "Mi calendario",
+    "ru": "Мой календарь"
+  },
+  "Sign in": {
+    "pt": "Entrar",
+    "es": "Iniciar sesión",
+    "ru": "Войти"
+  },
+  "Sign in to offer comfort or share a confession. Your draft stays here.": {
+    "pt": "Entre para oferecer conforto ou compartilhar uma confissão. Seu rascunho continua aqui.",
+    "es": "Inicia sesión para ofrecer consuelo o compartir una confesión. Tu borrador sigue aquí.",
+    "ru": "Войдите, чтобы поддержать другого человека или поделиться признанием. Ваш черновик останется здесь."
+  },
+  "Sign in to see your calendar.": {
+    "pt": "Entre para ver seu calendário.",
+    "es": "Inicia sesión para ver tu calendario.",
+    "ru": "Войдите, чтобы увидеть свой календарь."
+  },
+  "Gatherings you have reserved or are hosting. Times are shown in your device’s timezone.": {
+    "pt": "Encontros que você reservou ou está organizando. Horários no fuso do seu dispositivo.",
+    "es": "Encuentros que has reservado u organizas. Horarios en la zona horaria de tu dispositivo.",
+    "ru": "Встречи, на которые вы записались или которые проводите. Время указано в часовом поясе устройства."
+  },
+  "No gatherings on this date.": {
+    "pt": "Nenhum encontro nesta data.",
+    "es": "No hay encuentros en esta fecha.",
+    "ru": "На эту дату встреч нет."
+  },
+  "You have no upcoming gatherings yet.": {
+    "pt": "Você ainda não tem encontros agendados.",
+    "es": "Aún no tienes encuentros próximos.",
+    "ru": "У вас пока нет предстоящих встреч."
+  },
+  "Browse gatherings": {
+    "pt": "Explorar encontros",
+    "es": "Explorar encuentros",
+    "ru": "Найти встречи"
+  },
+  "Unable to load your calendar. Please try again.": {
+    "pt": "Não foi possível carregar seu calendário. Tente novamente.",
+    "es": "No se pudo cargar tu calendario. Inténtalo de nuevo.",
+    "ru": "Не удалось загрузить календарь. Попробуйте ещё раз."
+  },
+  "Retry": {
+    "pt": "Tentar novamente",
+    "es": "Reintentar",
+    "ru": "Повторить"
+  },
+  "Clear date": {
+    "pt": "Limpar data",
+    "es": "Quitar fecha",
+    "ru": "Сбросить дату"
+  },
+  "View gathering": {
+    "pt": "Ver encontro",
+    "es": "Ver encuentro",
+    "ru": "Открыть встречу"
   }
 }
