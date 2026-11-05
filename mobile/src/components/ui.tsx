@@ -1,3 +1,4 @@
+import MemberAvatar from "./MemberAvatar";
 import React, { createContext, useContext } from "react";
 import {
   ScrollView,
@@ -138,11 +139,7 @@ export function Screen({
                   justifyContent: "center",
                 }}
               >
-                <Ionicons
-                  name="person-circle-outline"
-                  size={26}
-                  color={colors.ink}
-                />
+                <MemberAvatar />
               </Pressable>
             </View>
           )}

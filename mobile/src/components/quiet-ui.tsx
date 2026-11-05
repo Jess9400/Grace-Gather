@@ -1,3 +1,4 @@
+import MemberAvatar from "./MemberAvatar";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
 import React, { createContext, useContext } from "react";
 import {
@@ -73,11 +74,7 @@ export function Screen({
             onPress={() => router.push("/account")}
             style={{ marginLeft: "auto", padding: 8 }}
           >
-            <Ionicons
-              name="person-circle-outline"
-              size={26}
-              color={colors.ink}
-            />
+            <MemberAvatar />
           </Pressable>
         </View>
         {children}
@@ -354,7 +351,7 @@ export function Brand() {
         onPress={() => router.push("/account")}
         style={{ marginLeft: "auto", padding: 8 }}
       >
-        <Ionicons name="person-circle-outline" size={26} color={colors.ink} />
+        <MemberAvatar />
       </Pressable>
     </View>
   );
