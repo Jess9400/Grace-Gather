@@ -1008,5 +1008,50 @@
     "pt": "66 livros da editora. Esta fonte não inclui os livros adicionais da tradição ortodoxa.",
     "es": "66 libros de la editorial. Esta fuente no incluye los libros adicionales de la tradición ortodoxa.",
     "ru": "66 книг издания. Этот источник не включает дополнительные книги православной Библии."
+  },
+  "Your space": {
+    "pt": "Seu espaço",
+    "es": "Tu espacio",
+    "ru": "Ваше пространство"
+  },
+  "Profile": {
+    "pt": "Perfil",
+    "es": "Perfil",
+    "ru": "Профиль"
+  },
+  "My Journal": {
+    "pt": "Meu diário",
+    "es": "Mi diario",
+    "ru": "Мой дневник"
+  },
+  "Edit profile and preferences": {
+    "pt": "Editar perfil e preferências",
+    "es": "Editar perfil y preferencias",
+    "ru": "Изменить профиль и настройки"
+  },
+  "Privacy and support": {
+    "pt": "Privacidade e suporte",
+    "es": "Privacidad y soporte",
+    "ru": "Конфиденциальность и поддержка"
+  },
+  "My testimonies": {
+    "pt": "Meus testemunhos",
+    "es": "Mis testimonios",
+    "ru": "Мои свидетельства"
+  },
+  "Friends": {
+    "pt": "Amigos",
+    "es": "Amigos",
+    "ru": "Друзья"
+  },
+  "Friends are not available yet. You can join conversations in Community.": {
+    "pt": "Amigos ainda não está disponível. Você pode participar das conversas na Comunidade.",
+    "es": "Amigos aún no está disponible. Puedes participar en conversaciones en Comunidad.",
+    "ru": "Раздел друзей пока недоступен. Вы можете участвовать в обсуждениях сообщества."
+  },
+  "Delete data or account": {
+    "pt": "Excluir dados ou conta",
+    "es": "Eliminar datos o cuenta",
+    "ru": "Удалить данные или аккаунт"
   }
 }

@@ -115,7 +115,7 @@ const words = {
     "Guardar preferencias",
     "Сохранить настройки",
   ),
-  bible: L("Bible", "Bíblia", "Biblia", "Библия"),
+  bible: L("Bible Study", "Estudo bíblico", "Estudio bíblico", "Изучение Библии"),
   diary: L("Diary", "Diário", "Diario", "Дневник"),
   done: L(
     "I’m done writing",
