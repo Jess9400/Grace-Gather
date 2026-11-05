@@ -1,3 +1,4 @@
+import { useInterfaceCopy } from "../lib/use-interface-copy";
 import {
   Screen,
   Heading,
@@ -28,20 +29,21 @@ const organizations = [
   ],
 ];
 export default function Giving() {
+  const tr = useInterfaceCopy();
   const { profile } = useApp();
   return (
     <Screen back>
       <Heading>{q(profile.language, "giving")}</Heading>
       <Body>
-        These are examples, not confirmed partners. Giving happens on each
-        organization’s official website. Grace & Gather does not collect
-        payments.
+        {tr(
+          "These are examples, not confirmed partners. Giving happens on each organization’s official website. Grace & Gather does not collect payments.",
+        )}
       </Body>
       {organizations.map(([category, name, url]) => (
         <Card key={name}>
-          <Body small>{category}</Body>
+          <Body small>{tr(category)}</Body>
           <Subheading>{name}</Subheading>
-          <External title={`Visit ${name}`} url={url} />
+          <External title={`${tr("Visit")} ${name}`} url={url} />
         </Card>
       ))}
     </Screen>

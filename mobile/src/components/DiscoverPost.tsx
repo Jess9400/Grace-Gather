@@ -1,3 +1,4 @@
+import { interfaceCopy } from "../lib/interface-copy";
 import { testimonyCopy } from "../lib/testimony-copy";
 import { communityCopy } from "../lib/community-copy";
 import { View, Text, Pressable, Share } from "react-native";
@@ -103,6 +104,15 @@ export default function DiscoverPost({
         gap: 12,
       }}
     >
+      {(!item.title?.[profile.language] ||
+        !item.summary?.[profile.language]) && (
+        <Body small>
+          {interfaceCopy(
+            profile.language,
+            "Translation is not available for this item. The original text is shown.",
+          )}
+        </Body>
+      )}
       <View style={{ flexDirection: "row", gap: 10, alignItems: "center" }}>
         <View
           style={{
@@ -124,7 +134,9 @@ export default function DiscoverPost({
         </View>
         <View style={{ flex: 1 }}>
           <Text style={{ color: colors.ink, fontSize: 13, fontWeight: "600" }}>
-            {item.origin === "community" && item.anonymous ? testimonyCopy(profile.language,"anonymousName") : item.source || "Grace & Gather"}
+            {item.origin === "community" && item.anonymous
+              ? testimonyCopy(profile.language, "anonymousName")
+              : item.source || "Grace & Gather"}
           </Text>
           <Text style={{ color: colors.inactive, fontSize: 11, marginTop: 3 }}>
             {item.origin === "community"

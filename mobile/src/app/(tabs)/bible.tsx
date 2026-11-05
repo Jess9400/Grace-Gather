@@ -1,4 +1,5 @@
-import { useRef, useState, useCallback } from "react";
+import { useInterfaceCopy } from "../../lib/use-interface-copy";
+import { useRef, useState, useCallback, useEffect } from "react";
 import {
   View,
   Text,
@@ -18,6 +19,7 @@ import { q } from "../../lib/quiet-copy";
 import { data } from "../../lib/content";
 import {
   collections,
+  ensureCollection,
   collectionFor,
   CollectionId,
   chapterRows,
@@ -29,11 +31,52 @@ import {
 export default function Bible() {
   const { profile } = useApp();
   const collection = collectionFor(profile);
+  const tr = useInterfaceCopy();
+  const [loaded, setLoaded] = useState<string | null>(null),
+    [failedCollection, setFailed] = useState<string | null>(null),
+    [attempt, setAttempt] = useState(0);
+  useEffect(() => {
+    let active = true;
+    if (collection)
+      void ensureCollection(collection)
+        .then(() => {
+          if (active) setLoaded(collection);
+        })
+        .catch(() => {
+          if (active) setFailed(collection);
+        });
+    return () => {
+      active = false;
+    };
+  }, [collection, attempt]);
+  if (collection && loaded !== collection)
+    return (
+      <SafeAreaView style={s.safe}>
+        <Brand />
+        <Body>
+          {tr(
+            failedCollection === collection
+              ? "Could not load this Bible. Please try again."
+              : "Loading your Bible…",
+          )}
+        </Body>
+        {failedCollection === collection && (
+          <Button
+            title={tr("Try again")}
+            onPress={() => {
+              setFailed(null);
+              setAttempt((n) => n + 1);
+            }}
+          />
+        )}
+      </SafeAreaView>
+    );
   return (
     <BibleReader key={collection ?? profile.edition} collection={collection} />
   );
 }
 function BibleReader({ collection }: { collection: CollectionId | null }) {
+  const tr = useInterfaceCopy();
   const { profile } = useApp(),
     lang = profile.language,
     { height } = useWindowDimensions();
@@ -98,6 +141,21 @@ function BibleReader({ collection }: { collection: CollectionId | null }) {
     },
     [bibleIndex, collection],
   );
+  if (!edition)
+    return (
+      <SafeAreaView style={s.safe}>
+        <Brand />
+        <Body>
+          {tr(
+            "No Bible is available for this language and tradition yet. Choose another edition explicitly; we will not substitute English.",
+          )}
+        </Body>
+        <Button
+          title={tr("Choose a supported edition")}
+          onPress={() => router.push("/preferences")}
+        />
+      </SafeAreaView>
+    );
   return (
     <SafeAreaView style={s.safe} edges={["top", "left", "right"]}>
       <View style={s.header}>
@@ -126,8 +184,10 @@ function BibleReader({ collection }: { collection: CollectionId | null }) {
                 ? "WEB"
                 : collection === "dra"
                   ? "DRA"
-                  : "LXX + WEB NT"
-              : (edition?.name ?? "Unavailable")}
+                  : collection === "brenton"
+                    ? "LXX + WEB NT"
+                    : bibleIndex.edition
+              : (edition?.name ?? tr("Unavailable"))}
           </Text>
         </View>
         <View
@@ -150,6 +210,13 @@ function BibleReader({ collection }: { collection: CollectionId | null }) {
           </Pressable>
         </View>
         {!full && <Body small>{q(lang, "limited")}</Body>}
+        {collection === "synodal" && (
+          <Body small>
+            {tr(
+              "Synodal source: 66 books. Additional Orthodox books are not included in this publisher’s file.",
+            )}
+          </Body>
+        )}
         <Text style={s.source}>
           {full ? bibleIndex.edition : edition?.scope}
         </Text>
@@ -179,7 +246,7 @@ function BibleReader({ collection }: { collection: CollectionId | null }) {
             <Text style={s.scripture}>{item.text}</Text>
             {!item.text && item.notes.length > 0 && (
               <View style={{ gap: 10 }}>
-                <Body small>Publisher note</Body>
+                <Body small>{tr("Publisher note")}</Body>
                 {item.notes.map((note, i) => (
                   <Body key={i}>{note}</Body>
                 ))}
@@ -196,7 +263,7 @@ function BibleReader({ collection }: { collection: CollectionId | null }) {
         ListHeaderComponent={
           full && collection !== "web" ? (
             <View style={{ paddingVertical: 12 }}>
-              <Body small>{bibleIndex.coverageNote}</Body>
+              <Body small>{tr(bibleIndex.coverageNote ?? "")}</Body>
             </View>
           ) : undefined
         }
@@ -204,7 +271,7 @@ function BibleReader({ collection }: { collection: CollectionId | null }) {
           <View style={{ padding: 25, gap: 16 }}>
             <Body>{q(lang, "limited")}</Body>
             <Button
-              title="Account and settings"
+              title={tr("Account and settings")}
               onPress={() => router.push("/preferences")}
             />
           </View>

@@ -1,3 +1,4 @@
+import { useInterfaceCopy } from "../lib/use-interface-copy";
 import { useRef } from "react";
 import {
   View,
@@ -20,6 +21,7 @@ export default function ChapterWindow({
   verses: BibleVerse[];
   selectedNumber?: string;
 }) {
+  const tr = useInterfaceCopy();
   const { height } = useWindowDimensions();
   const scroll = useRef<ScrollViewInstance>(null),
     positioned = useRef(false);
@@ -27,12 +29,12 @@ export default function ChapterWindow({
     <View testID="chapter-window" style={s.frame}>
       <View style={s.header}>
         <Text style={s.title}>{title}</Text>
-        <Text style={s.hint}>Scroll to read</Text>
+        <Text style={s.hint}>{tr("Scroll to read")}</Text>
       </View>
       <ScrollView
         ref={scroll}
         testID="chapter-scroll"
-        accessibilityLabel="Chapter text"
+        accessibilityLabel={tr("Chapter text")}
         nestedScrollEnabled
         directionalLockEnabled
         bounces={false}

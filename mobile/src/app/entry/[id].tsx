@@ -1,3 +1,4 @@
+import { useInterfaceCopy } from "../../lib/use-interface-copy";
 import { useState, useRef } from "react";
 import {
   View,
@@ -36,6 +37,7 @@ interface Turn {
   support: boolean;
 }
 export default function EntryScreen() {
+  const tr = useInterfaceCopy();
   const { id } = useLocalSearchParams<{ id: string }>(),
     { entries, profile } = useApp(),
     { update } = useQuiet();
@@ -50,7 +52,9 @@ export default function EntryScreen() {
     [expanded, setExpanded] = useState(false),
     [error, setError] = useState(""),
     [message, setMessage] = useState(
-      "Hey, I’ve had a lot on my mind. Do you have a little time to talk or keep me company?",
+      tr(
+        "Hey, I’ve had a lot on my mind. Do you have a little time to talk or keep me company?",
+      ),
     ),
     [done, setDone] = useState<number[]>([]);
   if (!entry)
@@ -185,7 +189,7 @@ export default function EntryScreen() {
             </Pressable>
             <Pressable
               accessibilityRole="button"
-              accessibilityLabel="Conversation options"
+              accessibilityLabel={tr("Conversation options")}
               onPress={() => setMenu(true)}
               style={s.more}
             >
@@ -238,7 +242,9 @@ export default function EntryScreen() {
             {entry.text.length > 500 && (
               <Button
                 secondary
-                title={expanded ? "Fold this page" : "Read the full page"}
+                title={
+                  expanded ? tr("Fold this page") : tr("Read the full page")
+                }
                 onPress={() => setExpanded(!expanded)}
               />
             )}
@@ -282,7 +288,7 @@ export default function EntryScreen() {
             />
             <Pressable
               accessibilityRole="button"
-              accessibilityLabel="Send message"
+              accessibilityLabel={tr("Send message")}
               onPress={send}
               style={s.send}
             >
@@ -359,8 +365,9 @@ export default function EntryScreen() {
                   />
                   <Body small>{q(lang, "privacy")}</Body>
                   <Body small>
-                    Replies use curated passages and limited local matching.
-                    They are not a live conversation with a person or AI.
+                    {tr(
+                      "Replies use curated passages and limited local matching. They are not a live conversation with a person or AI.",
+                    )}
                   </Body>
                   {entry.aiUnavailable && <Body>{aiCopy(lang, "failed")}</Body>}
                 </>
@@ -368,7 +375,7 @@ export default function EntryScreen() {
                 <>
                   <Text style={s.title}>{q(lang, "talk")}</Text>
                   <TextInput
-                    accessibilityLabel="Your message"
+                    accessibilityLabel={tr("Your message")}
                     value={message}
                     onChangeText={setMessage}
                     multiline
@@ -376,15 +383,18 @@ export default function EntryScreen() {
                     style={s.message}
                   />
                   <Body small>
-                    Nothing is sent automatically. Edit this draft and choose
-                    whether to share it.
+                    {tr(
+                      "Nothing is sent automatically. Edit this draft and choose whether to share it.",
+                    )}
                   </Body>
                   <Button
-                    title="Share draft"
+                    title={tr("Share draft")}
                     onPress={() =>
                       void Share.share({ message }).catch(() =>
                         setError(
-                          "The share sheet could not open. You can select and copy your message.",
+                          tr(
+                            "The share sheet could not open. You can select and copy your message.",
+                          ),
                         ),
                       )
                     }
@@ -394,9 +404,9 @@ export default function EntryScreen() {
                 <>
                   <Text style={s.title}>{q(lang, "kindness")}</Text>
                   {[
-                    "Send someone a sincere thank-you.",
-                    "Offer help with one small, practical task.",
-                    "Give yourself a quiet minute. Rest counts, too.",
+                    tr("Send someone a sincere thank-you."),
+                    tr("Offer help with one small, practical task."),
+                    tr("Give yourself a quiet minute. Rest counts, too."),
                   ].map((text, i) => (
                     <Pressable
                       key={text}
