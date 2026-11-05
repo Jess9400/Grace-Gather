@@ -72,11 +72,6 @@ export default function Explore() {
           icon="create-outline"
           onPress={() => router.push("/testimonies/edit")}
         />
-        <TextAction
-          title={c("myTestimonies")}
-          icon="person-outline"
-          onPress={() => router.push("/testimonies")}
-        />
       </View>
       <Field
         label="Search Discover"
