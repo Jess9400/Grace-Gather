@@ -1,4 +1,4 @@
-import { requireUser } from "./backend";
+import { requireBackend } from "./backend";
 import { uploadConfession } from "./confession-upload";
 export interface Confession {
   id: string;
@@ -32,7 +32,9 @@ export async function confessionAPI(
   values: Record<string, unknown> = {},
   audio?: string,
 ): Promise<ConfessionResult> {
-  const { client } = await requireUser();
+  const client = requireBackend();
+  const { data: auth, error: authError } = await client.auth.getUser();
+  if (!auth.user || authError) throw Error("sign_in_required");
   if (audio) {
     const {
       data: { session },
@@ -45,7 +47,8 @@ export async function confessionAPI(
     body,
   });
   if (error) {
-    let code = "unavailable";
+    let code =
+      error.context?.status === 401 ? "sign_in_required" : "unavailable";
     try {
       code = (await error.context?.json())?.error || code;
     } catch {}

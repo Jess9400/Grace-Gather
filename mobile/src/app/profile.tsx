@@ -116,6 +116,11 @@ export default function Profile() {
         title={tr("My testimonies")}
         onPress={() => router.push("/testimonies")}
       />
+      <Button
+        secondary
+        title={tr("My calendar")}
+        onPress={() => router.push("/my-calendar")}
+      />
       <Disclosure title={tr("Friends")}>
         <Body>
           {tr(
@@ -128,7 +133,7 @@ export default function Profile() {
           onPress={() => router.push("/community")}
         />
       </Disclosure>
-      <Disclosure title={l("account")}>
+      <Disclosure title={l("account")} initiallyOpen={!signedIn}>
         <Card>
           <Subheading>{signedIn ? l("welcomeBack") : l("signIn")}</Subheading>
           <Body small>{l("optionalAccount")}</Body>
