@@ -1,3 +1,4 @@
+import { useInterfaceCopy } from "../lib/use-interface-copy";
 import { useEffect, useState } from "react";
 import { View, Text, Pressable, ScrollView, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -32,6 +33,7 @@ export default function Community() {
   return <CommunityScreen key={userId ?? "signed-out"} />;
 }
 function CommunityScreen() {
+  const tr = useInterfaceCopy();
   const params = useLocalSearchParams<{ verse?: string }>();
   const linkedVerse = params.verse ? discussionVerseId(params.verse) : null;
   const verse = linkedVerse ? getReadingVerse(linkedVerse) : null;
@@ -106,40 +108,44 @@ function CommunityScreen() {
   };
   const statusLabel = (p: Post) =>
     p.status === "pending"
-      ? "Awaiting a safety check or held"
+      ? tr("Awaiting a safety check or held")
       : p.status === "removed"
-        ? "Not published"
+        ? tr("Not published")
         : demo
-          ? "Published in this preview"
-          : "Published";
+          ? tr("Published in this preview")
+          : tr("Published");
   const postContext = (p: Post) =>
     state.topics.find((t) => t.id === p.id)?.title ??
-    `Reply to ${state.topics.find((t) => t.replies.some((r) => r.id === p.id))?.title ?? "a conversation"}`;
+    `${tr("Reply to")} ${state.topics.find((t) => t.replies.some((r) => r.id === p.id))?.title ?? "a conversation"}`;
   function OwnRemoval(post: Post) {
     if (!own(post)) return null;
     return removing === post.id ? (
       <View style={{ gap: 10 }}>
         <Body small>
-          Remove this post? Removing a topic also removes its replies.
+          {tr("Remove this post? Removing a topic also removes its replies.")}
         </Body>
         <Button
           secondary
           disabled={busy}
-          title="Confirm removal"
+          title={tr("Confirm removal")}
           onPress={() =>
             void act({ type: "delete", postId: post.id }, () => {
               setRemoving(null);
-              setNotice("Your post was removed.");
+              setNotice(tr("Your post was removed."));
             })
           }
         />
-        <Button secondary title="Keep post" onPress={() => setRemoving(null)} />
+        <Button
+          secondary
+          title={tr("Keep post")}
+          onPress={() => setRemoving(null)}
+        />
       </View>
     ) : (
       <Button
         secondary
         disabled={busy}
-        title="Remove your post"
+        title={tr("Remove your post")}
         onPress={() => setRemoving(post.id)}
       />
     );
@@ -150,16 +156,16 @@ function CommunityScreen() {
       <View>
         {actionsFor === post.id && (
           <View style={s.actionPanel}>
-            <Text style={s.label}>Report this post</Text>
+            <Text style={s.label}>{tr("Report this post")}</Text>
             <Field
-              label="Reason for report"
+              label={tr("Reason for report")}
               value={reportReason}
               onChangeText={setReportReason}
-              placeholder="Tell us what concerns you"
+              placeholder={tr("Tell us what concerns you")}
               maxLength={300}
             />
             <Button
-              title="Send report"
+              title={tr("Send report")}
               disabled={!reportReason.trim() || busy}
               onPress={() =>
                 void act(
@@ -171,7 +177,9 @@ function CommunityScreen() {
                   () => {
                     setActionsFor(null);
                     setNotice(
-                      "Report sent for review. This post is hidden for you.",
+                      tr(
+                        "Report sent for review. This post is hidden for you.",
+                      ),
                     );
                   },
                 )
@@ -179,13 +187,15 @@ function CommunityScreen() {
             />
             <Button
               secondary
-              title={`Block ${post.name}`}
+              title={`${tr("Block")} ${post.name}`}
               disabled={busy}
               onPress={() =>
                 void act({ type: "block", author: post.author }, () => {
                   setActionsFor(null);
                   setNotice(
-                    `${post.name}'s posts and replies are hidden for you. You can undo this below.`,
+                    tr(
+                      "Posts and replies from this person are hidden for you. You can undo this below.",
+                    ),
                   );
                 })
               }
@@ -213,17 +223,17 @@ function CommunityScreen() {
             <Text style={s.small}>
               {own(post)
                 ? demo
-                  ? "Local preview submission"
-                  : "Your post"
+                  ? tr("Local preview submission")
+                  : tr("Your post")
                 : demo
-                  ? "Example conversation"
-                  : "Community member"}
+                  ? tr("Example conversation")
+                  : tr("Community member")}
             </Text>
           </View>
           {!own(post) && (
             <Pressable
               accessibilityRole="button"
-              accessibilityLabel={`Options for ${post.name}'s post`}
+              accessibilityLabel={`${tr("Options for")} ${post.name}`}
               onPress={() => {
                 setActionsFor(actionsFor === post.id ? null : post.id);
                 setReportReason("");
@@ -239,7 +249,7 @@ function CommunityScreen() {
           )}
         </View>
         {post.perspective !== "Open discussion" && (
-          <Text style={s.tag}>{post.perspective}</Text>
+          <Text style={s.tag}>{tr(post.perspective)}</Text>
         )}
         {opening && topic && (
           <Text accessibilityRole="header" style={s.threadTitle}>
@@ -257,7 +267,7 @@ function CommunityScreen() {
       <View style={s.header}>
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel="Back"
+          accessibilityLabel={tr("Back")}
           style={s.back}
           onPress={() =>
             mode !== "list"
@@ -268,7 +278,7 @@ function CommunityScreen() {
           }
         >
           <Ionicons name="chevron-back" size={21} color={colors.ink} />
-          <Text style={s.backText}>Back</Text>
+          <Text style={s.backText}>{tr("Back")}</Text>
         </Pressable>
         <Text style={s.brand}>GRACE & GATHER</Text>
         <Ionicons name="leaf-outline" size={21} color={colors.gold} />
@@ -286,8 +296,10 @@ function CommunityScreen() {
           />
           <Text style={s.small}>
             {demo
-              ? "Community preview · sample conversations · nothing is public"
-              : "Community · questions and reflections"}
+              ? tr(
+                  "Community preview · sample conversations · nothing is public",
+                )
+              : tr("Community · questions and reflections")}
           </Text>
         </View>
         <Notice text={error || notice} />
@@ -295,16 +307,17 @@ function CommunityScreen() {
           <Card>
             <Body>
               {connected
-                ? "Sign in to join the conversation."
-                : "Community is not connected on this build yet."}
+                ? tr("Sign in to join the conversation.")
+                : tr("Community is not connected on this build yet.")}
             </Body>
             <Body small>
-              Your private diary stays separate. Only the words you choose to
-              post are shared.
+              {tr(
+                "Your private diary stays separate. Only the words you choose to post are shared.",
+              )}
             </Body>
             <Button
               secondary
-              title="Account and sign in"
+              title={tr("Account and sign in")}
               onPress={() => router.push("/account")}
             />
           </Card>
@@ -313,23 +326,29 @@ function CommunityScreen() {
           <Button
             secondary
             disabled={busy}
-            title="Refresh conversations"
+            title={tr("Refresh conversations")}
             onPress={() => void reload(selected ?? undefined)}
           />
         )}
         {mode === "list" && (
           <>
             <Text accessibilityRole="header" style={s.heading}>
-              A little space{String.fromCharCode(10)}to listen.
+              {tr("A little space")}
+              {String.fromCharCode(10)}
+              {tr("to listen.")}
             </Text>
-            <Body>Questions, reflections and faith, shared gently.</Body>
+            <Body>
+              {tr("Questions, reflections and faith, shared gently.")}
+            </Body>
             {!demo && !automatic && (
               <Body small>
-                New submissions stay private while moderation is being prepared.
+                {tr(
+                  "New submissions stay private while moderation is being prepared.",
+                )}
               </Body>
             )}
             <View style={s.sectionBar}>
-              <Text style={s.sectionLabel}>COMMUNITY</Text>
+              <Text style={s.sectionLabel}>{tr("COMMUNITY")}</Text>
               <Pressable
                 accessibilityRole="button"
                 onPress={() =>
@@ -338,12 +357,12 @@ function CommunityScreen() {
                 style={s.newTopic}
               >
                 <Ionicons name="add" size={18} color={colors.white} />
-                <Text style={s.newTopicText}>New topic</Text>
+                <Text style={s.newTopicText}>{tr("New topic")}</Text>
               </Pressable>
             </View>
             <Row>
               <Chip
-                title="Conversations"
+                title={tr("Conversations")}
                 selected={filter === "all"}
                 onPress={() => setFilter("all")}
               />
@@ -355,7 +374,7 @@ function CommunityScreen() {
                 />
               )}
               <Chip
-                title={`My submissions${mine.length ? ` (${mine.length})` : ""}`}
+                title={`${tr("My submissions")}${mine.length ? ` (${mine.length})` : ""}`}
                 selected={filter === "mine"}
                 onPress={() => setFilter("mine")}
               />
@@ -363,15 +382,16 @@ function CommunityScreen() {
             {filter === "mine" ? (
               <>
                 <Body small>
-                  Posts that pass safety checks are published automatically.
-                  Anything uncertain stays private.
+                  {tr(
+                    "Posts that pass safety checks are published automatically. Anything uncertain stays private.",
+                  )}
                 </Body>
                 {!mine.length && (
                   <Card>
-                    <Body>You have not shared anything yet.</Body>
+                    <Body>{tr("You have not shared anything yet.")}</Body>
                     <Button
                       secondary
-                      title="Start a topic"
+                      title={tr("Start a topic")}
                       onPress={startTopic}
                     />
                   </Card>
@@ -386,7 +406,7 @@ function CommunityScreen() {
                       <Button
                         secondary
                         disabled={busy}
-                        title="Check publication"
+                        title={tr("Check publication")}
                         onPress={() => void moderate(p.id)}
                       />
                     )}
@@ -403,29 +423,35 @@ function CommunityScreen() {
                       color={colors.goldInk}
                     />
                     <Text style={s.small}>
-                      Reflections on {verse?.reference}. Community voices are
-                      personal interpretations.
+                      {tr("Reflections on")}
+                      {verse?.reference}
+                      {tr(". Community voices are personal interpretations.")}
                     </Text>
                   </View>
                 )}
                 {!topics.length && (
                   <Card>
                     <Text style={s.topicTitle}>
-                      There is room for your question.
+                      {tr("There is room for your question.")}
                     </Text>
                     <Body>
                       {verse && filter === "verse"
-                        ? "Be the first to start a conversation about this verse."
-                        : "Start with a question or a reflection."}
+                        ? tr(
+                            "Be the first to start a conversation about this verse.",
+                          )
+                        : tr("Start with a question or a reflection.")}
                     </Body>
-                    <Button title="Start a conversation" onPress={startTopic} />
+                    <Button
+                      title={tr("Start a conversation")}
+                      onPress={startTopic}
+                    />
                   </Card>
                 )}
                 {topics.map((t) => (
                   <Pressable
                     key={t.id}
                     accessibilityRole="button"
-                    accessibilityLabel={`Open ${t.title}`}
+                    accessibilityLabel={`${tr("Open")} ${t.title}`}
                     onPress={() => openThread(t.id)}
                     style={({ pressed }) => [
                       s.topicCard,
@@ -442,11 +468,11 @@ function CommunityScreen() {
                         {t.name} ·{" "}
                         {own(t)
                           ? demo
-                            ? "Your preview post"
-                            : "Your post"
+                            ? tr("Your preview post")
+                            : tr("Your post")
                           : demo
                             ? "Example"
-                            : "Community member"}
+                            : tr("Community member")}
                       </Text>
                       <View style={s.count}>
                         <Ionicons
@@ -471,27 +497,28 @@ function CommunityScreen() {
                 ))}
               </>
             )}
-            <Disclosure title="A kind space, together">
+            <Disclosure title={tr("A kind space, together")}>
               <Body>
-                Ask honestly. Disagree respectfully. No personal attacks,
-                threats, harassment, scams or private information. These are
-                community reflections, not reviewed study notes.
+                {tr(
+                  "Ask honestly. Disagree respectfully. No personal attacks, threats, harassment, scams or private information. These are community reflections, not reviewed study notes.",
+                )}
               </Body>
               <Body small>
-                Only what you type here can be shared. Your diary and chosen
-                faith stay separate. You choose any perspective label yourself.
+                {tr(
+                  "Only what you type here can be shared. Your diary and chosen faith stay separate. You choose any perspective label yourself.",
+                )}
               </Body>
             </Disclosure>
             {demo ? (
-              <Disclosure title="Preview tools">
+              <Disclosure title={tr("Preview tools")}>
                 <Body small>
-                  This demo uses local memory and manual review. AI screening,
-                  real accounts and public posting are not connected. Changes
-                  reset when the app reloads.
+                  {tr(
+                    "This demo uses local memory and manual review. AI screening, real accounts and public posting are not connected. Changes reset when the app reloads.",
+                  )}
                 </Body>
                 <Button
                   secondary
-                  title={`Open demo review queue (${pending.length + reports.length})`}
+                  title={`${tr("Open")} demo review queue (${pending.length + reports.length})`}
                   onPress={() => {
                     setNotice("");
                     setMode("review");
@@ -502,15 +529,16 @@ function CommunityScreen() {
               moderator && (
                 <Button
                   secondary
-                  title={`Moderation queue (${pending.length + reports.length})`}
+                  title={`${tr("Moderation queue")} (${pending.length + reports.length})`}
                   onPress={() => setMode("review")}
                 />
               )
             )}
             {!demo && limits && (
               <Body small>
-                Showing recent conversations and up to {limits.repliesPerTopic}{" "}
-                replies per conversation. Refresh for updates.
+                {tr("Showing recent conversations and up to")}
+                {limits.repliesPerTopic}{" "}
+                {tr("replies per conversation. Refresh for updates.")}
               </Body>
             )}
           </>
@@ -519,10 +547,12 @@ function CommunityScreen() {
           <>
             {!readable ? (
               <Card>
-                <Body>This conversation is hidden or no longer available.</Body>
+                <Body>
+                  {tr("This conversation is hidden or no longer available.")}
+                </Body>
                 <Button
                   secondary
-                  title="Back to conversations"
+                  title={tr("Back to conversations")}
                   onPress={goList}
                 />
               </Card>
@@ -544,7 +574,10 @@ function CommunityScreen() {
                       size={19}
                       color={colors.goldInk}
                     />
-                    <Text style={s.link}>Read {topic.reference}</Text>
+                    <Text style={s.link}>
+                      {tr("Read")}
+                      {topic.reference}
+                    </Text>
                     <Ionicons
                       name="chevron-forward"
                       size={17}
@@ -553,7 +586,7 @@ function CommunityScreen() {
                   </Pressable>
                 )}
                 {PublicPost({ post: topic, opening: true })}
-                <Text style={s.sectionLabel}>THE CONVERSATION</Text>
+                <Text style={s.sectionLabel}>{tr("THE CONVERSATION")}</Text>
                 {topic.replies
                   .filter((p) => canReadPost(state, p))
                   .map((p) => (
@@ -561,7 +594,7 @@ function CommunityScreen() {
                   ))}
                 {!topic.replies.some((p) => canReadPost(state, p)) && (
                   <Body small>
-                    No published replies yet. There is room for yours.
+                    {tr("No published replies yet. There is room for yours.")}
                   </Body>
                 )}
                 {topic.replies
@@ -569,7 +602,7 @@ function CommunityScreen() {
                   .map((p) => (
                     <Card key={p.id}>
                       <Text style={s.tag}>
-                        Awaiting a safety check or held · not public
+                        {tr("Awaiting a safety check or held · not public")}
                       </Text>
                       <Body>{p.body}</Body>
                       {OwnRemoval(p)}
@@ -580,7 +613,7 @@ function CommunityScreen() {
                           <Button
                             secondary
                             disabled={busy}
-                            title="Check publication"
+                            title={tr("Check publication")}
                             onPress={() => void moderate(p.id)}
                           />
                         )}
@@ -588,8 +621,8 @@ function CommunityScreen() {
                   ))}
                 <View style={s.composer}>
                   <Field
-                    label="Your reply"
-                    placeholder="Share a thought or ask a question…"
+                    label={tr("Your reply")}
+                    placeholder={tr("Share a thought or ask a question…")}
                     multiline
                     maxLength={2000}
                     value={reply}
@@ -597,8 +630,8 @@ function CommunityScreen() {
                   />
                   {!demo && (
                     <Field
-                      label="Public display name"
-                      placeholder="Choose a name for this post"
+                      label={tr("Public display name")}
+                      placeholder={tr("Choose a name for this post")}
                       value={alias}
                       onChangeText={setAlias}
                       maxLength={40}
@@ -607,20 +640,26 @@ function CommunityScreen() {
                   )}
                   <Body small>
                     {demo
-                      ? "Posted as You in this demo. Replies are held for review."
+                      ? tr(
+                          "Posted as You in this demo. Replies are held for review.",
+                        )
                       : automatic
-                        ? "Your display name and reply become public if they pass automated moderation."
-                        : "Automatic moderation is not active. This reply stays private."}
+                        ? tr(
+                            "Your display name and reply become public if they pass automated moderation.",
+                          )
+                        : tr(
+                            "Automatic moderation is not active. This reply stays private.",
+                          )}
                   </Body>
                   <Button
                     title={
                       busy
-                        ? "Checking..."
+                        ? tr("Checking...")
                         : demo
-                          ? "Send for review"
+                          ? tr("Send for review")
                           : automatic
-                            ? "Share"
-                            : "Save for review"
+                            ? tr("Share")
+                            : tr("Save for review")
                     }
                     disabled={!reply.trim() || !canPost}
                     onPress={() =>
@@ -635,8 +674,12 @@ function CommunityScreen() {
                           setReply("");
                           setNotice(
                             automatic
-                              ? "Your reply was submitted. Posts that pass the safety check appear automatically; others remain private."
-                              : "Your reply was saved privately while moderation is prepared.",
+                              ? tr(
+                                  "Your reply was submitted. Posts that pass the safety check appear automatically; others remain private.",
+                                )
+                              : tr(
+                                  "Your reply was saved privately while moderation is prepared.",
+                                ),
                           );
                         },
                       )
@@ -650,9 +693,11 @@ function CommunityScreen() {
         {mode === "compose" && (
           <>
             <Text accessibilityRole="header" style={s.heading}>
-              What is on{String.fromCharCode(10)}your heart?
+              {tr("What is on")}
+              {String.fromCharCode(10)}
+              {tr("your heart?")}
             </Text>
-            <Body>A question is a good place to begin.</Body>
+            <Body>{tr("A question is a good place to begin.")}</Body>
             {verse && filter === "verse" && (
               <View style={s.verseContext}>
                 <Ionicons
@@ -664,30 +709,33 @@ function CommunityScreen() {
               </View>
             )}
             <Field
-              label="Topic"
-              placeholder="Give your conversation a title"
+              label={tr("Topic")}
+              placeholder={tr("Give your conversation a title")}
               maxLength={100}
               value={title}
               onChangeText={setTitle}
             />
             <Field
-              label="Your words"
-              placeholder="Share only what you feel comfortable making public."
+              label={tr("Your words")}
+              placeholder={tr(
+                "Share only what you feel comfortable making public.",
+              )}
               multiline
               maxLength={2000}
               value={body}
               onChangeText={setBody}
             />
-            <Disclosure title={`Perspective: ${perspective}`}>
+            <Disclosure title={`${tr("Perspective")}: ${tr(perspective)}`}>
               <Body small>
-                Optional. This label describes the conversation, not your
-                profile.
+                {tr(
+                  "Optional. This label describes the conversation, not your profile.",
+                )}
               </Body>
               <Row>
                 {perspectives.map((p) => (
                   <Chip
                     key={p}
-                    title={p}
+                    title={tr(p)}
                     selected={perspective === p}
                     onPress={() => setPerspective(p)}
                   />
@@ -696,8 +744,8 @@ function CommunityScreen() {
             </Disclosure>
             {!demo && (
               <Field
-                label="Public display name"
-                placeholder="Choose a name for this post"
+                label={tr("Public display name")}
+                placeholder={tr("Choose a name for this post")}
                 value={alias}
                 onChangeText={setAlias}
                 maxLength={40}
@@ -706,20 +754,26 @@ function CommunityScreen() {
             )}
             <Body small>
               {demo
-                ? "Shared as You. Your diary is never attached. This preview holds every submission for manual review."
+                ? tr(
+                    "Shared as You. Your diary is never attached. This preview holds every submission for manual review.",
+                  )
                 : automatic
-                  ? "Your public name and words are checked automatically using Alibaba Cloud Qwen. Posts that pass appear to members; uncertain posts stay private. AI can make mistakes. Your diary and profile are never attached."
-                  : "Automatic moderation is not active. This submission stays private. Your diary and profile are never attached."}
+                  ? tr(
+                      "Your public name and words are checked automatically using Alibaba Cloud Qwen. Posts that pass appear to members; uncertain posts stay private. AI can make mistakes. Your diary and profile are never attached.",
+                    )
+                  : tr(
+                      "Automatic moderation is not active. This submission stays private. Your diary and profile are never attached.",
+                    )}
             </Body>
             <Button
               title={
                 busy
-                  ? "Checking..."
+                  ? tr("Checking...")
                   : demo
-                    ? "Send for review"
+                    ? tr("Send for review")
                     : automatic
-                      ? "Share"
-                      : "Save for review"
+                      ? tr("Share")
+                      : tr("Save for review")
               }
               disabled={!title.trim() || !body.trim() || !canPost}
               onPress={() =>
@@ -737,7 +791,9 @@ function CommunityScreen() {
                     setMode("list");
                     setFilter("mine");
                     setNotice(
-                      "Your topic was submitted. Check My submissions for its publication status.",
+                      tr(
+                        "Your topic was submitted. Check My submissions for its publication status.",
+                      ),
                     );
                   },
                 )
@@ -748,19 +804,26 @@ function CommunityScreen() {
         {mode === "review" && moderator && (
           <>
             <Text accessibilityRole="header" style={s.heading}>
-              {demo ? "Demo review" : "Moderation"}
+              {demo ? tr("Demo review") : tr("Moderation")}
             </Text>
             <Notice
               text={
                 demo
-                  ? "Preview tools only. You are trying a manual moderator workflow. No AI is connected, and these decisions affect only your local demo."
-                  : "Review the words in context. Automated moderation can make mistakes. These controls override publication only for authorized staff."
+                  ? tr(
+                      "Preview tools only. You are trying a manual moderator workflow. No AI is connected, and these decisions affect only your local demo.",
+                    )
+                  : tr(
+                      "Review the words in context. Automated moderation can make mistakes. These controls override publication only for authorized staff.",
+                    )
               }
             />
             <Text style={s.sectionLabel}>
-              AWAITING REVIEW · {pending.length}
+              {tr("AWAITING REVIEW ·")}
+              {pending.length}
             </Text>
-            {!pending.length && <Body small>No submissions waiting.</Body>}
+            {!pending.length && (
+              <Body small>{tr("No submissions waiting.")}</Body>
+            )}
             {pending.map((p) => (
               <Card key={p.id}>
                 <Text style={s.topicTitle}>{postContext(p)}</Text>
@@ -772,9 +835,10 @@ function CommunityScreen() {
                   <>
                     {p.screening && (
                       <View style={{ gap: 8 }}>
-                        <Text style={s.tag}>AI notes · advisory</Text>
+                        <Text style={s.tag}>{tr("AI notes · advisory")}</Text>
                         <Body small>
-                          {p.screening.flags.join(", ") || "No flags returned"}
+                          {p.screening.flags.join(", ") ||
+                            tr("No flags returned")}
                         </Body>
                         <Body>{p.screening.summary}</Body>
                       </View>
@@ -782,14 +846,14 @@ function CommunityScreen() {
                     <Button
                       secondary
                       disabled={busy}
-                      title="Check with AI"
+                      title={tr("Check with AI")}
                       onPress={() => void screen(p.id).then(setNotice)}
                     />
                   </>
                 )}
                 <Button
                   disabled={busy}
-                  title={demo ? "Approve in preview" : "Approve"}
+                  title={demo ? tr("Approve in preview") : tr("Approve")}
                   onPress={() =>
                     void act({ type: "review", postId: p.id, approve: true })
                   }
@@ -797,7 +861,7 @@ function CommunityScreen() {
                 <Button
                   secondary
                   disabled={busy}
-                  title="Do not publish"
+                  title={tr("Do not publish")}
                   onPress={() =>
                     void act({ type: "review", postId: p.id, approve: false })
                   }
@@ -805,16 +869,20 @@ function CommunityScreen() {
               </Card>
             ))}
             <Text style={s.sectionLabel}>
-              REPORTED CONTENT · {reports.length}
+              {tr("REPORTED CONTENT ·")}
+              {reports.length}
             </Text>
-            {!reports.length && <Body small>No reports waiting.</Body>}
+            {!reports.length && <Body small>{tr("No reports waiting.")}</Body>}
             {reports.map((r) => (
               <Card key={r.id}>
-                <Text style={s.tag}>Reason: {r.reason}</Text>
+                <Text style={s.tag}>
+                  {tr("Reason:")}
+                  {r.reason}
+                </Text>
                 <Body>{allPosts.find((p) => p.id === r.postId)?.body}</Body>
                 <Button
                   disabled={busy}
-                  title={demo ? "Remove in preview" : "Remove post"}
+                  title={demo ? tr("Remove in preview") : tr("Remove post")}
                   onPress={() =>
                     void act({ type: "resolve", reportId: r.id, remove: true })
                   }
@@ -822,7 +890,7 @@ function CommunityScreen() {
                 <Button
                   secondary
                   disabled={busy}
-                  title="Keep post and resolve report"
+                  title={tr("Keep post and resolve report")}
                   onPress={() =>
                     void act({ type: "resolve", reportId: r.id, remove: false })
                   }
@@ -832,12 +900,14 @@ function CommunityScreen() {
           </>
         )}
         {state.blocked.length > 0 && (
-          <Disclosure title={`Blocked people (${state.blocked.length})`}>
+          <Disclosure
+            title={`${tr("Blocked people")} (${state.blocked.length})`}
+          >
             {state.blocked.map((a) => (
               <Button
                 key={a}
                 secondary
-                title={`Unblock ${allPosts.find((p) => p.author === a)?.name ?? a}`}
+                title={`${tr("Unblock")} ${allPosts.find((p) => p.author === a)?.name ?? a}`}
                 onPress={() => void act({ type: "unblock", author: a })}
               />
             ))}

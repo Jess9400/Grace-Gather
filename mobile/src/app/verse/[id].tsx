@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useInterfaceCopy } from "../../lib/use-interface-copy";
+import { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -21,6 +22,7 @@ import Disclosure from "../../components/Disclosure";
 import ChapterWindow from "../../components/ChapterWindow";
 import {
   getReadingVerse,
+  ensureCollection,
   studyFor,
   getBook,
   readingLocation,
@@ -58,25 +60,67 @@ function Section({
 }
 export default function VerseStudy() {
   const { id } = useLocalSearchParams<{ id: string }>();
+  const tr = useInterfaceCopy();
+  const collection = readingLocation(id)?.collection;
+  const [loaded, setLoaded] = useState<string | null>(null),
+    [failedCollection, setFailed] = useState<string | null>(null),
+    [attempt, setAttempt] = useState(0);
+  useEffect(() => {
+    let active = true;
+    if (collection)
+      void ensureCollection(collection)
+        .then(() => {
+          if (active) setLoaded(collection);
+        })
+        .catch(() => {
+          if (active) setFailed(collection);
+        });
+    return () => {
+      active = false;
+    };
+  }, [collection, attempt]);
+  if (collection && loaded !== collection)
+    return (
+      <SafeAreaView style={s.safe}>
+        <Button title={tr("Back")} onPress={() => router.back()} />
+        <Body>
+          {tr(
+            failedCollection === collection
+              ? "Could not load this Bible. Please try again."
+              : "Loading your Bible…",
+          )}
+        </Body>
+        {failedCollection === collection && (
+          <Button
+            title={tr("Try again")}
+            onPress={() => {
+              setFailed(null);
+              setAttempt((n) => n + 1);
+            }}
+          />
+        )}
+      </SafeAreaView>
+    );
   return <StudyPage key={id} id={id} />;
 }
 function StudyPage({ id }: { id: string }) {
+  const tr = useInterfaceCopy();
   const { profile } = useApp(),
     lang = profile.language;
   const [layer, setLayer] = useState<Layer | null>(null);
   const reducedMotion = useReducedMotion();
   const verse = getReadingVerse(id),
-    study = studyFor(id);
+    study = lang === "en" ? studyFor(id) : undefined;
   if (!verse)
     return (
       <SafeAreaView style={s.safe}>
         <Button
-          title="Back"
+          title={tr("Back")}
           onPress={() =>
             router.canGoBack() ? router.back() : router.replace("/(tabs)/bible")
           }
         />
-        <Body>This passage is unavailable.</Body>
+        <Body>{tr("This passage is unavailable.")}</Body>
       </SafeAreaView>
     );
   const location = readingLocation(id),
@@ -97,28 +141,32 @@ function StudyPage({ id }: { id: string }) {
     "brenton:PSA.33.19",
     "dra:PSA.33.19",
   ].includes(id)
-    ? "This is Psalm 33 in this edition, corresponding to Psalm 34 in Hebrew-based numbering."
+    ? tr(
+        "This is Psalm 33 in this edition, corresponding to Psalm 34 in Hebrew-based numbering.",
+      )
     : study?.editionId === "brenton" && location?.code === "PSA"
-      ? "Psalm numbers follow the Septuagint edition shown above."
+      ? tr("Psalm numbers follow the Septuagint edition shown above.")
       : "";
   const question =
     study?.question ??
-    "What do I notice in this passage, and what question would I like to carry with me?";
+    tr(
+      "What do I notice in this passage, and what question would I like to carry with me?",
+    );
   const options = [
     {
       id: "simple" as const,
       icon: "leaf-outline" as const,
-      hint: "A gentle place to begin",
+      hint: tr("A gentle place to begin"),
     },
     {
       id: "deeper" as const,
       icon: "layers-outline" as const,
-      hint: "Context, meaning and daily life",
+      hint: tr("Context, meaning and daily life"),
     },
     {
       id: "theology" as const,
       icon: "sparkles-outline" as const,
-      hint: "Explore questions of faith",
+      hint: tr("Explore questions of faith"),
     },
   ];
   return (
@@ -127,7 +175,7 @@ function StudyPage({ id }: { id: string }) {
         <View style={s.topbar}>
           <Pressable
             accessibilityRole="button"
-            accessibilityLabel="Back"
+            accessibilityLabel={tr("Back")}
             onPress={() =>
               router.canGoBack()
                 ? router.back()
@@ -136,9 +184,9 @@ function StudyPage({ id }: { id: string }) {
             style={s.back}
           >
             <Ionicons name="chevron-back" size={20} color={colors.ink} />
-            <Text style={s.backText}>Back</Text>
+            <Text style={s.backText}>{tr("Back")}</Text>
           </Pressable>
-          <Text style={s.eyebrow}>BIBLE STUDY</Text>
+          <Text style={s.eyebrow}>{tr("BIBLE STUDY")}</Text>
         </View>
         <View style={s.headingGroup}>
           <Text accessibilityRole="header" style={s.reference}>
@@ -152,7 +200,7 @@ function StudyPage({ id }: { id: string }) {
               {verse.text}
             </Text>
           ) : (
-            <Body>Publisher note</Body>
+            <Body>{tr("Publisher note")}</Body>
           )}
           <View style={s.goldLine} />
         </View>
@@ -180,7 +228,7 @@ function StudyPage({ id }: { id: string }) {
           ))}
         </View>
         {chapterVerses && (
-          <Disclosure title="Read the whole chapter">
+          <Disclosure title={tr("Read the whole chapter")}>
             <ChapterWindow
               title={`${book?.book.name} ${location?.chapter}`}
               verses={chapterVerses}
@@ -188,7 +236,7 @@ function StudyPage({ id }: { id: string }) {
             />
             {location && (
               <External
-                title="Chapter source"
+                title={tr("Chapter source")}
                 url={chapterSource(
                   location.code,
                   location.chapter,
@@ -201,7 +249,9 @@ function StudyPage({ id }: { id: string }) {
         <Button
           secondary
           title={
-            discussionVerseId(id) ? "Discuss this verse" : "Explore Community"
+            discussionVerseId(id)
+              ? tr("Discuss this verse")
+              : tr("Explore Community")
           }
           onPress={() =>
             router.push({
@@ -211,19 +261,19 @@ function StudyPage({ id }: { id: string }) {
           }
         />
         <View style={s.further}>
-          <Text style={s.eyebrow}>AT YOUR OWN PACE</Text>
-          <Disclosure title="Sit with a question">
+          <Text style={s.eyebrow}>{tr("AT YOUR OWN PACE")}</Text>
+          <Disclosure title={tr("Sit with a question")}>
             <Text style={s.question}>{question}</Text>
             <Button
               secondary
-              title="Write in my diary"
+              title={tr("Write in my diary")}
               onPress={() => router.push("/(tabs)/diary")}
             />
           </Disclosure>
           <Disclosure title={q(lang, "library")}>
             <Button
               secondary
-              title="Explore Bible study courses"
+              title={tr("Explore Bible study courses")}
               onPress={() =>
                 router.push({
                   pathname: "/library",
@@ -233,14 +283,14 @@ function StudyPage({ id }: { id: string }) {
             />
             <Button
               secondary
-              title="Browse book suggestions"
+              title={tr("Browse book suggestions")}
               onPress={() =>
                 router.push({ pathname: "/library", params: { view: "books" } })
               }
             />
           </Disclosure>
           {verse.notes.length > 0 && (
-            <Disclosure title="Translation notes">
+            <Disclosure title={tr("Translation notes")}>
               {verse.notes.map((note, i) => (
                 <Body small key={i}>
                   {note}
@@ -248,22 +298,30 @@ function StudyPage({ id }: { id: string }) {
               ))}
             </Disclosure>
           )}
-          <Disclosure title="Sources and study notes">
+          <Disclosure title={tr("Sources and study notes")}>
             <Body small>
               {study
-                ? "Editorial reflections are separate from Scripture. They are in English and await theological review. Notes match explicitly identified passages and do not represent approval by a church."
+                ? tr(
+                    "Editorial reflections are separate from Scripture. They are in English and await theological review. Notes match explicitly identified passages and do not represent approval by a church.",
+                  )
                 : q(lang, "studyLimited")}
             </Body>
             {!!psalmNumbering && <Body small>{psalmNumbering}</Body>}
-            <External title="Read the source passage" url={verse.sourceUrl} />
+            <External
+              title={tr("Read the source passage")}
+              url={verse.sourceUrl}
+            />
             {study?.guide && (
               <External
-                title="Further reading at BibleProject"
+                title={tr("Further reading at BibleProject")}
                 url={study.guide}
               />
             )}
             <Body small>{verse.attribution}</Body>
-            <External title="License and attribution" url={verse.licenseUrl} />
+            <External
+              title={tr("License and attribution")}
+              url={verse.licenseUrl}
+            />
           </Disclosure>
         </View>
       </ScrollView>
@@ -278,12 +336,12 @@ function StudyPage({ id }: { id: string }) {
             <View style={s.sheetHeader}>
               <Pressable
                 accessibilityRole="button"
-                accessibilityLabel="Back to study options"
+                accessibilityLabel={tr("Back to study options")}
                 onPress={() => setLayer(null)}
                 style={s.back}
               >
                 <Ionicons name="chevron-back" size={20} color={colors.ink} />
-                <Text style={s.backText}>Back</Text>
+                <Text style={s.backText}>{tr("Back")}</Text>
               </Pressable>
               <View style={{ flex: 1, gap: 5 }}>
                 <Text style={s.sheetMode}>{layer ? q(lang, layer) : ""}</Text>
@@ -297,72 +355,86 @@ function StudyPage({ id }: { id: string }) {
             >
               <View style={s.readingQuote}>
                 <Text selectable style={s.smallQuote}>
-                  {verse.text || "Publisher note"}
+                  {verse.text || tr("Publisher note")}
                 </Text>
                 <Text style={s.edition}>{verse.editionName}</Text>
               </View>
               {layer === "simple" ? (
                 <>
-                  <Section title="In simple words">
+                  <Section title={tr("In simple words")}>
                     {study?.simple ??
-                      "A verse-specific explanation is still being prepared. Read the words before and after this verse. Notice who is speaking, what is happening, and which words repeat."}
+                      tr(
+                        "A verse-specific explanation is still being prepared. Read the words before and after this verse. Notice who is speaking, what is happening, and which words repeat.",
+                      )}
                   </Section>
                   {!study && verse.context && (
                     <Paragraph>
                       {verse.context[lang] ?? verse.context.en}
                     </Paragraph>
                   )}
-                  <Section title="A small response" tint>
+                  <Section title={tr("A small response")} tint>
                     {study?.today ??
-                      "Choose one word or image that stays with you. Give it a little attention before deciding what it means for your own life."}
+                      tr(
+                        "Choose one word or image that stays with you. Give it a little attention before deciding what it means for your own life.",
+                      )}
                   </Section>
                 </>
               ) : layer === "deeper" ? (
                 <>
-                  <Section title="The story around these words">
+                  <Section title={tr("The story around these words")}>
                     {study?.context ??
                       verse.context?.[lang] ??
                       verse.context?.en ??
-                      "Read the surrounding chapter. What kind of writing is this: a story, a song, a letter, a law, or a vision? How does this verse fit the passage around it?"}
+                      tr(
+                        "Read the surrounding chapter. What kind of writing is this: a story, a song, a letter, a law, or a vision? How does this verse fit the passage around it?",
+                      )}
                   </Section>
                   {!!psalmNumbering && <Body small>{psalmNumbering}</Body>}
-                  <Section title="What it means" tint>
+                  <Section title={tr("What it means")} tint>
                     {study?.meaning ??
-                      "Look for repeated words, contrasts and changes of speaker. Read a difficult line in the flow of the whole passage before deciding what it means. These are reading questions, not a completed commentary on this verse."}
+                      tr(
+                        "Look for repeated words, contrasts and changes of speaker. Read a difficult line in the flow of the whole passage before deciding what it means. These are reading questions, not a completed commentary on this verse.",
+                      )}
                   </Section>
-                  <Section title="In everyday life">
+                  <Section title={tr("In everyday life")}>
                     {study?.today ??
-                      "What response might fit the passage as a whole? Notice the difference between what the text says and a personal association it brings to mind. You can hold a question without needing an immediate answer."}
+                      tr(
+                        "What response might fit the passage as a whole? Notice the difference between what the text says and a personal association it brings to mind. You can hold a question without needing an immediate answer.",
+                      )}
                   </Section>
                 </>
               ) : layer === "theology" ? (
                 <>
                   <Text accessibilityRole="header" style={s.sectionTitle}>
                     {study
-                      ? "What this says about God"
-                      : "Questions about God and faith"}
+                      ? tr("What this says about God")
+                      : tr("Questions about God and faith")}
                   </Text>
                   {(
                     study?.theology ??
-                    "What does this passage say about God, people, and their relationship? What is being promised, asked, or questioned?\n\nRead the surrounding passage before drawing a conclusion. Christians may read difficult passages differently; a reflection question cannot settle those differences."
+                    tr(
+                      "What does this passage say about God, people, and their relationship? What is being promised, asked, or questioned?\n\nRead the surrounding passage before drawing a conclusion. Christians may read difficult passages differently; a reflection question cannot settle those differences.",
+                    )
                   )
                     .split("\n\n")
                     .map((paragraph, i) => (
                       <Paragraph key={i}>{paragraph}</Paragraph>
                     ))}
-                  <Section title="A question to carry" tint>
+                  <Section title={tr("A question to carry")} tint>
                     {question}
                   </Section>
                 </>
               ) : null}
               <Body small>
                 {study
-                  ? "A Christian reflection, separate from Scripture. Traditions may understand some details differently."
+                  ? tr(
+                      "A Christian reflection, separate from Scripture. Traditions may understand some details differently.",
+                    )
                   : q(lang, "studyLimited")}
               </Body>
               <Button
                 secondary
-                title="Back to study options"
+                title={tr("Back to study options")}
                 onPress={() => setLayer(null)}
               />
             </ScrollView>

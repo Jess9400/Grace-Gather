@@ -1,3 +1,4 @@
+import { useInterfaceCopy } from "../lib/use-interface-copy";
 import { useEffect, useState } from "react";
 import { Platform } from "react-native";
 import { router } from "expo-router";
@@ -29,6 +30,7 @@ import {
   registerGatheringPush,
 } from "../lib/notifications";
 export default function Account() {
+  const tr = useInterfaceCopy();
   const { clear } = useQuiet();
   const { profile, reset } = useApp(),
     t = (k: string) => copy(profile.language, k),
@@ -94,7 +96,7 @@ export default function Account() {
       <Heading>{q(profile.language, "more")}</Heading>
       <Button
         secondary
-        title="Community"
+        title={tr("Community")}
         onPress={() => router.push("/community")}
       />
       <Button
@@ -323,7 +325,9 @@ export default function Account() {
                     setSignedIn(false);
                     if (data.appleRevokeRequired)
                       setNotice(
-                        "Your account has been deleted. Remove Grace & Gather under Sign in with Apple in your Apple Account settings.",
+                        tr(
+                          "Your account has been deleted. Remove Grace & Gather under Sign in with Apple in your Apple Account settings.",
+                        ),
                       );
                   } else {
                     await disableReminder();

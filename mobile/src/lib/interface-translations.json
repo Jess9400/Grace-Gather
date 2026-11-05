@@ -1,0 +1,1012 @@
+{
+  "Back": {
+    "pt": "Voltar",
+    "es": "Volver",
+    "ru": "Назад"
+  },
+  "Community": {
+    "pt": "Comunidade",
+    "es": "Comunidad",
+    "ru": "Сообщество"
+  },
+  "COMMUNITY": {
+    "pt": "COMUNIDADE",
+    "es": "COMUNIDAD",
+    "ru": "СООБЩЕСТВО"
+  },
+  "Moderation": {
+    "pt": "Moderação",
+    "es": "Moderación",
+    "ru": "Модерация"
+  },
+  "Title": {
+    "pt": "Título",
+    "es": "Título",
+    "ru": "Заголовок"
+  },
+  "All": {
+    "pt": "Todos",
+    "es": "Todos",
+    "ru": "Все"
+  },
+  "Cancel": {
+    "pt": "Cancelar",
+    "es": "Cancelar",
+    "ru": "Отмена"
+  },
+  "Close": {
+    "pt": "Fechar",
+    "es": "Cerrar",
+    "ru": "Закрыть"
+  },
+  "Reply": {
+    "pt": "Responder",
+    "es": "Responder",
+    "ru": "Ответить"
+  },
+  "Approve": {
+    "pt": "Aprovar",
+    "es": "Aprobar",
+    "ru": "Одобрить"
+  },
+  "Read": {
+    "pt": "Ler",
+    "es": "Leer",
+    "ru": "Читать"
+  },
+  "Account and settings": {
+    "pt": "Conta e configurações",
+    "es": "Cuenta y ajustes",
+    "ru": "Аккаунт и настройки"
+  },
+  "This passage is unavailable.": {
+    "pt": "Esta passagem não está disponível.",
+    "es": "Este pasaje no está disponible.",
+    "ru": "Этот отрывок недоступен."
+  },
+  "This is Psalm 33 in this edition, corresponding to Psalm 34 in Hebrew-based numbering.": {
+    "pt": "Este é o Salmo 33 nesta edição, correspondente ao Salmo 34 na numeração hebraica.",
+    "es": "Este es el Salmo 33 en esta edición, equivalente al Salmo 34 en la numeración hebrea.",
+    "ru": "Это Псалом 33 в данном издании, соответствующий Псалму 34 в еврейской нумерации."
+  },
+  "Psalm numbers follow the Septuagint edition shown above.": {
+    "pt": "Os números dos salmos seguem a edição da Septuaginta indicada acima.",
+    "es": "La numeración de los salmos sigue la edición de la Septuaginta indicada arriba.",
+    "ru": "Нумерация псалмов соответствует указанному выше изданию Септуагинты."
+  },
+  "What do I notice in this passage, and what question would I like to carry with me?": {
+    "pt": "O que percebo nesta passagem e que pergunta gostaria de levar comigo?",
+    "es": "¿Qué noto en este pasaje y qué pregunta me gustaría llevar conmigo?",
+    "ru": "Что я замечаю в этом отрывке и над каким вопросом хочу поразмышлять?"
+  },
+  "A gentle place to begin": {
+    "pt": "Um começo tranquilo",
+    "es": "Un comienzo tranquilo",
+    "ru": "Спокойное начало"
+  },
+  "Context, meaning and daily life": {
+    "pt": "Contexto, significado e vida cotidiana",
+    "es": "Contexto, significado y vida cotidiana",
+    "ru": "Контекст, смысл и повседневная жизнь"
+  },
+  "Explore questions of faith": {
+    "pt": "Explore questões de fé",
+    "es": "Explora preguntas de fe",
+    "ru": "Исследуйте вопросы веры"
+  },
+  "BIBLE STUDY": {
+    "pt": "ESTUDO BÍBLICO",
+    "es": "ESTUDIO BÍBLICO",
+    "ru": "ИЗУЧЕНИЕ БИБЛИИ"
+  },
+  "Publisher note": {
+    "pt": "Nota da editora",
+    "es": "Nota del editor",
+    "ru": "Примечание издателя"
+  },
+  "Read the whole chapter": {
+    "pt": "Leia o capítulo completo",
+    "es": "Lee el capítulo completo",
+    "ru": "Читать всю главу"
+  },
+  "Chapter source": {
+    "pt": "Fonte do capítulo",
+    "es": "Fuente del capítulo",
+    "ru": "Источник главы"
+  },
+  "Discuss this verse": {
+    "pt": "Converse sobre este versículo",
+    "es": "Conversa sobre este versículo",
+    "ru": "Обсудить этот стих"
+  },
+  "Explore Community": {
+    "pt": "Explore a comunidade",
+    "es": "Explora la comunidad",
+    "ru": "Перейти в сообщество"
+  },
+  "AT YOUR OWN PACE": {
+    "pt": "NO SEU TEMPO",
+    "es": "A TU RITMO",
+    "ru": "В СВОЁМ ТЕМПЕ"
+  },
+  "Sit with a question": {
+    "pt": "Reflita sobre uma pergunta",
+    "es": "Reflexiona sobre una pregunta",
+    "ru": "Поразмышлять над вопросом"
+  },
+  "Write in my diary": {
+    "pt": "Escrever no meu diário",
+    "es": "Escribir en mi diario",
+    "ru": "Написать в дневнике"
+  },
+  "Explore Bible study courses": {
+    "pt": "Explore cursos bíblicos",
+    "es": "Explora cursos bíblicos",
+    "ru": "Курсы по изучению Библии"
+  },
+  "Browse book suggestions": {
+    "pt": "Ver sugestões de livros",
+    "es": "Ver recomendaciones de libros",
+    "ru": "Рекомендации книг"
+  },
+  "Translation notes": {
+    "pt": "Notas da tradução",
+    "es": "Notas de traducción",
+    "ru": "Примечания к переводу"
+  },
+  "Sources and study notes": {
+    "pt": "Fontes e notas de estudo",
+    "es": "Fuentes y notas de estudio",
+    "ru": "Источники и заметки"
+  },
+  "Editorial reflections are separate from Scripture. They are in English and await theological review. Notes match explicitly identified passages and do not represent approval by a church.": {
+    "pt": "As reflexões editoriais são separadas das Escrituras. Estão em inglês e aguardam revisão teológica. Referem-se a passagens identificadas e não representam aprovação de uma igreja.",
+    "es": "Las reflexiones editoriales están separadas de las Escrituras. Están en inglés y pendientes de revisión teológica. Corresponden a pasajes identificados y no representan la aprobación de una iglesia.",
+    "ru": "Редакционные размышления отделены от Писания. Они написаны на английском и ожидают богословской проверки. Они относятся к указанным отрывкам и не означают одобрения церковью."
+  },
+  "Read the source passage": {
+    "pt": "Ler a passagem na fonte",
+    "es": "Leer el pasaje en la fuente",
+    "ru": "Читать отрывок в источнике"
+  },
+  "Further reading at BibleProject": {
+    "pt": "Leitura adicional no BibleProject",
+    "es": "Más lecturas en BibleProject",
+    "ru": "Подробнее на BibleProject"
+  },
+  "License and attribution": {
+    "pt": "Licença e créditos",
+    "es": "Licencia y atribución",
+    "ru": "Лицензия и авторство"
+  },
+  "Back to study options": {
+    "pt": "Voltar às opções de estudo",
+    "es": "Volver a las opciones de estudio",
+    "ru": "Назад к вариантам изучения"
+  },
+  "In simple words": {
+    "pt": "Em palavras simples",
+    "es": "En palabras sencillas",
+    "ru": "Простыми словами"
+  },
+  "A small response": {
+    "pt": "Uma pequena resposta",
+    "es": "Una pequeña respuesta",
+    "ru": "Небольшой отклик"
+  },
+  "A question to carry": {
+    "pt": "Uma pergunta para levar consigo",
+    "es": "Una pregunta para llevar contigo",
+    "ru": "Вопрос для размышления"
+  },
+  "A verse-specific explanation is still being prepared. Read the words before and after this verse. Notice who is speaking, what is happening, and which words repeat.": {
+    "pt": "Uma explicação específica deste versículo ainda está sendo preparada. Leia o que vem antes e depois. Observe quem fala, o que acontece e quais palavras se repetem.",
+    "es": "Aún se está preparando una explicación específica de este versículo. Lee lo que viene antes y después. Observa quién habla, qué sucede y qué palabras se repiten.",
+    "ru": "Объяснение именно этого стиха ещё готовится. Прочитайте строки до и после него. Обратите внимание, кто говорит, что происходит и какие слова повторяются."
+  },
+  "Choose one word or image that stays with you. Give it a little attention before deciding what it means for your own life.": {
+    "pt": "Escolha uma palavra ou imagem que ficou com você. Dedique-lhe atenção antes de decidir o que significa para sua vida.",
+    "es": "Elige una palabra o imagen que se quede contigo. Dedícale atención antes de decidir qué significa para tu vida.",
+    "ru": "Выберите слово или образ, который вам запомнился. Уделите ему внимание, прежде чем решать, что он значит для вашей жизни."
+  },
+  "The story around these words": {
+    "pt": "A história ao redor destas palavras",
+    "es": "La historia que rodea estas palabras",
+    "ru": "История вокруг этих слов"
+  },
+  "Read the surrounding chapter. What kind of writing is this: a story, a song, a letter, a law, or a vision? How does this verse fit the passage around it?": {
+    "pt": "Leia o capítulo ao redor. Que tipo de texto é este: história, cântico, carta, lei ou visão? Como este versículo se relaciona com o restante da passagem?",
+    "es": "Lee el capítulo completo. ¿Qué tipo de texto es: relato, canción, carta, ley o visión? ¿Cómo encaja este versículo en el pasaje?",
+    "ru": "Прочитайте главу целиком. Что это за текст: рассказ, песня, письмо, закон или видение? Как этот стих связан с окружающим отрывком?"
+  },
+  "What it means": {
+    "pt": "O que significa",
+    "es": "Qué significa",
+    "ru": "Что это значит"
+  },
+  "Look for repeated words, contrasts and changes of speaker. Read a difficult line in the flow of the whole passage before deciding what it means. These are reading questions, not a completed commentary on this verse.": {
+    "pt": "Procure palavras repetidas, contrastes e mudanças de quem fala. Leia uma frase difícil no contexto da passagem antes de interpretá-la. São perguntas para leitura, não um comentário completo deste versículo.",
+    "es": "Busca palabras repetidas, contrastes y cambios de hablante. Lee una frase difícil en el contexto del pasaje antes de interpretarla. Son preguntas de lectura, no un comentario completo del versículo.",
+    "ru": "Ищите повторения, противопоставления и смену говорящего. Прежде чем толковать трудную строку, прочитайте весь отрывок. Это вопросы для чтения, а не готовый комментарий к стиху."
+  },
+  "In everyday life": {
+    "pt": "Na vida cotidiana",
+    "es": "En la vida cotidiana",
+    "ru": "В повседневной жизни"
+  },
+  "What response might fit the passage as a whole? Notice the difference between what the text says and a personal association it brings to mind. You can hold a question without needing an immediate answer.": {
+    "pt": "Que resposta combina com a passagem como um todo? Diferencie o que o texto diz das associações pessoais que desperta. Você pode guardar uma pergunta sem precisar respondê-la imediatamente.",
+    "es": "¿Qué respuesta encaja con el pasaje completo? Distingue lo que dice el texto de las asociaciones personales que despierta. Puedes quedarte con una pregunta sin responderla de inmediato.",
+    "ru": "Какой отклик соответствует отрывку в целом? Различайте слова текста и личные ассоциации. Можно оставаться с вопросом, не требуя немедленного ответа."
+  },
+  "What this says about God": {
+    "pt": "O que diz sobre Deus",
+    "es": "Qué dice sobre Dios",
+    "ru": "Что это говорит о Боге"
+  },
+  "Questions about God and faith": {
+    "pt": "Perguntas sobre Deus e a fé",
+    "es": "Preguntas sobre Dios y la fe",
+    "ru": "Вопросы о Боге и вере"
+  },
+  "A Christian reflection, separate from Scripture. Traditions may understand some details differently.": {
+    "pt": "Uma reflexão cristã, separada das Escrituras. As tradições podem entender alguns detalhes de maneiras diferentes.",
+    "es": "Una reflexión cristiana, separada de las Escrituras. Las tradiciones pueden entender algunos detalles de manera diferente.",
+    "ru": "Христианское размышление, отдельное от Писания. Разные традиции могут по-разному понимать некоторые детали."
+  },
+  "Conversation options": {
+    "pt": "Opções da conversa",
+    "es": "Opciones de conversación",
+    "ru": "Настройки беседы"
+  },
+  "Fold this page": {
+    "pt": "Recolher esta página",
+    "es": "Contraer esta página",
+    "ru": "Свернуть страницу"
+  },
+  "Read the full page": {
+    "pt": "Ler a página completa",
+    "es": "Leer la página completa",
+    "ru": "Читать всю страницу"
+  },
+  "Send message": {
+    "pt": "Enviar mensagem",
+    "es": "Enviar mensaje",
+    "ru": "Отправить сообщение"
+  },
+  "Replies use curated passages and limited local matching. They are not a live conversation with a person or AI.": {
+    "pt": "As respostas usam passagens selecionadas e uma correspondência local limitada. Não são uma conversa ao vivo com uma pessoa ou IA.",
+    "es": "Las respuestas usan pasajes seleccionados y coincidencias locales limitadas. No son una conversación en vivo con una persona o IA.",
+    "ru": "Ответы используют подобранные отрывки и ограниченное локальное сопоставление. Это не живая беседа с человеком или ИИ."
+  },
+  "Your message": {
+    "pt": "Sua mensagem",
+    "es": "Tu mensaje",
+    "ru": "Ваше сообщение"
+  },
+  "Nothing is sent automatically. Edit this draft and choose whether to share it.": {
+    "pt": "Nada é enviado automaticamente. Edite este rascunho e escolha se deseja compartilhá-lo.",
+    "es": "Nada se envía automáticamente. Edita este borrador y decide si quieres compartirlo.",
+    "ru": "Ничего не отправляется автоматически. Измените черновик и решите, хотите ли вы им поделиться."
+  },
+  "Share draft": {
+    "pt": "Compartilhar rascunho",
+    "es": "Compartir borrador",
+    "ru": "Поделиться черновиком"
+  },
+  "The share sheet could not open. You can select and copy your message.": {
+    "pt": "Não foi possível abrir o compartilhamento. Você pode selecionar e copiar sua mensagem.",
+    "es": "No se pudo abrir el menú para compartir. Puedes seleccionar y copiar tu mensaje.",
+    "ru": "Не удалось открыть меню отправки. Вы можете выделить и скопировать сообщение."
+  },
+  "Send someone a sincere thank-you.": {
+    "pt": "Agradeça a alguém de coração.",
+    "es": "Agradece a alguien de corazón.",
+    "ru": "Искренне поблагодарите кого-нибудь."
+  },
+  "Offer help with one small, practical task.": {
+    "pt": "Ofereça ajuda com uma pequena tarefa prática.",
+    "es": "Ofrece ayuda con una pequeña tarea práctica.",
+    "ru": "Предложите помощь с небольшим практическим делом."
+  },
+  "Give yourself a quiet minute. Rest counts, too.": {
+    "pt": "Reserve um minuto de calma para você. Descansar também conta.",
+    "es": "Regálate un minuto de calma. Descansar también cuenta.",
+    "ru": "Подарите себе минуту тишины. Отдых тоже важен."
+  },
+  "Hey, I’ve had a lot on my mind. Do you have a little time to talk or keep me company?": {
+    "pt": "Oi, tenho pensado em muita coisa. Você tem um tempinho para conversar ou me fazer companhia?",
+    "es": "Hola, tengo muchas cosas en la cabeza. ¿Tienes un momento para hablar o hacerme compañía?",
+    "ru": "Привет, у меня многое на душе. У тебя есть немного времени поговорить или побыть со мной?"
+  },
+  "Audio recording is available in the iPhone app.": {
+    "pt": "A gravação de áudio está disponível no app para iPhone.",
+    "es": "La grabación de audio está disponible en la app para iPhone.",
+    "ru": "Запись аудио доступна в приложении для iPhone."
+  },
+  "Unavailable": {
+    "pt": "Indisponível",
+    "es": "No disponible",
+    "ru": "Недоступно"
+  },
+  "Synodal source: 66 books. Additional Orthodox books are not included in this publisher’s file.": {
+    "pt": "Fonte sinodal: 66 livros. Os livros ortodoxos adicionais não estão incluídos no arquivo desta editora.",
+    "es": "Fuente sinodal: 66 libros. Los libros ortodoxos adicionales no están incluidos en el archivo de este editor.",
+    "ru": "Синодальный источник: 66 книг. Дополнительные православные книги не включены в этот файл издателя."
+  },
+  "Awaiting a safety check or held": {
+    "pt": "Aguardando verificação ou retido",
+    "es": "Pendiente de revisión o retenido",
+    "ru": "Ожидает проверки или удержано"
+  },
+  "Not published": {
+    "pt": "Não publicado",
+    "es": "No publicado",
+    "ru": "Не опубликовано"
+  },
+  "Published in this preview": {
+    "pt": "Publicado nesta prévia",
+    "es": "Publicado en esta vista previa",
+    "ru": "Опубликовано в этом предпросмотре"
+  },
+  "Remove this post? Removing a topic also removes its replies.": {
+    "pt": "Remover esta publicação? Remover um tópico também remove suas respostas.",
+    "es": "¿Eliminar esta publicación? Al eliminar un tema también se eliminan sus respuestas.",
+    "ru": "Удалить публикацию? Удаление темы также удалит ответы."
+  },
+  "Confirm removal": {
+    "pt": "Confirmar remoção",
+    "es": "Confirmar eliminación",
+    "ru": "Подтвердить удаление"
+  },
+  "Your post was removed.": {
+    "pt": "Sua publicação foi removida.",
+    "es": "Tu publicación se ha eliminado.",
+    "ru": "Ваша публикация удалена."
+  },
+  "Keep post": {
+    "pt": "Manter publicação",
+    "es": "Conservar publicación",
+    "ru": "Оставить публикацию"
+  },
+  "Remove your post": {
+    "pt": "Remover sua publicação",
+    "es": "Eliminar tu publicación",
+    "ru": "Удалить вашу публикацию"
+  },
+  "Report this post": {
+    "pt": "Denunciar publicação",
+    "es": "Denunciar publicación",
+    "ru": "Пожаловаться"
+  },
+  "Reason for report": {
+    "pt": "Motivo da denúncia",
+    "es": "Motivo de la denuncia",
+    "ru": "Причина жалобы"
+  },
+  "Tell us what concerns you": {
+    "pt": "Conte o que preocupa você",
+    "es": "Cuéntanos qué te preocupa",
+    "ru": "Расскажите, что вас беспокоит"
+  },
+  "Send report": {
+    "pt": "Enviar denúncia",
+    "es": "Enviar denuncia",
+    "ru": "Отправить жалобу"
+  },
+  "Report sent for review. This post is hidden for you.": {
+    "pt": "Denúncia enviada para análise. Esta publicação está oculta para você.",
+    "es": "Denuncia enviada a revisión. Esta publicación está oculta para ti.",
+    "ru": "Жалоба отправлена на проверку. Публикация скрыта для вас."
+  },
+  "Local preview submission": {
+    "pt": "Envio na prévia local",
+    "es": "Envío en la vista previa local",
+    "ru": "Отправлено в локальном предпросмотре"
+  },
+  "Your post": {
+    "pt": "Sua publicação",
+    "es": "Tu publicación",
+    "ru": "Ваша публикация"
+  },
+  "Example conversation": {
+    "pt": "Conversa de exemplo",
+    "es": "Conversación de ejemplo",
+    "ru": "Пример беседы"
+  },
+  "Community member": {
+    "pt": "Membro da comunidade",
+    "es": "Miembro de la comunidad",
+    "ru": "Участник сообщества"
+  },
+  "Community preview · sample conversations · nothing is public": {
+    "pt": "Prévia da comunidade · conversas de exemplo · nada é público",
+    "es": "Vista previa de la comunidad · conversaciones de ejemplo · nada es público",
+    "ru": "Предпросмотр сообщества · примеры бесед · ничего не опубликовано"
+  },
+  "Community · questions and reflections": {
+    "pt": "Comunidade · perguntas e reflexões",
+    "es": "Comunidad · preguntas y reflexiones",
+    "ru": "Сообщество · вопросы и размышления"
+  },
+  "Sign in to join the conversation.": {
+    "pt": "Entre para participar da conversa.",
+    "es": "Inicia sesión para participar en la conversación.",
+    "ru": "Войдите, чтобы участвовать в беседе."
+  },
+  "Community is not connected on this build yet.": {
+    "pt": "A comunidade ainda não está conectada nesta versão.",
+    "es": "La comunidad aún no está conectada en esta versión.",
+    "ru": "Сообщество ещё не подключено в этой версии."
+  },
+  "Your private diary stays separate. Only the words you choose to post are shared.": {
+    "pt": "Seu diário privado fica separado. Apenas as palavras que você decide publicar são compartilhadas.",
+    "es": "Tu diario privado permanece separado. Solo se comparten las palabras que decides publicar.",
+    "ru": "Личный дневник хранится отдельно. Публикуются только слова, которыми вы решили поделиться."
+  },
+  "Account and sign in": {
+    "pt": "Conta e acesso",
+    "es": "Cuenta e inicio de sesión",
+    "ru": "Аккаунт и вход"
+  },
+  "Refresh conversations": {
+    "pt": "Atualizar conversas",
+    "es": "Actualizar conversaciones",
+    "ru": "Обновить беседы"
+  },
+  "A little space": {
+    "pt": "Um pequeno espaço",
+    "es": "Un pequeño espacio",
+    "ru": "Немного пространства,"
+  },
+  "to listen.": {
+    "pt": "para ouvir.",
+    "es": "para escuchar.",
+    "ru": "чтобы слушать."
+  },
+  "Questions, reflections and faith, shared gently.": {
+    "pt": "Perguntas, reflexões e fé, compartilhadas com cuidado.",
+    "es": "Preguntas, reflexiones y fe, compartidas con cuidado.",
+    "ru": "Вопросы, размышления и вера, которыми делятся бережно."
+  },
+  "New submissions stay private while moderation is being prepared.": {
+    "pt": "Novas publicações ficam privadas enquanto a moderação é preparada.",
+    "es": "Las nuevas publicaciones permanecen privadas mientras se prepara la moderación.",
+    "ru": "Новые публикации остаются приватными, пока готовится модерация."
+  },
+  "New topic": {
+    "pt": "Novo tópico",
+    "es": "Nuevo tema",
+    "ru": "Новая тема"
+  },
+  "Posts that pass safety checks are published automatically. Anything uncertain stays private.": {
+    "pt": "Publicações aprovadas na verificação de segurança são publicadas automaticamente. Em caso de dúvida, ficam privadas.",
+    "es": "Las publicaciones que pasan la revisión de seguridad se publican automáticamente. Si hay dudas, permanecen privadas.",
+    "ru": "Публикации, прошедшие проверку безопасности, публикуются автоматически. При сомнениях они остаются приватными."
+  },
+  "You have not shared anything yet.": {
+    "pt": "Você ainda não publicou nada.",
+    "es": "Aún no has publicado nada.",
+    "ru": "Вы ещё ничего не публиковали."
+  },
+  "Start a topic": {
+    "pt": "Criar tópico",
+    "es": "Crear tema",
+    "ru": "Создать тему"
+  },
+  "Check publication": {
+    "pt": "Verificar publicação",
+    "es": "Comprobar publicación",
+    "ru": "Проверить публикацию"
+  },
+  "Reflections on": {
+    "pt": "Reflexões sobre",
+    "es": "Reflexiones sobre",
+    "ru": "Размышления о"
+  },
+  ". Community voices are personal interpretations.": {
+    "pt": ". As opiniões da comunidade são interpretações pessoais.",
+    "es": ". Las opiniones de la comunidad son interpretaciones personales.",
+    "ru": ". Мнения участников — это личные толкования."
+  },
+  "There is room for your question.": {
+    "pt": "Há espaço para sua pergunta.",
+    "es": "Hay espacio para tu pregunta.",
+    "ru": "Здесь есть место вашему вопросу."
+  },
+  "Be the first to start a conversation about this verse.": {
+    "pt": "Inicie uma conversa sobre este versículo.",
+    "es": "Inicia una conversación sobre este versículo.",
+    "ru": "Начните беседу об этом стихе."
+  },
+  "Start with a question or a reflection.": {
+    "pt": "Comece com uma pergunta ou reflexão.",
+    "es": "Empieza con una pregunta o reflexión.",
+    "ru": "Начните с вопроса или размышления."
+  },
+  "Start a conversation": {
+    "pt": "Iniciar conversa",
+    "es": "Iniciar conversación",
+    "ru": "Начать беседу"
+  },
+  "Your preview post": {
+    "pt": "Sua publicação na prévia",
+    "es": "Tu publicación de prueba",
+    "ru": "Ваша тестовая публикация"
+  },
+  "Ask honestly. Disagree respectfully. No personal attacks, threats, harassment, scams or private information. These are community reflections, not reviewed study notes.": {
+    "pt": "Pergunte com sinceridade e discorde com respeito. Sem ataques pessoais, ameaças, assédio, golpes ou dados privados. São reflexões da comunidade, não notas de estudo revisadas.",
+    "es": "Pregunta con sinceridad y discrepa con respeto. Sin ataques personales, amenazas, acoso, estafas ni datos privados. Son reflexiones de la comunidad, no notas de estudio revisadas.",
+    "ru": "Спрашивайте искренне и возражайте уважительно. Недопустимы личные нападки, угрозы, травля, мошенничество и личные данные. Это размышления сообщества, а не проверенные учебные заметки."
+  },
+  "Only what you type here can be shared. Your diary and chosen faith stay separate. You choose any perspective label yourself.": {
+    "pt": "Só o que você escrever aqui pode ser compartilhado. Seu diário e sua fé ficam separados. Você escolhe o rótulo de perspectiva.",
+    "es": "Solo se comparte lo que escribes aquí. Tu diario y tu fe permanecen separados. Tú eliges la etiqueta de perspectiva.",
+    "ru": "Публикуется только написанное здесь. Дневник и выбранная вера остаются отдельно. Вы сами выбираете метку точки зрения."
+  },
+  "Preview tools": {
+    "pt": "Ferramentas de prévia",
+    "es": "Herramientas de vista previa",
+    "ru": "Инструменты предпросмотра"
+  },
+  "This demo uses local memory and manual review. AI screening, real accounts and public posting are not connected. Changes reset when the app reloads.": {
+    "pt": "Esta demonstração usa memória local e revisão manual. IA, contas reais e publicação pública não estão conectadas. As alterações somem ao recarregar.",
+    "es": "Esta demostración usa memoria local y revisión manual. La IA, las cuentas reales y las publicaciones públicas no están conectadas. Los cambios se reinician al recargar.",
+    "ru": "Демо использует локальную память и ручную проверку. ИИ, реальные аккаунты и публичные публикации не подключены. Изменения сбрасываются при перезагрузке."
+  },
+  "Showing recent conversations and up to": {
+    "pt": "Mostrando conversas recentes e até",
+    "es": "Mostrando conversaciones recientes y hasta",
+    "ru": "Показаны недавние беседы и до"
+  },
+  "replies per conversation. Refresh for updates.": {
+    "pt": "respostas por conversa. Atualize para ver novidades.",
+    "es": "respuestas por conversación. Actualiza para ver novedades.",
+    "ru": "ответов в каждой беседе. Обновите страницу для новых данных."
+  },
+  "This conversation is hidden or no longer available.": {
+    "pt": "Esta conversa está oculta ou indisponível.",
+    "es": "Esta conversación está oculta o ya no está disponible.",
+    "ru": "Эта беседа скрыта или больше недоступна."
+  },
+  "Back to conversations": {
+    "pt": "Voltar às conversas",
+    "es": "Volver a las conversaciones",
+    "ru": "Назад к беседам"
+  },
+  "THE CONVERSATION": {
+    "pt": "A CONVERSA",
+    "es": "LA CONVERSACIÓN",
+    "ru": "БЕСЕДА"
+  },
+  "No published replies yet. There is room for yours.": {
+    "pt": "Ainda não há respostas publicadas. Há espaço para a sua.",
+    "es": "Aún no hay respuestas publicadas. Hay espacio para la tuya.",
+    "ru": "Опубликованных ответов пока нет. Есть место для вашего."
+  },
+  "Awaiting a safety check or held · not public": {
+    "pt": "Aguardando verificação ou retido · privado",
+    "es": "Pendiente de revisión o retenido · privado",
+    "ru": "Ожидает проверки или удержано · не опубликовано"
+  },
+  "Your reply": {
+    "pt": "Sua resposta",
+    "es": "Tu respuesta",
+    "ru": "Ваш ответ"
+  },
+  "Share a thought or ask a question…": {
+    "pt": "Compartilhe um pensamento ou faça uma pergunta…",
+    "es": "Comparte una idea o haz una pregunta…",
+    "ru": "Поделитесь мыслью или задайте вопрос…"
+  },
+  "Public display name": {
+    "pt": "Nome público",
+    "es": "Nombre público",
+    "ru": "Публичное имя"
+  },
+  "Choose a name for this post": {
+    "pt": "Escolha um nome para esta publicação",
+    "es": "Elige un nombre para esta publicación",
+    "ru": "Выберите имя для этой публикации"
+  },
+  "Posted as You in this demo. Replies are held for review.": {
+    "pt": "Publicado como Você nesta demonstração. As respostas aguardam revisão.",
+    "es": "Publicado como Tú en esta demostración. Las respuestas esperan revisión.",
+    "ru": "В демо публикации подписаны «Вы». Ответы ожидают проверки."
+  },
+  "Your display name and reply become public if they pass automated moderation.": {
+    "pt": "Seu nome público e sua resposta ficam públicos se passarem pela moderação automática.",
+    "es": "Tu nombre y respuesta se hacen públicos si pasan la moderación automática.",
+    "ru": "Ваше имя и ответ станут публичными, если пройдут автоматическую модерацию."
+  },
+  "Automatic moderation is not active. This reply stays private.": {
+    "pt": "A moderação automática não está ativa. Esta resposta fica privada.",
+    "es": "La moderación automática no está activa. Esta respuesta permanece privada.",
+    "ru": "Автоматическая модерация не включена. Ответ остаётся приватным."
+  },
+  "Send for review": {
+    "pt": "Enviar para revisão",
+    "es": "Enviar a revisión",
+    "ru": "Отправить на проверку"
+  },
+  "Save for review": {
+    "pt": "Salvar para revisão",
+    "es": "Guardar para revisión",
+    "ru": "Сохранить для проверки"
+  },
+  "Your reply was submitted. Posts that pass the safety check appear automatically; others remain private.": {
+    "pt": "Sua resposta foi enviada. As publicações aprovadas aparecem automaticamente; as demais ficam privadas.",
+    "es": "Tu respuesta se ha enviado. Las publicaciones aprobadas aparecen automáticamente; las demás permanecen privadas.",
+    "ru": "Ответ отправлен. Публикации, прошедшие проверку, появляются автоматически; остальные остаются приватными."
+  },
+  "Your reply was saved privately while moderation is prepared.": {
+    "pt": "Sua resposta foi salva em privado enquanto a moderação é preparada.",
+    "es": "Tu respuesta se ha guardado en privado mientras se prepara la moderación.",
+    "ru": "Ответ сохранён приватно, пока готовится модерация."
+  },
+  "What is on": {
+    "pt": "O que está",
+    "es": "¿Qué hay",
+    "ru": "Что у вас"
+  },
+  "your heart?": {
+    "pt": "no seu coração?",
+    "es": "en tu corazón?",
+    "ru": "на сердце?"
+  },
+  "A question is a good place to begin.": {
+    "pt": "Uma pergunta é um bom começo.",
+    "es": "Una pregunta es un buen comienzo.",
+    "ru": "Вопрос — хорошее начало."
+  },
+  "Give your conversation a title": {
+    "pt": "Dê um título à conversa",
+    "es": "Pon un título a tu conversación",
+    "ru": "Дайте беседе заголовок"
+  },
+  "Your words": {
+    "pt": "Suas palavras",
+    "es": "Tus palabras",
+    "ru": "Ваши слова"
+  },
+  "Share only what you feel comfortable making public.": {
+    "pt": "Compartilhe apenas o que você se sente à vontade para tornar público.",
+    "es": "Comparte solo lo que te sientas cómodo haciendo público.",
+    "ru": "Делитесь только тем, что готовы сделать публичным."
+  },
+  "Optional. This label describes the conversation, not your profile.": {
+    "pt": "Opcional. Este rótulo descreve a conversa, não seu perfil.",
+    "es": "Opcional. Esta etiqueta describe la conversación, no tu perfil.",
+    "ru": "Необязательно. Метка описывает беседу, а не ваш профиль."
+  },
+  "Shared as You. Your diary is never attached. This preview holds every submission for manual review.": {
+    "pt": "Compartilhado como Você. Seu diário nunca é anexado. Nesta prévia, tudo aguarda revisão manual.",
+    "es": "Compartido como Tú. Tu diario nunca se adjunta. En esta vista previa, todo espera revisión manual.",
+    "ru": "Публикация от имени «Вы». Дневник никогда не прикрепляется. В предпросмотре всё ожидает ручной проверки."
+  },
+  "Your public name and words are checked automatically using Alibaba Cloud Qwen. Posts that pass appear to members; uncertain posts stay private. AI can make mistakes. Your diary and profile are never attached.": {
+    "pt": "Seu nome público e texto são verificados pelo Alibaba Cloud Qwen. Publicações aprovadas aparecem aos membros; em caso de dúvida, ficam privadas. A IA pode errar. Seu diário e perfil nunca são anexados.",
+    "es": "Tu nombre público y texto se revisan con Alibaba Cloud Qwen. Las publicaciones aprobadas aparecen a los miembros; si hay dudas, quedan privadas. La IA puede equivocarse. Tu diario y perfil nunca se adjuntan.",
+    "ru": "Ваше публичное имя и текст проверяет Alibaba Cloud Qwen. Одобренные публикации видны участникам, сомнительные остаются приватными. ИИ может ошибаться. Дневник и профиль никогда не прикрепляются."
+  },
+  "Automatic moderation is not active. This submission stays private. Your diary and profile are never attached.": {
+    "pt": "A moderação automática não está ativa. Esta publicação fica privada. Seu diário e perfil nunca são anexados.",
+    "es": "La moderación automática no está activa. Esta publicación queda privada. Tu diario y perfil nunca se adjuntan.",
+    "ru": "Автоматическая модерация не включена. Публикация остаётся приватной. Дневник и профиль никогда не прикрепляются."
+  },
+  "Your topic was submitted. Check My submissions for its publication status.": {
+    "pt": "Seu tópico foi enviado. Confira o status em Minhas publicações.",
+    "es": "Tu tema se ha enviado. Consulta su estado en Mis publicaciones.",
+    "ru": "Тема отправлена. Проверьте её статус в разделе «Мои публикации»."
+  },
+  "Demo review": {
+    "pt": "Revisão da demonstração",
+    "es": "Revisión de demostración",
+    "ru": "Проверка демо"
+  },
+  "Preview tools only. You are trying a manual moderator workflow. No AI is connected, and these decisions affect only your local demo.": {
+    "pt": "Ferramentas de prévia. Você está testando a moderação manual. Nenhuma IA está conectada; as decisões afetam apenas sua demonstração local.",
+    "es": "Herramientas de prueba. Estás probando la moderación manual. No hay IA conectada; las decisiones solo afectan a tu demostración local.",
+    "ru": "Только инструменты предпросмотра. Вы тестируете ручную модерацию. ИИ не подключён, решения влияют лишь на локальное демо."
+  },
+  "Review the words in context. Automated moderation can make mistakes. These controls override publication only for authorized staff.": {
+    "pt": "Leia as palavras no contexto. A moderação automática pode errar. Apenas a equipe autorizada pode alterar a publicação.",
+    "es": "Lee las palabras en contexto. La moderación automática puede equivocarse. Solo el personal autorizado puede cambiar la publicación.",
+    "ru": "Читайте слова в контексте. Автоматическая модерация может ошибаться. Изменять публикацию могут только уполномоченные сотрудники."
+  },
+  "AWAITING REVIEW ·": {
+    "pt": "AGUARDANDO REVISÃO ·",
+    "es": "PENDIENTE DE REVISIÓN ·",
+    "ru": "ОЖИДАЕТ ПРОВЕРКИ ·"
+  },
+  "No submissions waiting.": {
+    "pt": "Nenhuma publicação aguardando.",
+    "es": "No hay publicaciones pendientes.",
+    "ru": "Нет публикаций на проверке."
+  },
+  "AI notes · advisory": {
+    "pt": "Notas da IA · orientação",
+    "es": "Notas de IA · orientación",
+    "ru": "Заметки ИИ · рекомендации"
+  },
+  "No flags returned": {
+    "pt": "Nenhum alerta retornado",
+    "es": "No se recibieron alertas",
+    "ru": "Нет предупреждений"
+  },
+  "Check with AI": {
+    "pt": "Verificar com IA",
+    "es": "Revisar con IA",
+    "ru": "Проверить с ИИ"
+  },
+  "Approve in preview": {
+    "pt": "Aprovar na prévia",
+    "es": "Aprobar en vista previa",
+    "ru": "Одобрить в предпросмотре"
+  },
+  "Do not publish": {
+    "pt": "Não publicar",
+    "es": "No publicar",
+    "ru": "Не публиковать"
+  },
+  "REPORTED CONTENT ·": {
+    "pt": "CONTEÚDO DENUNCIADO ·",
+    "es": "CONTENIDO DENUNCIADO ·",
+    "ru": "ЖАЛОБЫ НА ПУБЛИКАЦИИ ·"
+  },
+  "No reports waiting.": {
+    "pt": "Nenhuma denúncia aguardando.",
+    "es": "No hay denuncias pendientes.",
+    "ru": "Нет жалоб на проверке."
+  },
+  "Reason:": {
+    "pt": "Motivo:",
+    "es": "Motivo:",
+    "ru": "Причина:"
+  },
+  "Remove in preview": {
+    "pt": "Remover na prévia",
+    "es": "Eliminar en vista previa",
+    "ru": "Удалить в предпросмотре"
+  },
+  "Remove post": {
+    "pt": "Remover publicação",
+    "es": "Eliminar publicación",
+    "ru": "Удалить публикацию"
+  },
+  "Keep post and resolve report": {
+    "pt": "Manter publicação e resolver denúncia",
+    "es": "Conservar publicación y resolver denuncia",
+    "ru": "Оставить публикацию и закрыть жалобу"
+  },
+  "Scroll to read": {
+    "pt": "Role para ler",
+    "es": "Desplázate para leer",
+    "ru": "Прокрутите для чтения"
+  },
+  "Chapter text": {
+    "pt": "Texto do capítulo",
+    "es": "Texto del capítulo",
+    "ru": "Текст главы"
+  },
+  "Conversations": {
+    "pt": "Conversas",
+    "es": "Conversaciones",
+    "ru": "Беседы"
+  },
+  "My submissions": {
+    "pt": "Minhas publicações",
+    "es": "Mis publicaciones",
+    "ru": "Мои публикации"
+  },
+  "Checking...": {
+    "pt": "Verificando…",
+    "es": "Revisando…",
+    "ru": "Проверка…"
+  },
+  "Share": {
+    "pt": "Compartilhar",
+    "es": "Compartir",
+    "ru": "Поделиться"
+  },
+  "Open discussion": {
+    "pt": "Discussão aberta",
+    "es": "Conversación abierta",
+    "ru": "Открытое обсуждение"
+  },
+  "Perspective": {
+    "pt": "Perspectiva",
+    "es": "Perspectiva",
+    "ru": "Точка зрения"
+  },
+  "You": {
+    "pt": "Você",
+    "es": "Tú",
+    "ru": "Вы"
+  },
+  "Published": {
+    "pt": "Publicado",
+    "es": "Publicado",
+    "ru": "Опубликовано"
+  },
+  "Report": {
+    "pt": "Denunciar",
+    "es": "Denunciar",
+    "ru": "Пожаловаться"
+  },
+  "Block": {
+    "pt": "Bloquear",
+    "es": "Bloquear",
+    "ru": "Заблокировать"
+  },
+  "Unblock": {
+    "pt": "Desbloquear",
+    "es": "Desbloquear",
+    "ru": "Разблокировать"
+  },
+  "Blocked": {
+    "pt": "Bloqueado",
+    "es": "Bloqueado",
+    "ru": "Заблокировано"
+  },
+  "Your account has been deleted. Remove Grace & Gather under Sign in with Apple in your Apple Account settings.": {
+    "pt": "Sua conta foi excluída. Remova Grace & Gather de Iniciar sessão com a Apple nos ajustes da Conta Apple.",
+    "es": "Tu cuenta se ha eliminado. Elimina Grace & Gather de Iniciar sesión con Apple en los ajustes de tu cuenta de Apple.",
+    "ru": "Аккаунт удалён. Удалите Grace & Gather из раздела «Вход с Apple» в настройках Аккаунта Apple."
+  },
+  "Original language": {
+    "pt": "Idioma original",
+    "es": "Idioma original",
+    "ru": "Язык оригинала"
+  },
+  "Translation is not available for this item. The original text is shown.": {
+    "pt": "A tradução deste conteúdo não está disponível. O texto original é exibido.",
+    "es": "La traducción de este contenido no está disponible. Se muestra el texto original.",
+    "ru": "Перевод этого материала недоступен. Показан оригинальный текст."
+  },
+  "Children": {
+    "pt": "Crianças",
+    "es": "Niños",
+    "ru": "Дети"
+  },
+  "Animals": {
+    "pt": "Animais",
+    "es": "Animales",
+    "ru": "Животные"
+  },
+  "Older people": {
+    "pt": "Pessoas idosas",
+    "es": "Personas mayores",
+    "ru": "Пожилые люди"
+  },
+  "Cancer research": {
+    "pt": "Pesquisa sobre o câncer",
+    "es": "Investigación del cáncer",
+    "ru": "Исследования рака"
+  },
+  "Wildlife": {
+    "pt": "Vida selvagem",
+    "es": "Vida silvestre",
+    "ru": "Дикая природа"
+  },
+  "These are examples, not confirmed partners. Giving happens on each organization’s official website. Grace & Gather does not collect payments.": {
+    "pt": "Estes são exemplos, não parceiros confirmados. As doações ocorrem no site oficial de cada organização. Grace & Gather não recebe pagamentos.",
+    "es": "Son ejemplos, no socios confirmados. Las donaciones se realizan en el sitio oficial de cada organización. Grace & Gather no recibe pagos.",
+    "ru": "Это примеры, а не подтверждённые партнёры. Пожертвования оформляются на официальных сайтах организаций. Grace & Gather не принимает платежи."
+  },
+  "Visit": {
+    "pt": "Visitar",
+    "es": "Visitar",
+    "ru": "Перейти"
+  },
+  "What does this passage say about God, people, and their relationship? What is being promised, asked, or questioned?\n\nRead the surrounding passage before drawing a conclusion. Christians may read difficult passages differently; a reflection question cannot settle those differences.": {
+    "pt": "O que esta passagem diz sobre Deus, as pessoas e sua relação? O que é prometido, pedido ou questionado?\n\nLeia o contexto antes de concluir. Cristãos podem interpretar passagens difíceis de formas diferentes; uma pergunta de reflexão não resolve essas diferenças.",
+    "es": "¿Qué dice este pasaje sobre Dios, las personas y su relación? ¿Qué se promete, pide o cuestiona?\n\nLee el contexto antes de sacar conclusiones. Los cristianos pueden interpretar pasajes difíciles de distintas formas; una pregunta de reflexión no resuelve esas diferencias.",
+    "ru": "Что этот отрывок говорит о Боге, людях и их отношениях? Что обещается, о чём спрашивают, что подвергается сомнению?\n\nПрочитайте контекст, прежде чем делать вывод. Христиане могут по-разному понимать трудные отрывки; вопрос для размышления не разрешает этих различий."
+  },
+  "Loading your Bible…": {
+    "pt": "Carregando sua Bíblia…",
+    "es": "Cargando tu Biblia…",
+    "ru": "Загружаем вашу Библию…"
+  },
+  "Could not load this Bible. Please try again.": {
+    "pt": "Não foi possível carregar esta Bíblia. Tente novamente.",
+    "es": "No se pudo cargar esta Biblia. Inténtalo de nuevo.",
+    "ru": "Не удалось загрузить эту Библию. Попробуйте ещё раз."
+  },
+  "Try again": {
+    "pt": "Tentar novamente",
+    "es": "Intentar de nuevo",
+    "ru": "Повторить"
+  },
+  "Topic": {
+    "pt": "Tópico",
+    "es": "Tema",
+    "ru": "Тема"
+  },
+  "A kind space, together": {
+    "pt": "Um espaço de cuidado, juntos",
+    "es": "Un espacio amable, juntos",
+    "ru": "Создадим доброе пространство вместе"
+  },
+  "Orthodox perspective": {
+    "pt": "Perspectiva ortodoxa",
+    "es": "Perspectiva ortodoxa",
+    "ru": "Православная точка зрения"
+  },
+  "Catholic perspective": {
+    "pt": "Perspectiva católica",
+    "es": "Perspectiva católica",
+    "ru": "Католическая точка зрения"
+  },
+  "Protestant perspective": {
+    "pt": "Perspectiva protestante",
+    "es": "Perspectiva protestante",
+    "ru": "Протестантская точка зрения"
+  },
+  "Open": {
+    "pt": "Abrir",
+    "es": "Abrir",
+    "ru": "Открыть"
+  },
+  "Reply to": {
+    "pt": "Resposta a",
+    "es": "Respuesta a",
+    "ru": "Ответ на"
+  },
+  "Options for": {
+    "pt": "Opções de",
+    "es": "Opciones de",
+    "ru": "Настройки для"
+  },
+  "Open demo review queue": {
+    "pt": "Abrir fila de revisão da demonstração",
+    "es": "Abrir cola de revisión de demostración",
+    "ru": "Открыть очередь проверки демо"
+  },
+  "Moderation queue": {
+    "pt": "Fila de moderação",
+    "es": "Cola de moderación",
+    "ru": "Очередь модерации"
+  },
+  "Blocked people": {
+    "pt": "Pessoas bloqueadas",
+    "es": "Personas bloqueadas",
+    "ru": "Заблокированные участники"
+  },
+  "Posts and replies from this person are hidden for you. You can undo this below.": {
+    "pt": "Publicações e respostas desta pessoa estão ocultas para você. Você pode desfazer isso abaixo.",
+    "es": "Las publicaciones y respuestas de esta persona están ocultas para ti. Puedes deshacerlo abajo.",
+    "ru": "Публикации и ответы этого человека скрыты для вас. Это можно отменить ниже."
+  },
+  "Scripture language": {
+    "pt": "Idioma das Escrituras",
+    "es": "Idioma de las Escrituras",
+    "ru": "Язык Писания"
+  },
+  "Choose a supported edition": {
+    "pt": "Escolher uma edição disponível",
+    "es": "Elegir una edición disponible",
+    "ru": "Выбрать доступное издание"
+  },
+  "No Bible is available for this language and tradition yet. Choose another edition explicitly; we will not substitute English.": {
+    "pt": "Ainda não há uma Bíblia disponível para este idioma e tradição. Escolha outra edição explicitamente; não substituiremos por inglês.",
+    "es": "Aún no hay una Biblia disponible para este idioma y tradición. Elige otra edición de forma explícita; no la sustituiremos por inglés.",
+    "ru": "Библия для этого языка и традиции пока недоступна. Выберите другое издание самостоятельно; мы не подменяем его английским."
+  },
+  "Your Bible choice controls the verses in your journal. Available full readers: English, Portuguese (Bíblia Livre), Spanish (Reina-Valera 1909), and Russian (Synodal, 66 books). Availability depends on tradition; the Russian source omits additional Orthodox books.": {
+    "pt": "Sua escolha de Bíblia define os versículos do diário. Leitura disponível: inglês, português (Bíblia Livre), espanhol (Reina-Valera 1909) e russo (Sinodal, 66 livros). A disponibilidade depende da tradição; a fonte russa não inclui os livros ortodoxos adicionais.",
+    "es": "Tu elección de Biblia determina los versículos del diario. Lectura disponible: inglés, portugués (Bíblia Livre), español (Reina-Valera 1909) y ruso (Sinodal, 66 libros). La disponibilidad depende de la tradición; la fuente rusa no incluye los libros ortodoxos adicionales.",
+    "ru": "Выбранная Библия определяет стихи в дневнике. Доступны издания на английском, португальском (Bíblia Livre), испанском (Reina-Valera 1909) и русском (Синодальный, 66 книг). Доступность зависит от традиции; русский источник не включает дополнительные православные книги."
+  },
+  "66-book collection from the publisher. Verse wording and numbering preserved; notes kept separately.": {
+    "pt": "Coleção de 66 livros da editora. Texto e numeração dos versículos preservados; notas apresentadas separadamente.",
+    "es": "Colección de 66 libros de la editorial. Se conservan el texto y la numeración de los versículos; las notas se presentan por separado.",
+    "ru": "Издание содержит 66 книг. Текст и нумерация стихов сохранены; примечания приведены отдельно."
+  },
+  "66 books from the publisher. This source does not include the additional Orthodox books.": {
+    "pt": "66 livros da editora. Esta fonte não inclui os livros adicionais da tradição ortodoxa.",
+    "es": "66 libros de la editorial. Esta fuente no incluye los libros adicionales de la tradición ortodoxa.",
+    "ru": "66 книг издания. Этот источник не включает дополнительные книги православной Библии."
+  }
+}

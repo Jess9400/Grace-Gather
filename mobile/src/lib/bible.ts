@@ -6,7 +6,11 @@ import { data, Preferences } from "./content";
 import { bookLoaders as webLoaders } from "../generated/bible/loaders";
 import { bookLoaders as draLoaders } from "../generated/bible-dra/loaders";
 import { bookLoaders as brentonLoaders } from "../generated/bible-brenton/loaders";
-export type CollectionId = "web" | "dra" | "brenton";
+import blivreIndex from "../generated/bible-blivre/index.json";
+import rv1909Index from "../generated/bible-rv1909/index.json";
+import synodalIndex from "../generated/bible-synodal/index.json";
+export type CollectionId =
+  "web" | "dra" | "brenton" | "blivre" | "rv1909" | "synodal";
 interface BookMetadata {
   code: string;
   name: string;
@@ -52,6 +56,9 @@ export const collections: Record<
   CollectionId,
   { index: CollectionIndex; loaders: Record<string, () => BibleBook> }
 > = {
+  blivre: { index: blivreIndex, loaders: {} },
+  rv1909: { index: rv1909Index, loaders: {} },
+  synodal: { index: synodalIndex, loaders: {} },
   web: {
     index: {
       ...webIndex,
@@ -66,13 +73,40 @@ export const collections: Record<
   dra: { index: draIndex, loaders: draLoaders },
   brenton: { index: brentonIndex, loaders: brentonLoaders },
 };
-export function collectionFor(p: Preferences): CollectionId | null {
-  if (p.scriptureLanguage !== "en") return null;
-  if (p.edition === "web" && p.tradition === "protestant") return "web";
-  if (p.edition === "dra" && p.tradition === "catholic") return "dra";
-  if (p.edition === "brenton" && p.tradition === "orthodox") return "brenton";
-  return null;
+// Load each added language only when opened; avoid downloading every Bible at startup.
+const pendingCollections: Partial<Record<CollectionId, Promise<void>>> = {};
+export function ensureCollection(id: CollectionId): Promise<void> {
+  if (Object.keys(collections[id].loaders).length) return Promise.resolve();
+  return (pendingCollections[id] ??= (async () => {
+    try {
+      const loaded =
+        id === "blivre"
+          ? await import("../generated/bible-blivre/loaders")
+          : id === "rv1909"
+            ? await import("../generated/bible-rv1909/loaders")
+            : id === "synodal"
+              ? await import("../generated/bible-synodal/loaders")
+              : null;
+      if (!loaded) throw new Error("Bible collection unavailable");
+      collections[id].loaders = loaded.bookLoaders;
+    } catch (error) {
+      delete pendingCollections[id];
+      throw error;
+    }
+  })());
 }
+export function collectionFor(p: Preferences): CollectionId | null {
+  const edition = data.editions.find(
+    (e) =>
+      e.id === p.edition &&
+      e.language === p.scriptureLanguage &&
+      (e.traditions as string[]).includes(p.tradition),
+  );
+  return edition && Object.hasOwn(collections, edition.id)
+    ? (edition.id as CollectionId)
+    : null;
+}
+
 export function getBook(
   code: string,
   collection: CollectionId = "web",
@@ -129,7 +163,7 @@ export function readingLocation(
     };
   for (const edition of data.editions) {
     const verse = edition.passages.find((v) => v.id === id);
-    if (!verse || !["web", "dra", "brenton"].includes(edition.id)) continue;
+    if (!verse || !Object.hasOwn(collections, edition.id)) continue;
     const match = verse.sourceUrl.match(/([A-Z0-9]{3})([0-9]+)\.htm$/);
     if (
       match &&
@@ -165,7 +199,7 @@ export function getReadingVerse(id: string): ReadingVerse | null {
       b = index.books.findIndex((b) => b.code === code);
     if (
       b >= 0 &&
-      /^[a-z]+:[A-Z0-9]{3}\.\d+\.[^:]+$|^[A-Z0-9]{3}\.\d+\.[^:]+$/.test(id)
+      /^[a-z0-9]+:[A-Z0-9]{3}\.\d+\.[^:]+$|^[A-Z0-9]{3}\.\d+\.[^:]+$/.test(id)
     ) {
       const qualified = id.includes(":") ? id : `web:${id}`;
       return (

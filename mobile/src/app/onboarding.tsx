@@ -1,3 +1,4 @@
+import { interfaceCopy } from "../lib/interface-copy";
 import { useState } from "react";
 import { router } from "expo-router";
 import {
@@ -44,17 +45,26 @@ export default function ProfileSetup() {
     setP(normalizeProfile({ ...p, ...v }));
   async function finish() {
     if (p.emailConsent && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(p.email)) {
-      setStep(5); setError(t("pEmailConsent")); return;
+      setStep(5);
+      setError(t("pEmailConsent"));
+      return;
     }
     setBusy(true);
     setError("");
     try {
-      await saveProfile({ ...p, email: p.email.trim(), onboarded: true,
+      await saveProfile({
+        ...p,
+        email: p.email.trim(),
+        onboarded: true,
         faithChoice: p.faithChoice ?? "unspecified",
-        traditionQuestionVersion: TRADITION_QUESTION_VERSION });
+        traditionQuestionVersion: TRADITION_QUESTION_VERSION,
+      });
       router.replace("/(tabs)");
-    } catch { setError(t("pSaveError")); }
-    finally { setBusy(false); }
+    } catch {
+      setError(t("pSaveError"));
+    } finally {
+      setBusy(false);
+    }
   }
   async function next() {
     setError("");
@@ -145,10 +155,16 @@ export default function ProfileSetup() {
             ))}
           </Row>
           <Row>
-            <Chip title={q(p.language, "exploring")} selected={p.faithChoice === "exploring"}
-              onPress={() => update({ faithChoice: "exploring" })} />
-            <Chip title={q(p.language, "skip")} selected={p.faithChoice === "unspecified"}
-              onPress={() => update({ faithChoice: "unspecified" })} />
+            <Chip
+              title={q(p.language, "exploring")}
+              selected={p.faithChoice === "exploring"}
+              onPress={() => update({ faithChoice: "exploring" })}
+            />
+            <Chip
+              title={q(p.language, "skip")}
+              selected={p.faithChoice === "unspecified"}
+              onPress={() => update({ faithChoice: "unspecified" })}
+            />
           </Row>
           <Body small>{t("scriptureLanguage")}</Body>
           <Row>
@@ -170,7 +186,12 @@ export default function ProfileSetup() {
             />
           ))}
           {!editionsFor(p).length && <Notice text={t("unavailable")} />}
-          <Body small>{t("editionHelp")}</Body>
+          <Body small>
+            {interfaceCopy(
+              p.language,
+              "Your Bible choice controls the verses in your journal. Available full readers: English, Portuguese (Bíblia Livre), Spanish (Reina-Valera 1909), and Russian (Synodal, 66 books). Availability depends on tradition; the Russian source omits additional Orthodox books.",
+            )}
+          </Body>
         </>
       )}
       {step === 4 && (
@@ -249,7 +270,9 @@ export default function ProfileSetup() {
       )}
       <Button
         secondary
-        title={profile.onboarded ? q(p.language, "savePreferences") : t("pLater")}
+        title={
+          profile.onboarded ? q(p.language, "savePreferences") : t("pLater")
+        }
         disabled={busy}
         onPress={() => void finish()}
       />

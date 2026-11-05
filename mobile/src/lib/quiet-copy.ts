@@ -97,9 +97,24 @@ const words = {
     "Нет правильного ответа. Есть ваш.",
   ),
   home: L("Journal", "Diário", "Diario", "Дневник"),
-  languagePreferences: L("Language & preferences", "Idioma e preferências", "Idioma y preferencias", "Язык и настройки"),
-  setup: L("Personalize your experience", "Personalize sua experiência", "Personaliza tu experiencia", "Настроить приложение"),
-  savePreferences: L("Save preferences", "Salvar preferências", "Guardar preferencias", "Сохранить настройки"),
+  languagePreferences: L(
+    "Language & preferences",
+    "Idioma e preferências",
+    "Idioma y preferencias",
+    "Язык и настройки",
+  ),
+  setup: L(
+    "Personalize your experience",
+    "Personalize sua experiência",
+    "Personaliza tu experiencia",
+    "Настроить приложение",
+  ),
+  savePreferences: L(
+    "Save preferences",
+    "Salvar preferências",
+    "Guardar preferencias",
+    "Сохранить настройки",
+  ),
   bible: L("Bible", "Bíblia", "Biblia", "Библия"),
   diary: L("Diary", "Diário", "Diario", "Дневник"),
   done: L(
@@ -260,10 +275,10 @@ const words = {
     "Об этом выборе",
   ),
   aboutText: L(
-    "English readers offer the World English Bible (Protestant), Douay-Rheims (Catholic), and Brenton Septuagint with a separately labelled World English Bible New Testament. Orthodox book collections vary; this is not a church-approved Orthodox edition. Other languages currently offer selected passages.",
-    "Em ingl\u00eas: World English Bible (protestante), Douay-Rheims (cat\u00f3lica) e Septuaginta Brenton com Novo Testamento World English Bible identificado \u00e0 parte. As cole\u00e7\u00f5es ortodoxas variam; esta n\u00e3o \u00e9 uma edi\u00e7\u00e3o aprovada por uma Igreja. Outros idiomas t\u00eam passagens selecionadas.",
-    "En ingl\u00e9s: World English Bible (protestante), Douay-Rheims (cat\u00f3lica) y Septuaginta Brenton con Nuevo Testamento World English Bible identificado por separado. Las colecciones ortodoxas var\u00edan; esta no es una edici\u00f3n aprobada por una Iglesia. Otros idiomas tienen pasajes seleccionados.",
-    "\u041d\u0430 \u0430\u043d\u0433\u043b\u0438\u0439\u0441\u043a\u043e\u043c: World English Bible, Douay-Rheims, Brenton Septuagint + World English Bible NT. \u041f\u0440\u0430\u0432\u043e\u0441\u043b\u0430\u0432\u043d\u044b\u0435 \u0441\u043e\u0431\u0440\u0430\u043d\u0438\u044f \u043a\u043d\u0438\u0433 \u0440\u0430\u0437\u043b\u0438\u0447\u0430\u044e\u0442\u0441\u044f. \u0414\u043b\u044f \u0434\u0440\u0443\u0433\u0438\u0445 \u044f\u0437\u044b\u043a\u043e\u0432 \u0434\u043e\u0441\u0442\u0443\u043f\u043d\u044b \u0438\u0437\u0431\u0440\u0430\u043d\u043d\u044b\u0435 \u043e\u0442\u0440\u044b\u0432\u043a\u0438.",
+    "Your Bible choice controls the verses in your journal. Available full readers: English, Portuguese (B\u00edblia Livre), Spanish (Reina-Valera 1909), and Russian (Synodal, 66 books). Availability depends on tradition; the Russian source omits additional Orthodox books.",
+    "Sua escolha de B\u00edblia define os vers\u00edculos do di\u00e1rio. Leitura dispon\u00edvel: ingl\u00eas, portugu\u00eas (B\u00edblia Livre), espanhol (Reina-Valera 1909) e russo (Sinodal, 66 livros). A disponibilidade depende da tradi\u00e7\u00e3o; a fonte russa n\u00e3o inclui os livros ortodoxos adicionais.",
+    "Tu elecci\u00f3n de Biblia determina los vers\u00edculos del diario. Lectura disponible: ingl\u00e9s, portugu\u00e9s (B\u00edblia Livre), espa\u00f1ol (Reina-Valera 1909) y ruso (Sinodal, 66 libros). La disponibilidad depende de la tradici\u00f3n; la fuente rusa no incluye los libros ortodoxos adicionales.",
+    "\u0412\u044b\u0431\u0440\u0430\u043d\u043d\u0430\u044f \u0411\u0438\u0431\u043b\u0438\u044f \u043e\u043f\u0440\u0435\u0434\u0435\u043b\u044f\u0435\u0442 \u0441\u0442\u0438\u0445\u0438 \u0432 \u0434\u043d\u0435\u0432\u043d\u0438\u043a\u0435. \u0414\u043e\u0441\u0442\u0443\u043f\u043d\u044b \u0438\u0437\u0434\u0430\u043d\u0438\u044f \u043d\u0430 \u0430\u043d\u0433\u043b\u0438\u0439\u0441\u043a\u043e\u043c, \u043f\u043e\u0440\u0442\u0443\u0433\u0430\u043b\u044c\u0441\u043a\u043e\u043c (B\u00edblia Livre), \u0438\u0441\u043f\u0430\u043d\u0441\u043a\u043e\u043c (Reina-Valera 1909) \u0438 \u0440\u0443\u0441\u0441\u043a\u043e\u043c (\u0421\u0438\u043d\u043e\u0434\u0430\u043b\u044c\u043d\u044b\u0439, 66 \u043a\u043d\u0438\u0433). \u0414\u043e\u0441\u0442\u0443\u043f\u043d\u043e\u0441\u0442\u044c \u0437\u0430\u0432\u0438\u0441\u0438\u0442 \u043e\u0442 \u0442\u0440\u0430\u0434\u0438\u0446\u0438\u0438; \u0440\u0443\u0441\u0441\u043a\u0438\u0439 \u0438\u0441\u0442\u043e\u0447\u043d\u0438\u043a \u043d\u0435 \u0432\u043a\u043b\u044e\u0447\u0430\u0435\u0442 \u0434\u043e\u043f\u043e\u043b\u043d\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0435 \u043f\u0440\u0430\u0432\u043e\u0441\u043b\u0430\u0432\u043d\u044b\u0435 \u043a\u043d\u0438\u0433\u0438.",
   ),
 };
 export function q(language: Language, key: keyof typeof words) {

@@ -24,6 +24,7 @@ function load(path) {
   return module.exports;
 }
 const reader = load(resolve(root, 'mobile/src/lib/bible.ts'));
+await Promise.all(['blivre','rv1909','synodal'].map(id => reader.ensureCollection(id)));
 
 test('Community maps curated quotations only through explicit edition-specific verse aliases', () => {
   assert.equal(reader.discussionVerseId('brenton-psalm-22-2'),'brenton:PSA.22.2');
@@ -126,4 +127,32 @@ test('resource labels retain their publisher or author sources and reproduce fro
  assert.equal(bookPerspective('grief').perspective.en,'Anglican author');
  assert.equal(bookPerspective('return').perspective.en,'Catholic author');
  assert.equal(readFileSync(resolve(root,'shared/reading-resources.json'),'utf8'),readFileSync(resolve(root,'mobile/src/generated/reading-resources.json'),'utf8'));
+});
+
+test('full readers follow Scripture language independently of interface language', () => {
+ const catalog=load(resolve(root,'mobile/src/generated/catalog.json'));
+ for(const [id,language] of [['blivre','pt'],['rv1909','es'],['synodal','ru']]) {
+  const edition=catalog.editions.find(e=>e.id===id);
+  for(const ui of ['en','pt','es','ru'])for(const tradition of edition.traditions){
+   assert.equal(reader.collectionFor({language:ui,scriptureLanguage:language,tradition,edition:id}),id);
+   assert.equal(reader.collectionFor({language:language,scriptureLanguage:'en',tradition,edition:id}),null);
+  }
+  assert.equal(reader.collections[id].index.books.length,66);
+  for(const passage of edition.passages){
+   const location=reader.readingLocation(passage.id);
+   assert.equal(location.collection,id);
+   assert.equal(reader.getReadingVerse(passage.id).text,passage.text);
+   const number=passage.reference.match(/:(\d+)/)[1];
+   const full=reader.getReadingVerse(`${id}:${location.code}.${location.chapter}.${number}`);
+   assert.equal(full.text,passage.text.replace(/\s+/g,' ').trim(),passage.id);
+   assert.equal(full.collection,id);
+   assert.ok(full.attribution && full.licenseUrl);
+  }
+ }
+ for(const scriptureLanguage of ['pt','es','ru'])assert.equal(reader.collectionFor({scriptureLanguage,tradition:'catholic',edition:'dra'}),null);
+ assert.match(reader.getReadingVerse('blivre:GEN.1.1').text,/princípio/);
+ assert.match(reader.getReadingVerse('rv1909:GEN.1.1').text,/principio/);
+ assert.match(reader.getReadingVerse('synodal:GEN.1.1').text,/начале/);
+ assert.equal(reader.getReadingVerse('rv1909:NUM.12.16').text,'');
+ assert.ok(reader.getReadingVerse('rv1909:NUM.12.16').notes.length);
 });

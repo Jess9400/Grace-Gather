@@ -43,7 +43,7 @@ def clean(text):
     return re.sub(r'\s+', ' ', text).strip()
 
 
-def parse_book(book, code):
+def parse_book(book, code, empty_note=None, include_book_tails=False):
     """Read mixed-content USFX while keeping footnotes outside verse wording."""
     chapters, chapter, current, fragments = {}, 0, None, []
 
@@ -52,7 +52,10 @@ def parse_book(book, code):
         if current is not None:
             current['text'] = clean(''.join(fragments))
             if not current['text'] and not current['notes']:
-                raise ValueError(f"Empty source verse {current['id']}")
+                if empty_note:
+                    current["notes"].append(empty_note)
+                else:
+                    raise ValueError(f"Empty source verse {current['id']}")
             chapters[str(chapter)].append(current)
         current, fragments = None, []
 
@@ -89,6 +92,8 @@ def parse_book(book, code):
 
     for node in book:
         walk(node)
+        if include_book_tails and current is not None and node.tail:
+            fragments.append(node.tail)
     flush()
     assert chapters and all(chapters.values()), code
     ids = [verse['id'] for verses in chapters.values() for verse in verses]

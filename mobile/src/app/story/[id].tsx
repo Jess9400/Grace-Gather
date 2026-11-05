@@ -1,3 +1,4 @@
+import { interfaceCopy } from "../../lib/interface-copy";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import { ScrollView, View } from "react-native";
@@ -168,6 +169,16 @@ export default function Story() {
               : c("reflection")}{" "}
         · {item.source}
       </Body>
+      {(!item.title?.[profile.language] ||
+        !item.summary?.[profile.language] ||
+        (item.body && !item.body[profile.language])) && (
+        <Body small>
+          {interfaceCopy(
+            profile.language,
+            "Translation is not available for this item. The original text is shown.",
+          )}
+        </Body>
+      )}
       <Heading>{storyText(item.title, profile.language)}</Heading>
       {!!item.publishedAt && (
         <Body small>

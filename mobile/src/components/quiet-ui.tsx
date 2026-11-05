@@ -1,3 +1,4 @@
+import { useInterfaceCopy } from "../lib/use-interface-copy";
 import React, { createContext, useContext } from "react";
 import {
   ScrollView,
@@ -46,6 +47,7 @@ export function Screen({
   children: React.ReactNode;
   back?: boolean;
 }) {
+  const tr = useInterfaceCopy();
   return (
     <SafeAreaView style={s.safe} edges={["top", "left", "right"]}>
       <ScrollView
@@ -56,7 +58,7 @@ export function Screen({
           <Button
             secondary
             title="‹"
-            accessibilityLabel="Back"
+            accessibilityLabel={tr("Back")}
             onPress={() =>
               router.canGoBack() ? router.back() : router.replace("/(tabs)")
             }
@@ -66,7 +68,7 @@ export function Screen({
           <Ionicons name="leaf-outline" size={23} color={colors.gold} />
           <Text style={s.brandText}>GRACE & GATHER</Text>
           <Pressable
-            accessibilityLabel="Account and settings"
+            accessibilityLabel={tr("Account and settings")}
             accessibilityRole="button"
             onPress={() => router.push("/account")}
             style={{ marginLeft: "auto", padding: 8 }}
@@ -341,13 +343,14 @@ export const s = StyleSheet.create({
 
 export const serif = Platform.OS === "android" ? "serif" : "Georgia";
 export function Brand() {
+  const tr = useInterfaceCopy();
   return (
     <View style={s.brand}>
       <Ionicons name="leaf-outline" size={24} color={colors.gold} />
       <Text style={s.brandText}>GRACE & GATHER</Text>
       <Pressable
         accessibilityRole="button"
-        accessibilityLabel="Account and settings"
+        accessibilityLabel={tr("Account and settings")}
         onPress={() => router.push("/account")}
         style={{ marginLeft: "auto", padding: 8 }}
       >
