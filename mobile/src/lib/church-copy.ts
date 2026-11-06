@@ -356,6 +356,18 @@ const words = {
     "Desahogar el corazón",
     "Облегчить душу",
   ),
+  tapAnywhere: L(
+    "Tap anywhere in the church to choose where to begin.",
+    "Toque em qualquer lugar da igreja para escolher por onde começar.",
+    "Toca cualquier lugar de la iglesia para elegir por dónde empezar.",
+    "Коснитесь любого места в храме, чтобы выбрать, с чего начать.",
+  ),
+  present: L(
+    "There are {n} people in church right now",
+    "Há {n} pessoas na igreja agora",
+    "Hay {n} personas en la iglesia ahora",
+    "Сейчас в храме: {n}",
+  ),
   // Small step
   stepTitle: L(
     "One small step for today",

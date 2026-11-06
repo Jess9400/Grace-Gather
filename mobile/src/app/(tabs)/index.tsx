@@ -32,6 +32,7 @@ import {
 } from "../../lib/church-audio";
 import type { ChurchPlace } from "../../lib/church-scene";
 import { StepCheckIn } from "../../components/SmallStep";
+import { useChurchPresence } from "../../lib/church-presence";
 
 const ROUTES: Record<Exclude<ChurchPlace, "wreath">, string> = {
   candles: "/candle",
@@ -49,7 +50,7 @@ export default function Home() {
   const { profile } = useApp();
   const { draft, clear } = useQuiet();
   const t = (key: ChurchWord) => churchCopy(profile.language, key);
-  const params = useLocalSearchParams<{ advent?: string }>();
+  const params = useLocalSearchParams<{ advent?: string; present?: string }>();
   const preview =
     __DEV__ && params.advent
       ? Math.max(0, Math.min(4, Number(params.advent) || 0))
@@ -65,6 +66,10 @@ export default function Home() {
   const [soundOn, setSoundOn] = useState<boolean | null>(null);
   const [focused, setFocused] = useState(true);
   const candles = useCandles();
+  const live = useChurchPresence();
+  // Development preview of the count (e.g. /?present=30); never in release.
+  const present =
+    __DEV__ && params.present ? Number(params.present) || null : live;
   useEffect(() => {
     void loadCandles();
     void loadSoundOn().then(setSoundOn);
@@ -215,20 +220,36 @@ export default function Home() {
           </View>
         </View>
 
+        {!sceneFailed && <Text style={s.hint}>{t("tapAnywhere")}</Text>}
+
         {!sceneFailed && (
-          <ChurchScene
-            places={scenePlaces}
-            night={night}
-            adventWeek={week}
-            litVotives={Math.min(15, BASE_VOTIVES + candles.length)}
-            onPlace={open}
-            accessibilityLabel={t("church")}
-            paused={entrance}
-            protestant={plain}
-            tour={touring}
-            onTourDone={endTour}
-            onFailure={() => setSceneFailed(true)}
-          />
+          <View>
+            <ChurchScene
+              places={scenePlaces}
+              night={night}
+              adventWeek={week}
+              litVotives={Math.min(15, BASE_VOTIVES + candles.length)}
+              onPlace={open}
+              accessibilityLabel={t("church")}
+              paused={entrance}
+              protestant={plain}
+              tour={touring}
+              onTourDone={endTour}
+              onFailure={() => setSceneFailed(true)}
+            />
+            {present !== null && present >= 2 && (
+              <View
+                pointerEvents="none"
+                accessibilityLiveRegion="polite"
+                style={s.present}
+              >
+                <View style={s.presentDot} />
+                <Text style={s.presentText}>
+                  {t("present").replace("{n}", String(present))}
+                </Text>
+              </View>
+            )}
+          </View>
         )}
 
         <StepCheckIn />
@@ -351,6 +372,26 @@ const s = StyleSheet.create({
     flexShrink: 1,
   },
   tools: { flexDirection: "row", gap: 6 },
+  hint: { fontSize: 14, lineHeight: 20, color: colors.muted, marginTop: -6 },
+  present: {
+    position: "absolute",
+    left: 12,
+    bottom: 12,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    paddingHorizontal: 12,
+    minHeight: 32,
+    borderRadius: 16,
+    backgroundColor: "rgba(48,44,40,0.78)",
+  },
+  presentDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: "#7FD39A",
+  },
+  presentText: { color: colors.white, fontSize: 13, fontWeight: "600" },
   tool: {
     width: 44,
     height: 44,
