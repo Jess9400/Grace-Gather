@@ -363,10 +363,10 @@ const words = {
     "Коснитесь любого места в храме, чтобы выбрать, с чего начать.",
   ),
   present: L(
-    "There are {n} people in church right now",
-    "Há {n} pessoas na igreja agora",
-    "Hay {n} personas en la iglesia ahora",
-    "Сейчас в храме: {n}",
+    "{n} opted-in devices in church",
+    "{n} dispositivos com presença ativada na igreja",
+    "{n} dispositivos con presencia activada en la iglesia",
+    "Устройств с включённым присутствием: {n}",
   ),
   // Small step
   stepTitle: L(

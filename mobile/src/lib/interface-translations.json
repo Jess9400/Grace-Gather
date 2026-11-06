@@ -1113,5 +1113,55 @@
     "pt": "Ver encontro",
     "es": "Ver encuentro",
     "ru": "Открыть встречу"
+  },
+  "Enable church sounds": {
+    "pt": "Ativar sons da igreja",
+    "es": "Activar sonidos de la iglesia",
+    "ru": "Включить звуки храма"
+  },
+  "See other options": {
+    "pt": "Ver outras opções",
+    "es": "Ver otras opciones",
+    "ru": "Другие варианты"
+  },
+  "Church preferences": {
+    "pt": "Preferências da igreja",
+    "es": "Preferencias de la iglesia",
+    "ru": "Настройки храма"
+  },
+  "Your tradition sets a starting point. Choose the practices that feel meaningful to you.": {
+    "pt": "Sua tradição é um ponto de partida. Escolha as práticas que fazem sentido para você.",
+    "es": "Tu tradición es un punto de partida. Elige las prácticas que tengan sentido para ti.",
+    "ru": "Ваша традиция — отправная точка. Выберите близкие вам практики."
+  },
+  "Candle recommendations: on": {
+    "pt": "Sugestões de velas: ativadas",
+    "es": "Sugerencias de velas: activadas",
+    "ru": "Рекомендации свечей: включены"
+  },
+  "Candle recommendations: off": {
+    "pt": "Sugestões de velas: desativadas",
+    "es": "Sugerencias de velas: desactivadas",
+    "ru": "Рекомендации свечей: выключены"
+  },
+  "Church presence: on": {
+    "pt": "Presença na igreja: ativada",
+    "es": "Presencia en la iglesia: activada",
+    "ru": "Присутствие в храме: включено"
+  },
+  "Church presence: off": {
+    "pt": "Presença na igreja: desativada",
+    "es": "Presencia en la iglesia: desactivada",
+    "ru": "Присутствие в храме: выключено"
+  },
+  "Could not save. Please try again.": {
+    "pt": "Não foi possível salvar. Tente novamente.",
+    "es": "No se pudo guardar. Inténtalo de nuevo.",
+    "ru": "Не удалось сохранить. Попробуйте ещё раз."
+  },
+  "Include this device in the church presence count only while Home is open. No name or journal is shared. This counts devices, not verified people.": {
+    "pt": "Incluir este dispositivo na contagem apenas enquanto o Início estiver aberto. Seu nome e diário não são compartilhados. A contagem é de dispositivos, não de pessoas verificadas.",
+    "es": "Incluir este dispositivo en el recuento solo mientras Inicio esté abierto. No se comparte tu nombre ni diario. Se cuentan dispositivos, no personas verificadas.",
+    "ru": "Учитывать это устройство только пока открыт главный экран. Имя и дневник не передаются. Считаются устройства, а не подтверждённые пользователи."
   }
 }

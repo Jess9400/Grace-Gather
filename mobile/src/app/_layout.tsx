@@ -57,6 +57,7 @@ function Routes() {
               "entry/[id]",
               "verse/[id]",
               "preferences",
+              "practices",
               "giving",
               "history",
               "organizations",

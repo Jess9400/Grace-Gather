@@ -26,6 +26,7 @@ export default function TabsLayout() {
       {(
         [
           ["index", churchCopy(profile.language, "home"), "home-outline"],
+          ["explore", copy(profile.language, "explore"), "compass-outline"],
           ["bible", q(profile.language, "bible"), "book-outline"],
           [
             "confession",
@@ -34,7 +35,6 @@ export default function TabsLayout() {
               : copy(profile.language, "confession"),
             "heart-outline",
           ],
-          ["explore", copy(profile.language, "explore"), "compass-outline"],
           [
             "gatherings",
             churchCopy(profile.language, "gather"),

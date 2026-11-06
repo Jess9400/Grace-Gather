@@ -33,7 +33,7 @@ import { quietMood, selectQuietPassage } from "../../generated/quiet-diary";
 import { aiCopy } from "../../lib/ai-copy";
 import { SmallStepPicker } from "../../components/SmallStep";
 import { churchCopy } from "../../lib/church-copy";
-import { isProtestant } from "../../lib/church-calendar";
+import { isProtestant, welcomesCandles } from "../../lib/church-calendar";
 interface Turn {
   text: string;
   mood: Mood;
@@ -176,7 +176,8 @@ export default function EntryScreen() {
           ))}
           {(
             [
-              ...(plain
+              ...(!welcomesCandles(profile) ||
+              !["sad", "grateful"].includes(entry.mood)
                 ? []
                 : ([["flame-outline", "candleAction", "/candle"]] as const)),
               [
