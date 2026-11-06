@@ -300,6 +300,62 @@ const words = {
     "Una vela en un nicho de piedra",
     "Свеча в каменной нише",
   ),
+  // Smoother Home
+  tellGod: L(
+    "What would you like to tell God today?",
+    "O que você gostaria de dizer a Deus hoje?",
+    "¿Qué te gustaría decirle a Dios hoy?",
+    "Что бы вы хотели сказать Богу сегодня?",
+  ),
+  tellGodSub: L(
+    "Write or speak freely. Your page stays on this device.",
+    "Escreva ou fale livremente. Sua página fica neste aparelho.",
+    "Escribe o habla con libertad. Tu página se queda en este dispositivo.",
+    "Пишите или говорите свободно. Страница остаётся на этом устройстве.",
+  ),
+  showPlaces: L(
+    "Show places",
+    "Mostrar lugares",
+    "Mostrar lugares",
+    "Показать места",
+  ),
+  soundOn: L(
+    "Church sound on",
+    "Som da igreja ligado",
+    "Sonido de la iglesia activado",
+    "Звук храма включён",
+  ),
+  soundOff: L(
+    "Church sound off",
+    "Som da igreja desligado",
+    "Sonido de la iglesia desactivado",
+    "Звук храма выключен",
+  ),
+  unburden: L("Unburden", "Desabafar", "Desahogarse", "Облегчить душу"),
+  unburdenSub: L(
+    "Lay down what weighs on you, anonymously",
+    "Deixe o que pesa em você, anonimamente",
+    "Deja lo que te pesa, de forma anónima",
+    "Анонимно оставьте то, что тяготит",
+  ),
+  candleAction: L(
+    "Light a candle",
+    "Acender uma vela",
+    "Encender una vela",
+    "Зажечь свечу",
+  ),
+  confessionAction: L(
+    "Bring it to Confession",
+    "Levar isso à Confissão",
+    "Llevarlo a la Confesión",
+    "Принести это на исповедь",
+  ),
+  unburdenAction: L(
+    "Unburden your heart",
+    "Desabafar o coração",
+    "Desahogar el corazón",
+    "Облегчить душу",
+  ),
   // Small step
   stepTitle: L(
     "One small step for today",

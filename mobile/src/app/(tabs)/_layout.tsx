@@ -5,6 +5,7 @@ import { copy } from "../../lib/content";
 import { q } from "../../lib/quiet-copy";
 import { colors } from "../../components/quiet-ui";
 import { churchCopy } from "../../lib/church-copy";
+import { isProtestant } from "../../lib/church-calendar";
 export default function TabsLayout() {
   const { profile } = useApp();
   const palette = colors;
@@ -25,9 +26,15 @@ export default function TabsLayout() {
       {(
         [
           ["index", churchCopy(profile.language, "home"), "home-outline"],
-          ["diary", churchCopy(profile.language, "journal"), "journal-outline"],
           ["bible", q(profile.language, "bible"), "book-outline"],
-          ["confession", copy(profile.language, "confession"), "heart-outline"],
+          [
+            "confession",
+            isProtestant(profile)
+              ? churchCopy(profile.language, "unburden")
+              : copy(profile.language, "confession"),
+            "heart-outline",
+          ],
+          ["explore", copy(profile.language, "explore"), "compass-outline"],
           [
             "gatherings",
             churchCopy(profile.language, "gather"),
@@ -46,8 +53,9 @@ export default function TabsLayout() {
           }}
         />
       ))}
-      {/* Discover now opens from Gather; learning and More stay reachable. */}
-      {["explore", "learn", "more"].map((name) => (
+      {/* The journal opens from Home and from Your space; learning and More
+          stay reachable from their own links. */}
+      {["diary", "learn", "more"].map((name) => (
         <Tabs.Screen
           key={name}
           name={name}

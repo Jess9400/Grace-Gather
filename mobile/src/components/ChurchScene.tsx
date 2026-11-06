@@ -59,7 +59,9 @@ export type PlaceLabel = {
 };
 
 // The church interior on Home. The view drifts gently on its own and follows a
-// finger moved across it; every place keeps an accessible, tappable label.
+// finger moved across it. Tapping an object opens its place. Labels stay hidden
+// (but remain the accessible controls); a short tour shows them one by one,
+// and a label appears while its object is touched or hovered.
 export default function ChurchScene({
   places,
   night,
@@ -68,6 +70,10 @@ export default function ChurchScene({
   onPlace,
   accessibilityLabel,
   paused = false,
+  protestant = false,
+  tour = false,
+  onTourDone,
+  onFailure,
 }: {
   places: PlaceLabel[];
   night: boolean;
@@ -76,6 +82,10 @@ export default function ChurchScene({
   onPlace: (place: ChurchPlace) => void;
   accessibilityLabel: string;
   paused?: boolean;
+  protestant?: boolean;
+  tour?: boolean;
+  onTourDone?: () => void;
+  onFailure?: () => void;
 }) {
   const reduced = useReducedMotion();
   const [size, setSize] = useState({ width: 0, height: 0 });
@@ -90,10 +100,24 @@ export default function ChurchScene({
   const view = useRef<ChurchView>({ dx: 0, dy: 0 });
   const touch = useRef<ChurchView | null>(null);
   const nightLevel = useRef(night ? 1 : 0);
-  const props = useRef({ night, adventWeek, litVotives, reduced, paused });
+  const props = useRef({
+    night,
+    adventWeek,
+    litVotives,
+    reduced,
+    paused,
+    protestant,
+  });
   useEffect(() => {
-    props.current = { night, adventWeek, litVotives, reduced, paused };
-  }, [night, adventWeek, litVotives, reduced, paused]);
+    props.current = {
+      night,
+      adventWeek,
+      litVotives,
+      reduced,
+      paused,
+      protestant,
+    };
+  }, [night, adventWeek, litVotives, reduced, paused, protestant]);
   const [positions] = useState(() => {
     const map = {} as Record<ChurchPlace, Animated.ValueXY>;
     (
@@ -110,6 +134,23 @@ export default function ChurchScene({
     });
     return map;
   });
+  const [shown] = useState(() => {
+    const map = {} as Record<ChurchPlace, Animated.Value>;
+    (
+      [
+        "candles",
+        "confession",
+        "bible",
+        "gather",
+        "pews",
+        "wreath",
+      ] as ChurchPlace[]
+    ).forEach((k) => {
+      map[k] = new Animated.Value(0);
+    });
+    return map;
+  });
+  const [touring, setTouring] = useState<ChurchPlace | null>(null);
   const [highlight, setHighlight] = useState<ChurchPlace | null>(null);
   const start = useRef<{ x: number; y: number } | null>(null);
   const dragged = useRef(false);
@@ -121,7 +162,11 @@ export default function ChurchScene({
   const place = useCallback(() => {
     const { width, height } = sizeRef.current;
     if (!width || !height) return;
-    const projected = projectPlaces(width / height, view.current);
+    const projected = projectPlaces(
+      width / height,
+      view.current,
+      props.current.protestant,
+    );
     (Object.keys(projected) as ChurchPlace[]).forEach((key) => {
       const p = projected[key];
       positions[key].setValue(
@@ -131,11 +176,17 @@ export default function ChurchScene({
   }, [positions]);
 
   const render = useCallback(() => {
-    const { adventWeek: week, litVotives: lit, reduced: still } = props.current;
+    const {
+      adventWeek: week,
+      litVotives: lit,
+      reduced: still,
+      protestant: plain,
+    } = props.current;
     const time = still ? 0 : (Date.now() - born.current) / 1000;
     renderer.current?.draw(time, nightLevel.current, view.current, {
       adventWeek: week,
       litVotives: lit,
+      protestant: plain,
     });
     context.current?.endFrameEXP();
     place();
@@ -211,7 +262,58 @@ export default function ChurchScene({
   // Redraw when anything in the scene changes, including in reduced motion.
   useEffect(() => {
     if (ready) loop();
-  }, [ready, night, adventWeek, litVotives, reduced, size, paused, loop]);
+  }, [
+    ready,
+    night,
+    adventWeek,
+    litVotives,
+    reduced,
+    size,
+    paused,
+    protestant,
+    loop,
+  ]);
+
+  useEffect(() => {
+    if (failed) onFailure?.();
+  }, [failed, onFailure]);
+
+  // The tour: each label appears in turn with an arrow, then all are hidden.
+  const keys = places.map((p) => p.key).join(",");
+  useEffect(() => {
+    if (!ready || !tour) return;
+    const order = keys.split(",") as ChurchPlace[];
+    let cancelled = false;
+    let i = 0;
+    const next = () => {
+      if (cancelled) return;
+      if (i >= order.length) {
+        setTouring(null);
+        onTourDone?.();
+        return;
+      }
+      setTouring(order[i]);
+      i++;
+      setTimeout(next, 1500);
+    };
+    const timer = setTimeout(next, 600);
+    return () => {
+      cancelled = true;
+      clearTimeout(timer);
+      setTouring(null);
+    };
+  }, [ready, tour, keys, onTourDone]);
+
+  const visible = touring ?? highlight;
+  useEffect(() => {
+    (Object.keys(shown) as ChurchPlace[]).forEach((key) =>
+      Animated.timing(shown[key], {
+        toValue: key === visible ? 1 : 0,
+        duration: key === visible ? 260 : 380,
+        useNativeDriver: true,
+      }).start(),
+    );
+  }, [visible, shown]);
 
   const onContextCreate = useCallback(
     async (gl: ExpoWebGLRenderingContext) => {
@@ -368,29 +470,41 @@ export default function ChurchScene({
               { transform: positions[p.key].getTranslateTransform() },
             ]}
           >
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={p.label}
-              accessibilityHint={p.hint}
-              hitSlop={10}
-              onPress={() => onPlace(p.key)}
-              style={({ pressed }) => [
-                styles.chip,
-                highlight === p.key && styles.chipOn,
-                pressed && { transform: [{ scale: 0.96 }], opacity: 0.9 },
+            <Animated.View
+              pointerEvents="box-none"
+              style={[
+                styles.label,
+                {
+                  opacity: shown[p.key],
+                  transform: [
+                    {
+                      translateY: shown[p.key].interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [-14, -24],
+                      }),
+                    },
+                  ],
+                },
               ]}
             >
-              {p.live && <View style={styles.live} />}
-              <Text
-                style={[
-                  styles.chipText,
-                  highlight === p.key && { color: colors.white },
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel={p.label}
+                accessibilityHint={p.hint}
+                hitSlop={10}
+                onPress={() => onPlace(p.key)}
+                style={({ pressed }) => [
+                  styles.chip,
+                  pressed && { transform: [{ scale: 0.96 }], opacity: 0.9 },
                 ]}
-                numberOfLines={1}
               >
-                {p.label}
-              </Text>
-            </Pressable>
+                {p.live && <View style={styles.live} />}
+                <Text style={styles.chipText} numberOfLines={1}>
+                  {p.label}
+                </Text>
+              </Pressable>
+              <View style={styles.arrow} />
+            </Animated.View>
           </Animated.View>
         ))}
     </View>
@@ -423,17 +537,23 @@ const styles = StyleSheet.create({
     minHeight: 34,
     paddingHorizontal: 13,
     borderRadius: 17,
-    backgroundColor: "rgba(255,252,243,0.94)",
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: "rgba(48,44,40,0.12)",
-    boxShadow: "0 6px 16px rgba(48,44,40,0.22)",
-    transform: [{ translateY: -4 }],
-  },
-  chipOn: {
     backgroundColor: colors.ink,
-    borderColor: colors.ink,
-    transform: [{ translateY: -4 }, { scale: 1.06 }],
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: "rgba(255,252,243,0.25)",
+    boxShadow: "0 6px 16px rgba(48,44,40,0.22)",
   },
-  chipText: { color: colors.ink, fontSize: 13, fontWeight: "600" },
+  label: { alignItems: "center" },
+  arrow: {
+    width: 0,
+    height: 0,
+    borderLeftWidth: 7,
+    borderRightWidth: 7,
+    borderTopWidth: 9,
+    borderLeftColor: "transparent",
+    borderRightColor: "transparent",
+    borderTopColor: colors.ink,
+    marginTop: 2,
+  },
+  chipText: { color: colors.white, fontSize: 13, fontWeight: "600" },
   live: { width: 7, height: 7, borderRadius: 4, backgroundColor: "#B4532F" },
 });

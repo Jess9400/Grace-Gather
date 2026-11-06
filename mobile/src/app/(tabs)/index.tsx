@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
-import { router, useLocalSearchParams } from "expo-router";
+import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import {
   Screen,
@@ -10,16 +10,26 @@ import {
   colors,
   serif,
 } from "../../components/quiet-ui";
-import FloatingFeelings from "../../components/FloatingFeelings";
 import ChurchScene, { type PlaceLabel } from "../../components/ChurchScene";
 import ChurchEntrance from "../../components/ChurchEntrance";
 import { useApp } from "../../lib/state";
 import { useQuiet } from "../../lib/quiet-state";
 import { q } from "../../lib/quiet-copy";
+import * as storage from "../../lib/storage";
 import { churchCopy, type ChurchWord } from "../../lib/church-copy";
-import { adventWeekFor, isEvening } from "../../lib/church-calendar";
+import {
+  adventWeekFor,
+  isEvening,
+  isProtestant,
+} from "../../lib/church-calendar";
 import { loadCandles, useCandles } from "../../lib/candles";
 import { markEntered, shouldShowEntrance } from "../../lib/church-entrance";
+import {
+  loadSoundOn,
+  saveSoundOn,
+  startAmbience,
+  stopAmbience,
+} from "../../lib/church-audio";
 import type { ChurchPlace } from "../../lib/church-scene";
 import { StepCheckIn } from "../../components/SmallStep";
 
@@ -33,43 +43,83 @@ const ROUTES: Record<Exclude<ChurchPlace, "wreath">, string> = {
 const THEMES: ChurchWord[] = ["hope", "peaceWeek", "joy", "love"];
 // Lit by others earlier in the day; the person's own candles are added to these.
 const BASE_VOTIVES = 6;
+const TOUR_KEY = "church-tour-seen";
 
 export default function Home() {
   const { profile } = useApp();
-  const { draft, update, clear } = useQuiet();
+  const { draft, clear } = useQuiet();
   const t = (key: ChurchWord) => churchCopy(profile.language, key);
   const params = useLocalSearchParams<{ advent?: string }>();
   const preview =
     __DEV__ && params.advent
       ? Math.max(0, Math.min(4, Number(params.advent) || 0))
       : undefined;
+  const plain = isProtestant(profile);
   const [now] = useState(() => new Date());
   const [night, setNight] = useState(() => isEvening(now));
   const [entrance, setEntrance] = useState(shouldShowEntrance);
   const [aboutAdvent, setAboutAdvent] = useState(false);
+  const [sceneFailed, setSceneFailed] = useState(false);
+  const [tour, setTour] = useState(false);
+  const [tourSeen, setTourSeen] = useState<boolean | null>(null);
+  const [soundOn, setSoundOn] = useState<boolean | null>(null);
+  const [focused, setFocused] = useState(true);
   const candles = useCandles();
   useEffect(() => {
     void loadCandles();
+    void loadSoundOn().then(setSoundOn);
+    void storage
+      .getItem(TOUR_KEY)
+      .then((v) => setTourSeen(v === "yes"))
+      .catch(() => setTourSeen(false));
   }, []);
-  const week = adventWeekFor(profile, now, preview);
-  const theme =
-    week > 0 && profile.tradition === "protestant"
-      ? ` · ${t(THEMES[week - 1])}`
-      : "";
+  useFocusEffect(
+    useCallback(() => {
+      setFocused(true);
+      return () => setFocused(false);
+    }, []),
+  );
+  // The labels are shown once, the first time someone walks in, and again
+  // whenever "Show places" is pressed.
+  const touring = tour || (!entrance && tourSeen === false);
+  // Calm church sound on Home, after the doors, unless muted.
+  useEffect(() => {
+    if (!entrance && focused && soundOn) startAmbience();
+    else stopAmbience();
+  }, [entrance, focused, soundOn]);
+  useEffect(() => () => stopAmbience(), []);
+  const endTour = useCallback(() => {
+    setTour(false);
+    setTourSeen(true);
+    void storage.setItem(TOUR_KEY, "yes").catch(() => {});
+  }, []);
 
+  const week = adventWeekFor(profile, now, preview);
+  const theme = week > 0 && plain ? ` · ${t(THEMES[week - 1])}` : "";
   const places: (PlaceLabel & { sub: ChurchWord })[] = [
-    {
-      key: "candles",
-      label: t("candles"),
-      hint: t("candlesSub"),
-      sub: "candlesSub",
-    },
-    {
-      key: "confession",
-      label: t("confession"),
-      hint: t("confessionSub"),
-      sub: "confessionSub",
-    },
+    ...(plain
+      ? []
+      : [
+          {
+            key: "candles" as const,
+            label: t("candles"),
+            hint: t("candlesSub"),
+            sub: "candlesSub" as const,
+          },
+        ]),
+    plain
+      ? {
+          key: "confession",
+          label: t("unburden"),
+          hint: t("unburdenSub"),
+          sub: "unburdenSub",
+        }
+      : {
+          key: "confession",
+          label: t("confession"),
+          hint: t("confessionSub"),
+          sub: "confessionSub",
+        },
     { key: "bible", label: t("bible"), hint: t("bibleSub"), sub: "bibleSub" },
     {
       key: "gather",
@@ -90,6 +140,11 @@ export default function Home() {
   const open = (place: ChurchPlace) => {
     if (place === "wreath") setAboutAdvent((v) => !v);
     else router.push(ROUTES[place] as never);
+  };
+  const toggleSound = () => {
+    const next = !(soundOn ?? true);
+    setSoundOn(next);
+    void saveSoundOn(next);
   };
 
   return (
@@ -113,36 +168,68 @@ export default function Home() {
             <Text accessibilityRole="header" style={s.title}>
               {t("welcome")}
             </Text>
-            <Pressable
-              accessibilityRole="switch"
-              accessibilityState={{ checked: night }}
-              accessibilityLabel={t("evening")}
-              onPress={() => setNight((v) => !v)}
-              hitSlop={8}
-              style={s.lightToggle}
-            >
-              <Ionicons
-                name={night ? "moon" : "sunny-outline"}
-                size={18}
-                color={colors.ink}
-              />
-              <Text style={s.lightText}>
-                {night ? t("evening") : t("daylight")}
-              </Text>
-            </Pressable>
+            <View style={s.tools}>
+              <Pressable
+                accessibilityRole="switch"
+                accessibilityState={{ checked: night }}
+                accessibilityLabel={t("evening")}
+                onPress={() => setNight((v) => !v)}
+                style={s.tool}
+              >
+                <Ionicons
+                  name={night ? "moon" : "sunny-outline"}
+                  size={19}
+                  color={colors.ink}
+                />
+              </Pressable>
+              <Pressable
+                accessibilityRole="switch"
+                accessibilityState={{ checked: !!soundOn }}
+                accessibilityLabel={soundOn ? t("soundOn") : t("soundOff")}
+                onPress={toggleSound}
+                style={s.tool}
+              >
+                <Ionicons
+                  name={
+                    soundOn ? "volume-medium-outline" : "volume-mute-outline"
+                  }
+                  size={19}
+                  color={colors.ink}
+                />
+              </Pressable>
+              {!sceneFailed && (
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel={t("showPlaces")}
+                  onPress={() => setTour(true)}
+                  style={s.tool}
+                >
+                  <Ionicons
+                    name="help-circle-outline"
+                    size={20}
+                    color={colors.ink}
+                  />
+                </Pressable>
+              )}
+            </View>
           </View>
-          <Text style={s.hint}>{t("tapPlace")}</Text>
         </View>
 
-        <ChurchScene
-          places={scenePlaces}
-          night={night}
-          adventWeek={week}
-          litVotives={Math.min(15, BASE_VOTIVES + candles.length)}
-          onPlace={open}
-          accessibilityLabel={t("church")}
-          paused={entrance}
-        />
+        {!sceneFailed && (
+          <ChurchScene
+            places={scenePlaces}
+            night={night}
+            adventWeek={week}
+            litVotives={Math.min(15, BASE_VOTIVES + candles.length)}
+            onPlace={open}
+            accessibilityLabel={t("church")}
+            paused={entrance}
+            protestant={plain}
+            tour={touring}
+            onTourDone={endTour}
+            onFailure={() => setSceneFailed(true)}
+          />
+        )}
 
         <StepCheckIn />
 
@@ -153,52 +240,49 @@ export default function Home() {
           </Card>
         )}
 
-        <FloatingFeelings
-          chosen={draft.chosen}
-          onChange={(chosen) => update({ chosen })}
-          language={profile.language}
-        />
-        <View style={s.actions}>
-          <Button
-            title={q(profile.language, "write")}
-            onPress={() => router.push("/(tabs)/diary")}
-          />
-          {draft.entryId && (
-            <Button
-              secondary
-              title={q(profile.language, "newPage")}
-              onPress={() => {
-                clear();
-                router.push("/(tabs)/diary");
-              }}
-            />
-          )}
-          <Text style={s.whisper}>{q(profile.language, "whisper")}</Text>
-        </View>
-
-        {candles.length > 0 && (
-          <View style={s.group}>
-            <Text style={s.eyebrow}>{t("today").toUpperCase()}</Text>
-            <Pressable
-              accessibilityRole="button"
-              onPress={() => router.push("/candle")}
-              style={s.row}
-            >
-              <View style={s.flame} />
-              <View style={{ flex: 1 }}>
-                <Text style={s.rowTitle}>
-                  {t("youLit")} · {candles.length}
-                </Text>
-                <Text style={s.rowSub}>{t("burning")}</Text>
-              </View>
-              <Ionicons name="chevron-forward" size={16} color={colors.muted} />
-            </Pressable>
+        <Pressable
+          accessibilityRole="button"
+          onPress={() => router.push("/(tabs)/diary")}
+          style={({ pressed }) => [s.tell, pressed && { opacity: 0.9 }]}
+        >
+          <View style={{ flex: 1, gap: 6 }}>
+            <Text style={s.tellTitle}>{t("tellGod")}</Text>
+            <Text style={s.tellSub}>{t("tellGodSub")}</Text>
           </View>
+          <View style={s.tellArrow}>
+            <Ionicons name="create-outline" size={22} color={colors.white} />
+          </View>
+        </Pressable>
+        {draft.entryId && (
+          <Button
+            secondary
+            title={q(profile.language, "newPage")}
+            onPress={() => {
+              clear();
+              router.push("/(tabs)/diary");
+            }}
+          />
         )}
 
-        <View style={s.group} accessibilityRole="list">
-          <Text style={s.eyebrow}>{t("choose").toUpperCase()}</Text>
-          <View style={s.list}>
+        {!plain && candles.length > 0 && (
+          <Pressable
+            accessibilityRole="button"
+            onPress={() => router.push("/candle")}
+            style={[s.list, s.row]}
+          >
+            <View style={s.flame} />
+            <View style={{ flex: 1 }}>
+              <Text style={s.rowTitle}>
+                {t("youLit")} · {candles.length}
+              </Text>
+              <Text style={s.rowSub}>{t("burning")}</Text>
+            </View>
+            <Ionicons name="chevron-forward" size={16} color={colors.muted} />
+          </Pressable>
+        )}
+
+        {sceneFailed && (
+          <View style={s.list} accessibilityRole="list">
             {places.map((p, i) => (
               <Pressable
                 key={p.key}
@@ -223,7 +307,7 @@ export default function Home() {
               </Pressable>
             ))}
           </View>
-        </View>
+        )}
       </Screen>
       {entrance && (
         <ChurchEntrance
@@ -266,26 +350,40 @@ const s = StyleSheet.create({
     color: colors.ink,
     flexShrink: 1,
   },
-  lightToggle: {
-    flexDirection: "row",
+  tools: { flexDirection: "row", gap: 6 },
+  tool: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     alignItems: "center",
-    gap: 6,
-    minHeight: 36,
-    paddingHorizontal: 12,
-    borderRadius: 18,
+    justifyContent: "center",
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: colors.line,
     backgroundColor: colors.white,
   },
-  lightText: { fontSize: 13, color: colors.ink },
-  hint: { fontSize: 14, lineHeight: 20, color: colors.muted },
-  actions: { gap: 17, marginTop: 8 },
-  whisper: {
-    textAlign: "center",
+  tell: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 16,
+    padding: 20,
+    borderRadius: 24,
+    backgroundColor: colors.ink,
+    boxShadow: "0 10px 26px rgba(48,44,40,0.22)",
+  },
+  tellTitle: {
     fontFamily: serif,
-    fontStyle: "italic",
-    fontSize: 15,
-    color: colors.muted,
+    fontSize: 22,
+    lineHeight: 29,
+    color: colors.white,
+  },
+  tellSub: { fontSize: 14, lineHeight: 20, color: "#DCD3C4" },
+  tellArrow: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(255,255,255,0.12)",
   },
   eyebrow: {
     fontSize: 11,
@@ -293,7 +391,6 @@ const s = StyleSheet.create({
     fontWeight: "600",
     color: colors.goldInk,
   },
-  group: { gap: 8 },
   list: {
     backgroundColor: colors.white,
     borderRadius: 20,

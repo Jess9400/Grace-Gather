@@ -165,15 +165,20 @@ alcove, are rendered in real time with Expo GL (WebGL in the browser). Geometry,
 lighting, stone and stained glass are generated in code; the only image is the
 walnut albedo already bundled for the Confession room.
 
-The interior has tappable places, each with an accessible label projected onto
-its object: Light a candle, Confession, Bible, Gather and Sit quietly (Journal).
-The view drifts gently and follows a finger; it is still when the system asks
-for reduced motion, and it pauses when Home is not visible. Evening light is
-automatic after 18:00 and can be switched by hand. During Western Advent an
-Advent wreath, violet banners and the week appear (not for the Orthodox choice;
-week themes only for the Protestant choice). In development builds,
-`/?advent=1`–`4` previews Advent. Every place is also listed as plain rows below
-the floating feelings.
+The interior's places open when their object is tapped: the candle stand,
+the confessional, the lectern, the glowing side door and the pews. Labels are
+hidden; the first time someone walks in, each label appears in turn with an
+arrow, and "Show places" repeats this. Labels remain the accessible controls
+and appear while an object is touched or hovered. A calm, original church
+ambience (`assets/church/ambience.m4a`) plays softly on Home after the doors,
+respects the silent switch, and can be muted; the choice is remembered. Home's
+main action is "What would you like to tell God today?", which opens the
+journal. Tabs are Home, Bible Study, Confession, Discover and Gather; the
+journal opens from Home and from Your space. For an explicit Protestant choice
+the candle stand is removed, the confessional becomes a prayer corner, and
+Confession is called Unburden. After a journal entry, "Light a candle" (not for
+Protestants) and "Bring it to Confession" / "Unburden your heart" join the care
+actions.
 
 Candles are lit for oneself, someone loved, something carried or thanks. A
 name is optional and stays in encrypted device storage until midnight. Each
