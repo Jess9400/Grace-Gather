@@ -22,6 +22,7 @@ import { prepareChurchTimber } from "../lib/church-texture";
 import {
   createChurchRenderer,
   projectPlaces,
+  placeAt,
   type ChurchPlace,
   type ChurchView,
 } from "../lib/church-scene";
@@ -109,6 +110,9 @@ export default function ChurchScene({
     });
     return map;
   });
+  const [highlight, setHighlight] = useState<ChurchPlace | null>(null);
+  const start = useRef<{ x: number; y: number } | null>(null);
+  const dragged = useRef(false);
   const sizeRef = useRef(size);
   useEffect(() => {
     sizeRef.current = size;
@@ -224,10 +228,45 @@ export default function ChurchScene({
     [render],
   );
 
+  // Which place sits under a point in the stage, using the current view.
+  const pick = (x: number, y: number) => {
+    const { width, height } = sizeRef.current;
+    if (!width || !height) return null;
+    return placeAt(
+      width / height,
+      view.current,
+      x / width,
+      y / height,
+      places.map((p) => p.key),
+    );
+  };
+  // Touches report locationX/Y; a mouse click on the web reports offsetX/Y.
+  const pointIn = (event: GestureResponderEvent): [number, number] => {
+    const n = event.nativeEvent as GestureResponderEvent["nativeEvent"] & {
+      offsetX?: number;
+      offsetY?: number;
+    };
+    return [n.locationX ?? n.offsetX ?? NaN, n.locationY ?? n.offsetY ?? NaN];
+  };
   const follow = (event: GestureResponderEvent) => {
     const { width, height } = sizeRef.current;
     if (!width) return;
     const { locationX, locationY } = event.nativeEvent;
+    if (event.type === "touchstart" || !start.current) {
+      start.current = {
+        x: event.nativeEvent.pageX,
+        y: event.nativeEvent.pageY,
+      };
+      dragged.current = false;
+    } else if (
+      Math.hypot(
+        event.nativeEvent.pageX - start.current.x,
+        event.nativeEvent.pageY - start.current.y,
+      ) > 12
+    ) {
+      dragged.current = true;
+      if (highlight) setHighlight(null);
+    }
     touch.current = {
       dx: Math.max(-1, Math.min(1, (locationX / width) * 2 - 1)),
       dy: Math.max(-1, Math.min(1, (locationY / height) * 2 - 1)),
@@ -236,6 +275,7 @@ export default function ChurchScene({
   };
   const release = () => {
     touch.current = null;
+    start.current = null;
     if (frame.current === null) loop();
   };
 
@@ -262,6 +302,11 @@ export default function ChurchScene({
             }) => {
               const { width, height } = sizeRef.current;
               if (!width) return;
+              const hovered = pick(
+                e.nativeEvent.offsetX,
+                e.nativeEvent.offsetY,
+              );
+              if (hovered !== highlight) setHighlight(hovered);
               touch.current = {
                 dx: Math.max(
                   -1,
@@ -274,7 +319,10 @@ export default function ChurchScene({
               };
               if (frame.current === null) loop();
             },
-            onPointerLeave: release,
+            onPointerLeave: () => {
+              setHighlight(null);
+              release();
+            },
           }
         : {})}
     >
@@ -292,6 +340,24 @@ export default function ChurchScene({
           importantForAccessibility="no-hide-descendants"
         />
       </SceneBoundary>
+      {ready && (
+        <Pressable
+          accessible={false}
+          importantForAccessibility="no"
+          style={StyleSheet.absoluteFill}
+          onPressIn={(e) => {
+            if (Platform.OS !== "web") setHighlight(pick(...pointIn(e)));
+          }}
+          onPressOut={() => {
+            if (Platform.OS !== "web") setHighlight(null);
+          }}
+          onPress={(e) => {
+            if (dragged.current) return;
+            const place = pick(...pointIn(e));
+            if (place) onPlace(place);
+          }}
+        />
+      )}
       {ready &&
         places.map((p) => (
           <Animated.View
@@ -310,11 +376,18 @@ export default function ChurchScene({
               onPress={() => onPlace(p.key)}
               style={({ pressed }) => [
                 styles.chip,
+                highlight === p.key && styles.chipOn,
                 pressed && { transform: [{ scale: 0.96 }], opacity: 0.9 },
               ]}
             >
               {p.live && <View style={styles.live} />}
-              <Text style={styles.chipText} numberOfLines={1}>
+              <Text
+                style={[
+                  styles.chipText,
+                  highlight === p.key && { color: colors.white },
+                ]}
+                numberOfLines={1}
+              >
                 {p.label}
               </Text>
             </Pressable>
@@ -355,6 +428,11 @@ const styles = StyleSheet.create({
     borderColor: "rgba(48,44,40,0.12)",
     boxShadow: "0 6px 16px rgba(48,44,40,0.22)",
     transform: [{ translateY: -4 }],
+  },
+  chipOn: {
+    backgroundColor: colors.ink,
+    borderColor: colors.ink,
+    transform: [{ translateY: -4 }, { scale: 1.06 }],
   },
   chipText: { color: colors.ink, fontSize: 13, fontWeight: "600" },
   live: { width: 7, height: 7, borderRadius: 4, backgroundColor: "#B4532F" },
