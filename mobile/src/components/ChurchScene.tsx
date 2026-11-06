@@ -60,7 +60,7 @@ const TOUR_ORDER: ChurchPlace[] = [
   "wreath",
 ];
 const TOUR_FADE_MS = 700;
-const TOUR_HOLD_MS = 2500;
+const TOUR_HOLD_MS = 1500;
 
 export type PlaceLabel = {
   key: ChurchPlace;
