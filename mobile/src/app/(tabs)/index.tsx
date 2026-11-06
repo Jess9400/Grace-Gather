@@ -15,7 +15,6 @@ import ChurchEntrance from "../../components/ChurchEntrance";
 import { useApp } from "../../lib/state";
 import { useQuiet } from "../../lib/quiet-state";
 import { q } from "../../lib/quiet-copy";
-import * as storage from "../../lib/storage";
 import { churchCopy, type ChurchWord } from "../../lib/church-copy";
 import {
   adventWeekFor,
@@ -32,6 +31,7 @@ import {
 } from "../../lib/church-audio";
 import type { ChurchPlace } from "../../lib/church-scene";
 import { StepCheckIn } from "../../components/SmallStep";
+import { useChurchPresence } from "../../lib/church-presence";
 
 const ROUTES: Record<Exclude<ChurchPlace, "wreath">, string> = {
   candles: "/candle",
@@ -43,13 +43,12 @@ const ROUTES: Record<Exclude<ChurchPlace, "wreath">, string> = {
 const THEMES: ChurchWord[] = ["hope", "peaceWeek", "joy", "love"];
 // Lit by others earlier in the day; the person's own candles are added to these.
 const BASE_VOTIVES = 6;
-const TOUR_KEY = "church-tour-seen";
 
 export default function Home() {
   const { profile } = useApp();
   const { draft, clear } = useQuiet();
   const t = (key: ChurchWord) => churchCopy(profile.language, key);
-  const params = useLocalSearchParams<{ advent?: string }>();
+  const params = useLocalSearchParams<{ advent?: string; present?: string }>();
   const preview =
     __DEV__ && params.advent
       ? Math.max(0, Math.min(4, Number(params.advent) || 0))
@@ -61,17 +60,16 @@ export default function Home() {
   const [aboutAdvent, setAboutAdvent] = useState(false);
   const [sceneFailed, setSceneFailed] = useState(false);
   const [tour, setTour] = useState(false);
-  const [tourSeen, setTourSeen] = useState<boolean | null>(null);
   const [soundOn, setSoundOn] = useState<boolean | null>(null);
   const [focused, setFocused] = useState(true);
   const candles = useCandles();
+  const live = useChurchPresence();
+  // Development preview of the count (e.g. /?present=30); never in release.
+  const present =
+    __DEV__ && params.present ? Number(params.present) || null : live;
   useEffect(() => {
     void loadCandles();
     void loadSoundOn().then(setSoundOn);
-    void storage
-      .getItem(TOUR_KEY)
-      .then((v) => setTourSeen(v === "yes"))
-      .catch(() => setTourSeen(false));
   }, []);
   useFocusEffect(
     useCallback(() => {
@@ -79,9 +77,9 @@ export default function Home() {
       return () => setFocused(false);
     }, []),
   );
-  // The labels are shown once, the first time someone walks in, and again
-  // whenever "Show places" is pressed.
-  const touring = tour || (!entrance && tourSeen === false);
+  // The labels are shown one by one each time someone walks in through the
+  // doors, and again whenever "Show places" is pressed.
+  const touring = tour;
   // Calm church sound on Home, after the doors, unless muted.
   useEffect(() => {
     if (!entrance && focused && soundOn) startAmbience();
@@ -90,8 +88,6 @@ export default function Home() {
   useEffect(() => () => stopAmbience(), []);
   const endTour = useCallback(() => {
     setTour(false);
-    setTourSeen(true);
-    void storage.setItem(TOUR_KEY, "yes").catch(() => {});
   }, []);
 
   const week = adventWeekFor(profile, now, preview);
@@ -215,20 +211,36 @@ export default function Home() {
           </View>
         </View>
 
+        {!sceneFailed && <Text style={s.hint}>{t("tapAnywhere")}</Text>}
+
         {!sceneFailed && (
-          <ChurchScene
-            places={scenePlaces}
-            night={night}
-            adventWeek={week}
-            litVotives={Math.min(15, BASE_VOTIVES + candles.length)}
-            onPlace={open}
-            accessibilityLabel={t("church")}
-            paused={entrance}
-            protestant={plain}
-            tour={touring}
-            onTourDone={endTour}
-            onFailure={() => setSceneFailed(true)}
-          />
+          <View>
+            <ChurchScene
+              places={scenePlaces}
+              night={night}
+              adventWeek={week}
+              litVotives={Math.min(15, BASE_VOTIVES + candles.length)}
+              onPlace={open}
+              accessibilityLabel={t("church")}
+              paused={entrance}
+              protestant={plain}
+              tour={touring}
+              onTourDone={endTour}
+              onFailure={() => setSceneFailed(true)}
+            />
+            {present !== null && present >= 2 && (
+              <View
+                pointerEvents="none"
+                accessibilityLiveRegion="polite"
+                style={s.present}
+              >
+                <View style={s.presentDot} />
+                <Text style={s.presentText}>
+                  {t("present").replace("{n}", String(present))}
+                </Text>
+              </View>
+            )}
+          </View>
         )}
 
         <StepCheckIn />
@@ -315,6 +327,8 @@ export default function Home() {
           onEntered={() => {
             markEntered();
             setEntrance(false);
+            // Show where everything is each time someone walks in.
+            setTour(true);
           }}
         />
       )}
@@ -351,6 +365,26 @@ const s = StyleSheet.create({
     flexShrink: 1,
   },
   tools: { flexDirection: "row", gap: 6 },
+  hint: { fontSize: 14, lineHeight: 20, color: colors.muted, marginTop: -6 },
+  present: {
+    position: "absolute",
+    left: 12,
+    bottom: 12,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    paddingHorizontal: 12,
+    minHeight: 32,
+    borderRadius: 16,
+    backgroundColor: "rgba(48,44,40,0.78)",
+  },
+  presentDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: "#7FD39A",
+  },
+  presentText: { color: colors.white, fontSize: 13, fontWeight: "600" },
   tool: {
     width: 44,
     height: 44,
