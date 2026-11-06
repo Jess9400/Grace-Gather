@@ -1163,5 +1163,60 @@
     "pt": "Incluir este dispositivo na contagem apenas enquanto o Início estiver aberto. Seu nome e diário não são compartilhados. A contagem é de dispositivos, não de pessoas verificadas.",
     "es": "Incluir este dispositivo en el recuento solo mientras Inicio esté abierto. No se comparte tu nombre ni diario. Se cuentan dispositivos, no personas verificadas.",
     "ru": "Учитывать это устройство только пока открыт главный экран. Имя и дневник не передаются. Считаются устройства, а не подтверждённые пользователи."
+  },
+  "Explore a theme": {
+    "pt": "Explorar um tema",
+    "es": "Explorar un tema",
+    "ru": "Изучить тему"
+  },
+  "Theme or passage": {
+    "pt": "Tema ou passagem",
+    "es": "Tema o pasaje",
+    "ru": "Тема или отрывок"
+  },
+  "Study resources": {
+    "pt": "Recursos de estudo",
+    "es": "Recursos de estudio",
+    "ru": "Материалы для изучения"
+  },
+  "Discussions": {
+    "pt": "Discussões",
+    "es": "Debates",
+    "ru": "Обсуждения"
+  },
+  "Start a discussion": {
+    "pt": "Iniciar uma discussão",
+    "es": "Iniciar un debate",
+    "ru": "Начать обсуждение"
+  },
+  "Start a discussion about this topic": {
+    "pt": "Iniciar uma discussão sobre este tema",
+    "es": "Iniciar un debate sobre este tema",
+    "ru": "Начать обсуждение этой темы"
+  },
+  "No matching theme yet. Try another word or start a discussion.": {
+    "pt": "Nenhum tema encontrado. Tente outra palavra ou inicie uma discussão.",
+    "es": "No se encontró un tema. Prueba otra palabra o inicia un debate.",
+    "ru": "Тема не найдена. Попробуйте другое слово или начните обсуждение."
+  },
+  "Search these curated themes, verse references and passages in your chosen Bible edition. This is not an AI answer or a full-Bible search.": {
+    "pt": "Busque nestes temas selecionados, referências e passagens da edição escolhida. Não é uma resposta de IA nem uma busca na Bíblia inteira.",
+    "es": "Busca en estos temas seleccionados, referencias y pasajes de tu edición. No es una respuesta de IA ni una búsqueda en toda la Biblia.",
+    "ru": "Поиск по подобранным темам, ссылкам и отрывкам выбранного перевода. Это не ответ ИИ и не поиск по всей Библии."
+  },
+  "External resources have their own language, translation and theological perspective. They do not change your selected Bible edition.": {
+    "pt": "Recursos externos têm idioma, tradução e perspectiva teológica próprios. Eles não alteram sua edição da Bíblia.",
+    "es": "Los recursos externos tienen su propio idioma, traducción y perspectiva teológica. No cambian tu edición de la Biblia.",
+    "ru": "У внешних ресурсов свои язык, перевод и богословская перспектива. Они не меняют выбранный перевод Библии."
+  },
+  "Preview discussion": {
+    "pt": "Prévia da discussão",
+    "es": "Vista previa del debate",
+    "ru": "Предпросмотр обсуждения"
+  },
+  "Members can read and share an approved discussion. Your journal is not attached. Publication may require moderation.": {
+    "pt": "Membros podem ler e compartilhar uma discussão aprovada. Seu diário não é anexado. A publicação pode exigir moderação.",
+    "es": "Los miembros pueden leer y compartir un debate aprobado. Tu diario no se adjunta. La publicación puede requerir moderación.",
+    "ru": "Участники могут читать одобренное обсуждение и делиться им. Дневник не прикрепляется. Для публикации может потребоваться модерация."
   }
 }
