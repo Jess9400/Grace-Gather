@@ -32,6 +32,14 @@ const KIND = {
   page: 10,
 };
 
+// Direction toward the sun: high and from the left, so light falls across the
+// left half of the nave. Shared by the shader and the light-shaft geometry.
+const SUN_DIR: Vec3 = (() => {
+  const v: Vec3 = [-0.55, 0.8, 0.2];
+  const l = Math.hypot(...v);
+  return [v[0] / l, v[1] / l, v[2] / l];
+})();
+
 export type ChurchPlace =
   "candles" | "confession" | "bible" | "gather" | "pews" | "wreath";
 export const PLACE_ANCHORS: Record<ChurchPlace, Vec3> = {
@@ -361,6 +369,7 @@ varying vec3 vNormal;
 varying vec3 vColor;
 varying float vKind;
 ${GLSL_COMMON}
+const vec3 SUN = vec3(${SUN_DIR.map((c) => c.toFixed(4)).join(", ")});
 vec3 point(vec3 p, vec3 n, vec3 lp, vec3 color, float k) {
   vec3 d = lp - p;
   return color * max(dot(n, normalize(d)), 0.0) / (1.0 + k * dot(d, d));
@@ -390,10 +399,25 @@ void main() {
   vec3 p = vWorld;
   float night = uNight;
   float flick = 0.92 + 0.05 * sin(uTime * 7.1) + 0.03 * sin(uTime * 12.9 + 1.7);
-  vec3 sun = normalize(vec3(-0.75, 0.5, 0.25));
-  vec3 day = vec3(1.0, 0.9, 0.76) * max(dot(n, sun), 0.0) * 0.55
-    + vec3(0.9, 0.86, 0.8) * max(dot(n, normalize(vec3(0.25, 0.55, 0.8))), 0.0) * 0.35
-    + mix(vec3(0.16, 0.14, 0.12), vec3(0.32, 0.3, 0.28), n.y * 0.5 + 0.5);
+  vec3 sun = SUN;
+  // Sunlight entering through the left-hand lancets lands as warm patches,
+  // faintly tinted by the stained glass it passed through.
+  float t = (-2.44 - p.x) / sun.x;
+  vec3 h = p + sun * t;
+  float patch = 0.0;
+  if (p.x > -2.4) {
+    float inY = smoothstep(0.38, 0.55, h.y) * (1.0 - smoothstep(1.8, 2.02, h.y));
+    for (int i = 0; i < 4; i++) {
+      float zc = 2.0 - float(i) * 2.0;
+      patch = max(patch, 1.0 - smoothstep(0.2, 0.31, abs(h.z - zc)));
+    }
+    patch *= inY;
+  }
+  vec3 tint = mix(vec3(1.0, 0.9, 0.7), clamp(stained(h.zy) * 6.0, 0.0, 1.4), 0.3);
+  vec3 sunColor = vec3(1.0, 0.86, 0.62);
+  vec3 day = sunColor * max(dot(n, sun), 0.0) * (0.5 + 2.6 * patch * tint)
+    + vec3(1.0, 0.93, 0.82) * max(dot(n, normalize(vec3(0.25, 0.55, 0.8))), 0.0) * 0.42
+    + mix(vec3(0.16, 0.125, 0.095), vec3(0.37, 0.32, 0.26), n.y * 0.5 + 0.5);
   vec3 dusk = vec3(0.16, 0.18, 0.28) * max(dot(n, sun), 0.0) * 0.25
     + mix(vec3(0.035, 0.03, 0.03), vec3(0.075, 0.072, 0.09), n.y * 0.5 + 0.5);
   vec3 candle = vec3(1.0, 0.62, 0.3) * flick;
@@ -441,7 +465,7 @@ void main() {
     color = lin(vColor) * lights * 1.2;
   } else if (kind < 6.5) {
     vec2 q = abs(n.x) > 0.5 ? p.zy : p.xy;
-    color = stained(q) * mix(2.6, 0.55, night) + vec3(0.004);
+    color = stained(q) * mix(2.9, 0.55, night) + vec3(0.004);
   } else if (kind < 7.5) {
     float h = 1.0 - smoothstep(-1.5, -0.1, p.y);
     color = lin(vColor) * (1.4 + 1.3 * h) * mix(1.0, 1.25, night);
@@ -459,10 +483,10 @@ void main() {
     color = lin(vColor) * lights * 1.3 * (1.0 - line);
   }
   float depth = length(p - uEye);
-  color = mix(color, mix(vec3(0.95, 0.85, 0.7) * 0.5, vec3(0.08, 0.06, 0.06), night), (1.0 - exp(-depth * 0.035)) * 0.6);
+  color = mix(color, mix(vec3(1.0, 0.88, 0.68) * 0.62, vec3(0.08, 0.06, 0.06), night), (1.0 - exp(-depth * 0.035)) * mix(0.32, 0.6, night));
   vec2 sc = gl_FragCoord.xy / uRes - 0.5;
   color *= 1.0 - 0.42 * dot(sc * vec2(1.1, 0.9), sc * vec2(1.1, 0.9));
-  color = filmic(color * mix(1.0, 1.15, night));
+  color = filmic(color * mix(1.12, 1.15, night));
   color += (hash(gl_FragCoord.xy + fract(uTime)) - 0.5) / 255.0;
   gl_FragColor = vec4(color, 1.0);
 }`;
@@ -567,9 +591,14 @@ function buildGlowMesh({ adventWeek, litVotives }: ChurchOptions) {
   );
   quad([0, 1.55, -6.25], [1.1, 0, 0], [0, 1.2, 0], [0.9, 0.8, 0.65], 0.18, 0);
   // Daylight shafts falling from the left-hand windows across the nave.
-  for (const z of [2, 0, -2]) {
-    const top: Vec3 = [-2.4, 1.1, z],
-      bottom: Vec3 = [-0.6, FLOOR + 0.05, z + 0.9];
+  for (const z of [2, 0, -2, -4]) {
+    const top: Vec3 = [-2.42, 1.2, z],
+      drop = (1.2 - FLOOR) / SUN_DIR[1],
+      bottom: Vec3 = [
+        -2.42 - SUN_DIR[0] * drop,
+        FLOOR + 0.02,
+        z - SUN_DIR[2] * drop,
+      ];
     const center: Vec3 = [
       (top[0] + bottom[0]) / 2,
       (top[1] + bottom[1]) / 2,
@@ -580,7 +609,7 @@ function buildGlowMesh({ adventWeek, litVotives }: ChurchOptions) {
       (top[1] - bottom[1]) / 2,
       (top[2] - bottom[2]) / 2,
     ];
-    quad(center, [0, 0, 0.32], v, [1.0, 0.92, 0.75], 0.075, 3);
+    quad(center, [0, 0, 0.3], v, [1.0, 0.88, 0.62], 0.16, 3);
   }
   return new Float32Array(data);
 }
@@ -595,6 +624,76 @@ export function churchCamera(aspect: number, view: ChurchView) {
   vertical = Math.min(Math.max(vertical, 0.45), 0.95);
   const projection = perspective(vertical, aspect, 0.05, 60);
   return { matrix: multiply(projection, lookAt(eye, target)), eye };
+}
+
+// Generous boxes around each object, so a tap anywhere on it opens the place.
+export const PLACE_BOXES: Record<ChurchPlace, [Vec3, Vec3]> = {
+  candles: [
+    [-1.68, FLOOR, -3.25],
+    [-0.72, -0.35, -2.7],
+  ],
+  confession: [
+    [0.66, FLOOR, -4.45],
+    [1.9, 1.12, -3.65],
+  ],
+  bible: [
+    [-1.08, FLOOR, -4.6],
+    [-0.36, -0.25, -4.0],
+  ],
+  gather: [
+    [-2.25, FLOOR, -6.35],
+    [-1.25, 0.05, -6.15],
+  ],
+  pews: [
+    [-1.62, FLOOR, -1.6],
+    [1.62, -0.48, 2.5],
+  ],
+  wreath: [
+    [0.22, FLOOR, -4.05],
+    [0.88, -0.36, -3.45],
+  ],
+};
+
+// The place under a tap at (x, y) in 0..1 screen space, preferring the most
+// specific (smallest) object when outlines overlap.
+export function placeAt(
+  aspect: number,
+  view: ChurchView,
+  x: number,
+  y: number,
+  places: ChurchPlace[],
+): ChurchPlace | null {
+  if (!Number.isFinite(x) || !Number.isFinite(y)) return null;
+  const { matrix } = churchCamera(aspect, view);
+  let best: ChurchPlace | null = null,
+    bestArea = Infinity;
+  for (const key of places) {
+    const [a, b] = PLACE_BOXES[key];
+    let minX = Infinity,
+      minY = Infinity,
+      maxX = -Infinity,
+      maxY = -Infinity,
+      visible = true;
+    for (const cx of [a[0], b[0]])
+      for (const cy of [a[1], b[1]])
+        for (const cz of [a[2], b[2]]) {
+          const p = project(matrix, [cx, cy, cz]);
+          if (!p) visible = false;
+          else {
+            minX = Math.min(minX, p.x);
+            maxX = Math.max(maxX, p.x);
+            minY = Math.min(minY, p.y);
+            maxY = Math.max(maxY, p.y);
+          }
+        }
+    if (!visible || x < minX || x > maxX || y < minY || y > maxY) continue;
+    const area = (maxX - minX) * (maxY - minY);
+    if (area < bestArea) {
+      best = key;
+      bestArea = area;
+    }
+  }
+  return best;
 }
 
 export function projectPlaces(aspect: number, view: ChurchView) {
