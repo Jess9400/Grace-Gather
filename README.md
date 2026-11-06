@@ -155,6 +155,33 @@ href:null marks tab routes hidden and redirects navigation; secondary tab button
 are instead hidden without disabling their routes. Confession content and
 services remain unchanged.
 
+## Church Home
+
+Home opens at the church doors once per app launch: "Peace be with you", a
+stone portal at dusk and two oak doors that open only when the person taps.
+The doors swing inward and the view walks into a candlelit nave, then fades
+into the church interior on Home. Both scenes, and the candle in a stone
+alcove, are rendered in real time with Expo GL (WebGL in the browser). Geometry,
+lighting, stone and stained glass are generated in code; the only image is the
+walnut albedo already bundled for the Confession room.
+
+The interior has tappable places, each with an accessible label projected onto
+its object: Light a candle, Confession, Bible, Gather and Sit quietly (Journal).
+The view drifts gently and follows a finger; it is still when the system asks
+for reduced motion, and it pauses when Home is not visible. Evening light is
+automatic after 18:00 and can be switched by hand. During Western Advent an
+Advent wreath, violet banners and the week appear (not for the Orthodox choice;
+week themes only for the Protestant choice). In development builds,
+`/?advent=1`–`4` previews Advent. Every place is also listed as plain rows below
+the floating feelings.
+
+Candles are lit for oneself, someone loved, something carried or thanks. A
+name is optional and stays in encrypted device storage until midnight. Each
+candle shows a short prayer written for the app (awaiting review) and one
+curated verse from the person's chosen edition. Tabs are now Home, Journal,
+Bible Study, Confession and Gather; Discover and Chats open from Gather. The
+Confession room is unchanged.
+
 ## Native Community
 
 Community opens from More and Discuss this verse, using the approved quiet design.

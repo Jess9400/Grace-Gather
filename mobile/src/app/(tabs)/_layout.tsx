@@ -4,6 +4,7 @@ import { useApp } from "../../lib/state";
 import { copy } from "../../lib/content";
 import { q } from "../../lib/quiet-copy";
 import { colors } from "../../components/quiet-ui";
+import { churchCopy } from "../../lib/church-copy";
 export default function TabsLayout() {
   const { profile } = useApp();
   const palette = colors;
@@ -23,28 +24,30 @@ export default function TabsLayout() {
     >
       {(
         [
-          ["index", "home", "home-outline"],
-          ["explore", "explore", "compass-outline"],
-          ["bible", "bible", "book-outline"],
-          ["confession", "confession", "heart-outline"],
-          ["gatherings", "gather", "calendar-outline"],
+          ["index", churchCopy(profile.language, "home"), "home-outline"],
+          ["diary", churchCopy(profile.language, "journal"), "journal-outline"],
+          ["bible", q(profile.language, "bible"), "book-outline"],
+          ["confession", copy(profile.language, "confession"), "heart-outline"],
+          [
+            "gatherings",
+            churchCopy(profile.language, "gather"),
+            "people-outline",
+          ],
         ] as const
-      ).map(([name, label, icon]) => (
+      ).map(([name, title, icon]) => (
         <Tabs.Screen
           key={name}
           name={name}
           options={{
-            title:
-              label === "home" || label === "bible"
-                ? q(profile.language, label)
-                : copy(profile.language, label),
+            title,
             tabBarIcon: ({ color, size }) => (
               <Ionicons name={icon} color={color as string} size={size} />
             ),
           }}
         />
       ))}
-      {["diary", "learn", "more"].map((name) => (
+      {/* Discover now opens from Gather; learning and More stay reachable. */}
+      {["explore", "learn", "more"].map((name) => (
         <Tabs.Screen
           key={name}
           name={name}
