@@ -53,6 +53,7 @@ function Routes() {
               "library",
               "community",
               "diary",
+              "candle",
               "entry/[id]",
               "verse/[id]",
               "preferences",

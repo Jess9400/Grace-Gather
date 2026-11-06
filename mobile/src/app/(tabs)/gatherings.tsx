@@ -1,7 +1,10 @@
 import { useClock } from "../../lib/use-clock";
 import { useCallback, useState, useEffect } from "react";
 import { router, useFocusEffect } from "expo-router";
-import { View } from "react-native";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { colors } from "../../components/quiet-ui";
+import { churchCopy } from "../../lib/church-copy";
 import {
   Screen,
   Heading,
@@ -105,6 +108,37 @@ export default function Gatherings() {
   return (
     <Screen>
       <Heading>{c("gatherings")}</Heading>
+      <View style={styles.links}>
+        {(
+          [
+            ["chats", "chatsSub", "chatbubbles-outline", "/community"],
+            ["stories", "storiesSub", "sparkles-outline", "/(tabs)/explore"],
+          ] as const
+        ).map(([title, sub, icon, href], i) => (
+          <Pressable
+            key={title}
+            accessibilityRole="button"
+            accessibilityLabel={`${churchCopy(profile.language, title)}. ${churchCopy(profile.language, sub)}`}
+            onPress={() => router.push(href)}
+            style={({ pressed }) => [
+              styles.link,
+              i === 0 && styles.divider,
+              pressed && { opacity: 0.7 },
+            ]}
+          >
+            <Ionicons name={icon} size={22} color={colors.goldInk} />
+            <View style={{ flex: 1 }}>
+              <Text style={styles.linkTitle}>
+                {churchCopy(profile.language, title)}
+              </Text>
+              <Text style={styles.linkSub}>
+                {churchCopy(profile.language, sub)}
+              </Text>
+            </View>
+            <Ionicons name="chevron-forward" size={16} color={colors.muted} />
+          </Pressable>
+        ))}
+      </View>
       <Button
         title={c("createGathering")}
         onPress={() => router.push("/gathering/create")}
@@ -120,7 +154,7 @@ export default function Gatherings() {
       <Notice text={error ? c(error) : ""} />
       {!!error && (
         <Button secondary title={c("retry")} onPress={() => void load()} />
-      )}{" "}
+      )}
       {configured === false && <Body small>{c("audioSetupNote")}</Body>}
       {!!selected && (
         <TextAction
@@ -225,3 +259,23 @@ export default function Gatherings() {
     </Screen>
   );
 }
+const styles = StyleSheet.create({
+  links: {
+    backgroundColor: colors.white,
+    borderRadius: 20,
+    paddingHorizontal: 16,
+  },
+  link: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 14,
+    minHeight: 64,
+    paddingVertical: 10,
+  },
+  divider: {
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: colors.cardLine,
+  },
+  linkTitle: { fontSize: 16, fontWeight: "600", color: colors.ink },
+  linkSub: { fontSize: 13, lineHeight: 18, color: colors.muted, marginTop: 2 },
+});
