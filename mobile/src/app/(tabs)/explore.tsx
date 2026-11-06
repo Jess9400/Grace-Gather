@@ -1,3 +1,4 @@
+import { useInterfaceCopy } from "../../lib/use-interface-copy";
 import { communityCopy } from "../../lib/community-copy";
 import { useEffect, useState, useRef } from "react";
 import { router, useLocalSearchParams } from "expo-router";
@@ -18,6 +19,7 @@ import { copy } from "../../lib/content";
 import { useDiscover, useInteractions } from "../../lib/discover";
 import { backend } from "../../lib/backend";
 export default function Explore() {
+  const tr = useInterfaceCopy();
   const { profile } = useApp(),
     c = (k: string) => communityCopy(profile.language, k),
     { category: requested } = useLocalSearchParams<{ category?: string }>(),
@@ -73,6 +75,11 @@ export default function Explore() {
           onPress={() => router.push("/testimonies/edit")}
         />
       </View>
+      <TextAction
+        title={tr("Discussions")}
+        icon="chatbubbles-outline"
+        onPress={() => router.push("/community")}
+      />
       <Field
         label="Search Discover"
         hideLabel

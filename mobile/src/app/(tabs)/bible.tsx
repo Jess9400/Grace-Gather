@@ -209,6 +209,11 @@ function BibleReader({ collection }: { collection: CollectionId | null }) {
             </Text>
           </Pressable>
         </View>
+        <Button
+          secondary
+          title={tr("Explore a theme")}
+          onPress={() => router.push("/study")}
+        />
         {!full && <Body small>{q(lang, "limited")}</Body>}
         {collection === "synodal" && (
           <Body small>

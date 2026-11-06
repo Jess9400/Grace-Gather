@@ -51,6 +51,7 @@ function Routes() {
               "index",
               "(tabs)",
               "library",
+              "study",
               "community",
               "diary",
               "candle",

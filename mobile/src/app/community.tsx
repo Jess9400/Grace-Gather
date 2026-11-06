@@ -34,7 +34,11 @@ export default function Community() {
 }
 function CommunityScreen() {
   const tr = useInterfaceCopy();
-  const params = useLocalSearchParams<{ verse?: string }>();
+  const params = useLocalSearchParams<{
+    verse?: string;
+    topic?: string;
+    compose?: string;
+  }>();
   const linkedVerse = params.verse ? discussionVerseId(params.verse) : null;
   const verse = linkedVerse ? getReadingVerse(linkedVerse) : null;
   const {
@@ -53,16 +57,27 @@ function CommunityScreen() {
     moderate,
   } = useCommunity();
   const [alias, setAlias] = useState("");
-  const [mode, setMode] = useState<ViewMode>("list"),
+  const [mode, setMode] = useState<ViewMode>(
+      params.compose === "1" ? "compose" : "list",
+    ),
     [selected, setSelected] = useState<string | null>(null);
   const [filter, setFilter] = useState<"all" | "verse" | "mine">(
     verse ? "verse" : "all",
   );
-  const [title, setTitle] = useState(""),
+  const [title, setTitle] = useState((params.topic ?? "").slice(0, 100)),
     [body, setBody] = useState(""),
     [reply, setReply] = useState("");
   const [perspective, setPerspective] =
     useState<Perspective>("Open discussion");
+  const [previewKey, setPreviewKey] = useState<string | null>(null);
+  const currentPreviewKey = JSON.stringify([
+    title,
+    body,
+    alias,
+    perspective,
+    filter,
+    verse?.id,
+  ]);
   const [notice, setNotice] = useState(""),
     [actionsFor, setActionsFor] = useState<string | null>(null),
     [reportReason, setReportReason] = useState("");
@@ -766,6 +781,24 @@ function CommunityScreen() {
                     )}
             </Body>
             <Button
+              secondary
+              title={tr("Preview discussion")}
+              disabled={!title.trim() || !body.trim() || !canPost}
+              onPress={() => setPreviewKey(currentPreviewKey)}
+            />
+            {previewKey === currentPreviewKey && (
+              <Card>
+                <Body>{alias || tr("You")}</Body>
+                <Body>{title}</Body>
+                <Body>{body}</Body>
+                <Body small>
+                  {tr(
+                    "Members can read and share an approved discussion. Your journal is not attached. Publication may require moderation.",
+                  )}
+                </Body>
+              </Card>
+            )}
+            <Button
               title={
                 busy
                   ? tr("Checking...")
@@ -775,7 +808,12 @@ function CommunityScreen() {
                       ? tr("Share")
                       : tr("Save for review")
               }
-              disabled={!title.trim() || !body.trim() || !canPost}
+              disabled={
+                !title.trim() ||
+                !body.trim() ||
+                !canPost ||
+                previewKey !== currentPreviewKey
+              }
               onPress={() =>
                 void act(
                   {
