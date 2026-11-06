@@ -6,11 +6,11 @@ import { backend } from "./backend";
 // Supabase Realtime presence channel under a random key that changes every
 // time; no account, name or journal data is sent. Returns null when the
 // count is unavailable (offline, not configured, or presence not allowed).
-export function useChurchPresence() {
+export function useChurchPresence(enabled: boolean) {
   const [count, setCount] = useState<number | null>(null);
   useEffect(() => {
     const client = backend;
-    if (!client) return;
+    if (!client || !enabled) return;
     let channel: ReturnType<typeof client.channel> | null = null;
     const join = () => {
       if (channel) return;
@@ -41,6 +41,6 @@ export function useChurchPresence() {
       sub.remove();
       leave();
     };
-  }, []);
-  return count;
+  }, [enabled]);
+  return enabled ? count : null;
 }

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { Button, Glass, colors, serif } from "./quiet-ui";
+import { useInterfaceCopy } from "../lib/use-interface-copy";
 import { useApp } from "../lib/state";
 import { churchCopy, type ChurchWord } from "../lib/church-copy";
 import { pendingStep, stepOptions, stepTitle } from "../lib/small-step";
@@ -10,6 +11,8 @@ import type { Entry } from "../lib/content";
 // Below the verse: pick one curated small step for today, saved with the page.
 export function SmallStepPicker({ entry }: { entry: Entry }) {
   const { profile, saveEntry } = useApp();
+  const tr = useInterfaceCopy();
+  const [showAll, setShowAll] = useState(false);
   const t = (key: ChurchWord) => churchCopy(profile.language, key);
   const options = stepOptions(entry.mood, profile.language);
   const [choice, setChoice] = useState<string | null>(entry.step?.id ?? null);
@@ -41,7 +44,7 @@ export function SmallStepPicker({ entry }: { entry: Entry }) {
       </Text>
       <Text style={s.intro}>{t("stepIntro")}</Text>
       <View accessibilityRole="radiogroup" style={{ gap: 10 }}>
-        {options.map((o) => {
+        {(showAll ? options : options.slice(0, 1)).map((o) => {
           const on = choice === o.id;
           return (
             <Pressable
@@ -71,6 +74,13 @@ export function SmallStepPicker({ entry }: { entry: Entry }) {
           );
         })}
       </View>
+      {!showAll && options.length > 1 && (
+        <Button
+          secondary
+          title={tr("See other options")}
+          onPress={() => setShowAll(true)}
+        />
+      )}
       <Button
         title={t("stepSave")}
         disabled={!choice}

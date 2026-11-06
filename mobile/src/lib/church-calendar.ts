@@ -41,3 +41,8 @@ export function isProtestant(profile: Profile) {
   if (choice === "exploring" || choice === "unspecified") return false;
   return (choice ?? profile.tradition) === "protestant";
 }
+
+// Tradition supplies a default; personal practice always takes precedence.
+export function welcomesCandles(profile: Profile) {
+  return profile.candlePractice ?? !isProtestant(profile);
+}

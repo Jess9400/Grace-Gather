@@ -20,6 +20,7 @@ import {
   adventWeekFor,
   isEvening,
   isProtestant,
+  welcomesCandles,
 } from "../../lib/church-calendar";
 import { loadCandles, useCandles } from "../../lib/candles";
 import { markEntered, shouldShowEntrance } from "../../lib/church-entrance";
@@ -29,6 +30,8 @@ import {
   startAmbience,
   stopAmbience,
 } from "../../lib/church-audio";
+import * as storage from "../../lib/storage";
+import { useInterfaceCopy } from "../../lib/use-interface-copy";
 import type { ChurchPlace } from "../../lib/church-scene";
 import { StepCheckIn } from "../../components/SmallStep";
 import { useChurchPresence } from "../../lib/church-presence";
@@ -41,11 +44,13 @@ const ROUTES: Record<Exclude<ChurchPlace, "wreath">, string> = {
   pews: "/(tabs)/diary",
 };
 const THEMES: ChurchWord[] = ["hope", "peaceWeek", "joy", "love"];
-// Lit by others earlier in the day; the person's own candles are added to these.
-const BASE_VOTIVES = 6;
+// Decorative candles do not represent activity by other members.
+const BASE_VOTIVES = 0;
 
 export default function Home() {
   const { profile } = useApp();
+  const tr = useInterfaceCopy();
+  const candlesAllowed = welcomesCandles(profile);
   const { draft, clear } = useQuiet();
   const t = (key: ChurchWord) => churchCopy(profile.language, key);
   const params = useLocalSearchParams<{ advent?: string; present?: string }>();
@@ -63,7 +68,9 @@ export default function Home() {
   const [soundOn, setSoundOn] = useState<boolean | null>(null);
   const [focused, setFocused] = useState(true);
   const candles = useCandles();
-  const live = useChurchPresence();
+  const live = useChurchPresence(
+    !!profile.churchPresence && focused && !entrance,
+  );
   // Development preview of the count (e.g. /?present=30); never in release.
   const present =
     __DEV__ && params.present ? Number(params.present) || null : live;
@@ -88,12 +95,13 @@ export default function Home() {
   useEffect(() => () => stopAmbience(), []);
   const endTour = useCallback(() => {
     setTour(false);
+    void storage.setItem("church-tour-seen", "yes").catch(() => {});
   }, []);
 
   const week = adventWeekFor(profile, now, preview);
   const theme = week > 0 && plain ? ` · ${t(THEMES[week - 1])}` : "";
   const places: (PlaceLabel & { sub: ChurchWord })[] = [
-    ...(plain
+    ...(!candlesAllowed
       ? []
       : [
           {
@@ -138,7 +146,7 @@ export default function Home() {
     else router.push(ROUTES[place] as never);
   };
   const toggleSound = () => {
-    const next = !(soundOn ?? true);
+    const next = !(soundOn ?? false);
     setSoundOn(next);
     void saveSoundOn(next);
   };
@@ -223,7 +231,7 @@ export default function Home() {
               onPlace={open}
               accessibilityLabel={t("church")}
               paused={entrance}
-              protestant={plain}
+              protestant={!candlesAllowed}
               tour={touring}
               onTourDone={endTour}
               onFailure={() => setSceneFailed(true)}
@@ -243,6 +251,14 @@ export default function Home() {
               </View>
             )}
           </View>
+        )}
+
+        {!soundOn && (
+          <Button
+            secondary
+            title={tr("Enable church sounds")}
+            onPress={toggleSound}
+          />
         )}
 
         <StepCheckIn />
@@ -278,7 +294,7 @@ export default function Home() {
           />
         )}
 
-        {!plain && candles.length > 0 && (
+        {candlesAllowed && candles.length > 0 && (
           <Pressable
             accessibilityRole="button"
             onPress={() => router.push("/candle")}
@@ -330,7 +346,12 @@ export default function Home() {
             markEntered();
             setEntrance(false);
             // Show where everything is each time someone walks in.
-            setTour(true);
+            void storage
+              .getItem("church-tour-seen")
+              .then((seen) => {
+                if (!seen) setTour(true);
+              })
+              .catch(() => {});
           }}
         />
       )}
