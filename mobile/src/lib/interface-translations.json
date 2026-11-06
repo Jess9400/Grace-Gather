@@ -1163,5 +1163,45 @@
     "pt": "Incluir este dispositivo na contagem apenas enquanto o Início estiver aberto. Seu nome e diário não são compartilhados. A contagem é de dispositivos, não de pessoas verificadas.",
     "es": "Incluir este dispositivo en el recuento solo mientras Inicio esté abierto. No se comparte tu nombre ni diario. Se cuentan dispositivos, no personas verificadas.",
     "ru": "Учитывать это устройство только пока открыт главный экран. Имя и дневник не передаются. Считаются устройства, а не подтверждённые пользователи."
+  },
+  "Church sounds play only on Home after the entrance.": {
+    "pt": "Os sons da igreja tocam apenas no Início, após a entrada.",
+    "es": "Los sonidos de la iglesia se reproducen solo en Inicio, después de entrar.",
+    "ru": "Звуки храма звучат только на главном экране после входа."
+  },
+  "Church sounds: on": {
+    "pt": "Sons da igreja: ativados",
+    "es": "Sonidos de la iglesia: activados",
+    "ru": "Звуки храма: включены"
+  },
+  "Church sounds: off": {
+    "pt": "Sons da igreja: desativados",
+    "es": "Sonidos de la iglesia: desactivados",
+    "ru": "Звуки храма: выключены"
+  },
+  "Church lighting": {
+    "pt": "Iluminação da igreja",
+    "es": "Iluminación de la iglesia",
+    "ru": "Освещение храма"
+  },
+  "Automatic lighting": {
+    "pt": "Iluminação automática",
+    "es": "Iluminación automática",
+    "ru": "Автоматическое освещение"
+  },
+  "Day lighting": {
+    "pt": "Iluminação diurna",
+    "es": "Iluminación diurna",
+    "ru": "Дневное освещение"
+  },
+  "Night lighting": {
+    "pt": "Iluminação noturna",
+    "es": "Iluminación nocturna",
+    "ru": "Ночное освещение"
+  },
+  "Show me around the church": {
+    "pt": "Mostrar os espaços da igreja",
+    "es": "Mostrarme los espacios de la iglesia",
+    "ru": "Показать места в храме"
   }
 }

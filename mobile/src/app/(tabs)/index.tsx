@@ -23,15 +23,17 @@ import {
   welcomesCandles,
 } from "../../lib/church-calendar";
 import { loadCandles, useCandles } from "../../lib/candles";
-import { markEntered, shouldShowEntrance } from "../../lib/church-entrance";
+import {
+  markEntered,
+  shouldShowEntrance,
+  consumeChurchTour,
+} from "../../lib/church-entrance";
 import {
   loadSoundOn,
-  saveSoundOn,
   startAmbience,
   stopAmbience,
 } from "../../lib/church-audio";
 import * as storage from "../../lib/storage";
-import { useInterfaceCopy } from "../../lib/use-interface-copy";
 import type { ChurchPlace } from "../../lib/church-scene";
 import { StepCheckIn } from "../../components/SmallStep";
 import { useChurchPresence } from "../../lib/church-presence";
@@ -49,7 +51,6 @@ const BASE_VOTIVES = 0;
 
 export default function Home() {
   const { profile } = useApp();
-  const tr = useInterfaceCopy();
   const candlesAllowed = welcomesCandles(profile);
   const { draft, clear } = useQuiet();
   const t = (key: ChurchWord) => churchCopy(profile.language, key);
@@ -60,7 +61,9 @@ export default function Home() {
       : undefined;
   const plain = isProtestant(profile);
   const [now] = useState(() => new Date());
-  const [night, setNight] = useState(() => isEvening(now));
+  const night =
+    profile.churchLighting === "night" ||
+    (profile.churchLighting !== "day" && isEvening(now));
   const [entrance, setEntrance] = useState(shouldShowEntrance);
   const [aboutAdvent, setAboutAdvent] = useState(false);
   const [sceneFailed, setSceneFailed] = useState(false);
@@ -76,17 +79,24 @@ export default function Home() {
     __DEV__ && params.present ? Number(params.present) || null : live;
   useEffect(() => {
     void loadCandles();
-    void loadSoundOn().then(setSoundOn);
   }, []);
   useFocusEffect(
     useCallback(() => {
+      let active = true;
+      setSoundOn(null);
       setFocused(true);
-      return () => setFocused(false);
+      void loadSoundOn().then((on) => {
+        if (active) setSoundOn(on);
+      });
+      if (consumeChurchTour()) setTour(true);
+      return () => {
+        active = false;
+        setFocused(false);
+      };
     }, []),
   );
-  // The labels are shown one by one each time someone walks in through the
-  // doors, and again whenever "Show places" is pressed.
-  const touring = tour;
+  // Only show hints after the entrance, or when requested in preferences.
+  const touring = tour && !entrance && focused;
   // Calm church sound on Home, after the doors, unless muted.
   useEffect(() => {
     if (!entrance && focused && soundOn) startAmbience();
@@ -145,11 +155,6 @@ export default function Home() {
     if (place === "wreath") setAboutAdvent((v) => !v);
     else router.push(ROUTES[place] as never);
   };
-  const toggleSound = () => {
-    const next = !(soundOn ?? false);
-    setSoundOn(next);
-    void saveSoundOn(next);
-  };
 
   return (
     <>
@@ -172,50 +177,6 @@ export default function Home() {
             <Text accessibilityRole="header" style={s.title}>
               {t("welcome")}
             </Text>
-            <View style={s.tools}>
-              <Pressable
-                accessibilityRole="switch"
-                accessibilityState={{ checked: night }}
-                accessibilityLabel={t("evening")}
-                onPress={() => setNight((v) => !v)}
-                style={s.tool}
-              >
-                <Ionicons
-                  name={night ? "moon" : "sunny-outline"}
-                  size={19}
-                  color={colors.ink}
-                />
-              </Pressable>
-              <Pressable
-                accessibilityRole="switch"
-                accessibilityState={{ checked: !!soundOn }}
-                accessibilityLabel={soundOn ? t("soundOn") : t("soundOff")}
-                onPress={toggleSound}
-                style={s.tool}
-              >
-                <Ionicons
-                  name={
-                    soundOn ? "volume-medium-outline" : "volume-mute-outline"
-                  }
-                  size={19}
-                  color={colors.ink}
-                />
-              </Pressable>
-              {!sceneFailed && (
-                <Pressable
-                  accessibilityRole="button"
-                  accessibilityLabel={t("showPlaces")}
-                  onPress={() => setTour(true)}
-                  style={s.tool}
-                >
-                  <Ionicons
-                    name="help-circle-outline"
-                    size={20}
-                    color={colors.ink}
-                  />
-                </Pressable>
-              )}
-            </View>
           </View>
         </View>
 
@@ -249,14 +210,6 @@ export default function Home() {
               </View>
             )}
           </View>
-        )}
-
-        {!soundOn && (
-          <Button
-            secondary
-            title={tr("Enable church sounds")}
-            onPress={toggleSound}
-          />
         )}
 
         <StepCheckIn />
