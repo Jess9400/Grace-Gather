@@ -6,3 +6,13 @@ export function shouldShowEntrance() {
 export function markEntered() {
   entered = true;
 }
+
+let tourRequested = false;
+export function requestChurchTour() {
+  tourRequested = true;
+}
+export function consumeChurchTour() {
+  const requested = tourRequested;
+  tourRequested = false;
+  return requested;
+}
