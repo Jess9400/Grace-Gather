@@ -32,3 +32,12 @@ export function localDay(date: Date) {
   const d = String(date.getDate()).padStart(2, "0");
   return `${date.getFullYear()}-${m}-${d}`;
 }
+
+// Protestant churches generally do not use votive candles or a confessional.
+// Only an explicit Protestant choice changes the church; "still exploring"
+// and "skip" keep every place.
+export function isProtestant(profile: Profile) {
+  const choice = profile.faithChoice;
+  if (choice === "exploring" || choice === "unspecified") return false;
+  return (choice ?? profile.tradition) === "protestant";
+}

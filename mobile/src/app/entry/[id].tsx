@@ -32,6 +32,8 @@ import { q } from "../../lib/quiet-copy";
 import { quietMood, selectQuietPassage } from "../../generated/quiet-diary";
 import { aiCopy } from "../../lib/ai-copy";
 import { SmallStepPicker } from "../../components/SmallStep";
+import { churchCopy } from "../../lib/church-copy";
+import { isProtestant } from "../../lib/church-calendar";
 interface Turn {
   text: string;
   mood: Mood;
@@ -43,7 +45,8 @@ export default function EntryScreen() {
     { entries, profile } = useApp(),
     { update } = useQuiet();
   const entry = entries.find((e) => e.id === id),
-    lang = profile.language;
+    lang = profile.language,
+    plain = isProtestant(profile);
   const stream = useRef<ScrollViewInstance>(null),
     scrollRequested = useRef(false);
   const [draft, setDraft] = useState(""),
@@ -168,6 +171,30 @@ export default function EntryScreen() {
             >
               <Ionicons name={icon} size={20} color={colors.goldInk} />
               <Text style={s.careText}>{q(lang, key)}</Text>
+              <Ionicons name="arrow-forward" size={17} color={colors.ink} />
+            </Pressable>
+          ))}
+          {(
+            [
+              ...(plain
+                ? []
+                : ([["flame-outline", "candleAction", "/candle"]] as const)),
+              [
+                "chatbubbles-outline",
+                plain ? "unburdenAction" : "confessionAction",
+                "/(tabs)/confession",
+              ],
+            ] as const
+          ).map(([icon, key, href]) => (
+            <Pressable
+              key={key}
+              accessibilityRole="button"
+              accessibilityLabel={churchCopy(lang, key)}
+              onPress={() => router.push(href)}
+              style={s.careButton}
+            >
+              <Ionicons name={icon} size={20} color={colors.goldInk} />
+              <Text style={s.careText}>{churchCopy(lang, key)}</Text>
               <Ionicons name="arrow-forward" size={17} color={colors.ink} />
             </Pressable>
           ))}

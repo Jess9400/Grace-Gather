@@ -42,16 +42,21 @@ const SUN_DIR: Vec3 = (() => {
 
 export type ChurchPlace =
   "candles" | "confession" | "bible" | "gather" | "pews" | "wreath";
-export const PLACE_ANCHORS: Record<ChurchPlace, Vec3> = {
-  candles: [-1.2, -1.22, -2.85],
-  confession: [1.28, 0.95, -4.05],
-  bible: [-0.72, 0.02, -4.3],
-  gather: [-1.75, 0.15, -6.15],
-  pews: [0, -0.62, 1.5],
-  wreath: [0.55, -1.25, -3.6],
+// The top of each object: a label with a small arrow points down at it.
+const ANCHORS: Record<ChurchPlace, Vec3> = {
+  candles: [-1.2, -0.45, -3.0],
+  confession: [1.28, 0.42, -3.66],
+  bible: [-0.72, -0.32, -4.3],
+  gather: [-1.75, -0.08, -6.2],
+  pews: [-0.6, -0.52, -0.5],
+  wreath: [0.55, -0.42, -3.75],
 };
 
-export type ChurchOptions = { adventWeek: number; litVotives: number };
+export type ChurchOptions = {
+  adventWeek: number;
+  litVotives: number;
+  protestant?: boolean;
+};
 
 function sideWindow(mesh: MeshBuilder, x: number, z: number, m: Material) {
   // An arched lancet on a side wall (outline in the Z/Y plane).
@@ -65,7 +70,11 @@ function sideWindow(mesh: MeshBuilder, x: number, z: number, m: Material) {
   }
 }
 
-export function buildChurchMesh({ adventWeek, litVotives }: ChurchOptions) {
+export function buildChurchMesh({
+  adventWeek,
+  litVotives,
+  protestant = false,
+}: ChurchOptions) {
   const mesh = new MeshBuilder();
   const stone: Material = { color: [0.78, 0.73, 0.65], kind: KIND.stone };
   const plaster: Material = { color: [0.9, 0.85, 0.76], kind: KIND.plaster };
@@ -200,65 +209,107 @@ export function buildChurchMesh({ adventWeek, litVotives }: ChurchOptions) {
     kind: KIND.cloth,
   });
 
-  // Votive stand: three brass tiers of small candles, some already lit.
-  const vx = -1.2,
-    vz = -3.0;
-  for (const dx of [-0.36, 0.36])
-    mesh.box(vx + dx, -1.12, vz, 0.03, 0.76, 0.03, brass);
-  const tiers = [
-    { y: -0.86, z: vz + 0.12, n: 6 },
-    { y: -0.72, z: vz, n: 5 },
-    { y: -0.58, z: vz - 0.12, n: 4 },
-  ];
-  let index = 0;
-  for (const tier of tiers) {
-    mesh.box(vx, tier.y, tier.z, 0.82, 0.03, 0.14, brass);
-    for (let i = 0; i < tier.n; i++) {
-      const x = vx - 0.34 + (0.68 * (i + 0.5)) / tier.n;
-      mesh.cylinder(
-        x,
-        tier.z,
-        tier.y + 0.015,
-        tier.y + 0.06,
-        0.03,
-        { color: [0.75, 0.2, 0.16], kind: KIND.cloth },
-        10,
-      );
-      mesh.cylinder(x, tier.z, tier.y + 0.02, tier.y + 0.075, 0.022, wax, 10);
-      if (index < litVotives)
+  if (!protestant) {
+    // Votive stand: three brass tiers of small candles, some already lit.
+    const vx = -1.2,
+      vz = -3.0;
+    for (const dx of [-0.36, 0.36])
+      mesh.box(vx + dx, -1.12, vz, 0.03, 0.76, 0.03, brass);
+    const tiers = [
+      { y: -0.86, z: vz + 0.12, n: 6 },
+      { y: -0.72, z: vz, n: 5 },
+      { y: -0.58, z: vz - 0.12, n: 4 },
+    ];
+    let index = 0;
+    for (const tier of tiers) {
+      mesh.box(vx, tier.y, tier.z, 0.82, 0.03, 0.14, brass);
+      for (let i = 0; i < tier.n; i++) {
+        const x = vx - 0.34 + (0.68 * (i + 0.5)) / tier.n;
         mesh.cylinder(
           x,
           tier.z,
-          tier.y + 0.078,
-          tier.y + 0.13,
-          0.013,
-          flame,
-          6,
-          0,
+          tier.y + 0.015,
+          tier.y + 0.06,
+          0.03,
+          { color: [0.75, 0.2, 0.16], kind: KIND.cloth },
+          10,
         );
-      index++;
+        mesh.cylinder(x, tier.z, tier.y + 0.02, tier.y + 0.075, 0.022, wax, 10);
+        if (index < litVotives)
+          mesh.cylinder(
+            x,
+            tier.z,
+            tier.y + 0.078,
+            tier.y + 0.13,
+            0.013,
+            flame,
+            6,
+            0,
+          );
+        index++;
+      }
     }
   }
 
-  // Confessional: a wooden booth with a panelled door, grille and curtain.
-  const cx = 1.28,
-    cz = -4.05;
-  mesh.box(cx, -0.42, cz, 1.12, 2.16, 0.72, wood);
-  mesh.box(cx, 0.7, cz, 1.24, 0.1, 0.8, darkWood);
-  mesh.box(cx, 0.8, cz, 1.12, 0.1, 0.72, wood);
-  mesh.box(cx, 0.98, cz + 0.2, 0.04, 0.26, 0.04, brass);
-  mesh.box(cx, 1.03, cz + 0.2, 0.16, 0.04, 0.04, brass);
-  mesh.box(cx - 0.24, -0.5, cz + 0.37, 0.46, 1.86, 0.03, darkWood);
-  mesh.box(cx - 0.24, 0.08, cz + 0.39, 0.3, 0.3, 0.02, {
-    color: [0.18, 0.11, 0.07],
-    kind: KIND.wood,
-  });
-  mesh.box(cx - 0.06, -0.5, cz + 0.4, 0.03, 0.05, 0.03, brass);
-  mesh.box(cx + 0.29, -0.52, cz + 0.37, 0.4, 1.8, 0.03, {
-    color: [0.5, 0.13, 0.13],
-    kind: KIND.cloth,
-  });
-  mesh.box(cx + 0.03, -0.42, cz + 0.38, 0.05, 2.1, 0.05, darkWood);
+  if (!protestant) {
+    // Confessional: a wooden booth with a panelled door, grille and curtain.
+    const cx = 1.28,
+      cz = -4.05;
+    mesh.box(cx, -0.42, cz, 1.12, 2.16, 0.72, wood);
+    mesh.box(cx, 0.7, cz, 1.24, 0.1, 0.8, darkWood);
+    mesh.box(cx, 0.8, cz, 1.12, 0.1, 0.72, wood);
+    mesh.box(cx, 0.98, cz + 0.2, 0.04, 0.26, 0.04, brass);
+    mesh.box(cx, 1.03, cz + 0.2, 0.16, 0.04, 0.04, brass);
+    mesh.box(cx - 0.24, -0.5, cz + 0.37, 0.46, 1.86, 0.03, darkWood);
+    mesh.box(cx - 0.24, 0.08, cz + 0.39, 0.3, 0.3, 0.02, {
+      color: [0.18, 0.11, 0.07],
+      kind: KIND.wood,
+    });
+    mesh.box(cx - 0.06, -0.5, cz + 0.4, 0.03, 0.05, 0.03, brass);
+    mesh.box(cx + 0.29, -0.52, cz + 0.37, 0.4, 1.8, 0.03, {
+      color: [0.5, 0.13, 0.13],
+      kind: KIND.cloth,
+    });
+    mesh.box(cx + 0.03, -0.42, cz + 0.38, 0.05, 2.1, 0.05, darkWood);
+  } else {
+    // Prayer corner: a wooden kneeler with an open Bible, before a plain cross.
+    const kx = 1.28,
+      kz = -3.95;
+    mesh.box(kx, FLOOR + 0.06, kz + 0.18, 0.74, 0.1, 0.3, darkWood);
+    mesh.box(kx, -1.06, kz - 0.06, 0.7, 0.84, 0.05, wood);
+    for (const dx of [-0.34, 0.34])
+      mesh.box(kx + dx, -1.06, kz + 0.04, 0.05, 0.88, 0.22, darkWood);
+    const desk = (x: number, y: number, z: number): Vec3 => [
+      kx + x,
+      y + z * 0.4,
+      kz + z,
+    ];
+    mesh.quad(
+      desk(-0.38, -0.6, 0.08),
+      desk(0.38, -0.6, 0.08),
+      desk(0.38, -0.6, -0.16),
+      desk(-0.38, -0.6, -0.16),
+      darkWood,
+    );
+    const leaf: Material = { color: [0.98, 0.95, 0.88], kind: KIND.page };
+    mesh.quad(
+      desk(-0.2, -0.585, 0.05),
+      desk(-0.01, -0.575, 0.05),
+      desk(-0.01, -0.575, -0.13),
+      desk(-0.2, -0.585, -0.13),
+      leaf,
+    );
+    mesh.quad(
+      desk(0.01, -0.575, 0.05),
+      desk(0.2, -0.585, 0.05),
+      desk(0.2, -0.585, -0.13),
+      desk(0.01, -0.575, -0.13),
+      leaf,
+    );
+    mesh.box(kx, FLOOR + 0.08, kz - 0.5, 0.42, 0.16, 0.42, stone);
+    mesh.box(kx, -0.36, kz - 0.5, 0.09, 2.1, 0.09, darkWood);
+    mesh.box(kx, 0.28, kz - 0.5, 0.66, 0.09, 0.09, darkWood);
+  }
 
   // Side door to the gathering room, glowing warmly.
   mesh.prism(archOutline(0.34, -0.45, FLOOR, -1.75), -6.3, -6.295, {
@@ -362,6 +413,7 @@ precision highp float;
 uniform sampler2D uWood;
 uniform float uTime;
 uniform float uNight;
+uniform float uVotive;
 uniform vec3 uEye;
 uniform vec2 uRes;
 varying vec3 vWorld;
@@ -425,7 +477,7 @@ void main() {
   vec3 toEye = normalize(uEye - p);
   vec3 fill = vec3(0.09, 0.065, 0.05) * max(dot(n, toEye), 0.0) * night;
   vec3 lights = mix(day, dusk, night) + fill
-    + point(p, n, vec3(-1.2, -0.45, -2.85), candle * candlePower * 1.4, 2.2)
+    + point(p, n, vec3(-1.2, -0.45, -2.85), candle * candlePower * 1.4 * uVotive, 2.2)
     + point(p, n, vec3(0.0, 0.25, -5.3), candle * candlePower, 1.0)
     + point(p, n, vec3(-1.75, -0.8, -5.9), vec3(1.0, 0.7, 0.4) * candlePower * 0.9, 1.6)
     + point(p, n, vec3(0.55, -0.3, -3.65), candle * candlePower * 0.5, 3.0);
@@ -530,7 +582,11 @@ void main() {
   gl_FragColor = vec4(vColor * f * vStrength * scale, 1.0);
 }`;
 
-function buildGlowMesh({ adventWeek, litVotives }: ChurchOptions) {
+function buildGlowMesh({
+  adventWeek,
+  litVotives,
+  protestant = false,
+}: ChurchOptions) {
   const data: number[] = [];
   const quad = (
     center: Vec3,
@@ -561,7 +617,7 @@ function buildGlowMesh({ adventWeek, litVotives }: ChurchOptions) {
       );
   };
   const candle: Vec3 = [1.0, 0.62, 0.28];
-  if (litVotives > 0)
+  if (litVotives > 0 && !protestant)
     quad(
       [-1.2, -0.62, -2.9],
       [0.62, 0, 0],
@@ -696,11 +752,20 @@ export function placeAt(
   return best;
 }
 
-export function projectPlaces(aspect: number, view: ChurchView) {
+export function placeAnchors(protestant = false): Record<ChurchPlace, Vec3> {
+  return protestant ? { ...ANCHORS, confession: [1.28, 0.72, -4.45] } : ANCHORS;
+}
+
+export function projectPlaces(
+  aspect: number,
+  view: ChurchView,
+  protestant = false,
+) {
+  const anchors = placeAnchors(protestant);
   const { matrix } = churchCamera(aspect, view);
   const out = {} as Record<ChurchPlace, { x: number; y: number } | null>;
-  (Object.keys(PLACE_ANCHORS) as ChurchPlace[]).forEach((key) => {
-    out[key] = project(matrix, PLACE_ANCHORS[key]);
+  (Object.keys(anchors) as ChurchPlace[]).forEach((key) => {
+    out[key] = project(matrix, anchors[key]);
   });
   return out;
 }
@@ -756,7 +821,7 @@ export function createChurchRenderer(
       glowMesh = new Float32Array(0),
       built = "";
     const rebuild = (options: ChurchOptions) => {
-      const key = `${options.adventWeek}:${options.litVotives}`;
+      const key = `${options.adventWeek}:${options.litVotives}:${options.protestant ? 1 : 0}`;
       if (key === built) return;
       built = key;
       mesh = buildChurchMesh(options);
@@ -770,6 +835,7 @@ export function createChurchRenderer(
       mvp: gl.getUniformLocation(program, "uMVP"),
       time: gl.getUniformLocation(program, "uTime"),
       night: gl.getUniformLocation(program, "uNight"),
+      votive: gl.getUniformLocation(program, "uVotive"),
       eye: gl.getUniformLocation(program, "uEye"),
       res: gl.getUniformLocation(program, "uRes"),
     });
@@ -799,6 +865,7 @@ export function createChurchRenderer(
         gl.uniformMatrix4fv(mainU.mvp, false, camera.matrix);
         gl.uniform1f(mainU.time, time);
         gl.uniform1f(mainU.night, night);
+        gl.uniform1f(mainU.votive, options.protestant ? 0 : 1);
         gl.uniform3f(mainU.eye, camera.eye[0], camera.eye[1], camera.eye[2]);
         gl.uniform2f(mainU.res, width, height);
         gl.drawArrays(gl.TRIANGLES, 0, mesh.length / STRIDE);

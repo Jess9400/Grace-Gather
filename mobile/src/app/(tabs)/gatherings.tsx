@@ -110,21 +110,14 @@ export default function Gatherings() {
       <Heading>{c("gatherings")}</Heading>
       <View style={styles.links}>
         {(
-          [
-            ["chats", "chatsSub", "chatbubbles-outline", "/community"],
-            ["stories", "storiesSub", "sparkles-outline", "/(tabs)/explore"],
-          ] as const
-        ).map(([title, sub, icon, href], i) => (
+          [["chats", "chatsSub", "chatbubbles-outline", "/community"]] as const
+        ).map(([title, sub, icon, href]) => (
           <Pressable
             key={title}
             accessibilityRole="button"
             accessibilityLabel={`${churchCopy(profile.language, title)}. ${churchCopy(profile.language, sub)}`}
             onPress={() => router.push(href)}
-            style={({ pressed }) => [
-              styles.link,
-              i === 0 && styles.divider,
-              pressed && { opacity: 0.7 },
-            ]}
+            style={({ pressed }) => [styles.link, pressed && { opacity: 0.7 }]}
           >
             <Ionicons name={icon} size={22} color={colors.goldInk} />
             <View style={{ flex: 1 }}>
@@ -271,10 +264,6 @@ const styles = StyleSheet.create({
     gap: 14,
     minHeight: 64,
     paddingVertical: 10,
-  },
-  divider: {
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: colors.cardLine,
   },
   linkTitle: { fontSize: 16, fontWeight: "600", color: colors.ink },
   linkSub: { fontSize: 13, lineHeight: 18, color: colors.muted, marginTop: 2 },
