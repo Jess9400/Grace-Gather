@@ -31,6 +31,7 @@ import { copy, data, needsSupport, passagesFor, Mood } from "../../lib/content";
 import { q } from "../../lib/quiet-copy";
 import { quietMood, selectQuietPassage } from "../../generated/quiet-diary";
 import { aiCopy } from "../../lib/ai-copy";
+import { SmallStepPicker } from "../../components/SmallStep";
 interface Turn {
   text: string;
   mood: Mood;
@@ -171,6 +172,7 @@ export default function EntryScreen() {
             </Pressable>
           ))}
         </Glass>
+        {initial && <SmallStepPicker entry={entry} />}
       </View>
     );
   }

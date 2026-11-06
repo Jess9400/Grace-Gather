@@ -300,6 +300,81 @@ const words = {
     "Una vela en un nicho de piedra",
     "Свеча в каменной нише",
   ),
+  // Small step
+  stepTitle: L(
+    "One small step for today",
+    "Um pequeno passo para hoje",
+    "Un pequeño paso para hoy",
+    "Один маленький шаг на сегодня",
+  ),
+  stepIntro: L(
+    "Pick one if you like. Home will gently ask how it went.",
+    "Escolha um, se quiser. O Início vai perguntar com calma como foi.",
+    "Elige uno si quieres. Inicio te preguntará con calma cómo te fue.",
+    "Выберите один, если хотите. Главная мягко спросит, как всё прошло.",
+  ),
+  stepSave: L(
+    "Make this my step",
+    "Este é o meu passo",
+    "Este es mi paso",
+    "Это мой шаг",
+  ),
+  stepChosen: L(
+    "Your step for today",
+    "Seu passo de hoje",
+    "Tu paso de hoy",
+    "Ваш шаг на сегодня",
+  ),
+  stepChange: L(
+    "Choose another",
+    "Escolher outro",
+    "Elegir otro",
+    "Выбрать другой",
+  ),
+  stepKeepNote: L(
+    "Keep this page in your journal and Home will ask about it tomorrow.",
+    "Guarde esta página no diário e o Início vai perguntar sobre ele amanhã.",
+    "Guarda esta página en tu diario e Inicio te preguntará mañana.",
+    "Сохраните страницу в дневнике, и завтра Главная спросит об этом.",
+  ),
+  stepToday: L(
+    "Today's small step",
+    "Pequeno passo de hoje",
+    "Pequeño paso de hoy",
+    "Маленький шаг на сегодня",
+  ),
+  stepYesterday: L(
+    "Yesterday's small step",
+    "Pequeno passo de ontem",
+    "Pequeño paso de ayer",
+    "Вчерашний маленький шаг",
+  ),
+  stepEarlier: L(
+    "Your last small step",
+    "Seu último pequeno passo",
+    "Tu último pequeño paso",
+    "Ваш последний маленький шаг",
+  ),
+  stepDid: L("I did it", "Eu fiz", "Lo hice", "Сделано"),
+  stepNotYet: L("Not yet", "Ainda não", "Todavía no", "Пока нет"),
+  stepDone: L(
+    "That's lovely. One small good thing, done.",
+    "Que bom. Uma pequena coisa boa, feita.",
+    "Qué bien. Una pequeña cosa buena, hecha.",
+    "Чудесно. Одно маленькое доброе дело сделано.",
+  ),
+  stepLater: L(
+    "That's okay. It's still here if you want it today.",
+    "Tudo bem. Ele continua aqui, se quiser, hoje.",
+    "Está bien. Sigue aquí si lo quieres hoy.",
+    "Ничего страшного. Этот шаг ждёт вас, если захотите сегодня.",
+  ),
+  stepNoPressure: L(
+    "No streaks, no pressure.",
+    "Sem sequências, sem pressão.",
+    "Sin rachas, sin presión.",
+    "Без серий и без давления.",
+  ),
   // Gather
   chats: L("Chats", "Conversas", "Conversaciones", "Беседы"),
   chatsSub: L(

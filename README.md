@@ -182,6 +182,17 @@ curated verse from the person's chosen edition. Tabs are now Home, Journal,
 Bible Study, Confession and Gather; Discover and Chats open from Gather. The
 Confession room is unchanged.
 
+## Small step and gentle check-in
+
+After the first verse in a conversation, the person may pick one of the three
+curated small steps for their feeling (already translated in all four
+languages). The choice is saved with the page as an optional `step` field in
+the encrypted journal, so older pages and backups stay compatible. Home shows
+"Today's small step" or "Yesterday's small step" for the most recent unanswered
+step from the last week, with "I did it" and, for earlier days, "Not yet". There
+are no streaks or counts. Pages that were not kept are never stored, so they
+never ask. No step is offered when the conversation shows support guidance.
+
 ## Native Community
 
 Community opens from More and Discuss this verse, using the approved quiet design.

@@ -43,6 +43,8 @@ export interface Entry {
   text: string;
   audio?: string;
   action?: string;
+  // One small step chosen after the verse; Home asks about it later.
+  step?: import("./small-step").SmallStep;
   reflection?: string;
   safety: boolean;
   prefs: Preferences;

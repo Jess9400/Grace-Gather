@@ -21,6 +21,7 @@ import { adventWeekFor, isEvening } from "../../lib/church-calendar";
 import { loadCandles, useCandles } from "../../lib/candles";
 import { markEntered, shouldShowEntrance } from "../../lib/church-entrance";
 import type { ChurchPlace } from "../../lib/church-scene";
+import { StepCheckIn } from "../../components/SmallStep";
 
 const ROUTES: Record<Exclude<ChurchPlace, "wreath">, string> = {
   candles: "/candle",
@@ -142,6 +143,8 @@ export default function Home() {
           accessibilityLabel={t("church")}
           paused={entrance}
         />
+
+        <StepCheckIn />
 
         {week > 0 && aboutAdvent && (
           <Card tint>
