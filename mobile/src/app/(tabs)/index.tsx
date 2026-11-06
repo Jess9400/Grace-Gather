@@ -15,7 +15,6 @@ import ChurchEntrance from "../../components/ChurchEntrance";
 import { useApp } from "../../lib/state";
 import { useQuiet } from "../../lib/quiet-state";
 import { q } from "../../lib/quiet-copy";
-import * as storage from "../../lib/storage";
 import { churchCopy, type ChurchWord } from "../../lib/church-copy";
 import {
   adventWeekFor,
@@ -44,7 +43,6 @@ const ROUTES: Record<Exclude<ChurchPlace, "wreath">, string> = {
 const THEMES: ChurchWord[] = ["hope", "peaceWeek", "joy", "love"];
 // Lit by others earlier in the day; the person's own candles are added to these.
 const BASE_VOTIVES = 6;
-const TOUR_KEY = "church-tour-seen";
 
 export default function Home() {
   const { profile } = useApp();
@@ -62,7 +60,6 @@ export default function Home() {
   const [aboutAdvent, setAboutAdvent] = useState(false);
   const [sceneFailed, setSceneFailed] = useState(false);
   const [tour, setTour] = useState(false);
-  const [tourSeen, setTourSeen] = useState<boolean | null>(null);
   const [soundOn, setSoundOn] = useState<boolean | null>(null);
   const [focused, setFocused] = useState(true);
   const candles = useCandles();
@@ -73,10 +70,6 @@ export default function Home() {
   useEffect(() => {
     void loadCandles();
     void loadSoundOn().then(setSoundOn);
-    void storage
-      .getItem(TOUR_KEY)
-      .then((v) => setTourSeen(v === "yes"))
-      .catch(() => setTourSeen(false));
   }, []);
   useFocusEffect(
     useCallback(() => {
@@ -84,9 +77,9 @@ export default function Home() {
       return () => setFocused(false);
     }, []),
   );
-  // The labels are shown once, the first time someone walks in, and again
-  // whenever "Show places" is pressed.
-  const touring = tour || (!entrance && tourSeen === false);
+  // The labels are shown one by one each time someone walks in through the
+  // doors, and again whenever "Show places" is pressed.
+  const touring = tour;
   // Calm church sound on Home, after the doors, unless muted.
   useEffect(() => {
     if (!entrance && focused && soundOn) startAmbience();
@@ -95,8 +88,6 @@ export default function Home() {
   useEffect(() => () => stopAmbience(), []);
   const endTour = useCallback(() => {
     setTour(false);
-    setTourSeen(true);
-    void storage.setItem(TOUR_KEY, "yes").catch(() => {});
   }, []);
 
   const week = adventWeekFor(profile, now, preview);
@@ -336,6 +327,8 @@ export default function Home() {
           onEntered={() => {
             markEntered();
             setEntrance(false);
+            // Show where everything is each time someone walks in.
+            setTour(true);
           }}
         />
       )}

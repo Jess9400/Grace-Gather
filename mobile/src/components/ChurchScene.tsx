@@ -51,6 +51,17 @@ class SceneBoundary extends Component<
   }
 }
 
+const TOUR_ORDER: ChurchPlace[] = [
+  "confession",
+  "gather",
+  "bible",
+  "candles",
+  "pews",
+  "wreath",
+];
+const TOUR_FADE_MS = 700;
+const TOUR_HOLD_MS = 2500;
+
 export type PlaceLabel = {
   key: ChurchPlace;
   label: string;
@@ -278,42 +289,64 @@ export default function ChurchScene({
     if (failed) onFailure?.();
   }, [failed, onFailure]);
 
-  // The tour: each label appears in turn with an arrow, then all are hidden.
+  // The tour: each label fades in slowly with its arrow, rests for a moment,
+  // fades out, and the next one follows. Touching the church ends it.
   const keys = places.map((p) => p.key).join(",");
+  const stopTour = useRef<(() => void) | null>(null);
   useEffect(() => {
     if (!ready || !tour) return;
-    const order = keys.split(",") as ChurchPlace[];
+    const order = (keys.split(",") as ChurchPlace[]).sort(
+      (a, b) => TOUR_ORDER.indexOf(a) - TOUR_ORDER.indexOf(b),
+    );
     let cancelled = false;
+    let timer: ReturnType<typeof setTimeout> | null = null;
     let i = 0;
-    const next = () => {
+    const finish = () => {
       if (cancelled) return;
-      if (i >= order.length) {
-        setTouring(null);
-        onTourDone?.();
-        return;
-      }
+      cancelled = true;
+      if (timer) clearTimeout(timer);
+      setTouring(null);
+      onTourDone?.();
+    };
+    const step = () => {
+      if (cancelled) return;
+      if (i >= order.length) return finish();
       setTouring(order[i]);
       i++;
-      setTimeout(next, 1500);
+      timer = setTimeout(() => {
+        setTouring(null);
+        timer = setTimeout(step, TOUR_FADE_MS + 250);
+      }, TOUR_FADE_MS + TOUR_HOLD_MS);
     };
-    const timer = setTimeout(next, 600);
+    timer = setTimeout(step, 700);
+    stopTour.current = finish;
     return () => {
       cancelled = true;
-      clearTimeout(timer);
+      stopTour.current = null;
+      if (timer) clearTimeout(timer);
       setTouring(null);
     };
   }, [ready, tour, keys, onTourDone]);
 
   const visible = touring ?? highlight;
+  const touringLast = useRef<ChurchPlace | null>(null);
+  useEffect(() => {
+    if (touring) touringLast.current = touring;
+  }, [touring]);
   useEffect(() => {
     (Object.keys(shown) as ChurchPlace[]).forEach((key) =>
       Animated.timing(shown[key], {
         toValue: key === visible ? 1 : 0,
-        duration: key === visible ? 260 : 380,
+        duration:
+          touring || key === touringLast.current
+            ? TOUR_FADE_MS
+            : key === visible
+              ? 220
+              : 300,
         useNativeDriver: true,
       }).start(),
     );
-  }, [visible, shown]);
+  }, [visible, touring, shown]);
 
   const onContextCreate = useCallback(
     async (gl: ExpoWebGLRenderingContext) => {
@@ -354,6 +387,7 @@ export default function ChurchScene({
     const { width, height } = sizeRef.current;
     if (!width) return;
     const { locationX, locationY } = event.nativeEvent;
+    if (event.type === "touchstart") stopTour.current?.();
     if (event.type === "touchstart" || !start.current) {
       start.current = {
         x: event.nativeEvent.pageX,
@@ -448,6 +482,7 @@ export default function ChurchScene({
           importantForAccessibility="no"
           style={StyleSheet.absoluteFill}
           onPressIn={(e) => {
+            stopTour.current?.();
             if (Platform.OS !== "web") setHighlight(pick(...pointIn(e)));
           }}
           onPressOut={() => {
