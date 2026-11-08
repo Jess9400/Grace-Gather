@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, Text, TextInput, Pressable, StyleSheet } from "react-native";
+import { View, Text, TextInput, Pressable, StyleSheet, Platform } from "react-native";
 import { router } from "expo-router";
 import { randomUUID } from "expo-crypto";
 import { Screen, Button, Body, Notice, colors, serif, Card } from "./quiet-ui";
@@ -12,7 +12,6 @@ import { quietMood } from "../generated/quiet-diary";
 import { suggestJourney } from "../lib/ai";
 import { transcribeRecording } from "../lib/ai-audio";
 import { aiCopy } from "../lib/ai-copy";
-import { persistent } from "../lib/storage";
 export default function Diary() {
   const { profile, saveEntry } = useApp(),
     { draft, update } = useQuiet();
@@ -83,16 +82,14 @@ export default function Diary() {
   }
   return (
     <Screen back>
-      <Body small>{q(lang, "yours")}</Body>
       <Text accessibilityRole="header" style={s.title}>
         {q(lang, "land")}
       </Text>
-      <View style={{ gap: 10 }}>
+      {Platform.OS !== "web" && <View style={{ gap: 10 }}>
         <Text accessibilityRole="header" style={{ color: colors.ink, fontSize: 16 }}>{q(lang, "audioJournal")}</Text>
         <Recorder language={lang} value={draft.audio}
           onChange={(audio) => update({ audio })} onBusyChange={setRecording} />
-        {draft.audio && <Body small>{q(lang, "recordingPrivacy")}</Body>}
-      </View>
+      </View>}
       <View style={s.paper}>
         <View style={s.rule} />
         <Text style={s.date}>
@@ -137,11 +134,6 @@ export default function Diary() {
         onPress={() => void submit()}
         disabled={busy || recording}
       />
-      <Body small>
-        {persistent
-          ? q(lang, "privacy")
-          : "Browser preview: entries and preferences last only for this visit. Use the iPhone build for secure saving."}
-      </Body>
       <Pressable
         accessibilityRole="button"
         accessibilityState={{ expanded: options }}
