@@ -1,3 +1,4 @@
+import Study from "../study";
 import { useInterfaceCopy } from "../../lib/use-interface-copy";
 import { useRef, useState, useCallback, useEffect } from "react";
 import {
@@ -11,7 +12,7 @@ import {
   useWindowDimensions,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { Brand, Body, Button, colors, serif } from "../../components/quiet-ui";
 import { useApp } from "../../lib/state";
@@ -29,6 +30,10 @@ import {
   readingLocation,
 } from "../../lib/bible";
 export default function Bible() {
+  const { view } = useLocalSearchParams<{ view?: string }>();
+  return view === "reader" ? <BibleReading /> : <Study embedded />;
+}
+function BibleReading() {
   const { profile } = useApp();
   const collection = collectionFor(profile);
   const tr = useInterfaceCopy();
@@ -53,6 +58,11 @@ export default function Bible() {
     return (
       <SafeAreaView style={s.safe}>
         <Brand />
+        <Button
+          secondary
+          title={tr("Study resources")}
+          onPress={() => router.setParams({ view: "study" })}
+        />
         <Body>
           {tr(
             failedCollection === collection

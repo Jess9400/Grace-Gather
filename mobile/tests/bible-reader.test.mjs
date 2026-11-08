@@ -156,3 +156,13 @@ test('full readers follow Scripture language independently of interface language
  assert.equal(reader.getReadingVerse('rv1909:NUM.12.16').text,'');
  assert.ok(reader.getReadingVerse('rv1909:NUM.12.16').notes.length);
 });
+
+test('study topic references resolve in all six supported Bible editions', () => {
+  for (const edition of ['web','dra','brenton','blivre','rv1909','synodal']) {
+    for (const reference of ['EPH.2.8','MAT.6.14','JAS.1.5','ROM.15.13','JHN.14.27','MAT.11.28','JHN.15.9','1TH.5.18']) {
+      const verse = reader.getReadingVerse(`${edition}:${reference}`);
+      assert.ok(verse?.text, `${edition}:${reference}`);
+      assert.equal(verse.collection,edition);
+    }
+  }
+});

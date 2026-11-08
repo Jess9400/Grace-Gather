@@ -1,10 +1,17 @@
+import {
+  getStudyDiscussionTopic,
+  getStudyDiscussionRevision,
+  clearStudyDiscussionTopic,
+} from "../lib/study-discussion-draft";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, type ReactNode } from "react";
 import { View, Text, Pressable, ScrollView, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import {
+  Screen,
+  Heading,
   Body,
   Button,
   Card,
@@ -28,13 +35,16 @@ import {
 import { getReadingVerse, discussionVerseId } from "../lib/bible";
 
 type ViewMode = "list" | "thread" | "compose" | "review";
-export default function Community() {
+export default function Community({ header }: { header?: ReactNode } = {}) {
   const { userId } = useCommunity();
-  return <CommunityScreen key={userId ?? "signed-out"} />;
+  return <CommunityScreen key={userId ?? "signed-out"} header={header} />;
 }
-function CommunityScreen() {
+function CommunityScreen({ header }: { header?: ReactNode }) {
   const tr = useInterfaceCopy();
-  const params = useLocalSearchParams<{ verse?: string }>();
+  const params = useLocalSearchParams<{
+    verse?: string;
+    compose?: string;
+  }>();
   const linkedVerse = params.verse ? discussionVerseId(params.verse) : null;
   const verse = linkedVerse ? getReadingVerse(linkedVerse) : null;
   const {
@@ -53,16 +63,40 @@ function CommunityScreen() {
     moderate,
   } = useCommunity();
   const [alias, setAlias] = useState("");
-  const [mode, setMode] = useState<ViewMode>("list"),
+  const [mode, setMode] = useState<ViewMode>(
+      params.compose === "1" ? "compose" : "list",
+    ),
     [selected, setSelected] = useState<string | null>(null);
   const [filter, setFilter] = useState<"all" | "verse" | "mine">(
     verse ? "verse" : "all",
   );
-  const [title, setTitle] = useState(""),
+  const [title, setTitle] = useState(
+      params.compose === "1" ? getStudyDiscussionTopic() : "",
+    ),
     [body, setBody] = useState(""),
     [reply, setReply] = useState("");
   const [perspective, setPerspective] =
     useState<Perspective>("Open discussion");
+  const [previewKey, setPreviewKey] = useState<string | null>(null);
+  const draftRevision = getStudyDiscussionRevision();
+  const appliedDraft = useRef(-1);
+  useEffect(() => {
+    if (params.compose !== "1" || appliedDraft.current === draftRevision)
+      return;
+    appliedDraft.current = draftRevision;
+    setTitle(getStudyDiscussionTopic());
+    setBody("");
+    setMode("compose");
+    setPreviewKey(null);
+  }, [params.compose, draftRevision]);
+  const currentPreviewKey = JSON.stringify([
+    title,
+    body,
+    alias,
+    perspective,
+    filter,
+    verse?.id,
+  ]);
   const [notice, setNotice] = useState(""),
     [actionsFor, setActionsFor] = useState<string | null>(null),
     [reportReason, setReportReason] = useState("");
@@ -262,27 +296,45 @@ function CommunityScreen() {
       </Card>
     );
   }
+  if (params.compose === "1" && !userId) {
+    return (
+      <Screen back>
+        <Heading>{tr("Start a discussion")}</Heading>
+        <Body>
+          {tr(
+            "Sign in to start your discussion. Your topic will wait here until you return.",
+          )}
+        </Body>
+        <Button
+          title={tr("Account and sign in")}
+          onPress={() => router.push("/account")}
+        />
+      </Screen>
+    );
+  }
   return (
     <SafeAreaView style={s.safe} edges={["top", "bottom", "left", "right"]}>
-      <View style={s.header}>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={tr("Back")}
-          style={s.back}
-          onPress={() =>
-            mode !== "list"
-              ? goList()
-              : router.canGoBack()
-                ? router.back()
-                : router.replace("/(tabs)/more")
-          }
-        >
-          <Ionicons name="chevron-back" size={21} color={colors.ink} />
-          <Text style={s.backText}>{tr("Back")}</Text>
-        </Pressable>
-        <Text style={s.brand}>GRACE & GATHER</Text>
-        <Ionicons name="leaf-outline" size={21} color={colors.gold} />
-      </View>
+      {header ?? (
+        <View style={s.header}>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={tr("Back")}
+            style={s.back}
+            onPress={() =>
+              mode !== "list"
+                ? goList()
+                : router.canGoBack()
+                  ? router.back()
+                  : router.replace("/(tabs)/more")
+            }
+          >
+            <Ionicons name="chevron-back" size={21} color={colors.ink} />
+            <Text style={s.backText}>{tr("Back")}</Text>
+          </Pressable>
+          <Text style={s.brand}>GRACE & GATHER</Text>
+          <Ionicons name="leaf-outline" size={21} color={colors.gold} />
+        </View>
+      )}
       <ScrollView
         key={`${mode}-${selected ?? ""}`}
         keyboardShouldPersistTaps="handled"
@@ -766,6 +818,31 @@ function CommunityScreen() {
                     )}
             </Body>
             <Button
+              secondary
+              title={tr("Preview discussion")}
+              disabled={!title.trim() || !body.trim() || !canPost}
+              onPress={() => setPreviewKey(currentPreviewKey)}
+            />
+            {previewKey === currentPreviewKey && (
+              <Card>
+                <Body>{demo ? tr("You") : alias.trim()}</Body>
+                <Body small>{tr(perspective)}</Body>
+                {verse && filter === "verse" && (
+                  <>
+                    <Body small>{verse.reference}</Body>
+                    <Body>{verse.text}</Body>
+                  </>
+                )}
+                <Body>{title.trim()}</Body>
+                <Body>{body.trim()}</Body>
+                <Body small>
+                  {tr(
+                    "Members can read and share an approved discussion. Your journal is not attached. Publication may require moderation.",
+                  )}
+                </Body>
+              </Card>
+            )}
+            <Button
               title={
                 busy
                   ? tr("Checking...")
@@ -775,7 +852,12 @@ function CommunityScreen() {
                       ? tr("Share")
                       : tr("Save for review")
               }
-              disabled={!title.trim() || !body.trim() || !canPost}
+              disabled={
+                !title.trim() ||
+                !body.trim() ||
+                !canPost ||
+                previewKey !== currentPreviewKey
+              }
               onPress={() =>
                 void act(
                   {
@@ -790,6 +872,7 @@ function CommunityScreen() {
                   () => {
                     setMode("list");
                     setFilter("mine");
+                    clearStudyDiscussionTopic();
                     setNotice(
                       tr(
                         "Your topic was submitted. Check My submissions for its publication status.",
