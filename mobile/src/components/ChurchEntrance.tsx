@@ -21,6 +21,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { GLView, type ExpoWebGLRenderingContext } from "expo-gl";
 import { prepareChurchTimber } from "../lib/church-texture";
+import { releaseContext } from "../lib/gl-recovery";
 import {
   createChurchDoorRenderer,
   entranceFrame,
@@ -126,6 +127,7 @@ export default function ChurchEntrance({
       appState.remove();
       renderer.current?.dispose();
       renderer.current = null;
+      releaseContext(context.current);
       context.current = null;
     };
   }, [finish, words]);

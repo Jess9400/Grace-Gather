@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, StyleSheet, Pressable, Animated } from "react-native";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import {
@@ -30,10 +30,12 @@ import {
 } from "../../lib/church-entrance";
 import {
   loadSoundOn,
+  saveSoundOn,
   startAmbience,
   stopAmbience,
 } from "../../lib/church-audio";
 import * as storage from "../../lib/storage";
+
 import type { ChurchPlace } from "../../lib/church-scene";
 import { StepCheckIn } from "../../components/SmallStep";
 import { useChurchPresence } from "../../lib/church-presence";
@@ -48,9 +50,10 @@ const ROUTES: Record<Exclude<ChurchPlace, "wreath">, string> = {
 const THEMES: ChurchWord[] = ["hope", "peaceWeek", "joy", "love"];
 // Decorative candles do not represent activity by other members.
 const BASE_VOTIVES = 0;
+const presentCount = (count: number | null) => count !== null && count >= 1;
 
 export default function Home() {
-  const { profile } = useApp();
+  const { profile, saveProfile } = useApp();
   const candlesAllowed = welcomesCandles(profile);
   const { draft, clear } = useQuiet();
   const t = (key: ChurchWord) => churchCopy(profile.language, key);
@@ -71,19 +74,36 @@ export default function Home() {
   const [soundOn, setSoundOn] = useState<boolean | null>(null);
   const [focused, setFocused] = useState(true);
   const candles = useCandles();
-  const live = useChurchPresence(
-    !!profile.churchPresence && focused && !entrance,
-  );
+  const live = useChurchPresence(focused && !entrance);
+  const [presenceOpacity] = useState(() => new Animated.Value(0));
+  const hasPresence = presentCount(live);
+  useEffect(() => {
+    if (!focused || entrance || !hasPresence) {
+      presenceOpacity.setValue(0);
+      return;
+    }
+    presenceOpacity.setValue(1);
+    const fade = Animated.sequence([
+      Animated.delay(5000),
+      Animated.timing(presenceOpacity, {
+        toValue: 0,
+        duration: 600,
+        useNativeDriver: true,
+      }),
+    ]);
+    fade.start();
+    return () => fade.stop();
+  }, [focused, entrance, hasPresence, presenceOpacity]);
   // Development preview of the count (e.g. /?present=30); never in release.
   const present =
     __DEV__ && params.present ? Number(params.present) || null : live;
   useEffect(() => {
     void loadCandles();
+    void loadSoundOn().then(setSoundOn);
   }, []);
   useFocusEffect(
     useCallback(() => {
       let active = true;
-      setSoundOn(null);
       setFocused(true);
       void loadSoundOn().then((on) => {
         if (active) setSoundOn(on);
@@ -95,8 +115,9 @@ export default function Home() {
       };
     }, []),
   );
-  // Only show hints after the entrance, or when requested in preferences.
-  const touring = tour && !entrance && focused;
+  // The labels are shown one by one each time someone walks in through the
+  // doors, and again whenever "Show places" is pressed.
+  const touring = tour && focused && !entrance;
   // Calm church sound on Home, after the doors, unless muted.
   useEffect(() => {
     if (!entrance && focused && soundOn) startAmbience();
@@ -155,6 +176,11 @@ export default function Home() {
     if (place === "wreath") setAboutAdvent((v) => !v);
     else router.push(ROUTES[place] as never);
   };
+  const toggleSound = () => {
+    const next = !(soundOn ?? false);
+    setSoundOn(next);
+    void saveSoundOn(next);
+  };
 
   return (
     <>
@@ -184,6 +210,55 @@ export default function Home() {
 
         {!sceneFailed && (
           <View>
+            <View style={s.tools}>
+              <Pressable
+                accessibilityRole="switch"
+                accessibilityState={{ checked: night }}
+                accessibilityLabel={t("evening")}
+                onPress={() =>
+                  void saveProfile({
+                    ...profile,
+                    churchLighting: night ? "day" : "night",
+                  }).catch(() => {})
+                }
+                style={s.tool}
+              >
+                <Ionicons
+                  name={night ? "moon" : "sunny-outline"}
+                  size={19}
+                  color={colors.ink}
+                />
+              </Pressable>
+              <Pressable
+                accessibilityRole="switch"
+                accessibilityState={{ checked: !!soundOn }}
+                accessibilityLabel={soundOn ? t("soundOn") : t("soundOff")}
+                onPress={toggleSound}
+                style={s.tool}
+              >
+                <Ionicons
+                  name={
+                    soundOn ? "volume-medium-outline" : "volume-mute-outline"
+                  }
+                  size={19}
+                  color={colors.ink}
+                />
+              </Pressable>
+              {!sceneFailed && (
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel={t("showPlaces")}
+                  onPress={() => setTour(true)}
+                  style={s.tool}
+                >
+                  <Ionicons
+                    name="help-circle-outline"
+                    size={20}
+                    color={colors.ink}
+                  />
+                </Pressable>
+              )}
+            </View>
             <ChurchScene
               places={scenePlaces}
               night={night}
@@ -192,22 +267,25 @@ export default function Home() {
               onPlace={open}
               accessibilityLabel={t("church")}
               paused={entrance}
-              protestant={!candlesAllowed}
+              protestant={plain}
+              candlesAllowed={candlesAllowed}
               tour={touring}
               onTourDone={endTour}
               onFailure={() => setSceneFailed(true)}
             />
-            {present !== null && present >= 2 && (
-              <View
+            {present !== null && present >= 1 && (
+              <Animated.View
                 pointerEvents="none"
                 accessibilityLiveRegion="polite"
-                style={s.present}
+                style={[s.present, { opacity: presenceOpacity }]}
               >
                 <View style={s.presentDot} />
                 <Text style={s.presentText}>
-                  {t("present").replace("{n}", String(present))}
+                  {present === 1
+                    ? t("presentAlone")
+                    : t("present").replace("{n}", String(present))}
                 </Text>
-              </View>
+              </Animated.View>
             )}
           </View>
         )}
@@ -338,7 +416,14 @@ const s = StyleSheet.create({
     color: colors.ink,
     flexShrink: 1,
   },
-  tools: { flexDirection: "row", gap: 6 },
+  tools: {
+    position: "absolute",
+    top: 12,
+    right: 12,
+    zIndex: 2,
+    flexDirection: "row",
+    gap: 6,
+  },
   hint: { fontSize: 14, lineHeight: 20, color: colors.muted, marginTop: -6 },
   present: {
     position: "absolute",
@@ -367,7 +452,7 @@ const s = StyleSheet.create({
     justifyContent: "center",
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: colors.line,
-    backgroundColor: colors.white,
+    backgroundColor: "rgba(255,252,243,0.72)",
   },
   tell: {
     flexDirection: "row",

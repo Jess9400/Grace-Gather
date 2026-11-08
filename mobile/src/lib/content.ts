@@ -20,7 +20,6 @@ export interface Preferences {
 }
 export interface Profile extends Preferences {
   candlePractice?: boolean;
-  churchPresence?: boolean;
   churchLighting?: "auto" | "day" | "night";
   faithChoice?: Tradition | "exploring" | "unspecified";
   traditionQuestionVersion?: number;
