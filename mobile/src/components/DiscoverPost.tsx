@@ -92,9 +92,7 @@ export default function DiscoverPost({
     c = (k: string) => communityCopy(profile.language, k);
   const open = () =>
     router.push({ pathname: "/story/[id]", params: { id: item.id } });
-  const body =
-    storyText(item.summary, profile.language) +
-    (item.origin ? "" : "\n\n" + storyText(item.body, profile.language));
+  const body = storyText(item.summary, profile.language);
   return (
     <View
       style={{

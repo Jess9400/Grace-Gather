@@ -1248,5 +1248,30 @@
     "pt": "Voltar à igreja",
     "es": "Volver a la iglesia",
     "ru": "Вернуться в храм"
+  },
+  "Watch, listen and explore": {
+    "pt": "Assista, ouça e explore",
+    "es": "Mira, escucha y explora",
+    "ru": "Смотреть, слушать и изучать"
+  },
+  "Watch": {
+    "pt": "Assistir",
+    "es": "Ver",
+    "ru": "Смотреть"
+  },
+  "Listen": {
+    "pt": "Ouvir",
+    "es": "Escuchar",
+    "ru": "Слушать"
+  },
+  "Study": {
+    "pt": "Estudar",
+    "es": "Estudiar",
+    "ru": "Изучать"
+  },
+  "Prayer": {
+    "pt": "Oração",
+    "es": "Oración",
+    "ru": "Молитва"
   }
 }
