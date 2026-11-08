@@ -52,3 +52,6 @@ Q&A screen: question → cited response → related passages/resources → optio
 ## Validation for this increment
 
 Typecheck, lint, 23 mobile tests and web export passed on the combined branch with #23. Local browser walkthrough verified theme filtering, the prefilled editable discussion title, and disabled submission while unauthenticated. Authenticated posting and physical iPhone checks remain pending. No database schema or production secrets changed. The AI endpoint, full-corpus question search, embedded Discussions feed and chat backend remain follow-up work, explicitly not shipped by this draft.
+
+## Review revisions — 8 November
+Merged the corrected #23 foundation and current main, including GL recovery. Signed-out compose links now show an explicit Account and sign in route; signing in and returning resumes the topic. The preview uses the exact submitted alias (or the demo's You), trimmed title/body, selected perspective and attached verse. STEP Bible/BibleProject resource labels are localized. Study handoff text lives only in process memory, not route parameters, storage or browser history; reload intentionally discards it. Authenticated publishing still requires a real-account walkthrough before merge.

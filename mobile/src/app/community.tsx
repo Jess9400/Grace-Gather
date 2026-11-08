@@ -1,3 +1,7 @@
+import {
+  getStudyDiscussionTopic,
+  clearStudyDiscussionTopic,
+} from "../lib/study-discussion-draft";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
 import { useEffect, useState } from "react";
 import { View, Text, Pressable, ScrollView, StyleSheet } from "react-native";
@@ -5,6 +9,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import {
+  Screen,
+  Heading,
   Body,
   Button,
   Card,
@@ -36,7 +42,6 @@ function CommunityScreen() {
   const tr = useInterfaceCopy();
   const params = useLocalSearchParams<{
     verse?: string;
-    topic?: string;
     compose?: string;
   }>();
   const linkedVerse = params.verse ? discussionVerseId(params.verse) : null;
@@ -64,7 +69,9 @@ function CommunityScreen() {
   const [filter, setFilter] = useState<"all" | "verse" | "mine">(
     verse ? "verse" : "all",
   );
-  const [title, setTitle] = useState((params.topic ?? "").slice(0, 100)),
+  const [title, setTitle] = useState(
+      params.compose === "1" ? getStudyDiscussionTopic() : "",
+    ),
     [body, setBody] = useState(""),
     [reply, setReply] = useState("");
   const [perspective, setPerspective] =
@@ -275,6 +282,22 @@ function CommunityScreen() {
         {OwnRemoval(post)}
         {actionsFor === post.id && PostActions({ post })}
       </Card>
+    );
+  }
+  if (params.compose === "1" && !userId) {
+    return (
+      <Screen back>
+        <Heading>{tr("Start a discussion")}</Heading>
+        <Body>
+          {tr(
+            "Sign in to start your discussion. Your topic will wait here until you return.",
+          )}
+        </Body>
+        <Button
+          title={tr("Account and sign in")}
+          onPress={() => router.push("/account")}
+        />
+      </Screen>
     );
   }
   return (
@@ -788,9 +811,16 @@ function CommunityScreen() {
             />
             {previewKey === currentPreviewKey && (
               <Card>
-                <Body>{alias || tr("You")}</Body>
-                <Body>{title}</Body>
-                <Body>{body}</Body>
+                <Body>{demo ? tr("You") : alias.trim()}</Body>
+                <Body small>{tr(perspective)}</Body>
+                {verse && filter === "verse" && (
+                  <>
+                    <Body small>{verse.reference}</Body>
+                    <Body>{verse.text}</Body>
+                  </>
+                )}
+                <Body>{title.trim()}</Body>
+                <Body>{body.trim()}</Body>
                 <Body small>
                   {tr(
                     "Members can read and share an approved discussion. Your journal is not attached. Publication may require moderation.",
@@ -828,6 +858,7 @@ function CommunityScreen() {
                   () => {
                     setMode("list");
                     setFilter("mine");
+                    clearStudyDiscussionTopic();
                     setNotice(
                       tr(
                         "Your topic was submitted. Check My submissions for its publication status.",

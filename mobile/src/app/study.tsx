@@ -1,3 +1,4 @@
+import { setStudyDiscussionTopic } from "../lib/study-discussion-draft";
 import { useState } from "react";
 import { router } from "expo-router";
 import {
@@ -75,24 +76,20 @@ export default function Study() {
           <Button
             secondary
             title={tr("Start a discussion about this topic")}
-            onPress={() =>
-              router.push({
-                pathname: "/community",
-                params: { topic: topic.title, compose: "1" },
-              })
-            }
+            onPress={() => {
+              setStudyDiscussionTopic(topic.title);
+              router.push({ pathname: "/community", params: { compose: "1" } });
+            }}
           />
         </Card>
       ))}
       <Button
         secondary
         title={tr("Start a discussion")}
-        onPress={() =>
-          router.push({
-            pathname: "/community",
-            params: { topic: query.trim().slice(0, 180), compose: "1" },
-          })
-        }
+        onPress={() => {
+          setStudyDiscussionTopic(query);
+          router.push({ pathname: "/community", params: { compose: "1" } });
+        }}
       />
       <Heading>{tr("Study resources")}</Heading>
       <Body>
@@ -101,11 +98,11 @@ export default function Study() {
         )}
       </Body>
       <External
-        title="STEP Bible · Hebrew / Greek"
+        title={tr("STEP Bible · Hebrew / Greek")}
         url="https://www.stepbible.org/"
       />
       <External
-        title="BibleProject · Videos & word studies"
+        title={tr("BibleProject · Videos & word studies")}
         url="https://bibleproject.com/videos/"
       />
     </Screen>
