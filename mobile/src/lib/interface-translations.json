@@ -1228,5 +1228,25 @@
     "pt": "Seu próximo passo",
     "es": "Tu próximo paso",
     "ru": "Ваш следующий шаг"
+  },
+  "Church tradition and background": {
+    "pt": "Tradição e ambiente da igreja",
+    "es": "Tradición y ambiente de la iglesia",
+    "ru": "Традиция и облик храма"
+  },
+  "Private chats are not available yet.": {
+    "pt": "Conversas privadas ainda não estão disponíveis.",
+    "es": "Los chats privados aún no están disponibles.",
+    "ru": "Личные чаты пока недоступны."
+  },
+  "Your choice updates your church background and Scripture tradition.": {
+    "pt": "Sua escolha atualiza o ambiente da igreja e a tradição das Escrituras.",
+    "es": "Tu elección actualiza el ambiente de la iglesia y la tradición de las Escrituras.",
+    "ru": "Ваш выбор меняет облик храма и традицию Священного Писания."
+  },
+  "Back to church": {
+    "pt": "Voltar à igreja",
+    "es": "Volver a la iglesia",
+    "ru": "Вернуться в храм"
   }
 }

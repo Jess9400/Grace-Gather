@@ -1,7 +1,8 @@
+import AccountMenuContent from "../../components/AccountMenuContent";
 import { BlurView, BlurTargetView } from "expo-blur";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useBottomTabBarHeight } from "expo-router/tabs";
-import ProfileMenuIcon from "../../components/ProfileMenuIcon";
+import MemberAvatar from "../../components/MemberAvatar";
 import { useReducedMotion } from "../../lib/use-reduced-motion";
 import { useInterfaceCopy } from "../../lib/use-interface-copy";
 import { useCallback, useEffect, useState, useRef, type ComponentRef } from "react";
@@ -69,6 +70,7 @@ export default function Home() {
   const reduced = useReducedMotion();
   const [invitation, setInvitation] = useState(false);
   const [dismissed, setDismissed] = useState(false);
+  const [accountOpen, setAccountOpen] = useState(false);
   const [details, setDetails] = useState(false);
   const [invitationOpacity] = useState(() => new Animated.Value(0));
   const candlesAllowed = welcomesCandles(profile);
@@ -257,10 +259,10 @@ export default function Home() {
           <Pressable
             accessibilityRole="button"
             accessibilityLabel={tr("Account and settings")}
-            onPress={() => router.push("/account")}
+            onPress={() => setAccountOpen(true)}
             style={s.profile}
           >
-            <ProfileMenuIcon />
+            <MemberAvatar />
           </Pressable>
         </View>
         <View style={s.dateRow}>
@@ -410,6 +412,18 @@ export default function Home() {
           </Pressable>
         )}
       </View>
+      <Modal visible={accountOpen} transparent animationType={reduced ? "none" : "fade"} onRequestClose={() => setAccountOpen(false)}>
+        <View style={{ flex: 1, paddingTop: insets.top + 68, paddingBottom: insets.bottom + 20, paddingHorizontal: 20, alignItems: "flex-end" }}>
+          <Pressable accessibilityRole="button" accessibilityLabel={tr("Close")} onPress={() => setAccountOpen(false)} style={{ position: "absolute", inset: 0, backgroundColor: "#00000035" }} />
+          <View style={{ width: "100%", maxWidth: 360, maxHeight: "100%", backgroundColor: colors.paper, borderRadius: 20, overflow: "hidden" }}>
+            <ScrollView contentContainerStyle={{ padding: 20, gap: 12 }}>
+              <Button secondary title={tr("Close")} onPress={() => setAccountOpen(false)} />
+              <Text style={{ color: colors.ink, fontSize: 24, fontFamily: serif }}>{tr("Your space")}</Text>
+              <AccountMenuContent onNavigate={() => setAccountOpen(false)} />
+            </ScrollView>
+          </View>
+        </View>
+      </Modal>
       <Modal
         visible={details || aboutAdvent}
         transparent
