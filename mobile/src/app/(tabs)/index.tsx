@@ -249,6 +249,12 @@ export default function Home() {
           />
         )}
       </BlurTargetView>
+      {/* A soft fade behind the name and date so they stay readable over
+          the lighter rooms; it has no edge of its own. */}
+      <View
+        pointerEvents="none"
+        style={[s.headerFade, { height: insets.top + 170 }]}
+      />
       <View
         pointerEvents="box-none"
         style={[s.header, { paddingTop: insets.top + 16 }]}
@@ -280,6 +286,7 @@ export default function Home() {
             })}
           </Text>
         </View>
+        {!sceneFailed && <Text style={s.hint}>{t("tapAnywhere")}</Text>}
         <View style={s.tools}>
           <Pressable
             accessibilityRole="switch"
@@ -514,6 +521,14 @@ export default function Home() {
 }
 const s = StyleSheet.create({
   page: { flex: 1, backgroundColor: "#211B16" },
+  headerFade: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    backgroundImage:
+      "linear-gradient(180deg, rgba(25,19,14,0.6) 0%, rgba(25,19,14,0.36) 60%, rgba(25,19,14,0) 100%)",
+  },
   header: {
     position: "absolute",
     top: 0,
@@ -529,6 +544,9 @@ const s = StyleSheet.create({
     color: "#FFF8E9",
     fontWeight: "700",
     flex: 1,
+    textShadowColor: "rgba(0,0,0,0.45)",
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 6,
   },
   profile: {
     minWidth: 44,
@@ -547,6 +565,18 @@ const s = StyleSheet.create({
     letterSpacing: 1,
     color: "#FFF8E9",
     textTransform: "uppercase",
+    textShadowColor: "rgba(0,0,0,0.45)",
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 6,
+  },
+  hint: {
+    fontSize: 13,
+    lineHeight: 18,
+    color: "#FFF8E9",
+    marginTop: -6,
+    textShadowColor: "rgba(0,0,0,0.45)",
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 6,
   },
   tools: { flexDirection: "row", justifyContent: "flex-end", gap: 6 },
   tool: {
