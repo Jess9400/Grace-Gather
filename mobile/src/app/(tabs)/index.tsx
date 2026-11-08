@@ -259,7 +259,7 @@ export default function Home() {
           <Pressable
             accessibilityRole="button"
             accessibilityLabel={tr("Account and settings")}
-            onPress={() => setAccountOpen(true)}
+            onPress={() => { dismissInvitation(); setAccountOpen(true); }}
             style={s.profile}
           >
             <MemberAvatar />
@@ -416,9 +416,14 @@ export default function Home() {
         <View style={{ flex: 1, paddingTop: insets.top + 68, paddingBottom: insets.bottom + 20, paddingHorizontal: 20, alignItems: "flex-end" }}>
           <Pressable accessibilityRole="button" accessibilityLabel={tr("Close")} onPress={() => setAccountOpen(false)} style={{ position: "absolute", inset: 0, backgroundColor: "#00000035" }} />
           <View style={{ width: "100%", maxWidth: 360, maxHeight: "100%", backgroundColor: colors.paper, borderRadius: 20, overflow: "hidden" }}>
-            <ScrollView contentContainerStyle={{ padding: 20, gap: 12 }}>
-              <Button secondary title={tr("Close")} onPress={() => setAccountOpen(false)} />
-              <Text style={{ color: colors.ink, fontSize: 24, fontFamily: serif }}>{tr("Your space")}</Text>
+            <ScrollView contentContainerStyle={{ padding: 12 }}>
+              <View style={{ flexDirection: "row", alignItems: "center", paddingLeft: 12, paddingBottom: 10, gap: 12 }}>
+                <MemberAvatar />
+                <Text numberOfLines={2} style={{ flex: 1, color: colors.ink, fontSize: 20, fontFamily: serif }}>{profile.name?.trim() || tr("Your space")}</Text>
+                <Pressable accessibilityRole="button" accessibilityLabel={tr("Close")} onPress={() => setAccountOpen(false)} style={{ width: 44, height: 44, alignItems: "center", justifyContent: "center" }}>
+                  <Ionicons name="close" size={22} color={colors.ink} />
+                </Pressable>
+              </View>
               <AccountMenuContent onNavigate={() => setAccountOpen(false)} />
             </ScrollView>
           </View>
