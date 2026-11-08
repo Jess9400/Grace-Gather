@@ -82,8 +82,10 @@ export default function ChurchScene({
   onPlace,
   accessibilityLabel,
   paused = false,
+  fullScreen = false,
   protestant = false,
   candlesAllowed = !protestant,
+  orthodox = false,
   tour = false,
   onTourDone,
   onFailure,
@@ -95,8 +97,10 @@ export default function ChurchScene({
   onPlace: (place: ChurchPlace) => void;
   accessibilityLabel: string;
   paused?: boolean;
+  fullScreen?: boolean;
   protestant?: boolean;
   candlesAllowed?: boolean;
+  orthodox?: boolean;
   tour?: boolean;
   onTourDone?: () => void;
   onFailure?: () => void;
@@ -139,6 +143,7 @@ export default function ChurchScene({
     paused,
     protestant,
     candlesAllowed,
+    orthodox,
   });
   useEffect(() => {
     props.current = {
@@ -149,6 +154,7 @@ export default function ChurchScene({
       paused,
       protestant,
       candlesAllowed,
+      orthodox,
     };
   }, [
     night,
@@ -158,6 +164,7 @@ export default function ChurchScene({
     paused,
     protestant,
     candlesAllowed,
+    orthodox,
   ]);
   const [positions] = useState(() => {
     const map = {} as Record<ChurchPlace, Animated.ValueXY>;
@@ -223,6 +230,7 @@ export default function ChurchScene({
       reduced: still,
       protestant: plain,
       candlesAllowed: showCandles,
+      orthodox: eastern,
     } = props.current;
     const time = still ? 0 : (Date.now() - born.current) / 1000;
     renderer.current?.draw(time, nightLevel.current, view.current, {
@@ -230,6 +238,7 @@ export default function ChurchScene({
       litVotives: lit,
       protestant: plain,
       candlesAllowed: showCandles,
+      orthodox: eastern,
     });
     context.current?.endFrameEXP();
     place();
@@ -320,6 +329,7 @@ export default function ChurchScene({
     paused,
     protestant,
     candlesAllowed,
+    orthodox,
     loop,
   ]);
 
@@ -460,7 +470,7 @@ export default function ChurchScene({
     <View
       accessibilityRole="none"
       accessibilityLabel={accessibilityLabel}
-      style={styles.stage}
+      style={fullScreen ? styles.fullScreen : styles.stage}
       onLayout={(e) =>
         setSize({
           width: e.nativeEvent.layout.width,
@@ -588,6 +598,11 @@ export default function ChurchScene({
 }
 
 const styles = StyleSheet.create({
+  fullScreen: {
+    position: "absolute", top: 0, bottom: 0, left: 0, right: 0,
+    overflow: "hidden",
+    backgroundColor: "#211B16",
+  },
   stage: {
     width: "100%",
     aspectRatio: 0.82,

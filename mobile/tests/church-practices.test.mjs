@@ -29,3 +29,16 @@ test('candle preference does not replace a tradition’s confession or prayer co
  for(const protestant of [true,false])assert.deepEqual(prayerCorner(protestant,true),prayerCorner(protestant,false));
  assert.notDeepEqual(prayerCorner(true,true),prayerCorner(false,true));
 });
+test('explicit Orthodox onboarding controls room selection without overriding skips',()=>{
+ const {isOrthodox}=module.exports;
+ assert.equal(isOrthodox({tradition:'orthodox'}),true);
+ assert.equal(isOrthodox({tradition:'catholic',faithChoice:'orthodox'}),true);
+ assert.equal(isOrthodox({tradition:'orthodox',faithChoice:'protestant'}),false);
+ assert.equal(isOrthodox({tradition:'orthodox',faithChoice:'exploring'}),false);
+});
+test('three room variants produce distinct finite geometry',()=>{
+ const options={adventWeek:0,litVotives:0};
+ const rooms=[scene.exports.buildChurchMesh(options),scene.exports.buildChurchMesh({...options,protestant:true}),scene.exports.buildChurchMesh({...options,orthodox:true})];
+ for(const room of rooms) assert.ok(room.length>0 && room.every(Number.isFinite));
+ assert.equal(new Set(rooms.map(r=>r.length)).size,3);
+});
