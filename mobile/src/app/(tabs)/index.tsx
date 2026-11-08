@@ -1,7 +1,7 @@
 import { BlurView, BlurTargetView } from "expo-blur";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useBottomTabBarHeight } from "expo-router/tabs";
-import MemberAvatar from "../../components/MemberAvatar";
+import ProfileMenuIcon from "../../components/ProfileMenuIcon";
 import { useReducedMotion } from "../../lib/use-reduced-motion";
 import { useInterfaceCopy } from "../../lib/use-interface-copy";
 import { useCallback, useEffect, useState, useRef, type ComponentRef } from "react";
@@ -247,7 +247,6 @@ export default function Home() {
           />
         )}
       </BlurTargetView>
-      <View pointerEvents="none" style={s.topShade} />
       <View
         pointerEvents="box-none"
         style={[s.header, { paddingTop: insets.top + 16 }]}
@@ -261,7 +260,7 @@ export default function Home() {
             onPress={() => router.push("/account")}
             style={s.profile}
           >
-            <MemberAvatar />
+            <ProfileMenuIcon />
           </Pressable>
         </View>
         <View style={s.dateRow}>
@@ -501,14 +500,6 @@ export default function Home() {
 }
 const s = StyleSheet.create({
   page: { flex: 1, backgroundColor: "#211B16" },
-  topShade: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    height: 185,
-    backgroundColor: "rgba(25,21,17,0.34)",
-  },
   header: {
     position: "absolute",
     top: 0,
