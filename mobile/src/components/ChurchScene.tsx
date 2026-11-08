@@ -83,6 +83,7 @@ export default function ChurchScene({
   accessibilityLabel,
   paused = false,
   protestant = false,
+  candlesAllowed = !protestant,
   tour = false,
   onTourDone,
   onFailure,
@@ -95,6 +96,7 @@ export default function ChurchScene({
   accessibilityLabel: string;
   paused?: boolean;
   protestant?: boolean;
+  candlesAllowed?: boolean;
   tour?: boolean;
   onTourDone?: () => void;
   onFailure?: () => void;
@@ -136,6 +138,7 @@ export default function ChurchScene({
     reduced,
     paused,
     protestant,
+    candlesAllowed,
   });
   useEffect(() => {
     props.current = {
@@ -145,8 +148,17 @@ export default function ChurchScene({
       reduced,
       paused,
       protestant,
+      candlesAllowed,
     };
-  }, [night, adventWeek, litVotives, reduced, paused, protestant]);
+  }, [
+    night,
+    adventWeek,
+    litVotives,
+    reduced,
+    paused,
+    protestant,
+    candlesAllowed,
+  ]);
   const [positions] = useState(() => {
     const map = {} as Record<ChurchPlace, Animated.ValueXY>;
     (
@@ -210,12 +222,14 @@ export default function ChurchScene({
       litVotives: lit,
       reduced: still,
       protestant: plain,
+      candlesAllowed: showCandles,
     } = props.current;
     const time = still ? 0 : (Date.now() - born.current) / 1000;
     renderer.current?.draw(time, nightLevel.current, view.current, {
       adventWeek: week,
       litVotives: lit,
       protestant: plain,
+      candlesAllowed: showCandles,
     });
     context.current?.endFrameEXP();
     place();
@@ -305,6 +319,7 @@ export default function ChurchScene({
     size,
     paused,
     protestant,
+    candlesAllowed,
     loop,
   ]);
 

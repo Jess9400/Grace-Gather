@@ -15,3 +15,17 @@ test('explicit practice choice overrides tradition defaults',()=>{
  assert.equal(welcomesCandles({tradition:'catholic',candlePractice:false}),false);
  assert.equal(welcomesCandles({tradition:'protestant',faithChoice:'exploring'}),true);
 });
+const geometry={exports:{}};
+runInNewContext(ts.transpileModule(readFileSync(new URL('../src/lib/gl-mesh.ts',import.meta.url),'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS}}).outputText,{module:geometry,exports:geometry.exports});
+const scene={exports:{}};
+runInNewContext(ts.transpileModule(readFileSync(new URL('../src/lib/church-scene.ts',import.meta.url),'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS}}).outputText,{module:scene,exports:scene.exports,require:()=>geometry.exports});
+function prayerCorner(protestant,candlesAllowed){
+ const vertices=scene.exports.buildChurchMesh({adventWeek:0,litVotives:0,protestant,candlesAllowed});
+ const selected=[];
+ for(let i=0;i<vertices.length;i+=11)if(vertices[i]>.65&&vertices[i+2]>-4.6&&vertices[i+2]<-3.5)selected.push(...vertices.slice(i,i+11));
+ return selected;
+}
+test('candle preference does not replace a tradition’s confession or prayer corner',()=>{
+ for(const protestant of [true,false])assert.deepEqual(prayerCorner(protestant,true),prayerCorner(protestant,false));
+ assert.notDeepEqual(prayerCorner(true,true),prayerCorner(false,true));
+});

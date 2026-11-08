@@ -8,10 +8,7 @@ export default function Practices() {
   const tr = useInterfaceCopy();
   const [busy, setBusy] = useState(false),
     [error, setError] = useState("");
-  async function change(
-    key: "candlePractice" | "churchPresence",
-    value: boolean,
-  ) {
+  async function change(key: "candlePractice", value: boolean) {
     setBusy(true);
     setError("");
     try {
@@ -39,21 +36,6 @@ export default function Practices() {
             : "Candle recommendations: off",
         )}
         onPress={() => void change("candlePractice", !welcomesCandles(profile))}
-      />
-      <Body>
-        {tr(
-          "Include this device in the church presence count only while Home is open. No name or journal is shared. This counts devices, not verified people.",
-        )}
-      </Body>
-      <Button
-        secondary
-        disabled={busy}
-        title={tr(
-          profile.churchPresence
-            ? "Church presence: on"
-            : "Church presence: off",
-        )}
-        onPress={() => void change("churchPresence", !profile.churchPresence)}
       />
       <Notice text={error} />
     </Screen>
