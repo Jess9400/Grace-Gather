@@ -19,6 +19,7 @@ import {
 import { useFocusEffect } from "expo-router";
 import { GLView, type ExpoWebGLRenderingContext } from "expo-gl";
 import { prepareChurchTimber } from "../lib/church-texture";
+import { contextLost, releaseContext } from "../lib/gl-recovery";
 import {
   createChurchRenderer,
   projectPlaces,
@@ -82,6 +83,7 @@ export default function ChurchScene({
   accessibilityLabel,
   paused = false,
   protestant = false,
+  candlesAllowed = !protestant,
   tour = false,
   onTourDone,
   onFailure,
@@ -94,6 +96,7 @@ export default function ChurchScene({
   accessibilityLabel: string;
   paused?: boolean;
   protestant?: boolean;
+  candlesAllowed?: boolean;
   tour?: boolean;
   onTourDone?: () => void;
   onFailure?: () => void;
@@ -105,6 +108,23 @@ export default function ChurchScene({
   const renderer = useRef<ReturnType<typeof createChurchRenderer> | null>(null);
   const context = useRef<ExpoWebGLRenderingContext | null>(null);
   const frame = useRef<number | null>(null);
+  // A lost WebGL context is rebuilt with a fresh view instead of giving up.
+  const [glKey, setGlKey] = useState(0);
+  const recoveries = useRef(0);
+  const createdAt = useRef(0);
+  const recover = useCallback(() => {
+    if (frame.current !== null) cancelAnimationFrame(frame.current);
+    frame.current = null;
+    renderer.current = null;
+    context.current = null;
+    setReady(false);
+    // A context that lived a while earns a fresh set of retries.
+    if (Date.now() - createdAt.current > 10000) recoveries.current = 0;
+    if (recoveries.current < 4) {
+      recoveries.current++;
+      setGlKey((k) => k + 1);
+    } else setFailed(true);
+  }, []);
   const focused = useRef(true);
   const active = useRef(AppState.currentState === "active");
   const born = useRef(0);
@@ -118,6 +138,7 @@ export default function ChurchScene({
     reduced,
     paused,
     protestant,
+    candlesAllowed,
   });
   useEffect(() => {
     props.current = {
@@ -127,8 +148,17 @@ export default function ChurchScene({
       reduced,
       paused,
       protestant,
+      candlesAllowed,
     };
-  }, [night, adventWeek, litVotives, reduced, paused, protestant]);
+  }, [
+    night,
+    adventWeek,
+    litVotives,
+    reduced,
+    paused,
+    protestant,
+    candlesAllowed,
+  ]);
   const [positions] = useState(() => {
     const map = {} as Record<ChurchPlace, Animated.ValueXY>;
     (
@@ -192,12 +222,14 @@ export default function ChurchScene({
       litVotives: lit,
       reduced: still,
       protestant: plain,
+      candlesAllowed: showCandles,
     } = props.current;
     const time = still ? 0 : (Date.now() - born.current) / 1000;
     renderer.current?.draw(time, nightLevel.current, view.current, {
       adventWeek: week,
       litVotives: lit,
       protestant: plain,
+      candlesAllowed: showCandles,
     });
     context.current?.endFrameEXP();
     place();
@@ -233,7 +265,8 @@ export default function ChurchScene({
       try {
         render();
       } catch {
-        setFailed(true);
+        if (contextLost(context.current)) recover();
+        else setFailed(true);
         return;
       }
       if (
@@ -245,31 +278,35 @@ export default function ChurchScene({
       frame.current = requestAnimationFrame(tick);
     };
     frame.current = requestAnimationFrame(tick);
-  }, [render]);
+  }, [render, recover]);
 
   useFocusEffect(
     useCallback(() => {
       focused.current = true;
-      loop();
+      if (contextLost(context.current)) recover();
+      else loop();
       return () => {
         focused.current = false;
       };
-    }, [loop]),
+    }, [loop, recover]),
   );
   useEffect(() => {
     born.current = Date.now();
     const sub = AppState.addEventListener("change", (state) => {
       active.current = state === "active";
-      if (active.current) loop();
+      if (!active.current) return;
+      if (contextLost(context.current)) recover();
+      else loop();
     });
     return () => {
       sub.remove();
       if (frame.current !== null) cancelAnimationFrame(frame.current);
       renderer.current?.dispose();
       renderer.current = null;
+      releaseContext(context.current);
       context.current = null;
     };
-  }, [loop]);
+  }, [loop, recover]);
   // Redraw when anything in the scene changes, including in reduced motion.
   useEffect(() => {
     if (ready) loop();
@@ -282,6 +319,7 @@ export default function ChurchScene({
     size,
     paused,
     protestant,
+    candlesAllowed,
     loop,
   ]);
 
@@ -354,13 +392,15 @@ export default function ChurchScene({
         const timber = await prepareChurchTimber();
         context.current = gl;
         renderer.current = createChurchRenderer(gl, timber);
+        createdAt.current = Date.now();
         render();
         setReady(true);
       } catch {
-        setFailed(true);
+        if (contextLost(gl)) recover();
+        else setFailed(true);
       }
     },
-    [render],
+    [render, recover],
   );
 
   // Which place sits under a point in the stage, using the current view.
@@ -467,9 +507,10 @@ export default function ChurchScene({
           {...(Platform.OS === "web"
             ? {
                 webglContextAttributes: WEB_GL_OPTIONS,
-                onContextLost: () => setFailed(true),
+                onContextLost: recover,
               }
             : {})}
+          key={glKey}
           style={[StyleSheet.absoluteFill, { opacity: ready ? 1 : 0 }]}
           onContextCreate={onContextCreate}
           accessible={false}

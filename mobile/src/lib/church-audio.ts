@@ -15,7 +15,7 @@ let fade: ReturnType<typeof setInterval> | null = null;
 
 export async function loadSoundOn() {
   try {
-    return (await storage.getItem(KEY)) === "on";
+    return (await storage.getItem(KEY)) !== "off";
   } catch {
     return false;
   }

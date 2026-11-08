@@ -16,6 +16,7 @@ import {
 } from "react-native";
 import { GLView, type ExpoWebGLRenderingContext } from "expo-gl";
 import { createCandleRenderer } from "../lib/candle-scene";
+import { contextLost, releaseContext } from "../lib/gl-recovery";
 import { useReducedMotion } from "../lib/use-reduced-motion";
 
 const WEB_GL_OPTIONS = {
@@ -58,6 +59,20 @@ export default function CandleView({
   const renderer = useRef<ReturnType<typeof createCandleRenderer> | null>(null);
   const context = useRef<ExpoWebGLRenderingContext | null>(null);
   const frame = useRef<number | null>(null);
+  const [glKey, setGlKey] = useState(0);
+  const recoveries = useRef(0);
+  // A lost WebGL context gets a fresh view (a few times) instead of failing.
+  const recover = useCallback(() => {
+    if (frame.current !== null) cancelAnimationFrame(frame.current);
+    frame.current = null;
+    renderer.current = null;
+    context.current = null;
+    setReady(false);
+    if (recoveries.current < 4) {
+      recoveries.current++;
+      setGlKey((k) => k + 1);
+    } else setFailed(true);
+  }, []);
   const born = useRef(0);
   const level = useRef(lit ? 1 : 0);
   const want = useRef({ lit, reduced });
@@ -81,7 +96,8 @@ export default function CandleView({
         renderer.current.draw(level.current, time);
         context.current?.endFrameEXP();
       } catch {
-        setFailed(true);
+        if (contextLost(context.current)) recover();
+        else setFailed(true);
         return;
       }
       const settled = Math.abs(goal - level.current) < 0.002;
@@ -90,7 +106,7 @@ export default function CandleView({
         frame.current = requestAnimationFrame(tick);
     };
     frame.current = requestAnimationFrame(tick);
-  }, []);
+  }, [recover]);
 
   useEffect(() => {
     if (ready) loop();
@@ -98,15 +114,19 @@ export default function CandleView({
   useEffect(() => {
     born.current = Date.now();
     const sub = AppState.addEventListener("change", (state) => {
-      if (state === "active") loop();
+      if (state !== "active") return;
+      if (contextLost(context.current)) recover();
+      else loop();
     });
     return () => {
       sub.remove();
       if (frame.current !== null) cancelAnimationFrame(frame.current);
       renderer.current?.dispose();
       renderer.current = null;
+      releaseContext(context.current);
+      context.current = null;
     };
-  }, [loop]);
+  }, [loop, recover]);
 
   return (
     <Pressable
@@ -122,9 +142,10 @@ export default function CandleView({
             {...(Platform.OS === "web"
               ? {
                   webglContextAttributes: WEB_GL_OPTIONS,
-                  onContextLost: () => setFailed(true),
+                  onContextLost: recover,
                 }
               : {})}
+            key={glKey}
             style={[StyleSheet.absoluteFill, { opacity: ready ? 1 : 0 }]}
             onContextCreate={(gl: ExpoWebGLRenderingContext) => {
               try {
