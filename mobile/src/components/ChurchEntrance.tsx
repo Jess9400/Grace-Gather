@@ -86,14 +86,20 @@ export default function ChurchEntrance({
   const mounted = useRef(true);
   const finished = useRef(false);
   const latest = useRef({ open: 0, approach: 0 });
+  // Held in a ref so a parent re-render (a clock tick, say) never restarts
+  // the scene or the greeting mid-entrance.
+  const entered = useRef(onEntered);
+  useEffect(() => {
+    entered.current = onEntered;
+  }, [onEntered]);
 
   const finish = useCallback(() => {
     if (finished.current) return;
     finished.current = true;
     if (frame.current !== null) cancelAnimationFrame(frame.current);
     frame.current = null;
-    onEntered();
-  }, [onEntered]);
+    entered.current();
+  }, []);
 
   const draw = useCallback((open: number, approach: number, time: number) => {
     latest.current = { open, approach };
