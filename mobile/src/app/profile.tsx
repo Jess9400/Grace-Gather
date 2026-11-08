@@ -93,6 +93,11 @@ export default function Profile() {
   }
   return (
     <Screen back>
+      <Button
+        secondary
+        title={tr("Church preferences")}
+        onPress={() => router.push("/practices")}
+      />
       <Heading>{tr("Profile")}</Heading>
       <Notice text={notice} />
       <Button

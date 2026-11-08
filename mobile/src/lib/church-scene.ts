@@ -56,6 +56,7 @@ export type ChurchOptions = {
   adventWeek: number;
   litVotives: number;
   protestant?: boolean;
+  candlesAllowed?: boolean;
 };
 
 function sideWindow(mesh: MeshBuilder, x: number, z: number, m: Material) {
@@ -74,6 +75,7 @@ export function buildChurchMesh({
   adventWeek,
   litVotives,
   protestant = false,
+  candlesAllowed = !protestant,
 }: ChurchOptions) {
   const mesh = new MeshBuilder();
   const stone: Material = { color: [0.78, 0.73, 0.65], kind: KIND.stone };
@@ -209,7 +211,7 @@ export function buildChurchMesh({
     kind: KIND.cloth,
   });
 
-  if (!protestant) {
+  if (candlesAllowed) {
     // Votive stand: three brass tiers of small candles, some already lit.
     const vx = -1.2,
       vz = -3.0;
@@ -586,6 +588,7 @@ function buildGlowMesh({
   adventWeek,
   litVotives,
   protestant = false,
+  candlesAllowed = !protestant,
 }: ChurchOptions) {
   const data: number[] = [];
   const quad = (
@@ -617,7 +620,7 @@ function buildGlowMesh({
       );
   };
   const candle: Vec3 = [1.0, 0.62, 0.28];
-  if (litVotives > 0 && !protestant)
+  if (litVotives > 0 && candlesAllowed)
     quad(
       [-1.2, -0.62, -2.9],
       [0.62, 0, 0],
@@ -769,6 +772,7 @@ export function projectPlaces(
   aspect: number,
   view: ChurchView,
   protestant = false,
+  candlesAllowed = !protestant,
 ) {
   const anchors = placeAnchors(protestant);
   const { matrix } = churchCamera(aspect, view);
@@ -830,7 +834,7 @@ export function createChurchRenderer(
       glowMesh = new Float32Array(0),
       built = "";
     const rebuild = (options: ChurchOptions) => {
-      const key = `${options.adventWeek}:${options.litVotives}:${options.protestant ? 1 : 0}`;
+      const key = `${options.adventWeek}:${options.litVotives}:${options.protestant ? 1 : 0}:${options.candlesAllowed ?? !options.protestant}`;
       if (key === built) return;
       built = key;
       mesh = buildChurchMesh(options);
@@ -874,7 +878,10 @@ export function createChurchRenderer(
         gl.uniformMatrix4fv(mainU.mvp, false, camera.matrix);
         gl.uniform1f(mainU.time, time);
         gl.uniform1f(mainU.night, night);
-        gl.uniform1f(mainU.votive, options.protestant ? 0 : 1);
+        gl.uniform1f(
+          mainU.votive,
+          (options.candlesAllowed ?? !options.protestant) ? 1 : 0,
+        );
         gl.uniform3f(mainU.eye, camera.eye[0], camera.eye[1], camera.eye[2]);
         gl.uniform2f(mainU.res, width, height);
         gl.drawArrays(gl.TRIANGLES, 0, mesh.length / STRIDE);

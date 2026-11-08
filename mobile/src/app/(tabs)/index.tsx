@@ -1,5 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
-import { View, Text, StyleSheet, Pressable, Platform } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  Platform,
+  Animated,
+} from "react-native";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
@@ -11,6 +18,9 @@ import MemberAvatar from "../../components/MemberAvatar";
 import ChurchScene, { type PlaceLabel } from "../../components/ChurchScene";
 import ChurchEntrance from "../../components/ChurchEntrance";
 import { useApp } from "../../lib/state";
+import { useQuiet } from "../../lib/quiet-state";
+import { q } from "../../lib/quiet-copy";
+import * as storage from "../../lib/storage";
 import { useClock } from "../../lib/use-clock";
 import { useInterfaceCopy } from "../../lib/use-interface-copy";
 import { churchCopy, type ChurchWord } from "../../lib/church-copy";
@@ -18,6 +28,7 @@ import {
   adventWeekFor,
   isEvening,
   isProtestant,
+  welcomesCandles,
 } from "../../lib/church-calendar";
 import { loadCandles, useCandles } from "../../lib/candles";
 import { markEntered, shouldShowEntrance } from "../../lib/church-entrance";
@@ -39,8 +50,9 @@ const ROUTES: Record<Exclude<ChurchPlace, "wreath">, string> = {
   pews: "/(tabs)/diary",
 };
 const THEMES: ChurchWord[] = ["hope", "peaceWeek", "joy", "love"];
-// Lit by others earlier in the day; the person's own candles are added to these.
-const BASE_VOTIVES = 6;
+// Decorative candles do not represent activity by other members.
+const BASE_VOTIVES = 0;
+const presentCount = (count: number | null) => count !== null && count >= 1;
 const IVORY = "#FFF8EC";
 // Once someone chooses to "stay here a little", the card stays tucked away
 // for the rest of the visit.
@@ -48,6 +60,8 @@ let stayCollapsed = false;
 
 export default function Home() {
   const { profile } = useApp();
+  const candlesAllowed = welcomesCandles(profile);
+  const { draft, clear } = useQuiet();
   const tr = useInterfaceCopy();
   const insets = useSafeAreaInsets();
   const tabBar = useBottomTabBarHeight();
@@ -69,7 +83,27 @@ export default function Home() {
   const [focused, setFocused] = useState(true);
   const [collapsed, setCollapsed] = useState(stayCollapsed);
   const candles = useCandles();
-  const live = useChurchPresence();
+  const live = useChurchPresence(focused && !entrance);
+  // The count shows for five seconds after walking in, then fades.
+  const [presenceOpacity] = useState(() => new Animated.Value(0));
+  const hasPresence = presentCount(live);
+  useEffect(() => {
+    if (!focused || entrance || !hasPresence) {
+      presenceOpacity.setValue(0);
+      return;
+    }
+    presenceOpacity.setValue(1);
+    const fade = Animated.sequence([
+      Animated.delay(5000),
+      Animated.timing(presenceOpacity, {
+        toValue: 0,
+        duration: 600,
+        useNativeDriver: true,
+      }),
+    ]);
+    fade.start();
+    return () => fade.stop();
+  }, [focused, entrance, hasPresence, presenceOpacity]);
   // Development preview of the count (e.g. /?present=30); never in release.
   const present =
     __DEV__ && params.present ? Number(params.present) || null : live;
@@ -94,12 +128,17 @@ export default function Home() {
     else stopAmbience();
   }, [entrance, focused, soundOn]);
   useEffect(() => () => stopAmbience(), []);
-  const endTour = useCallback(() => setTour(false), []);
+  // The tour runs once; "Show places" replays it.
+  const touring = tour && focused && !entrance;
+  const endTour = useCallback(() => {
+    setTour(false);
+    void storage.setItem("church-tour-seen", "yes").catch(() => {});
+  }, []);
 
   const week = adventWeekFor(profile, now, preview);
   const theme = week > 0 && plain ? ` · ${t(THEMES[week - 1])}` : "";
   const places: (PlaceLabel & { sub: ChurchWord })[] = [
-    ...(plain
+    ...(!candlesAllowed
       ? []
       : [
           {
@@ -144,7 +183,7 @@ export default function Home() {
     else router.push(ROUTES[place] as never);
   };
   const toggleSound = () => {
-    const next = !(soundOn ?? true);
+    const next = !(soundOn ?? false);
     setSoundOn(next);
     void saveSoundOn(next);
   };
@@ -153,6 +192,11 @@ export default function Home() {
     stayCollapsed = true;
     setCollapsed(true);
   };
+  const newPage = () => {
+    clear();
+    router.push("/(tabs)/diary");
+  };
+  const showLit = candlesAllowed && candles.length > 0;
   const date = new Date(clock);
   const entranceView = entrance && (
     <ChurchEntrance
@@ -160,8 +204,12 @@ export default function Home() {
       onEntered={() => {
         markEntered();
         setEntrance(false);
-        // Show where everything is each time someone walks in.
-        setTour(true);
+        void storage
+          .getItem("church-tour-seen")
+          .then((seen) => {
+            if (!seen) setTour(true);
+          })
+          .catch(() => {});
       }}
     />
   );
@@ -181,6 +229,34 @@ export default function Home() {
           >
             <Text style={s.fallbackTell}>{t("tellGod")}</Text>
           </Pressable>
+          {draft.entryId && (
+            <Pressable
+              accessibilityRole="button"
+              onPress={newPage}
+              style={[s.list, s.row]}
+            >
+              <Ionicons name="add" size={18} color={colors.ink} />
+              <Text style={[s.rowTitle, { flex: 1 }]}>
+                {q(profile.language, "newPage")}
+              </Text>
+            </Pressable>
+          )}
+          {showLit && (
+            <Pressable
+              accessibilityRole="button"
+              onPress={() => router.push("/candle")}
+              style={[s.list, s.row]}
+            >
+              <View style={s.flame} />
+              <View style={{ flex: 1 }}>
+                <Text style={s.rowTitle}>
+                  {t("youLit")} · {candles.length}
+                </Text>
+                <Text style={s.rowSub}>{t("burning")}</Text>
+              </View>
+              <Ionicons name="chevron-forward" size={16} color={colors.muted} />
+            </Pressable>
+          )}
           <View style={s.list} accessibilityRole="list">
             {places.map((p, i) => (
               <Pressable
@@ -223,7 +299,8 @@ export default function Home() {
         accessibilityLabel={t("church")}
         paused={entrance}
         protestant={plain}
-        tour={tour}
+        candlesAllowed={candlesAllowed}
+        tour={touring}
         onTourDone={endTour}
         onFailure={() => setSceneFailed(true)}
       />
@@ -274,14 +351,17 @@ export default function Home() {
         <View style={s.infoRow} pointerEvents="box-none">
           <View style={{ flex: 1, gap: 6 }} pointerEvents="none">
             {present !== null && present >= 1 && (
-              <View style={s.present} accessibilityLiveRegion="polite">
+              <Animated.View
+                style={[s.present, { opacity: presenceOpacity }]}
+                accessibilityLiveRegion="polite"
+              >
                 <View style={s.presentDot} />
                 <Text style={s.presentText}>
                   {present === 1
                     ? t("presentAlone")
                     : t("present").replace("{n}", String(present))}
                 </Text>
-              </View>
+              </Animated.View>
             )}
             <Text style={s.hint}>{t("tapAnywhere")}</Text>
           </View>
@@ -338,9 +418,35 @@ export default function Home() {
             <Text style={s.noteText}>{t("adventAbout")}</Text>
           </View>
         )}
+        {(showLit || draft.entryId) && (
+          <View style={s.chips}>
+            {showLit && (
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => router.push("/candle")}
+                style={({ pressed }) => [s.chip, pressed && { opacity: 0.85 }]}
+              >
+                <View style={s.flame} />
+                <Text style={s.chipText}>
+                  {t("youLit")} · {candles.length}
+                </Text>
+              </Pressable>
+            )}
+            {draft.entryId && (
+              <Pressable
+                accessibilityRole="button"
+                onPress={newPage}
+                style={({ pressed }) => [s.chip, pressed && { opacity: 0.85 }]}
+              >
+                <Ionicons name="add" size={16} color={IVORY} />
+                <Text style={s.chipText}>{q(profile.language, "newPage")}</Text>
+              </Pressable>
+            )}
+          </View>
+        )}
         <StepCheckIn glass />
         {/* While the tour points out each place, the card steps aside. */}
-        {collapsed || tour ? (
+        {collapsed || touring ? (
           <Pressable
             accessibilityRole="button"
             onPress={talk}
@@ -527,6 +633,30 @@ const s = StyleSheet.create({
     borderColor: glassBorder,
   },
   pillText: { color: IVORY, fontSize: 16 },
+  chips: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    gap: 8,
+  },
+  chip: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    minHeight: 40,
+    paddingHorizontal: 16,
+    borderRadius: 20,
+    backgroundColor: "rgba(40,26,20,0.6)",
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: glassBorder,
+  },
+  chipText: { color: IVORY, fontSize: 14, fontWeight: "600" },
+  flame: {
+    width: 8,
+    height: 14,
+    borderRadius: 5,
+    backgroundColor: "#FFC35A",
+  },
   note: {
     borderRadius: 20,
     padding: 14,

@@ -17,7 +17,7 @@ export async function loadSoundOn() {
   try {
     return (await storage.getItem(KEY)) !== "off";
   } catch {
-    return true;
+    return false;
   }
 }
 export async function saveSoundOn(on: boolean) {

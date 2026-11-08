@@ -384,7 +384,7 @@ const words = {
     "There are {n} people in church right now",
     "Há {n} pessoas na igreja agora",
     "Hay {n} personas en la iglesia ahora",
-    "Сейчас в храме: {n}",
+    "Сейчас в храме {n} человек",
   ),
   presentAlone: L(
     "You're the first one here right now",

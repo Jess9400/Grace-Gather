@@ -19,6 +19,7 @@ export interface Preferences {
   edition: string;
 }
 export interface Profile extends Preferences {
+  candlePractice?: boolean;
   faithChoice?: Tradition | "exploring" | "unspecified";
   traditionQuestionVersion?: number;
   name: string;
