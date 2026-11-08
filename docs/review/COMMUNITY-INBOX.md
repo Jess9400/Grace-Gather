@@ -62,7 +62,7 @@ Use the existing gathering authorization and LiveKit token flow for actual audio
 
 ## Presence
 
-The current implementation counts devices. Retain the opt-in, Home-focused participation and honest device-count label proposed in #23. Do not call the number unique people unless the backend deduplicates authenticated accounts and defines guest behavior. No member roster or identity disclosure by default; presence is not permission to receive a DM or invitation.
+Following the owner-approved 8 November review, anonymous presence joins for everyone only while Home is focused and the entrance has finished. Show “There are N people in church right now” (or “You’re the first one here right now” for one) for about five seconds, then fade. No participation opt-in. Implementation caveat: the existing service counts connected clients, not deduplicated people; multiple devices can inflate this approximate count. No member roster or identity disclosure by default; presence is not permission to receive a DM or invitation.
 
 ## Required tests before marking implementation ready
 
@@ -78,3 +78,6 @@ The current implementation counts devices. Retain the opt-in, Home-focused parti
 ## Contributor decisions
 
 Confirm the private messaging moderation/access policy, retention policy, notification event list and reciprocal invitation behavior. After that review, implement and test the migration on an isolated database branch, run security advisors, and open code PRs with explicit rollout/rollback instructions. Do not deploy the proposal to the production Supabase project during review.
+
+## Implementation gate
+This remains a design-only draft. Moderation staffing, retention periods, audience visibility and abuse handling require owner/contributor sign-off before any chat, notification or prayer-invitation migrations. No migration or message sending is authorized by this document alone.
