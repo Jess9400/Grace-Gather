@@ -23,7 +23,11 @@ import {
   welcomesCandles,
 } from "../../lib/church-calendar";
 import { loadCandles, useCandles } from "../../lib/candles";
-import { markEntered, shouldShowEntrance } from "../../lib/church-entrance";
+import {
+  markEntered,
+  shouldShowEntrance,
+  consumeChurchTour,
+} from "../../lib/church-entrance";
 import {
   loadSoundOn,
   saveSoundOn,
@@ -49,7 +53,7 @@ const BASE_VOTIVES = 0;
 const presentCount = (count: number | null) => count !== null && count >= 1;
 
 export default function Home() {
-  const { profile } = useApp();
+  const { profile, saveProfile } = useApp();
   const candlesAllowed = welcomesCandles(profile);
   const { draft, clear } = useQuiet();
   const t = (key: ChurchWord) => churchCopy(profile.language, key);
@@ -60,7 +64,9 @@ export default function Home() {
       : undefined;
   const plain = isProtestant(profile);
   const [now] = useState(() => new Date());
-  const [night, setNight] = useState(() => isEvening(now));
+  const night =
+    profile.churchLighting === "night" ||
+    (profile.churchLighting !== "day" && isEvening(now));
   const [entrance, setEntrance] = useState(shouldShowEntrance);
   const [aboutAdvent, setAboutAdvent] = useState(false);
   const [sceneFailed, setSceneFailed] = useState(false);
@@ -97,8 +103,16 @@ export default function Home() {
   }, []);
   useFocusEffect(
     useCallback(() => {
+      let active = true;
       setFocused(true);
-      return () => setFocused(false);
+      void loadSoundOn().then((on) => {
+        if (active) setSoundOn(on);
+      });
+      if (consumeChurchTour()) setTour(true);
+      return () => {
+        active = false;
+        setFocused(false);
+      };
     }, []),
   );
   // The labels are shown one by one each time someone walks in through the
@@ -201,7 +215,12 @@ export default function Home() {
                 accessibilityRole="switch"
                 accessibilityState={{ checked: night }}
                 accessibilityLabel={t("evening")}
-                onPress={() => setNight((v) => !v)}
+                onPress={() =>
+                  void saveProfile({
+                    ...profile,
+                    churchLighting: night ? "day" : "night",
+                  }).catch(() => {})
+                }
                 style={s.tool}
               >
                 <Ionicons

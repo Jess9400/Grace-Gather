@@ -152,9 +152,7 @@ export default function MemberAvatar() {
       subscription?.data.subscription.unsubscribe();
     };
   }, []);
-  return userId ? (
-    <CelestialAvatar variant={avatarVariant(userId)} />
-  ) : (
-    <Ionicons name="person-circle-outline" size={26} color="#302C28" />
-  );
+  // A welcoming guest mascot also prevents an empty-icon flash during auth restore.
+  // Signed-in accounts retain their stable, device-independent assignment.
+  return <CelestialAvatar variant={userId ? avatarVariant(userId) : 0} />;
 }
