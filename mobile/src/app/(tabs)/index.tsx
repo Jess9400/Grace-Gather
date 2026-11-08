@@ -236,7 +236,7 @@ export default function Home() {
               onTourDone={endTour}
               onFailure={() => setSceneFailed(true)}
             />
-            {present !== null && present >= 2 && (
+            {present !== null && present >= 1 && (
               <View
                 pointerEvents="none"
                 accessibilityLiveRegion="polite"
@@ -244,7 +244,9 @@ export default function Home() {
               >
                 <View style={s.presentDot} />
                 <Text style={s.presentText}>
-                  {t("present").replace("{n}", String(present))}
+                  {present === 1
+                    ? t("presentAlone")
+                    : t("present").replace("{n}", String(present))}
                 </Text>
               </View>
             )}

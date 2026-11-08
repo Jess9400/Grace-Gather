@@ -368,6 +368,12 @@ const words = {
     "{n} dispositivos con presencia activada en la iglesia",
     "Устройств с включённым присутствием: {n}",
   ),
+  presentAlone: L(
+    "You're the first one here right now",
+    "Você é a primeira pessoa aqui agora",
+    "Eres la primera persona aquí ahora",
+    "Сейчас вы здесь первый",
+  ),
   // Small step
   stepTitle: L(
     "One small step for today",
