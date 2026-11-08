@@ -149,10 +149,10 @@ const words = {
     "Дорогой Бог,",
   ),
   keep: L(
-    "Keep this entry on this device",
-    "Guardar esta página neste dispositivo",
-    "Guardar esta página en este dispositivo",
-    "Сохранить запись на этом устройстве",
+    "Save on this device",
+    "Salvar neste dispositivo",
+    "Guardar en este dispositivo",
+    "Сохранить на этом устройстве",
   ),
   options: L(
     "Writing options",
