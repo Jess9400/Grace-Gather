@@ -6,6 +6,13 @@ const L = (en: string, pt: string, es: string, ru: string) => ({
   ru,
 });
 const words = {
+  audioJournal: L("Audio journal", "Diário em áudio", "Diario de audio", "Аудиодневник"),
+  recordingPrivacy: L(
+    "Recordings are encrypted on this device. Unsaved recordings are excluded from journal backups.",
+    "As gravações são criptografadas neste dispositivo. Gravações não salvas não entram nos backups do diário.",
+    "Las grabaciones se cifran en este dispositivo. Las no guardadas se excluyen de las copias de seguridad del diario.",
+    "Записи зашифрованы на этом устройстве. Несохранённые записи не входят в резервные копии дневника."
+  ),
   yourTradition: L(
     "Your tradition",
     "Sua tradição",
@@ -124,10 +131,10 @@ const words = {
     "Я закончил(а) писать",
   ),
   land: L(
-    "Let it all land here.",
-    "Deixe tudo aqui.",
-    "Deja todo aquí.",
-    "Пусть всё останется на странице.",
+    "What would you like to tell God today?",
+    "O que você gostaria de dizer a Deus hoje?",
+    "¿Qué te gustaría decirle a Dios hoy?",
+    "Что вы хотели бы сказать Богу сегодня?",
   ),
   yours: L(
     "A page that is only yours",
@@ -136,10 +143,10 @@ const words = {
     "Страница только для вас",
   ),
   dear: L(
-    "Dear diary,",
-    "Querido diário,",
-    "Querido diario,",
-    "Дорогой дневник,",
+    "Dear God,",
+    "Querido Deus,",
+    "Querido Dios,",
+    "Дорогой Бог,",
   ),
   keep: L(
     "Keep this entry on this device",

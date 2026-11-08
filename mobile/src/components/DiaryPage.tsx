@@ -87,6 +87,12 @@ export default function Diary() {
       <Text accessibilityRole="header" style={s.title}>
         {q(lang, "land")}
       </Text>
+      <View style={{ gap: 10 }}>
+        <Text accessibilityRole="header" style={{ color: colors.ink, fontSize: 16 }}>{q(lang, "audioJournal")}</Text>
+        <Recorder language={lang} value={draft.audio}
+          onChange={(audio) => update({ audio })} onBusyChange={setRecording} />
+        {draft.audio && <Body small>{q(lang, "recordingPrivacy")}</Body>}
+      </View>
       <View style={s.paper}>
         <View style={s.rule} />
         <Text style={s.date}>
@@ -148,18 +154,6 @@ export default function Diary() {
       </Pressable>
       {options && (
         <>
-          <Recorder
-            language={lang}
-            value={draft.audio}
-            onChange={(audio) => update({ audio })}
-            onBusyChange={setRecording}
-          />
-          {draft.audio && (
-            <Body small>
-              Recordings are encrypted on this device. Unsaved recordings are
-              excluded from journal backups.
-            </Body>
-          )}
           <Card>
             <Body>{aiCopy(lang, "title")}</Body>
             <Body small>{aiCopy(lang, "consent")}</Body>
