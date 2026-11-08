@@ -17,7 +17,7 @@ import {
   Busy,
 } from "../../components/community-ui";
 import { StoryActions } from "../../components/DiscoverPost";
-import { Disclosure, TextAction } from "../../components/CommunityControls";
+import { TextAction } from "../../components/CommunityControls";
 import { useApp } from "../../lib/state";
 import { copy, data } from "../../lib/content";
 import { label } from "../../lib/labels";
@@ -212,10 +212,10 @@ export default function Story() {
               storyText(item.body, profile.language) && (
               <Body>{storyText(item.summary, profile.language)}</Body>
             )}
-            <Body>
-              {storyText(item.body, profile.language) ||
-                storyText(item.summary, profile.language)}
-            </Body>
+            {storyText(item.body, profile.language)
+              .split(/\n\s*\n/).filter(Boolean).map((paragraph, index) => (
+                <Body key={index}>{paragraph}</Body>
+              ))}
           </>
         )}
       </Card>
@@ -237,9 +237,13 @@ export default function Story() {
       <StoryActions item={item} interactions={interactions} />
       <Notice text={interactions.error || notice} />
       {!!item.resources?.length && (
-        <Disclosure title={c("sources")}>
-          {item.resources.map(([, title, url]) => (
-            <External key={url} title={title} url={url} />
+        <Card>
+          <Subheading>{interfaceCopy(profile.language, "Watch, listen and explore")}</Subheading>
+          {item.resources.map(([kind, title, url]) => (
+            <View key={url} style={{ gap: 4 }}>
+              <Body small>{interfaceCopy(profile.language, kind === "watch" ? "Watch" : kind === "listen" ? "Listen" : kind === "study" ? "Study" : kind === "pray" ? "Prayer" : "Read")}</Body>
+              <External title={title} url={url} />
+            </View>
           ))}
           {!!item.license && (
             <>
@@ -255,7 +259,7 @@ export default function Story() {
               {new Date(item.retrievedAt).toLocaleString(profile.language)}
             </Body>
           )}
-        </Disclosure>
+        </Card>
       )}
       <TextAction
         title={l("report")}

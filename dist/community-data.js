@@ -1,3 +1,4 @@
+import { DISCOVER_DETAILS } from "./discover-details.js";
 // Editorial summaries are original. Media and complete articles stay with their publishers.
 export const L=(en,pt,es,ru)=>({en,pt,es,ru});
 export const FEED=[
@@ -32,3 +33,8 @@ export const ORGANIZATIONS=[
 ];
 export function visibleFeed(tradition,filter='all',query='') {const q=query.trim().toLocaleLowerCase();return FEED.filter(x=>(!x.tradition||x.tradition===tradition)&&(filter==='all'||x.type===filter||x.tags.includes(filter))&&(!q||Object.values(x.title).concat(Object.values(x.summary),x.tags,x.source).join(' ').toLocaleLowerCase().includes(q)));}
 export function calendarDays(year,month){const count=new Date(year,month+1,0).getDate();return Array.from({length:count},(_,i)=>({day:i+1,weekday:new Date(year,month,i+1).getDay(),proposed:new Date(year,month,i+1).getDay()===4}));}
+
+// Keep feed previews separate from the full editorial guides.
+for (const item of FEED) {
+  if (DISCOVER_DETAILS[item.id]) item.body = DISCOVER_DETAILS[item.id];
+}
