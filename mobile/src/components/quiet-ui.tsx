@@ -55,18 +55,21 @@ export function Screen({
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={s.page}
       >
-        {back && (
-          <Button
-            secondary
-            title="‹"
-            accessibilityLabel={tr("Back")}
-            onPress={() =>
-              router.canGoBack() ? router.back() : router.replace("/(tabs)")
-            }
-          />
-        )}
         <View style={s.brand}>
-          <Ionicons name="leaf-outline" size={23} color={colors.gold} />
+          {back ? (
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={tr("Back")}
+              onPress={() =>
+                router.canGoBack() ? router.back() : router.replace("/(tabs)")
+              }
+              style={({ pressed }) => [s.backControl, pressed && s.backPressed]}
+            >
+              <Ionicons name="chevron-back" size={24} color={colors.ink} />
+            </Pressable>
+          ) : (
+            <Ionicons name="leaf-outline" size={23} color={colors.gold} />
+          )}
           <Text style={s.brandText}>GRACE & GATHER</Text>
           <Pressable
             accessibilityLabel={tr("Account and settings")}
@@ -263,7 +266,16 @@ export const s = StyleSheet.create({
     gap: 8,
     marginBottom: 8,
   },
+  backControl: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  backPressed: { backgroundColor: "#302C280A", opacity: 0.7 },
   brandText: {
+    flexShrink: 1,
     letterSpacing: 2.1,
     fontSize: 12,
     fontWeight: "600",
