@@ -1,4 +1,4 @@
-import MemberAvatar from "./MemberAvatar";
+import ProfileMenuIcon from "./ProfileMenuIcon";
 import React, { createContext, useContext } from "react";
 import {
   ScrollView,
@@ -127,7 +127,7 @@ export function Screen({
                   justifyContent: "center",
                 }}
               >
-                <MemberAvatar />
+                <ProfileMenuIcon />
               </Pressable>
             </View>
           )}

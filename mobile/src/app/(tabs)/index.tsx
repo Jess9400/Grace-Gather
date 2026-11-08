@@ -1,7 +1,7 @@
 import { BlurView, BlurTargetView } from "expo-blur";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useBottomTabBarHeight } from "expo-router/tabs";
-import MemberAvatar from "../../components/MemberAvatar";
+import ProfileMenuIcon from "../../components/ProfileMenuIcon";
 import { useReducedMotion } from "../../lib/use-reduced-motion";
 import { useInterfaceCopy } from "../../lib/use-interface-copy";
 import { useCallback, useEffect, useState, useRef, type ComponentRef } from "react";
@@ -261,7 +261,7 @@ export default function Home() {
             onPress={() => router.push("/account")}
             style={s.profile}
           >
-            <MemberAvatar />
+            <ProfileMenuIcon />
           </Pressable>
         </View>
         <View style={s.dateRow}>

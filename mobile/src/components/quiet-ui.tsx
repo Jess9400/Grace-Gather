@@ -1,4 +1,4 @@
-import MemberAvatar from "./MemberAvatar";
+import ProfileMenuIcon from "./ProfileMenuIcon";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
 import React, { createContext, useContext } from "react";
 import {
@@ -74,7 +74,7 @@ export function Screen({
             onPress={() => router.push("/account")}
             style={{ marginLeft: "auto", padding: 8 }}
           >
-            <MemberAvatar />
+            <ProfileMenuIcon />
           </Pressable>
         </View>
         {children}
@@ -351,7 +351,7 @@ export function Brand() {
         onPress={() => router.push("/account")}
         style={{ marginLeft: "auto", padding: 8 }}
       >
-        <MemberAvatar />
+        <ProfileMenuIcon />
       </Pressable>
     </View>
   );
