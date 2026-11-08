@@ -313,6 +313,24 @@ const words = {
     "Escribe o habla con libertad. Tu página se queda en este dispositivo.",
     "Пишите или говорите свободно. Страница остаётся на этом устройстве.",
   ),
+  talkToGod: L(
+    "Talk to God",
+    "Falar com Deus",
+    "Hablar con Dios",
+    "Поговорить с Богом",
+  ),
+  stayHere: L(
+    "Stay here a little",
+    "Ficar aqui um pouco",
+    "Quedarme aquí un momento",
+    "Побыть здесь немного",
+  ),
+  onYourHeart: L(
+    "What’s on your heart?",
+    "O que está no seu coração?",
+    "¿Qué hay en tu corazón?",
+    "Что у вас на сердце?",
+  ),
   showPlaces: L(
     "Show places",
     "Mostrar lugares",

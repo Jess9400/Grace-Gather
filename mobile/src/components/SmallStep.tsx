@@ -88,7 +88,7 @@ export function SmallStepPicker({ entry }: { entry: Entry }) {
 }
 
 // On Home: a gentle question about the last unanswered step. No streaks.
-export function StepCheckIn() {
+export function StepCheckIn({ glass = false }: { glass?: boolean } = {}) {
   const { profile, entries, saveEntry } = useApp();
   const t = (key: ChurchWord) => churchCopy(profile.language, key);
   const [answered, setAnswered] = useState<{
@@ -97,6 +97,56 @@ export function StepCheckIn() {
   } | null>(null);
   const pending = pendingStep(entries, new Date());
   if (!pending && !answered) return null;
+
+  if (glass) {
+    if (answered)
+      return (
+        <View style={s.glass} accessibilityLiveRegion="polite">
+          <Text style={s.glassText}>
+            {answered.status === "done" ? t("stepDone") : t("stepLater")}
+          </Text>
+        </View>
+      );
+    const { entry: e, step: st, when: w } = pending!;
+    const heading = t(
+      w === "today"
+        ? "stepToday"
+        : w === "yesterday"
+          ? "stepYesterday"
+          : "stepEarlier",
+    );
+    const reply = (status: "done" | "notYet") => {
+      setAnswered({ title: heading, status });
+      void saveEntry({
+        ...e,
+        step: { ...st, status, checkedAt: new Date().toISOString() },
+      });
+    };
+    return (
+      <View style={s.glass}>
+        <Text style={s.glassEyebrow}>{heading.toUpperCase()}</Text>
+        <Text style={s.glassText}>{stepTitle(st.id, profile.language)}</Text>
+        <View style={s.glassRow}>
+          <Pressable
+            accessibilityRole="button"
+            onPress={() => reply("done")}
+            style={[s.glassButton, s.glassPrimary]}
+          >
+            <Text style={s.glassPrimaryText}>{t("stepDid")}</Text>
+          </Pressable>
+          {w !== "today" && (
+            <Pressable
+              accessibilityRole="button"
+              onPress={() => reply("notYet")}
+              style={s.glassButton}
+            >
+              <Text style={s.glassButtonText}>{t("stepNotYet")}</Text>
+            </Pressable>
+          )}
+        </View>
+      </View>
+    );
+  }
 
   if (answered)
     return (
@@ -196,4 +246,31 @@ const s = StyleSheet.create({
   homeTop: { flexDirection: "row", alignItems: "center", gap: 8 },
   answers: { flexDirection: "row", gap: 10, marginTop: 2 },
   reply: { fontSize: 15, lineHeight: 22, color: colors.ink },
+  glass: {
+    borderRadius: 20,
+    padding: 14,
+    gap: 6,
+    backgroundColor: "rgba(40,28,22,0.72)",
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: "rgba(255,240,220,0.22)",
+  },
+  glassEyebrow: {
+    fontSize: 10,
+    letterSpacing: 1.6,
+    fontWeight: "700",
+    color: "#E7CF9A",
+  },
+  glassText: { fontSize: 15, lineHeight: 21, color: "#FFF8EC" },
+  glassRow: { flexDirection: "row", gap: 8, marginTop: 4 },
+  glassButton: {
+    minHeight: 40,
+    paddingHorizontal: 16,
+    borderRadius: 20,
+    justifyContent: "center",
+    borderWidth: 1,
+    borderColor: "rgba(255,240,220,0.4)",
+  },
+  glassPrimary: { backgroundColor: "#FFF6E8", borderColor: "#FFF6E8" },
+  glassPrimaryText: { fontSize: 14, fontWeight: "600", color: colors.ink },
+  glassButtonText: { fontSize: 14, color: "#FFF8EC" },
 });

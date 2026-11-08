@@ -98,9 +98,9 @@ export function buildChurchMesh({
     color: [0.42, 0.13, 0.12],
     kind: KIND.cloth,
   });
-  mesh.box(-2.5, 1.2, -0.6, 0.1, 5.6, 12, plaster);
-  mesh.box(2.5, 1.2, -0.6, 0.1, 5.6, 12, plaster);
-  mesh.box(0, 1.2, -6.35, 5.0, 5.6, 0.1, plaster);
+  mesh.box(-2.5, 1.9, -0.6, 0.1, 7.0, 12, plaster);
+  mesh.box(2.5, 1.9, -0.6, 0.1, 7.0, 12, plaster);
+  mesh.box(0, 1.9, -6.35, 5.0, 7.0, 0.1, plaster);
   const spring = 2.6,
     radius = 2.45;
   for (let i = 0; i < 18; i++) {
@@ -673,12 +673,21 @@ function buildGlowMesh({
 export type ChurchView = { dx: number; dy: number };
 
 export function churchCamera(aspect: number, view: ChurchView) {
-  const eye: Vec3 = [view.dx * 0.45, 1.28 + view.dy * 0.18, 3.7];
-  const target: Vec3 = [view.dx * 0.1, -0.82, -4.6];
-  const horizontal = Math.atan(1.95 / 7.6);
+  // A tall, full-screen view widens the vertical angle so the nave keeps its
+  // width, and shifts the picture up (a lens shift) so the altar, candles and
+  // confessional sit above the controls along the bottom of the screen.
+  const tall = Math.min(1, Math.max(0, (0.8 - aspect) / 0.34));
+  const eye: Vec3 = [
+    view.dx * 0.45,
+    1.28 + view.dy * 0.18 - tall * 0.18,
+    3.7 - tall * 0.6,
+  ];
+  const target: Vec3 = [view.dx * 0.1, -0.82 + tall * 0.12, -4.6];
+  const horizontal = Math.atan((1.95 - tall * 0.12) / 7.6);
   let vertical = 2 * Math.atan(Math.tan(horizontal) / aspect);
-  vertical = Math.min(Math.max(vertical, 0.45), 0.95);
+  vertical = Math.min(Math.max(vertical, 0.45), 0.95 + tall * 0.3);
   const projection = perspective(vertical, aspect, 0.05, 60);
+  projection[9] = -0.08 * tall;
   return { matrix: multiply(projection, lookAt(eye, target)), eye };
 }
 

@@ -86,6 +86,7 @@ export default function ChurchScene({
   tour = false,
   onTourDone,
   onFailure,
+  fullscreen = false,
 }: {
   places: PlaceLabel[];
   night: boolean;
@@ -98,6 +99,7 @@ export default function ChurchScene({
   tour?: boolean;
   onTourDone?: () => void;
   onFailure?: () => void;
+  fullscreen?: boolean;
 }) {
   const reduced = useReducedMotion();
   const [size, setSize] = useState({ width: 0, height: 0 });
@@ -445,7 +447,7 @@ export default function ChurchScene({
     <View
       accessibilityRole="none"
       accessibilityLabel={accessibilityLabel}
-      style={styles.stage}
+      style={fullscreen ? styles.full : styles.stage}
       onLayout={(e) =>
         setSize({
           width: e.nativeEvent.layout.width,
@@ -580,6 +582,15 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     borderRadius: 26,
     backgroundColor: "#E9DFCF",
+  },
+  full: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    overflow: "hidden",
+    backgroundColor: "#2A211B",
   },
   anchor: {
     position: "absolute",

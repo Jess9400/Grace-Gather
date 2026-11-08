@@ -1,20 +1,18 @@
 import { useCallback, useEffect, useState } from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
+import { View, Text, StyleSheet, Pressable, Platform } from "react-native";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import {
-  Screen,
-  Button,
-  Card,
-  Body,
-  colors,
-  serif,
-} from "../../components/quiet-ui";
+import { BlurView } from "expo-blur";
+import { setStatusBarStyle } from "expo-status-bar";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useBottomTabBarHeight } from "expo-router/tabs";
+import { Screen, colors, serif } from "../../components/quiet-ui";
+import MemberAvatar from "../../components/MemberAvatar";
 import ChurchScene, { type PlaceLabel } from "../../components/ChurchScene";
 import ChurchEntrance from "../../components/ChurchEntrance";
 import { useApp } from "../../lib/state";
-import { useQuiet } from "../../lib/quiet-state";
-import { q } from "../../lib/quiet-copy";
+import { useClock } from "../../lib/use-clock";
+import { useInterfaceCopy } from "../../lib/use-interface-copy";
 import { churchCopy, type ChurchWord } from "../../lib/church-copy";
 import {
   adventWeekFor,
@@ -43,10 +41,16 @@ const ROUTES: Record<Exclude<ChurchPlace, "wreath">, string> = {
 const THEMES: ChurchWord[] = ["hope", "peaceWeek", "joy", "love"];
 // Lit by others earlier in the day; the person's own candles are added to these.
 const BASE_VOTIVES = 6;
+const IVORY = "#FFF8EC";
+// Once someone chooses to "stay here a little", the card stays tucked away
+// for the rest of the visit.
+let stayCollapsed = false;
 
 export default function Home() {
   const { profile } = useApp();
-  const { draft, clear } = useQuiet();
+  const tr = useInterfaceCopy();
+  const insets = useSafeAreaInsets();
+  const tabBar = useBottomTabBarHeight();
   const t = (key: ChurchWord) => churchCopy(profile.language, key);
   const params = useLocalSearchParams<{ advent?: string; present?: string }>();
   const preview =
@@ -54,6 +58,7 @@ export default function Home() {
       ? Math.max(0, Math.min(4, Number(params.advent) || 0))
       : undefined;
   const plain = isProtestant(profile);
+  const clock = useClock();
   const [now] = useState(() => new Date());
   const [night, setNight] = useState(() => isEvening(now));
   const [entrance, setEntrance] = useState(shouldShowEntrance);
@@ -62,6 +67,7 @@ export default function Home() {
   const [tour, setTour] = useState(false);
   const [soundOn, setSoundOn] = useState<boolean | null>(null);
   const [focused, setFocused] = useState(true);
+  const [collapsed, setCollapsed] = useState(stayCollapsed);
   const candles = useCandles();
   const live = useChurchPresence();
   // Development preview of the count (e.g. /?present=30); never in release.
@@ -74,21 +80,21 @@ export default function Home() {
   useFocusEffect(
     useCallback(() => {
       setFocused(true);
-      return () => setFocused(false);
+      // Light text over the church; the rest of the app keeps dark text.
+      setStatusBarStyle("light");
+      return () => {
+        setFocused(false);
+        setStatusBarStyle("dark");
+      };
     }, []),
   );
-  // The labels are shown one by one each time someone walks in through the
-  // doors, and again whenever "Show places" is pressed.
-  const touring = tour;
   // Calm church sound on Home, after the doors, unless muted.
   useEffect(() => {
     if (!entrance && focused && soundOn) startAmbience();
     else stopAmbience();
   }, [entrance, focused, soundOn]);
   useEffect(() => () => stopAmbience(), []);
-  const endTour = useCallback(() => {
-    setTour(false);
-  }, []);
+  const endTour = useCallback(() => setTour(false), []);
 
   const week = adventWeekFor(profile, now, preview);
   const theme = week > 0 && plain ? ` · ${t(THEMES[week - 1])}` : "";
@@ -142,160 +148,39 @@ export default function Home() {
     setSoundOn(next);
     void saveSoundOn(next);
   };
+  const talk = () => router.push("/(tabs)/diary");
+  const stay = () => {
+    stayCollapsed = true;
+    setCollapsed(true);
+  };
+  const date = new Date(clock);
+  const entranceView = entrance && (
+    <ChurchEntrance
+      language={profile.language}
+      onEntered={() => {
+        markEntered();
+        setEntrance(false);
+        // Show where everything is each time someone walks in.
+        setTour(true);
+      }}
+    />
+  );
 
-  return (
-    <>
-      <Screen>
-        <View style={s.head}>
-          <Text style={s.date}>
-            {now.toLocaleDateString(profile.language, {
-              weekday: "long",
-              month: "long",
-              day: "numeric",
-            })}
+  // Without 3D, a calm list keeps every place reachable.
+  if (sceneFailed)
+    return (
+      <>
+        <Screen>
+          <Text accessibilityRole="header" style={s.fallbackTitle}>
+            {t("welcome")}
           </Text>
-          {week > 0 && (
-            <Text style={s.advent}>
-              {t("advent")} {week}
-              {theme}
-            </Text>
-          )}
-          <View style={s.titleRow}>
-            <Text accessibilityRole="header" style={s.title}>
-              {t("welcome")}
-            </Text>
-            <View style={s.tools}>
-              <Pressable
-                accessibilityRole="switch"
-                accessibilityState={{ checked: night }}
-                accessibilityLabel={t("evening")}
-                onPress={() => setNight((v) => !v)}
-                style={s.tool}
-              >
-                <Ionicons
-                  name={night ? "moon" : "sunny-outline"}
-                  size={19}
-                  color={colors.ink}
-                />
-              </Pressable>
-              <Pressable
-                accessibilityRole="switch"
-                accessibilityState={{ checked: !!soundOn }}
-                accessibilityLabel={soundOn ? t("soundOn") : t("soundOff")}
-                onPress={toggleSound}
-                style={s.tool}
-              >
-                <Ionicons
-                  name={
-                    soundOn ? "volume-medium-outline" : "volume-mute-outline"
-                  }
-                  size={19}
-                  color={colors.ink}
-                />
-              </Pressable>
-              {!sceneFailed && (
-                <Pressable
-                  accessibilityRole="button"
-                  accessibilityLabel={t("showPlaces")}
-                  onPress={() => setTour(true)}
-                  style={s.tool}
-                >
-                  <Ionicons
-                    name="help-circle-outline"
-                    size={20}
-                    color={colors.ink}
-                  />
-                </Pressable>
-              )}
-            </View>
-          </View>
-        </View>
-
-        {!sceneFailed && <Text style={s.hint}>{t("tapAnywhere")}</Text>}
-
-        {!sceneFailed && (
-          <View>
-            <ChurchScene
-              places={scenePlaces}
-              night={night}
-              adventWeek={week}
-              litVotives={Math.min(15, BASE_VOTIVES + candles.length)}
-              onPlace={open}
-              accessibilityLabel={t("church")}
-              paused={entrance}
-              protestant={plain}
-              tour={touring}
-              onTourDone={endTour}
-              onFailure={() => setSceneFailed(true)}
-            />
-            {present !== null && present >= 1 && (
-              <View
-                pointerEvents="none"
-                accessibilityLiveRegion="polite"
-                style={s.present}
-              >
-                <View style={s.presentDot} />
-                <Text style={s.presentText}>
-                  {present === 1
-                    ? t("presentAlone")
-                    : t("present").replace("{n}", String(present))}
-                </Text>
-              </View>
-            )}
-          </View>
-        )}
-
-        <StepCheckIn />
-
-        {week > 0 && aboutAdvent && (
-          <Card tint>
-            <Text style={s.eyebrow}>{t("wreath").toUpperCase()}</Text>
-            <Body>{t("adventAbout")}</Body>
-          </Card>
-        )}
-
-        <Pressable
-          accessibilityRole="button"
-          onPress={() => router.push("/(tabs)/diary")}
-          style={({ pressed }) => [s.tell, pressed && { opacity: 0.9 }]}
-        >
-          <View style={{ flex: 1, gap: 6 }}>
-            <Text style={s.tellTitle}>{t("tellGod")}</Text>
-            <Text style={s.tellSub}>{t("tellGodSub")}</Text>
-          </View>
-          <View style={s.tellArrow}>
-            <Ionicons name="create-outline" size={22} color={colors.white} />
-          </View>
-        </Pressable>
-        {draft.entryId && (
-          <Button
-            secondary
-            title={q(profile.language, "newPage")}
-            onPress={() => {
-              clear();
-              router.push("/(tabs)/diary");
-            }}
-          />
-        )}
-
-        {!plain && candles.length > 0 && (
           <Pressable
             accessibilityRole="button"
-            onPress={() => router.push("/candle")}
-            style={[s.list, s.row]}
+            onPress={talk}
+            style={[s.fallbackCard]}
           >
-            <View style={s.flame} />
-            <View style={{ flex: 1 }}>
-              <Text style={s.rowTitle}>
-                {t("youLit")} · {candles.length}
-              </Text>
-              <Text style={s.rowSub}>{t("burning")}</Text>
-            </View>
-            <Ionicons name="chevron-forward" size={16} color={colors.muted} />
+            <Text style={s.fallbackTell}>{t("tellGod")}</Text>
           </Pressable>
-        )}
-
-        {sceneFailed && (
           <View style={s.list} accessibilityRole="list">
             {places.map((p, i) => (
               <Pressable
@@ -321,112 +206,354 @@ export default function Home() {
               </Pressable>
             ))}
           </View>
+        </Screen>
+        {entranceView}
+      </>
+    );
+
+  return (
+    <View style={s.root}>
+      <ChurchScene
+        fullscreen
+        places={scenePlaces}
+        night={night}
+        adventWeek={week}
+        litVotives={Math.min(15, BASE_VOTIVES + candles.length)}
+        onPlace={open}
+        accessibilityLabel={t("church")}
+        paused={entrance}
+        protestant={plain}
+        tour={tour}
+        onTourDone={endTour}
+        onFailure={() => setSceneFailed(true)}
+      />
+
+      <View
+        pointerEvents="none"
+        style={[s.scrim, { height: insets.top + 190 }]}
+      />
+
+      <View
+        pointerEvents="box-none"
+        style={[s.top, { paddingTop: insets.top + 10 }]}
+      >
+        <View style={s.brandRow} pointerEvents="box-none">
+          <Text style={s.brand}>GRACE & GATHER</Text>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={tr("Account and settings")}
+            onPress={() => router.push("/account")}
+            style={s.avatar}
+          >
+            <MemberAvatar color="#E0BE76" />
+          </Pressable>
+        </View>
+        <View style={s.dateRow} pointerEvents="none">
+          <Text style={s.dateText}>
+            {date
+              .toLocaleDateString(profile.language, {
+                weekday: "long",
+                month: "long",
+                day: "numeric",
+              })
+              .toUpperCase()}
+          </Text>
+          <Text style={s.dateText}>
+            {date.toLocaleTimeString(profile.language, {
+              hour: "numeric",
+              minute: "2-digit",
+            })}
+          </Text>
+        </View>
+        {week > 0 && (
+          <Text style={s.advent} pointerEvents="none">
+            {t("advent")} {week}
+            {theme}
+          </Text>
         )}
-      </Screen>
-      {entrance && (
-        <ChurchEntrance
-          language={profile.language}
-          onEntered={() => {
-            markEntered();
-            setEntrance(false);
-            // Show where everything is each time someone walks in.
-            setTour(true);
-          }}
-        />
-      )}
-    </>
+        <View style={s.infoRow} pointerEvents="box-none">
+          <View style={{ flex: 1, gap: 6 }} pointerEvents="none">
+            {present !== null && present >= 1 && (
+              <View style={s.present} accessibilityLiveRegion="polite">
+                <View style={s.presentDot} />
+                <Text style={s.presentText}>
+                  {present === 1
+                    ? t("presentAlone")
+                    : t("present").replace("{n}", String(present))}
+                </Text>
+              </View>
+            )}
+            <Text style={s.hint}>{t("tapAnywhere")}</Text>
+          </View>
+          {/* Quiet controls that sit in the church like part of it. */}
+          <View style={s.tools}>
+            <Pressable
+              accessibilityRole="switch"
+              accessibilityState={{ checked: !!soundOn }}
+              accessibilityLabel={soundOn ? t("soundOn") : t("soundOff")}
+              onPress={toggleSound}
+              hitSlop={4}
+              style={s.tool}
+            >
+              <Ionicons
+                name={soundOn ? "volume-medium-outline" : "volume-mute-outline"}
+                size={18}
+                color={IVORY}
+              />
+            </Pressable>
+            <Pressable
+              accessibilityRole="switch"
+              accessibilityState={{ checked: night }}
+              accessibilityLabel={t("evening")}
+              onPress={() => setNight((v) => !v)}
+              hitSlop={4}
+              style={s.tool}
+            >
+              <Ionicons
+                name={night ? "moon-outline" : "sunny-outline"}
+                size={18}
+                color={IVORY}
+              />
+            </Pressable>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={t("showPlaces")}
+              onPress={() => setTour(true)}
+              hitSlop={4}
+              style={s.tool}
+            >
+              <Ionicons name="help-outline" size={18} color={IVORY} />
+            </Pressable>
+          </View>
+        </View>
+      </View>
+
+      <View
+        pointerEvents="box-none"
+        style={[s.bottom, { bottom: tabBar + 12 }]}
+      >
+        {week > 0 && aboutAdvent && (
+          <View style={s.note}>
+            <Text style={s.noteTitle}>{t("wreath").toUpperCase()}</Text>
+            <Text style={s.noteText}>{t("adventAbout")}</Text>
+          </View>
+        )}
+        <StepCheckIn glass />
+        {/* While the tour points out each place, the card steps aside. */}
+        {collapsed || tour ? (
+          <Pressable
+            accessibilityRole="button"
+            onPress={talk}
+            style={({ pressed }) => [s.pill, pressed && { opacity: 0.85 }]}
+          >
+            <BlurView
+              tint="dark"
+              intensity={30}
+              style={StyleSheet.absoluteFill}
+            />
+            <Text style={s.pillText}>{t("onYourHeart")}</Text>
+          </Pressable>
+        ) : (
+          <View style={s.card}>
+            <BlurView
+              tint="dark"
+              intensity={35}
+              style={StyleSheet.absoluteFill}
+            />
+            <View style={s.cardTint} pointerEvents="none" />
+            <Text accessibilityRole="header" style={s.cardTitle}>
+              {t("tellGod")}
+            </Text>
+            <Pressable
+              accessibilityRole="button"
+              onPress={talk}
+              style={({ pressed }) => [s.talk, pressed && { opacity: 0.9 }]}
+            >
+              <Text style={s.talkText}>{t("talkToGod")}</Text>
+            </Pressable>
+            <Pressable
+              accessibilityRole="button"
+              onPress={stay}
+              hitSlop={6}
+              style={s.stay}
+            >
+              <Text style={s.stayText}>{t("stayHere")}</Text>
+            </Pressable>
+          </View>
+        )}
+      </View>
+      {entranceView}
+    </View>
   );
 }
 
+const glassBorder = "rgba(255,236,214,0.22)";
 const s = StyleSheet.create({
-  head: { gap: 6 },
-  date: {
-    fontSize: 11,
-    letterSpacing: 1.2,
-    textTransform: "uppercase",
-    color: colors.muted,
+  root: { flex: 1, backgroundColor: "#2A211B" },
+  scrim: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    backgroundImage:
+      "linear-gradient(180deg, rgba(30,22,16,0.62) 0%, rgba(30,22,16,0.32) 55%, rgba(30,22,16,0) 100%)",
   },
-  advent: {
-    fontSize: 11,
-    letterSpacing: 1.6,
-    fontWeight: "700",
-    color: "#5B4780",
-    textTransform: "uppercase",
+  top: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    paddingHorizontal: 22,
+    gap: 10,
   },
-  titleRow: {
+  brandRow: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    gap: 12,
   },
-  title: {
-    fontFamily: serif,
-    fontSize: 32,
-    lineHeight: 38,
-    color: colors.ink,
-    flexShrink: 1,
+  brand: {
+    color: IVORY,
+    fontSize: 12,
+    fontWeight: "700",
+    letterSpacing: 3,
+    textShadowColor: "rgba(0,0,0,0.35)",
+    textShadowRadius: 6,
   },
-  tools: { flexDirection: "row", gap: 6 },
-  hint: { fontSize: 14, lineHeight: 20, color: colors.muted, marginTop: -6 },
-  present: {
-    position: "absolute",
-    left: 12,
-    bottom: 12,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    paddingHorizontal: 12,
-    minHeight: 32,
-    borderRadius: 16,
-    backgroundColor: "rgba(48,44,40,0.78)",
-  },
-  presentDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: "#7FD39A",
-  },
-  presentText: { color: colors.white, fontSize: 13, fontWeight: "600" },
-  tool: {
+  avatar: {
     width: 44,
     height: 44,
     borderRadius: 22,
     alignItems: "center",
     justifyContent: "center",
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: colors.line,
-    backgroundColor: colors.white,
+    backgroundColor: "rgba(36,26,20,0.78)",
   },
-  tell: {
-    flexDirection: "row",
+  dateRow: { flexDirection: "row", justifyContent: "space-between" },
+  dateText: {
+    color: IVORY,
+    fontSize: 11,
+    letterSpacing: 1.4,
+    textShadowColor: "rgba(0,0,0,0.4)",
+    textShadowRadius: 6,
+  },
+  advent: {
+    color: "#E2D4F2",
+    fontSize: 11,
+    fontWeight: "700",
+    letterSpacing: 1.6,
+    textTransform: "uppercase",
+    textShadowColor: "rgba(0,0,0,0.4)",
+    textShadowRadius: 6,
+  },
+  infoRow: { flexDirection: "row", alignItems: "flex-start", gap: 12 },
+  present: { flexDirection: "row", alignItems: "center", gap: 7 },
+  presentDot: {
+    width: 7,
+    height: 7,
+    borderRadius: 4,
+    backgroundColor: "#8FE0A8",
+  },
+  presentText: {
+    color: IVORY,
+    fontSize: 13,
+    fontWeight: "600",
+    textShadowColor: "rgba(0,0,0,0.45)",
+    textShadowRadius: 6,
+  },
+  hint: {
+    color: "rgba(255,248,236,0.86)",
+    fontSize: 12,
+    lineHeight: 17,
+    maxWidth: 230,
+    textShadowColor: "rgba(0,0,0,0.45)",
+    textShadowRadius: 6,
+  },
+  tools: { flexDirection: "row", gap: 8 },
+  tool: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
     alignItems: "center",
-    gap: 16,
+    justifyContent: "center",
+    backgroundColor: "rgba(30,22,16,0.32)",
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: glassBorder,
+  },
+  bottom: { position: "absolute", left: 16, right: 16, gap: 10 },
+  card: {
+    borderRadius: 28,
+    overflow: "hidden",
+    paddingHorizontal: 24,
+    paddingTop: 26,
+    paddingBottom: 14,
+    alignItems: "center",
+    gap: 18,
+    borderWidth: 1,
+    borderColor: glassBorder,
+    ...(Platform.OS === "android" && {
+      backgroundColor: "rgba(70,40,28,0.86)",
+    }),
+  },
+  cardTint: {
+    ...StyleSheet.absoluteFill,
+    backgroundColor: "rgba(92,48,30,0.5)",
+  },
+  cardTitle: {
+    fontFamily: serif,
+    fontSize: 27,
+    lineHeight: 34,
+    color: IVORY,
+    textAlign: "center",
+  },
+  talk: {
+    alignSelf: "stretch",
+    minHeight: 52,
+    borderRadius: 26,
+    backgroundColor: "#FFF6E8",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  talkText: { color: colors.ink, fontSize: 16, fontWeight: "600" },
+  stay: { minHeight: 36, justifyContent: "center", paddingHorizontal: 12 },
+  stayText: { color: "#F2E6D6", fontSize: 14 },
+  pill: {
+    alignSelf: "center",
+    minHeight: 48,
+    paddingHorizontal: 24,
+    borderRadius: 24,
+    overflow: "hidden",
+    justifyContent: "center",
+    backgroundColor: "rgba(40,26,20,0.55)",
+    borderWidth: 1,
+    borderColor: glassBorder,
+  },
+  pillText: { color: IVORY, fontSize: 16 },
+  note: {
+    borderRadius: 20,
+    padding: 14,
+    gap: 4,
+    backgroundColor: "rgba(52,38,70,0.8)",
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: glassBorder,
+  },
+  noteTitle: {
+    color: "#E2D4F2",
+    fontSize: 10,
+    fontWeight: "700",
+    letterSpacing: 1.6,
+  },
+  noteText: { color: IVORY, fontSize: 14, lineHeight: 20 },
+  fallbackTitle: {
+    fontFamily: serif,
+    fontSize: 32,
+    lineHeight: 38,
+    color: colors.ink,
+  },
+  fallbackCard: {
     padding: 20,
     borderRadius: 24,
     backgroundColor: colors.ink,
-    boxShadow: "0 10px 26px rgba(48,44,40,0.22)",
   },
-  tellTitle: {
-    fontFamily: serif,
-    fontSize: 22,
-    lineHeight: 29,
-    color: colors.white,
-  },
-  tellSub: { fontSize: 14, lineHeight: 20, color: "#DCD3C4" },
-  tellArrow: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "rgba(255,255,255,0.12)",
-  },
-  eyebrow: {
-    fontSize: 11,
-    letterSpacing: 1.6,
-    fontWeight: "600",
-    color: colors.goldInk,
-  },
+  fallbackTell: { fontFamily: serif, fontSize: 22, color: colors.white },
   list: {
     backgroundColor: colors.white,
     borderRadius: 20,
@@ -445,5 +572,4 @@ const s = StyleSheet.create({
   },
   rowTitle: { fontSize: 16, fontWeight: "600", color: colors.ink },
   rowSub: { fontSize: 13, lineHeight: 18, color: colors.muted, marginTop: 2 },
-  flame: { width: 10, height: 16, borderRadius: 8, backgroundColor: "#F2B451" },
 });

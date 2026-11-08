@@ -132,7 +132,9 @@ export function CelestialAvatar({
   );
 }
 
-export default function MemberAvatar() {
+export default function MemberAvatar({
+  color = "#302C28",
+}: { color?: string } = {}) {
   const [userId, setUserId] = useState<string | null>(null);
   useEffect(() => {
     let active = true,
@@ -155,6 +157,6 @@ export default function MemberAvatar() {
   return userId ? (
     <CelestialAvatar variant={avatarVariant(userId)} />
   ) : (
-    <Ionicons name="person-circle-outline" size={26} color="#302C28" />
+    <Ionicons name="person-circle-outline" size={26} color={color} />
   );
 }
