@@ -1,3 +1,4 @@
+import { copy, type Tradition } from "../lib/content";
 import { router } from "expo-router";
 import { loadSoundOn, saveSoundOn } from "../lib/church-audio";
 import { requestChurchTour } from "../lib/church-entrance";
@@ -46,6 +47,19 @@ export default function Practices() {
   return (
     <Screen back>
       <Heading>{tr("Church preferences")}</Heading>
+      <Body>{tr("Church tradition and background")}</Body>
+      {(["catholic", "protestant", "orthodox"] as Tradition[]).map((tradition) => (
+        <Button key={tradition} secondary disabled={busy}
+          title={`${profile.faithChoice === tradition ? "✓ " : ""}${copy(profile.language, tradition)}`}
+          onPress={async () => {
+            setBusy(true); setError("");
+            try { await saveProfile({ ...profile, tradition, faithChoice: tradition }); }
+            catch { setError(tr("Could not save. Please try again.")); }
+            finally { setBusy(false); }
+          }} />
+      ))}
+      <Body small>{tr("Your choice updates your church background and Scripture tradition.")}</Body>
+      <Button secondary title={tr("Back to church")} onPress={() => router.replace("/(tabs)")} />
       <Body>{tr("Church sounds play only on Home after the entrance.")}</Body>
       <Button
         secondary
