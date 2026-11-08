@@ -256,20 +256,8 @@ export default function ChurchScene({
       )
         return;
       const { night: wantNight, reduced: still } = props.current;
-      const time = (Date.now() - born.current) / 1000;
-      const goal: ChurchView =
-        touch.current ??
-        (still
-          ? { dx: 0, dy: 0 }
-          : {
-              dx: Math.sin(time * 0.21) * 0.55,
-              dy: Math.sin(time * 0.17 + 1) * 0.35,
-            });
-      const ease = touch.current ? 0.18 : 0.04;
-      view.current = {
-        dx: view.current.dx + (goal.dx - view.current.dx) * ease,
-        dy: view.current.dy + (goal.dy - view.current.dy) * ease,
-      };
+      // Keep the seated viewpoint fixed; touch and hover still select places.
+      view.current = { dx: 0, dy: 0 };
       nightLevel.current += ((wantNight ? 1 : 0) - nightLevel.current) * 0.08;
       try {
         render();

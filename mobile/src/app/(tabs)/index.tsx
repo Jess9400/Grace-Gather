@@ -247,7 +247,6 @@ export default function Home() {
           />
         )}
       </BlurTargetView>
-      <View pointerEvents="none" style={s.topShade} />
       <View
         pointerEvents="box-none"
         style={[s.header, { paddingTop: insets.top + 16 }]}
@@ -501,14 +500,6 @@ export default function Home() {
 }
 const s = StyleSheet.create({
   page: { flex: 1, backgroundColor: "#211B16" },
-  topShade: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    height: 185,
-    backgroundColor: "rgba(25,21,17,0.34)",
-  },
   header: {
     position: "absolute",
     top: 0,
