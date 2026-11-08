@@ -47,6 +47,17 @@ export default function TabsLayout() {
           name={name}
           options={{
             title,
+            ...(name === "index"
+              ? {
+                  tabBarStyle: {
+                    position: "absolute" as const,
+                    backgroundColor: "rgba(33,27,22,0.82)",
+                    borderTopColor: "#FFFFFF20",
+                  },
+                  tabBarActiveTintColor: "#FFF8E9",
+                  tabBarInactiveTintColor: "#D7CBB9",
+                }
+              : {}),
             tabBarIcon: ({ color, size }) => (
               <Ionicons name={icon} color={color as string} size={size} />
             ),

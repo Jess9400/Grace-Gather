@@ -1,15 +1,22 @@
-import { useCallback, useEffect, useState } from "react";
-import { View, Text, StyleSheet, Pressable, Animated } from "react-native";
+import { BlurView, BlurTargetView } from "expo-blur";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useBottomTabBarHeight } from "expo-router/tabs";
+import MemberAvatar from "../../components/MemberAvatar";
+import { useReducedMotion } from "../../lib/use-reduced-motion";
+import { useInterfaceCopy } from "../../lib/use-interface-copy";
+import { useCallback, useEffect, useState, useRef, type ComponentRef } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  Pressable,
+  Animated,
+  ScrollView,
+  Modal,
+} from "react-native";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import {
-  Screen,
-  Button,
-  Card,
-  Body,
-  colors,
-  serif,
-} from "../../components/quiet-ui";
+import { Button, Body, colors, serif } from "../../components/quiet-ui";
 import ChurchScene, { type PlaceLabel } from "../../components/ChurchScene";
 import ChurchEntrance from "../../components/ChurchEntrance";
 import { useApp } from "../../lib/state";
@@ -55,6 +62,15 @@ const presentCount = (count: number | null) => count !== null && count >= 1;
 
 export default function Home() {
   const { profile, saveProfile } = useApp();
+  const tr = useInterfaceCopy();
+  const insets = useSafeAreaInsets();
+  const tabHeight = useBottomTabBarHeight();
+  const blurTarget = useRef<ComponentRef<typeof View> | null>(null);
+  const reduced = useReducedMotion();
+  const [invitation, setInvitation] = useState(false);
+  const [dismissed, setDismissed] = useState(false);
+  const [details, setDetails] = useState(false);
+  const [invitationOpacity] = useState(() => new Animated.Value(0));
   const candlesAllowed = welcomesCandles(profile);
   const { draft, clear } = useQuiet();
   const t = (key: ChurchWord) => churchCopy(profile.language, key);
@@ -64,7 +80,11 @@ export default function Home() {
       ? Math.max(0, Math.min(4, Number(params.advent) || 0))
       : undefined;
   const plain = isProtestant(profile);
-  const [now] = useState(() => new Date());
+  const [now, setNow] = useState(() => new Date());
+  useEffect(() => {
+    const clock = setInterval(() => setNow(new Date()), 30000);
+    return () => clearInterval(clock);
+  }, []);
   const night =
     profile.churchLighting === "night" ||
     (profile.churchLighting !== "day" && isEvening(now));
@@ -119,6 +139,28 @@ export default function Home() {
   // The labels are shown one by one each time someone walks in through the
   // doors, and again whenever "Show places" is pressed.
   const touring = tour && focused && !entrance;
+  useEffect(() => {
+    if (entrance || !focused || touring || dismissed) return;
+    const timer = setTimeout(() => setInvitation(true), reduced ? 0 : 1600);
+    return () => clearTimeout(timer);
+  }, [entrance, focused, touring, dismissed, reduced]);
+  useEffect(() => {
+    const animation = Animated.timing(invitationOpacity, {
+      toValue: invitation ? 1 : 0,
+      duration: reduced ? 0 : 500,
+      useNativeDriver: true,
+    });
+    animation.start();
+    return () => animation.stop();
+  }, [invitation, invitationOpacity, reduced]);
+  const dismissInvitation = () => {
+    setInvitation(false);
+    setDismissed(true);
+  };
+  const journal = () => {
+    dismissInvitation();
+    router.push("/(tabs)/diary");
+  };
   // Calm church sound on Home, after the doors, unless muted.
   useEffect(() => {
     if (!entrance && focused && soundOn) startAmbience();
@@ -184,9 +226,45 @@ export default function Home() {
   };
 
   return (
-    <>
-      <Screen>
-        <View style={s.head}>
+    <View style={s.page}>
+      <BlurTargetView ref={blurTarget} style={StyleSheet.absoluteFill}>
+        {!sceneFailed && (
+          <ChurchScene
+            fullScreen
+            places={scenePlaces}
+            night={night}
+            adventWeek={week}
+            litVotives={Math.min(15, BASE_VOTIVES + candles.length)}
+            onPlace={open}
+            accessibilityLabel={t("church")}
+            paused={entrance || details || aboutAdvent}
+            protestant={plain}
+            orthodox={isOrthodox(profile)}
+            candlesAllowed={candlesAllowed}
+            tour={touring}
+            onTourDone={endTour}
+            onFailure={() => setSceneFailed(true)}
+          />
+        )}
+      </BlurTargetView>
+      <View pointerEvents="none" style={s.topShade} />
+      <View
+        pointerEvents="box-none"
+        style={[s.header, { paddingTop: insets.top + 16 }]}
+      >
+        <View style={s.brandRow}>
+          <Ionicons name="leaf-outline" size={24} color="#E6CE99" />
+          <Text style={s.brand}>GRACE &amp; GATHER</Text>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={tr("Account and settings")}
+            onPress={() => router.push("/account")}
+            style={s.profile}
+          >
+            <MemberAvatar />
+          </Pressable>
+        </View>
+        <View style={s.dateRow}>
           <Text style={s.date}>
             {now.toLocaleDateString(profile.language, {
               weekday: "long",
@@ -194,189 +272,221 @@ export default function Home() {
               day: "numeric",
             })}
           </Text>
-          {week > 0 && (
-            <Text style={s.advent}>
-              {t("advent")} {week}
-              {theme}
-            </Text>
-          )}
-          <View style={s.titleRow}>
-            <Text accessibilityRole="header" style={s.title}>
-              {t("welcome")}
-            </Text>
-          </View>
+          <Text style={s.date}>
+            {now.toLocaleTimeString(profile.language, {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
+          </Text>
         </View>
-
-        {!sceneFailed && <Text style={s.hint}>{t("tapAnywhere")}</Text>}
-
-        {!sceneFailed && (
-          <View>
-            <View style={s.tools}>
-              <Pressable
-                accessibilityRole="switch"
-                accessibilityState={{ checked: night }}
-                accessibilityLabel={t("evening")}
-                onPress={() =>
-                  void saveProfile({
-                    ...profile,
-                    churchLighting: night ? "day" : "night",
-                  }).catch(() => {})
-                }
-                style={s.tool}
-              >
-                <Ionicons
-                  name={night ? "moon" : "sunny-outline"}
-                  size={19}
-                  color={colors.ink}
-                />
-              </Pressable>
-              <Pressable
-                accessibilityRole="switch"
-                accessibilityState={{ checked: !!soundOn }}
-                accessibilityLabel={soundOn ? t("soundOn") : t("soundOff")}
-                onPress={toggleSound}
-                style={s.tool}
-              >
-                <Ionicons
-                  name={
-                    soundOn ? "volume-medium-outline" : "volume-mute-outline"
-                  }
-                  size={19}
-                  color={colors.ink}
-                />
-              </Pressable>
-              {!sceneFailed && (
-                <Pressable
-                  accessibilityRole="button"
-                  accessibilityLabel={t("showPlaces")}
-                  onPress={() => setTour(true)}
-                  style={s.tool}
-                >
-                  <Ionicons
-                    name="help-circle-outline"
-                    size={20}
-                    color={colors.ink}
-                  />
-                </Pressable>
-              )}
-            </View>
-            <ChurchScene
-              places={scenePlaces}
-              night={night}
-              adventWeek={week}
-              litVotives={Math.min(15, BASE_VOTIVES + candles.length)}
-              onPlace={open}
-              accessibilityLabel={t("church")}
-              paused={entrance}
-              protestant={plain}
-              orthodox={isOrthodox(profile)}
-              candlesAllowed={candlesAllowed}
-              tour={touring}
-              onTourDone={endTour}
-              onFailure={() => setSceneFailed(true)}
+        <View style={s.tools}>
+          <Pressable
+            accessibilityRole="switch"
+            accessibilityState={{ checked: night }}
+            accessibilityLabel={t("evening")}
+            onPress={() =>
+              void saveProfile({
+                ...profile,
+                churchLighting: night ? "day" : "night",
+              }).catch(() => {})
+            }
+            style={s.tool}
+          >
+            <Ionicons
+              name={night ? "moon" : "sunny-outline"}
+              size={19}
+              color="#FFF8E9"
             />
-            {present !== null && present >= 1 && (
-              <Animated.View
-                pointerEvents="none"
-                accessibilityLiveRegion="polite"
-                style={[s.present, { opacity: presenceOpacity }]}
-              >
-                <View style={s.presentDot} />
-                <Text style={s.presentText}>
-                  {present === 1
-                    ? t("presentAlone")
-                    : t("present").replace("{n}", String(present))}
-                </Text>
-              </Animated.View>
-            )}
-          </View>
-        )}
-
-        <StepCheckIn />
-
-        {week > 0 && aboutAdvent && (
-          <Card tint>
-            <Text style={s.eyebrow}>{t("wreath").toUpperCase()}</Text>
-            <Body>{t("adventAbout")}</Body>
-          </Card>
-        )}
-
-        <Pressable
-          accessibilityRole="button"
-          onPress={() => router.push("/(tabs)/diary")}
-          style={({ pressed }) => [s.tell, pressed && { opacity: 0.9 }]}
-        >
-          <View style={{ flex: 1, gap: 6 }}>
-            <Text style={s.tellTitle}>{t("tellGod")}</Text>
-            <Text style={s.tellSub}>{t("tellGodSub")}</Text>
-          </View>
-          <View style={s.tellArrow}>
-            <Ionicons name="create-outline" size={22} color={colors.white} />
-          </View>
-        </Pressable>
-        {draft.entryId && (
-          <Button
-            secondary
-            title={q(profile.language, "newPage")}
-            onPress={() => {
-              clear();
-              router.push("/(tabs)/diary");
-            }}
-          />
-        )}
-
-        {candlesAllowed && candles.length > 0 && (
+          </Pressable>
+          <Pressable
+            accessibilityRole="switch"
+            accessibilityState={{ checked: !!soundOn }}
+            accessibilityLabel={soundOn ? t("soundOn") : t("soundOff")}
+            onPress={toggleSound}
+            style={s.tool}
+          >
+            <Ionicons
+              name={soundOn ? "volume-medium-outline" : "volume-mute-outline"}
+              size={19}
+              color="#FFF8E9"
+            />
+          </Pressable>
+          {!sceneFailed && (
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={t("showPlaces")}
+              onPress={() => {
+                dismissInvitation();
+                setTour(true);
+              }}
+              style={s.tool}
+            >
+              <Ionicons name="help-circle-outline" size={20} color="#FFF8E9" />
+            </Pressable>
+          )}
           <Pressable
             accessibilityRole="button"
-            onPress={() => router.push("/candle")}
-            style={[s.list, s.row]}
+            accessibilityLabel={tr("Your next step")}
+            onPress={() => setDetails(true)}
+            style={s.tool}
           >
-            <View style={s.flame} />
-            <View style={{ flex: 1 }}>
-              <Text style={s.rowTitle}>
-                {t("youLit")} · {candles.length}
+            <Ionicons
+              name="checkmark-circle-outline"
+              size={20}
+              color="#FFF8E9"
+            />
+          </Pressable>
+        </View>
+        {present !== null && present >= 1 && (
+          <Animated.View
+            pointerEvents="none"
+            style={[s.presence, { opacity: presenceOpacity }]}
+          >
+            <Text style={s.presenceText}>
+              {present === 1
+                ? t("presentAlone")
+                : t("present").replace("{n}", String(present))}
+            </Text>
+          </Animated.View>
+        )}
+      </View>
+      {sceneFailed && (
+        <ScrollView
+          style={[
+            s.fallback,
+            { top: insets.top + 180, bottom: tabHeight + 200 },
+          ]}
+          contentContainerStyle={{ gap: 12 }}
+        >
+          {places.map((place) => (
+            <Button
+              key={place.key}
+              title={place.label}
+              onPress={() => open(place.key)}
+            />
+          ))}
+        </ScrollView>
+      )}
+      <View
+        pointerEvents="box-none"
+        style={[s.promptArea, { bottom: tabHeight + 18 }]}
+      >
+        {invitation && !touring && !entrance && (
+          <Animated.View style={[s.glass, { opacity: invitationOpacity }]}>
+            <BlurView
+              blurTarget={blurTarget}
+              blurMethod="dimezisBlurViewSdk31Plus"
+              intensity={55}
+              tint="dark"
+              style={StyleSheet.absoluteFill}
+            />
+            <ScrollView contentContainerStyle={s.promptContent}>
+              <Text accessibilityRole="header" style={s.promptTitle}>
+                {tr("What would you like to tell God today?")}
               </Text>
-              <Text style={s.rowSub}>{t("burning")}</Text>
-            </View>
-            <Ionicons name="chevron-forward" size={16} color={colors.muted} />
+              <Pressable
+                accessibilityRole="button"
+                onPress={journal}
+                style={s.cta}
+              >
+                <Text style={s.ctaText}>{tr("Talk to God")}</Text>
+              </Pressable>
+              <Pressable
+                accessibilityRole="button"
+                onPress={dismissInvitation}
+                style={s.stay}
+              >
+                <Text style={s.stayText}>{tr("Stay here a little")}</Text>
+              </Pressable>
+            </ScrollView>
+          </Animated.View>
+        )}
+        {!invitation && !entrance && !touring && (
+          <Pressable
+            accessibilityRole="button"
+            onPress={() => setInvitation(true)}
+            style={s.reopen}
+          >
+            <Text style={s.stayText}>{tr("Talk to God")}</Text>
           </Pressable>
         )}
-
-        {sceneFailed && (
-          <View style={s.list} accessibilityRole="list">
-            {places.map((p, i) => (
-              <Pressable
-                key={p.key}
-                accessibilityRole="button"
-                accessibilityLabel={`${p.label}. ${t(p.sub)}`}
-                onPress={() => open(p.key)}
-                style={({ pressed }) => [
-                  s.row,
-                  i < places.length - 1 && s.divider,
-                  pressed && { opacity: 0.7 },
-                ]}
-              >
-                <View style={{ flex: 1 }}>
-                  <Text style={s.rowTitle}>{p.label}</Text>
-                  <Text style={s.rowSub}>{t(p.sub)}</Text>
-                </View>
-                <Ionicons
-                  name="chevron-forward"
-                  size={16}
-                  color={colors.muted}
-                />
-              </Pressable>
-            ))}
+      </View>
+      <Modal
+        visible={details || aboutAdvent}
+        transparent
+        animationType={reduced ? "none" : "fade"}
+        onRequestClose={() => {
+          setDetails(false);
+          setAboutAdvent(false);
+        }}
+      >
+        <View
+          style={[
+            s.modal,
+            { paddingTop: insets.top + 20, paddingBottom: insets.bottom + 20 },
+          ]}
+        >
+          <View style={s.detailCard}>
+            <ScrollView contentContainerStyle={{ gap: 16, padding: 24 }}>
+              <Button
+                secondary
+                title={tr("Close")}
+                onPress={() => {
+                  setDetails(false);
+                  setAboutAdvent(false);
+                }}
+              />
+              {aboutAdvent ? (
+                <>
+                  <Text style={s.detailTitle}>
+                    {t("advent")} {week}
+                    {theme}
+                  </Text>
+                  <Body>{t("adventAbout")}</Body>
+                </>
+              ) : (
+                <>
+                  <StepCheckIn />
+                  <Button
+                    title={tr("Talk to God")}
+                    onPress={() => {
+                      setDetails(false);
+                      journal();
+                    }}
+                  />
+                  {draft.entryId && (
+                    <Button
+                      secondary
+                      title={q(profile.language, "newPage")}
+                      onPress={() => {
+                        setDetails(false);
+                        clear();
+                        journal();
+                      }}
+                    />
+                  )}
+                  {candlesAllowed && candles.length > 0 && (
+                    <Button
+                      secondary
+                      title={`${t("youLit")} · ${candles.length}`}
+                      onPress={() => {
+                        setDetails(false);
+                        router.push("/candle");
+                      }}
+                    />
+                  )}
+                </>
+              )}
+            </ScrollView>
           </View>
-        )}
-      </Screen>
+        </View>
+      </Modal>
       {entrance && (
         <ChurchEntrance
           language={profile.language}
           onEntered={() => {
             markEntered();
             setEntrance(false);
-            // Show where everything is each time someone walks in.
             void storage
               .getItem("church-tour-seen")
               .then((seen) => {
@@ -386,123 +496,130 @@ export default function Home() {
           }}
         />
       )}
-    </>
+    </View>
   );
 }
-
 const s = StyleSheet.create({
-  head: { gap: 6 },
+  page: { flex: 1, backgroundColor: "#211B16" },
+  topShade: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 185,
+    backgroundColor: "rgba(25,21,17,0.34)",
+  },
+  header: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    paddingHorizontal: 20,
+    gap: 14,
+  },
+  brandRow: { flexDirection: "row", alignItems: "center", gap: 10 },
+  brand: {
+    fontSize: 12,
+    letterSpacing: 2.2,
+    color: "#FFF8E9",
+    fontWeight: "700",
+    flex: 1,
+  },
+  profile: {
+    minWidth: 44,
+    minHeight: 44,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  dateRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    gap: 10,
+    flexWrap: "wrap",
+  },
   date: {
     fontSize: 11,
-    letterSpacing: 1.2,
-    textTransform: "uppercase",
-    color: colors.muted,
-  },
-  advent: {
-    fontSize: 11,
-    letterSpacing: 1.6,
-    fontWeight: "700",
-    color: "#5B4780",
+    letterSpacing: 1,
+    color: "#FFF8E9",
     textTransform: "uppercase",
   },
-  titleRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    gap: 12,
-  },
-  title: {
-    fontFamily: serif,
-    fontSize: 32,
-    lineHeight: 38,
-    color: colors.ink,
-    flexShrink: 1,
-  },
-  tools: {
-    position: "absolute",
-    top: 12,
-    right: 12,
-    zIndex: 2,
-    flexDirection: "row",
-    gap: 6,
-  },
-  hint: { fontSize: 14, lineHeight: 20, color: colors.muted, marginTop: -6 },
-  present: {
-    position: "absolute",
-    left: 12,
-    bottom: 12,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-    paddingHorizontal: 12,
-    minHeight: 32,
-    borderRadius: 16,
-    backgroundColor: "rgba(48,44,40,0.78)",
-  },
-  presentDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: "#7FD39A",
-  },
-  presentText: { color: colors.white, fontSize: 13, fontWeight: "600" },
+  tools: { flexDirection: "row", justifyContent: "flex-end", gap: 6 },
   tool: {
     width: 44,
     height: 44,
     borderRadius: 22,
+    backgroundColor: "rgba(35,29,23,0.48)",
+    borderWidth: 1,
+    borderColor: "#FFFFFF35",
     alignItems: "center",
     justifyContent: "center",
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: colors.line,
-    backgroundColor: "rgba(255,252,243,0.72)",
   },
-  tell: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 16,
-    padding: 20,
-    borderRadius: 24,
-    backgroundColor: colors.ink,
-    boxShadow: "0 10px 26px rgba(48,44,40,0.22)",
-  },
-  tellTitle: {
-    fontFamily: serif,
-    fontSize: 22,
-    lineHeight: 29,
-    color: colors.white,
-  },
-  tellSub: { fontSize: 14, lineHeight: 20, color: "#DCD3C4" },
-  tellArrow: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "rgba(255,255,255,0.12)",
-  },
-  eyebrow: {
-    fontSize: 11,
-    letterSpacing: 1.6,
-    fontWeight: "600",
-    color: colors.goldInk,
-  },
-  list: {
-    backgroundColor: colors.white,
+  presence: {
+    alignSelf: "center",
+    backgroundColor: "#302C28B8",
+    paddingHorizontal: 12,
+    paddingVertical: 8,
     borderRadius: 20,
-    paddingHorizontal: 16,
   },
-  row: {
-    flexDirection: "row",
+  presenceText: { fontSize: 12, color: "#FFF8E9", textAlign: "center" },
+  promptArea: {
+    position: "absolute",
+    left: 16,
+    right: 16,
     alignItems: "center",
-    gap: 12,
-    minHeight: 62,
-    paddingVertical: 10,
+    maxHeight: "48%",
   },
-  divider: {
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: colors.cardLine,
+  glass: {
+    width: "100%",
+    maxWidth: 420,
+    borderRadius: 26,
+    borderWidth: 1,
+    borderColor: "#FFF8E945",
+    backgroundColor: "rgba(36,30,24,0.22)",
+    overflow: "hidden",
   },
-  rowTitle: { fontSize: 16, fontWeight: "600", color: colors.ink },
-  rowSub: { fontSize: 13, lineHeight: 18, color: colors.muted, marginTop: 2 },
-  flame: { width: 10, height: 16, borderRadius: 8, backgroundColor: "#F2B451" },
+  promptContent: { padding: 24, gap: 18 },
+  promptTitle: {
+    fontFamily: serif,
+    fontSize: 29,
+    lineHeight: 36,
+    color: "#FFFCF3",
+    textAlign: "center",
+  },
+  cta: {
+    minHeight: 50,
+    padding: 14,
+    backgroundColor: colors.paper,
+    borderRadius: 14,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  ctaText: { fontSize: 16, fontWeight: "600", color: colors.ink },
+  stay: { minHeight: 44, justifyContent: "center", alignItems: "center" },
+  stayText: { fontSize: 14, color: "#FFF8E9", textAlign: "center" },
+  reopen: {
+    minHeight: 48,
+    paddingHorizontal: 24,
+    paddingVertical: 14,
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: "#FFF8E945",
+    backgroundColor: "#302C288C",
+  },
+  fallback: { position: "absolute", left: 20, right: 20 },
+  modal: {
+    flex: 1,
+    justifyContent: "center",
+    padding: 20,
+    backgroundColor: "#0008",
+  },
+  detailCard: {
+    maxHeight: "90%",
+    width: "100%",
+    maxWidth: 560,
+    alignSelf: "center",
+    backgroundColor: colors.paper,
+    borderRadius: 24,
+  },
+  detailTitle: { fontFamily: serif, fontSize: 24, color: colors.ink },
 });

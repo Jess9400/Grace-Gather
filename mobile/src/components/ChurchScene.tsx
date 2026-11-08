@@ -82,6 +82,7 @@ export default function ChurchScene({
   onPlace,
   accessibilityLabel,
   paused = false,
+  fullScreen = false,
   protestant = false,
   candlesAllowed = !protestant,
   orthodox = false,
@@ -96,6 +97,7 @@ export default function ChurchScene({
   onPlace: (place: ChurchPlace) => void;
   accessibilityLabel: string;
   paused?: boolean;
+  fullScreen?: boolean;
   protestant?: boolean;
   candlesAllowed?: boolean;
   orthodox?: boolean;
@@ -468,7 +470,7 @@ export default function ChurchScene({
     <View
       accessibilityRole="none"
       accessibilityLabel={accessibilityLabel}
-      style={styles.stage}
+      style={fullScreen ? styles.fullScreen : styles.stage}
       onLayout={(e) =>
         setSize({
           width: e.nativeEvent.layout.width,
@@ -596,6 +598,11 @@ export default function ChurchScene({
 }
 
 const styles = StyleSheet.create({
+  fullScreen: {
+    position: "absolute", top: 0, bottom: 0, left: 0, right: 0,
+    overflow: "hidden",
+    backgroundColor: "#211B16",
+  },
   stage: {
     width: "100%",
     aspectRatio: 0.82,

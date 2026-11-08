@@ -1208,5 +1208,25 @@
     "pt": "Sua escolha também define a igreja da página inicial. Você pode alterá-la depois nas preferências do perfil.",
     "es": "Tu elección también define la iglesia de Inicio. Puedes cambiarla después en las preferencias del perfil.",
     "ru": "Ваш выбор также определяет храм на главной странице. Его можно изменить в настройках профиля."
+  },
+  "What would you like to tell God today?": {
+    "pt": "O que você gostaria de dizer a Deus hoje?",
+    "es": "¿Qué te gustaría decirle a Dios hoy?",
+    "ru": "Что вы хотели бы сказать Богу сегодня?"
+  },
+  "Talk to God": {
+    "pt": "Falar com Deus",
+    "es": "Hablar con Dios",
+    "ru": "Поговорить с Богом"
+  },
+  "Stay here a little": {
+    "pt": "Ficar aqui um pouco",
+    "es": "Quedarme aquí un poco",
+    "ru": "Побыть здесь немного"
+  },
+  "Your next step": {
+    "pt": "Seu próximo passo",
+    "es": "Tu próximo paso",
+    "ru": "Ваш следующий шаг"
   }
 }
