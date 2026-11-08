@@ -1,3 +1,4 @@
+import { AccountMenuRow } from "../components/AccountMenuContent";
 import Disclosure from "../components/Disclosure";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
 import { useEffect, useState } from "react";
@@ -93,18 +94,9 @@ export default function Profile() {
   }
   return (
     <Screen back>
-      <Button
-        secondary
-        title={tr("Church preferences")}
-        onPress={() => router.push("/practices")}
-      />
       <Heading>{tr("Profile")}</Heading>
       <Notice text={notice} />
-      <Button
-        secondary
-        title={tr("Edit profile and preferences")}
-        onPress={() => router.push("/preferences")}
-      />
+      <AccountMenuRow title={tr("Edit profile and preferences")} route="/preferences" icon="create-outline" />
       <Disclosure title={tr("Privacy and support")}>
         <Button
           secondary
@@ -116,16 +108,8 @@ export default function Profile() {
           url="mailto:hello@graceandgather.com"
         />
       </Disclosure>
-      <Button
-        secondary
-        title={tr("My testimonies")}
-        onPress={() => router.push("/testimonies")}
-      />
-      <Button
-        secondary
-        title={tr("My calendar")}
-        onPress={() => router.push("/my-calendar")}
-      />
+      <AccountMenuRow title={tr("My testimonies")} route="/testimonies" icon="chatbubble-outline" />
+      <AccountMenuRow title={tr("My calendar")} route="/my-calendar" icon="calendar-outline" />
       <Disclosure title={tr("Friends")}>
         <Body>
           {tr(
