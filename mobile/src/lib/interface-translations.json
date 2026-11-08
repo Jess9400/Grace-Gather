@@ -1203,5 +1203,10 @@
     "pt": "Mostrar os espaços da igreja",
     "es": "Mostrarme los espacios de la iglesia",
     "ru": "Показать места в храме"
+  },
+  "Your choice also shapes your Home church. You can change it later in profile preferences.": {
+    "pt": "Sua escolha também define a igreja da página inicial. Você pode alterá-la depois nas preferências do perfil.",
+    "es": "Tu elección también define la iglesia de Inicio. Puedes cambiarla después en las preferencias del perfil.",
+    "ru": "Ваш выбор также определяет храм на главной странице. Его можно изменить в настройках профиля."
   }
 }

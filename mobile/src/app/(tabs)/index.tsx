@@ -20,6 +20,7 @@ import {
   adventWeekFor,
   isEvening,
   isProtestant,
+  isOrthodox,
   welcomesCandles,
 } from "../../lib/church-calendar";
 import { loadCandles, useCandles } from "../../lib/candles";
@@ -268,6 +269,7 @@ export default function Home() {
               accessibilityLabel={t("church")}
               paused={entrance}
               protestant={plain}
+              orthodox={isOrthodox(profile)}
               candlesAllowed={candlesAllowed}
               tour={touring}
               onTourDone={endTour}

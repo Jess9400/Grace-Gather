@@ -84,6 +84,7 @@ export default function ChurchScene({
   paused = false,
   protestant = false,
   candlesAllowed = !protestant,
+  orthodox = false,
   tour = false,
   onTourDone,
   onFailure,
@@ -97,6 +98,7 @@ export default function ChurchScene({
   paused?: boolean;
   protestant?: boolean;
   candlesAllowed?: boolean;
+  orthodox?: boolean;
   tour?: boolean;
   onTourDone?: () => void;
   onFailure?: () => void;
@@ -139,6 +141,7 @@ export default function ChurchScene({
     paused,
     protestant,
     candlesAllowed,
+    orthodox,
   });
   useEffect(() => {
     props.current = {
@@ -149,6 +152,7 @@ export default function ChurchScene({
       paused,
       protestant,
       candlesAllowed,
+      orthodox,
     };
   }, [
     night,
@@ -158,6 +162,7 @@ export default function ChurchScene({
     paused,
     protestant,
     candlesAllowed,
+    orthodox,
   ]);
   const [positions] = useState(() => {
     const map = {} as Record<ChurchPlace, Animated.ValueXY>;
@@ -223,6 +228,7 @@ export default function ChurchScene({
       reduced: still,
       protestant: plain,
       candlesAllowed: showCandles,
+      orthodox: eastern,
     } = props.current;
     const time = still ? 0 : (Date.now() - born.current) / 1000;
     renderer.current?.draw(time, nightLevel.current, view.current, {
@@ -230,6 +236,7 @@ export default function ChurchScene({
       litVotives: lit,
       protestant: plain,
       candlesAllowed: showCandles,
+      orthodox: eastern,
     });
     context.current?.endFrameEXP();
     place();
@@ -320,6 +327,7 @@ export default function ChurchScene({
     paused,
     protestant,
     candlesAllowed,
+    orthodox,
     loop,
   ]);
 

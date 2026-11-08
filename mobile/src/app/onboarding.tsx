@@ -139,6 +139,12 @@ export default function ProfileSetup() {
       {step === 3 && (
         <>
           <Body>{t("pFaithSub")}</Body>
+          <Body small>
+            {interfaceCopy(
+              p.language,
+              "Your choice also shapes your Home church. You can change it later in profile preferences.",
+            )}
+          </Body>
           <Row>
             {["protestant", "catholic", "orthodox"].map((x) => (
               <Chip

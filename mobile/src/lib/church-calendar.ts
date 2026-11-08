@@ -46,3 +46,10 @@ export function isProtestant(profile: Profile) {
 export function welcomesCandles(profile: Profile) {
   return profile.candlePractice ?? !isProtestant(profile);
 }
+
+// Explicit onboarding answer wins; skipping keeps the existing general chapel.
+export function isOrthodox(profile: Profile) {
+  const choice = profile.faithChoice;
+  if (choice === "exploring" || choice === "unspecified") return false;
+  return (choice ?? profile.tradition) === "orthodox";
+}

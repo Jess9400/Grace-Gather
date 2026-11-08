@@ -57,6 +57,7 @@ export type ChurchOptions = {
   litVotives: number;
   protestant?: boolean;
   candlesAllowed?: boolean;
+  orthodox?: boolean;
 };
 
 function sideWindow(mesh: MeshBuilder, x: number, z: number, m: Material) {
@@ -76,6 +77,7 @@ export function buildChurchMesh({
   litVotives,
   protestant = false,
   candlesAllowed = !protestant,
+  orthodox = false,
 }: ChurchOptions) {
   const mesh = new MeshBuilder();
   const stone: Material = { color: [0.78, 0.73, 0.65], kind: KIND.stone };
@@ -87,7 +89,10 @@ export function buildChurchMesh({
   const linen: Material = { color: [0.95, 0.92, 0.86], kind: KIND.cloth };
   const wax: Material = { color: [0.97, 0.94, 0.86], kind: KIND.cloth };
   const flame: Material = { color: [1.0, 0.72, 0.32], kind: KIND.flame };
-  const glass: Material = { color: [1, 1, 1], kind: KIND.glass };
+  const glass: Material = {
+    color: protestant ? [0.78, 0.85, 0.88] : [1, 1, 1],
+    kind: protestant ? KIND.plaster : KIND.glass,
+  };
   const advent = adventWeek > 0;
   const violet: Material = { color: [0.36, 0.25, 0.52], kind: KIND.cloth };
 
@@ -149,17 +154,18 @@ export function buildChurchMesh({
   // Sanctuary: steps, altar with frontal, candlesticks and cross.
   mesh.box(0, FLOOR + 0.1, -5.1, 3.6, 0.2, 2.5, stone);
   mesh.box(0, FLOOR + 0.25, -5.5, 2.8, 0.15, 1.7, stone);
-  mesh.box(0, -0.78, -5.6, 1.7, 0.84, 0.72, linen);
-  mesh.box(
-    0,
-    -0.82,
-    -5.235,
-    0.72,
-    0.66,
-    0.02,
-    advent ? violet : { color: [0.82, 0.62, 0.3], kind: KIND.cloth },
-  );
-  for (const x of [-0.6, 0.6]) {
+  mesh.box(0, -0.78, -5.6, 1.7, 0.84, 0.72, protestant ? wood : linen);
+  if (!protestant)
+    mesh.box(
+      0,
+      -0.82,
+      -5.235,
+      0.72,
+      0.66,
+      0.02,
+      advent ? violet : { color: [0.82, 0.62, 0.3], kind: KIND.cloth },
+    );
+  for (const x of protestant ? [] : [-0.6, 0.6]) {
     mesh.cylinder(x, -5.6, -0.36, -0.16, 0.05, brass, 14, 0.025);
     mesh.cylinder(x, -5.6, -0.16, 0.12, 0.028, wax, 12);
     mesh.cylinder(x, -5.6, 0.13, 0.22, 0.02, flame, 8, 0.0);
@@ -253,7 +259,7 @@ export function buildChurchMesh({
     }
   }
 
-  if (!protestant) {
+  if (!protestant && !orthodox) {
     // Confessional: a wooden booth with a panelled door, grille and curtain.
     const cx = 1.28,
       cz = -4.05;
@@ -389,6 +395,54 @@ export function buildChurchMesh({
         0.025,
         { color: [0.7, 0.1, 0.1], kind: KIND.cloth },
       );
+    }
+  }
+  if (orthodox) {
+    // Simplified original icon-screen geometry, not replicas of sacred artworks.
+    const blue: Material = { color: [0.15, 0.24, 0.36], kind: KIND.cloth };
+    const red: Material = { color: [0.46, 0.15, 0.14], kind: KIND.cloth };
+    const gold: Material = { color: [0.65, 0.47, 0.2], kind: KIND.brass };
+    const skin: Material = { color: [0.6, 0.4, 0.25], kind: KIND.cloth };
+    const disk = (x: number, y: number, z: number, r: number, m: Material) => {
+      for (let i = 0; i < 32; i++) {
+        let a = (i * Math.PI) / 16,
+          b = ((i + 1) * Math.PI) / 16;
+        mesh.triangle(
+          [x, y, z],
+          [x + Math.cos(a) * r, y + Math.sin(a) * r, z],
+          [x + Math.cos(b) * r, y + Math.sin(b) * r, z],
+          m,
+        );
+      }
+    };
+    mesh.box(0, -0.3, -4.95, 3.7, 2.35, 0.16, darkWood);
+    mesh.box(0, 0.92, -4.95, 3.9, 0.16, 0.24, gold);
+    // Central royal doors; icon panels flank the opening.
+    mesh.box(0, -0.49, -4.84, 0.76, 1.93, 0.08, wood);
+    mesh.archRing(0.4, 0.47, 0.39, -1.45, -4.82, -4.75, gold);
+    mesh.box(0, -0.5, -4.76, 0.035, 1.85, 0.035, gold);
+    for (const x of [-1.43, -0.86, 0.86, 1.43]) {
+      mesh.box(x, -0.28, -4.82, 0.49, 1.62, 0.08, gold);
+      mesh.box(x, -0.28, -4.76, 0.42, 1.52, 0.03, blue);
+      disk(x, 0.1, -4.73, 0.17, gold);
+      mesh.triangle(
+        [x, -0.04, -4.7],
+        [x - 0.17, -0.91, -4.7],
+        [x + 0.17, -0.91, -4.7],
+        x < 0 ? red : blue,
+      );
+      disk(x, 0.07, -4.68, 0.09, skin);
+      if (x === -0.86) {
+        disk(x + 0.1, -0.24, -4.65, 0.09, gold);
+        disk(x + 0.1, -0.25, -4.63, 0.05, skin);
+      }
+    }
+    mesh.box(0, 1.17, -4.9, 0.05, 0.43, 0.05, gold);
+    mesh.box(0, 1.24, -4.9, 0.25, 0.045, 0.05, gold);
+    for (const x of [-1.25, 0, 1.25]) {
+      mesh.cylinder(x, -4.5, 0.55, 2.3, 0.009, brass, 8);
+      mesh.cylinder(x, -4.5, 0.42, 0.58, 0.09, brass, 16, 0.045);
+      mesh.cylinder(x, -4.5, 0.48, 0.6, 0.04, flame, 12);
     }
   }
   return mesh.build();
@@ -629,7 +683,7 @@ function buildGlowMesh({
       0.28 + 0.02 * litVotives,
       2,
     );
-  for (const x of [-0.6, 0.6])
+  for (const x of protestant ? [] : [-0.6, 0.6])
     quad([x, 0.2, -5.55], [0.16, 0, 0], [0, 0.16, 0], candle, 0.55, 2);
   if (adventWeek > 0)
     quad(
@@ -763,7 +817,6 @@ export function projectPlaces(
   aspect: number,
   view: ChurchView,
   protestant = false,
-  candlesAllowed = !protestant,
 ) {
   const anchors = placeAnchors(protestant);
   const { matrix } = churchCamera(aspect, view);
@@ -825,7 +878,7 @@ export function createChurchRenderer(
       glowMesh = new Float32Array(0),
       built = "";
     const rebuild = (options: ChurchOptions) => {
-      const key = `${options.adventWeek}:${options.litVotives}:${options.protestant ? 1 : 0}:${options.candlesAllowed ?? !options.protestant}`;
+      const key = `${options.adventWeek}:${options.litVotives}:${options.protestant ? 1 : 0}:${options.candlesAllowed ?? !options.protestant}:${options.orthodox ? 1 : 0}`;
       if (key === built) return;
       built = key;
       mesh = buildChurchMesh(options);
