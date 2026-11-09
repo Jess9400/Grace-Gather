@@ -1,602 +1,319 @@
-import { useInterfaceCopy } from "../../lib/use-interface-copy";
-import { useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import {
   View,
   Text,
-  TextInput,
   Pressable,
-  ScrollView,
-  KeyboardAvoidingView,
+  StyleSheet,
   Platform,
   Modal,
-  StyleSheet,
-  Share,
-  ScrollViewInstance,
+  ScrollView,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { useLocalSearchParams, router } from "expo-router";
+import { router, useLocalSearchParams, type Href } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import {
-  Brand,
-  Glass,
+  Screen,
+  Heading,
   Body,
+  Card,
   Button,
+  Field,
+  Notice,
   colors,
   serif,
 } from "../../components/quiet-ui";
+import { TextAction } from "../../components/CommunityControls";
 import AudioPlayback from "../../components/QuietAudioPlayback";
 import { useApp } from "../../lib/state";
 import { useQuiet } from "../../lib/quiet-state";
-import { copy, data, needsSupport, passagesFor, Mood } from "../../lib/content";
+import { copy, passagesFor } from "../../lib/content";
 import { q } from "../../lib/quiet-copy";
-import { quietMood, selectQuietPassage } from "../../generated/quiet-diary";
-import { aiCopy } from "../../lib/ai-copy";
-import { SmallStepPicker } from "../../components/SmallStep";
-import { churchCopy } from "../../lib/church-copy";
-import { isProtestant, welcomesCandles } from "../../lib/church-calendar";
-interface Turn {
-  text: string;
-  mood: Mood;
-  support: boolean;
-}
+import {
+  collectionFor,
+  ensureCollection,
+  getReadingVerse,
+  type ReadingVerse,
+} from "../../lib/bible";
+import { journalAction, journalTheme } from "../../lib/journal-guidance";
+import { jc, type JournalCopyKey } from "../../lib/journal-copy";
+
+// One submitted page, one approved verse, one invitation. No generated chat thread.
 export default function EntryScreen() {
-  const tr = useInterfaceCopy();
-  const { id } = useLocalSearchParams<{ id: string }>(),
-    { entries, profile } = useApp(),
-    { update } = useQuiet();
-  const entry = entries.find((e) => e.id === id),
-    lang = profile.language,
-    plain = isProtestant(profile);
-  const stream = useRef<ScrollViewInstance>(null),
-    scrollRequested = useRef(false);
-  const [draft, setDraft] = useState(""),
-    [turns, setTurns] = useState<Turn[]>([]),
-    [menu, setMenu] = useState(false),
-    [action, setAction] = useState<"talk" | "kindness" | null>(null),
-    [expanded, setExpanded] = useState(false),
-    [error, setError] = useState(""),
-    [message, setMessage] = useState(
-      tr(
-        "Hey, I’ve had a lot on my mind. Do you have a little time to talk or keep me company?",
-      ),
-    ),
-    [done, setDone] = useState<number[]>([]);
+  const { id } = useLocalSearchParams<{ id: string }>();
+  const { entries, profile, saveEntry } = useApp();
+  const { update } = useQuiet();
+  const entry = entries.find((e) => e.id === id);
+  const [verse, setVerse] = useState<ReadingVerse | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [noteOpen, setNoteOpen] = useState(false);
+  const [note, setNote] = useState("");
+  const [notice, setNotice] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [expanded, setExpanded] = useState(false);
+  const lang = profile.language;
+  useEffect(() => {
+    let active = true;
+    if (!entry) return;
+    const e = entry;
+    async function load() {
+      await Promise.resolve();
+      if (!active) return;
+      setLoading(true);
+      setVerse(null);
+      const theme = journalTheme(e);
+      const collection = collectionFor(e.prefs);
+      let selected: ReadingVerse | null = null;
+      if (collection) {
+        try {
+          await ensureCollection(collection);
+          // Psalm numbering differs across editions; use the edition's curated match
+          // until an explicit cross-edition alias exists, rather than misquote a Psalm.
+          if (
+            !theme.verse.startsWith("PSA.") ||
+            collection === "web" ||
+            collection === "blivre" ||
+            collection === "rv1909"
+          )
+            selected = getReadingVerse(`${collection}:${theme.verse}`);
+        } catch {
+          /* Approved curated fallback below; no invented quotations. */
+        }
+      }
+      const candidates = passagesFor(e.prefs, e.mood);
+      const fallback =
+        candidates.find((v) => e.passageIds?.includes(v.id)) ?? candidates[0];
+      if (!selected && fallback) selected = getReadingVerse(fallback.id);
+      if (active) {
+        setVerse(selected);
+        setLoading(false);
+      }
+    }
+    void load();
+    return () => {
+      active = false;
+    };
+  }, [entry]);
   if (!entry)
     return (
-      <SafeAreaView style={s.safe}>
-        <Button
-          title={q(lang, "home")}
-          onPress={() => router.replace("/(tabs)")}
-        />
+      <Screen back>
         <Body>{copy(lang, "emptySub")}</Body>
-      </SafeAreaView>
+      </Screen>
     );
-  const t = (key: string) => copy(lang, key);
+  const action = journalAction(entry, profile);
+  const actionTitle = jc(lang, action as JournalCopyKey);
   function edit() {
-    if (!entry) return;
     update({
-      text: entry.text,
-      createdAt: entry.createdAt,
-      chosen: entry.feelings ?? {},
-      audio: entry.audio,
-      entryId: entry.id,
+      text: entry!.text,
+      createdAt: entry!.createdAt,
+      chosen: entry!.feelings ?? {},
+      audio: entry!.audio,
+      entryId: entry!.id,
     });
     router.push("/(tabs)/diary");
   }
-  function send() {
-    const text = draft.trim();
-    if (!text) {
-      setError(t("needEntry"));
+  function openAction() {
+    const routes: Record<string, Href> = {
+      A01: "/candle",
+      A21: "/candle",
+      A04: "/(tabs)/confession",
+      A15: "/prayers?compose=1",
+      A16: "/prayers",
+      A18: "/giving",
+      A19: "/explore",
+      A20: "/testimonies/edit",
+      A26: "/study",
+    };
+    if (routes[action]) {
+      router.push(routes[action]);
       return;
     }
-    scrollRequested.current = true;
-    setTurns((previous) => [
-      ...previous,
-      { text, mood: quietMood(text, {}, lang), support: needsSupport(text) },
-    ]);
-    setDraft("");
-    setError("");
+    setNote(entry!.reflection ?? "");
+    setNotice("");
+    setNoteOpen(true);
   }
-  function support() {
-    return (
-      <Glass style={s.response}>
-        <Text accessibilityRole="header" style={s.title}>
-          {t("supportTitle")}
-        </Text>
-        <Body>{t("supportDesc")}</Body>
-        <Body>{t("supportBoundary")}</Body>
-        <Button title={q(lang, "talk")} onPress={() => setAction("talk")} />
-      </Glass>
-    );
-  }
-  function response(mood: Mood, initial = false) {
-    if (!entry) return null;
-    const verse =
-      initial && entry.guidance === "ai"
-        ? passagesFor(entry.prefs, mood).find(
-            (v) => !entry.passageIds || entry.passageIds.includes(v.id),
-          )
-        : selectQuietPassage(data.editions, entry.prefs, mood);
-    return (
-      <View style={s.answer}>
-        {verse ? (
-          <Glass style={s.response}>
-            <Text style={s.reference}>{verse.reference}</Text>
-            <Text selectable style={s.quote}>
-              {verse.text}
-            </Text>
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={`${q(lang, "understand")} ${verse.reference}`}
-              onPress={() =>
-                router.push({
-                  pathname: "/verse/[id]",
-                  params: { id: verse.id },
-                })
-              }
-              style={s.understand}
-            >
-              <Text style={s.control}>{q(lang, "understand")}</Text>
-              <Ionicons name="arrow-forward" size={18} color={colors.ink} />
-            </Pressable>
-            <Text style={s.edition}>{verse.editionName}</Text>
-          </Glass>
-        ) : (
-          <Glass style={s.response}>
-            <Body>{t("unavailable")}</Body>
-            <Button
-              secondary
-              title={t("settings")}
-              onPress={() => router.push("/preferences")}
-            />
-          </Glass>
-        )}
-        <Glass style={s.care}>
-          {(
-            [
-              ["chatbubble-outline", "talk"],
-              ["heart-outline", "kindness"],
-              ["leaf-outline", "giving"],
-            ] as const
-          ).map(([icon, key]) => (
-            <Pressable
-              key={key}
-              accessibilityRole="button"
-              accessibilityLabel={q(lang, key)}
-              onPress={() =>
-                key === "giving" ? router.push("/giving") : setAction(key)
-              }
-              style={s.careButton}
-            >
-              <Ionicons name={icon} size={20} color={colors.goldInk} />
-              <Text style={s.careText}>{q(lang, key)}</Text>
-              <Ionicons name="arrow-forward" size={17} color={colors.ink} />
-            </Pressable>
-          ))}
-          {(
-            [
-              ...(!welcomesCandles(profile) ||
-              !["sad", "grateful"].includes(entry.mood)
-                ? []
-                : ([["flame-outline", "candleAction", "/candle"]] as const)),
-              [
-                "chatbubbles-outline",
-                plain ? "unburdenAction" : "confessionAction",
-                "/(tabs)/confession",
-              ],
-            ] as const
-          ).map(([icon, key, href]) => (
-            <Pressable
-              key={key}
-              accessibilityRole="button"
-              accessibilityLabel={churchCopy(lang, key)}
-              onPress={() => router.push(href)}
-              style={s.careButton}
-            >
-              <Ionicons name={icon} size={20} color={colors.goldInk} />
-              <Text style={s.careText}>{churchCopy(lang, key)}</Text>
-              <Ionicons name="arrow-forward" size={17} color={colors.ink} />
-            </Pressable>
-          ))}
-        </Glass>
-        {initial && <SmallStepPicker entry={entry} />}
-      </View>
-    );
+  async function saveNote() {
+    setBusy(true);
+    setNotice("");
+    try {
+      await saveEntry({ ...entry!, reflection: note }, true);
+      setNoteOpen(false);
+      setNotice(jc(lang, "saved"));
+    } catch {
+      setNotice(copy(lang, "storageError"));
+    } finally {
+      setBusy(false);
+    }
   }
   return (
-    <SafeAreaView style={s.safe} edges={["top", "left", "right", "bottom"]}>
-      <KeyboardAvoidingView
-        style={{ flex: 1 }}
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
-      >
-        <View style={s.header}>
-          <Brand />
-          <View style={s.topline}>
-            <Pressable accessibilityRole="button" onPress={edit} style={s.back}>
-              <Ionicons name="arrow-back" size={18} color={colors.muted} />
-              <Text style={s.control}>{q(lang, "diary")}</Text>
-            </Pressable>
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={tr("Conversation options")}
-              onPress={() => setMenu(true)}
-              style={s.more}
-            >
-              <Ionicons
-                name="ellipsis-horizontal"
-                size={22}
-                color={colors.muted}
-              />
-            </Pressable>
-          </View>
+    <>
+      <Screen back>
+        <View style={s.top}>
+          <Body small>
+            {new Date(entry.createdAt).toLocaleDateString(lang, {
+              month: "long",
+              day: "numeric",
+              year: "numeric",
+            })}
+          </Body>
+          <TextAction
+            title={q(lang, "edit")}
+            icon="create-outline"
+            onPress={edit}
+          />
         </View>
-        <ScrollView
-          ref={stream}
-          onContentSizeChange={() => {
-            if (scrollRequested.current) {
-              scrollRequested.current = false;
-              stream.current?.scrollToEnd({ animated: false });
-            }
-          }}
-          keyboardShouldPersistTaps="handled"
-          contentContainerStyle={s.stream}
+        <Pressable
+          accessibilityRole="button"
+          accessibilityState={{ expanded }}
+          onPress={() => setExpanded(!expanded)}
+          style={s.entry}
         >
-          <Glass style={s.original}>
-            <Text style={s.date}>
-              {new Date(entry.createdAt).toLocaleDateString(lang, {
-                weekday: "long",
-                month: "long",
-                day: "numeric",
-              })}
-            </Text>
-            <Text style={s.dear}>{q(lang, "dear")}</Text>
-            <Text
-              selectable
-              numberOfLines={expanded ? undefined : 8}
-              style={s.writing}
-            >
-              {entry.text ||
-                (entry.audio
-                  ? t("audioEntry")
-                  : Object.keys(entry.feelings ?? {})
-                      .map((key) =>
-                        key === "great"
-                          ? q(lang, "great")
-                          : key === "sad"
-                            ? q(lang, "low")
-                            : t(key),
-                      )
-                      .join(", ") || q(lang, "moment"))}
-            </Text>
-            {entry.text.length > 500 && (
-              <Button
-                secondary
-                title={
-                  expanded ? tr("Fold this page") : tr("Read the full page")
-                }
-                onPress={() => setExpanded(!expanded)}
-              />
-            )}
-            {entry.audio && <AudioPlayback id={entry.audio} language={lang} />}
-            <View style={s.originalBottom}>
-              <Text style={s.date}>
-                {q(lang, entry.sessionOnly ? "visit" : "saved")}
-              </Text>
-              <Pressable
-                accessibilityRole="button"
-                onPress={edit}
-                style={{ paddingVertical: 12 }}
-              >
-                <Text style={s.control}>{q(lang, "edit")}</Text>
-              </Pressable>
-            </View>
-          </Glass>
-          {entry.safety ? support() : response(entry.mood, true)}
-          {turns.map((turn, i) => (
-            <View key={i} style={{ gap: 20, marginTop: 26 }}>
-              <Glass style={s.user}>
-                <Text selectable style={s.followup}>
-                  {turn.text}
-                </Text>
-              </Glass>
-              {turn.support ? support() : response(turn.mood)}
-            </View>
-          ))}
-        </ScrollView>
-        <Glass style={s.composer}>
-          <View style={s.composerRow}>
-            <TextInput
-              accessibilityLabel={q(lang, "next")}
-              value={draft}
-              onChangeText={setDraft}
-              multiline
-              maxLength={3000}
-              placeholder={q(lang, "next")}
-              placeholderTextColor={colors.muted}
-              style={s.input}
+          <Text style={s.dear}>{q(lang, "dear")}</Text>
+          <Text
+            selectable
+            numberOfLines={expanded ? undefined : 3}
+            style={s.writing}
+          >
+            {entry.text || copy(lang, "audioEntry")}
+          </Text>
+          <Ionicons
+            name={expanded ? "chevron-up" : "chevron-down"}
+            size={16}
+            color={colors.muted}
+          />
+        </Pressable>
+        {expanded && entry.audio && (
+          <AudioPlayback id={entry.audio} language={lang} />
+        )}
+        {entry.safety ? (
+          <Card>
+            <Heading>{copy(lang, "supportTitle")}</Heading>
+            <Body>{copy(lang, "supportDesc")}</Body>
+            <Button
+              title={jc(lang, "A07")}
+              onPress={() => {
+                setNote("");
+                setNoteOpen(true);
+              }}
             />
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={tr("Send message")}
-              onPress={send}
-              style={s.send}
-            >
-              <Ionicons name="arrow-up" size={22} color={colors.white} />
-            </Pressable>
-          </View>
-          {!!error && (
-            <Text
-              accessibilityLiveRegion="polite"
-              style={{ color: colors.ink }}
-            >
-              {error}
-            </Text>
-          )}
-          <Text style={s.meta}>{q(lang, "curated")}</Text>
-        </Glass>
-      </KeyboardAvoidingView>
-      <Modal
-        visible={menu || !!action}
-        animationType="slide"
-        transparent
-        onRequestClose={() => {
-          setMenu(false);
-          setAction(null);
-        }}
-      >
-        <View style={s.backdrop}>
-          <Glass style={s.sheet}>
-            <ScrollView contentContainerStyle={{ gap: 18, padding: 24 }}>
-              <Button
-                secondary
-                title={q(lang, "close")}
-                onPress={() => {
-                  setMenu(false);
-                  setAction(null);
-                }}
-              />
-              {menu ? (
+          </Card>
+        ) : (
+          <>
+            <Card>
+              {loading ? (
+                <Body>{copy(lang, "cLoading")}</Body>
+              ) : verse ? (
                 <>
-                  <Button
-                    secondary
-                    title={q(lang, "edit")}
-                    onPress={() => {
-                      setMenu(false);
-                      edit();
-                    }}
-                  />
-                  <Button
-                    secondary
-                    title={t("history")}
-                    onPress={() => {
-                      setMenu(false);
-                      router.push("/history");
-                    }}
-                  />
-                  <Button
-                    secondary
-                    title={q(lang, "tradition")}
-                    onPress={() => {
-                      setMenu(false);
-                      router.push("/preferences");
-                    }}
-                  />
-                  <Button
-                    secondary
-                    title={q(lang, "library")}
-                    onPress={() => {
-                      setMenu(false);
-                      router.push({
-                        pathname: "/library",
-                        params: { mood: entry.mood },
-                      });
-                    }}
-                  />
-                  <Body small>{q(lang, "privacy")}</Body>
-                  <Body small>
-                    {tr(
-                      "Replies use curated passages and limited local matching. They are not a live conversation with a person or AI.",
-                    )}
-                  </Body>
-                  {entry.aiUnavailable && <Body>{aiCopy(lang, "failed")}</Body>}
-                </>
-              ) : action === "talk" ? (
-                <>
-                  <Text style={s.title}>{q(lang, "talk")}</Text>
-                  <TextInput
-                    accessibilityLabel={tr("Your message")}
-                    value={message}
-                    onChangeText={setMessage}
-                    multiline
-                    maxLength={2000}
-                    style={s.message}
-                  />
-                  <Body small>
-                    {tr(
-                      "Nothing is sent automatically. Edit this draft and choose whether to share it.",
-                    )}
-                  </Body>
-                  <Button
-                    title={tr("Share draft")}
+                  <Body small>{verse.reference}</Body>
+                  <Text selectable style={s.verse}>
+                    {verse.text}
+                  </Text>
+                  <TextAction
+                    title={q(lang, "understand")}
+                    icon="arrow-forward"
                     onPress={() =>
-                      void Share.share({ message }).catch(() =>
-                        setError(
-                          tr(
-                            "The share sheet could not open. You can select and copy your message.",
-                          ),
-                        ),
-                      )
+                      router.push({
+                        pathname: "/verse/[id]",
+                        params: { id: verse.id },
+                      })
                     }
                   />
+                  <Body small>{verse.editionName}</Body>
                 </>
               ) : (
-                <>
-                  <Text style={s.title}>{q(lang, "kindness")}</Text>
-                  {[
-                    tr("Send someone a sincere thank-you."),
-                    tr("Offer help with one small, practical task."),
-                    tr("Give yourself a quiet minute. Rest counts, too."),
-                  ].map((text, i) => (
-                    <Pressable
-                      key={text}
-                      accessibilityRole="checkbox"
-                      accessibilityState={{ checked: done.includes(i) }}
-                      onPress={() =>
-                        setDone((previous) =>
-                          previous.includes(i)
-                            ? previous.filter((n) => n !== i)
-                            : [...previous, i],
-                        )
-                      }
-                      style={s.task}
-                    >
-                      <Ionicons
-                        name={done.includes(i) ? "checkbox" : "square-outline"}
-                        size={22}
-                        color={colors.ink}
-                      />
-                      <Text
-                        style={{
-                          color: colors.ink,
-                          fontSize: 17,
-                          flex: 1,
-                          lineHeight: 26,
-                        }}
-                      >
-                        {text}
-                      </Text>
-                    </Pressable>
-                  ))}
-                </>
+                <Body>{copy(lang, "unavailable")}</Body>
               )}
+            </Card>
+            <View style={s.action}>
+              <Body small>{jc(lang, "heading")}</Body>
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel={actionTitle}
+                onPress={openAction}
+                style={s.actionRow}
+              >
+                <Text style={s.actionTitle}>{actionTitle}</Text>
+                <Ionicons name="arrow-forward" size={20} color={colors.ink} />
+              </Pressable>
+            </View>
+            {entry.aiUnavailable && <Body small>{jc(lang, "fallback")}</Body>}
+          </>
+        )}
+        <Notice text={notice} />
+      </Screen>
+      <Modal
+        visible={noteOpen}
+        transparent
+        animationType="slide"
+        onRequestClose={() => setNoteOpen(false)}
+      >
+        <View style={s.backdrop}>
+          <View style={s.sheet}>
+            <ScrollView
+              keyboardShouldPersistTaps="handled"
+              automaticallyAdjustKeyboardInsets={Platform.OS === "ios"}
+              contentContainerStyle={{ gap: 16, padding: 24 }}
+            >
+              <TextAction
+                title={jc(lang, "close")}
+                icon="close"
+                onPress={() => setNoteOpen(false)}
+              />
+              <Heading>{entry.safety ? jc(lang, "A07") : actionTitle}</Heading>
+              <Body>
+                {jc(lang, action === "A05" ? "professional" : "note")}
+              </Body>
+              <Field
+                label={jc(lang, "private")}
+                value={note}
+                onChangeText={setNote}
+                multiline
+                maxLength={3000}
+              />
+              <Notice text={notice} />
+              <Button
+                disabled={busy}
+                title={jc(lang, "save")}
+                onPress={() => void saveNote()}
+              />
             </ScrollView>
-          </Glass>
+          </View>
         </View>
       </Modal>
-    </SafeAreaView>
+    </>
   );
 }
 const s = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: colors.paper },
-  header: {
-    paddingHorizontal: 22,
-    paddingTop: 18,
-    maxWidth: 680,
-    width: "100%",
-    alignSelf: "center",
-  },
-  topline: {
+  top: {
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
-    marginVertical: 10,
+    justifyContent: "space-between",
   },
-  back: { minHeight: 44, flexDirection: "row", alignItems: "center", gap: 9 },
-  more: {
-    padding: 11,
-    borderWidth: 1,
-    borderColor: colors.line,
-    borderRadius: 30,
-  },
-  stream: {
-    padding: 17,
-    paddingBottom: 35,
-    gap: 24,
-    maxWidth: 680,
-    width: "100%",
-    alignSelf: "center",
-  },
-  original: {
-    width: "90%",
-    alignSelf: "flex-end",
-    padding: 22,
-    gap: 14,
-    borderBottomRightRadius: 5,
-  },
-  date: { fontSize: 11, color: colors.muted },
+  entry: { gap: 10, paddingVertical: 12 },
   dear: {
     fontFamily: serif,
     fontSize: 22,
+    color: colors.ink,
     fontStyle: "italic",
+  },
+  writing: { fontSize: 16, lineHeight: 26, color: colors.muted },
+  verse: { fontFamily: serif, fontSize: 27, lineHeight: 41, color: colors.ink },
+  action: {
+    paddingVertical: 18,
+    gap: 8,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: colors.line,
+  },
+  actionRow: {
+    minHeight: 52,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 16,
+  },
+  actionTitle: {
+    fontSize: 18,
+    lineHeight: 27,
     color: colors.ink,
-  },
-  writing: {
-    fontFamily: serif,
-    fontSize: 19,
-    lineHeight: 32,
-    color: colors.ink,
-  },
-  originalBottom: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    borderTopWidth: 1,
-    borderColor: colors.line,
-  },
-  control: { fontSize: 13, color: colors.ink },
-  answer: { gap: 10, width: "96%" },
-  response: { padding: 23, gap: 18, borderTopLeftRadius: 5 },
-  reference: { fontSize: 13, color: colors.goldInk },
-  quote: { fontFamily: serif, fontSize: 25, lineHeight: 40, color: colors.ink },
-  understand: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    minHeight: 46,
-    borderTopWidth: 1,
-    borderColor: colors.line,
-  },
-  edition: { color: colors.muted, fontSize: 10, lineHeight: 16 },
-  care: { marginLeft: 10, paddingHorizontal: 16, borderColor: "#B28A3E50" },
-  careButton: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 10,
-    minHeight: 54,
-    borderBottomWidth: 1,
-    borderColor: "#B28A3E25",
-  },
-  careText: { fontSize: 15, lineHeight: 23, color: colors.ink, flex: 1 },
-  user: {
-    maxWidth: "88%",
-    alignSelf: "flex-end",
-    padding: 20,
-    borderBottomRightRadius: 5,
-  },
-  followup: { fontSize: 17, lineHeight: 29, color: colors.ink },
-  composer: {
-    marginHorizontal: 12,
-    marginBottom: 8,
-    padding: 13,
-    maxWidth: 650,
-    width: "94%",
-    alignSelf: "center",
-    boxShadow: "0px 8px 35px rgba(48,44,40,.08)",
-  },
-  composerRow: { flexDirection: "row", alignItems: "flex-end", gap: 10 },
-  input: {
     flex: 1,
-    fontSize: 16,
-    lineHeight: 25,
-    minHeight: 46,
-    maxHeight: 125,
-    color: colors.ink,
-    padding: 8,
-    textAlignVertical: "top",
-  },
-  send: {
-    width: 44,
-    height: 44,
-    borderRadius: 22,
-    backgroundColor: colors.ink,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  meta: {
-    fontSize: 10,
-    color: colors.muted,
-    paddingHorizontal: 8,
-    marginTop: 5,
+    fontWeight: "500",
   },
   backdrop: {
     flex: 1,
@@ -605,23 +322,11 @@ const s = StyleSheet.create({
   },
   sheet: {
     maxHeight: "85%",
-    maxWidth: 650,
+    backgroundColor: colors.paper,
+    borderTopLeftRadius: 24,
+    borderTopRightRadius: 24,
+    maxWidth: 680,
     width: "100%",
     alignSelf: "center",
-    backgroundColor: "#FFFFFFF5",
-    borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0,
   },
-  title: { fontFamily: serif, fontSize: 28, lineHeight: 36, color: colors.ink },
-  message: {
-    fontSize: 17,
-    lineHeight: 27,
-    padding: 15,
-    minHeight: 130,
-    borderWidth: 1,
-    borderColor: colors.line,
-    borderRadius: 15,
-    color: colors.ink,
-  },
-  task: { flexDirection: "row", gap: 12, alignItems: "center", minHeight: 54 },
 });

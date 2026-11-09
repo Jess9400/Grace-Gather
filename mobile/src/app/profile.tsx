@@ -108,6 +108,11 @@ export default function Profile() {
         icon="chatbubble-outline"
       />
       <AccountMenuRow
+        title={tr("Pay it forward")}
+        route="/giving"
+        icon="heart-outline"
+      />
+      <AccountMenuRow
         title={tr("My calendar")}
         route="/my-calendar"
         icon="calendar-outline"

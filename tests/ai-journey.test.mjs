@@ -16,7 +16,7 @@ test('model cannot inject quotations or select another tradition or language',()
     const prefs={...preferences,scriptureLanguage:edition.language,edition:edition.id,tradition:edition.traditions[0]};
     const result=recommendations({path:'sad',support:false,passageIds:['invented'],quote:'Invented verse'},prefs,catalog);
     assert.ok(result.passageIds.every(id=>edition.passages.some(p=>p.id===id&&p.theme===catalog.PATHS.sad.theme)));
-    assert.deepEqual(result.actionIds,catalog.PATHS.sad.actions.slice(0,3));
+    assert.deepEqual(result.actionIds,catalog.PATHS.sad.actions.slice(0,1));
     assert.equal(result.quote,undefined);
   }
   assert.deepEqual(recommendations({path:'sad',support:false},{...preferences,scriptureLanguage:'pt'},catalog).passageIds,[]);
@@ -31,4 +31,10 @@ test('oversized requests are rejected even without Content-Length',async()=>{
   const request=()=>new Request('http://localhost',{method:'POST',body:'abcdef'});
   await assert.rejects(readBounded(request(),5),/too_large/);
   assert.equal(await (await readBounded(request(),6)).text(),'abcdef');
+});
+
+test('mapped journal returns exactly one verse and one appropriate action',()=>{
+ const result=recommendations({path:'grateful',support:false,themeId:'gratitude',financialStress:true},preferences,catalog);
+ assert.ok(result.passageIds.length<=1);assert.equal(result.actionIds.length,1);assert.notEqual(result.suggestedAction,'A18');
+ assert.throws(()=>recommendations({path:'sad',support:false,themeId:'invented'},preferences,catalog),/invalid_model_response/);
 });

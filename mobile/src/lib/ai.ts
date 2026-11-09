@@ -1,8 +1,9 @@
 import { requireUser } from "./backend";
-import { Preferences } from "./content";
+import { welcomesCandles } from "./church-calendar";
+import { Profile } from "./content";
 import { validateSuggestion } from "./llm-contract";
 import { AI_CONSENT_VERSION } from "./ai-copy";
-export async function suggestJourney(text: string, preferences: Preferences) {
+export async function suggestJourney(text: string, preferences: Profile) {
   const { client } = await requireUser();
   const { data, error } = await client.functions.invoke("llm-journey", {
     body: {
@@ -12,6 +13,7 @@ export async function suggestJourney(text: string, preferences: Preferences) {
         scriptureLanguage: preferences.scriptureLanguage,
         tradition: preferences.tradition,
         edition: preferences.edition,
+        candlePractice: welcomesCandles(preferences),
       },
       consentVersion: AI_CONSENT_VERSION,
     },

@@ -1,3 +1,4 @@
+import journalMap from "../generated/journal-map.json";
 import { Mood, Preferences, data, passagesFor, needsSupport } from "./content";
 export interface JourneyRequest {
   consentVersion: string;
@@ -9,6 +10,8 @@ export interface JourneySuggestion {
   path: Mood;
   passageIds: string[];
   actionIds: string[];
+  themeId?: string;
+  suggestedAction?: string;
 }
 // The provider may select approved identifiers; it cannot invent Bible quotations.
 export function validateSuggestion(
@@ -33,7 +36,40 @@ export function validateSuggestion(
     candidate.actionIds.some((id) => !actions.includes(id))
   )
     throw new Error("Unapproved recommendation");
-  return candidate;
+  if (
+    candidate.themeId !== undefined &&
+    !journalMap.some((t) => t.id === candidate.themeId)
+  )
+    throw new Error("Unapproved theme");
+  if (
+    candidate.suggestedAction !== undefined &&
+    ![
+      "A01",
+      "A02",
+      "A03",
+      "A04",
+      "A05",
+      "A07",
+      "A08",
+      "A09",
+      "A10",
+      "A11",
+      "A12",
+      "A15",
+      "A16",
+      "A18",
+      "A19",
+      "A20",
+      "A21",
+      "A26",
+    ].includes(candidate.suggestedAction)
+  )
+    throw new Error("Unapproved action");
+  return {
+    ...candidate,
+    passageIds: candidate.passageIds.slice(0, 1),
+    actionIds: candidate.actionIds.slice(0, 1),
+  };
 }
 export function maySendToLLM(request: JourneyRequest) {
   return (

@@ -20,6 +20,7 @@ export interface Preferences {
 }
 export interface Profile extends Preferences {
   candlePractice?: boolean;
+  weeklyCheckInAt?: string;
   churchLighting?: "auto" | "day" | "night";
   faithChoice?: Tradition | "exploring" | "unspecified";
   traditionQuestionVersion?: number;
@@ -42,6 +43,8 @@ export interface Entry {
   aiUnavailable?: boolean;
   passageIds?: string[];
   actionIds?: string[];
+  themeId?: string;
+  suggestedAction?: string;
   text: string;
   audio?: string;
   action?: string;
