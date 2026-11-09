@@ -11,16 +11,26 @@ export function journalChatInput(value) {
  if(!Array.isArray(value.previousActions)||value.previousActions.length>40||value.previousActions.some(id=>!CHAT_ACTIONS.includes(id)))throw Error('invalid_entry');
  return {...input,messages,previousActions:[...new Set(value.previousActions)],support:needsSupport(messages.at(-1).content)};
 }
-export function journalChatReply(value,input,catalog) {
- if(!value||typeof value.support!=='boolean')throw Error('invalid_model_response');
+/** @param {(reason: string) => void} [onActionOmitted] */
+export function journalChatReply(value,input,catalog,onActionOmitted=()=>{}) {
+ if(!value||typeof value.support!=='boolean')throw Error('invalid_model_response',{cause:'support'});
  if(value.support) return {support:true,reply:'',actionId:null};
- if(typeof value.reply!=='string'||!value.reply.trim()||value.reply.length>2000)throw Error('invalid_model_response');
+ if(typeof value.reply!=='string'||!value.reply.trim()||value.reply.length>2000)throw Error('invalid_model_response',{cause:'reply'});
  let actionId=null;
  if(value.actionId!=null){
-  if(!CHAT_ACTIONS.includes(value.actionId))throw Error('invalid_model_response');
-  const selection=recommendations({...value,support:false},input.preferences,catalog);
-  actionId=selection.suggestedAction??null;
-  if(input.previousActions.includes(actionId))actionId=null;
+  // An optional malformed suggestion must not discard a valid reflection.
+  // Never guess an action: omit it while retaining strict reply/safety checks.
+  if(!CHAT_ACTIONS.includes(value.actionId))onActionOmitted('action_id');
+  else {
+   try {
+    const selection=recommendations({...value,support:false},input.preferences,catalog);
+    actionId=selection.suggestedAction??null;
+    if(input.previousActions.includes(actionId))actionId=null;
+   }catch(error){
+    if(!(error instanceof Error)||error.message!=='invalid_model_response')throw error;
+    onActionOmitted('action_context');
+   }
+  }
  }
  return {reply:value.reply.trim(),actionId,support:false};
 }
