@@ -21,7 +21,6 @@ import {
   colors,
   serif,
 } from "../../components/quiet-ui";
-import Disclosure from "../../components/Disclosure";
 import ChapterWindow from "../../components/ChapterWindow";
 import {
   getReadingVerse,
@@ -111,6 +110,8 @@ function StudyPage({ id }: { id: string }) {
   const { profile } = useApp(),
     lang = profile.language;
   const [layer, setLayer] = useState<Layer | null>(null);
+  const [chapterOpen, setChapterOpen] = useState(false);
+  const [sourcesOpen, setSourcesOpen] = useState(false);
   const reducedMotion = useReducedMotion();
   const verse = getReadingVerse(id),
     study = lang === "en" ? studyFor(id) : undefined;
@@ -206,6 +207,42 @@ function StudyPage({ id }: { id: string }) {
             <Body>{tr("Publisher note")}</Body>
           )}
           <View style={s.goldLine} />
+          {chapterVerses && (
+            <View>
+              <Pressable
+                accessibilityRole="button"
+                accessibilityState={{ expanded: chapterOpen }}
+                onPress={() => setChapterOpen(!chapterOpen)}
+                style={s.footnoteLink}
+              >
+                <Text style={s.chapterLink}>{tr("Read full chapter")}</Text>
+                <Ionicons
+                  name={chapterOpen ? "chevron-up" : "arrow-forward"}
+                  size={16}
+                  color={colors.goldInk}
+                />
+              </Pressable>
+              {chapterOpen && (
+                <View style={{ gap: 18, paddingTop: 12 }}>
+                  <ChapterWindow
+                    title={`${book?.book.name} ${location?.chapter}`}
+                    verses={chapterVerses}
+                    selectedNumber={selectedNumber}
+                  />
+                  {location && (
+                    <External
+                      title={tr("Chapter source")}
+                      url={chapterSource(
+                        location.code,
+                        location.chapter,
+                        location.collection,
+                      )}
+                    />
+                  )}
+                </View>
+              )}
+            </View>
+          )}
         </View>
         <View style={s.options}>
           {options.map((option) => (
@@ -230,89 +267,53 @@ function StudyPage({ id }: { id: string }) {
             </Pressable>
           ))}
         </View>
-        {chapterVerses && (
-          <Disclosure title={tr("Read the whole chapter")}>
-            <ChapterWindow
-              title={`${book?.book.name} ${location?.chapter}`}
-              verses={chapterVerses}
-              selectedNumber={selectedNumber}
-            />
-            {location && (
-              <External
-                title={tr("Chapter source")}
-                url={chapterSource(
-                  location.code,
-                  location.chapter,
-                  location.collection,
-                )}
-              />
-            )}
-          </Disclosure>
-        )}
         <StudyDiscussionActions id={id} reference={verse.reference} />
         <View style={s.further}>
-          <Text style={s.eyebrow}>{tr("AT YOUR OWN PACE")}</Text>
-          <Disclosure title={tr("Sit with a question")}>
-            <Text style={s.question}>{question}</Text>
-            <Button
-              secondary
-              title={tr("Write in my diary")}
-              onPress={() => router.push("/(tabs)/diary")}
+          <Pressable
+            accessibilityRole="button"
+            accessibilityState={{ expanded: sourcesOpen }}
+            onPress={() => setSourcesOpen(!sourcesOpen)}
+            style={s.footnoteLink}
+          >
+            <Text style={s.footnoteText}>{tr("Sources and study notes")}</Text>
+            <Ionicons
+              name={sourcesOpen ? "chevron-up" : "chevron-down"}
+              size={14}
+              color={colors.muted}
             />
-          </Disclosure>
-          <Disclosure title={q(lang, "library")}>
-            <Button
-              secondary
-              title={tr("Explore Bible study courses")}
-              onPress={() =>
-                router.push({
-                  pathname: "/library",
-                  params: { view: "courses", category: "theology" },
-                })
-              }
-            />
-            <Button
-              secondary
-              title={tr("Browse book suggestions")}
-              onPress={() =>
-                router.push({ pathname: "/library", params: { view: "books" } })
-              }
-            />
-          </Disclosure>
-          {verse.notes.length > 0 && (
-            <Disclosure title={tr("Translation notes")}>
+          </Pressable>
+          {sourcesOpen && (
+            <View style={{ gap: 14 }}>
               {verse.notes.map((note, i) => (
                 <Body small key={i}>
                   {note}
                 </Body>
               ))}
-            </Disclosure>
-          )}
-          <Disclosure title={tr("Sources and study notes")}>
-            <Body small>
-              {study
-                ? tr(
-                    "Editorial reflections are separate from Scripture. They are in English and await theological review. Notes match explicitly identified passages and do not represent approval by a church.",
-                  )
-                : q(lang, "studyLimited")}
-            </Body>
-            {!!psalmNumbering && <Body small>{psalmNumbering}</Body>}
-            <External
-              title={tr("Read the source passage")}
-              url={verse.sourceUrl}
-            />
-            {study?.guide && (
+              <Body small>
+                {study
+                  ? tr(
+                      "Editorial reflections are separate from Scripture. They are in English and await theological review. Notes match explicitly identified passages and do not represent approval by a church.",
+                    )
+                  : q(lang, "studyLimited")}
+              </Body>
+              {!!psalmNumbering && <Body small>{psalmNumbering}</Body>}
               <External
-                title={tr("Further reading at BibleProject")}
-                url={study.guide}
+                title={tr("Read the source passage")}
+                url={verse.sourceUrl}
               />
-            )}
-            <Body small>{verse.attribution}</Body>
-            <External
-              title={tr("License and attribution")}
-              url={verse.licenseUrl}
-            />
-          </Disclosure>
+              {study?.guide && (
+                <External
+                  title={tr("Further reading at BibleProject")}
+                  url={study.guide}
+                />
+              )}
+              <Body small>{verse.attribution}</Body>
+              <External
+                title={tr("License and attribution")}
+                url={verse.licenseUrl}
+              />
+            </View>
+          )}
         </View>
       </ScrollView>
       <Modal
@@ -451,16 +452,25 @@ function StudyDiscussionActions({
   const tr = useInterfaceCopy();
   const { profile } = useApp();
   const { userId } = useCommunity();
+  const [aiOpen, setAiOpen] = useState(false);
   return (
-    <View style={{ gap: 12 }}>
-      <Disclosure title={tr("Discuss with AI")}>
-        <StudyChat
-          key={`${userId}:${id}:${profile.language}:${profile.scriptureLanguage}:${profile.tradition}:${profile.edition}`}
-          initialQuestion={`${reference}: ${tr("What does this passage mean?")}`}
-        />
-      </Disclosure>
-      <Button
-        secondary
+    <View>
+      <StudyAction
+        title={tr("Discuss with AI")}
+        icon="chatbubble-outline"
+        onPress={() => setAiOpen(!aiOpen)}
+        expanded={aiOpen}
+      />
+      {aiOpen && (
+        <View style={{ paddingVertical: 18 }}>
+          <StudyChat
+            key={`${userId}:${id}:${profile.language}:${profile.scriptureLanguage}:${profile.tradition}:${profile.edition}`}
+            initialQuestion={`${reference}: ${tr("What does this passage mean?")}`}
+          />
+        </View>
+      )}
+      <StudyAction
+        icon="people-outline"
         title={tr("Open a public discussion")}
         onPress={() => {
           setStudyDiscussionTopic(reference);
@@ -476,6 +486,39 @@ function StudyDiscussionActions({
         }}
       />
     </View>
+  );
+}
+function StudyAction({
+  title,
+  icon,
+  onPress,
+  expanded,
+}: {
+  title: string;
+  icon: React.ComponentProps<typeof Ionicons>["name"];
+  onPress: () => void;
+  expanded?: boolean;
+}) {
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityState={expanded === undefined ? undefined : { expanded }}
+      onPress={onPress}
+      style={({ pressed }) => [
+        s.option,
+        pressed && { backgroundColor: colors.pale },
+      ]}
+    >
+      <View style={s.optionIcon}>
+        <Ionicons name={icon} size={23} color={colors.goldInk} />
+      </View>
+      <Text style={[s.optionTitle, { flex: 1 }]}>{title}</Text>
+      <Ionicons
+        name={expanded ? "chevron-down" : "chevron-forward"}
+        size={18}
+        color={colors.muted}
+      />
+    </Pressable>
   );
 }
 const s = StyleSheet.create({
@@ -546,7 +589,16 @@ const s = StyleSheet.create({
   },
   optionTitle: { fontSize: 20, lineHeight: 27, color: colors.ink },
   optionHint: { fontSize: 12, lineHeight: 19, color: colors.muted },
-  further: { marginTop: 28, gap: 1 },
+  further: { marginTop: 30, gap: 10 },
+  footnoteLink: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    minHeight: 44,
+    alignSelf: "flex-start",
+  },
+  chapterLink: { fontSize: 13, lineHeight: 20, color: colors.goldInk },
+  footnoteText: { fontSize: 12, lineHeight: 19, color: colors.muted },
   question: {
     fontFamily: serif,
     fontSize: 24,
