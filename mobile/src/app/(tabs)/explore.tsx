@@ -1,5 +1,5 @@
 import { communityCopy } from "../../lib/community-copy";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import { View } from "react-native";
 import {
@@ -16,37 +16,34 @@ import DiscoverPost from "../../components/DiscoverPost";
 import { useApp } from "../../lib/state";
 import { copy } from "../../lib/content";
 import { useDiscover, useInteractions } from "../../lib/discover";
-import { backend } from "../../lib/backend";
+import Community from "../community";
+import { useInterfaceCopy } from "../../lib/use-interface-copy";
 export default function Explore() {
+  const tr = useInterfaceCopy();
   const { profile } = useApp(),
     c = (k: string) => communityCopy(profile.language, k),
     { category: requested } = useLocalSearchParams<{ category?: string }>(),
-    category = requested ?? "all";
+    category =
+      !requested || ["news", "older"].includes(requested) ? "all" : requested;
   const [search, setSearch] = useState(""),
-    [query, setQuery] = useState(""),
-    [newsStatus, setNewsStatus] = useState("");
+    [query, setQuery] = useState("");
   const feed = useDiscover(category, query),
     reactions = useInteractions(feed.items.map((x) => x.id));
-  const reload = useRef(feed.load);
-  useEffect(() => {
-    reload.current = feed.load;
-  }, [feed.load]);
   useEffect(() => {
     const timer = setTimeout(() => setQuery(search), 300);
     return () => clearTimeout(timer);
   }, [search]);
-  useEffect(() => {
-    if (category !== "news" && category !== "older") return;
-    let active = true;
-    void backend?.functions.invoke("news").then(({ data, error }) => {
-      if (!active) return;
-      setNewsStatus(error || data?.stale ? "newsFallback" : "");
-      if (!error) void reload.current();
-    });
-    return () => {
-      active = false;
-    };
-  }, [category]);
+  const sections = (
+    <FilterStrip
+      options={[
+        { value: "all", label: tr("Testimonies & stories") },
+        { value: "discussions", label: tr("Discussions") },
+      ]}
+      value={category === "discussions" ? "discussions" : "all"}
+      onChange={(value) => router.setParams({ category: value, compose: "" })}
+    />
+  );
+  if (category === "discussions") return <Community header={sections} />;
   return (
     <Screen
       headerAction={
@@ -60,6 +57,7 @@ export default function Explore() {
       }
     >
       <Heading>{c("discover")}</Heading>
+      {sections}
       <View
         style={{
           flexDirection: "row",
@@ -85,8 +83,6 @@ export default function Explore() {
           "all",
           "testimonies",
           "stories",
-          "news",
-          "older",
           "music",
           "psalms",
           "prayers",
@@ -98,8 +94,6 @@ export default function Explore() {
             (
               {
                 testimonies: c("testimonies"),
-                news: c("goodNews"),
-                older: c("earlierNews"),
                 saved: c("saved"),
               } as Record<string, string>
             )[value] ?? copy(profile.language, value),
@@ -107,9 +101,7 @@ export default function Explore() {
         value={category}
         onChange={(c) => router.setParams({ category: c })}
       />
-      {category === "news" && <Body small>{c("newsTime")}</Body>}
-      {category === "older" && <Body small>{c("olderTime")}</Body>}
-      <Notice text={feed.error || reactions.error || c(newsStatus)} />
+      <Notice text={feed.error || reactions.error} />
       {!!feed.error && (
         <Button secondary title={c("retry")} onPress={() => void feed.load()} />
       )}
@@ -123,22 +115,13 @@ export default function Explore() {
         <>
           <Body>
             {c(
-              category === "news"
-                ? "noNews"
-                : category === "testimonies"
-                  ? "noTestimonies"
-                  : category === "saved"
-                    ? "noSaved"
-                    : "noStories",
+              category === "testimonies"
+                ? "noTestimonies"
+                : category === "saved"
+                  ? "noSaved"
+                  : "noStories",
             )}
           </Body>
-          {category === "news" && (
-            <Button
-              secondary
-              title={c("browseEarlier")}
-              onPress={() => router.setParams({ category: "older" })}
-            />
-          )}
         </>
       )}
       {feed.more && !feed.loading && (

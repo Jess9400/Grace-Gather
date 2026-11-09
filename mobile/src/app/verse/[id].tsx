@@ -1,3 +1,6 @@
+import StudyChat from "../../components/StudyChat";
+import { useCommunity } from "../../lib/discussion-state";
+import { setStudyDiscussionTopic } from "../../lib/study-discussion-draft";
 import { useInterfaceCopy } from "../../lib/use-interface-copy";
 import { useState, useEffect } from "react";
 import {
@@ -246,20 +249,7 @@ function StudyPage({ id }: { id: string }) {
             )}
           </Disclosure>
         )}
-        <Button
-          secondary
-          title={
-            discussionVerseId(id)
-              ? tr("Discuss this verse")
-              : tr("Explore Community")
-          }
-          onPress={() =>
-            router.push({
-              pathname: "/community",
-              params: { verse: discussionVerseId(id) ?? undefined },
-            })
-          }
-        />
+        <StudyDiscussionActions id={id} reference={verse.reference} />
         <View style={s.further}>
           <Text style={s.eyebrow}>{tr("AT YOUR OWN PACE")}</Text>
           <Disclosure title={tr("Sit with a question")}>
@@ -432,6 +422,11 @@ function StudyPage({ id }: { id: string }) {
                     )
                   : q(lang, "studyLimited")}
               </Body>
+              <StudyDiscussionActions
+                id={id}
+                reference={verse.reference}
+                beforeNavigate={() => setLayer(null)}
+              />
               <Button
                 secondary
                 title={tr("Back to study options")}
@@ -442,6 +437,45 @@ function StudyPage({ id }: { id: string }) {
         </View>
       </Modal>
     </SafeAreaView>
+  );
+}
+function StudyDiscussionActions({
+  id,
+  reference,
+  beforeNavigate,
+}: {
+  id: string;
+  reference: string;
+  beforeNavigate?: () => void;
+}) {
+  const tr = useInterfaceCopy();
+  const { profile } = useApp();
+  const { userId } = useCommunity();
+  return (
+    <View style={{ gap: 12 }}>
+      <Disclosure title={tr("Discuss with AI")}>
+        <StudyChat
+          key={`${userId}:${id}:${profile.language}:${profile.scriptureLanguage}:${profile.tradition}:${profile.edition}`}
+          initialQuestion={`${reference}: ${tr("What does this passage mean?")}`}
+        />
+      </Disclosure>
+      <Button
+        secondary
+        title={tr("Open a public discussion")}
+        onPress={() => {
+          setStudyDiscussionTopic(reference);
+          beforeNavigate?.();
+          router.push({
+            pathname: "/(tabs)/explore",
+            params: {
+              category: "discussions",
+              compose: "1",
+              verse: discussionVerseId(id) ?? undefined,
+            },
+          });
+        }}
+      />
+    </View>
   );
 }
 const s = StyleSheet.create({

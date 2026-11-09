@@ -1509,6 +1509,256 @@
     "es": "Actualizar",
     "ru": "Обновить"
   },
+  "Your language": {
+    "pt": "Seu idioma",
+    "es": "Tu idioma",
+    "ru": "Ваш язык"
+  },
+  "Your tradition": {
+    "pt": "Sua tradição",
+    "es": "Tu tradición",
+    "ru": "Ваша традиция"
+  },
+  "This shapes your church and the Bible you read. You can change it anytime in your profile.": {
+    "pt": "Isso define a sua igreja e a Bíblia que você lê. Você pode mudar quando quiser no seu perfil.",
+    "es": "Esto define tu iglesia y la Biblia que lees. Puedes cambiarlo cuando quieras en tu perfil.",
+    "ru": "От этого зависят ваш храм и Библия, которую вы читаете. Это можно изменить в профиле в любое время."
+  },
+  "This shapes your church and the Bible you read.": {
+    "pt": "Isso define a sua igreja e a Bíblia que você lê.",
+    "es": "Esto define tu iglesia y la Biblia que lees.",
+    "ru": "От этого зависят ваш храм и Библия, которую вы читаете."
+  },
+  "A little about you": {
+    "pt": "Um pouco sobre você",
+    "es": "Un poco sobre ti",
+    "ru": "Немного о вас"
+  },
+  "Both are optional. Your city helps us suggest local ways to help; no precise location is needed.": {
+    "pt": "Ambos são opcionais. Sua cidade nos ajuda a sugerir formas de ajudar perto de você; não precisamos da sua localização exata.",
+    "es": "Ambos son opcionales. Tu ciudad nos ayuda a sugerir formas de ayudar cerca de ti; no necesitamos tu ubicación exacta.",
+    "ru": "Оба поля необязательны. Город помогает подсказать, где можно помочь рядом; точное местоположение не нужно."
+  },
+  "Enter the church": {
+    "pt": "Entrar na igreja",
+    "es": "Entrar en la iglesia",
+    "ru": "Войти в храм"
+  },
+  "Profile and preferences": {
+    "pt": "Perfil e preferências",
+    "es": "Perfil y preferencias",
+    "ru": "Профиль и настройки"
+  },
+  "Your Bible": {
+    "pt": "Sua Bíblia",
+    "es": "Tu Biblia",
+    "ru": "Ваша Библия"
+  },
+  "Location": {
+    "pt": "Localização",
+    "es": "Ubicación",
+    "ru": "Местоположение"
+  },
+  "Email reminders": {
+    "pt": "Lembretes por e-mail",
+    "es": "Recordatorios por correo",
+    "ru": "Напоминания по электронной почте"
+  },
+  "Save changes": {
+    "pt": "Salvar alterações",
+    "es": "Guardar cambios",
+    "ru": "Сохранить изменения"
+  },
+  "Saved.": {
+    "pt": "Salvo.",
+    "es": "Guardado.",
+    "ru": "Сохранено."
+  },
+  "Explore a theme": {
+    "pt": "Explorar um tema",
+    "es": "Explorar un tema",
+    "ru": "Изучить тему"
+  },
+  "Theme or passage": {
+    "pt": "Tema ou passagem",
+    "es": "Tema o pasaje",
+    "ru": "Тема или отрывок"
+  },
+  "Study resources": {
+    "pt": "Recursos de estudo",
+    "es": "Recursos de estudio",
+    "ru": "Материалы для изучения"
+  },
+  "Discussions": {
+    "pt": "Discussões",
+    "es": "Conversaciones",
+    "ru": "Обсуждения"
+  },
+  "Start a discussion": {
+    "pt": "Iniciar uma discussão",
+    "es": "Iniciar un debate",
+    "ru": "Начать обсуждение"
+  },
+  "Start a discussion about this topic": {
+    "pt": "Iniciar uma discussão sobre este tema",
+    "es": "Iniciar un debate sobre este tema",
+    "ru": "Начать обсуждение этой темы"
+  },
+  "No matching theme yet. Try another word or start a discussion.": {
+    "pt": "Nenhum tema encontrado. Tente outra palavra ou inicie uma discussão.",
+    "es": "No se encontró un tema. Prueba otra palabra o inicia un debate.",
+    "ru": "Тема не найдена. Попробуйте другое слово или начните обсуждение."
+  },
+  "Search these curated themes, verse references and passages in your chosen Bible edition. This is not an AI answer or a full-Bible search.": {
+    "pt": "Busque nestes temas selecionados, referências e passagens da edição escolhida. Não é uma resposta de IA nem uma busca na Bíblia inteira.",
+    "es": "Busca en estos temas seleccionados, referencias y pasajes de tu edición. No es una respuesta de IA ni una búsqueda en toda la Biblia.",
+    "ru": "Поиск по подобранным темам, ссылкам и отрывкам выбранного перевода. Это не ответ ИИ и не поиск по всей Библии."
+  },
+  "External resources have their own language, translation and theological perspective. They do not change your selected Bible edition.": {
+    "pt": "Recursos externos têm idioma, tradução e perspectiva teológica próprios. Eles não alteram sua edição da Bíblia.",
+    "es": "Los recursos externos tienen su propio idioma, traducción y perspectiva teológica. No cambian tu edición de la Biblia.",
+    "ru": "У внешних ресурсов свои язык, перевод и богословская перспектива. Они не меняют выбранный перевод Библии."
+  },
+  "Preview discussion": {
+    "pt": "Prévia da discussão",
+    "es": "Vista previa del debate",
+    "ru": "Предпросмотр обсуждения"
+  },
+  "Members can read and share an approved discussion. Your journal is not attached. Publication may require moderation.": {
+    "pt": "Membros podem ler e compartilhar uma discussão aprovada. Seu diário não é anexado. A publicação pode exigir moderação.",
+    "es": "Los miembros pueden leer y compartir un debate aprobado. Tu diario no se adjunta. La publicación puede requerir moderación.",
+    "ru": "Участники могут читать одобренное обсуждение и делиться им. Дневник не прикрепляется. Для публикации может потребоваться модерация."
+  },
+  "STEP Bible · Hebrew / Greek": {
+    "pt": "STEP Bible · Hebraico / Grego",
+    "es": "STEP Bible · Hebreo / Griego",
+    "ru": "STEP Bible · Иврит / Греческий"
+  },
+  "BibleProject · Videos & word studies": {
+    "pt": "BibleProject · Vídeos e estudo de palavras",
+    "es": "BibleProject · Vídeos y estudio de palabras",
+    "ru": "BibleProject · Видео и изучение слов"
+  },
+  "Sign in to start your discussion. Your topic will wait here until you return.": {
+    "pt": "Entre para iniciar sua discussão. Seu tema ficará aqui até você voltar.",
+    "es": "Inicia sesión para comenzar tu conversación. Tu tema te esperará aquí.",
+    "ru": "Войдите, чтобы начать обсуждение. Тема будет ждать вашего возвращения."
+  },
+  "Testimonies & stories": {
+    "pt": "Testemunhos e histórias",
+    "es": "Testimonios e historias",
+    "ru": "Свидетельства и истории"
+  },
+  "Read by chapter": {
+    "pt": "Ler por capítulo",
+    "es": "Leer por capítulo",
+    "ru": "Читать по главам"
+  },
+  "History & biblical languages": {
+    "pt": "História e línguas bíblicas",
+    "es": "Historia y lenguas bíblicas",
+    "ru": "История и библейские языки"
+  },
+  "Explore themes in your chosen Bible edition, ask a question, or read by chapter.": {
+    "pt": "Explore temas na edição bíblica escolhida, faça uma pergunta ou leia por capítulo.",
+    "es": "Explora temas en tu edición bíblica, haz una pregunta o lee por capítulo.",
+    "ru": "Изучайте темы в выбранном переводе Библии, задавайте вопросы или читайте по главам."
+  },
+  "Discuss with AI": {
+    "pt": "Conversar com a IA",
+    "es": "Conversar con IA",
+    "ru": "Обсудить с ИИ"
+  },
+  "Enable study AI": {
+    "pt": "Ativar IA para estudo",
+    "es": "Activar IA de estudio",
+    "ru": "Включить ИИ для изучения"
+  },
+  "Your Bible question": {
+    "pt": "Sua pergunta sobre a Bíblia",
+    "es": "Tu pregunta sobre la Biblia",
+    "ru": "Ваш вопрос о Библии"
+  },
+  "AI study guide": {
+    "pt": "Guia de estudo com IA",
+    "es": "Guía de estudio con IA",
+    "ru": "ИИ-помощник"
+  },
+  "Thinking…": {
+    "pt": "Pensando…",
+    "es": "Pensando…",
+    "ru": "Обдумываю…"
+  },
+  "Ask study AI": {
+    "pt": "Perguntar à IA",
+    "es": "Preguntar a la IA",
+    "ru": "Спросить ИИ"
+  },
+  "Study AI is unavailable. Sign in or try again shortly. Your question is still here.": {
+    "pt": "A IA está indisponível. Entre na conta ou tente novamente em breve. Sua pergunta continua aqui.",
+    "es": "La IA no está disponible. Inicia sesión o inténtalo pronto. Tu pregunta sigue aquí.",
+    "ru": "ИИ недоступен. Войдите в аккаунт или повторите позже. Ваш вопрос сохранён на экране."
+  },
+  "Send your questions and Bible preferences to Alibaba Qwen for study help. AI can make mistakes; check the passages. This conversation is not published.": {
+    "pt": "Envie suas perguntas e preferências bíblicas ao Alibaba Qwen para ajudar no estudo. A IA pode errar; confira as passagens. Esta conversa não é publicada.",
+    "es": "Envía tus preguntas y preferencias bíblicas a Alibaba Qwen para ayudarte a estudiar. La IA puede equivocarse; comprueba los pasajes. Esta conversación no se publica.",
+    "ru": "Отправьте вопросы и библейские настройки в Alibaba Qwen для помощи в изучении. ИИ может ошибаться; проверяйте отрывки. Этот разговор не публикуется."
+  },
+  "BibleProject · Book backgrounds": {
+    "pt": "BibleProject · Contexto dos livros",
+    "es": "BibleProject · Contexto de los libros",
+    "ru": "BibleProject · Контекст библейских книг"
+  },
+  "Grace": {
+    "pt": "Graça",
+    "es": "Gracia",
+    "ru": "Благодать"
+  },
+  "Forgiveness": {
+    "pt": "Perdão",
+    "es": "Perdón",
+    "ru": "Прощение"
+  },
+  "Wisdom": {
+    "pt": "Sabedoria",
+    "es": "Sabiduría",
+    "ru": "Мудрость"
+  },
+  "Hope": {
+    "pt": "Esperança",
+    "es": "Esperanza",
+    "ru": "Надежда"
+  },
+  "Peace": {
+    "pt": "Paz",
+    "es": "Paz",
+    "ru": "Мир"
+  },
+  "Rest": {
+    "pt": "Descanso",
+    "es": "Descanso",
+    "ru": "Покой"
+  },
+  "Love": {
+    "pt": "Amor",
+    "es": "Amor",
+    "ru": "Любовь"
+  },
+  "Gratitude": {
+    "pt": "Gratidão",
+    "es": "Gratitud",
+    "ru": "Благодарность"
+  },
+  "What does this passage mean?": {
+    "pt": "O que significa esta passagem?",
+    "es": "¿Qué significa este pasaje?",
+    "ru": "Что означает этот отрывок?"
+  },
+  "Open a public discussion": {
+    "pt": "Abrir uma discussão pública",
+    "es": "Abrir una discusión pública",
+    "ru": "Начать публичное обсуждение"
+  },
   "Prayer date": {
     "pt": "Data da oração",
     "es": "Fecha de la oración",
