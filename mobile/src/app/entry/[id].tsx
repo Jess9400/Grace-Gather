@@ -1,4 +1,5 @@
 import JournalConversation from "../../components/JournalConversation";
+import JournalActionButton from "../../components/JournalActionButton";
 import { useEffect, useState } from "react";
 import {
   View,
@@ -161,6 +162,7 @@ export default function EntryScreen() {
         key={entry.id}
         entry={entry}
         initialAction={action}
+        initialActionTitle={actionTitle}
         onAction={openAction}
       >
         <View style={s.top}>
@@ -253,18 +255,10 @@ export default function EntryScreen() {
                   ? jc(lang, "hopeIntro")
                   : actionInvitation(lang, action)}
               </Text>
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel={actionTitle}
+              <JournalActionButton
+                title={actionTitle}
                 onPress={() => openAction()}
-                style={({ pressed }) => [
-                  s.actionRow,
-                  pressed && s.actionPressed,
-                ]}
-              >
-                <Text style={s.actionTitle}>{actionTitle}</Text>
-                <Ionicons name="arrow-forward" size={20} color={colors.ink} />
-              </Pressable>
+              />
             </View>
           </>
         )}
@@ -364,24 +358,6 @@ const s = StyleSheet.create({
   action: {
     paddingVertical: 18,
     gap: 12,
-  },
-  actionRow: {
-    minHeight: 56,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 16,
-    paddingHorizontal: 20,
-    paddingVertical: 14,
-    borderRadius: 18,
-    backgroundColor: "#F4EEDF",
-  },
-  actionPressed: { backgroundColor: "#EDE4D1" },
-  actionTitle: {
-    fontSize: 17,
-    lineHeight: 25,
-    color: colors.ink,
-    flex: 1,
-    fontWeight: "500",
   },
   backdrop: {
     flex: 1,

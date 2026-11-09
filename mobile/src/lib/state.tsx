@@ -10,6 +10,7 @@ import { Profile, Entry, initialProfile, normalizeProfile } from "./content";
 import * as storage from "./storage";
 import { savedJournalEntries } from "../generated/quiet-diary";
 import { backend } from "./backend";
+import { JOURNAL_MESSAGE_LIMIT } from "./journal-chat";
 interface State {
   ready: boolean;
   error: string;
@@ -106,7 +107,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       );
       if (!fresh.length) return previous;
       const conversation = [...existing, ...fresh];
-      if (conversation.length > 40) throw Error("conversation_full");
+      if (conversation.length > JOURNAL_MESSAGE_LIMIT)
+        throw Error("conversation_full");
       const updated = { ...previous, conversation };
       const next = entryRef.current.map((e) => (e.id === id ? updated : e));
       await storage.setItem(

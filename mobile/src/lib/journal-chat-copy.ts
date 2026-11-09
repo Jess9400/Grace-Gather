@@ -12,6 +12,24 @@ const words = {
     "Seguir hablando",
     "Продолжить разговор",
   ],
+  reflection: [
+    "Your reflection",
+    "Sua reflexão",
+    "Tu reflexión",
+    "Ваша запись",
+  ],
+  rateLimit: [
+    "AI request limit reached. Your message is saved. Please try again later.",
+    "Limite de solicitações à IA atingido. Sua mensagem foi salva. Tente novamente mais tarde.",
+    "Se alcanzó el límite de solicitudes a la IA. Tu mensaje está guardado. Inténtalo más tarde.",
+    "Достигнут лимит запросов к ИИ. Сообщение сохранено. Попробуйте позже.",
+  ],
+  providerBusy: [
+    "AI is busy right now. Your message is saved. Please try again shortly.",
+    "A IA está ocupada agora. Sua mensagem foi salva. Tente novamente em breve.",
+    "La IA está ocupada ahora. Tu mensaje está guardado. Inténtalo de nuevo en un momento.",
+    "ИИ сейчас занят. Сообщение сохранено. Попробуйте чуть позже.",
+  ],
   close: [
     "Close conversation",
     "Fechar conversa",

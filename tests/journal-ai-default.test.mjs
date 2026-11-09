@@ -36,6 +36,7 @@ test('disabling guidance blocks both journal and chat calls before contacting th
     if (id === './backend') return { requireUser: async () => { authCalls++; throw Error('unexpected_network'); } };
     if (id === './church-calendar') return { welcomesCandles: () => false };
     if (id === './llm-contract') return {};
+    if (id === './ai-error') return {};
     throw Error(id);
   });
   const off = { ...content.initialProfile, journalAIConsentVersion: undefined };

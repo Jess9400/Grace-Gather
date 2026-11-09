@@ -3,6 +3,7 @@ import { welcomesCandles } from "./church-calendar";
 import { Profile } from "./content";
 import { validateSuggestion } from "./llm-contract";
 import { AI_CONSENT_VERSION } from "./ai-copy";
+import { aiRequestError } from "./ai-error";
 export async function suggestJourney(text: string, preferences: Profile) {
   if (preferences.journalAIConsentVersion !== AI_CONSENT_VERSION)
     throw Error("consent_required");
@@ -20,7 +21,7 @@ export async function suggestJourney(text: string, preferences: Profile) {
       consentVersion: AI_CONSENT_VERSION,
     },
   });
-  if (error) throw Error("ai_unavailable");
+  if (error) throw await aiRequestError(error);
   if (typeof data?.support !== "boolean") throw Error("invalid_response");
   if (data.support)
     return {
@@ -57,8 +58,8 @@ export async function continueJournal(
       previousActions,
     },
   });
-  if (error || typeof data?.support !== "boolean")
-    throw Error("ai_unavailable");
+  if (error) throw await aiRequestError(error);
+  if (typeof data?.support !== "boolean") throw Error("ai_unavailable");
   if (data.support) return { content: "", support: true };
   const allowed = [
     "A01",

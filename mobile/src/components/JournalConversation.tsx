@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -7,9 +7,13 @@ import {
   StyleSheet,
   Image,
   Platform,
+  ScrollView,
+  KeyboardAvoidingView,
+  BackHandler,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import type { ReactNode } from "react";
+import type { ComponentRef, ReactNode } from "react";
 import { router } from "expo-router";
 import { randomUUID } from "expo-crypto";
 import { Screen, Notice, colors } from "./quiet-ui";
@@ -22,15 +26,22 @@ import { copy, needsSupport, type Entry } from "../lib/content";
 import { chatCopy } from "../lib/journal-chat-copy";
 import { jc, type JournalCopyKey } from "../lib/journal-copy";
 import { shouldSendJournalKey } from "../lib/journal-composer";
+import {
+  currentJournalAction,
+  JOURNAL_MESSAGE_LIMIT,
+} from "../lib/journal-chat";
+import JournalActionButton from "./JournalActionButton";
 export default function JournalConversation({
   entry,
   initialAction,
+  initialActionTitle,
   onAction,
   children,
 }: {
   children: ReactNode;
   entry: Entry;
   initialAction: string;
+  initialActionTitle: string;
   onAction: (id: string) => void;
 }) {
   const { profile, appendJournalMessages } = useApp();
@@ -40,12 +51,37 @@ export default function JournalConversation({
     [error, setError] = useState("");
   const [focused, setFocused] = useState(false);
   const [needsSignIn, setNeedsSignIn] = useState(false);
+  const [chatOpen, setChatOpen] = useState(false);
+  const thread = useRef<ComponentRef<typeof ScrollView>>(null);
+  const followLatest = useRef(true);
+  const previousOffset = useRef(0);
   const lock = useRef(false);
   const lang = profile.language,
     messages = entry.conversation ?? [];
   const pending = messages.at(-1)?.role === "user";
   const enabled = profile.journalAIConsentVersion === AI_CONSENT_VERSION;
-  const full = messages.length >= 40;
+  const full = messages.length >= JOURNAL_MESSAGE_LIMIT;
+  const latestAction = currentJournalAction(messages, initialAction);
+  useEffect(() => {
+    if (!chatOpen) return;
+    const subscription = BackHandler.addEventListener(
+      "hardwareBackPress",
+      () => {
+        setChatOpen(false);
+        return true;
+      },
+    );
+    return () => subscription.remove();
+  }, [chatOpen]);
+  function openChat() {
+    followLatest.current = true;
+    if (!chatOpen) previousOffset.current = 0;
+    setChatOpen(true);
+  }
+  function openAction(actionId: string) {
+    setChatOpen(false);
+    onAction(actionId);
+  }
   async function send() {
     if (lock.current || full || (!pending && !text.trim())) return;
     if (!backend || !enabled) {
@@ -70,6 +106,7 @@ export default function JournalConversation({
       lock.current = false;
       return;
     }
+    openChat();
     try {
       const history = saved.conversation ?? [];
       const result = needsSupport(history.at(-1)!.content)
@@ -92,7 +129,16 @@ export default function JournalConversation({
       setNeedsSignIn(
         error instanceof Error && error.message.startsWith("Sign in"),
       );
-      setError(chatCopy(lang, "failed"));
+      setError(
+        chatCopy(
+          lang,
+          error instanceof Error && error.message === "rate_limited"
+            ? "rateLimit"
+            : error instanceof Error && error.message === "provider_busy"
+              ? "providerBusy"
+              : "failed",
+        ),
+      );
     } finally {
       setBusy(false);
       lock.current = false;
@@ -101,6 +147,23 @@ export default function JournalConversation({
   const unavailable = full;
   const composer = entry.safety ? undefined : (
     <View style={s.dock}>
+      {chatOpen && latestAction && (
+        <JournalActionButton
+          title={
+            latestAction.messageId
+              ? jc(lang, latestAction.actionId as JournalCopyKey)
+              : initialActionTitle
+          }
+          onPress={() => openAction(latestAction.actionId)}
+        />
+      )}
+      {!chatOpen && messages.length > 0 && (
+        <TextAction
+          title={chatCopy(lang, "open")}
+          icon="chatbubbles-outline"
+          onPress={openChat}
+        />
+      )}
       {details && <Text style={s.meta}>{chatCopy(lang, "privacy")}</Text>}
       <View style={s.chatFrame}>
         <View
@@ -211,46 +274,123 @@ export default function JournalConversation({
       {!!backend && !enabled && (
         <TextAction
           title={chatCopy(lang, "preferences")}
-          onPress={() => router.push("/preferences")}
+          onPress={() => {
+            setChatOpen(false);
+            router.push("/preferences");
+          }}
         />
       )}
       <Notice text={error} />
       {needsSignIn && (
         <TextAction
           title={chatCopy(lang, "signin")}
-          onPress={() => router.push("/profile")}
+          onPress={() => {
+            setChatOpen(false);
+            router.push("/profile");
+          }}
         />
       )}
     </View>
   );
-  return (
-    <Screen back footer={composer} scrollToEndKey={messages.at(-1)?.id}>
-      {children}
-      {!entry.safety && messages.length > 0 && (
-        <View style={s.thread}>
-          {messages.map((m, index) => (
-            <View key={m.id} style={m.role === "user" ? s.user : s.assistant}>
-              <Text style={s.meta}>
-                {chatCopy(lang, m.role === "user" ? "you" : "ai")}
-              </Text>
-              <Text selectable style={s.message}>
-                {m.support ? copy(lang, "supportDesc") : m.content}
-              </Text>
-              {m.actionId && index === messages.length - 1 && !m.support && (
-                <TextAction
-                  title={jc(lang, m.actionId as JournalCopyKey)}
-                  icon="arrow-forward"
-                  onPress={() => onAction(m.actionId!)}
-                />
-              )}
+  if (chatOpen && !entry.safety)
+    return (
+      <SafeAreaView style={s.fill}>
+        <KeyboardAvoidingView
+          style={s.fill}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+        >
+          <View style={s.chatPage}>
+            <View style={s.header}>
+              <TextAction
+                title={chatCopy(lang, "reflection")}
+                icon="chevron-back"
+                onPress={() => setChatOpen(false)}
+              />
+              <Text style={s.meta}>{chatCopy(lang, "ai")}</Text>
             </View>
-          ))}
-        </View>
-      )}
+            <ScrollView
+              ref={thread}
+              style={s.messageViewport}
+              contentContainerStyle={s.thread}
+              keyboardShouldPersistTaps="handled"
+              onScroll={({
+                nativeEvent: { contentOffset, contentSize, layoutMeasurement },
+              }) => {
+                const nearEnd =
+                  contentSize.height -
+                    contentOffset.y -
+                    layoutMeasurement.height <
+                  80;
+                // Content growth also fires scroll events. Only an upward scroll
+                // means the reader chose history instead of following replies.
+                if (nearEnd) followLatest.current = true;
+                else if (contentOffset.y < previousOffset.current - 1)
+                  followLatest.current = false;
+                previousOffset.current = contentOffset.y;
+              }}
+              scrollEventThrottle={32}
+              onContentSizeChange={() => {
+                if (followLatest.current)
+                  thread.current?.scrollToEnd({ animated: false });
+              }}
+              onLayout={() => {
+                if (followLatest.current)
+                  thread.current?.scrollToEnd({ animated: false });
+              }}
+            >
+              {messages.map((m) => (
+                <View
+                  key={m.id}
+                  style={m.role === "user" ? s.user : s.assistant}
+                >
+                  <Text style={s.meta}>
+                    {chatCopy(lang, m.role === "user" ? "you" : "ai")}
+                  </Text>
+                  <Text selectable style={s.message}>
+                    {m.support ? copy(lang, "supportDesc") : m.content}
+                  </Text>
+                  {m.role === "assistant" &&
+                    m.actionId &&
+                    m.id !== latestAction?.messageId &&
+                    !m.support && (
+                      <JournalActionButton
+                        title={jc(lang, m.actionId as JournalCopyKey)}
+                        onPress={() => openAction(m.actionId!)}
+                      />
+                    )}
+                </View>
+              ))}
+            </ScrollView>
+            {composer}
+          </View>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+    );
+  return (
+    <Screen back footer={composer}>
+      {children}
     </Screen>
   );
 }
 const s = StyleSheet.create({
+  fill: { flex: 1, minHeight: 0, backgroundColor: colors.paper },
+  chatPage: {
+    flex: 1,
+    minHeight: 0,
+    width: "100%",
+    maxWidth: 680,
+    alignSelf: "center",
+  },
+  header: {
+    paddingHorizontal: 20,
+    paddingVertical: 8,
+    flexDirection: "row",
+    flexWrap: "wrap",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 8,
+  },
+  messageViewport: { flex: 1, minHeight: 0 },
   dock: {
     paddingHorizontal: 20,
     paddingTop: 4,
@@ -318,7 +458,7 @@ const s = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  thread: { gap: 24, paddingTop: 12 },
+  thread: { gap: 24, padding: 20, paddingBottom: 32 },
   user: {
     alignSelf: "flex-end",
     maxWidth: "88%",
