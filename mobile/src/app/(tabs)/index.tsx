@@ -601,7 +601,7 @@ export default function Home() {
               onPress={() => setInvitation(true)}
               style={s.reopen}
             >
-              <Ionicons name="chatbubble-outline" size={23} color="#FFF8E9" />
+              <Text style={s.stayText}>{tr("Talk to God")}</Text>
             </Pressable>
           )}
         </View>
@@ -915,9 +915,10 @@ const s = StyleSheet.create({
   },
   exploreText: { fontSize: 14, color: "#E6CE99", textAlign: "center" },
   reopen: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    minHeight: 44,
+    paddingHorizontal: 22,
+    paddingVertical: 10,
+    borderRadius: 18,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "rgba(48,44,40,0.45)",
