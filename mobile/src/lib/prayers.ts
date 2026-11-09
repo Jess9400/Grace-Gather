@@ -38,14 +38,14 @@ export function refreshPrayerBadges() {
 }
 export function usePrayerUnread() {
   const { userId } = useCommunity();
-  const [count, setCount] = useState({userId:"", value:0});
+  const [count, setCount] = useState({ userId: "", value: 0 });
   useEffect(() => {
     let active = true;
     if (!userId) return;
     const load = () => {
       if (AppState.currentState !== "active") return;
       void backend?.rpc("prayer_unread").then(({ data, error }) => {
-        if (active && !error) setCount({userId, value:Number(data) || 0});
+        if (active && !error) setCount({ userId, value: Number(data) || 0 });
       });
     };
     load();
@@ -61,7 +61,7 @@ export function usePrayerUnread() {
       sub.remove();
     };
   }, [userId]);
-  return count.userId===userId ? count.value : 0;
+  return count.userId === userId ? count.value : 0;
 }
 export function usePrayers() {
   const { userId } = useCommunity();
@@ -112,12 +112,23 @@ export function usePrayers() {
     setError("");
     try {
       const { client } = await requireUser();
-      const { error } = await client.rpc("prayer_command", {
+      const { data: result, error } = await client.rpc("prayer_command", {
         p_action: action,
         p_id: id,
         p_data: body,
       });
       if (error) throw error;
+      if (action === "create" && result?.id) {
+        // The request is already saved. A failed screen leaves it in manual review;
+        // never treat a screening outage as a failed creation and invite duplicates.
+        try {
+          await client.functions.invoke("prayer-moderate", {
+            body: { postId: result.id },
+          });
+        } catch {
+          /* Pending review remains the safe default. */
+        }
+      }
       await load();
       refreshPrayerBadges();
       return true;
