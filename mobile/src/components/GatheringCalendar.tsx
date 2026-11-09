@@ -5,6 +5,7 @@ import { Subheading, colors } from "./community-ui";
 import { useApp } from "../lib/state";
 import { copy } from "../lib/content";
 import { Gathering } from "../lib/gatherings";
+import { gatheringTheme } from "../lib/gathering-theme";
 export default function GatheringCalendar({
   gatherings,
   selected,
@@ -23,6 +24,13 @@ export default function GatheringCalendar({
   const days = new Date(month.getFullYear(), month.getMonth() + 1, 0).getDate(),
     offset = month.getDay(),
     key = (d: Date) => `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
+  const today = new Date(),
+    todayKey = key(today),
+    todayStart = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate(),
+    ).getTime();
   return (
     <View style={{ gap: 8 }}>
       <View
@@ -75,37 +83,64 @@ export default function GatheringCalendar({
           const day = i - offset + 1;
           if (day < 1) return <View key={i} style={{ width: "14.28%" }} />;
           const d = new Date(month.getFullYear(), month.getMonth(), day),
-            has = gatherings.some((g) => key(new Date(g.starts_at)) === key(d));
+            first = gatherings.find(
+              (g) => key(new Date(g.starts_at)) === key(d),
+            ),
+            has = !!first,
+            on = selected === key(d),
+            isToday = key(d) === todayKey,
+            past = d.getTime() < todayStart;
           return (
-            <Pressable
-              key={i}
-              accessibilityRole="button"
-              accessibilityState={{ selected: selected === key(d) }}
-              accessibilityLabel={d.toLocaleDateString(profile.language)}
-              onPress={() => setSelected(selected === key(d) ? "" : key(d))}
-              style={{
-                width: "14.28%",
-                height: 48,
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: 16,
-                backgroundColor:
-                  selected === key(d)
+            <View key={i} style={{ width: "14.28%", padding: 2 }}>
+              <Pressable
+                accessibilityRole="button"
+                accessibilityState={{ selected: on }}
+                accessibilityLabel={d.toLocaleDateString(profile.language)}
+                onPress={() => setSelected(on ? "" : key(d))}
+                style={{
+                  height: 48,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: 3,
+                  borderRadius: 14,
+                  backgroundColor: on
                     ? colors.green
-                    : has
+                    : isToday
                       ? colors.pale
                       : "transparent",
-              }}
-            >
-              <Text
-                style={{
-                  color: selected === key(d) ? colors.white : colors.ink,
+                  borderWidth: isToday && !on ? 2 : 0,
+                  borderColor: colors.gold,
                 }}
               >
-                {day}
-                {has ? " •" : ""}
-              </Text>
-            </Pressable>
+                <Text
+                  style={{
+                    fontSize: 15,
+                    fontWeight: isToday ? "700" : "500",
+                    color: on
+                      ? colors.white
+                      : past && !has
+                        ? colors.muted
+                        : colors.ink,
+                  }}
+                >
+                  {day}
+                </Text>
+                <View
+                  accessible={false}
+                  style={{
+                    width: 6,
+                    height: 6,
+                    borderRadius: 3,
+                    backgroundColor: first
+                      ? on
+                        ? colors.white
+                        : gatheringTheme(first).accent
+                      : "transparent",
+                    opacity: past && !on ? 0.45 : 1,
+                  }}
+                />
+              </Pressable>
+            </View>
           );
         })}
       </View>
