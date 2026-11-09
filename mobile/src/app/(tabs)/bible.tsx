@@ -6,13 +6,18 @@ import {
   Text,
   TextInput,
   FlatList,
+  Animated,
   Pressable,
   Modal,
   ScrollView,
   StyleSheet,
   useWindowDimensions,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
+import { roomGeometry } from "../../lib/church-room";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { Brand, Body, Button, colors, serif } from "../../components/quiet-ui";
@@ -92,6 +97,12 @@ function BibleReader({ collection }: { collection: CollectionId | null }) {
   }
   const tr = useInterfaceCopy();
   const strip = useRoomStrip("bible");
+  // The church picture folds away as the verses scroll, leaving room to read;
+  // it returns at the top of the chapter.
+  const insets = useSafeAreaInsets();
+  const stripHeight = roomGeometry("bible", insets.top).height;
+  const fold = Math.max(1, stripHeight - insets.top);
+  const [scrollY] = useState(() => new Animated.Value(0));
   const { profile } = useApp(),
     lang = profile.language,
     { height } = useWindowDimensions();
@@ -176,8 +187,33 @@ function BibleReader({ collection }: { collection: CollectionId | null }) {
       style={s.safe}
       edges={strip ? ["left", "right"] : ["top", "left", "right"]}
     >
-      {strip && <ChurchStrip place="bible" />}
-      <View style={[s.header, strip && { marginTop: -16, paddingTop: 0 }]}>
+      {strip && (
+        <Animated.View
+          style={{
+            overflow: "hidden",
+            height: scrollY.interpolate({
+              inputRange: [0, fold],
+              outputRange: [stripHeight, insets.top],
+              extrapolate: "clamp",
+            }),
+          }}
+        >
+          <ChurchStrip place="bible" />
+        </Animated.View>
+      )}
+      <Animated.View
+        style={[
+          s.header,
+          strip && {
+            paddingTop: 0,
+            marginTop: scrollY.interpolate({
+              inputRange: [0, fold],
+              outputRange: [-16, 10],
+              extrapolate: "clamp",
+            }),
+          },
+        ]}
+      >
         {!strip && <Brand />}
         <View style={s.searchBar}>
           <Ionicons
@@ -268,9 +304,14 @@ function BibleReader({ collection }: { collection: CollectionId | null }) {
         <Text style={s.source}>
           {full ? bibleIndex.edition : edition?.scope}
         </Text>
-      </View>
-      <FlatList
+      </Animated.View>
+      <Animated.FlatList
         ref={list}
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { y: scrollY } } }],
+          { useNativeDriver: false },
+        )}
+        scrollEventThrottle={16}
         data={full ? rows : curated}
         keyExtractor={(v) => v.id}
         initialNumToRender={3}
