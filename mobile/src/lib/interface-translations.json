@@ -1803,5 +1803,10 @@
     "pt": "Seu tema, motivo e nome de exibição são analisados pelo Alibaba Qwen. Pedidos aprovados são compartilhados; os demais aguardam revisão. Pedidos anônimos permanecem vinculados à sua conta. Evite divulgar dados privados de outras pessoas.",
     "es": "Alibaba Qwen revisa tu tema, motivo y nombre visible. Las peticiones aprobadas se comparten; las demás esperan revisión. Las peticiones anónimas siguen vinculadas a tu cuenta. Evita compartir datos privados de otras personas.",
     "ru": "Alibaba Qwen проверяет тему, причину и отображаемое имя. Одобренные просьбы публикуются, остальные ожидают проверки модератора. Анонимные просьбы остаются связаны с вашим аккаунтом. Не раскрывайте чужие личные данные."
+  },
+  "No verified Bible for this tradition in this language yet. You can choose another Bible language later in your profile.": {
+    "pt": "Ainda não há uma Bíblia verificada desta tradição neste idioma. Você pode escolher outro idioma da Bíblia depois, no seu perfil.",
+    "es": "Todavía no hay una Biblia verificada de esta tradición en este idioma. Puedes elegir otro idioma de la Biblia más tarde en tu perfil.",
+    "ru": "Пока нет проверенной Библии этой традиции на этом языке. Позже в профиле можно выбрать другой язык Библии."
   }
 }
