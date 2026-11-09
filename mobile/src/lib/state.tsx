@@ -17,6 +17,10 @@ interface State {
   entries: Entry[];
   saveProfile: (p: Profile) => Promise<void>;
   saveEntry: (e: Entry, keep?: boolean) => Promise<void>;
+  appendJournalMessages: (
+    id: string,
+    messages: import("./content").JournalMessage[],
+  ) => Promise<Entry>;
   deleteEntry: (id: string) => Promise<void>;
   reset: () => Promise<void>;
 }
@@ -89,6 +93,36 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     writes.current = task.catch(() => {});
     return task;
   }
+  async function appendJournalMessages(
+    id: string,
+    messages: import("./content").JournalMessage[],
+  ) {
+    const task = writes.current.then(async () => {
+      const previous = entryRef.current.find((e) => e.id === id);
+      if (!previous) throw Error("entry_not_found");
+      const existing = previous.conversation ?? [];
+      const fresh = messages.filter(
+        (m) => !existing.some((saved) => saved.id === m.id),
+      );
+      if (!fresh.length) return previous;
+      const conversation = [...existing, ...fresh];
+      if (conversation.length > 40) throw Error("conversation_full");
+      const updated = { ...previous, conversation };
+      const next = entryRef.current.map((e) => (e.id === id ? updated : e));
+      await storage.setItem(
+        "entries",
+        JSON.stringify(savedJournalEntries(next)),
+      );
+      entryRef.current = next;
+      setEntries(next);
+      return updated;
+    });
+    writes.current = task.then(
+      () => {},
+      () => {},
+    );
+    return task;
+  }
   async function deleteEntry(id: string) {
     const task = writes.current.then(async () => {
       const entry = entryRef.current.find((e) => e.id === id);
@@ -123,6 +157,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         entries,
         saveProfile,
         saveEntry,
+        appendJournalMessages,
         deleteEntry,
         reset,
       }}

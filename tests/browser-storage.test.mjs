@@ -22,7 +22,7 @@ test('browser profile, journal and login email survive reopening and stay encryp
   const factory = new IDBFactory();
   const first = createWebVault(factory, webcrypto);
   const profile = JSON.stringify({ name: 'Preview reader', language: 'pt', city: 'São Paulo' });
-  const entries = JSON.stringify([{ text: 'Um momento de paz. Спасибо.' }]);
+  const entries = JSON.stringify([{ text: 'Um momento de paz. Спасибо.', conversation: [{id:'message-1',role:'user',content:'That did not help.'},{id:'message-2',role:'assistant',content:'What felt missing?',actionId:'A09'}] }]);
   await first.setItem('profile', profile);
   await first.setItem('entries', entries);
   await first.setItem('auth-email', 'preview@example.com');

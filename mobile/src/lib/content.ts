@@ -34,7 +34,15 @@ export interface Profile extends Preferences {
   emailConsent: boolean;
   onboarded: boolean;
 }
+export interface JournalMessage {
+  id: string;
+  role: "user" | "assistant";
+  content: string;
+  actionId?: string;
+  support?: boolean;
+}
 export interface Entry {
+  conversation?: JournalMessage[];
   id: string;
   createdAt: string;
   mood: Mood;

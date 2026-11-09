@@ -13,7 +13,7 @@ import { suggestJourney } from "../lib/ai";
 import { transcribeRecording } from "../lib/ai-audio";
 import { aiCopy, AI_CONSENT_VERSION } from "../lib/ai-copy";
 export default function Diary() {
-  const { profile, saveEntry } = useApp(),
+  const { profile, saveEntry, entries } = useApp(),
     { draft, update } = useQuiet();
   const [busy, setBusy] = useState(false),
     [recording, setRecording] = useState(false),
@@ -42,6 +42,8 @@ export default function Diary() {
       createdAt: draft.createdAt,
       text: draft.text,
       audio: draft.audio,
+      conversation: entries.find((e) => e.id === draft.entryId)?.conversation,
+      reflection: entries.find((e) => e.id === draft.entryId)?.reflection,
       mood,
       guidance: Object.keys(draft.chosen).length ? "selected" : "local",
       feelings: { ...draft.chosen },

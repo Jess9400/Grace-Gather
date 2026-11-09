@@ -1,3 +1,4 @@
+import JournalConversation from "../../components/JournalConversation";
 import { useEffect, useState } from "react";
 import {
   View,
@@ -40,7 +41,7 @@ import {
   type JournalCopyKey,
 } from "../../lib/journal-copy";
 
-// One submitted page, one approved verse, one invitation. No generated chat thread.
+// One verse and one invitation first; conversation is explicitly opened.
 export default function EntryScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { entries, profile, saveEntry } = useApp();
@@ -49,6 +50,7 @@ export default function EntryScreen() {
   const [verse, setVerse] = useState<ReadingVerse | null>(null);
   const [loading, setLoading] = useState(true);
   const [noteOpen, setNoteOpen] = useState(false);
+  const [noteAction, setNoteAction] = useState<string>();
   const [note, setNote] = useState("");
   const [notice, setNotice] = useState("");
   const [busy, setBusy] = useState(false);
@@ -119,7 +121,8 @@ export default function EntryScreen() {
     });
     router.push("/(tabs)/diary");
   }
-  function openAction() {
+  function openAction(selectedAction = action) {
+    setNoteAction(selectedAction);
     const routes: Record<string, Href> = {
       A01: "/candle",
       A21: "/candle",
@@ -131,8 +134,8 @@ export default function EntryScreen() {
       A20: "/testimonies/edit",
       A26: "/study",
     };
-    if (routes[action]) {
-      router.push(routes[action]);
+    if (routes[selectedAction]) {
+      router.push(routes[selectedAction]);
       return;
     }
     setNote(entry!.reflection ?? "");
@@ -248,7 +251,7 @@ export default function EntryScreen() {
               <Pressable
                 accessibilityRole="button"
                 accessibilityLabel={actionTitle}
-                onPress={openAction}
+                onPress={() => openAction()}
                 style={s.actionRow}
               >
                 <Text style={s.actionTitle}>{actionTitle}</Text>
@@ -259,6 +262,14 @@ export default function EntryScreen() {
               <Body small>{jc(lang, "curated")}</Body>
             )}
           </>
+        )}
+        {!entry.safety && (
+          <JournalConversation
+            key={entry.id}
+            entry={entry}
+            initialAction={action}
+            onAction={openAction}
+          />
         )}
         <Notice text={notice} />
       </Screen>
@@ -280,13 +291,19 @@ export default function EntryScreen() {
                 icon="close"
                 onPress={() => setNoteOpen(false)}
               />
-              <Heading>{entry.safety ? jc(lang, "A07") : actionTitle}</Heading>
+              <Heading>
+                {entry.safety
+                  ? jc(lang, "A07")
+                  : noteAction && noteAction !== action
+                    ? jc(lang, noteAction as JournalCopyKey)
+                    : actionTitle}
+              </Heading>
               <Body>
                 {jc(
                   lang,
-                  hopeReflection
+                  hopeReflection && (!noteAction || noteAction === action)
                     ? "hopeNote"
-                    : action === "A05"
+                    : (noteAction ?? action) === "A05"
                       ? "professional"
                       : "note",
                 )}
