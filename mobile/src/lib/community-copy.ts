@@ -1,6 +1,96 @@
 import { Language } from "./content";
 // New community UI copy; authored stories keep their original language.
 const words: Record<string, string[]> = {
+  confirmCancel: [
+    "Confirm cancellation",
+    "Confirmar cancelamento",
+    "Confirmar cancelación",
+    "Подтвердить отмену",
+  ],
+  keepSession: [
+    "Keep session",
+    "Manter sessão",
+    "Mantener sesión",
+    "Сохранить встречу",
+  ],
+
+  gatheringsNotConnected: [
+    "This preview is not connected to the gathering service.",
+    "Esta prévia não está conectada ao serviço de encontros.",
+    "Esta vista previa no está conectada al servicio de encuentros.",
+    "Предпросмотр не подключён к сервису встреч.",
+  ],
+  reloadSessions: [
+    "Reload sessions",
+    "Recarregar sessões",
+    "Recargar sesiones",
+    "Обновить встречи",
+  ],
+  repeat: ["Repeat", "Repetir", "Repetir", "Повтор"],
+  doesNotRepeat: ["One session", "Uma sessão", "Una sesión", "Одна встреча"],
+  weekly: ["Weekly", "Semanal", "Semanal", "Еженедельно"],
+  sessionCount: [
+    "Number of sessions (2–52)",
+    "Número de sessões (2–52)",
+    "Número de sesiones (2–52)",
+    "Количество встреч (2–52)",
+  ],
+  weeklyNote: [
+    "Repeats on the first session’s weekday, at the same local time. Reserve each session you plan to attend.",
+    "Repete no dia da semana da primeira sessão, no mesmo horário local. Reserve cada sessão de que deseja participar.",
+    "Se repite el día de la semana de la primera sesión, a la misma hora local. Reserva cada sesión a la que quieras asistir.",
+    "Повторяется в день недели первой встречи, в то же местное время. Записывайтесь на каждую встречу отдельно.",
+  ],
+  gatheringReminderNote: [
+    "Hosts and registered attendees receive an in-app reminder 24 hours before each session. If you book later, it arrives shortly after booking.",
+    "Anfitriões e inscritos recebem um lembrete no app 24 horas antes de cada sessão. Inscrições posteriores recebem o aviso logo após a reserva.",
+    "Anfitriones e inscritos reciben un recordatorio en la app 24 horas antes de cada sesión. Si reservas después, llegará poco después de reservar.",
+    "Ведущие и участники получают уведомление в приложении за 24 часа. При поздней записи оно придёт вскоре после бронирования.",
+  ],
+  gatheringReminders: [
+    "Gathering reminders",
+    "Lembretes de encontros",
+    "Recordatorios de encuentros",
+    "Напоминания о встречах",
+  ],
+  sessionSoon: [
+    "Your gathering is coming up",
+    "Seu encontro está chegando",
+    "Tu encuentro se acerca",
+    "Скоро ваша встреча",
+  ],
+  noGatheringReminders: [
+    "No gathering reminders yet.",
+    "Nenhum lembrete de encontro ainda.",
+    "Aún no hay recordatorios de encuentros.",
+    "Пока нет напоминаний о встречах.",
+  ],
+  remindersLoadError: [
+    "Could not load gathering reminders.",
+    "Não foi possível carregar os lembretes.",
+    "No se pudieron cargar los recordatorios.",
+    "Не удалось загрузить напоминания.",
+  ],
+  markRead: [
+    "Mark read",
+    "Marcar como lido",
+    "Marcar como leído",
+    "Отметить прочитанным",
+  ],
+  cancelSession: [
+    "Cancel this session",
+    "Cancelar esta sessão",
+    "Cancelar esta sesión",
+    "Отменить эту встречу",
+  ],
+  cancelSeries: [
+    "Cancel remaining sessions",
+    "Cancelar sessões restantes",
+    "Cancelar sesiones restantes",
+    "Отменить оставшиеся встречи",
+  ],
+  cancelled: ["Cancelled", "Cancelado", "Cancelado", "Отменено"],
+
   searchSessions: [
     "Search sessions, themes and hosts",
     "Buscar sessões, temas e anfitriões",

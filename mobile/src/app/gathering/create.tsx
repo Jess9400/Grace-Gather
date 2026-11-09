@@ -24,6 +24,8 @@ export default function CreateGathering() {
     [name, setName] = useState(profile.name),
     [language, setLanguage] = useState<Language>(profile.language),
     [now, setNow] = useState(false),
+    [weekly, setWeekly] = useState(false),
+    [occurrences, setOccurrences] = useState("8"),
     [date, setDate] = useState(""),
     [time, setTime] = useState(""),
     [zone, setZone] = useState(
@@ -56,6 +58,8 @@ export default function CreateGathering() {
         visibility,
         capacity: Number(capacity),
         minutes: Number(minutes),
+        repeat: !now && weekly ? "weekly" : "none",
+        occurrences: !now && weekly ? Number(occurrences) : 1,
       });
       router.replace({
         pathname: "/gathering/[id]",
@@ -126,6 +130,31 @@ export default function CreateGathering() {
       {!configured && <Body small>{c("audioSetupNote")}</Body>}
       {!now && (
         <>
+          <Body small>{c("repeat")}</Body>
+          <Row>
+            <Chip
+              title={c("doesNotRepeat")}
+              selected={!weekly}
+              onPress={() => setWeekly(false)}
+            />
+            <Chip
+              title={c("weekly")}
+              selected={weekly}
+              onPress={() => setWeekly(true)}
+            />
+          </Row>
+          {weekly && (
+            <>
+              <Field
+                label={c("sessionCount")}
+                value={occurrences}
+                onChangeText={setOccurrences}
+                keyboardType="number-pad"
+                maxLength={2}
+              />
+              <Body small>{c("weeklyNote")}</Body>
+            </>
+          )}
           <Field
             label={c("dateFormat")}
             value={date}
@@ -183,6 +212,7 @@ export default function CreateGathering() {
         keyboardType="number-pad"
         maxLength={3}
       />
+      <Body small>{c("gatheringReminderNote")}</Body>
       <Button
         title={c("createGathering")}
         disabled={
@@ -195,7 +225,12 @@ export default function CreateGathering() {
           Number(capacity) < 2 ||
           Number(capacity) > 100 ||
           Number(minutes) < 15 ||
-          Number(minutes) > 180
+          Number(minutes) > 180 ||
+          (!now &&
+            weekly &&
+            (!Number.isInteger(Number(occurrences)) ||
+              Number(occurrences) < 2 ||
+              Number(occurrences) > 52))
         }
         onPress={() => void create()}
       />
