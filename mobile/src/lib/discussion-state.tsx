@@ -21,7 +21,7 @@ import {
   type DiscussionAction,
 } from "./discussion-model";
 const demo = process.env.EXPO_PUBLIC_COMMUNITY_DEMO === "true" && !backend;
-// The server owns the emergency off-switch; failures leave submissions pending.
+// Every new submission is screened; server failures leave it pending.
 const automatic = true;
 const empty = (): DiscussionState => ({
   topics: [],
