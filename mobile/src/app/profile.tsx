@@ -1,3 +1,4 @@
+import { friendCopy } from "../lib/friends-copy";
 import { AccountMenuRow } from "../components/AccountMenuContent";
 import Disclosure from "../components/Disclosure";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
@@ -96,7 +97,11 @@ export default function Profile() {
     <Screen back>
       <Heading>{tr("Profile")}</Heading>
       <Notice text={notice} />
-      <AccountMenuRow title={tr("Edit profile and preferences")} route="/preferences" icon="create-outline" />
+      <AccountMenuRow
+        title={tr("Edit profile and preferences")}
+        route="/preferences"
+        icon="create-outline"
+      />
       <Disclosure title={tr("Privacy and support")}>
         <Button
           secondary
@@ -108,20 +113,21 @@ export default function Profile() {
           url="mailto:hello@graceandgather.com"
         />
       </Disclosure>
-      <AccountMenuRow title={tr("My testimonies")} route="/testimonies" icon="chatbubble-outline" />
-      <AccountMenuRow title={tr("My calendar")} route="/my-calendar" icon="calendar-outline" />
-      <Disclosure title={tr("Friends")}>
-        <Body>
-          {tr(
-            "Friends are not available yet. You can join conversations in Community.",
-          )}
-        </Body>
-        <Button
-          secondary
-          title={tr("Community")}
-          onPress={() => router.push("/community")}
-        />
-      </Disclosure>
+      <AccountMenuRow
+        title={tr("My testimonies")}
+        route="/testimonies"
+        icon="chatbubble-outline"
+      />
+      <AccountMenuRow
+        title={tr("My calendar")}
+        route="/my-calendar"
+        icon="calendar-outline"
+      />
+      <AccountMenuRow
+        title={friendCopy(profile.language, "Friends & chats")}
+        route="/friends"
+        icon="people-outline"
+      />
       <Disclosure title={l("account")} initiallyOpen={!signedIn}>
         <Card>
           <Subheading>{signedIn ? l("welcomeBack") : l("signIn")}</Subheading>

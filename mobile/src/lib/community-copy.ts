@@ -1,6 +1,20 @@
 import { Language } from "./content";
 // New community UI copy; authored stories keep their original language.
 const words: Record<string, string[]> = {
+  searchSessions: [
+    "Search sessions, themes and hosts",
+    "Buscar sessões, temas e anfitriões",
+    "Buscar sesiones, temas y anfitriones",
+    "Поиск встреч, тем и ведущих",
+  ],
+  privateChats: [
+    "Private chats",
+    "Conversas privadas",
+    "Chats privados",
+    "Личные чаты",
+  ],
+  previousPage: ["Previous", "Anterior", "Anterior", "Назад"],
+  nextPage: ["Next", "Próxima", "Siguiente", "Далее"],
   discover: ["Discover", "Descobrir", "Descubrir", "Обзор"],
   testimonies: ["Testimonies", "Testemunhos", "Testimonios", "Свидетельства"],
   saved: ["Saved", "Salvos", "Guardados", "Сохранённое"],

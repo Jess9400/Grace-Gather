@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { View, Text, Pressable } from "react-native";
-import { Disclosure, TextAction } from "./CommunityControls";
+import { TextAction } from "./CommunityControls";
 import { Subheading, colors } from "./community-ui";
 import { useApp } from "../lib/state";
 import { copy } from "../lib/content";
-import { designCopy } from "../lib/design-copy";
 import { Gathering } from "../lib/gatherings";
 export default function GatheringCalendar({
   gatherings,
@@ -17,8 +16,6 @@ export default function GatheringCalendar({
 }) {
   const { profile } = useApp(),
     t = (k: string) => copy(profile.language, k),
-    d = (k: Parameters<typeof designCopy>[1]) =>
-      designCopy(profile.language, k),
     setSelected = onSelect;
   const [month, setMonth] = useState(
     () => new Date(new Date().getFullYear(), new Date().getMonth(), 1),
@@ -27,7 +24,7 @@ export default function GatheringCalendar({
     offset = month.getDay(),
     key = (d: Date) => `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`;
   return (
-    <Disclosure title={d("calendar")}>
+    <View style={{ gap: 8 }}>
       <View
         style={{
           flexDirection: "row",
@@ -112,6 +109,6 @@ export default function GatheringCalendar({
           );
         })}
       </View>
-    </Disclosure>
+    </View>
   );
 }
