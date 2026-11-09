@@ -1508,5 +1508,35 @@
     "pt": "Atualizar",
     "es": "Actualizar",
     "ru": "Обновить"
+  },
+  "Prayer date": {
+    "pt": "Data da oração",
+    "es": "Fecha de la oración",
+    "ru": "Дата молитвы"
+  },
+  "Prayer time": {
+    "pt": "Horário da oração",
+    "es": "Hora de la oración",
+    "ru": "Время молитвы"
+  },
+  "Choose a prayer date.": {
+    "pt": "Escolha uma data para a oração.",
+    "es": "Elige una fecha para la oración.",
+    "ru": "Выберите дату молитвы."
+  },
+  "Choose a prayer time.": {
+    "pt": "Escolha um horário para a oração.",
+    "es": "Elige una hora para la oración.",
+    "ru": "Выберите время молитвы."
+  },
+  "Use YYYY-MM-DD for the date and HH:mm for the time.": {
+    "pt": "Use AAAA-MM-DD para a data e HH:mm para o horário.",
+    "es": "Usa AAAA-MM-DD para la fecha y HH:mm para la hora.",
+    "ru": "Введите дату в формате ГГГГ-ММ-ДД и время в формате ЧЧ:мм."
+  },
+  "This date or time does not exist. Choose another.": {
+    "pt": "Esta data ou horário não existe. Escolha outro.",
+    "es": "Esta fecha u hora no existe. Elige otra.",
+    "ru": "Такой даты или времени не существует. Выберите другое."
   }
 }

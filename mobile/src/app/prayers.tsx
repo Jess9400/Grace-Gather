@@ -1,4 +1,5 @@
-import {Pressable} from "react-native";
+import PrayerSchedule from "../components/PrayerSchedule";
+import { Pressable } from "react-native";
 import { useCommunity } from "../lib/discussion-state";
 import { useEffect, useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
@@ -22,8 +23,11 @@ export default function Prayers() {
 }
 function PrayerRoom() {
   const { data, error, busy, userId, load, act } = usePrayers();
-  const [now,setNow]=useState(()=>Date.now());
-  useEffect(()=>{const timer=setInterval(()=>setNow(Date.now()),10000);return ()=>clearInterval(timer);},[]);
+  const [now, setNow] = useState(() => Date.now());
+  useEffect(() => {
+    const timer = setInterval(() => setNow(Date.now()), 10000);
+    return () => clearInterval(timer);
+  }, []);
   const { profile } = useApp(),
     tr = useInterfaceCopy();
   const { compose, tab: initial } = useLocalSearchParams<{
@@ -38,6 +42,7 @@ function PrayerRoom() {
     [scheduled, setScheduled] = useState(false),
     [date, setDate] = useState(""),
     [time, setTime] = useState("");
+  const [scheduleError, setScheduleError] = useState("");
   const [preview, setPreview] = useState(""),
     [when, setWhen] = useState<string | null>(null),
     [notice, setNotice] = useState("");
@@ -61,14 +66,23 @@ function PrayerRoom() {
   function checkPreview() {
     try {
       setWhen(scheduled ? prayerTime(date, time) : null);
+      setScheduleError("");
       setPreview(fingerprint);
       setNotice("");
     } catch (e) {
-      setNotice(e instanceof Error ? e.message : "Please try again.");
+      setPreview("");
+      setScheduleError(e instanceof Error ? e.message : "Please try again.");
     }
   }
   async function publish() {
     if (preview !== fingerprint) return;
+    try {
+      if (scheduled) prayerTime(date, time);
+    } catch (e) {
+      setPreview("");
+      setScheduleError(e instanceof Error ? e.message : "Please try again.");
+      return;
+    }
     if (
       await act("create", null, {
         theme,
@@ -330,7 +344,10 @@ function PrayerRoom() {
           <Check
             label={tr("Choose a shared prayer time")}
             value={scheduled}
-            onChange={setScheduled}
+            onChange={(value) => {
+              setScheduled(value);
+              setScheduleError("");
+            }}
           />
           {scheduled && (
             <>
@@ -338,18 +355,22 @@ function PrayerRoom() {
                 {tr("Your local time zone")}:{" "}
                 {Intl.DateTimeFormat().resolvedOptions().timeZone}
               </Body>
-              <Field
-                label={tr("Date (YYYY-MM-DD)")}
-                value={date}
-                onChangeText={setDate}
-                placeholder="2026-11-10"
+              <PrayerSchedule
+                date={date}
+                time={time}
+                onDateChange={(value) => {
+                  setDate(value);
+                  setScheduleError("");
+                }}
+                onTimeChange={(value) => {
+                  setTime(value);
+                  setScheduleError("");
+                }}
               />
-              <Field
-                label={tr("Time (HH:mm, 24-hour)")}
-                value={time}
-                onChangeText={setTime}
-                placeholder="19:00"
-              />
+              <Body small>
+                {tr("Choose a time between 5 minutes and 30 days from now.")}
+              </Body>
+              {!!scheduleError && <Notice text={tr(scheduleError)} />}
             </>
           )}
           <Body small>
@@ -400,4 +421,26 @@ function PrayerRoom() {
   );
 }
 
-function Check({label,value,onChange}:{label:string;value:boolean;onChange:(value:boolean)=>void}) {return <Pressable accessibilityRole="checkbox" accessibilityState={{checked:value}} accessibilityLabel={label} onPress={()=>onChange(!value)} style={{minHeight:48,justifyContent:"center"}}><Body>{value?"☑":"☐"} {label}</Body></Pressable>;}
+function Check({
+  label,
+  value,
+  onChange,
+}: {
+  label: string;
+  value: boolean;
+  onChange: (value: boolean) => void;
+}) {
+  return (
+    <Pressable
+      accessibilityRole="checkbox"
+      accessibilityState={{ checked: value }}
+      accessibilityLabel={label}
+      onPress={() => onChange(!value)}
+      style={{ minHeight: 48, justifyContent: "center" }}
+    >
+      <Body>
+        {value ? "☑" : "☐"} {label}
+      </Body>
+    </Pressable>
+  );
+}
