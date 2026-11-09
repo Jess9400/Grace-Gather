@@ -36,6 +36,12 @@ const text = {
     "Permite que la IA use tu texto enviado para sugerir un versículo y una acción. Alibaba Qwen procesa el texto y tus preferencias. Las grabaciones solo se envían al pulsar Transcribir.",
     "Разрешите ИИ использовать отправленную запись, чтобы предложить стих и действие. Текст и настройки обрабатывает Alibaba Qwen. Аудио отправляется только при нажатии «Расшифровать».",
   ],
+  aiDefaultInfo: [
+    "AI guidance starts on. When you submit, Alibaba Qwen processes your writing and preferences to suggest a verse and an action. You can turn it off here or in Preferences.",
+    "A orientação por IA começa ativada. Ao enviar, o Alibaba Qwen processa seu texto e suas preferências para sugerir um versículo e uma ação. Você pode desativá-la aqui ou nas Preferências.",
+    "La orientación con IA comienza activada. Al enviar, Alibaba Qwen procesa tu texto y tus preferencias para sugerir un versículo y una acción. Puedes desactivarla aquí o en Preferencias.",
+    "Подсказки ИИ включены по умолчанию. При отправке Alibaba Qwen обрабатывает запись и настройки, чтобы предложить стих и действие. Их можно отключить здесь или в настройках.",
+  ],
   aiPrivacy: [
     "Privacy details",
     "Detalhes de privacidade",

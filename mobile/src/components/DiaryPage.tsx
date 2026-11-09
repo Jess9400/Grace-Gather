@@ -29,10 +29,6 @@ export default function Diary() {
       setError(copy(lang, "needEntry"));
       return;
     }
-    if (useAI && !draft.text.trim()) {
-      setError(aiCopy(lang, "writingFirst"));
-      return;
-    }
     setBusy(true);
     setError("");
     const mood = quietMood(draft.text, draft.chosen, lang),
@@ -58,7 +54,7 @@ export default function Diary() {
     try {
       await saveEntry(entry, true);
       update({ entryId: entry.id });
-      if (useAI && !safety) {
+      if (useAI && draft.text.trim() && !safety) {
         try {
           const result = await suggestJourney(draft.text, profile);
           entry = {

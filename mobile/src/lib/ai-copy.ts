@@ -1,4 +1,4 @@
-import { Language } from "./content";
+import type { Language } from "./content";
 const words = {
   title: [
     "Optional AI guidance",
@@ -7,10 +7,10 @@ const words = {
     "Подсказки ИИ — по желанию",
   ],
   consent: [
-    "If you enable AI, this entry and your language/Christian tradition preferences go through Supabase to Alibaba Qwen. Your recording is sent only when you tap Transcribe. Processing may occur outside your country. AI can misunderstand you; it is not a diagnosis or emergency service. You can continue without AI.",
-    "Se ativar a IA, esta entrada e suas preferências de idioma e tradição cristã passam pelo Supabase para o Alibaba Qwen. O áudio só é enviado ao tocar em Transcrever. O processamento pode ocorrer fora do seu país. A IA pode interpretar errado; não oferece diagnóstico nem atendimento de emergência. Você pode continuar sem IA.",
-    "Al activar la IA, esta entrada y tus preferencias de idioma y tradición cristiana pasan por Supabase a Alibaba Qwen. Tu grabación solo se envía al tocar Transcribir. El procesamiento puede ocurrir fuera de tu país. La IA puede equivocarse; no ofrece diagnósticos ni atención de emergencia. Puedes continuar sin IA.",
-    "Если включить ИИ, эта запись и выбранные язык и христианская традиция будут отправлены через Supabase в Alibaba Qwen. Аудиозапись отправляется только по нажатию «Расшифровать». Данные могут обрабатываться за пределами вашей страны. ИИ может ошибаться; это не диагностика и не экстренная помощь. Можно продолжить без ИИ.",
+    "When AI guidance is on, this entry and your language/Christian tradition preferences go through Supabase to Alibaba Qwen. Your recording is sent only when you tap Transcribe. Processing may occur outside your country. AI can misunderstand you; it is not a diagnosis or emergency service. You can continue without AI.",
+    "Quando a orientação por IA está ativada, esta entrada e suas preferências de idioma e tradição cristã passam pelo Supabase para o Alibaba Qwen. O áudio só é enviado ao tocar em Transcrever. O processamento pode ocorrer fora do seu país. A IA pode interpretar errado; não oferece diagnóstico nem atendimento de emergência. Você pode continuar sem IA.",
+    "Cuando la orientación con IA está activada, esta entrada y tus preferencias de idioma y tradición cristiana pasan por Supabase a Alibaba Qwen. Tu grabación solo se envía al tocar Transcribir. El procesamiento puede ocurrir fuera de tu país. La IA puede equivocarse; no ofrece diagnósticos ni atención de emergencia. Puedes continuar sin IA.",
+    "Когда подсказки ИИ включены, эта запись и выбранные язык и христианская традиция будут отправлены через Supabase в Alibaba Qwen. Аудиозапись отправляется только по нажатию «Расшифровать». Данные могут обрабатываться за пределами вашей страны. ИИ может ошибаться; это не диагностика и не экстренная помощь. Можно продолжить без ИИ.",
   ],
   agree: [
     "I agree: use AI for this entry",

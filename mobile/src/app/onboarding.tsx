@@ -30,6 +30,8 @@ import { persistent } from "../lib/storage";
 import { q } from "../lib/quiet-copy";
 import { interfaceCopy } from "../lib/interface-copy";
 import { TRADITION_QUESTION_VERSION } from "../lib/onboarding";
+import { AI_CONSENT_VERSION } from "../lib/ai-copy";
+import { jc } from "../lib/journal-copy";
 
 const TRADITIONS: Tradition[] = ["catholic", "protestant", "orthodox"];
 const chosen = (p: Profile) =>
@@ -186,6 +188,29 @@ export default function Onboarding() {
             maxLength={80}
             onChangeText={(region) => update({ region: region.toUpperCase() })}
           />
+          <Card>
+            <Subheading>{jc(p.language, "aiSetting")}</Subheading>
+            <Body small>{jc(p.language, "aiDefaultInfo")}</Body>
+            <Row>
+              <Chip
+                title={jc(
+                  p.language,
+                  p.journalAIConsentVersion === AI_CONSENT_VERSION
+                    ? "aiEnabled"
+                    : "aiEnable",
+                )}
+                selected={p.journalAIConsentVersion === AI_CONSENT_VERSION}
+                onPress={() =>
+                  update({
+                    journalAIConsentVersion:
+                      p.journalAIConsentVersion === AI_CONSENT_VERSION
+                        ? undefined
+                        : AI_CONSENT_VERSION,
+                  })
+                }
+              />
+            </Row>
+          </Card>
           <Notice text={error} />
           <Button
             title={tr("Enter the church")}

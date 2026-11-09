@@ -4,6 +4,8 @@ import { Profile } from "./content";
 import { validateSuggestion } from "./llm-contract";
 import { AI_CONSENT_VERSION } from "./ai-copy";
 export async function suggestJourney(text: string, preferences: Profile) {
+  if (preferences.journalAIConsentVersion !== AI_CONSENT_VERSION)
+    throw Error("consent_required");
   const { client } = await requireUser();
   const { data, error } = await client.functions.invoke("llm-journey", {
     body: {

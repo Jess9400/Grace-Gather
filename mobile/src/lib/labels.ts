@@ -10,10 +10,10 @@ const rows: Record<string, string[]> = {
     "Конфиденциальность и помощь",
   ],
   device: [
-    "Your journal is encrypted on this device. Text or audio is sent to AI only when you explicitly choose it.",
-    "Seu diário é criptografado neste dispositivo. Texto ou áudio só é enviado à IA quando você escolhe isso explicitamente.",
-    "Tu diario está cifrado en este dispositivo. Solo se envían texto o audio a la IA cuando lo eliges expresamente.",
-    "Дневник зашифрован на этом устройстве. Текст или аудио отправляются ИИ только с вашего явного согласия.",
+    "Your journal is saved encrypted on this device.",
+    "Seu diário é salvo criptografado neste dispositivo.",
+    "Tu diario se guarda cifrado en este dispositivo.",
+    "Дневник сохраняется на этом устройстве в зашифрованном виде.",
   ],
   webDemo: [
     "Saved in this browser.",
