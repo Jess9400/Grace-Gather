@@ -37,11 +37,17 @@ import {
 import { getReadingVerse, discussionVerseId } from "../lib/bible";
 
 type ViewMode = "list" | "thread" | "compose" | "review";
-type CommunityProps = { header?: ReactNode; search?: string; feed?: boolean };
+type CommunityProps = {
+  header?: ReactNode;
+  search?: string;
+  feed?: boolean;
+  review?: boolean;
+};
 export default function Community({
   header,
   search = "",
   feed = false,
+  review = false,
 }: CommunityProps = {}) {
   const { userId } = useCommunity();
   return (
@@ -50,6 +56,7 @@ export default function Community({
       header={header}
       search={search}
       feed={feed}
+      review={review}
     />
   );
 }
@@ -57,6 +64,7 @@ function CommunityScreen({
   header,
   search = "",
   feed = false,
+  review = false,
 }: CommunityProps) {
   const tr = useInterfaceCopy();
   const params = useLocalSearchParams<{
@@ -75,7 +83,6 @@ function CommunityScreen({
     moderator,
     busy,
     error,
-    limits,
     reload,
     loadMore,
     hasMore,
@@ -86,7 +93,7 @@ function CommunityScreen({
   } = useCommunity();
   const [alias, setAlias] = useState("");
   const [mode, setMode] = useState<ViewMode>(
-      !feed && params.compose === "1" ? "compose" : "list",
+      review ? "review" : !feed && params.compose === "1" ? "compose" : "list",
     ),
     [selected, setSelected] = useState<string | null>(null);
   // The Chats list opens with its strip of the church (behind the side door);
@@ -437,10 +444,10 @@ function CommunityScreen({
           </Card>
         )}
         {!feed && !demo && userId && (
-          <Button
-            secondary
+          <TextAction
+            icon="refresh-outline"
             disabled={busy}
-            title={tr("Refresh conversations")}
+            title={tr("Refresh")}
             onPress={() =>
               void reload(
                 mode === "thread" ? (selected ?? undefined) : undefined,
@@ -467,41 +474,52 @@ function CommunityScreen({
               </Body>
             )}
             {!feed && (
-              <View style={s.sectionBar}>
-                <Pressable
-                  accessibilityRole="button"
-                  onPress={() =>
-                    userId ? startTopic() : router.push("/account")
-                  }
-                  style={s.newTopic}
+              <>
+                <TextAction
+                  icon="add"
+                  title={tr("Create a discussion")}
+                  onPress={startTopic}
+                />
+                <View
+                  style={{
+                    flexDirection: "row",
+                    gap: 24,
+                    borderBottomWidth: 1,
+                    borderColor: colors.line,
+                  }}
                 >
-                  <Ionicons name="add" size={18} color={colors.white} />
-                  <Text style={s.newTopicText}>
-                    {tr("Create a discussion")}
-                  </Text>
-                </Pressable>
-              </View>
-            )}
-            {!feed && (
-              <Row>
-                <Chip
-                  title={tr("Discussions I joined")}
-                  selected={filter === "engaged"}
-                  onPress={() => setFilter("engaged")}
-                />
-                {verse && (
-                  <Chip
-                    title={verse.reference}
-                    selected={filter === "verse"}
-                    onPress={() => setFilter("verse")}
-                  />
-                )}
-                <Chip
-                  title={`${tr("My submissions")}${mine.length ? ` (${mine.length})` : ""}`}
-                  selected={filter === "mine"}
-                  onPress={() => setFilter("mine")}
-                />
-              </Row>
+                  {(
+                    [
+                      ["engaged", tr("Discussions I joined")],
+                      ["mine", tr("My submissions")],
+                      ...(verse ? [["verse", verse.reference]] : []),
+                    ] as ["engaged" | "mine" | "verse", string][]
+                  ).map(([value, label]) => (
+                    <Pressable
+                      key={value}
+                      accessibilityRole="tab"
+                      accessibilityState={{ selected: filter === value }}
+                      onPress={() => setFilter(value)}
+                      style={{
+                        minHeight: 44,
+                        justifyContent: "center",
+                        borderBottomWidth: filter === value ? 2 : 0,
+                        borderColor: colors.ink,
+                      }}
+                    >
+                      <Text
+                        style={{
+                          fontSize: 14,
+                          color: filter === value ? colors.ink : colors.muted,
+                          fontWeight: filter === value ? "600" : "400",
+                        }}
+                      >
+                        {label}
+                      </Text>
+                    </Pressable>
+                  ))}
+                </View>
+              </>
             )}
             {filter === "mine" ? (
               <>
@@ -688,22 +706,7 @@ function CommunityScreen({
                       }}
                     />
                   </Disclosure>
-                ) : (
-                  moderator && (
-                    <Button
-                      secondary
-                      title={`${tr("Moderation queue")} (${pending.length + reports.length})`}
-                      onPress={() => setMode("review")}
-                    />
-                  )
-                )}
-                {!demo && limits && (
-                  <Body small>
-                    {tr("Showing recent conversations and up to")}
-                    {limits.repliesPerTopic}{" "}
-                    {tr("replies per conversation. Refresh for updates.")}
-                  </Body>
-                )}
+                ) : null}
               </>
             )}
           </>

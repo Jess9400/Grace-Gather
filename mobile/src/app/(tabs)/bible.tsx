@@ -278,23 +278,18 @@ function BibleReader({ collection }: { collection: CollectionId | null }) {
           accessibilityRole="button"
           onPress={() => router.push("/community")}
           style={({ pressed }) => ({
-            minHeight: 56,
-            paddingHorizontal: 16,
-            borderRadius: 14,
-            backgroundColor: colors.white,
-            borderWidth: 1,
-            borderColor: colors.line,
+            minHeight: 44,
+            alignSelf: "flex-start",
             flexDirection: "row",
             alignItems: "center",
             gap: 12,
             opacity: pressed ? 0.7 : 1,
           })}
         >
-          <Ionicons name="chatbubbles-outline" size={22} color={colors.ink} />
+          <Ionicons name="chatbubbles-outline" size={18} color={colors.ink} />
           <Text
             style={{
-              flex: 1,
-              fontSize: 17,
+              fontSize: 15,
               fontWeight: "600",
               color: colors.ink,
             }}

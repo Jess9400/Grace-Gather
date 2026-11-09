@@ -1,4 +1,4 @@
-import PrayerPage from "../components/PrayerPage";
+import { Redirect } from "expo-router";
 export default function Moderation() {
-  return <PrayerPage mode="review" />;
+  return <Redirect href="/admin" />;
 }
