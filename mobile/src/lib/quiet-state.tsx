@@ -4,14 +4,12 @@ interface Draft {
   createdAt: string;
   chosen: Record<string, number>;
   audio?: string;
-  keep: boolean;
   entryId?: string;
 }
 const fresh = (): Draft => ({
   text: "",
   createdAt: new Date().toISOString(),
   chosen: {},
-  keep: false,
 });
 const Context = createContext<{
   draft: Draft;

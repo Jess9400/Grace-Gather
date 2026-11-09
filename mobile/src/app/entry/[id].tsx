@@ -80,7 +80,6 @@ export default function EntryScreen() {
       chosen: entry.feelings ?? {},
       audio: entry.audio,
       entryId: entry.id,
-      keep: !entry.sessionOnly,
     });
     router.push("/(tabs)/diary");
   }

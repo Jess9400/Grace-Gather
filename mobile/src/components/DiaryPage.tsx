@@ -1,5 +1,12 @@
 import { useState } from "react";
-import { View, Text, TextInput, Pressable, StyleSheet, Platform } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Pressable,
+  StyleSheet,
+  Platform,
+} from "react-native";
 import { router } from "expo-router";
 import { randomUUID } from "expo-crypto";
 import { Screen, Button, Body, Notice, colors, serif, Card } from "./quiet-ui";
@@ -55,7 +62,7 @@ export default function Diary() {
       },
     };
     try {
-      await saveEntry(entry, draft.keep);
+      await saveEntry(entry, true);
       update({ entryId: entry.id });
       if (useAI && !safety) {
         try {
@@ -71,7 +78,7 @@ export default function Diary() {
         } catch {
           entry = { ...entry, aiUnavailable: true };
         }
-        await saveEntry(entry, draft.keep);
+        await saveEntry(entry, true);
       }
       router.push({ pathname: "/entry/[id]", params: { id: entry.id } });
     } catch {
@@ -85,11 +92,22 @@ export default function Diary() {
       <Text accessibilityRole="header" style={s.title}>
         {q(lang, "land")}
       </Text>
-      {Platform.OS !== "web" && <View style={{ gap: 10 }}>
-        <Text accessibilityRole="header" style={{ color: colors.ink, fontSize: 16 }}>{q(lang, "audioJournal")}</Text>
-        <Recorder language={lang} value={draft.audio}
-          onChange={(audio) => update({ audio })} onBusyChange={setRecording} />
-      </View>}
+      {Platform.OS !== "web" && (
+        <View style={{ gap: 10 }}>
+          <Text
+            accessibilityRole="header"
+            style={{ color: colors.ink, fontSize: 16 }}
+          >
+            {q(lang, "audioJournal")}
+          </Text>
+          <Recorder
+            language={lang}
+            value={draft.audio}
+            onChange={(audio) => update({ audio })}
+            onBusyChange={setRecording}
+          />
+        </View>
+      )}
       <View style={s.paper}>
         <View style={s.rule} />
         <Text style={s.date}>
@@ -115,19 +133,6 @@ export default function Diary() {
           {q(lang, "words")}
         </Text>
       </View>
-      <Pressable
-        accessibilityRole="checkbox"
-        accessibilityState={{ checked: draft.keep }}
-        onPress={() => update({ keep: !draft.keep })}
-        style={s.keep}
-      >
-        <Text style={{ color: colors.ink, fontSize: 20 }}>
-          {draft.keep ? "☑" : "☐"}
-        </Text>
-        <Text style={{ color: colors.muted, fontSize: 14, flex: 1 }}>
-          {q(lang, "keep")}
-        </Text>
-      </Pressable>
       <Notice text={error} />
       <Button
         title={busy ? aiCopy(lang, "working") : q(lang, "done")}
@@ -237,5 +242,4 @@ const s = StyleSheet.create({
     textAlign: "right",
     marginTop: 15,
   },
-  keep: { flexDirection: "row", alignItems: "center", gap: 10, minHeight: 48 },
 });
