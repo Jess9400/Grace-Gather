@@ -1,8 +1,8 @@
 import { detectFeelings } from './quiet-feelings.js';
-const mobileMoods={great:'grateful',sad:'sad',anxious:'anxious',lonely:'lonely',overwhelmed:'overwhelmed',grateful:'grateful',unsure:'unsure'};
+const mobileMoods={great:'grateful',sad:'sad',anxious:'anxious',lonely:'lonely',overwhelmed:'overwhelmed',grateful:'grateful',unsure:'unsure',hopeless:'hopeless',hopeful:'hopeful',peaceful:'peaceful'};
 export function quietMood(text,chosen={},language='en') {
  const selected=Object.entries(chosen).filter(([key,n])=>Object.hasOwn(mobileMoods,key)&&[1,2,3].includes(n)).sort((a,b)=>b[1]-a[1]);
- return mobileMoods[selected[0]?.[0]??(language==='en'?detectFeelings(text).primary:'unsure')]??'unsure';
+ return mobileMoods[selected[0]?.[0]??detectFeelings(text,language).primary]??'unsure';
 }
 const themes={sad:'rest',overwhelmed:'rest',anxious:'peace',peaceful:'peace',grateful:'gratitude',hopeful:'hope',hopeless:'hope',lonely:'belonging',unsure:'hope'};
 export function selectQuietPassage(editions,prefs,mood) {
