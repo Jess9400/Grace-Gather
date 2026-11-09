@@ -391,7 +391,7 @@
   },
   "Send report": {
     "pt": "Enviar denúncia",
-    "es": "Enviar denuncia",
+    "es": "Enviar reporte",
     "ru": "Отправить жалобу"
   },
   "Report sent for review. This post is hidden for you.": {
@@ -1273,5 +1273,240 @@
     "pt": "Oração",
     "es": "Oración",
     "ru": "Молитва"
+  },
+  "Request a prayer": {
+    "pt": "Pedir uma oração",
+    "es": "Pedir una oración",
+    "ru": "Попросить о молитве"
+  },
+  "Prayer requests": {
+    "pt": "Pedidos de oração",
+    "es": "Peticiones de oración",
+    "ru": "Просьбы о молитве"
+  },
+  "Notifications": {
+    "pt": "Notificações",
+    "es": "Notificaciones",
+    "ru": "Уведомления"
+  },
+  "Pray for others": {
+    "pt": "Orar por outros",
+    "es": "Orar por otros",
+    "ru": "Молиться за других"
+  },
+  "My requests": {
+    "pt": "Meus pedidos",
+    "es": "Mis peticiones",
+    "ru": "Мои просьбы"
+  },
+  "Review requests": {
+    "pt": "Revisar pedidos",
+    "es": "Revisar peticiones",
+    "ru": "Проверить просьбы"
+  },
+  "Prayer theme": {
+    "pt": "Tema da oração",
+    "es": "Tema de oración",
+    "ru": "Тема молитвы"
+  },
+  "What would you like prayer for?": {
+    "pt": "Pelo que você gostaria que orassem?",
+    "es": "¿Por qué te gustaría que oraran?",
+    "ru": "О чём вы просите помолиться?"
+  },
+  "Share anonymously": {
+    "pt": "Compartilhar anonimamente",
+    "es": "Compartir de forma anónima",
+    "ru": "Поделиться анонимно"
+  },
+  "Choose a shared prayer time": {
+    "pt": "Escolher um horário para orar juntos",
+    "es": "Elegir una hora para orar juntos",
+    "ru": "Выбрать время совместной молитвы"
+  },
+  "Your local time zone": {
+    "pt": "Seu fuso horário local",
+    "es": "Tu zona horaria local",
+    "ru": "Ваш часовой пояс"
+  },
+  "Date (YYYY-MM-DD)": {
+    "pt": "Data (AAAA-MM-DD)",
+    "es": "Fecha (AAAA-MM-DD)",
+    "ru": "Дата (ГГГГ-ММ-ДД)"
+  },
+  "Time (HH:mm, 24-hour)": {
+    "pt": "Horário (HH:mm, 24 horas)",
+    "es": "Hora (HH:mm, 24 horas)",
+    "ru": "Время (ЧЧ:мм, 24 часа)"
+  },
+  "Preview request": {
+    "pt": "Pré-visualizar pedido",
+    "es": "Vista previa de la petición",
+    "ru": "Предпросмотр просьбы"
+  },
+  "Share my prayer request": {
+    "pt": "Compartilhar meu pedido de oração",
+    "es": "Compartir mi petición de oración",
+    "ru": "Поделиться просьбой о молитве"
+  },
+  "Anonymous member": {
+    "pt": "Membro anônimo",
+    "es": "Miembro anónimo",
+    "ru": "Анонимный участник"
+  },
+  "Pray whenever you can": {
+    "pt": "Ore quando puder",
+    "es": "Ora cuando puedas",
+    "ru": "Молитесь, когда сможете"
+  },
+  "{count} people prayed for you": {
+    "pt": "{count} pessoas oraram por você",
+    "es": "{count} personas oraron por ti",
+    "ru": "За вас помолились: {count}"
+  },
+  "{count} people have prayed": {
+    "pt": "{count} pessoas oraram",
+    "es": "{count} personas han orado",
+    "ru": "Помолились: {count}"
+  },
+  "I prayed for you": {
+    "pt": "Orei por você",
+    "es": "Oré por ti",
+    "ru": "Я помолился за вас"
+  },
+  "You prayed for this person": {
+    "pt": "Você orou por esta pessoa",
+    "es": "Oraste por esta persona",
+    "ru": "Вы помолились за этого человека"
+  },
+  "Prayer time has not arrived": {
+    "pt": "O horário da oração ainda não chegou",
+    "es": "Aún no es la hora de orar",
+    "ru": "Время молитвы ещё не наступило"
+  },
+  "Receive prayer notifications in the app": {
+    "pt": "Receber notificações de oração no app",
+    "es": "Recibir notificaciones de oración en la app",
+    "ru": "Получать уведомления о молитвах в приложении"
+  },
+  "Close request": {
+    "pt": "Encerrar pedido",
+    "es": "Cerrar petición",
+    "ru": "Закрыть просьбу"
+  },
+  "Reason for reporting": {
+    "pt": "Motivo da denúncia",
+    "es": "Motivo del reporte",
+    "ru": "Причина жалобы"
+  },
+  "Private review explanation": {
+    "pt": "Explicação privada da revisão",
+    "es": "Explicación privada de la revisión",
+    "ru": "Личное пояснение решения"
+  },
+  "Approve request": {
+    "pt": "Aprovar pedido",
+    "es": "Aprobar petición",
+    "ru": "Одобрить просьбу"
+  },
+  "Reject request": {
+    "pt": "Rejeitar pedido",
+    "es": "Rechazar petición",
+    "ru": "Отклонить просьбу"
+  },
+  "Mark all read": {
+    "pt": "Marcar todas como lidas",
+    "es": "Marcar todas como leídas",
+    "ru": "Отметить всё прочитанным"
+  },
+  "Mark read": {
+    "pt": "Marcar como lida",
+    "es": "Marcar como leída",
+    "ru": "Отметить прочитанным"
+  },
+  "Unread": {
+    "pt": "Não lida",
+    "es": "Sin leer",
+    "ru": "Не прочитано"
+  },
+  "It is time to pray together": {
+    "pt": "É hora de orar juntos",
+    "es": "Es hora de orar juntos",
+    "ru": "Время помолиться вместе"
+  },
+  "Someone prayed for you": {
+    "pt": "Alguém orou por você",
+    "es": "Alguien oró por ti",
+    "ru": "Кто-то помолился за вас"
+  },
+  "A prayer invitation": {
+    "pt": "Um convite à oração",
+    "es": "Una invitación a orar",
+    "ru": "Приглашение к молитве"
+  },
+  "No prayer notifications yet.": {
+    "pt": "Ainda não há notificações de oração.",
+    "es": "Aún no hay notificaciones de oración.",
+    "ru": "Пока нет уведомлений о молитвах."
+  },
+  "No prayer requests here yet.": {
+    "pt": "Ainda não há pedidos de oração aqui.",
+    "es": "Aún no hay peticiones de oración aquí.",
+    "ru": "Здесь пока нет просьб о молитве."
+  },
+  "Your request is waiting for review.": {
+    "pt": "Seu pedido está aguardando revisão.",
+    "es": "Tu petición está pendiente de revisión.",
+    "ru": "Ваша просьба ожидает проверки."
+  },
+  "Sign in to request a prayer or pray for someone.": {
+    "pt": "Entre para pedir uma oração ou orar por alguém.",
+    "es": "Inicia sesión para pedir una oración u orar por alguien.",
+    "ru": "Войдите, чтобы попросить о молитве или помолиться за кого-то."
+  },
+  "Prayers could not load. Please try again.": {
+    "pt": "Não foi possível carregar as orações. Tente novamente.",
+    "es": "No se pudieron cargar las oraciones. Inténtalo de nuevo.",
+    "ru": "Не удалось загрузить молитвы. Повторите попытку."
+  },
+  "Choose a time between 5 minutes and 30 days from now.": {
+    "pt": "Escolha um horário entre 5 minutos e 30 dias a partir de agora.",
+    "es": "Elige una hora entre 5 minutos y 30 días a partir de ahora.",
+    "ru": "Выберите время от 5 минут до 30 дней от текущего момента."
+  },
+  "Enter a valid date and time.": {
+    "pt": "Digite uma data e um horário válidos.",
+    "es": "Introduce una fecha y hora válidas.",
+    "ru": "Введите правильную дату и время."
+  },
+  "After review, members can see your theme, reason and time. Anonymous requests remain linked to your account for moderators. Avoid sharing someone else’s private details.": {
+    "pt": "Após a revisão, membros poderão ver o tema, o motivo e o horário. Pedidos anônimos continuam ligados à sua conta para os moderadores. Evite compartilhar dados privados de outras pessoas.",
+    "es": "Tras la revisión, los miembros podrán ver el tema, el motivo y la hora. Las peticiones anónimas siguen vinculadas a tu cuenta para los moderadores. Evita compartir datos privados de otras personas.",
+    "ru": "После проверки участники увидят тему, причину и время. Анонимные просьбы остаются связанными с вашим аккаунтом для модераторов. Не сообщайте чужие личные данные."
+  },
+  "pending": {
+    "pt": "Aguardando revisão",
+    "es": "Pendiente de revisión",
+    "ru": "Ожидает проверки"
+  },
+  "approved": {
+    "pt": "Publicado",
+    "es": "Publicada",
+    "ru": "Опубликовано"
+  },
+  "rejected": {
+    "pt": "Não aprovado",
+    "es": "No aprobada",
+    "ru": "Отклонено"
+  },
+  "closed": {
+    "pt": "Encerrado",
+    "es": "Cerrada",
+    "ru": "Закрыто"
+  },
+  "Refresh": {
+    "pt": "Atualizar",
+    "es": "Actualizar",
+    "ru": "Обновить"
   }
 }
