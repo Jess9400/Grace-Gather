@@ -49,6 +49,7 @@ export interface JournalResponse {
   actionId: string;
   actionTitle: string;
   invitation: string;
+  actionPrompt?: string;
 }
 export interface DeletedConversation {
   id: string;

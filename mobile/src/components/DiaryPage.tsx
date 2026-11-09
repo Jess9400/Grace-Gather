@@ -38,6 +38,13 @@ export default function Diary() {
     let entry: Entry = {
       ...previous,
       response: undefined,
+      // Reclassify the edited writing. A failed request must not reuse the
+      // previous entry's theme, action or fallback verse IDs.
+      themeId: undefined,
+      suggestedAction: undefined,
+      passageIds: undefined,
+      actionIds: undefined,
+      aiUnavailable: undefined,
       id: draft.entryId ?? randomUUID(),
       createdAt: draft.createdAt,
       text: draft.text,

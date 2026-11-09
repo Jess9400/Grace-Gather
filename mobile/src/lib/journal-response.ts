@@ -12,7 +12,8 @@ import {
   type ReadingVerse,
 } from "./bible";
 import { journalAction, journalTheme } from "./journal-guidance";
-import { actionInvitation, jc, type JournalCopyKey } from "./journal-copy";
+import { journalActionCopy } from "./journal-copy";
+import { journalScripture } from "./journal-verse-reference";
 
 export async function resolveJournalResponse(
   entry: Entry,
@@ -25,17 +26,12 @@ export async function resolveJournalResponse(
   if (!entry.safety && collection) {
     try {
       await ensureCollection(collection);
-      if (
-        !theme.verse.startsWith("PSA.") ||
-        ["web", "blivre", "rv1909"].includes(collection)
-      )
-        verse = getReadingVerse(`${collection}:${theme.verse}`);
+      verse = journalScripture(collection, theme.verse);
     } catch {
       /* Use the licensed, bundled fallback if a collection cannot load. */
     }
   }
-  if (!entry.safety && !collection)
-    verse = themeVerse(entry.prefs, theme.verse);
+  if (!entry.safety && !verse) verse = themeVerse(entry.prefs, theme.verse);
   if (!entry.safety && !verse) {
     const candidates = passagesFor(entry.prefs, entry.mood);
     const fallback =
@@ -44,11 +40,12 @@ export async function resolveJournalResponse(
   }
   const actionId = journalAction(entry, profile),
     lang = entry.prefs.language;
-  const hope = theme.id === "hopelessness" && actionId === "A08";
+  const action = journalActionCopy(lang, theme.id, actionId);
   return {
     verse,
     actionId,
-    actionTitle: jc(lang, hope ? "hopeAction" : (actionId as JournalCopyKey)),
-    invitation: hope ? jc(lang, "hopeIntro") : actionInvitation(lang, actionId),
+    actionTitle: action.title,
+    invitation: action.invitation,
+    actionPrompt: action.prompt,
   };
 }
