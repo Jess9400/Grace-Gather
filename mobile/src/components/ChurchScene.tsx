@@ -637,7 +637,13 @@ export default function ChurchScene({
                   pointerEvents="none"
                   accessible={false}
                 >
-                  <Ionicons name="arrow-down" size={38} color="#FFFCF3" />
+                  <View style={styles.pointerStem} />
+                  <Ionicons
+                    name="chevron-down"
+                    size={34}
+                    color="#E6CE99"
+                    style={styles.pointerTip}
+                  />
                 </View>
               ) : (
                 <Pressable
@@ -692,14 +698,22 @@ const styles = StyleSheet.create({
   },
   // The arrow tip sits just above the destination; no bounce or pulse.
   tourPointer: {
-    width: 54,
-    height: 54,
-    borderRadius: 27,
+    width: 44,
+    height: 58,
     alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#302C28",
-    borderWidth: 2,
-    borderColor: "#FFFCF3",
+    justifyContent: "flex-end",
+  },
+  pointerStem: {
+    width: 2,
+    height: 30,
+    backgroundColor: "#E6CE99",
+    borderRadius: 1,
+  },
+  pointerTip: {
+    marginTop: -16,
+    textShadowColor: "#302C28",
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 2,
   },
   // Invisible, named targets retain keyboard/screen-reader access to each place.
   chip: { width: 44, height: 44 },

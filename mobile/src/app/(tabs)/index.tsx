@@ -116,6 +116,7 @@ export default function Home() {
   const [aboutAdvent, setAboutAdvent] = useState(false);
   const [sceneFailed, setSceneFailed] = useState(false);
   const [tour, setTour] = useState(false);
+  const [hasExplored, setHasExplored] = useState(false);
   const [tourPlace, setTourPlace] = useState<ChurchPlace | null>(null);
   const [soundOn, setSoundOn] = useState<boolean | null>(null);
   const [focused, setFocused] = useState(true);
@@ -257,6 +258,8 @@ export default function Home() {
   }, [entrance, focused, soundOn]);
   const endTour = useCallback(() => {
     setTour(false);
+    setHasExplored(true);
+    setInvitation(true);
   }, []);
 
   const week = adventWeekFor(profile, now, preview);
@@ -549,6 +552,18 @@ export default function Home() {
                 >
                   <Text style={s.stayText}>{tr("Request a prayer")}</Text>
                 </Pressable>
+                {!hasExplored && !sceneFailed && (
+                  <Pressable
+                    accessibilityRole="button"
+                    onPress={() => {
+                      dismissInvitation();
+                      setTour(true);
+                    }}
+                    style={s.exploreLink}
+                  >
+                    <Text style={s.exploreText}>{t("exploreChurch")}</Text>
+                  </Pressable>
+                )}
               </ScrollView>
             </Animated.View>
           )}
@@ -580,39 +595,14 @@ export default function Home() {
             </View>
           )}
           {dismissed && !invitation && !entrance && !touring && (
-            <View style={s.reopen}>
-              <Pressable
-                accessibilityRole="button"
-                onPress={() => setInvitation(true)}
-                style={s.stay}
-              >
-                <Text style={s.stayText}>{tr("Talk to God")}</Text>
-              </Pressable>
-              <Pressable
-                accessibilityRole="button"
-                onPress={() =>
-                  router.push({
-                    pathname: "/prayers",
-                    params: { compose: "1" },
-                  })
-                }
-                style={s.stay}
-              >
-                <Text style={s.stayText}>{tr("Request a prayer")}</Text>
-              </Pressable>
-              {!sceneFailed && (
-                <Pressable
-                  accessibilityRole="button"
-                  onPress={() => {
-                    dismissInvitation();
-                    setTour(true);
-                  }}
-                  style={s.stay}
-                >
-                  <Text style={s.stayText}>{t("exploreChurch")}</Text>
-                </Pressable>
-              )}
-            </View>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={tr("Talk to God")}
+              onPress={() => setInvitation(true)}
+              style={s.reopen}
+            >
+              <Ionicons name="chatbubble-outline" size={23} color="#FFF8E9" />
+            </Pressable>
           )}
         </View>
       </Animated.View>
@@ -916,11 +906,21 @@ const s = StyleSheet.create({
     textShadowOffset: { width: 0, height: 1 },
     textShadowRadius: 4,
   },
+  exploreLink: {
+    minHeight: 44,
+    alignItems: "center",
+    justifyContent: "center",
+    borderTopWidth: 1,
+    borderTopColor: "rgba(255,248,233,0.18)",
+  },
+  exploreText: { fontSize: 14, color: "#E6CE99", textAlign: "center" },
   reopen: {
-    minHeight: 48,
-    paddingHorizontal: 24,
-    paddingVertical: 14,
-    backgroundColor: "transparent",
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(48,44,40,0.45)",
   },
   fallback: { position: "absolute", left: 20, right: 20 },
   modal: {
