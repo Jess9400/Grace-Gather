@@ -47,6 +47,7 @@ import ConfessionArrival, {
   ConfessionLattice,
 } from "../../components/ConfessionArrival";
 import { confessionColors as room } from "../../lib/confession-theme";
+import { useRoomStrip } from "../../components/ChurchStrip";
 type Page =
   "room" | "share" | "list" | "mine" | "detail" | "success" | "review";
 const themes = [
@@ -94,6 +95,8 @@ export default function ConfessionRoom() {
     [notes, setNotes] = useState<Record<string, string>>({}),
     [success, setSuccess] = useState("share"),
     [support, setSupport] = useState(false);
+  // The first page opens with its corner of the church across the top.
+  const strip = useRoomStrip("confession");
   const enterRoom = useCallback((record = false) => {
     setAudioOpen(record);
     setEntering(false);
@@ -111,12 +114,14 @@ export default function ConfessionRoom() {
   useEffect(() => {
     navigation.setOptions({
       tabBarHideOnKeyboard: page === "share",
+      // Sharing keeps the room's own colours; every other page uses the
+      // espresso tab bar the rest of the church uses.
       tabBarStyle:
         page === "share"
           ? { backgroundColor: room.background, borderTopColor: room.line }
-          : { backgroundColor: colors.paper, borderTopColor: colors.line },
-      tabBarActiveTintColor: page === "share" ? room.accent : colors.green,
-      tabBarInactiveTintColor: page === "share" ? room.muted : colors.inactive,
+          : { backgroundColor: colors.ink, borderTopColor: "#FFFFFF14" },
+      tabBarActiveTintColor: page === "share" ? room.accent : "#FFF8E9",
+      tabBarInactiveTintColor: page === "share" ? room.muted : "#CFC3B1",
     });
   }, [navigation, page]);
   useEffect(() => {
@@ -285,7 +290,11 @@ export default function ConfessionRoom() {
   }
   return (
     <>
-      <StatusBar style={page === "share" ? "light" : "dark"} />
+      <StatusBar
+        style={
+          page === "share" || (page === "room" && strip) ? "light" : "dark"
+        }
+      />
       <View
         style={{ flex: 1 }}
         accessibilityElementsHidden={entering}
@@ -293,7 +302,11 @@ export default function ConfessionRoom() {
         aria-hidden={entering}
       >
         <SurfaceTheme palette={page === "share" ? room : null}>
-          <Screen quiet={page === "share"} keyboardAware={page === "share"}>
+          <Screen
+            quiet={page === "share"}
+            keyboardAware={page === "share"}
+            place={page === "room" ? "confession" : undefined}
+          >
             {page !== "room" && (
               <TextAction
                 title={t("cBack")}

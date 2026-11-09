@@ -820,6 +820,8 @@ const FOCUS: Partial<Record<ChurchPlace, Vec3>> = {
   candles: [-1.2, -0.72, -3.0],
   gather: [-1.75, -0.62, -6.25],
   pews: [0, -1.0, -1.6],
+  // The booth, prayer stand or prayer corner on the right, by tradition.
+  confession: [1.28, 0, -4.05],
 };
 // Spots that are not tappable places but have a room: the tall window above
 // the altar (Discover) and the altar itself (prayer requests).

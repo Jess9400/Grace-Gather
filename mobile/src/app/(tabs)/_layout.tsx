@@ -13,6 +13,7 @@ const TAB_PLACE: Partial<Record<string, RoomPlace>> = {
   bible: "bible",
   gatherings: "gather",
   explore: "window",
+  confession: "confession",
 };
 export default function TabsLayout() {
   const { profile } = useApp();
@@ -79,17 +80,7 @@ export default function TabsLayout() {
                   tabBarActiveTintColor: "#FFF8E9",
                   tabBarInactiveTintColor: "#D7CBB9",
                 }
-              : name === "confession"
-                ? {
-                    // Confession keeps its current look while Jess finishes it.
-                    tabBarActiveTintColor: palette.green,
-                    tabBarInactiveTintColor: palette.inactive,
-                    tabBarStyle: {
-                      backgroundColor: palette.paper,
-                      borderTopColor: palette.line,
-                    },
-                  }
-                : {}),
+              : {}),
             tabBarIcon: ({ color, size }) => (
               <Ionicons name={icon} color={color as string} size={size} />
             ),
