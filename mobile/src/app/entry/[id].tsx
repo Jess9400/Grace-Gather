@@ -379,7 +379,7 @@ export default function EntryScreen() {
                     title={q(lang, "tradition")}
                     onPress={() => {
                       setMenu(false);
-                      router.push("/onboarding");
+                      router.push("/preferences");
                     }}
                   />
                   <Button
