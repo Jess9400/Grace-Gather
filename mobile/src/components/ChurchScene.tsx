@@ -640,7 +640,7 @@ export default function ChurchScene({
                   <View style={styles.pointerGlowOuter} />
                   <View style={styles.pointerGlowInner} />
                   <View style={styles.pointerHalo} />
-                  <Ionicons name="chevron-down" size={24} color="#A17A3D" />
+                  <Ionicons name="arrow-down" size={36} color="#F0CC84" />
                 </View>
               ) : (
                 <Pressable
@@ -693,7 +693,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     overflow: "visible",
   },
-  // A quiet halo identifies the destination without a badge, outline or pulse.
+  // A warm plum halo separates the gold pointer from both timber and pale stone.
   tourPointer: {
     width: 72,
     height: 72,
@@ -705,23 +705,23 @@ const styles = StyleSheet.create({
     width: 72,
     height: 72,
     borderRadius: 36,
-    backgroundColor: "rgba(199,164,103,0.06)",
+    backgroundColor: "rgba(94,61,75,0.16)",
   },
   pointerGlowInner: {
     position: "absolute",
     width: 56,
     height: 56,
     borderRadius: 28,
-    backgroundColor: "rgba(199,164,103,0.10)",
+    backgroundColor: "rgba(94,61,75,0.30)",
   },
   pointerHalo: {
     position: "absolute",
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: "rgba(161,122,61,0.55)",
-    backgroundColor: "rgba(199,164,103,0.07)",
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    borderWidth: 1.5,
+    borderColor: "#D6AE6D",
+    backgroundColor: "rgba(80,51,65,0.94)",
   },
   // Invisible, named targets retain keyboard/screen-reader access to each place.
   chip: { width: 44, height: 44 },
