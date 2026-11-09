@@ -341,7 +341,7 @@ function CommunityScreen({
   if (!feed && params.compose === "1" && !userId) {
     return (
       <Screen back>
-        <Heading>{tr("Start a discussion")}</Heading>
+        <Heading>{tr("Create a discussion")}</Heading>
         <Body>
           {tr(
             "Sign in to start your discussion. Your topic will wait here until you return.",
@@ -456,9 +456,7 @@ function CommunityScreen({
                 <Text accessibilityRole="header" style={s.heading}>
                   {tr("My discussions")}
                 </Text>
-                <Body>
-                  {tr("Topics you started and conversations you joined.")}
-                </Body>
+                <Body>{tr("Bible discussions you created or joined.")}</Body>
               </>
             )}
             {!feed && !demo && !automatic && (
@@ -470,7 +468,6 @@ function CommunityScreen({
             )}
             {!feed && (
               <View style={s.sectionBar}>
-                <Text style={s.sectionLabel}>{tr("COMMUNITY")}</Text>
                 <Pressable
                   accessibilityRole="button"
                   onPress={() =>
@@ -479,14 +476,16 @@ function CommunityScreen({
                   style={s.newTopic}
                 >
                   <Ionicons name="add" size={18} color={colors.white} />
-                  <Text style={s.newTopicText}>{tr("New topic")}</Text>
+                  <Text style={s.newTopicText}>
+                    {tr("Create a discussion")}
+                  </Text>
                 </Pressable>
               </View>
             )}
             {!feed && (
               <Row>
                 <Chip
-                  title={tr("Conversations I joined")}
+                  title={tr("Discussions I joined")}
                   selected={filter === "engaged"}
                   onPress={() => setFilter("engaged")}
                 />
@@ -514,11 +513,6 @@ function CommunityScreen({
                 {!mine.length && (
                   <Card>
                     <Body>{tr("You have not shared anything yet.")}</Body>
-                    <Button
-                      secondary
-                      title={tr("Start a topic")}
-                      onPress={startTopic}
-                    />
                   </Card>
                 )}
                 {mine.map((p) => (
@@ -555,22 +549,7 @@ function CommunityScreen({
                   </View>
                 )}
                 {!topics.length && !feed && (
-                  <Card>
-                    <Text style={s.topicTitle}>
-                      {tr("There is room for your question.")}
-                    </Text>
-                    <Body>
-                      {verse && filter === "verse"
-                        ? tr(
-                            "Be the first to start a conversation about this verse.",
-                          )
-                        : tr("Start with a question or a reflection.")}
-                    </Body>
-                    <Button
-                      title={tr("Start a conversation")}
-                      onPress={startTopic}
-                    />
-                  </Card>
+                  <Body small>{tr("No Bible discussions here yet.")}</Body>
                 )}
                 {!topics.length && feed && !!userId && !busy && !error && (
                   <Body small>{tr("No published discussions yet.")}</Body>
@@ -879,11 +858,11 @@ function CommunityScreen({
         {mode === "compose" && (
           <>
             <Text accessibilityRole="header" style={s.heading}>
-              {tr("What is on")}
-              {String.fromCharCode(10)}
-              {tr("your heart?")}
+              {tr("Create a discussion")}
             </Text>
-            <Body>{tr("A question is a good place to begin.")}</Body>
+            <Body>
+              {tr("Explore a Bible passage, theme, or question together.")}
+            </Body>
             {verse && filter === "verse" && (
               <View style={s.verseContext}>
                 <Ionicons
@@ -896,15 +875,17 @@ function CommunityScreen({
             )}
             <Field
               label={tr("Topic")}
-              placeholder={tr("Give your conversation a title")}
+              placeholder={tr(
+                "Which Bible passage or theme would you like to discuss?",
+              )}
               maxLength={100}
               value={title}
               onChangeText={setTitle}
             />
             <Field
-              label={tr("Your words")}
+              label={tr("Your question or reflection")}
               placeholder={tr(
-                "Share only what you feel comfortable making public.",
+                "Share your question or reflection about the Bible.",
               )}
               multiline
               maxLength={2000}
