@@ -1,10 +1,10 @@
 import type { Language } from "./content";
 const text = {
   heading: [
-    "One gentle step",
-    "Um pequeno passo",
-    "Un pequeño paso",
-    "Один небольшой шаг",
+    "Perhaps this could help today.",
+    "Talvez isto ajude hoje.",
+    "Quizá esto te ayude hoy.",
+    "Возможно, сегодня это поможет.",
   ],
   open: [
     "Take a moment",
@@ -187,3 +187,81 @@ export function jc(lang: Language, key: keyof typeof text) {
   return text[key][{ en: 0, pt: 1, es: 2, ru: 3 }[lang]];
 }
 export type JournalCopyKey = keyof typeof text;
+
+// An invitation from the app, never generated speech attributed to God.
+export function actionInvitation(lang: Language, action: string) {
+  const invitations: Record<string, string[]> = {
+    remember: [
+      "You might find comfort in a moment of remembrance.",
+      "Talvez um momento de lembrança traga conforto.",
+      "Quizá encuentres consuelo en un momento para recordar.",
+      "Возможно, воспоминание принесёт немного утешения.",
+    ],
+    prayer: [
+      "You can bring this to God, just as you are.",
+      "Você pode levar isso a Deus, do jeito que está.",
+      "Puedes llevar esto a Dios, tal como estás.",
+      "Можно принести это Богу, таким, какой вы есть.",
+    ],
+    connection: [
+      "You don’t have to carry this alone.",
+      "Você não precisa carregar isso sozinho.",
+      "No tienes que llevar esto a solas.",
+      "Вам не нужно нести это в одиночку.",
+    ],
+    pause: [
+      "You don’t have to work everything out right now.",
+      "Você não precisa resolver tudo agora.",
+      "No tienes que resolverlo todo ahora.",
+      "Не обязательно разбираться со всем прямо сейчас.",
+    ],
+    thanks: [
+      "Would you like to let them know what their kindness meant to you?",
+      "Que tal contar a essa pessoa o quanto sua gentileza significou para você?",
+      "¿Te gustaría contarle cuánto significó para ti su amabilidad?",
+      "Хотите рассказать этому человеку, как много значила для вас его доброта?",
+    ],
+    kindness: [
+      "Perhaps a small act of kindness would feel meaningful today.",
+      "Talvez um pequeno gesto de bondade faça sentido hoje.",
+      "Quizá un pequeño gesto de bondad tenga sentido hoy.",
+      "Возможно, небольшой добрый поступок будет важен для вас сегодня.",
+    ],
+    apology: [
+      "If you feel ready, you could begin with a few honest words.",
+      "Se sentir que é a hora, comece com algumas palavras sinceras.",
+      "Si te sientes preparado, podrías empezar con unas palabras sinceras.",
+      "Если вы готовы, можно начать с нескольких искренних слов.",
+    ],
+    explore: [
+      "There is room to explore what is on your heart.",
+      "Há espaço para explorar o que está no seu coração.",
+      "Hay espacio para explorar lo que hay en tu corazón.",
+      "Есть место, чтобы исследовать то, что у вас на сердце.",
+    ],
+  };
+  const groups: Record<string, string> = {
+    A01: "remember",
+    A02: "remember",
+    A03: "prayer",
+    A04: "connection",
+    A05: "connection",
+    A07: "connection",
+    A08: "pause",
+    A09: "pause",
+    A10: "apology",
+    A11: "kindness",
+    A12: "thanks",
+    A15: "connection",
+    A16: "prayer",
+    A18: "kindness",
+    A19: "explore",
+    A20: "explore",
+    A21: "prayer",
+    A26: "explore",
+  };
+  return (
+    invitations[groups[action]]?.[{ en: 0, pt: 1, es: 2, ru: 3 }[lang]] ??
+    jc(lang, "heading")
+  );
+}

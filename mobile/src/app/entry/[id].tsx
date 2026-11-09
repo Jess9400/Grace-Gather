@@ -34,7 +34,11 @@ import {
   type ReadingVerse,
 } from "../../lib/bible";
 import { journalAction, journalTheme } from "../../lib/journal-guidance";
-import { jc, type JournalCopyKey } from "../../lib/journal-copy";
+import {
+  jc,
+  actionInvitation,
+  type JournalCopyKey,
+} from "../../lib/journal-copy";
 
 // One submitted page, one approved verse, one invitation. No generated chat thread.
 export default function EntryScreen() {
@@ -206,24 +210,32 @@ export default function EntryScreen() {
                   <Text selectable style={s.verse}>
                     {verse.text}
                   </Text>
-                  <TextAction
-                    title={q(lang, "understand")}
-                    icon="arrow-forward"
+                  <Pressable
+                    accessibilityRole="button"
+                    accessibilityLabel={q(lang, "understand")}
+                    style={s.verseLink}
                     onPress={() =>
                       router.push({
                         pathname: "/verse/[id]",
                         params: { id: verse.id },
                       })
                     }
-                  />
-                  <Body small>{verse.editionName}</Body>
+                  >
+                    <Text style={s.verseLinkText}>{q(lang, "understand")}</Text>
+                    <Ionicons
+                      name="chevron-forward"
+                      size={14}
+                      color={colors.muted}
+                    />
+                  </Pressable>
+                  <Text style={s.edition}>{verse.editionName}</Text>
                 </>
               ) : (
                 <Body>{copy(lang, "unavailable")}</Body>
               )}
             </Card>
             <View style={s.action}>
-              <Body small>{jc(lang, "heading")}</Body>
+              <Text style={s.invitation}>{actionInvitation(lang, action)}</Text>
               <Pressable
                 accessibilityRole="button"
                 accessibilityLabel={actionTitle}
@@ -296,9 +308,24 @@ const s = StyleSheet.create({
   },
   writing: { fontSize: 16, lineHeight: 26, color: colors.muted },
   verse: { fontFamily: serif, fontSize: 27, lineHeight: 41, color: colors.ink },
+  invitation: {
+    fontFamily: serif,
+    fontSize: 23,
+    lineHeight: 32,
+    color: colors.ink,
+  },
+  verseLink: {
+    minHeight: 44,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    alignSelf: "flex-start",
+  },
+  verseLinkText: { fontSize: 13, color: colors.muted },
+  edition: { fontSize: 12, lineHeight: 18, color: colors.muted },
   action: {
     paddingVertical: 18,
-    gap: 8,
+    gap: 12,
     borderTopWidth: StyleSheet.hairlineWidth,
     borderTopColor: colors.line,
   },
@@ -307,6 +334,10 @@ const s = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 16,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderRadius: 16,
+    backgroundColor: "#F3EDDF",
   },
   actionTitle: {
     fontSize: 18,

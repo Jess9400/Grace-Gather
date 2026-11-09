@@ -5,6 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { colors } from "./quiet-ui";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
 import { useApp } from "../lib/state";
+import { jc } from "../lib/journal-copy";
 import { copy } from "../lib/content";
 
 type Icon = React.ComponentProps<typeof Ionicons>["name"];
@@ -67,6 +68,12 @@ export default function AccountMenuContent({
         title={tr("My Journal")}
         icon="book-outline"
         route="/history"
+        onNavigate={onNavigate}
+      />
+      <AccountMenuRow
+        title={jc(profile.language, "pay")}
+        icon="leaf-outline"
+        route="/giving"
         onNavigate={onNavigate}
       />
       <AccountMenuRow
