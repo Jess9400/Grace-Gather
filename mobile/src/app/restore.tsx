@@ -9,42 +9,40 @@ import {
   Notice,
 } from "../components/quiet-ui";
 import { useApp } from "../lib/state";
-import { label } from "../lib/labels";
+import { journalCopy } from "../lib/journal-library-copy";
 import { restoreEncrypted } from "../lib/storage";
 export default function Restore() {
-  const { profile, entries } = useApp();
+  const { profile, reloadJournal } = useApp();
   const [key, setKey] = useState(""),
     [notice, setNotice] = useState(""),
     [busy, setBusy] = useState(false);
+  const t = (name: Parameters<typeof journalCopy>[1]) =>
+    journalCopy(profile.language, name);
   async function restore() {
     setBusy(true);
+    setNotice("");
     try {
       const picked = await DocumentPicker.getDocumentAsync({
-        type: "application/octet-stream",
+        type: "*/*",
         copyToCacheDirectory: true,
       });
       if (picked.canceled) return;
       await restoreEncrypted(picked.assets[0].uri, key.trim());
-      setNotice(
-        "Restored. Close and reopen Grace & Gather to load your journal.",
-      );
+      await reloadJournal();
+      setKey("");
+      setNotice(t("restored"));
     } catch {
-      setNotice(
-        "Could not restore. Check the recovery key and backup file. Existing files have been preserved.",
-      );
+      setNotice(t("restoreFailed"));
     } finally {
       setBusy(false);
     }
   }
   return (
     <Screen back>
-      <Heading>{label(profile.language, "restore")}</Heading>
-      <Body>{label(profile.language, "recovery")}</Body>
-      {entries.length > 0 && (
-        <Notice text="Restore requires an empty journal. Export your existing journal before deleting it." />
-      )}
+      <Heading>{t("restoreBackup")}</Heading>
+      <Body>{t("restoreInfo")}</Body>
       <Field
-        label="Recovery key"
+        label={t("recoveryKey")}
         value={key}
         onChangeText={setKey}
         autoCapitalize="none"
@@ -53,10 +51,8 @@ export default function Restore() {
       />
       <Notice text={notice} />
       <Button
-        disabled={
-          busy || entries.length > 0 || !/^[a-f0-9]{64}$/i.test(key.trim())
-        }
-        title={label(profile.language, "restore")}
+        disabled={busy || !/^[a-f0-9]{64}$/i.test(key.trim())}
+        title={t("restoreBackup")}
         onPress={() => void restore()}
       />
     </Screen>

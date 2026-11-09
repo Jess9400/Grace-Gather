@@ -124,15 +124,24 @@ export function createWebVault(
       return new TextDecoder().decode(data);
     },
     async setItem(name: string, value: string) {
+      await this.setItems([{ key: name, value }]);
+    },
+    async setItems(rows: { key: string; value: string }[]) {
       const { db, key } = await ready();
-      const iv = webCrypto.getRandomValues(new Uint8Array(12));
-      const data = await webCrypto.subtle.encrypt(
-        { name: "AES-GCM", iv, additionalData: context(name) },
-        key,
-        new TextEncoder().encode(value),
+      const sealed = await Promise.all(
+        rows.map(async (row) => {
+          const iv = webCrypto.getRandomValues(new Uint8Array(12));
+          const data = await webCrypto.subtle.encrypt(
+            { name: "AES-GCM", iv, additionalData: context(row.key) },
+            key,
+            new TextEncoder().encode(row.value),
+          );
+          return { key: row.key, value: { iv, data } };
+        }),
       );
       await transaction<void>(db, ["values"], "readwrite", (tx) => {
-        tx.objectStore("values").put({ iv, data }, name);
+        for (const row of sealed)
+          tx.objectStore("values").put(row.value, row.key);
       });
     },
     async removeItem(name: string) {

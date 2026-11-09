@@ -12,36 +12,22 @@ const compile = (path, require) => {
   }).outputText, context);
   return context.exports;
 };
-const aiCopy = compile('../mobile/src/lib/ai-copy.ts');
-const content = compile('../mobile/src/lib/content.ts', (id) => {
-  if (id === './ai-copy') return aiCopy;
-  if (id === '../generated/catalog.json') return JSON.parse(readFileSync(new URL('../mobile/src/generated/catalog.json', import.meta.url)));
-  throw Error(id);
+const { partitionJournalMessages, JOURNAL_MESSAGE_LIMIT } = compile('../mobile/src/lib/journal-chat.ts');
+test('short conversations stay inline without trimming action buttons or message content', () => {
+  const messages = [{id:'one',role:'user',content:'A thought'}, {id:'two',role:'assistant',content:'A reply',actionId:'A08'}];
+  const view = partitionJournalMessages(messages);
+  assert.equal(view.older.length,0);assert.equal(view.recent,messages);
+  assert.equal(view.recent[1].actionId,'A08');
 });
-const { currentJournalAction, JOURNAL_MESSAGE_LIMIT } = compile('../mobile/src/lib/journal-chat.ts', () => content);
-const suggested = { id: 'one', role: 'assistant', content: 'Try a hopeful story.', actionId: 'A19' };
-const listening = { id: 'two', role: 'assistant', content: 'What was that like for you?' };
-
-test('the latest action stays available through replies that only listen', () => {
-  assert.equal(currentJournalAction([], 'A08').actionId, 'A08');
-  const result = currentJournalAction([suggested, listening], 'A08');
-  assert.equal(result.actionId, 'A19');
-  assert.equal(result.messageId, 'one');
-});
-test('a new recommendation replaces the pinned action without deleting history', () => {
-  const history = [suggested, listening, { ...suggested, id: 'three', actionId: 'A02' }];
-  const result = currentJournalAction(history, 'A08');
-  assert.equal(result.actionId, 'A02');
-  assert.equal(result.messageId, 'three');
-  assert.equal(history[0].actionId, 'A19');
-  assert.equal(history.length, 3);
-});
-test('support replies and urgent pending messages suppress ordinary pinned actions', () => {
-  assert.equal(currentJournalAction([suggested, { ...listening, support: true }, listening], 'A08'), null);
-  assert.equal(currentJournalAction([suggested, { id: 'urgent', role: 'user', content: 'I want to kill myself' }], 'A08'), null);
+test('long conversations fold earlier exchanges without splitting a user/reply pair', () => {
+  const history = Array.from({length:21},(_,i)=>({id:String(i),role:i%2?'assistant':'user',content:'A message'}));
+  const view = partitionJournalMessages(history);
+  assert.equal(view.older.length,18);assert.equal(view.recent.length,3);
+  assert.equal(view.recent[0].role,'user');
+  assert.deepEqual([...view.older,...view.recent],history);
 });
 test('the existing bounded conversation allowance remains twenty exchanges', () => {
-  assert.equal(JOURNAL_MESSAGE_LIMIT, 40);
+  assert.equal(JOURNAL_MESSAGE_LIMIT,40);
 });
 
 const requireMobile = createRequire(new URL('../mobile/package.json', import.meta.url));

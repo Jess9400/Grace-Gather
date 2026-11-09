@@ -20,6 +20,7 @@ export interface Preferences {
   edition: string;
 }
 export interface Profile extends Preferences {
+  deleteJournalChatsAfter90Days?: boolean;
   candlePractice?: boolean;
   weeklyCheckInAt?: string;
   journalAIConsentVersion?: string;
@@ -41,9 +42,27 @@ export interface JournalMessage {
   content: string;
   actionId?: string;
   support?: boolean;
+  createdAt?: string;
+}
+export interface JournalResponse {
+  verse: import("./bible").ReadingVerse | null;
+  actionId: string;
+  actionTitle: string;
+  invitation: string;
+}
+export interface DeletedConversation {
+  id: string;
+  deletedAt: string;
+  messages: JournalMessage[];
 }
 export interface Entry {
   conversation?: JournalMessage[];
+  response?: JournalResponse;
+  conversationUpdatedAt?: string;
+  keepConversation?: boolean;
+  chatCleanup?: { deleteAt: string; seenAt?: string };
+  deletedConversations?: DeletedConversation[];
+  deletedAt?: string;
   id: string;
   createdAt: string;
   mood: Mood;

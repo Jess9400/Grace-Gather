@@ -27,14 +27,10 @@ import { TextAction } from "../../components/CommunityControls";
 import AudioPlayback from "../../components/QuietAudioPlayback";
 import { useApp } from "../../lib/state";
 import { useQuiet } from "../../lib/quiet-state";
-import { copy, passagesFor } from "../../lib/content";
+import { copy } from "../../lib/content";
 import { q } from "../../lib/quiet-copy";
-import {
-  collectionFor,
-  ensureCollection,
-  getReadingVerse,
-  type ReadingVerse,
-} from "../../lib/bible";
+import type { ReadingVerse } from "../../lib/bible";
+import { resolveJournalResponse } from "../../lib/journal-response";
 import { journalAction, journalTheme } from "../../lib/journal-guidance";
 import {
   jc,
@@ -42,10 +38,10 @@ import {
   type JournalCopyKey,
 } from "../../lib/journal-copy";
 
-// One verse and one invitation first; conversation is explicitly opened.
+// One saved verse and one invitation, with replies inline beneath them.
 export default function EntryScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { entries, profile, saveEntry } = useApp();
+  const { entries, profile, saveEntry, saveJournalResponse } = useApp();
   const { update } = useQuiet();
   const entry = entries.find((e) => e.id === id);
   const [verse, setVerse] = useState<ReadingVerse | null>(null);
@@ -66,31 +62,16 @@ export default function EntryScreen() {
       if (!active) return;
       setLoading(true);
       setVerse(null);
-      const theme = journalTheme(e);
-      const collection = collectionFor(e.prefs);
-      let selected: ReadingVerse | null = null;
-      if (collection) {
+      const response = await resolveJournalResponse(e, profile);
+      if (!e.response && (response.verse || e.safety)) {
         try {
-          await ensureCollection(collection);
-          // Psalm numbering differs across editions; use the edition's curated match
-          // until an explicit cross-edition alias exists, rather than misquote a Psalm.
-          if (
-            !theme.verse.startsWith("PSA.") ||
-            collection === "web" ||
-            collection === "blivre" ||
-            collection === "rv1909"
-          )
-            selected = getReadingVerse(`${collection}:${theme.verse}`);
+          await saveJournalResponse(e.id, response);
         } catch {
-          /* Approved curated fallback below; no invented quotations. */
+          if (active) setNotice(copy(lang, "storageError"));
         }
       }
-      const candidates = passagesFor(e.prefs, e.mood);
-      const fallback =
-        candidates.find((v) => e.passageIds?.includes(v.id)) ?? candidates[0];
-      if (!selected && fallback) selected = getReadingVerse(fallback.id);
       if (active) {
-        setVerse(selected);
+        setVerse(response.verse);
         setLoading(false);
       }
     }
@@ -98,20 +79,21 @@ export default function EntryScreen() {
     return () => {
       active = false;
     };
-  }, [entry]);
+    // The original response is independent of later chat messages.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [entry?.id, entry?.response]);
   if (!entry)
     return (
       <Screen back>
         <Body>{copy(lang, "emptySub")}</Body>
       </Screen>
     );
-  const action = journalAction(entry, profile);
+  const action = entry.response?.actionId ?? journalAction(entry, profile);
   const hopeReflection =
     journalTheme(entry).id === "hopelessness" && action === "A08";
-  const actionTitle = jc(
-    lang,
-    hopeReflection ? "hopeAction" : (action as JournalCopyKey),
-  );
+  const actionTitle =
+    entry.response?.actionTitle ??
+    jc(lang, hopeReflection ? "hopeAction" : (action as JournalCopyKey));
   function edit() {
     update({
       text: entry!.text,
@@ -162,7 +144,6 @@ export default function EntryScreen() {
         key={entry.id}
         entry={entry}
         initialAction={action}
-        initialActionTitle={actionTitle}
         onAction={openAction}
       >
         <View style={s.top}>
@@ -251,9 +232,10 @@ export default function EntryScreen() {
             </View>
             <View style={s.action}>
               <Text style={s.invitation}>
-                {hopeReflection
-                  ? jc(lang, "hopeIntro")
-                  : actionInvitation(lang, action)}
+                {entry.response?.invitation ??
+                  (hopeReflection
+                    ? jc(lang, "hopeIntro")
+                    : actionInvitation(lang, action))}
               </Text>
               <JournalActionButton
                 title={actionTitle}

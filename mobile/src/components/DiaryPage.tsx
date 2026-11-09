@@ -7,6 +7,7 @@ import Recorder from "./QuietRecorder";
 import { useApp } from "../lib/state";
 import { useQuiet } from "../lib/quiet-state";
 import { copy, needsSupport, Entry } from "../lib/content";
+import { resolveJournalResponse } from "../lib/journal-response";
 import { q } from "../lib/quiet-copy";
 import { quietMood } from "../generated/quiet-diary";
 import { suggestJourney } from "../lib/ai";
@@ -33,7 +34,10 @@ export default function Diary() {
     setError("");
     const mood = quietMood(draft.text, draft.chosen, lang),
       safety = needsSupport(draft.text);
+    const previous = entries.find((e) => e.id === draft.entryId);
     let entry: Entry = {
+      ...previous,
+      response: undefined,
       id: draft.entryId ?? randomUUID(),
       createdAt: draft.createdAt,
       text: draft.text,
@@ -72,6 +76,9 @@ export default function Diary() {
         }
         await saveEntry(entry, true);
       }
+      const response = await resolveJournalResponse(entry, profile);
+      if (response.verse || entry.safety)
+        await saveEntry({ ...entry, response }, true);
       router.push({ pathname: "/entry/[id]", params: { id: entry.id } });
     } catch {
       setError(copy(lang, "storageError"));

@@ -1,3 +1,6 @@
+import { Switch, View } from "react-native";
+import { automaticCleanupSupported } from "../lib/storage";
+import { journalCopy } from "../lib/journal-library-copy";
 import { aiCopy, AI_CONSENT_VERSION } from "../lib/ai-copy";
 import { jc } from "../lib/journal-copy";
 import { Disclosure } from "../components/CommunityControls";
@@ -223,6 +226,27 @@ export default function Preferences() {
             })
           }
         />
+      </Card>
+      <Card>
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 16 }}>
+          <View style={{ flex: 1 }}>
+            <Subheading>{journalCopy(p.language, "cleanupSetting")}</Subheading>
+          </View>
+          <Switch
+            accessibilityLabel={journalCopy(p.language, "cleanupSetting")}
+            disabled={!automaticCleanupSupported}
+            value={p.deleteJournalChatsAfter90Days === true}
+            onValueChange={(value) =>
+              update({ deleteJournalChatsAfter90Days: value })
+            }
+          />
+        </View>
+        <Body small>
+          {journalCopy(
+            p.language,
+            automaticCleanupSupported ? "cleanupInfo" : "cleanupUnavailable",
+          )}
+        </Body>
       </Card>
       <Notice text={error} />
       {saved && !changed && <Notice text={tr("Saved.")} />}

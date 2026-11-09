@@ -1,3 +1,4 @@
+import JournalCleanupNotice from "../components/JournalCleanupNotice";
 import { View } from "react-native";
 import { AudioRoomProvider } from "../lib/audio-room";
 import ActiveRoomBar from "../components/ActiveRoomBar";
@@ -61,6 +62,7 @@ function Routes() {
               "practices",
               "giving",
               "history",
+              "journal-export",
               "organizations",
               "course/[id]",
               "story/[id]",
@@ -76,6 +78,7 @@ function Routes() {
           </Stack.Protected>
         </Stack>
       </View>
+      <JournalCleanupNotice compact />
       <ActiveRoomBar />
     </>
   );

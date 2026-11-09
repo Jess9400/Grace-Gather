@@ -1,3 +1,4 @@
+import JournalCleanupNotice from "./JournalCleanupNotice";
 import GatheringReminders from "../components/GatheringReminders";
 import PrayerSchedule from "../components/PrayerSchedule";
 import { Pressable } from "react-native";
@@ -240,6 +241,7 @@ function PrayerRoom({
     return (
       <Screen back place={mode === "requests" ? "altar" : undefined}>
         <Heading>{tr(pageTitle)}</Heading>
+        {mode === "notifications" && <JournalCleanupNotice />}
         <Body>
           {tr(
             mode === "requests"
@@ -271,6 +273,7 @@ function PrayerRoom({
   return (
     <Screen back place={mode === "requests" ? "altar" : undefined}>
       <Heading>{tr(pageTitle)}</Heading>
+      {mode === "notifications" && <JournalCleanupNotice />}
       <Notice text={tr(error || notice)} />
       <Button
         secondary

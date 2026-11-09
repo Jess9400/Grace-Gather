@@ -129,3 +129,17 @@ test('reopening retains only explicitly kept diary entries', async () => {
   assert.deepEqual(JSON.parse(await third.getItem('entries')), []);
   await third.close();
 });
+
+test('backup restore batches remain atomic when a row cannot be written', async () => {
+  const factory = new IDBFactory(), vault = createWebVault(factory, webcrypto);
+  await vault.setItems([{key:'profile',value:'original profile'},{key:'entries',value:'original journal'}]);
+  await assert.rejects(vault.setItems([{key:'entries',value:'replacement journal'},{key:null,value:'invalid key'}]));
+  assert.equal(await vault.getItem('entries'),'original journal');
+  assert.equal(await vault.getItem('profile'),'original profile');
+  await vault.setItems([{key:'entries',value:'restored journal'},{key:'audio:sample',value:'restored recording'}]);
+  await vault.close();
+  const reopened=createWebVault(factory,webcrypto);
+  assert.equal(await reopened.getItem('entries'),'restored journal');
+  assert.equal(await reopened.getItem('audio:sample'),'restored recording');
+  await reopened.close();
+});
