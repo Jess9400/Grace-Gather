@@ -10,6 +10,7 @@ import { useInterfaceCopy } from "../lib/use-interface-copy";
 import { useEffect, useState, useRef, type ReactNode } from "react";
 import { View, Text, Pressable, ScrollView, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import ChurchStrip, { useRoomStrip } from "../components/ChurchStrip";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import {
@@ -81,6 +82,9 @@ function CommunityScreen({ header, search = "" }: CommunityProps) {
       params.compose === "1" ? "compose" : "list",
     ),
     [selected, setSelected] = useState<string | null>(null);
+  // The Chats list opens with its strip of the church (behind the side door);
+  // a conversation or the composer keeps the plain header for space.
+  const chatsStrip = useRoomStrip("chats") && mode === "list";
   const [filter, setFilter] = useState<"all" | "verse" | "mine">(
     verse ? "verse" : "all",
   );
@@ -331,8 +335,16 @@ function CommunityScreen({ header, search = "" }: CommunityProps) {
     );
   }
   return (
-    <SafeAreaView style={s.safe} edges={["top", "bottom", "left", "right"]}>
-      {!header && (
+    <SafeAreaView
+      style={s.safe}
+      edges={
+        chatsStrip && !header
+          ? ["bottom", "left", "right"]
+          : ["top", "bottom", "left", "right"]
+      }
+    >
+      {!header && chatsStrip && <ChurchStrip place="chats" back />}
+      {!header && !chatsStrip && (
         <View style={s.header}>
           <Pressable
             accessibilityRole="button"

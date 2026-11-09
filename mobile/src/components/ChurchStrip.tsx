@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, type ReactNode } from "react";
 import {
   Image,
   Pressable,
@@ -18,6 +18,7 @@ import { useInterfaceCopy } from "../lib/use-interface-copy";
 import { holdAmbience, loadSoundOn } from "../lib/church-audio";
 import {
   roomCrop,
+  roomSpot,
   useChurchSnapshot,
   type RoomPlace,
 } from "../lib/church-room";
@@ -28,11 +29,14 @@ const LABEL: Record<RoomPlace, ChurchWord> = {
   pews: "inPews",
   gather: "sideDoor",
   candles: "candles",
+  window: "beneathWindow",
+  altar: "atAltar",
+  chats: "sideDoor",
 };
 
 // True once there is a picture of the church to show for this place.
 export function useRoomStrip(place: RoomPlace) {
-  return !!useChurchSnapshot()?.points[place];
+  return !!useChurchSnapshot()?.points[roomSpot(place)];
 }
 
 // The top of a room's screen: its part of the church, exactly as the walk-in
@@ -41,16 +45,19 @@ export function useRoomStrip(place: RoomPlace) {
 export default function ChurchStrip({
   place,
   back = false,
+  action,
 }: {
   place: RoomPlace;
   back?: boolean;
+  // A small control kept from the screen's usual header (e.g. Refresh).
+  action?: ReactNode;
 }) {
   const snapshot = useChurchSnapshot();
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
   const { profile } = useApp();
   const tr = useInterfaceCopy();
-  const at = snapshot?.points[place];
+  const at = snapshot?.points[roomSpot(place)];
   const shown = !!at;
   useFocusEffect(
     useCallback(() => {
@@ -100,6 +107,7 @@ export default function ChurchStrip({
         <Text style={st.label} numberOfLines={1}>
           {churchCopy(profile.language, LABEL[place]).toUpperCase()}
         </Text>
+        {action && <View style={st.action}>{action}</View>}
         <Pressable
           accessibilityLabel={tr("Account and settings")}
           accessibilityRole="button"
@@ -157,4 +165,9 @@ const st = StyleSheet.create({
     textShadowRadius: 6,
   },
   avatar: { padding: 4, marginLeft: "auto" },
+  action: {
+    borderRadius: 20,
+    backgroundColor: "rgba(255,252,243,0.86)",
+    paddingHorizontal: 4,
+  },
 });

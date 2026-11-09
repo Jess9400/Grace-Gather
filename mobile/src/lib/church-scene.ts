@@ -821,11 +821,21 @@ const FOCUS: Partial<Record<ChurchPlace, Vec3>> = {
   gather: [-1.75, -0.62, -6.25],
   pews: [0, -1.0, -1.6],
 };
+// Spots that are not tappable places but have a room: the tall window above
+// the altar (Discover) and the altar itself (prayer requests).
+const ROOM_SPOTS: Record<string, Vec3> = {
+  window: [0, 1.7, -6.3],
+  altar: [0, -0.4, -5.0],
+};
 export function projectFocus(aspect: number, view: ChurchView) {
   const { matrix } = churchCamera(aspect, view);
-  const out = {} as Partial<Record<ChurchPlace, { x: number; y: number }>>;
+  const out = {} as Partial<Record<string, { x: number; y: number }>>;
+  const spots: Record<string, Vec3> = { ...ROOM_SPOTS };
   (Object.keys(FOCUS) as ChurchPlace[]).forEach((key) => {
-    const p = project(matrix, FOCUS[key]!);
+    spots[key] = FOCUS[key]!;
+  });
+  Object.entries(spots).forEach(([key, point]) => {
+    const p = project(matrix, point);
     if (p) out[key] = p;
   });
   return out;

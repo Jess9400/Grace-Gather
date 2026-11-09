@@ -25,11 +25,19 @@ runInNewContext(
     URL,
   },
 );
-const { roomCrop, roomGeometry, isRoomPlace } = module.exports;
+const { roomCrop, roomGeometry, isRoomPlace, roomSpot } = module.exports;
 const stage = { width: 390, height: 844 };
 
 test("the walk-in lands each place on the same spot its strip shows it", () => {
-  for (const place of ["bible", "pews", "gather", "candles"]) {
+  for (const place of [
+    "bible",
+    "pews",
+    "gather",
+    "candles",
+    "window",
+    "altar",
+    "chats",
+  ]) {
     const at = { x: 195, y: 420 };
     const crop = roomCrop(place, 47, at, stage, 390);
     // Away from the edges, the place sits at the strip's centre and focus line.
@@ -59,4 +67,11 @@ test("only the church rooms walk in; Confession and the wreath open as before", 
     ),
     [true, true, true, true, false, false],
   );
+});
+
+test("Chats shows the side door; Discover and prayer requests have their own spots", () => {
+  assert.equal(roomSpot("chats"), "gather");
+  assert.equal(roomSpot("window"), "window");
+  assert.equal(roomSpot("altar"), "altar");
+  assert.ok(roomGeometry("chats", 0).height < roomGeometry("altar", 0).height);
 });
