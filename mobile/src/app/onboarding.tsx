@@ -1,5 +1,7 @@
 import { useState } from "react";
+import { View } from "react-native";
 import { router } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 import {
   Screen,
   Heading,
@@ -11,6 +13,7 @@ import {
   Notice,
   Card,
   Subheading,
+  colors,
 } from "../components/quiet-ui";
 import { useApp } from "../lib/state";
 import {
@@ -20,6 +23,7 @@ import {
   type Profile,
   type Tradition,
   normalizeProfile,
+  editionsFor,
 } from "../lib/content";
 import { label } from "../lib/labels";
 import { persistent } from "../lib/storage";
@@ -44,6 +48,8 @@ export default function Onboarding() {
   const tr = (text: string) => interfaceCopy(p.language, text);
   const update = (v: Partial<Profile>) =>
     setP(normalizeProfile({ ...p, ...v }));
+  // The Bible that the chosen language and tradition will give them.
+  const bible = editionsFor(p).find((e) => e.id === p.edition);
 
   async function finish() {
     setBusy(true);
@@ -112,6 +118,23 @@ export default function Onboarding() {
               "This shapes your church and the Bible you read. You can change it anytime in your profile.",
             )}
           </Body>
+          {chosen(p) && (
+            <View
+              accessibilityLiveRegion="polite"
+              style={{ flexDirection: "row", alignItems: "center", gap: 10 }}
+            >
+              <Ionicons name="book-outline" size={18} color={colors.goldInk} />
+              <View style={{ flex: 1 }}>
+                <Body small>
+                  {bible
+                    ? `${tr("Your Bible")}: ${bible.name}`
+                    : tr(
+                        "No verified Bible for this tradition in this language yet. You can choose another Bible language later in your profile.",
+                      )}
+                </Body>
+              </View>
+            </View>
+          )}
           <Card tint>
             <Body small>
               {label(p.language, persistent ? "device" : "webDemo")}
