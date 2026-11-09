@@ -1,3 +1,6 @@
+import { aiCopy, AI_CONSENT_VERSION } from "../lib/ai-copy";
+import { jc } from "../lib/journal-copy";
+import { Disclosure } from "../components/CommunityControls";
 import { useState } from "react";
 import {
   Screen,
@@ -197,6 +200,30 @@ export default function Preferences() {
         <Body small>{label(p.language, "emailNotLive")}</Body>
       </Card>
 
+      <Card>
+        <Subheading>{jc(p.language, "aiSetting")}</Subheading>
+        <Body small>{jc(p.language, "aiSettingInfo")}</Body>
+        <Disclosure title={jc(p.language, "aiPrivacy")}>
+          <Body small>{aiCopy(p.language, "consent")}</Body>
+        </Disclosure>
+        <Chip
+          title={jc(
+            p.language,
+            p.journalAIConsentVersion === AI_CONSENT_VERSION
+              ? "aiEnabled"
+              : "aiEnable",
+          )}
+          selected={p.journalAIConsentVersion === AI_CONSENT_VERSION}
+          onPress={() =>
+            update({
+              journalAIConsentVersion:
+                p.journalAIConsentVersion === AI_CONSENT_VERSION
+                  ? undefined
+                  : AI_CONSENT_VERSION,
+            })
+          }
+        />
+      </Card>
       <Notice text={error} />
       {saved && !changed && <Notice text={tr("Saved.")} />}
       <Button

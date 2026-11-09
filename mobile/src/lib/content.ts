@@ -21,6 +21,7 @@ export interface Preferences {
 export interface Profile extends Preferences {
   candlePractice?: boolean;
   weeklyCheckInAt?: string;
+  journalAIConsentVersion?: string;
   churchLighting?: "auto" | "day" | "night";
   faithChoice?: Tradition | "exploring" | "unspecified";
   traditionQuestionVersion?: number;

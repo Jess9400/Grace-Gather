@@ -1,15 +1,8 @@
 import { useState } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  Pressable,
-  StyleSheet,
-  Platform,
-} from "react-native";
+import { View, Text, TextInput, StyleSheet, Platform } from "react-native";
 import { router } from "expo-router";
 import { randomUUID } from "expo-crypto";
-import { Screen, Button, Body, Notice, colors, serif, Card } from "./quiet-ui";
+import { Screen, Button, Notice, colors, serif } from "./quiet-ui";
 import Recorder from "./QuietRecorder";
 import { useApp } from "../lib/state";
 import { useQuiet } from "../lib/quiet-state";
@@ -18,15 +11,14 @@ import { q } from "../lib/quiet-copy";
 import { quietMood } from "../generated/quiet-diary";
 import { suggestJourney } from "../lib/ai";
 import { transcribeRecording } from "../lib/ai-audio";
-import { aiCopy } from "../lib/ai-copy";
+import { aiCopy, AI_CONSENT_VERSION } from "../lib/ai-copy";
 export default function Diary() {
   const { profile, saveEntry } = useApp(),
     { draft, update } = useQuiet();
   const [busy, setBusy] = useState(false),
     [recording, setRecording] = useState(false),
-    [error, setError] = useState(""),
-    [options, setOptions] = useState(false),
-    [useAI, setUseAI] = useState(false);
+    [error, setError] = useState("");
+  const useAI = profile.journalAIConsentVersion === AI_CONSENT_VERSION;
   const lang = profile.language;
   async function submit() {
     if (
@@ -108,6 +100,27 @@ export default function Diary() {
             onChange={(audio) => update({ audio })}
             onBusyChange={setRecording}
           />
+          {useAI && draft.audio && (
+            <Button
+              secondary
+              title={aiCopy(lang, "transcribe")}
+              disabled={busy || recording}
+              onPress={() => {
+                setBusy(true);
+                void transcribeRecording(draft.audio!, lang)
+                  .then((text) =>
+                    update({
+                      text: [draft.text, text]
+                        .filter(Boolean)
+                        .join("\n\n")
+                        .slice(0, 30000),
+                    }),
+                  )
+                  .catch(() => setError(aiCopy(lang, "requestFailed")))
+                  .finally(() => setBusy(false));
+              }}
+            />
+          )}
         </View>
       )}
       <View style={s.paper}>
@@ -141,62 +154,6 @@ export default function Diary() {
         onPress={() => void submit()}
         disabled={busy || recording}
       />
-      <Pressable
-        accessibilityRole="button"
-        accessibilityState={{ expanded: options }}
-        onPress={() => setOptions(!options)}
-        style={{ paddingVertical: 14 }}
-      >
-        <Text style={{ color: colors.muted }}>
-          {options ? "−" : "+"} {q(lang, "options")}
-        </Text>
-      </Pressable>
-      {options && (
-        <>
-          <Card>
-            <Body>{aiCopy(lang, "title")}</Body>
-            <Body small>{aiCopy(lang, "consent")}</Body>
-            <Button
-              secondary
-              title={aiCopy(lang, useAI ? "off" : "agree")}
-              disabled={busy || recording}
-              onPress={() => setUseAI(!useAI)}
-            />
-            {useAI && (
-              <Button
-                secondary
-                title={aiCopy(lang, "signIn")}
-                onPress={() => router.push("/account")}
-              />
-            )}
-            {useAI && draft.audio && (
-              <Button
-                title={aiCopy(lang, "transcribe")}
-                disabled={busy || recording}
-                onPress={() => {
-                  setBusy(true);
-                  void transcribeRecording(draft.audio!, lang)
-                    .then((text) =>
-                      update({
-                        text: [draft.text, text]
-                          .filter(Boolean)
-                          .join("\n\n")
-                          .slice(0, 30000),
-                      }),
-                    )
-                    .catch(() => setError(aiCopy(lang, "requestFailed")))
-                    .finally(() => setBusy(false));
-                }}
-              />
-            )}
-          </Card>
-          <Button
-            secondary
-            title={copy(lang, "history")}
-            onPress={() => router.push("/history")}
-          />
-        </>
-      )}
     </Screen>
   );
 }

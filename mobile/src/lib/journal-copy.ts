@@ -1,5 +1,35 @@
 import type { Language } from "./content";
 const text = {
+  aiSetting: [
+    "Journal guidance",
+    "Orientação no diário",
+    "Orientación del diario",
+    "Подсказки для дневника",
+  ],
+  aiSettingInfo: [
+    "Allow AI to use your submitted writing to suggest a verse and an action. Text and your preferences are processed by Alibaba Qwen. Recordings are sent only when you tap Transcribe.",
+    "Permita que a IA use seu texto enviado para sugerir um versículo e uma ação. O texto e suas preferências são processados pelo Alibaba Qwen. Gravações só são enviadas ao tocar em Transcrever.",
+    "Permite que la IA use tu texto enviado para sugerir un versículo y una acción. Alibaba Qwen procesa el texto y tus preferencias. Las grabaciones solo se envían al pulsar Transcribir.",
+    "Разрешите ИИ использовать отправленную запись, чтобы предложить стих и действие. Текст и настройки обрабатывает Alibaba Qwen. Аудио отправляется только при нажатии «Расшифровать».",
+  ],
+  aiPrivacy: [
+    "Privacy details",
+    "Detalhes de privacidade",
+    "Detalles de privacidad",
+    "Подробнее о конфиденциальности",
+  ],
+  aiEnable: [
+    "Enable AI guidance",
+    "Ativar orientação por IA",
+    "Activar orientación con IA",
+    "Включить подсказки ИИ",
+  ],
+  aiEnabled: [
+    "AI guidance enabled",
+    "Orientação por IA ativada",
+    "Orientación con IA activada",
+    "Подсказки ИИ включены",
+  ],
   heading: [
     "Perhaps this could help today.",
     "Talvez isto ajude hoje.",
