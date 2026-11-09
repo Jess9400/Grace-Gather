@@ -582,6 +582,200 @@
           }
         }
       ]
+    },
+    {
+      "id": "figueiredo",
+      "name": "Figueiredo · 1866",
+      "language": "pt",
+      "traditions": [
+        "catholic"
+      ],
+      "canon": "Bíblia católica, traduzida da Vulgata latina",
+      "scope": "Seis passagens devocionais e o Salmo 22 em Explorar, da tradução católica do Padre António Pereira de Figueiredo, com a ortografia original de 1866. É uma seleção, não a Bíblia completa.",
+      "attribution": "Bíblia Sagrada, traduzida em português segundo a Vulgata latina por António Pereira de Figueiredo (1725–1797). Londres: Harrison e Filhos, 1866. Domínio público. Texto conferido com as páginas digitalizadas no Internet Archive; ortografia original mantida, chamadas de nota omitidas.",
+      "license": "Public domain",
+      "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866",
+      "passages": [
+        {
+          "id": "figueiredo-mateus-11-28",
+          "theme": "rest",
+          "reference": "Mateus 11:28",
+          "text": "Vinde a mim todos os que andais em trabalho, e vos achais carregados, e eu vos alliviarei.",
+          "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866/page/n965/mode/1up",
+          "context": {
+            "en": "Jesus offers rest after explaining his relationship with the Father.",
+            "pt": "Jesus oferece descanso depois de explicar sua relação com o Pai.",
+            "es": "Jesús ofrece descanso después de explicar su relación con el Padre.",
+            "ru": "Иисус предлагает покой после слов о Своих отношениях с Отцом."
+          }
+        },
+        {
+          "id": "figueiredo-joao-14-27",
+          "theme": "peace",
+          "reference": "João 14:27",
+          "text": "A paz vos deixo, a minha paz vos dou: eu não vo-la dou, como a dá o mundo. Não se turbe o vosso coração, nem fique sobresaltado.",
+          "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866/page/n1076/mode/1up",
+          "context": {
+            "en": "During his farewell discourse, Jesus reassures his disciples before his departure.",
+            "pt": "Em seu discurso de despedida, Jesus consola os discípulos antes de sua partida.",
+            "es": "En su discurso de despedida, Jesús consuela a sus discípulos antes de su partida.",
+            "ru": "В прощальной беседе Иисус утешает учеников перед Своим уходом."
+          }
+        },
+        {
+          "id": "figueiredo-romanos-15-13",
+          "theme": "hope",
+          "reference": "Romanos 15:13",
+          "text": "O Deos pois de esperança vos encha de todo o gozo, e de paz na vossa crença: para que abundeis na esperança, e na virtude do Espirito Santo.",
+          "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866/page/n1138/mode/1up",
+          "context": {
+            "en": "Paul prays for hope after urging Jewish and Gentile believers to glorify God together.",
+            "pt": "Paulo ora pela esperança após exortar os fiéis judeus e gentios a glorificarem a Deus juntos.",
+            "es": "Pablo ora por la esperanza después de exhortar a los creyentes judíos y gentiles a glorificar juntos a Dios.",
+            "ru": "Павел молится о надежде, призвав верующих из иудеев и язычников вместе прославлять Бога."
+          }
+        },
+        {
+          "id": "figueiredo-1-tessalonicenses-5-18",
+          "theme": "gratitude",
+          "reference": "1 Tessalonicenses 5:18",
+          "text": "Em tudo dai graças: porque esta he a vontade de Deos em Jesu Christo para com todos vós.",
+          "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866/page/n1186/mode/1up",
+          "context": {
+            "en": "Near the end of this letter, Paul gives the Thessalonian community brief instructions on prayer and gratitude.",
+            "pt": "Perto do fim desta carta, Paulo dá à comunidade de Tessalônica breves orientações sobre oração e gratidão.",
+            "es": "Cerca del final de esta carta, Pablo da a la comunidad de Tesalónica breves instrucciones sobre la oración y la gratitud.",
+            "ru": "В конце послания Павел даёт фессалоникийской общине краткие наставления о молитве и благодарности."
+          }
+        },
+        {
+          "id": "figueiredo-joao-15-9",
+          "theme": "belonging",
+          "reference": "João 15:9",
+          "text": "Como meu Pai me amou, assim vos amei eu. Permanecei no meu amor.",
+          "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866/page/n1077/mode/1up",
+          "context": {
+            "en": "In his farewell teaching, Jesus moves from the image of vine and branches to remaining in his love.",
+            "pt": "Em seu ensinamento de despedida, Jesus passa da imagem da videira e dos ramos à permanência em seu amor.",
+            "es": "En su enseñanza de despedida, Jesús pasa de la imagen de la vid y los sarmientos a permanecer en su amor.",
+            "ru": "В прощальной беседе Иисус переходит от образа лозы и ветвей к пребыванию в Его любви."
+          }
+        },
+        {
+          "id": "figueiredo-salmo-33-19",
+          "theme": "rest",
+          "situations": [
+            "sad"
+          ],
+          "reference": "Salmo 33:19 (Figueiredo)",
+          "text": "Perto está o Senhor d’aquelles, que tem o coração atribulado: e aos humildes de espirito os salvará.",
+          "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866/page/n577/mode/1up",
+          "context": {
+            "en": "In a psalm of thanksgiving and trust amid trouble, the writer describes God as near to the brokenhearted.",
+            "pt": "Em um salmo de gratidão e confiança em meio às dificuldades, o autor descreve Deus próximo dos corações feridos.",
+            "es": "En un salmo de gratitud y confianza en medio de dificultades, el autor describe a Dios cerca de los corazones heridos.",
+            "ru": "В псалме благодарности и доверия среди бед автор говорит о близости Бога к сокрушённым сердцем."
+          }
+        }
+      ]
+    },
+    {
+      "id": "torresamat",
+      "name": "Torres Amat · 1884",
+      "language": "es",
+      "traditions": [
+        "catholic"
+      ],
+      "canon": "Biblia católica, traducida de la Vulgata latina",
+      "scope": "Seis pasajes devocionales y el Salmo 22 en Explorar, de la traducción católica de Félix Torres Amat, con la ortografía original de la edición de 1884. Es una selección, no la Biblia completa.",
+      "attribution": "La Sagrada Biblia, traducida de la Vulgata latina al español por Félix Torres Amat (1772–1847). Barcelona: Montaner y Simón, nueva edición ilustrada por Gustavo Doré, con licencia de la autoridad eclesiástica; ejemplar de 1884. Dominio público. Texto cotejado con las páginas digitalizadas en Internet Archive; ortografía original; las palabras que el traductor añadió en cursiva aparecen sin cursiva y se omiten las llamadas a notas.",
+      "license": "Public domain",
+      "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
+      "sourceUrl": "https://archive.org/details/torresamatbiblia",
+      "passages": [
+        {
+          "id": "torresamat-mateo-11-28",
+          "theme": "rest",
+          "reference": "Mateo 11:28",
+          "text": "Venid á mí todos los que andais agobiados con trabajos, y cargas, que yo os aliviaré.",
+          "sourceUrl": "https://archive.org/details/torresamatbiblia/page/n765/mode/1up",
+          "context": {
+            "en": "Jesus offers rest after explaining his relationship with the Father.",
+            "pt": "Jesus oferece descanso depois de explicar sua relação com o Pai.",
+            "es": "Jesús ofrece descanso después de explicar su relación con el Padre.",
+            "ru": "Иисус предлагает покой после слов о Своих отношениях с Отцом."
+          }
+        },
+        {
+          "id": "torresamat-juan-14-27",
+          "theme": "peace",
+          "reference": "Juan 14:27",
+          "text": "La paz os dejo, la paz mia os doy: no os la doy yo, como la da el mundo. No se turbe vuestro corazon, ni se acobarde.",
+          "sourceUrl": "https://archive.org/details/torresamatbiblia/page/n834/mode/1up",
+          "context": {
+            "en": "During his farewell discourse, Jesus reassures his disciples before his departure.",
+            "pt": "Em seu discurso de despedida, Jesus consola os discípulos antes de sua partida.",
+            "es": "En su discurso de despedida, Jesús consuela a sus discípulos antes de su partida.",
+            "ru": "В прощальной беседе Иисус утешает учеников перед Своим уходом."
+          }
+        },
+        {
+          "id": "torresamat-romanos-15-13",
+          "theme": "hope",
+          "reference": "Romanos 15:13",
+          "text": "El Dios de la esperanza nuestra os colme de toda suerte de gozo, y de paz en vuestra creencia: para que crezca vuestra esperanza siempre mas y mas, por la virtud del Espíritu Santo.",
+          "sourceUrl": "https://archive.org/details/torresamatbiblia/page/n874/mode/1up",
+          "context": {
+            "en": "Paul prays for hope after urging Jewish and Gentile believers to glorify God together.",
+            "pt": "Paulo ora pela esperança após exortar os fiéis judeus e gentios a glorificarem a Deus juntos.",
+            "es": "Pablo ora por la esperanza después de exhortar a los creyentes judíos y gentiles a glorificar juntos a Dios.",
+            "ru": "Павел молится о надежде, призвав верующих из иудеев и язычников вместе прославлять Бога."
+          }
+        },
+        {
+          "id": "torresamat-1-tesalonicenses-5-18",
+          "theme": "gratitude",
+          "reference": "1 Tesalonicenses 5:18",
+          "text": "Dad gracias por todo al Señor: porque esto es lo que quiere Dios que hagais todos en nombre de Jesu-Christo.",
+          "sourceUrl": "https://archive.org/details/torresamatbiblia/page/n913/mode/1up",
+          "context": {
+            "en": "Near the end of this letter, Paul gives the Thessalonian community brief instructions on prayer and gratitude.",
+            "pt": "Perto do fim desta carta, Paulo dá à comunidade de Tessalônica breves orientações sobre oração e gratidão.",
+            "es": "Cerca del final de esta carta, Pablo da a la comunidad de Tesalónica breves instrucciones sobre la oración y la gratitud.",
+            "ru": "В конце послания Павел даёт фессалоникийской общине краткие наставления о молитве и благодарности."
+          }
+        },
+        {
+          "id": "torresamat-juan-15-9",
+          "theme": "belonging",
+          "reference": "Juan 15:9",
+          "text": "Al modo que mi Padre me amó, así os he amado yo. Perseverad en mi amor.",
+          "sourceUrl": "https://archive.org/details/torresamatbiblia/page/n835/mode/1up",
+          "context": {
+            "en": "In his farewell teaching, Jesus moves from the image of vine and branches to remaining in his love.",
+            "pt": "Em seu ensinamento de despedida, Jesus passa da imagem da videira e dos ramos à permanência em seu amor.",
+            "es": "En su enseñanza de despedida, Jesús pasa de la imagen de la vid y los sarmientos a permanecer en su amor.",
+            "ru": "В прощальной беседе Иисус переходит от образа лозы и ветвей к пребыванию в Его любви."
+          }
+        },
+        {
+          "id": "torresamat-salmo-33-19",
+          "theme": "rest",
+          "situations": [
+            "sad"
+          ],
+          "reference": "Salmo 33:19 (Torres Amat)",
+          "text": "El Señor está al lado de los que tienen el corazon atribulado; y él salvará á los humildes de espíritu.",
+          "sourceUrl": "https://archive.org/details/torresamatbiblia/page/n401/mode/1up",
+          "context": {
+            "en": "In a psalm of thanksgiving and trust amid trouble, the writer describes God as near to the brokenhearted.",
+            "pt": "Em um salmo de gratidão e confiança em meio às dificuldades, o autor descreve Deus próximo dos corações feridos.",
+            "es": "En un salmo de gratitud y confianza en medio de dificultades, el autor describe a Dios cerca de los corazones heridos.",
+            "ru": "В псалме благодарности и доверия среди бед автор говорит о близости Бога к сокрушённым сердцем."
+          }
+        }
+      ]
     }
   ],
   "COPY": {
@@ -3951,6 +4145,30 @@
         "Если я пойду и долиною смертной тени, не убоюсь зла, потому что Ты со мной; Твой жезл и Твой посох - они успокаивают меня.",
         "Ты приготовил предо мною трапезу в виду врагов моих; умастил елеем голову мою; чаша моя преисполнена.",
         "Так, благость и милость Твоя да сопровождают меня во все дни жизни моей, и я пребуду в доме Господнем многие дни."
+      ]
+    },
+    "figueiredo": {
+      "reference": "Salmo 22 · Figueiredo",
+      "source": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866/page/n572/mode/1up",
+      "verses": [
+        "Salmo de David. O SENHOR me governa, e nada me faltará:",
+        "em hum lugar de pastos alli me collocou. Elle me conduzio junto a huma agua de refeição:",
+        "converteo a minha alma. Levou-me por varedas de justiça, por amor do seu nome.",
+        "Pois ainda quando andar no meio da sombra da morte, não temerei males: por quanto tu estás comigo. A tua vara, e o teu baculo, elles me consolárão.",
+        "Preparaste huma meza diante de mim, á vista d’aquelles, que me angustiavão. Ungiste com o oleo pingue a minha cabeça: e o meu calis que embriaga quam precioso he!",
+        "E a tua misericordia irá após de mim todos os dias da minha vida. E a fim de que eu habite na casa do Senhor, por diuturnidade de dias."
+      ]
+    },
+    "torresamat": {
+      "reference": "Salmo 22 · Torres Amat",
+      "source": "https://archive.org/details/torresamatbiblia/page/n397/mode/1up",
+      "verses": [
+        "Salmo de David. El Señor me pastorea, nada me faltará.",
+        "Él me ha colocado en lugar de pastos: — me ha conducido junto á unas aguas que restauran y recrean.",
+        "Convirtió á mi alma. — Me ha conducido por los senderos de la justicia, para gloria de su Nombre.",
+        "De esta suerte, aunque caminase yo por medio de la sombra de la muerte, no temeré ningun desastre; porque tú estás conmigo. — Tu vara y tu báculo han sido mi consuelo;",
+        "Aparejaste delante de mí una mesa abundante, á la vista de mis perseguidores. — Bañaste de óleo ó perfumaste mi cabeza. ¡Y cuán excelente es el cáliz mio que santamente embriaga!",
+        "Y me seguirá tu misericordia todos los dias de mi vida; — á fin de que yo more en la Casa del Señor por largo tiempo."
       ]
     }
   }

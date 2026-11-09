@@ -8,7 +8,7 @@ Interface language and Scripture language are independent onboarding preferences
 - Spanish: Reina-Valera 1909, public domain, https://ebible.org/spaRV1909/copyright.htm
 - Russian: Synodal, public domain, https://ebible.org/russyn/copyright.htm
 
-Each imported source contains 66 books. The Russian source does not include the additional Orthodox books. Portuguese and Spanish Catholic editions and additional Orthodox coverage remain unavailable. English collections retain their existing edition-specific coverage.
+Each imported source contains 66 books. The Russian source does not include the additional Orthodox books. Portuguese and Spanish Catholic readers now get curated passage selections (Figueiredo 1866, Torres Amat 1884; see SCRIPTURE_SOURCES.md) but no full Catholic reader. Additional Orthodox coverage remains unavailable. English collections retain their existing edition-specific coverage.
 
 Publisher rights, source URLs and archive SHA-256 hashes are retained in generated assets. Reproduce with `python3 scripts/import-multilingual-bibles.py <archive-directory>` using the pinned official USFX archives named in the script. Text and numbering are preserved; publisher notes remain separate. An empty publisher verse marker remains empty with an explanatory note.
 
