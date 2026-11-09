@@ -401,6 +401,19 @@ export default function Home() {
               </Pressable>
               <Pressable
                 accessibilityRole="button"
+                onPress={() => {
+                  setInvitation(false);
+                  router.push({
+                    pathname: "/prayers",
+                    params: { compose: "1" },
+                  });
+                }}
+                style={s.stay}
+              >
+                <Text style={s.stayText}>{tr("Request a prayer")}</Text>
+              </Pressable>
+              <Pressable
+                accessibilityRole="button"
                 onPress={dismissInvitation}
                 style={s.stay}
               >
@@ -410,13 +423,24 @@ export default function Home() {
           </Animated.View>
         )}
         {!invitation && !entrance && !touring && (
-          <Pressable
-            accessibilityRole="button"
-            onPress={() => setInvitation(true)}
-            style={s.reopen}
-          >
-            <Text style={s.stayText}>{tr("Talk to God")}</Text>
-          </Pressable>
+          <View style={s.reopen}>
+            <Pressable
+              accessibilityRole="button"
+              onPress={() => setInvitation(true)}
+              style={s.stay}
+            >
+              <Text style={s.stayText}>{tr("Talk to God")}</Text>
+            </Pressable>
+            <Pressable
+              accessibilityRole="button"
+              onPress={() =>
+                router.push({ pathname: "/prayers", params: { compose: "1" } })
+              }
+              style={s.stay}
+            >
+              <Text style={s.stayText}>{tr("Request a prayer")}</Text>
+            </Pressable>
+          </View>
         )}
       </View>
       <Modal visible={accountOpen} transparent animationType={reduced ? "none" : "fade"} onRequestClose={() => setAccountOpen(false)}>
