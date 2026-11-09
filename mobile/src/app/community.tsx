@@ -35,11 +35,21 @@ import {
 import { getReadingVerse, discussionVerseId } from "../lib/bible";
 
 type ViewMode = "list" | "thread" | "compose" | "review";
-export default function Community({ header }: { header?: ReactNode } = {}) {
+type CommunityProps = { header?: ReactNode; search?: string };
+export default function Community({
+  header,
+  search = "",
+}: CommunityProps = {}) {
   const { userId } = useCommunity();
-  return <CommunityScreen key={userId ?? "signed-out"} header={header} />;
+  return (
+    <CommunityScreen
+      key={userId ?? "signed-out"}
+      header={header}
+      search={search}
+    />
+  );
 }
-function CommunityScreen({ header }: { header?: ReactNode }) {
+function CommunityScreen({ header, search = "" }: CommunityProps) {
   const tr = useInterfaceCopy();
   const params = useLocalSearchParams<{
     verse?: string;
@@ -118,6 +128,10 @@ function CommunityScreen({ header }: { header?: ReactNode }) {
   const topics = visibleTopics(
     state,
     filter === "verse" ? verse?.id : undefined,
+  ).filter((topic) =>
+    `${topic.title} ${topic.body} ${topic.reference ?? ""}`
+      .toLocaleLowerCase()
+      .includes(search.trim().toLocaleLowerCase()),
   );
   const goList = () => {
     setMode("list");
@@ -314,7 +328,7 @@ function CommunityScreen({ header }: { header?: ReactNode }) {
   }
   return (
     <SafeAreaView style={s.safe} edges={["top", "bottom", "left", "right"]}>
-      {header ?? (
+      {!header && (
         <View style={s.header}>
           <Pressable
             accessibilityRole="button"
@@ -340,6 +354,7 @@ function CommunityScreen({ header }: { header?: ReactNode }) {
         keyboardShouldPersistTaps="handled"
         contentContainerStyle={s.page}
       >
+        {header}
         <View style={s.preview}>
           <Ionicons
             name={demo ? "flask-outline" : "people-outline"}
@@ -384,14 +399,18 @@ function CommunityScreen({ header }: { header?: ReactNode }) {
         )}
         {mode === "list" && (
           <>
-            <Text accessibilityRole="header" style={s.heading}>
-              {tr("A little space")}
-              {String.fromCharCode(10)}
-              {tr("to listen.")}
-            </Text>
-            <Body>
-              {tr("Questions, reflections and faith, shared gently.")}
-            </Body>
+            {!header && (
+              <>
+                <Text accessibilityRole="header" style={s.heading}>
+                  {tr("A little space")}
+                  {String.fromCharCode(10)}
+                  {tr("to listen.")}
+                </Text>
+                <Body>
+                  {tr("Questions, reflections and faith, shared gently.")}
+                </Body>
+              </>
+            )}
             {!demo && !automatic && (
               <Body small>
                 {tr(
