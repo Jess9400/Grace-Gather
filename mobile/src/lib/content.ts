@@ -1,4 +1,5 @@
 import catalog from "../generated/catalog.json";
+import { AI_CONSENT_VERSION } from "./ai-copy";
 export type Language = "en" | "pt" | "es" | "ru";
 export type Tradition = "protestant" | "catholic" | "orthodox";
 export type Mood =
@@ -19,8 +20,10 @@ export interface Preferences {
   edition: string;
 }
 export interface Profile extends Preferences {
+  deleteJournalChatsAfter90Days?: boolean;
   candlePractice?: boolean;
   weeklyCheckInAt?: string;
+  journalAIConsentVersion?: string;
   churchLighting?: "auto" | "day" | "night";
   faithChoice?: Tradition | "exploring" | "unspecified";
   traditionQuestionVersion?: number;
@@ -33,7 +36,33 @@ export interface Profile extends Preferences {
   emailConsent: boolean;
   onboarded: boolean;
 }
+export interface JournalMessage {
+  id: string;
+  role: "user" | "assistant";
+  content: string;
+  actionId?: string;
+  support?: boolean;
+  createdAt?: string;
+}
+export interface JournalResponse {
+  verse: import("./bible").ReadingVerse | null;
+  actionId: string;
+  actionTitle: string;
+  invitation: string;
+}
+export interface DeletedConversation {
+  id: string;
+  deletedAt: string;
+  messages: JournalMessage[];
+}
 export interface Entry {
+  conversation?: JournalMessage[];
+  response?: JournalResponse;
+  conversationUpdatedAt?: string;
+  keepConversation?: boolean;
+  chatCleanup?: { deleteAt: string; seenAt?: string };
+  deletedConversations?: DeletedConversation[];
+  deletedAt?: string;
   id: string;
   createdAt: string;
   mood: Mood;
@@ -101,6 +130,9 @@ export const initialProfile: Profile = {
   intent: "faith",
   email: "",
   emailConsent: false,
+  // Default for a new profile only. Saved profiles (including AI off) are
+  // restored as-is by normalizeProfile, never overlaid with these defaults.
+  journalAIConsentVersion: AI_CONSENT_VERSION,
   onboarded: false,
 };
 export function copy(language: Language, key: string): string {

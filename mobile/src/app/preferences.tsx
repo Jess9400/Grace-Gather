@@ -1,3 +1,9 @@
+import { Switch, View } from "react-native";
+import { automaticCleanupSupported } from "../lib/storage";
+import { journalCopy } from "../lib/journal-library-copy";
+import { aiCopy, AI_CONSENT_VERSION } from "../lib/ai-copy";
+import { jc } from "../lib/journal-copy";
+import { Disclosure } from "../components/CommunityControls";
 import { useState } from "react";
 import {
   Screen,
@@ -197,6 +203,51 @@ export default function Preferences() {
         <Body small>{label(p.language, "emailNotLive")}</Body>
       </Card>
 
+      <Card>
+        <Subheading>{jc(p.language, "aiSetting")}</Subheading>
+        <Body small>{jc(p.language, "aiSettingInfo")}</Body>
+        <Disclosure title={jc(p.language, "aiPrivacy")}>
+          <Body small>{aiCopy(p.language, "consent")}</Body>
+        </Disclosure>
+        <Chip
+          title={jc(
+            p.language,
+            p.journalAIConsentVersion === AI_CONSENT_VERSION
+              ? "aiEnabled"
+              : "aiEnable",
+          )}
+          selected={p.journalAIConsentVersion === AI_CONSENT_VERSION}
+          onPress={() =>
+            update({
+              journalAIConsentVersion:
+                p.journalAIConsentVersion === AI_CONSENT_VERSION
+                  ? undefined
+                  : AI_CONSENT_VERSION,
+            })
+          }
+        />
+      </Card>
+      <Card>
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 16 }}>
+          <View style={{ flex: 1 }}>
+            <Subheading>{journalCopy(p.language, "cleanupSetting")}</Subheading>
+          </View>
+          <Switch
+            accessibilityLabel={journalCopy(p.language, "cleanupSetting")}
+            disabled={!automaticCleanupSupported}
+            value={p.deleteJournalChatsAfter90Days === true}
+            onValueChange={(value) =>
+              update({ deleteJournalChatsAfter90Days: value })
+            }
+          />
+        </View>
+        <Body small>
+          {journalCopy(
+            p.language,
+            automaticCleanupSupported ? "cleanupInfo" : "cleanupUnavailable",
+          )}
+        </Body>
+      </Card>
       <Notice text={error} />
       {saved && !changed && <Notice text={tr("Saved.")} />}
       <Button

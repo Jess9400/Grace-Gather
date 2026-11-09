@@ -1,3 +1,5 @@
+import JournalConversation from "../../components/JournalConversation";
+import JournalActionButton from "../../components/JournalActionButton";
 import { useEffect, useState } from "react";
 import {
   View,
@@ -25,27 +27,27 @@ import { TextAction } from "../../components/CommunityControls";
 import AudioPlayback from "../../components/QuietAudioPlayback";
 import { useApp } from "../../lib/state";
 import { useQuiet } from "../../lib/quiet-state";
-import { copy, passagesFor } from "../../lib/content";
+import { copy } from "../../lib/content";
 import { q } from "../../lib/quiet-copy";
-import {
-  collectionFor,
-  ensureCollection,
-  getReadingVerse,
-  themeVerse,
-  type ReadingVerse,
-} from "../../lib/bible";
+import type { ReadingVerse } from "../../lib/bible";
+import { resolveJournalResponse } from "../../lib/journal-response";
 import { journalAction, journalTheme } from "../../lib/journal-guidance";
-import { jc, type JournalCopyKey } from "../../lib/journal-copy";
+import {
+  jc,
+  actionInvitation,
+  type JournalCopyKey,
+} from "../../lib/journal-copy";
 
-// One submitted page, one approved verse, one invitation. No generated chat thread.
+// One saved verse and one invitation, with replies inline beneath them.
 export default function EntryScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { entries, profile, saveEntry } = useApp();
+  const { entries, profile, saveEntry, saveJournalResponse } = useApp();
   const { update } = useQuiet();
   const entry = entries.find((e) => e.id === id);
   const [verse, setVerse] = useState<ReadingVerse | null>(null);
   const [loading, setLoading] = useState(true);
   const [noteOpen, setNoteOpen] = useState(false);
+  const [noteAction, setNoteAction] = useState<string>();
   const [note, setNote] = useState("");
   const [notice, setNotice] = useState("");
   const [busy, setBusy] = useState(false);
@@ -60,34 +62,16 @@ export default function EntryScreen() {
       if (!active) return;
       setLoading(true);
       setVerse(null);
-      const theme = journalTheme(e);
-      const collection = collectionFor(e.prefs);
-      let selected: ReadingVerse | null = null;
-      if (collection) {
+      const response = await resolveJournalResponse(e, profile);
+      if (!e.response && (response.verse || e.safety)) {
         try {
-          await ensureCollection(collection);
-          // Psalm numbering differs across editions; use the edition's curated match
-          // until an explicit cross-edition alias exists, rather than misquote a Psalm.
-          if (
-            !theme.verse.startsWith("PSA.") ||
-            collection === "web" ||
-            collection === "blivre" ||
-            collection === "rv1909"
-          )
-            selected = getReadingVerse(`${collection}:${theme.verse}`);
+          await saveJournalResponse(e.id, response);
         } catch {
-          /* Approved curated fallback below; no invented quotations. */
+          if (active) setNotice(copy(lang, "storageError"));
         }
-      } else {
-        // Passage-only Bibles carry each theme verse, checked against the scans.
-        selected = themeVerse(e.prefs, theme.verse);
       }
-      const candidates = passagesFor(e.prefs, e.mood);
-      const fallback =
-        candidates.find((v) => e.passageIds?.includes(v.id)) ?? candidates[0];
-      if (!selected && fallback) selected = getReadingVerse(fallback.id);
       if (active) {
-        setVerse(selected);
+        setVerse(response.verse);
         setLoading(false);
       }
     }
@@ -95,15 +79,21 @@ export default function EntryScreen() {
     return () => {
       active = false;
     };
-  }, [entry]);
+    // The original response is independent of later chat messages.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [entry?.id, entry?.response]);
   if (!entry)
     return (
       <Screen back>
         <Body>{copy(lang, "emptySub")}</Body>
       </Screen>
     );
-  const action = journalAction(entry, profile);
-  const actionTitle = jc(lang, action as JournalCopyKey);
+  const action = entry.response?.actionId ?? journalAction(entry, profile);
+  const hopeReflection =
+    journalTheme(entry).id === "hopelessness" && action === "A08";
+  const actionTitle =
+    entry.response?.actionTitle ??
+    jc(lang, hopeReflection ? "hopeAction" : (action as JournalCopyKey));
   function edit() {
     update({
       text: entry!.text,
@@ -114,7 +104,8 @@ export default function EntryScreen() {
     });
     router.push("/(tabs)/diary");
   }
-  function openAction() {
+  function openAction(selectedAction = action) {
+    setNoteAction(selectedAction);
     const routes: Record<string, Href> = {
       A01: "/candle",
       A21: "/candle",
@@ -126,8 +117,8 @@ export default function EntryScreen() {
       A20: "/testimonies/edit",
       A26: "/study",
     };
-    if (routes[action]) {
-      router.push(routes[action]);
+    if (routes[selectedAction]) {
+      router.push(routes[selectedAction]);
       return;
     }
     setNote(entry!.reflection ?? "");
@@ -149,7 +140,12 @@ export default function EntryScreen() {
   }
   return (
     <>
-      <Screen back>
+      <JournalConversation
+        key={entry.id}
+        entry={entry}
+        initialAction={action}
+        onAction={openAction}
+      >
         <View style={s.top}>
           <Body small>
             {new Date(entry.createdAt).toLocaleDateString(lang, {
@@ -201,7 +197,7 @@ export default function EntryScreen() {
           </Card>
         ) : (
           <>
-            <Card>
+            <View style={s.scripture}>
               {loading ? (
                 <Body>{copy(lang, "cLoading")}</Body>
               ) : verse ? (
@@ -210,39 +206,46 @@ export default function EntryScreen() {
                   <Text selectable style={s.verse}>
                     {verse.text}
                   </Text>
-                  <TextAction
-                    title={q(lang, "understand")}
-                    icon="arrow-forward"
+                  <Pressable
+                    accessibilityRole="button"
+                    accessibilityLabel={q(lang, "understand")}
+                    style={s.verseLink}
                     onPress={() =>
                       router.push({
                         pathname: "/verse/[id]",
                         params: { id: verse.id },
                       })
                     }
-                  />
-                  <Body small>{verse.editionName}</Body>
+                  >
+                    <Text style={s.verseLinkText}>{q(lang, "understand")}</Text>
+                    <Ionicons
+                      name="chevron-forward"
+                      size={14}
+                      color={colors.muted}
+                    />
+                  </Pressable>
+                  <Text style={s.edition}>{verse.editionName}</Text>
                 </>
               ) : (
                 <Body>{copy(lang, "unavailable")}</Body>
               )}
-            </Card>
-            <View style={s.action}>
-              <Body small>{jc(lang, "heading")}</Body>
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel={actionTitle}
-                onPress={openAction}
-                style={s.actionRow}
-              >
-                <Text style={s.actionTitle}>{actionTitle}</Text>
-                <Ionicons name="arrow-forward" size={20} color={colors.ink} />
-              </Pressable>
             </View>
-            {entry.aiUnavailable && <Body small>{jc(lang, "fallback")}</Body>}
+            <View style={s.action}>
+              <Text style={s.invitation}>
+                {entry.response?.invitation ??
+                  (hopeReflection
+                    ? jc(lang, "hopeIntro")
+                    : actionInvitation(lang, action))}
+              </Text>
+              <JournalActionButton
+                title={actionTitle}
+                onPress={() => openAction()}
+              />
+            </View>
           </>
         )}
         <Notice text={notice} />
-      </Screen>
+      </JournalConversation>
       <Modal
         visible={noteOpen}
         transparent
@@ -261,9 +264,22 @@ export default function EntryScreen() {
                 icon="close"
                 onPress={() => setNoteOpen(false)}
               />
-              <Heading>{entry.safety ? jc(lang, "A07") : actionTitle}</Heading>
+              <Heading>
+                {entry.safety
+                  ? jc(lang, "A07")
+                  : noteAction && noteAction !== action
+                    ? jc(lang, noteAction as JournalCopyKey)
+                    : actionTitle}
+              </Heading>
               <Body>
-                {jc(lang, action === "A05" ? "professional" : "note")}
+                {jc(
+                  lang,
+                  hopeReflection && (!noteAction || noteAction === action)
+                    ? "hopeNote"
+                    : (noteAction ?? action) === "A05"
+                      ? "professional"
+                      : "note",
+                )}
               </Body>
               <Field
                 label={jc(lang, "private")}
@@ -294,30 +310,36 @@ const s = StyleSheet.create({
   entry: { gap: 10, paddingVertical: 12 },
   dear: {
     fontFamily: serif,
-    fontSize: 22,
+    fontSize: 18,
     color: colors.ink,
     fontStyle: "italic",
   },
   writing: { fontSize: 16, lineHeight: 26, color: colors.muted },
-  verse: { fontFamily: serif, fontSize: 27, lineHeight: 41, color: colors.ink },
-  action: {
-    paddingVertical: 18,
-    gap: 8,
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: colors.line,
+  verse: { fontFamily: serif, fontSize: 26, lineHeight: 36, color: colors.ink },
+  scripture: {
+    gap: 12,
+    paddingLeft: 20,
+    paddingVertical: 8,
+    borderLeftWidth: 2,
+    borderLeftColor: colors.gold,
   },
-  actionRow: {
-    minHeight: 52,
+  invitation: {
+    fontSize: 16,
+    lineHeight: 26,
+    color: colors.ink,
+  },
+  verseLink: {
+    minHeight: 44,
     flexDirection: "row",
     alignItems: "center",
-    gap: 16,
+    gap: 6,
+    alignSelf: "flex-start",
   },
-  actionTitle: {
-    fontSize: 18,
-    lineHeight: 27,
-    color: colors.ink,
-    flex: 1,
-    fontWeight: "500",
+  verseLinkText: { fontSize: 13, color: colors.muted },
+  edition: { fontSize: 12, lineHeight: 18, color: colors.muted },
+  action: {
+    paddingVertical: 18,
+    gap: 12,
   },
   backdrop: {
     flex: 1,

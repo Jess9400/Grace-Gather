@@ -1,3 +1,9 @@
+import {
+  BACKUP_LIMIT,
+  decodeBackup,
+  mergeBackup,
+  type BackupOptions,
+} from "./journal-backup";
 import { journalBackupAudioNames } from "../generated/quiet-diary";
 import * as SQLite from "expo-sqlite";
 import * as SecureStore from "expo-secure-store";
@@ -6,6 +12,7 @@ import {
   AESSealedData,
   aesEncryptAsync,
   aesDecryptAsync,
+  randomUUID,
 } from "expo-crypto";
 import { File, Directory, Paths } from "expo-file-system";
 
@@ -126,11 +133,17 @@ function base64(bytes: Uint8Array) {
     binary += String.fromCharCode(...bytes.subarray(i, i + 8192));
   return btoa(binary);
 }
-export async function exportEncrypted() {
+export async function exportEncrypted(options?: BackupOptions) {
   await initialize();
-  const rows = await database.getAllAsync<{ key: string; value: string }>(
+  let rows = await database.getAllAsync<{ key: string; value: string }>(
     "SELECT key,value FROM vault WHERE key IN ('profile','entries') OR key LIKE 'course:%'",
   );
+  if (options) {
+    rows = rows.filter((r) => r.key === "entries" || r.key === "profile");
+    const stored = rows.find((r) => r.key === "entries");
+    if (stored) stored.value = JSON.stringify(options.entries);
+    else rows.push({ key: "entries", value: JSON.stringify(options.entries) });
+  }
   const audio: Record<string, string> = {};
   const included = new Set(
     journalBackupAudioNames(
@@ -149,6 +162,9 @@ export async function exportEncrypted() {
         ),
       );
   }
+  for (const name of included)
+    if (!Object.hasOwn(audio, name))
+      throw Error("A recording is missing from this backup.");
   const backupKey = await AESEncryptionKey.generate();
   const raw = new TextEncoder().encode(
     JSON.stringify({ version: 1, rows, audio }),
@@ -158,106 +174,71 @@ export async function exportEncrypted() {
       "This backup exceeds the 50 MB limit. Export fewer recordings.",
     );
   const encrypted = await aesEncryptAsync(raw, backupKey);
-  const file = new File(Paths.cache, "grace-and-gather-backup.bin");
+  const file = new File(Paths.cache, `grace-and-gather-${randomUUID()}.bin`);
   await file.write(await encrypted.combined());
   return { uri: file.uri, key: await backupKey.encoded("hex") };
 }
-export async function restoreEncrypted(uri: string, key: string) {
-  await initialize();
-  if (!/^[a-f0-9]{64}$/i.test(key))
-    throw new Error("Enter the 64-character recovery key.");
-  const current = JSON.parse((await getItem("entries")) ?? "[]");
-  if (current.length)
-    throw new Error(
-      "Restore requires an empty journal. Export and remove existing entries first.",
-    );
+export function releaseBackup(uri: string) {
   const file = new File(uri);
-  if (file.size > 50 * 1024 * 1024) throw new Error("Backup is too large.");
-  const restored = JSON.parse(
-    new TextDecoder().decode(
-      await aesDecryptAsync(
-        AESSealedData.fromCombined(await file.bytes()),
-        await AESEncryptionKey.import(key, "hex"),
-      ),
-    ),
-  );
-  if (
-    restored.version !== 1 ||
-    !Array.isArray(restored.rows) ||
-    !restored.audio ||
-    typeof restored.audio !== "object"
-  )
-    throw new Error("Unsupported backup.");
-  const rows: { key: string; value: string }[] = restored.rows;
-  for (const row of rows) {
-    if (
-      typeof row.key !== "string" ||
-      typeof row.value !== "string" ||
-      !/^(profile|entries|course:[a-z0-9-]+)$/.test(row.key)
-    )
-      throw new Error("Invalid backup data.");
-    JSON.parse(row.value);
-  }
-  const entries = JSON.parse(
-    rows.find((r) => r.key === "entries")?.value ?? "[]",
-  );
-  if (
-    !Array.isArray(entries) ||
-    entries.some(
-      (e) =>
-        !e ||
-        typeof e.id !== "string" ||
-        !/^[a-z0-9-]+$/i.test(e.id) ||
-        typeof e.text !== "string" ||
-        !e.prefs ||
-        !["en", "pt", "es", "ru"].includes(e.prefs.language) ||
-        ![
-          "grateful",
-          "peaceful",
-          "hopeful",
-          "anxious",
-          "lonely",
-          "sad",
-          "overwhelmed",
-          "hopeless",
-          "unsure",
-        ].includes(e.mood) ||
-        !Number.isFinite(Date.parse(e.createdAt)),
-    )
-  )
-    throw new Error("Invalid journal entries.");
-  const p = JSON.parse(rows.find((r) => r.key === "profile")?.value ?? "null");
-  if (
-    p &&
-    (!["en", "pt", "es", "ru"].includes(p.language) ||
-      typeof p.name !== "string" ||
-      typeof p.city !== "string" ||
-      typeof p.region !== "string")
-  )
-    throw new Error("Invalid profile.");
-  const created: File[] = [];
-  try {
-    for (const [name, value] of Object.entries(restored.audio)) {
-      if (!/^[a-z0-9-]+\.bin$/i.test(name) || typeof value !== "string")
-        throw new Error("Invalid audio backup.");
-      const target = new File(audioDir(), name);
-      if (target.exists)
-        throw new Error("A recording with this ID already exists.");
-      const raw = Uint8Array.from(atob(value), (c) => c.charCodeAt(0));
-      const sealed = await aesEncryptAsync(raw, encryptionKey);
-      await target.write(await sealed.combined());
-      created.push(target);
-    }
-    await database.withExclusiveTransactionAsync(async (tx) => {
-      for (const row of rows)
-        await tx.runAsync(
-          "INSERT INTO vault(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value",
-          row.key,
-          row.value,
-        );
-    });
-  } catch (error) {
-    for (const f of created) if (f.exists) f.delete();
-    throw error;
-  }
+  if (file.exists) file.delete();
 }
+export async function restoreEncrypted(uri: string, key: string) {
+  return withJournalLock(async () => {
+    await initialize();
+    if (!/^[a-f0-9]{64}$/i.test(key))
+      throw Error("Enter the 64-character recovery key.");
+    const file = new File(uri);
+    if (file.size > BACKUP_LIMIT + 28) throw Error("Backup is too large.");
+    const restored = decodeBackup(
+      new TextDecoder().decode(
+        await aesDecryptAsync(
+          AESSealedData.fromCombined(await file.bytes()),
+          await AESEncryptionKey.import(key, "hex"),
+        ),
+      ),
+    );
+    const merged = mergeBackup(
+      restored,
+      JSON.parse((await getItem("entries")) ?? "[]"),
+      JSON.parse((await getItem("profile")) ?? "null"),
+    );
+    for (const row of restored.rows)
+      if (row.key.startsWith("course:") && (await getItem(row.key)) === null)
+        merged.rows.push(row);
+    const created: File[] = [];
+    try {
+      for (const [name, value] of Object.entries(merged.audio)) {
+        const target = new File(audioDir(), name);
+        if (target.exists)
+          throw Error("A recording with this ID already exists.");
+        const sealed = await aesEncryptAsync(
+          Uint8Array.from(atob(value), (c) => c.charCodeAt(0)),
+          encryptionKey,
+        );
+        await target.write(await sealed.combined());
+        created.push(target);
+      }
+      await database.withExclusiveTransactionAsync(async (tx) => {
+        for (const row of merged.rows)
+          await tx.runAsync(
+            "INSERT INTO vault(key,value) VALUES(?,?) ON CONFLICT(key) DO UPDATE SET value=excluded.value",
+            row.key,
+            row.value,
+          );
+      });
+    } catch (error) {
+      for (const f of created) if (f.exists) f.delete();
+      throw error;
+    }
+  });
+}
+
+let journalLock: Promise<unknown> = Promise.resolve();
+export async function withJournalLock<T>(
+  operation: () => Promise<T>,
+): Promise<T> {
+  const task = journalLock.then(operation);
+  journalLock = task.catch(() => {});
+  return task;
+}
+export const automaticCleanupSupported = true;
