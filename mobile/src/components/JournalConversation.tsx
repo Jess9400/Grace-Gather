@@ -1,5 +1,12 @@
 import { useRef, useState } from "react";
-import { View, Text, TextInput, Pressable, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Pressable,
+  StyleSheet,
+  Image,
+} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import type { ReactNode } from "react";
 import { router } from "expo-router";
@@ -96,27 +103,34 @@ export default function JournalConversation({
   const composer = entry.safety ? undefined : (
     <View style={s.dock}>
       {details && <Text style={s.meta}>{chatCopy(lang, "privacy")}</Text>}
-      <View style={s.chatBook}>
-        <View style={[s.composer, focused && s.composerFocused]}>
-          <View
-            pointerEvents="none"
+      <View style={s.chatFrame}>
+        <View
+          pointerEvents="none"
+          accessible={false}
+          importantForAccessibility="no-hide-descendants"
+          style={[s.cloudCorner, s.cloudLeft]}
+        >
+          <Image
+            source={require("../../assets/journal/cloud-books-frame.png")}
+            style={[s.cloudArt, { left: 0 }]}
+            resizeMode="contain"
             accessible={false}
-            importantForAccessibility="no-hide-descendants"
-            style={s.spine}
           />
-          <View
-            pointerEvents="none"
+        </View>
+        <View
+          pointerEvents="none"
+          accessible={false}
+          importantForAccessibility="no-hide-descendants"
+          style={[s.cloudCorner, s.cloudRight]}
+        >
+          <Image
+            source={require("../../assets/journal/cloud-books-frame.png")}
+            style={[s.cloudArt, { right: 0 }]}
+            resizeMode="contain"
             accessible={false}
-            importantForAccessibility="no-hide-descendants"
-            style={s.ribbon}
-          >
-            <Ionicons
-              name="bookmark"
-              size={28}
-              color={colors.gold}
-              accessible={false}
-            />
-          </View>
+          />
+        </View>
+        <View style={[s.composer, focused && s.composerFocused]}>
           <TextInput
             accessibilityLabel={chatCopy(lang, "label")}
             placeholder={chatCopy(lang, "prompt")}
@@ -152,18 +166,6 @@ export default function JournalConversation({
             />
           </Pressable>
         </View>
-        <View
-          pointerEvents="none"
-          accessible={false}
-          importantForAccessibility="no-hide-descendants"
-          style={s.pageEdges}
-        />
-        <View
-          pointerEvents="none"
-          accessible={false}
-          importantForAccessibility="no-hide-descendants"
-          style={s.chatLedge}
-        />
       </View>
       <View style={s.metaRow}>
         <Text style={[s.meta, { flex: 1 }]}>
@@ -244,52 +246,35 @@ const s = StyleSheet.create({
     backgroundColor: colors.paper,
     gap: 4,
   },
-  chatBook: { paddingHorizontal: 4 },
-  spine: {
+  chatFrame: {
+    paddingTop: 50,
+    paddingBottom: 6,
+  },
+  cloudCorner: {
     position: "absolute",
-    left: 14,
+    top: -70,
+    width: 112,
+    height: 150,
+    overflow: "hidden",
+  },
+  cloudLeft: { left: -12 },
+  cloudRight: { right: -12 },
+  cloudArt: {
+    position: "absolute",
     top: 0,
-    bottom: 0,
-    width: 5,
-    borderLeftWidth: 1,
-    borderRightWidth: 1,
-    borderColor: "#E4D6BB",
-    backgroundColor: "#F5EDDC",
-  },
-  ribbon: { position: "absolute", right: 24, top: -3 },
-  pageEdges: {
-    height: 5,
-    marginHorizontal: 3,
-    borderWidth: 1,
-    borderTopWidth: 0,
-    borderColor: "#D9CCB3",
-    backgroundColor: "#EEE3CE",
-    borderBottomLeftRadius: 3,
-    borderBottomRightRadius: 3,
-  },
-  chatLedge: {
-    height: 6,
-    marginHorizontal: -4,
-    borderRadius: 2,
-    borderTopWidth: 2,
-    borderTopColor: "#A28464",
-    backgroundColor: "#70513C",
-    boxShadow: "0px 4px 10px rgba(48,44,40,.10)",
+    width: 300,
+    height: 150,
   },
   composerFocused: { borderColor: colors.gold },
   composer: {
     flexDirection: "row",
     alignItems: "flex-end",
     gap: 12,
-    minHeight: 104,
-    paddingLeft: 28,
-    paddingRight: 16,
-    paddingTop: 28,
-    paddingBottom: 14,
+    padding: 12,
+    minHeight: 96,
     borderWidth: 1,
-    borderColor: "#D7C5A6",
-    borderRadius: 7,
-    borderTopRightRadius: 14,
+    borderColor: colors.line,
+    borderRadius: 24,
     backgroundColor: "#FFFFFF",
   },
   input: {
