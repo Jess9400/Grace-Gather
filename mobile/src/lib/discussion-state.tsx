@@ -38,7 +38,10 @@ const CommunityContext = createContext<{
   busy: boolean;
   error: string;
   limits?: { topics: number; repliesPerTopic: number };
-  reload: (topic?: string) => Promise<void>;
+  reload: (topic?: string, feed?: boolean) => Promise<void>;
+  loadMore: () => Promise<void>;
+  hasMore: boolean;
+  loadingMore: boolean;
   perform: (action: DiscussionAction, alias?: string) => Promise<boolean>;
   screen: (postId: string) => Promise<string>;
   moderate: (postId: string) => Promise<void>;
@@ -55,23 +58,33 @@ export function CommunityProvider({ children }: { children: ReactNode }) {
     topics: number;
     repliesPerTopic: number;
   }>();
+  const [cursor, setCursor] = useState<{ before: string; id: string } | null>(
+    null,
+  );
+  const [loadingMore, setLoadingMore] = useState(false);
+  const paging = useRef(false);
+  const feedMode = useRef(false);
   const request = useRef(0);
   const identity = useRef<string | null>(demo ? "you" : null),
     generation = useRef(0),
     active = useRef(true),
     working = useRef(false),
     selectedTopic = useRef<string | undefined>(undefined);
-  const reload = useCallback(async (topic?: string) => {
+  const reload = useCallback(async (topic?: string, feed?: boolean) => {
+    if (feed !== undefined) feedMode.current = feed;
     if (!backend || !identity.current) return;
     selectedTopic.current = topic;
     const ticket = generation.current,
       uid = identity.current,
       loadId = ++request.current;
     try {
-      const snapshot = await loadCommunity(
-        backend as unknown as CommunityClient,
-        topic,
-      );
+      const response =
+        feedMode.current && !topic ? await backend.rpc("community_feed") : null;
+      if (response?.error) throw response.error;
+      const snapshot = response
+        ? response.data
+        : await loadCommunity(backend as unknown as CommunityClient, topic);
+      const next = response?.data?.nextCursor ?? null;
       if (
         !active.current ||
         ticket !== generation.current ||
@@ -85,6 +98,7 @@ export function CommunityProvider({ children }: { children: ReactNode }) {
         reports: snapshot.reports,
         nextId: 1,
       });
+      setCursor(next);
       setModerator(snapshot.moderator);
       setLimits(snapshot.limits);
       setError("");
@@ -97,6 +111,51 @@ export function CommunityProvider({ children }: { children: ReactNode }) {
         setError(communityError(e));
     }
   }, []);
+  async function loadMore() {
+    if (!backend || !cursor || paging.current || !identity.current) return;
+    paging.current = true;
+    setLoadingMore(true);
+    const ticket = generation.current,
+      loadId = request.current,
+      uid = identity.current;
+    try {
+      const { data, error } = await backend.rpc("community_feed", {
+        p_before: cursor.before,
+        p_id: cursor.id,
+      });
+      if (error) throw error;
+      if (
+        !active.current ||
+        ticket !== generation.current ||
+        loadId !== request.current ||
+        data.userId !== uid
+      )
+        return;
+      setState((old) => ({
+        ...old,
+        topics: [
+          ...old.topics,
+          ...data.topics.filter(
+            (t: { id: string }) => !old.topics.some((x) => x.id === t.id),
+          ),
+        ],
+        blocked: data.blocked,
+        reports: data.reports,
+      }));
+      setCursor(data.nextCursor);
+      setError("");
+    } catch (e) {
+      if (
+        active.current &&
+        ticket === generation.current &&
+        loadId === request.current
+      )
+        setError(communityError(e));
+    } finally {
+      paging.current = false;
+      if (active.current) setLoadingMore(false);
+    }
+  }
   const invalidate = useCallback(() => {
     generation.current++;
   }, []);
@@ -112,6 +171,7 @@ export function CommunityProvider({ children }: { children: ReactNode }) {
       setModerator(false);
       setError("");
       setLimits(undefined);
+      setCursor(null);
     }
     const subscription = backend?.auth.onAuthStateChange((_event, session) => {
       observedAuth = true;
@@ -248,6 +308,9 @@ export function CommunityProvider({ children }: { children: ReactNode }) {
         error,
         limits,
         reload,
+        loadMore,
+        hasMore: !!cursor,
+        loadingMore,
         perform,
         screen,
         moderate,

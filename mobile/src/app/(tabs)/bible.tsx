@@ -285,11 +285,11 @@ function BibleReader({ collection }: { collection: CollectionId | null }) {
           <Body small>{q(lang, "tap")}</Body>
           <Pressable
             accessibilityRole="button"
-            onPress={() => router.push("/library")}
+            onPress={() => router.push("/community")}
             style={{ minHeight: 44, justifyContent: "center" }}
           >
             <Text style={{ fontSize: 12, color: colors.goldInk }}>
-              {q(lang, "library")}
+              {tr("My discussions")}
             </Text>
           </Pressable>
         </View>

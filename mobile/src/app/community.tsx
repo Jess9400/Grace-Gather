@@ -1,5 +1,3 @@
-import { friendCopy } from "../lib/friends-copy";
-import { useApp } from "../lib/state";
 import { TextAction } from "../components/CommunityControls";
 import {
   getStudyDiscussionTopic,
@@ -39,10 +37,11 @@ import {
 import { getReadingVerse, discussionVerseId } from "../lib/bible";
 
 type ViewMode = "list" | "thread" | "compose" | "review";
-type CommunityProps = { header?: ReactNode; search?: string };
+type CommunityProps = { header?: ReactNode; search?: string; feed?: boolean };
 export default function Community({
   header,
   search = "",
+  feed = false,
 }: CommunityProps = {}) {
   const { userId } = useCommunity();
   return (
@@ -50,12 +49,16 @@ export default function Community({
       key={userId ?? "signed-out"}
       header={header}
       search={search}
+      feed={feed}
     />
   );
 }
-function CommunityScreen({ header, search = "" }: CommunityProps) {
+function CommunityScreen({
+  header,
+  search = "",
+  feed = false,
+}: CommunityProps) {
   const tr = useInterfaceCopy();
-  const { profile } = useApp();
   const params = useLocalSearchParams<{
     verse?: string;
     compose?: string;
@@ -73,6 +76,9 @@ function CommunityScreen({ header, search = "" }: CommunityProps) {
     error,
     limits,
     reload,
+    loadMore,
+    hasMore,
+    loadingMore,
     perform,
     screen,
     moderate,
@@ -84,9 +90,9 @@ function CommunityScreen({ header, search = "" }: CommunityProps) {
     [selected, setSelected] = useState<string | null>(null);
   // The Chats list opens with its strip of the church (behind the side door);
   // a conversation or the composer keeps the plain header for space.
-  const chatsStrip = useRoomStrip("chats") && mode === "list";
-  const [filter, setFilter] = useState<"all" | "verse" | "mine">(
-    verse ? "verse" : "all",
+  const chatsStrip = useRoomStrip("chats") && mode === "list" && feed;
+  const [filter, setFilter] = useState<"all" | "verse" | "mine" | "engaged">(
+    verse ? "verse" : feed ? "all" : "engaged",
   );
   const [title, setTitle] = useState(
       params.compose === "1" ? getStudyDiscussionTopic() : "",
@@ -119,8 +125,8 @@ function CommunityScreen({ header, search = "" }: CommunityProps) {
     [actionsFor, setActionsFor] = useState<string | null>(null),
     [reportReason, setReportReason] = useState("");
   useEffect(() => {
-    void reload(selected ?? undefined);
-  }, [reload, selected, userId]);
+    void reload(mode === "thread" ? (selected ?? undefined) : undefined, feed);
+  }, [reload, selected, userId, feed, mode]);
   const own = (post: Post) => post.author === userId;
   async function act(action: DiscussionAction, success?: () => void) {
     if (await perform(action, demo ? "You" : alias)) success?.();
@@ -136,11 +142,15 @@ function CommunityScreen({ header, search = "" }: CommunityProps) {
   const topics = visibleTopics(
     state,
     filter === "verse" ? verse?.id : undefined,
-  ).filter((topic) =>
-    `${topic.title} ${topic.body} ${topic.reference ?? ""}`
-      .toLocaleLowerCase()
-      .includes(search.trim().toLocaleLowerCase()),
-  );
+  )
+    .filter(
+      (topic) => filter !== "engaged" || own(topic) || topic.replies.some(own),
+    )
+    .filter((topic) =>
+      `${topic.title} ${topic.body} ${topic.reference ?? ""}`
+        .toLocaleLowerCase()
+        .includes(search.trim().toLocaleLowerCase()),
+    );
   const goList = () => {
     setMode("list");
     setActionsFor(null);
@@ -264,9 +274,13 @@ function CommunityScreen({ header, search = "" }: CommunityProps) {
   function PublicPost({
     post,
     opening = false,
+    title,
+    children,
   }: {
     post: Post;
     opening?: boolean;
+    title?: string;
+    children?: ReactNode;
   }) {
     return (
       <Card>
@@ -307,14 +321,15 @@ function CommunityScreen({ header, search = "" }: CommunityProps) {
         {post.perspective !== "Open discussion" && (
           <Text style={s.tag}>{tr(post.perspective)}</Text>
         )}
-        {opening && topic && (
+        {(title || (opening && topic)) && (
           <Text accessibilityRole="header" style={s.threadTitle}>
-            {topic.title}
+            {title ?? topic?.title}
           </Text>
         )}
         <Body>{post.body}</Body>
         {OwnRemoval(post)}
         {actionsFor === post.id && PostActions({ post })}
+        {children}
       </Card>
     );
   }
@@ -371,11 +386,13 @@ function CommunityScreen({ header, search = "" }: CommunityProps) {
         contentContainerStyle={s.page}
       >
         {header}
-        <TextAction
-          icon="people-outline"
-          title={friendCopy(profile.language, "Find friends")}
-          onPress={() => router.push("/friends")}
-        />
+        {header && mode !== "list" && (
+          <TextAction
+            icon="chevron-back"
+            title={tr("Back to discussions")}
+            onPress={goList}
+          />
+        )}
         <View style={s.preview}>
           <Ionicons
             name={demo ? "flask-outline" : "people-outline"}
@@ -415,7 +432,12 @@ function CommunityScreen({ header, search = "" }: CommunityProps) {
             secondary
             disabled={busy}
             title={tr("Refresh conversations")}
-            onPress={() => void reload(selected ?? undefined)}
+            onPress={() =>
+              void reload(
+                mode === "thread" ? (selected ?? undefined) : undefined,
+                feed,
+              )
+            }
           />
         )}
         {mode === "list" && (
@@ -423,12 +445,10 @@ function CommunityScreen({ header, search = "" }: CommunityProps) {
             {!header && (
               <>
                 <Text accessibilityRole="header" style={s.heading}>
-                  {tr("A little space")}
-                  {String.fromCharCode(10)}
-                  {tr("to listen.")}
+                  {tr("My discussions")}
                 </Text>
                 <Body>
-                  {tr("Questions, reflections and faith, shared gently.")}
+                  {tr("Topics you started and conversations you joined.")}
                 </Body>
               </>
             )}
@@ -452,25 +472,27 @@ function CommunityScreen({ header, search = "" }: CommunityProps) {
                 <Text style={s.newTopicText}>{tr("New topic")}</Text>
               </Pressable>
             </View>
-            <Row>
-              <Chip
-                title={tr("Conversations")}
-                selected={filter === "all"}
-                onPress={() => setFilter("all")}
-              />
-              {verse && (
+            {!feed && (
+              <Row>
                 <Chip
-                  title={verse.reference}
-                  selected={filter === "verse"}
-                  onPress={() => setFilter("verse")}
+                  title={tr("Conversations I joined")}
+                  selected={filter === "engaged"}
+                  onPress={() => setFilter("engaged")}
                 />
-              )}
-              <Chip
-                title={`${tr("My submissions")}${mine.length ? ` (${mine.length})` : ""}`}
-                selected={filter === "mine"}
-                onPress={() => setFilter("mine")}
-              />
-            </Row>
+                {verse && (
+                  <Chip
+                    title={verse.reference}
+                    selected={filter === "verse"}
+                    onPress={() => setFilter("verse")}
+                  />
+                )}
+                <Chip
+                  title={`${tr("My submissions")}${mine.length ? ` (${mine.length})` : ""}`}
+                  selected={filter === "mine"}
+                  onPress={() => setFilter("mine")}
+                />
+              </Row>
+            )}
             {filter === "mine" ? (
               <>
                 <Body small>
@@ -539,55 +561,109 @@ function CommunityScreen({ header, search = "" }: CommunityProps) {
                     />
                   </Card>
                 )}
-                {topics.map((t) => (
-                  <Pressable
-                    key={t.id}
-                    accessibilityRole="button"
-                    accessibilityLabel={`${tr("Open")} ${t.title}`}
-                    onPress={() => openThread(t.id)}
-                    style={({ pressed }) => [
-                      s.topicCard,
-                      { opacity: pressed ? 0.75 : 1 },
-                    ]}
-                  >
-                    <Text style={s.tag}>{t.reference ?? t.perspective}</Text>
-                    <Text style={s.topicTitle}>{t.title}</Text>
-                    <Text numberOfLines={2} style={s.excerpt}>
-                      {t.body}
-                    </Text>
-                    <View style={s.topicFooter}>
-                      <Text style={s.small}>
-                        {t.name} ·{" "}
-                        {own(t)
-                          ? demo
-                            ? tr("Your preview post")
-                            : tr("Your post")
-                          : demo
-                            ? "Example"
-                            : tr("Community member")}
-                      </Text>
-                      <View style={s.count}>
-                        <Ionicons
-                          name="chatbubble-outline"
-                          size={15}
-                          color={colors.muted}
-                        />
-                        <Text style={s.small}>
-                          {
-                            t.replies.filter((p) => canReadPost(state, p))
-                              .length
-                          }
-                        </Text>
-                        <Ionicons
-                          name="chevron-forward"
-                          size={16}
-                          color={colors.muted}
-                        />
-                      </View>
+                {topics.map((t) =>
+                  feed ? (
+                    <View key={t.id}>
+                      {PublicPost({
+                        post: t,
+                        title: t.title,
+                        children: (
+                          <>
+                            {t.reference && (
+                              <Text style={s.tag}>{t.reference}</Text>
+                            )}
+                            {t.replies
+                              .filter((p) => canReadPost(state, p))
+                              .slice(-2)
+                              .map((p) => (
+                                <View
+                                  key={p.id}
+                                  style={{
+                                    borderLeftWidth: 2,
+                                    borderColor: colors.line,
+                                    paddingLeft: 12,
+                                    gap: 4,
+                                  }}
+                                >
+                                  <Text style={s.author}>{p.name}</Text>
+                                  <Body>{p.body}</Body>
+                                </View>
+                              ))}
+                            <TextAction
+                              icon="chatbubble-outline"
+                              title={
+                                tr("Comments") +
+                                ` (${t.replies.filter((p) => canReadPost(state, p)).length})`
+                              }
+                              onPress={() => openThread(t.id)}
+                            />
+                            <TextAction
+                              icon="create-outline"
+                              title={tr("Add a comment")}
+                              onPress={() => openThread(t.id)}
+                            />
+                          </>
+                        ),
+                      })}
                     </View>
-                  </Pressable>
-                ))}
+                  ) : (
+                    <Pressable
+                      key={t.id}
+                      accessibilityRole="button"
+                      accessibilityLabel={`${tr("Open")} ${t.title}`}
+                      onPress={() => openThread(t.id)}
+                      style={({ pressed }) => [
+                        s.topicCard,
+                        { opacity: pressed ? 0.75 : 1 },
+                      ]}
+                    >
+                      <Text style={s.tag}>{t.reference ?? t.perspective}</Text>
+                      <Text style={s.topicTitle}>{t.title}</Text>
+                      <Text numberOfLines={2} style={s.excerpt}>
+                        {t.body}
+                      </Text>
+                      <View style={s.topicFooter}>
+                        <Text style={s.small}>
+                          {t.name} ·{" "}
+                          {own(t)
+                            ? demo
+                              ? tr("Your preview post")
+                              : tr("Your post")
+                            : demo
+                              ? "Example"
+                              : tr("Community member")}
+                        </Text>
+                        <View style={s.count}>
+                          <Ionicons
+                            name="chatbubble-outline"
+                            size={15}
+                            color={colors.muted}
+                          />
+                          <Text style={s.small}>
+                            {
+                              t.replies.filter((p) => canReadPost(state, p))
+                                .length
+                            }
+                          </Text>
+                          <Ionicons
+                            name="chevron-forward"
+                            size={16}
+                            color={colors.muted}
+                          />
+                        </View>
+                      </View>
+                    </Pressable>
+                  ),
+                )}
               </>
+            )}
+            {feed && hasMore && (
+              <Button
+                secondary
+                disabled={loadingMore || busy}
+                title={tr(loadingMore ? "Loading…" : "Load older discussions")}
+                onPress={() => void loadMore()}
+              />
             )}
             <Disclosure title={tr("A kind space, together")}>
               <Body>
@@ -911,7 +987,7 @@ function CommunityScreen({ header, search = "" }: CommunityProps) {
                   },
                   () => {
                     setMode("list");
-                    setFilter("mine");
+                    setFilter(feed ? "all" : "mine");
                     clearStudyDiscussionTopic();
                     setNotice(
                       tr(
