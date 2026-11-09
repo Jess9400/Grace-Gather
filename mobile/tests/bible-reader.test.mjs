@@ -166,3 +166,24 @@ test('study topic references resolve in all six supported Bible editions', () =>
     }
   }
 });
+
+test('passage-only Catholic Bibles give the journal their own wording of each theme verse', () => {
+  const prefs = (edition, scriptureLanguage) => ({ edition, scriptureLanguage, tradition: 'catholic' });
+  const guilt = reader.themeVerse(prefs('figueiredo', 'pt'), '1JN.1.9');
+  assert.equal(guilt.reference, '1 João 1:9');
+  assert.match(guilt.text, /confessarmos os nossos peccados/);
+  assert.equal(guilt.editionName, 'Figueiredo · 1866');
+  assert.match(guilt.sourceUrl, /archive\.org/);
+  // Vulgate numbering: Hebrew Psalm 42:11 is Psalm 41:12 in Torres Amat.
+  const sad = reader.themeVerse(prefs('torresamat', 'es'), 'PSA.42.11');
+  assert.equal(sad.reference, 'Salmo 41:12 (Torres Amat)');
+  // Themes whose verse was already a curated passage reuse it, with its context.
+  const rest = reader.themeVerse(prefs('torresamat', 'es'), 'MAT.11.28');
+  assert.equal(rest.id, 'torresamat-mateo-11-28');
+  assert.ok(rest.context);
+  // The verse screen opens these by id.
+  assert.equal(reader.getReadingVerse(guilt.id).text, guilt.text);
+  // Only the reader's own edition and tradition.
+  assert.equal(reader.themeVerse({ ...prefs('figueiredo', 'pt'), tradition: 'protestant' }, '1JN.1.9'), null);
+  assert.equal(reader.themeVerse(prefs('torresamat', 'es'), 'GEN.1.1'), null);
+});

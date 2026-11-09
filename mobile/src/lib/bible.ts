@@ -209,7 +209,7 @@ export function getReadingVerse(id: string): ReadingVerse | null {
     }
   }
   for (const edition of data.editions) {
-    const v = edition.passages.find((v) => v.id === id);
+    const v = editionVerses(edition).find((v) => v.id === id);
     if (v)
       return {
         ...v,
@@ -220,6 +220,28 @@ export function getReadingVerse(id: string): ReadingVerse | null {
       };
   }
   return null;
+}
+// An edition's curated passages, plus the proofread verse for each journal
+// theme that Bibles without a full reader carry (Figueiredo, Torres Amat).
+function editionVerses(edition: (typeof data.editions)[number]) {
+  return [
+    ...edition.passages,
+    ...(("journalVerses" in edition && edition.journalVerses) || []),
+  ];
+}
+// The selected edition's own wording of a journal theme verse, given by its
+// Hebrew-based reference (e.g. PSA.42.11, Psalm 41:12 in the Vulgate).
+export function themeVerse(p: Preferences, verse: string) {
+  const edition = data.editions.find(
+    (e) =>
+      e.id === p.edition &&
+      e.language === p.scriptureLanguage &&
+      (e.traditions as string[]).includes(p.tradition),
+  );
+  const match = edition
+    ? editionVerses(edition).find((v) => "verse" in v && v.verse === verse)
+    : undefined;
+  return match ? getReadingVerse(match.id) : null;
 }
 export function studyFor(id: string) {
   // Curated IDs and full-reader aliases are explicit, including Psalm numbering.
