@@ -1948,5 +1948,30 @@
     "pt": "Explorem juntos uma passagem, tema ou pergunta sobre a Bíblia.",
     "es": "Exploren juntos un pasaje, tema o pregunta sobre la Biblia.",
     "ru": "Исследуйте вместе библейский отрывок, тему или вопрос."
+  },
+  "Admin dashboard": {
+    "pt": "Painel administrativo",
+    "es": "Panel de administración",
+    "ru": "Панель администратора"
+  },
+  "Checking access…": {
+    "pt": "Verificando acesso…",
+    "es": "Verificando acceso…",
+    "ru": "Проверка доступа…"
+  },
+  "Review submissions and reports across the community.": {
+    "pt": "Revise publicações e denúncias da comunidade.",
+    "es": "Revisa publicaciones y reportes de la comunidad.",
+    "ru": "Проверяйте публикации и жалобы сообщества."
+  },
+  "Reopen the dashboard to verify your staff access.": {
+    "pt": "Reabra o painel para verificar seu acesso de moderador.",
+    "es": "Vuelve a abrir el panel para verificar tu acceso de moderador.",
+    "ru": "Откройте панель заново для проверки доступа модератора."
+  },
+  "Confessions": {
+    "pt": "Confissões",
+    "es": "Confesiones",
+    "ru": "Признания"
   }
 }

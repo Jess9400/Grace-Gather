@@ -7,7 +7,6 @@ serve(async req => {
   const permission=await client.rpc('participation_allowed');
   if(permission.error || permission.data!==true) return json({error:'not_allowed'},403);
   const {postId}=await readCommunityScreenRequest(req);
-  if(Deno.env.get('COMMUNITY_AUTO_MODERATION_ENABLED')!=='true') return json({publication:'pending',reason:'moderation_unavailable'});
   const {data:post,error}=await service.rpc('community_auto_candidate',{p_post:postId,p_actor:user.id});
   if(error) return json({error:'request_failed'},503);
   if(!post) return json({publication:'unchanged'});

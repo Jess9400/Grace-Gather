@@ -21,7 +21,8 @@ import {
   type DiscussionAction,
 } from "./discussion-model";
 const demo = process.env.EXPO_PUBLIC_COMMUNITY_DEMO === "true" && !backend;
-const automatic = process.env.EXPO_PUBLIC_COMMUNITY_AUTO_MODERATION === "true";
+// Every new submission is screened; server failures leave it pending.
+const automatic = true;
 const empty = (): DiscussionState => ({
   topics: [],
   blocked: [],
