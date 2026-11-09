@@ -24,7 +24,7 @@ export default function Organizations() {
       <Button
         secondary
         title={t("pChangeCity")}
-        onPress={() => router.push("/onboarding")}
+        onPress={() => router.push("/preferences")}
       />
       {!orgs.length && (
         <>

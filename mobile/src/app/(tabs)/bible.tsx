@@ -28,7 +28,7 @@ import {
   ReadingVerse,
   readingLocation,
 } from "../../lib/bible";
-export default function Bible() {
+export default function BibleReading() {
   const { profile } = useApp();
   const collection = collectionFor(profile);
   const tr = useInterfaceCopy();
@@ -53,6 +53,11 @@ export default function Bible() {
     return (
       <SafeAreaView style={s.safe}>
         <Brand />
+        <Button
+          secondary
+          title={tr("Study resources")}
+          onPress={() => router.push("/study")}
+        />
         <Body>
           {tr(
             failedCollection === collection
@@ -160,6 +165,24 @@ function BibleReader({ collection }: { collection: CollectionId | null }) {
     <SafeAreaView style={s.safe} edges={["top", "left", "right"]}>
       <View style={s.header}>
         <Brand />
+        <View style={{ flexDirection: "row", gap: 12 }}>
+          <View style={{ flex: 1 }}>
+            <Button
+              secondary
+              title={tr("Theme or passage")}
+              onPress={() => router.push("/study")}
+            />
+          </View>
+          <View style={{ flex: 1 }}>
+            <Button
+              secondary
+              title={tr("Ask study AI")}
+              onPress={() =>
+                router.push({ pathname: "/study", params: { panel: "ai" } })
+              }
+            />
+          </View>
+        </View>
         <View style={s.location}>
           <Pressable
             accessibilityRole="button"
