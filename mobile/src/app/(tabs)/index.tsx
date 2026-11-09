@@ -224,14 +224,14 @@ export default function Home() {
   // doors, and again whenever "Show places" is pressed.
   const touring = tour && focused && !entrance;
   useEffect(() => {
-    if (entrance || !focused || touring || dismissed) return;
-    const timer = setTimeout(() => setInvitation(true), reduced ? 0 : 1600);
+    if (entrance || !focused || dismissed) return;
+    const timer = setTimeout(() => setInvitation(true), reduced ? 0 : 300);
     return () => clearTimeout(timer);
-  }, [entrance, focused, touring, dismissed, reduced]);
+  }, [entrance, focused, dismissed, reduced]);
   useEffect(() => {
     const animation = Animated.timing(invitationOpacity, {
       toValue: invitation ? 1 : 0,
-      duration: reduced ? 0 : 500,
+      duration: reduced ? 0 : 250,
       useNativeDriver: true,
     });
     animation.start();
@@ -502,7 +502,7 @@ export default function Home() {
           pointerEvents="box-none"
           style={[s.promptArea, { bottom: tabHeight + 18 }]}
         >
-          {invitation && !touring && !entrance && (
+          {invitation && !entrance && (
             <Animated.View style={[s.glass, { opacity: invitationOpacity }]}>
               <BlurView
                 blurTarget={blurTarget}
@@ -545,7 +545,7 @@ export default function Home() {
               </ScrollView>
             </Animated.View>
           )}
-          {!invitation && !entrance && !touring && (
+          {!invitation && !entrance && (
             <View style={s.reopen}>
               <Pressable
                 accessibilityRole="button"
