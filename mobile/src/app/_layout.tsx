@@ -52,6 +52,7 @@ function Routes() {
               "(tabs)",
               "library",
               "community",
+              "prayers",
               "diary",
               "candle",
               "entry/[id]",
