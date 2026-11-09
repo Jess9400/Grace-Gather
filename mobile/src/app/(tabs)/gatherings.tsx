@@ -1,7 +1,7 @@
 import { useClock } from "../../lib/use-clock";
 import { useCallback, useState, useEffect } from "react";
 import { router, useFocusEffect } from "expo-router";
-import { View } from "react-native";
+import { Text, View } from "react-native";
 import { colors } from "../../components/quiet-ui";
 import {
   Screen,
@@ -11,9 +11,13 @@ import {
   Subheading,
   Busy,
   Field,
+  Card,
+  Button,
 } from "../../components/community-ui";
 import { FilterStrip, TextAction } from "../../components/CommunityControls";
 import GatheringCalendar from "../../components/GatheringCalendar";
+import { LiveNowBanner, ChatsStrip } from "../../components/GatherHighlights";
+import { gatheringTheme } from "../../lib/gathering-theme";
 import { useApp } from "../../lib/state";
 import { communityCopy } from "../../lib/community-copy";
 import { backend } from "../../lib/backend";
@@ -90,17 +94,53 @@ export default function Gatherings() {
   );
   const pages = Math.max(1, Math.ceil(sorted.length / 6));
   const activePage = Math.min(page, pages - 1);
+  // The gathering happening right now, if any; same rule as the Live filter.
+  const liveNow = items
+    .filter(
+      (g) =>
+        g.status === "published" &&
+        Date.parse(g.starts_at) <= now &&
+        Date.parse(g.ends_at) > now,
+    )
+    .sort((a, b) => Date.parse(a.starts_at) - Date.parse(b.starts_at))[0];
+  const openGathering = (id: string) =>
+    router.push({ pathname: "/gathering/[id]", params: { id } });
   return (
     <Screen place="gather">
       <Heading>{c("gatherings")}</Heading>
-      <GatheringCalendar
-        gatherings={items}
-        selected={selected}
-        onSelect={(value) => {
-          setSelected(value);
-          setPage(0);
-        }}
+      <Body>{c("gatherIntro")}</Body>
+      {liveNow && (
+        <LiveNowBanner
+          eyebrow={c("liveNow")}
+          title={storyText(liveNow.title, profile.language)}
+          detail={
+            (counts[liveNow.id] > 0
+              ? counts[liveNow.id] + " " + c("listening")
+              : c("readyToJoin")) +
+            " · " +
+            c("hostedBy") +
+            " " +
+            liveNow.host_name
+          }
+          action={c("joinNow")}
+          onPress={() => openGathering(liveNow.id)}
+        />
+      )}
+      <ChatsStrip
+        title={c("privateChats")}
+        hint={c("privateChatsHint")}
+        onPress={() => router.push("/friends")}
       />
+      <Card>
+        <GatheringCalendar
+          gatherings={items}
+          selected={selected}
+          onSelect={(value) => {
+            setSelected(value);
+            setPage(0);
+          }}
+        />
+      </Card>
       <Field
         label={c("searchSessions")}
         hideLabel
@@ -134,11 +174,6 @@ export default function Gatherings() {
           title={c("createGathering")}
           onPress={() => router.push("/gathering/create")}
         />
-        <TextAction
-          icon="chatbubbles-outline"
-          title={c("privateChats")}
-          onPress={() => router.push("/friends")}
-        />
       </View>
       <Notice text={error ? c(error) : ""} />
       {error === "gatheringsLoadError" && (
@@ -171,78 +206,119 @@ export default function Gatherings() {
           )}
         </Body>
       )}
-      {sorted.slice(activePage * 6, (activePage + 1) * 6).map((g) => (
-        <View
-          key={g.id}
-          style={{
-            gap: 10,
-            paddingVertical: 20,
-            borderBottomWidth: 1,
-            borderBottomColor: colors.line,
-          }}
-        >
-          <Body small>
-            {new Date(g.starts_at).toLocaleString(profile.language, {
-              timeZoneName: "short",
-            })}
-            {" – "}
-            {new Date(g.ends_at).toLocaleTimeString(profile.language, {
-              hour: "2-digit",
-              minute: "2-digit",
-            })}
-          </Body>
-          {Date.parse(g.starts_at) <= now && (
+      {sorted.slice(activePage * 6, (activePage + 1) * 6).map((g) => {
+        const started = Date.parse(g.starts_at) <= now;
+        const going = !!g.reserved && !started;
+        return (
+          <Card key={g.id}>
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+                flexWrap: "wrap",
+                gap: 8,
+              }}
+            >
+              {!!g.topic && (
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: 6,
+                    paddingHorizontal: 10,
+                    minHeight: 26,
+                    borderRadius: 13,
+                    backgroundColor: colors.pale,
+                  }}
+                >
+                  <View
+                    accessible={false}
+                    style={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: 4,
+                      backgroundColor: gatheringTheme(g).accent,
+                    }}
+                  />
+                  <Text
+                    style={{
+                      fontSize: 12,
+                      fontWeight: "700",
+                      color: colors.ink,
+                    }}
+                  >
+                    {g.topic}
+                  </Text>
+                </View>
+              )}
+              {going && (
+                <Text
+                  style={{
+                    fontSize: 13,
+                    fontWeight: "700",
+                    color: colors.goldInk,
+                  }}
+                >
+                  ✓ {c("reservedPlace")}
+                </Text>
+              )}
+            </View>
             <Body small>
-              {Date.parse(g.ends_at) <= now || g.status === "ended"
-                ? c("ended")
-                : counts[g.id] > 0
-                  ? c("live") + " · " + counts[g.id] + " " + c("listening")
-                  : c("readyToJoin")}
+              {new Date(g.starts_at).toLocaleString(profile.language, {
+                timeZoneName: "short",
+              })}
+              {" – "}
+              {new Date(g.ends_at).toLocaleTimeString(profile.language, {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
             </Body>
-          )}
-          <Subheading>{storyText(g.title, profile.language)}</Subheading>
-          <Body>{storyText(g.description, profile.language)}</Body>
-          <Body small>
-            {g.host_name} · {g.topic} · {g.language.toUpperCase()}
-            {g.visibility === "invite" ? " · " + c("inviteOnly") : ""}
-          </Body>
-          <TextAction
-            title={c(
-              Date.parse(g.starts_at) <= now
-                ? "openRoom"
-                : g.reserved
-                  ? "viewGathering"
-                  : "reserve",
+            {started && (
+              <Body small>
+                {Date.parse(g.ends_at) <= now || g.status === "ended"
+                  ? c("ended")
+                  : counts[g.id] > 0
+                    ? c("live") + " · " + counts[g.id] + " " + c("listening")
+                    : c("readyToJoin")}
+              </Body>
             )}
-            icon="arrow-forward"
-            onPress={() => {
-              if (Date.parse(g.starts_at) > now && !g.reserved) {
-                void gathering("reserve", { id: g.id })
-                  .then(load)
-                  .catch((e) =>
-                    setError(
-                      e.message === "full" ? "full" : "signInGatherings",
-                    ),
-                  );
-              } else
-                router.push({
-                  pathname: "/gathering/[id]",
-                  params: { id: g.id },
-                });
-            }}
-          />
-          {g.reserved && Date.parse(g.starts_at) > now && (
-            <TextAction
-              title={c("cancelReservation")}
-              onPress={() =>
-                void gathering("leave", { id: g.id })
-                  .then(load)
-                  .catch(() => setError("actionError"))
-              }
+            <Subheading>{storyText(g.title, profile.language)}</Subheading>
+            <Body>{storyText(g.description, profile.language)}</Body>
+            <Body small>
+              {c("hostedBy")} {g.host_name} · {g.language.toUpperCase()}
+              {g.visibility === "invite" ? " · " + c("inviteOnly") : ""}
+            </Body>
+            <Button
+              title={c(
+                started ? "openRoom" : g.reserved ? "viewGathering" : "reserve",
+              )}
+              secondary={going}
+              onPress={() => {
+                if (!started && !g.reserved) {
+                  void gathering("reserve", { id: g.id })
+                    .then(load)
+                    .catch((e) =>
+                      setError(
+                        e.message === "full" ? "full" : "signInGatherings",
+                      ),
+                    );
+                } else openGathering(g.id);
+              }}
             />
-          )}
-        </View>
-      ))}
+            {going && (
+              <TextAction
+                title={c("cancelReservation")}
+                onPress={() =>
+                  void gathering("leave", { id: g.id })
+                    .then(load)
+                    .catch(() => setError("actionError"))
+                }
+              />
+            )}
+          </Card>
+        );
+      })}
       {pages > 1 && (
         <View
           style={{

@@ -288,6 +288,22 @@ const words: Record<string, string[]> = {
     "Ещё истории",
   ],
   gatherings: ["Gatherings", "Encontros", "Encuentros", "Встречи"],
+  gatherIntro: [
+    "Circles of people who feel what you feel and want to grow. Come as you are.",
+    "Círculos de pessoas que sentem o que você sente e querem crescer. Venha como você está.",
+    "Círculos de personas que sienten lo que tú sientes y quieren crecer. Ven tal como eres.",
+    "Круги людей, которые чувствуют то же, что и вы, и хотят расти. Приходите такими, какие вы есть.",
+  ],
+  liveNow: ["Live now", "Ao vivo agora", "En directo ahora", "Сейчас идёт"],
+  joinNow: ["Join", "Entrar", "Entrar", "Войти"],
+  hostedBy: ["Hosted by", "Conduzido por", "Dirigido por", "Ведущий:"],
+  privateChatsHint: [
+    "Talk privately with your friends",
+    "Converse em particular com seus amigos",
+    "Habla en privado con tus amigos",
+    "Личные разговоры с друзьями",
+  ],
+  reservedPlace: ["You're going", "Você vai", "Vas a ir", "Вы записаны"],
   createGathering: [
     "Create gathering",
     "Criar encontro",
