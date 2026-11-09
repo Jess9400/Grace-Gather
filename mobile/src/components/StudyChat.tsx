@@ -117,8 +117,8 @@ export default function StudyChat({
               messages.filter((m) => m.role === "user").at(-1)?.content ?? "",
             );
             router.push({
-              pathname: "/(tabs)/explore",
-              params: { category: "discussions", compose: "1" },
+              pathname: "/community",
+              params: { compose: "1" },
             });
           }}
         />

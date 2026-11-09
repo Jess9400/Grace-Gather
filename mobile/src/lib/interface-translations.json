@@ -1903,5 +1903,50 @@
     "pt": "Carregar discussões anteriores",
     "es": "Cargar debates anteriores",
     "ru": "Загрузить более ранние обсуждения"
+  },
+  "No published discussions yet.": {
+    "pt": "Ainda não há discussões publicadas.",
+    "es": "Todavía no hay discusiones publicadas.",
+    "ru": "Пока нет опубликованных обсуждений."
+  },
+  "Create a discussion": {
+    "pt": "Criar uma discussão",
+    "es": "Crear una discusión",
+    "ru": "Создать обсуждение"
+  },
+  "Bible discussions you created or joined.": {
+    "pt": "Discussões bíblicas que você criou ou das quais participou.",
+    "es": "Discusiones bíblicas que creaste o en las que participaste.",
+    "ru": "Библейские обсуждения, которые вы создали или к которым присоединились."
+  },
+  "Discussions I joined": {
+    "pt": "Discussões em que participei",
+    "es": "Discusiones en las que participé",
+    "ru": "Обсуждения с моим участием"
+  },
+  "No Bible discussions here yet.": {
+    "pt": "Ainda não há discussões bíblicas aqui.",
+    "es": "Todavía no hay discusiones bíblicas aquí.",
+    "ru": "Здесь пока нет библейских обсуждений."
+  },
+  "Which Bible passage or theme would you like to discuss?": {
+    "pt": "Qual passagem ou tema bíblico você gostaria de discutir?",
+    "es": "¿Qué pasaje o tema bíblico te gustaría discutir?",
+    "ru": "Какой библейский отрывок или тему вы хотите обсудить?"
+  },
+  "Your question or reflection": {
+    "pt": "Sua pergunta ou reflexão",
+    "es": "Tu pregunta o reflexión",
+    "ru": "Ваш вопрос или размышление"
+  },
+  "Share your question or reflection about the Bible.": {
+    "pt": "Compartilhe sua pergunta ou reflexão sobre a Bíblia.",
+    "es": "Comparte tu pregunta o reflexión sobre la Biblia.",
+    "ru": "Поделитесь своим вопросом или размышлением о Библии."
+  },
+  "Explore a Bible passage, theme, or question together.": {
+    "pt": "Explorem juntos uma passagem, tema ou pergunta sobre a Bíblia.",
+    "es": "Exploren juntos un pasaje, tema o pregunta sobre la Biblia.",
+    "ru": "Исследуйте вместе библейский отрывок, тему или вопрос."
   }
 }
