@@ -231,7 +231,7 @@ export default function JournalConversation({
                   ? chatCopy(lang, "limit")
                   : !enabled
                     ? chatCopy(lang, "consent")
-                    : chatCopy(lang, "ai")}
+                    : ""}
         </Text>
         <Pressable
           accessibilityRole="button"

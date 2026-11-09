@@ -2,10 +2,10 @@ import type { Language } from "./content";
 const words = {
   journal: ["My Journal", "Meu diário", "Mi diario", "Мой дневник"],
   conversation: [
-    "AI conversation",
-    "Conversa com IA",
-    "Conversación con IA",
-    "Разговор с ИИ",
+    "Our conversation",
+    "Nossa conversa",
+    "Nuestra conversación",
+    "Наш разговор",
   ],
   earlier: [
     "Earlier messages",
@@ -107,10 +107,10 @@ const words = {
   ],
   review: ["Review", "Revisar", "Revisar", "Посмотреть"],
   cleanupSetting: [
-    "Delete AI conversations after 90 days",
-    "Excluir conversas com IA após 90 dias",
-    "Eliminar conversaciones con IA después de 90 días",
-    "Удалять разговоры с ИИ через 90 дней",
+    "Delete journal conversations after 90 days",
+    "Excluir conversas do diário após 90 dias",
+    "Eliminar conversaciones del diario después de 90 días",
+    "Удалять разговоры в дневнике через 90 дней",
   ],
   cleanupInfo: [
     "After 90 days without a new message. We notify you in the app at least seven days before cleanup. Entries, verses and first actions stay. Removed chats can be recovered for 30 days. Cleanup runs while the app is open.",
@@ -157,10 +157,10 @@ const words = {
     "Оставьте даты пустыми, чтобы включить все записи.",
   ],
   includeChat: [
-    "Include AI conversations",
-    "Incluir conversas com IA",
-    "Incluir conversaciones con IA",
-    "Включить разговоры с ИИ",
+    "Include our conversations",
+    "Incluir nossas conversas",
+    "Incluir nuestras conversaciones",
+    "Включить наши разговоры",
   ],
   pdf: ["Save as PDF", "Salvar como PDF", "Guardar como PDF", "Сохранить PDF"],
   pdfInfo: [
@@ -263,7 +263,7 @@ const words = {
     "Ваше размышление",
   ],
   you: ["You", "Você", "Tú", "Вы"],
-  ai: ["AI companion", "Companheiro de IA", "Compañero de IA", "ИИ-собеседник"],
+  ai: ["Reflection", "Reflexão", "Reflexión", "Размышление"],
   previous: ["Previous", "Anterior", "Anterior", "Назад"],
   next: ["Next", "Próxima", "Siguiente", "Далее"],
 } as const;
