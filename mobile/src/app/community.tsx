@@ -76,6 +76,9 @@ function CommunityScreen({
     error,
     limits,
     reload,
+    loadMore,
+    hasMore,
+    loadingMore,
     perform,
     screen,
     moderate,
@@ -122,8 +125,8 @@ function CommunityScreen({
     [actionsFor, setActionsFor] = useState<string | null>(null),
     [reportReason, setReportReason] = useState("");
   useEffect(() => {
-    void reload(selected ?? undefined);
-  }, [reload, selected, userId]);
+    void reload(mode === "thread" ? (selected ?? undefined) : undefined, feed);
+  }, [reload, selected, userId, feed, mode]);
   const own = (post: Post) => post.author === userId;
   async function act(action: DiscussionAction, success?: () => void) {
     if (await perform(action, demo ? "You" : alias)) success?.();
@@ -429,7 +432,12 @@ function CommunityScreen({
             secondary
             disabled={busy}
             title={tr("Refresh conversations")}
-            onPress={() => void reload(selected ?? undefined)}
+            onPress={() =>
+              void reload(
+                mode === "thread" ? (selected ?? undefined) : undefined,
+                feed,
+              )
+            }
           />
         )}
         {mode === "list" && (
@@ -648,6 +656,14 @@ function CommunityScreen({
                   ),
                 )}
               </>
+            )}
+            {feed && hasMore && (
+              <Button
+                secondary
+                disabled={loadingMore || busy}
+                title={tr(loadingMore ? "Loading…" : "Load older discussions")}
+                onPress={() => void loadMore()}
+              />
             )}
             <Disclosure title={tr("A kind space, together")}>
               <Body>

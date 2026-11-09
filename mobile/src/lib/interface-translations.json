@@ -1898,5 +1898,10 @@
     "pt": "Voltar às discussões",
     "es": "Volver a debates",
     "ru": "Назад к обсуждениям"
+  },
+  "Load older discussions": {
+    "pt": "Carregar discussões anteriores",
+    "es": "Cargar debates anteriores",
+    "ru": "Загрузить более ранние обсуждения"
   }
 }

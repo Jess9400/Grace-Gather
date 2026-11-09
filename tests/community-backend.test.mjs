@@ -541,3 +541,19 @@ test("every returned staff report retains its topic or reply context when the qu
     true,
   );
 });
+
+test('public feed pages older discussions without duplicates and respects visibility', async () => {
+  await db.query(`insert into public.community_posts(author,alias,title,body,status,perspective,created_at)
+    select $1,'Fixture','Topic '||i,'A public discussion body','approved','Open discussion','2026-01-01'::timestamptz from generate_series(1,45) i`,[bob]);
+  const page = async (cursor=null) => (await as(alice,'select public.community_feed($1,$2) result',[cursor?.before??null,cursor?.id??null])).rows[0].result;
+  const first=await page(); assert.equal(first.topics.length,20); assert.ok(first.nextCursor);
+  await db.query(`insert into public.community_posts(author,alias,title,body,status,perspective) values($1,'Fixture','New post','New public discussion','approved','Open discussion')`,[bob]);
+  const second=await page(first.nextCursor), thirdPage=await page(second.nextCursor);
+  assert.equal(second.topics.length,20);assert.equal(thirdPage.topics.length,5);assert.equal(thirdPage.nextCursor,null);
+  assert.equal(new Set([...first.topics,...second.topics,...thirdPage.topics].map(t=>t.id)).size,45);
+  await db.query(`update public.community_posts set status='pending' where id=$1`,[thirdPage.topics[0].id]);
+  assert.equal((await page(second.nextCursor)).topics.length,4);
+  await db.query('insert into public.blocks(user_id,blocked_user_id) values($1,$2)',[alice,bob]);
+  assert.equal((await page()).topics.length,0);
+  await assert.rejects(as('', 'select public.community_feed()', [], 'anon'));
+});
