@@ -1853,5 +1853,20 @@
     "pt": "Editar confissão",
     "es": "Editar confesión",
     "ru": "Редактировать признание"
+  },
+  "A moderator account is required.": {
+    "pt": "É necessária uma conta de moderador.",
+    "es": "Se necesita una cuenta de moderador.",
+    "ru": "Требуется учётная запись модератора."
+  },
+  "Loading…": {
+    "pt": "Carregando…",
+    "es": "Cargando…",
+    "ru": "Загрузка…"
+  },
+  "Mark prayer notifications read": {
+    "pt": "Marcar notificações de oração como lidas",
+    "es": "Marcar avisos de oración como leídos",
+    "ru": "Отметить уведомления о молитвах прочитанными"
   }
 }

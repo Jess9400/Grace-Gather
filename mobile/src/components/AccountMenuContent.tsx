@@ -1,3 +1,4 @@
+import { useCommunity } from "../lib/discussion-state";
 import { usePrayerUnread } from "../lib/prayers";
 import { router, type Href } from "expo-router";
 import { View, Text, Pressable, StyleSheet } from "react-native";
@@ -47,6 +48,7 @@ export default function AccountMenuContent({
 }) {
   const tr = useInterfaceCopy();
   const unread = usePrayerUnread();
+  const { moderator } = useCommunity();
   const { profile } = useApp();
   const tradition = profile.faithChoice;
   const detail =
@@ -85,9 +87,17 @@ export default function AccountMenuContent({
         title={tr("Notifications")}
         detail={unread ? String(unread) : undefined}
         icon="notifications-outline"
-        route={{ pathname: "/prayers", params: { tab: "notifications" } }}
+        route="/notifications"
         onNavigate={onNavigate}
       />
+      {moderator && (
+        <AccountMenuRow
+          title={tr("Moderation")}
+          icon="shield-checkmark-outline"
+          route="/moderation"
+          onNavigate={onNavigate}
+        />
+      )}
       <View style={s.divider} />
       <AccountMenuRow
         title={tr("Church preferences")}
