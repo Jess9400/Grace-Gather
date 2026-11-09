@@ -1,10 +1,8 @@
 import { useClock } from "../../lib/use-clock";
 import { useCallback, useState, useEffect } from "react";
 import { router, useFocusEffect } from "expo-router";
-import { Pressable, StyleSheet, Text, View } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
+import { View } from "react-native";
 import { colors } from "../../components/quiet-ui";
-import { churchCopy } from "../../lib/church-copy";
 import {
   Screen,
   Heading,
@@ -13,6 +11,7 @@ import {
   Notice,
   Subheading,
   Busy,
+  Field,
 } from "../../components/community-ui";
 import {
   FilterStrip,
@@ -33,7 +32,9 @@ export default function Gatherings() {
     t = (k: string) => copy(profile.language, k);
   const [items, setItems] = useState<Gathering[]>([]),
     [counts, setCounts] = useState<Record<string, number>>({}),
-    [tab, setTab] = useState("live"),
+    [tab, setTab] = useState("upcoming"),
+    [search, setSearch] = useState(""),
+    [page, setPage] = useState(0),
     [error, setError] = useState(""),
     [loading, setLoading] = useState(true),
     [selected, setSelected] = useState(""),
@@ -91,8 +92,16 @@ export default function Gatherings() {
           (tab === "live"
             ? Date.parse(g.starts_at) <= now
             : Date.parse(g.starts_at) > now)) &&
-      (!selected || key(new Date(g.starts_at)) === selected),
+      (!selected || key(new Date(g.starts_at)) === selected) &&
+      `${storyText(g.title, profile.language)} ${storyText(g.description, profile.language)} ${g.topic} ${g.host_name}`
+        .toLocaleLowerCase()
+        .includes(search.trim().toLocaleLowerCase()),
   );
+  const sorted = [...visible].sort(
+    (a, b) => Date.parse(a.starts_at) - Date.parse(b.starts_at),
+  );
+  const pages = Math.max(1, Math.ceil(sorted.length / 6));
+  const activePage = Math.min(page, pages - 1);
   async function interest() {
     try {
       const { client, user } = await requireUser();
@@ -108,42 +117,53 @@ export default function Gatherings() {
   return (
     <Screen place="gather">
       <Heading>{c("gatherings")}</Heading>
-      <View style={styles.links}>
-        {(
-          [["chats", "chatsSub", "chatbubbles-outline", "/community"]] as const
-        ).map(([title, sub, icon, href]) => (
-          <Pressable
-            key={title}
-            accessibilityRole="button"
-            accessibilityLabel={`${churchCopy(profile.language, title)}. ${churchCopy(profile.language, sub)}`}
-            onPress={() => router.push(href)}
-            style={({ pressed }) => [styles.link, pressed && { opacity: 0.7 }]}
-          >
-            <Ionicons name={icon} size={22} color={colors.goldInk} />
-            <View style={{ flex: 1 }}>
-              <Text style={styles.linkTitle}>
-                {churchCopy(profile.language, title)}
-              </Text>
-              <Text style={styles.linkSub}>
-                {churchCopy(profile.language, sub)}
-              </Text>
-            </View>
-            <Ionicons name="chevron-forward" size={16} color={colors.muted} />
-          </Pressable>
-        ))}
-      </View>
-      <Button
-        title={c("createGathering")}
-        onPress={() => router.push("/gathering/create")}
+      <GatheringCalendar
+        gatherings={items}
+        selected={selected}
+        onSelect={(value) => {
+          setSelected(value);
+          setPage(0);
+        }}
+      />
+      <Field
+        label={c("searchSessions")}
+        hideLabel
+        placeholder={c("searchSessions")}
+        value={search}
+        onChangeText={(value) => {
+          setSearch(value);
+          setPage(0);
+        }}
       />
       <FilterStrip
         value={tab}
-        onChange={setTab}
-        options={["live", "upcoming", "mine"].map((value) => ({
+        onChange={(value) => {
+          setTab(value);
+          setPage(0);
+        }}
+        options={["upcoming", "live", "mine"].map((value) => ({
           value,
           label: c(value),
         }))}
       />
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
+        }}
+      >
+        <TextAction
+          icon="add"
+          title={c("createGathering")}
+          onPress={() => router.push("/gathering/create")}
+        />
+        <TextAction
+          icon="chatbubbles-outline"
+          title={c("privateChats")}
+          onPress={() => router.push("/friends")}
+        />
+      </View>
       <Notice text={error ? c(error) : ""} />
       {!!error && (
         <Button secondary title={c("retry")} onPress={() => void load()} />
@@ -153,11 +173,14 @@ export default function Gatherings() {
         <TextAction
           title={c("clearDate")}
           icon="close-circle-outline"
-          onPress={() => setSelected("")}
+          onPress={() => {
+            setSelected("");
+            setPage(0);
+          }}
         />
       )}
       {loading && <Busy />}
-      {!loading && !visible.length && (
+      {!loading && !error && !visible.length && (
         <Body>
           {c(
             tab === "live"
@@ -168,29 +191,35 @@ export default function Gatherings() {
           )}
         </Body>
       )}
-      {visible.map((g) => (
+      {sorted.slice(activePage * 6, (activePage + 1) * 6).map((g) => (
         <View
           key={g.id}
           style={{
             gap: 10,
             paddingVertical: 20,
             borderBottomWidth: 1,
-            borderBottomColor: "#B7C68F66",
+            borderBottomColor: colors.line,
           }}
         >
           <Body small>
-            {Date.parse(g.ends_at) <= now || g.status === "ended"
-              ? c("ended")
-              : counts[g.id] > 0
-                ? c("live") + " · " + counts[g.id] + " " + c("listening")
-                : Date.parse(g.starts_at) <= now
-                  ? c("readyToJoin")
-                  : new Date(g.starts_at).toLocaleString(profile.language, {
-                      timeZone: g.timezone,
-                    }) +
-                    " · " +
-                    g.timezone}
+            {new Date(g.starts_at).toLocaleString(profile.language, {
+              timeZoneName: "short",
+            })}
+            {" – "}
+            {new Date(g.ends_at).toLocaleTimeString(profile.language, {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}
           </Body>
+          {Date.parse(g.starts_at) <= now && (
+            <Body small>
+              {Date.parse(g.ends_at) <= now || g.status === "ended"
+                ? c("ended")
+                : counts[g.id] > 0
+                  ? c("live") + " · " + counts[g.id] + " " + c("listening")
+                  : c("readyToJoin")}
+            </Body>
+          )}
           <Subheading>{storyText(g.title, profile.language)}</Subheading>
           <Body>{storyText(g.description, profile.language)}</Body>
           <Body small>
@@ -234,11 +263,29 @@ export default function Gatherings() {
           )}
         </View>
       ))}
-      <GatheringCalendar
-        gatherings={items}
-        selected={selected}
-        onSelect={setSelected}
-      />
+      {pages > 1 && (
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <TextAction
+            title={c("previousPage")}
+            disabled={activePage === 0}
+            onPress={() => setPage(activePage - 1)}
+          />
+          <Body small>
+            {activePage + 1} / {pages}
+          </Body>
+          <TextAction
+            title={c("nextPage")}
+            disabled={activePage + 1 >= pages}
+            onPress={() => setPage(activePage + 1)}
+          />
+        </View>
+      )}
       <Disclosure title={c("plannedCircle")}>
         <Body>{t("weeklySessionNote")}</Body>
         <Body small>{t("groupBoundary")}</Body>
@@ -252,19 +299,3 @@ export default function Gatherings() {
     </Screen>
   );
 }
-const styles = StyleSheet.create({
-  links: {
-    backgroundColor: colors.white,
-    borderRadius: 20,
-    paddingHorizontal: 16,
-  },
-  link: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 14,
-    minHeight: 64,
-    paddingVertical: 10,
-  },
-  linkTitle: { fontSize: 16, fontWeight: "600", color: colors.ink },
-  linkSub: { fontSize: 13, lineHeight: 18, color: colors.muted, marginTop: 2 },
-});

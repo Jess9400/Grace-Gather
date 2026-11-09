@@ -1,3 +1,6 @@
+import { friendCopy } from "../lib/friends-copy";
+import { useApp } from "../lib/state";
+import { TextAction } from "../components/CommunityControls";
 import {
   getStudyDiscussionTopic,
   getStudyDiscussionRevision,
@@ -51,6 +54,7 @@ export default function Community({
 }
 function CommunityScreen({ header, search = "" }: CommunityProps) {
   const tr = useInterfaceCopy();
+  const { profile } = useApp();
   const params = useLocalSearchParams<{
     verse?: string;
     compose?: string;
@@ -355,6 +359,11 @@ function CommunityScreen({ header, search = "" }: CommunityProps) {
         contentContainerStyle={s.page}
       >
         {header}
+        <TextAction
+          icon="people-outline"
+          title={friendCopy(profile.language, "Find friends")}
+          onPress={() => router.push("/friends")}
+        />
         <View style={s.preview}>
           <Ionicons
             name={demo ? "flask-outline" : "people-outline"}
