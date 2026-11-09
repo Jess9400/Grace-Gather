@@ -62,8 +62,8 @@ const TOUR_ORDER: ChurchPlace[] = [
   "pews",
   "wreath",
 ];
-const TOUR_FADE_MS = 700;
-const TOUR_HOLD_MS = 1500;
+const TOUR_FADE_MS = 200;
+const TOUR_HOLD_MS = 1000;
 
 export type PlaceLabel = {
   key: ChurchPlace;
@@ -367,7 +367,7 @@ export default function ChurchScene({
     if (failed) onFailure?.();
   }, [failed, onFailure]);
 
-  // The tour: each label fades in slowly without a background, rests for a moment,
+  // The tour: each readable label fades in briefly, rests for a moment,
   // fades out, and the next one follows. Touching the church ends it.
   const keys = places.map((p) => p.key).join(",");
   const stopTour = useRef<(() => void) | null>(null);
@@ -393,10 +393,10 @@ export default function ChurchScene({
       i++;
       timer = setTimeout(() => {
         setTouring(null);
-        timer = setTimeout(step, TOUR_FADE_MS + 250);
+        timer = setTimeout(step, TOUR_FADE_MS + 80);
       }, TOUR_FADE_MS + TOUR_HOLD_MS);
     };
-    timer = setTimeout(step, 700);
+    timer = setTimeout(step, 150);
     stopTour.current = finish;
     return () => {
       cancelled = true;
@@ -683,7 +683,10 @@ const styles = StyleSheet.create({
     gap: 6,
     minHeight: 34,
     paddingHorizontal: 13,
-    backgroundColor: "transparent",
+    backgroundColor: "rgba(48,44,40,0.92)",
+    borderRadius: 17,
+    borderWidth: 1,
+    borderColor: "rgba(255,252,243,0.28)",
   },
   label: { alignItems: "center" },
   chipText: {
