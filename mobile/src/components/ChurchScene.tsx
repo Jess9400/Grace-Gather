@@ -640,7 +640,7 @@ export default function ChurchScene({
                   <View style={styles.pointerGlowOuter} />
                   <View style={styles.pointerGlowInner} />
                   <View style={styles.pointerHalo} />
-                  <Ionicons name="chevron-down" size={24} color="#C7A467" />
+                  <Ionicons name="chevron-down" size={24} color="#A17A3D" />
                 </View>
               ) : (
                 <Pressable
@@ -720,7 +720,7 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 20,
     borderWidth: 1,
-    borderColor: "rgba(199,164,103,0.48)",
+    borderColor: "rgba(161,122,61,0.55)",
     backgroundColor: "rgba(199,164,103,0.07)",
   },
   // Invisible, named targets retain keyboard/screen-reader access to each place.
