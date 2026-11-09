@@ -1,4 +1,3 @@
-import Study from "../study";
 import { useInterfaceCopy } from "../../lib/use-interface-copy";
 import { useRef, useState, useCallback, useEffect } from "react";
 import {
@@ -12,7 +11,7 @@ import {
   useWindowDimensions,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { router, useLocalSearchParams } from "expo-router";
+import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { Brand, Body, Button, colors, serif } from "../../components/quiet-ui";
 import { useApp } from "../../lib/state";
@@ -29,11 +28,7 @@ import {
   ReadingVerse,
   readingLocation,
 } from "../../lib/bible";
-export default function Bible() {
-  const { view } = useLocalSearchParams<{ view?: string }>();
-  return view === "reader" ? <BibleReading /> : <Study embedded />;
-}
-function BibleReading() {
+export default function BibleReading() {
   const { profile } = useApp();
   const collection = collectionFor(profile);
   const tr = useInterfaceCopy();
@@ -61,7 +56,7 @@ function BibleReading() {
         <Button
           secondary
           title={tr("Study resources")}
-          onPress={() => router.setParams({ view: "study" })}
+          onPress={() => router.push("/study")}
         />
         <Body>
           {tr(
@@ -170,6 +165,24 @@ function BibleReader({ collection }: { collection: CollectionId | null }) {
     <SafeAreaView style={s.safe} edges={["top", "left", "right"]}>
       <View style={s.header}>
         <Brand />
+        <View style={{ flexDirection: "row", gap: 12 }}>
+          <View style={{ flex: 1 }}>
+            <Button
+              secondary
+              title={tr("Theme or passage")}
+              onPress={() => router.push("/study")}
+            />
+          </View>
+          <View style={{ flex: 1 }}>
+            <Button
+              secondary
+              title={tr("Ask study AI")}
+              onPress={() =>
+                router.push({ pathname: "/study", params: { panel: "ai" } })
+              }
+            />
+          </View>
+        </View>
         <View style={s.location}>
           <Pressable
             accessibilityRole="button"

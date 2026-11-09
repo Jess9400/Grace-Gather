@@ -1448,5 +1448,15 @@
     "pt": "Gratidão",
     "es": "Gratitud",
     "ru": "Благодарность"
+  },
+  "What does this passage mean?": {
+    "pt": "O que significa esta passagem?",
+    "es": "¿Qué significa este pasaje?",
+    "ru": "Что означает этот отрывок?"
+  },
+  "Open a public discussion": {
+    "pt": "Abrir uma discussão pública",
+    "es": "Abrir una discusión pública",
+    "ru": "Начать публичное обсуждение"
   }
 }

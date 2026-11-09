@@ -3,7 +3,7 @@ import { useCommunity } from "../lib/discussion-state";
 import StudyChat from "../components/StudyChat";
 import { setStudyDiscussionTopic } from "../lib/study-discussion-draft";
 import { useEffect, useState } from "react";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import {
   Screen,
   Heading,
@@ -22,7 +22,8 @@ export default function Study({
   const { profile } = useApp();
   const tr = useInterfaceCopy();
   const { userId } = useCommunity();
-  const [panel, setPanel] = useState("topics");
+  const params = useLocalSearchParams<{ panel?: string }>();
+  const [panel, setPanel] = useState(params.panel === "ai" ? "ai" : "topics");
   const [query, setQuery] = useState("");
   const normalize = (s: string) =>
     s
