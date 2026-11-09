@@ -102,17 +102,6 @@ export default function Profile() {
         route="/preferences"
         icon="create-outline"
       />
-      <Disclosure title={tr("Privacy and support")}>
-        <Button
-          secondary
-          title={l("privacy")}
-          onPress={() => router.push("/privacy")}
-        />
-        <External
-          title="hello@graceandgather.com"
-          url="mailto:hello@graceandgather.com"
-        />
-      </Disclosure>
       <AccountMenuRow
         title={tr("My testimonies")}
         route="/testimonies"
@@ -358,6 +347,17 @@ export default function Profile() {
             </>
           )}
         </Card>
+      </Disclosure>
+      <Disclosure title={tr("Privacy and support")}>
+        <Button
+          secondary
+          title={l("privacy")}
+          onPress={() => router.push("/privacy")}
+        />
+        <External
+          title="hello@graceandgather.com"
+          url="mailto:hello@graceandgather.com"
+        />
       </Disclosure>
     </Screen>
   );
