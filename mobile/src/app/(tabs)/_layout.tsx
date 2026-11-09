@@ -6,6 +6,14 @@ import { q } from "../../lib/quiet-copy";
 import { colors } from "../../components/quiet-ui";
 import { churchCopy } from "../../lib/church-copy";
 import { isProtestant } from "../../lib/church-calendar";
+import { walkFromHome, type RoomPlace } from "../../lib/church-room";
+import { PlatformPressable } from "expo-router/react-navigation";
+// From Home, these tabs walk to their place in the church before opening.
+const TAB_PLACE: Partial<Record<string, RoomPlace>> = {
+  bible: "bible",
+  gatherings: "gather",
+  explore: "window",
+};
 export default function TabsLayout() {
   const { profile } = useApp();
   const palette = colors;
@@ -49,6 +57,18 @@ export default function TabsLayout() {
           name={name}
           options={{
             title,
+            // Walk to the tab's place in the church first when leaving Home.
+            ...(TAB_PLACE[name] && {
+              tabBarButton: (props) => (
+                <PlatformPressable
+                  {...props}
+                  onPress={(e) => {
+                    const press = () => props.onPress?.(e);
+                    if (!walkFromHome(TAB_PLACE[name]!, press)) press();
+                  }}
+                />
+              ),
+            }),
             ...(name === "index"
               ? {
                   tabBarStyle: {
