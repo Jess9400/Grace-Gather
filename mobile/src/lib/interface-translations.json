@@ -1808,5 +1808,45 @@
     "pt": "Ainda não há uma Bíblia verificada desta tradição neste idioma. Você pode escolher outro idioma da Bíblia depois, no seu perfil.",
     "es": "Todavía no hay una Biblia verificada de esta tradición en este idioma. Puedes elegir otro idioma de la Biblia más tarde en tu perfil.",
     "ru": "Пока нет проверенной Библии этой традиции на этом языке. Позже в профиле можно выбрать другой язык Библии."
+  },
+  "What’s weighing on your heart?": {
+    "pt": "O que está pesando no seu coração?",
+    "es": "¿Qué pesa en tu corazón?",
+    "ru": "Что у вас на сердце?"
+  },
+  "Put it into words": {
+    "pt": "Coloque em palavras",
+    "es": "Ponlo en palabras",
+    "ru": "Выразить словами"
+  },
+  "Record instead": {
+    "pt": "Gravar em áudio",
+    "es": "Grabar en audio",
+    "ru": "Записать голосом"
+  },
+  "Community support. Not sacramental confession.": {
+    "pt": "Apoio da comunidade. Não é confissão sacramental.",
+    "es": "Apoyo comunitario. No es confesión sacramental.",
+    "ru": "Поддержка сообщества. Не таинство исповеди."
+  },
+  "Begin wherever you are.": {
+    "pt": "Comece de onde estiver.",
+    "es": "Empieza donde estés.",
+    "ru": "Начните с того, что чувствуете."
+  },
+  "I’ve been carrying…": {
+    "pt": "Tenho carregado…",
+    "es": "He estado cargando…",
+    "ru": "Меня тяготит…"
+  },
+  "Preview confession": {
+    "pt": "Prévia da confissão",
+    "es": "Vista previa de la confesión",
+    "ru": "Предпросмотр признания"
+  },
+  "Edit confession": {
+    "pt": "Editar confissão",
+    "es": "Editar confesión",
+    "ru": "Редактировать признание"
   }
 }
