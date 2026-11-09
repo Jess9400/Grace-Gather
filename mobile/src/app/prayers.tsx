@@ -96,7 +96,9 @@ function PrayerRoom() {
       setReason("");
       setPreview("");
       setTab("mine");
-      setNotice("Your request is waiting for review.");
+      setNotice(
+        "Your prayer request has been saved. Check its status in Mine.",
+      );
     }
   }
   function card(p: Prayer, review = false) {
@@ -375,7 +377,7 @@ function PrayerRoom() {
           )}
           <Body small>
             {tr(
-              "After review, members can see your theme, reason and time. Anonymous requests remain linked to your account for moderators. Avoid sharing someone else’s private details.",
+              "Your theme, reason and display name are screened by Alibaba Qwen. Clear requests are shared with members; others wait for moderator review. Anonymous requests remain linked to your account. Avoid sharing someone else’s private details.",
             )}
           </Body>
           <Button

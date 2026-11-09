@@ -27,3 +27,7 @@ verify_jwt = false
 
 [functions.community-moderate]
 verify_jwt = false
+
+# identity() validates the user with auth.getUser before any privileged RPC.
+[functions.prayer-moderate]
+verify_jwt = false

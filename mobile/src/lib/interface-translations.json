@@ -1538,5 +1538,20 @@
     "pt": "Esta data ou horário não existe. Escolha outro.",
     "es": "Esta fecha u hora no existe. Elige otra.",
     "ru": "Такой даты или времени не существует. Выберите другое."
+  },
+  "Your prayer request has been saved. Check its status in Mine.": {
+    "pt": "Seu pedido de oração foi salvo. Confira o status em Meus pedidos.",
+    "es": "Tu petición de oración se ha guardado. Consulta su estado en Mis peticiones.",
+    "ru": "Ваша просьба о молитве сохранена. Проверьте её статус в разделе «Мои»."
+  },
+  "Your request needs moderator review.": {
+    "pt": "Seu pedido precisa de revisão por um moderador.",
+    "es": "Tu petición necesita revisión de un moderador.",
+    "ru": "Вашу просьбу должен проверить модератор."
+  },
+  "Your theme, reason and display name are screened by Alibaba Qwen. Clear requests are shared with members; others wait for moderator review. Anonymous requests remain linked to your account. Avoid sharing someone else’s private details.": {
+    "pt": "Seu tema, motivo e nome de exibição são analisados pelo Alibaba Qwen. Pedidos aprovados são compartilhados; os demais aguardam revisão. Pedidos anônimos permanecem vinculados à sua conta. Evite divulgar dados privados de outras pessoas.",
+    "es": "Alibaba Qwen revisa tu tema, motivo y nombre visible. Las peticiones aprobadas se comparten; las demás esperan revisión. Las peticiones anónimas siguen vinculadas a tu cuenta. Evita compartir datos privados de otras personas.",
+    "ru": "Alibaba Qwen проверяет тему, причину и отображаемое имя. Одобренные просьбы публикуются, остальные ожидают проверки модератора. Анонимные просьбы остаются связаны с вашим аккаунтом. Не раскрывайте чужие личные данные."
   }
 }
