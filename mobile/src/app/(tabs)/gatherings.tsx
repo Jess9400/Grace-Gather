@@ -7,29 +7,22 @@ import {
   Screen,
   Heading,
   Body,
-  Button,
   Notice,
   Subheading,
   Busy,
   Field,
 } from "../../components/community-ui";
-import {
-  FilterStrip,
-  TextAction,
-  Disclosure,
-} from "../../components/CommunityControls";
+import { FilterStrip, TextAction } from "../../components/CommunityControls";
 import GatheringCalendar from "../../components/GatheringCalendar";
 import { useApp } from "../../lib/state";
 import { communityCopy } from "../../lib/community-copy";
-import { copy } from "../../lib/content";
-import { backend, requireUser } from "../../lib/backend";
+import { backend } from "../../lib/backend";
 import { gathering, audioCommand, Gathering } from "../../lib/gatherings";
 import { storyText } from "../../lib/discover";
 export default function Gatherings() {
   const now = useClock();
   const { profile } = useApp(),
-    c = (k: string) => communityCopy(profile.language, k),
-    t = (k: string) => copy(profile.language, k);
+    c = (k: string) => communityCopy(profile.language, k);
   const [items, setItems] = useState<Gathering[]>([]),
     [counts, setCounts] = useState<Record<string, number>>({}),
     [tab, setTab] = useState("upcoming"),
@@ -38,18 +31,13 @@ export default function Gatherings() {
     [error, setError] = useState(""),
     [loading, setLoading] = useState(true),
     [selected, setSelected] = useState(""),
-    [interested, setInterested] = useState(false),
     [configured, setConfigured] = useState<boolean | null>(null);
-  const load = useCallback(async () => {
+  const load = useCallback(async (manual = false) => {
+    if (manual) setLoading(true);
     try {
       setItems(await gathering("list"));
       setError("");
       if ((await backend?.auth.getSession())?.data.session) {
-        const interest = await backend!
-          .from("series_interest")
-          .select("series")
-          .maybeSingle();
-        setInterested(!!interest.data);
         try {
           const data = await audioCommand("catalog");
           setCounts(
@@ -65,7 +53,7 @@ export default function Gatherings() {
         }
       }
     } catch {
-      setError("gatheringsLoadError");
+      setError(backend ? "gatheringsLoadError" : "gatheringsNotConnected");
     } finally {
       setLoading(false);
     }
@@ -102,18 +90,6 @@ export default function Gatherings() {
   );
   const pages = Math.max(1, Math.ceil(sorted.length / 6));
   const activePage = Math.min(page, pages - 1);
-  async function interest() {
-    try {
-      const { client, user } = await requireUser();
-      const r = interested
-        ? await client.from("series_interest").delete().eq("user_id", user.id)
-        : await client.from("series_interest").insert({ user_id: user.id });
-      if (r.error) throw r.error;
-      setInterested(!interested);
-    } catch {
-      router.push("/account");
-    }
-  }
   return (
     <Screen place="gather">
       <Heading>{c("gatherings")}</Heading>
@@ -165,8 +141,12 @@ export default function Gatherings() {
         />
       </View>
       <Notice text={error ? c(error) : ""} />
-      {!!error && (
-        <Button secondary title={c("retry")} onPress={() => void load()} />
+      {error === "gatheringsLoadError" && (
+        <TextAction
+          title={c("reloadSessions")}
+          disabled={loading}
+          onPress={() => void load(true)}
+        />
       )}
       {configured === false && <Body small>{c("audioSetupNote")}</Body>}
       {!!selected && (
@@ -286,16 +266,6 @@ export default function Gatherings() {
           />
         </View>
       )}
-      <Disclosure title={c("plannedCircle")}>
-        <Body>{t("weeklySessionNote")}</Body>
-        <Body small>{t("groupBoundary")}</Body>
-        <Button
-          secondary
-          title={t(interested ? "interestSaved" : "interested")}
-          onPress={() => void interest()}
-        />
-        <Body small>{t("interestNote")}</Body>
-      </Disclosure>
     </Screen>
   );
 }

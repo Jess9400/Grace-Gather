@@ -24,6 +24,21 @@ export default function GatheringPage() {
     { profile } = useApp(),
     audio = useAudioRoom(),
     c = (k: string) => communityCopy(profile.language, k);
+  const [pendingCancel, setPendingCancel] = useState("");
+  const [actionBusy, setActionBusy] = useState(false);
+  async function act(action: string) {
+    setActionBusy(true);
+    try {
+      await gathering(action, { id, invite });
+      setItem(await gathering("details", { id, invite }));
+      setPendingCancel("");
+      setError("");
+    } catch {
+      setError("actionError");
+    } finally {
+      setActionBusy(false);
+    }
+  }
   const [item, setItem] = useState<Gathering | null>(null),
     [error, setError] = useState(""),
     [loading, setLoading] = useState(true);
@@ -56,7 +71,67 @@ export default function GatheringPage() {
           <Body small>
             {item.host_name} · {item.topic} · {item.language.toUpperCase()}
           </Body>
-          {audio.session?.id === id ? (
+          {item.series_id && <Body small>{c("weekly")}</Body>}
+          {item.status === "published" &&
+            Date.parse(item.starts_at) > now &&
+            !item.hosting && (
+              <>
+                <Button
+                  secondary
+                  disabled={actionBusy}
+                  title={c(item.reserved ? "cancelReservation" : "reserve")}
+                  onPress={() => void act(item.reserved ? "leave" : "reserve")}
+                />
+                <Body small>{c("gatheringReminderNote")}</Body>
+              </>
+            )}
+          {item.hosting &&
+            item.status === "published" &&
+            Date.parse(item.starts_at) > now && (
+              <>
+                {!pendingCancel ? (
+                  <>
+                    <Button
+                      secondary
+                      title={c("cancelSession")}
+                      onPress={() => setPendingCancel("cancel")}
+                    />
+                    {item.series_id && (
+                      <Button
+                        secondary
+                        title={c("cancelSeries")}
+                        onPress={() => setPendingCancel("cancel_series")}
+                      />
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <Body>
+                      {c(
+                        pendingCancel === "cancel_series"
+                          ? "cancelSeries"
+                          : "cancelSession",
+                      )}
+                    </Body>
+                    <Button
+                      secondary
+                      disabled={actionBusy}
+                      title={c("confirmCancel")}
+                      onPress={() => void act(pendingCancel)}
+                    />
+                    <Button
+                      secondary
+                      disabled={actionBusy}
+                      title={c("keepSession")}
+                      onPress={() => setPendingCancel("")}
+                    />
+                  </>
+                )}
+              </>
+            )}
+          {item.status === "cancelled" ? (
+            <Body>{c("cancelled")}</Body>
+          ) : audio.session?.id === id ? (
             <RoomControls />
           ) : (
             <>

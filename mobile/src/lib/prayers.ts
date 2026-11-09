@@ -44,8 +44,18 @@ export function usePrayerUnread() {
     if (!userId) return;
     const load = () => {
       if (AppState.currentState !== "active") return;
-      void backend?.rpc("prayer_unread").then(({ data, error }) => {
-        if (active && !error) setCount({ userId, value: Number(data) || 0 });
+      if (!backend) return;
+      void Promise.all([
+        backend.rpc("prayer_unread"),
+        backend.rpc("gathering_notifications"),
+      ]).then(([prayers, gatherings]) => {
+        if (active)
+          setCount({
+            userId,
+            value:
+              (prayers.error ? 0 : Number(prayers.data) || 0) +
+              (gatherings.error ? 0 : Number(gatherings.data?.unread) || 0),
+          });
       });
     };
     load();

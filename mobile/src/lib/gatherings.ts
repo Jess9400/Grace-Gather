@@ -14,6 +14,7 @@ export interface Gathering {
   visibility: "public" | "invite";
   topic: string;
   language: Language;
+  series_id?: string | null;
   reserved?: boolean;
   hosting?: boolean;
 }

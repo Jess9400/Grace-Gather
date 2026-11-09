@@ -1,3 +1,4 @@
+import GatheringReminders from "../components/GatheringReminders";
 import PrayerSchedule from "../components/PrayerSchedule";
 import { Pressable } from "react-native";
 import { useCommunity } from "../lib/discussion-state";
@@ -271,6 +272,7 @@ function PrayerRoom() {
           />
           {tab === "notifications" && (
             <>
+              <GatheringReminders />
               {!!data?.notices.length && (
                 <Button
                   secondary
