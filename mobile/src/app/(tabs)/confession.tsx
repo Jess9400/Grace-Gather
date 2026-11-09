@@ -341,30 +341,25 @@ export default function ConfessionRoom() {
             )}
             {page === "room" && (
               <>
-                <View style={{ gap: 12, paddingTop: 12, paddingBottom: 10 }}>
-                  <Ionicons
-                    name="grid-outline"
-                    size={25}
-                    color={colors.gold}
-                    accessible={false}
-                  />
+                <View style={{ gap: 10, paddingTop: 4, paddingBottom: 8 }}>
                   <Text accessibilityRole="header" style={s.title}>
                     {t("confession")}
                   </Text>
                   <Body>{d("confessionIntro")}</Body>
                 </View>
-                <View style={{ gap: 12 }}>
+                <View style={{ gap: 0 }}>
                   <ActionCard
                     title={t(body.trim() || audio ? "cReturnDraft" : "cShare")}
                     description={d("shareHint")}
                     icon="create-outline"
-                    primary
+                    variant="row"
                     disabled={busy || view === "review" || recording}
                     onPress={startEntrance}
                   />
                   <ActionCard
                     title={t("cOffer")}
                     description={d("comfortHint")}
+                    variant="row"
                     icon="ear-outline"
                     disabled={busy || view === "review" || recording}
                     onPress={() => void run(() => load("list"))}
@@ -376,9 +371,9 @@ export default function ConfessionRoom() {
                     onPress={() => void run(() => load("mine"))}
                   />
                 </View>
-                <View style={{ marginTop: 6, gap: 4 }}>
-                  <Body small>{d("peerSupport")}</Body>
+                <View style={{ marginTop: 12, gap: 4 }}>
                   <Disclosure title={d("aboutSpace")}>
+                    <Body small>{d("peerSupport")}</Body>
                     <Body small>{t("cDisclaimer")}</Body>
                   </Disclosure>
                 </View>

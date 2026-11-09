@@ -116,6 +116,7 @@ export function ActionCard({
   icon,
   onPress,
   primary = false,
+  variant = "card",
   disabled = false,
 }: {
   title: string;
@@ -123,6 +124,7 @@ export function ActionCard({
   icon: Icon;
   onPress: () => void;
   primary?: boolean;
+  variant?: "card" | "row";
   disabled?: boolean;
 }) {
   return (
@@ -133,23 +135,35 @@ export function ActionCard({
       disabled={disabled}
       onPress={onPress}
       style={({ pressed }) => [
-        styles.actionCard,
+        variant === "row" ? styles.actionRow : styles.actionCard,
         {
-          backgroundColor: primary ? colors.pale : colors.white,
+          backgroundColor:
+            variant === "row"
+              ? "transparent"
+              : primary
+                ? colors.pale
+                : colors.white,
           opacity: disabled ? 0.45 : pressed ? 0.8 : 1,
         },
       ]}
     >
       <Ionicons
         name={icon}
-        size={25}
-        color={primary ? colors.cardInk : colors.gold}
+        size={variant === "row" ? 22 : 25}
+        color={
+          variant === "row"
+            ? colors.ink
+            : primary
+              ? colors.cardInk
+              : colors.gold
+        }
         accessible={false}
       />
       <View style={{ flex: 1, gap: 5 }}>
         <Text
           style={[
             styles.cardTitle,
+            variant === "row" && { fontSize: 16, lineHeight: 23 },
             { color: primary ? colors.cardInk : colors.ink },
           ]}
         >
@@ -158,7 +172,14 @@ export function ActionCard({
         <Text
           style={[
             styles.summary,
-            { color: primary ? colors.cardMuted : colors.inactive },
+            {
+              color:
+                variant === "row"
+                  ? colors.muted
+                  : primary
+                    ? colors.cardMuted
+                    : colors.inactive,
+            },
           ]}
         >
           {description}
@@ -234,6 +255,15 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 12,
+  },
+  actionRow: {
+    minHeight: 84,
+    paddingVertical: 18,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 14,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: colors.line,
   },
   actionCard: {
     minHeight: 106,
