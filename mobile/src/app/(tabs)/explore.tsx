@@ -58,6 +58,7 @@ export default function Explore() {
     return <Community header={discoverHeader} search={query} />;
   return (
     <Screen
+      place="window"
       headerAction={
         <TextAction
           icon="refresh-outline"

@@ -252,8 +252,8 @@ export default function ChurchScene({
     const { width, height } = sizeRef.current;
     if (!width || !height) return {};
     const projected = projectFocus(width / height, view.current);
-    const points: Partial<Record<ChurchPlace, { x: number; y: number }>> = {};
-    (Object.keys(projected) as ChurchPlace[]).forEach((key) => {
+    const points: Partial<Record<string, { x: number; y: number }>> = {};
+    Object.keys(projected).forEach((key) => {
       const p = projected[key];
       if (p) points[key] = { x: p.x * width, y: p.y * height };
     });

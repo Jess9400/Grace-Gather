@@ -98,7 +98,9 @@ export function Screen({
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={strip ? undefined : s.page}
         >
-          {strip && place && <ChurchStrip place={place} back={back} />}
+          {strip && place && (
+            <ChurchStrip place={place} back={back} action={headerAction} />
+          )}
           {wrapRoom(
             <>
               {!strip && back && (

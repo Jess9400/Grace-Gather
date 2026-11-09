@@ -221,7 +221,7 @@ function PrayerRoom() {
   }
   if (!userId)
     return (
-      <Screen back>
+      <Screen back place="altar">
         <Heading>{tr("Prayer requests")}</Heading>
         <Body>{tr("Sign in to request a prayer or pray for someone.")}</Body>
         <Button
@@ -231,7 +231,7 @@ function PrayerRoom() {
       </Screen>
     );
   return (
-    <Screen back>
+    <Screen back place="altar">
       <Heading>{tr("Prayer requests")}</Heading>
       <Notice text={tr(error || notice)} />
       <Button

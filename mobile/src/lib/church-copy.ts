@@ -316,6 +316,18 @@ const words = {
   // Shown across the top of a room's screen, over its strip of the church.
   atLectern: L("At the lectern", "No atril", "En el atril", "У аналоя"),
   inPews: L("In the pews", "Nos bancos", "En los bancos", "На скамье"),
+  beneathWindow: L(
+    "Beneath the window",
+    "Sob o vitral",
+    "Bajo el vitral",
+    "Под витражом",
+  ),
+  atAltar: L(
+    "Before the altar",
+    "Diante do altar",
+    "Ante el altar",
+    "Перед алтарём",
+  ),
   sideDoor: L(
     "Through the side door",
     "Pela porta lateral",
