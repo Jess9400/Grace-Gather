@@ -99,6 +99,8 @@ export function validateJournalEntries(
           !/^A\d{2}$/.test(e.response.actionId) ||
           typeof e.response.actionTitle !== "string" ||
           typeof e.response.invitation !== "string" ||
+          (e.response.actionPrompt !== undefined &&
+            typeof e.response.actionPrompt !== "string") ||
           (e.response.verse &&
             [
               "id",

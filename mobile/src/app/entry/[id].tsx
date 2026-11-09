@@ -34,7 +34,7 @@ import { resolveJournalResponse } from "../../lib/journal-response";
 import { journalAction, journalTheme } from "../../lib/journal-guidance";
 import {
   jc,
-  actionInvitation,
+  journalActionCopy,
   type JournalCopyKey,
 } from "../../lib/journal-copy";
 
@@ -89,11 +89,8 @@ export default function EntryScreen() {
       </Screen>
     );
   const action = entry.response?.actionId ?? journalAction(entry, profile);
-  const hopeReflection =
-    journalTheme(entry).id === "hopelessness" && action === "A08";
-  const actionTitle =
-    entry.response?.actionTitle ??
-    jc(lang, hopeReflection ? "hopeAction" : (action as JournalCopyKey));
+  const actionCopy = journalActionCopy(lang, journalTheme(entry).id, action);
+  const actionTitle = entry.response?.actionTitle ?? actionCopy.title;
   function edit() {
     update({
       text: entry!.text,
@@ -116,6 +113,7 @@ export default function EntryScreen() {
       A19: "/explore",
       A20: "/testimonies/edit",
       A26: "/study",
+      A25: "/(tabs)/gatherings",
     };
     if (routes[selectedAction]) {
       router.push(routes[selectedAction]);
@@ -232,10 +230,7 @@ export default function EntryScreen() {
             </View>
             <View style={s.action}>
               <Text style={s.invitation}>
-                {entry.response?.invitation ??
-                  (hopeReflection
-                    ? jc(lang, "hopeIntro")
-                    : actionInvitation(lang, action))}
+                {entry.response?.invitation ?? actionCopy.invitation}
               </Text>
               <JournalActionButton
                 title={actionTitle}
@@ -272,14 +267,9 @@ export default function EntryScreen() {
                     : actionTitle}
               </Heading>
               <Body>
-                {jc(
-                  lang,
-                  hopeReflection && (!noteAction || noteAction === action)
-                    ? "hopeNote"
-                    : (noteAction ?? action) === "A05"
-                      ? "professional"
-                      : "note",
-                )}
+                {!noteAction || noteAction === action
+                  ? (entry.response?.actionPrompt ?? actionCopy.prompt)
+                  : journalActionCopy(lang, "", noteAction).prompt}
               </Body>
               <Field
                 label={jc(lang, "private")}

@@ -45,6 +45,7 @@ export async function continueJournal(
   const { data, error } = await client.functions.invoke("llm-journey", {
     body: {
       mode: "conversation",
+      supportsGatheringAction: true,
       text: entry.text,
       consentVersion: AI_CONSENT_VERSION,
       preferences: {
@@ -79,6 +80,7 @@ export async function continueJournal(
     "A19",
     "A20",
     "A21",
+    "A25",
     "A26",
   ];
   if (

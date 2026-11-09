@@ -6,7 +6,7 @@ import { welcomesCandles } from "./church-calendar";
 export function journalTheme(entry: Entry) {
   const saved = map.find((t) => t.id === entry.themeId);
   if (saved) return saved;
-  const text = entry.text.toLowerCase();
+  const text = entry.text.toLowerCase().replace(/[’‘]/g, "'");
   const matches: [string, RegExp][] = [
     [
       "persistent-distress",
@@ -35,7 +35,11 @@ export function journalTheme(entry: Entry) {
       /someone.*listen|desabaf|alguém.*ouvir|alguien.*escuch|выговор/,
     ],
   ];
-  const match = matches.find(([, r]) => r.test(text));
+  // Prayer addresses God as "You". Do not lose that meaning when the model is
+  // unavailable, but keep explicit sustained distress ahead of this fallback.
+  const match = matches.find(([id, r]) =>
+    id === "doubt" ? spiritualDistance(text) : r.test(text),
+  );
   if (!match && hopelessWriting(text))
     return map.find((t) => t.id === "hopelessness")!;
   const defaults: Record<Mood, string> = {
@@ -50,6 +54,24 @@ export function journalTheme(entry: Entry) {
     unsure: "unclear",
   };
   return map.find((t) => t.id === (match?.[0] ?? defaults[entry.mood]))!;
+}
+
+export function spiritualDistance(text: string) {
+  return text
+    .toLowerCase()
+    .replace(/[’‘]/g, "'")
+    .split(/[.!?;\n]+/)
+    .some((part) => {
+      if (
+        /\b(?:not|no longer)\s+(?:feel(?:ing)?\s+)?(?:so\s+)?(?:far|distant|disconnected)|\b(?:don't|do not) feel (?:far|distant|disconnected)|\b(?:no|without) doubts?\b|não (?:me )?sinto (?:longe|distante)|ya no (?:me siento )?(?:lejos|desconectad)|не чувствую.*(?:далеко|отдал)/.test(
+          part,
+        )
+      )
+        return false;
+      return /\b(far|distant|disconnected|separated) from (god|you)\b|\b(god|you) (?:feel|feels|seem|seems|are|is) (?:so |very )?(?:far|distant)\b|\bcloser to (god|you)\b|\b(doubt|doubts)\b|longe de (deus|ti|você)|distante de (deus|ti|você)|perto de (deus|ti)|dúvida|lejos de (dios|ti)|desconectad[oa] de (dios|ti)|cerca de (dios|ti)|далек[оа]? от (бога|тебя)|ближе к (богу|тебе)|сомнен/.test(
+        part,
+      );
+    });
 }
 export function journalAction(entry: Entry, profile: Profile) {
   const theme = journalTheme(entry);

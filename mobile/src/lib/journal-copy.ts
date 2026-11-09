@@ -1,4 +1,5 @@
 import type { Language } from "./content";
+import { prayerCopy } from "./journal-prayer-copy";
 const text = {
   hopeIntro: [
     "When hope feels far away, it may help to notice one small moment of care or relief from the past 24 hours. It doesn’t have to make everything feel better.",
@@ -123,10 +124,10 @@ const text = {
     "Вспомните этого человека в молитве",
   ],
   A03: [
-    "Bring one worry to God in prayer",
-    "Leve uma preocupação a Deus em oração",
-    "Lleva una preocupación a Dios en oración",
-    "Доверьте одну тревогу Богу в молитве",
+    "Take a minute with God",
+    "Reserve um minuto com Deus",
+    "Tómate un minuto con Dios",
+    "Уделить минуту Богу",
   ],
   A04: [
     "Share what is on your heart",
@@ -218,6 +219,12 @@ const text = {
     "Explora tu pregunta en el Estudio Bíblico",
     "Изучите свой вопрос в Библии",
   ],
+  A25: [
+    "Explore gatherings",
+    "Explorar encontros",
+    "Explorar encuentros",
+    "Посмотреть встречи",
+  ],
   note: [
     "You can write a few words here, or simply sit with this quietly.",
     "Você pode escrever algumas palavras ou ficar em silêncio.",
@@ -247,6 +254,28 @@ export function jc(lang: Language, key: keyof typeof text) {
   return text[key][{ en: 0, pt: 1, es: 2, ru: 3 }[lang]];
 }
 export type JournalCopyKey = keyof typeof text;
+
+export function journalActionCopy(
+  lang: Language,
+  theme: string,
+  action: string,
+) {
+  if (action === "A03") {
+    const prayer = prayerCopy(lang, theme);
+    if (prayer) return prayer;
+  }
+  if (theme === "hopelessness" && action === "A08")
+    return {
+      title: jc(lang, "hopeAction"),
+      invitation: jc(lang, "hopeIntro"),
+      prompt: jc(lang, "hopeNote"),
+    };
+  return {
+    title: jc(lang, action as JournalCopyKey),
+    invitation: actionInvitation(lang, action),
+    prompt: jc(lang, action === "A05" ? "professional" : "note"),
+  };
+}
 
 // An invitation from the app, never generated speech attributed to God.
 export function actionInvitation(lang: Language, action: string) {
