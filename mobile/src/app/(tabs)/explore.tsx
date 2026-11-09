@@ -14,7 +14,6 @@ import {
 import { FilterStrip, TextAction } from "../../components/CommunityControls";
 import DiscoverPost from "../../components/DiscoverPost";
 import { useApp } from "../../lib/state";
-import { copy } from "../../lib/content";
 import { useDiscover, useInteractions } from "../../lib/discover";
 import Community from "../community";
 import { useInterfaceCopy } from "../../lib/use-interface-copy";
@@ -23,8 +22,7 @@ export default function Explore() {
   const { profile } = useApp(),
     c = (k: string) => communityCopy(profile.language, k),
     { category: requested } = useLocalSearchParams<{ category?: string }>(),
-    category =
-      !requested || ["news", "older"].includes(requested) ? "all" : requested;
+    category = requested === "discussions" ? "discussions" : "all";
   const [search, setSearch] = useState(""),
     [query, setQuery] = useState("");
   const feed = useDiscover(category, query),
@@ -43,7 +41,21 @@ export default function Explore() {
       onChange={(value) => router.setParams({ category: value, compose: "" })}
     />
   );
-  if (category === "discussions") return <Community header={sections} />;
+  const discoverHeader = (
+    <>
+      <Heading>{c("discover")}</Heading>
+      <Field
+        label={c("searchDiscover")}
+        hideLabel
+        placeholder={c("searchDiscover")}
+        value={search}
+        onChangeText={setSearch}
+      />
+      {sections}
+    </>
+  );
+  if (category === "discussions")
+    return <Community header={discoverHeader} search={query} />;
   return (
     <Screen
       headerAction={
@@ -56,8 +68,7 @@ export default function Explore() {
         />
       }
     >
-      <Heading>{c("discover")}</Heading>
-      {sections}
+      {discoverHeader}
       <View
         style={{
           flexDirection: "row",
@@ -71,36 +82,6 @@ export default function Explore() {
           onPress={() => router.push("/testimonies/edit")}
         />
       </View>
-      <Field
-        label="Search Discover"
-        hideLabel
-        placeholder={c("searchDiscover")}
-        value={search}
-        onChangeText={setSearch}
-      />
-      <FilterStrip
-        options={[
-          "all",
-          "testimonies",
-          "stories",
-          "music",
-          "psalms",
-          "prayers",
-          "bible",
-          "saved",
-        ].map((value) => ({
-          value,
-          label:
-            (
-              {
-                testimonies: c("testimonies"),
-                saved: c("saved"),
-              } as Record<string, string>
-            )[value] ?? copy(profile.language, value),
-        }))}
-        value={category}
-        onChange={(c) => router.setParams({ category: c })}
-      />
       <Notice text={feed.error || reactions.error} />
       {!!feed.error && (
         <Button secondary title={c("retry")} onPress={() => void feed.load()} />
@@ -112,17 +93,7 @@ export default function Explore() {
         ))}
       {feed.loading && <Busy />}
       {!feed.loading && !feed.error && !feed.items.length && (
-        <>
-          <Body>
-            {c(
-              category === "testimonies"
-                ? "noTestimonies"
-                : category === "saved"
-                  ? "noSaved"
-                  : "noStories",
-            )}
-          </Body>
-        </>
+        <Body>{c("noStories")}</Body>
       )}
       {feed.more && !feed.loading && (
         <Button
