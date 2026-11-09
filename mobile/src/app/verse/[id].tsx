@@ -476,9 +476,8 @@ function StudyDiscussionActions({
           setStudyDiscussionTopic(reference);
           beforeNavigate?.();
           router.push({
-            pathname: "/(tabs)/explore",
+            pathname: "/community",
             params: {
-              category: "discussions",
               compose: "1",
               verse: discussionVerseId(id) ?? undefined,
             },

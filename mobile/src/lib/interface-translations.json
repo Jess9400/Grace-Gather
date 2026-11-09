@@ -1903,5 +1903,10 @@
     "pt": "Carregar discussões anteriores",
     "es": "Cargar debates anteriores",
     "ru": "Загрузить более ранние обсуждения"
+  },
+  "No published discussions yet.": {
+    "pt": "Ainda não há discussões publicadas.",
+    "es": "Todavía no hay discusiones publicadas.",
+    "ru": "Пока нет опубликованных обсуждений."
   }
 }

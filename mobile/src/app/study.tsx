@@ -153,8 +153,8 @@ export default function Study({
                 onPress={() => {
                   setStudyDiscussionTopic(topic.title);
                   router.push({
-                    pathname: "/(tabs)/explore",
-                    params: { category: "discussions", compose: "1" },
+                    pathname: "/community",
+                    params: { compose: "1" },
                   });
                 }}
               />
@@ -166,8 +166,8 @@ export default function Study({
             onPress={() => {
               setStudyDiscussionTopic(query);
               router.push({
-                pathname: "/(tabs)/explore",
-                params: { category: "discussions", compose: "1" },
+                pathname: "/community",
+                params: { compose: "1" },
               });
             }}
           />

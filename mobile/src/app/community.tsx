@@ -63,7 +63,8 @@ function CommunityScreen({
     verse?: string;
     compose?: string;
   }>();
-  const linkedVerse = params.verse ? discussionVerseId(params.verse) : null;
+  const linkedVerse =
+    !feed && params.verse ? discussionVerseId(params.verse) : null;
   const verse = linkedVerse ? getReadingVerse(linkedVerse) : null;
   const {
     state,
@@ -85,7 +86,7 @@ function CommunityScreen({
   } = useCommunity();
   const [alias, setAlias] = useState("");
   const [mode, setMode] = useState<ViewMode>(
-      params.compose === "1" ? "compose" : "list",
+      !feed && params.compose === "1" ? "compose" : "list",
     ),
     [selected, setSelected] = useState<string | null>(null);
   // The Chats list opens with its strip of the church (behind the side door);
@@ -105,14 +106,18 @@ function CommunityScreen({
   const draftRevision = getStudyDiscussionRevision();
   const appliedDraft = useRef(-1);
   useEffect(() => {
-    if (params.compose !== "1" || appliedDraft.current === draftRevision)
+    if (
+      feed ||
+      params.compose !== "1" ||
+      appliedDraft.current === draftRevision
+    )
       return;
     appliedDraft.current = draftRevision;
     setTitle(getStudyDiscussionTopic());
     setBody("");
     setMode("compose");
     setPreviewKey(null);
-  }, [params.compose, draftRevision]);
+  }, [params.compose, draftRevision, feed]);
   const currentPreviewKey = JSON.stringify([
     title,
     body,
@@ -333,7 +338,7 @@ function CommunityScreen({
       </Card>
     );
   }
-  if (params.compose === "1" && !userId) {
+  if (!feed && params.compose === "1" && !userId) {
     return (
       <Screen back>
         <Heading>{tr("Start a discussion")}</Heading>
@@ -393,20 +398,22 @@ function CommunityScreen({
             onPress={goList}
           />
         )}
-        <View style={s.preview}>
-          <Ionicons
-            name={demo ? "flask-outline" : "people-outline"}
-            size={15}
-            color={colors.goldInk}
-          />
-          <Text style={s.small}>
-            {demo
-              ? tr(
-                  "Community preview · sample conversations · nothing is public",
-                )
-              : tr("Community · questions and reflections")}
-          </Text>
-        </View>
+        {(!feed || demo) && (
+          <View style={s.preview}>
+            <Ionicons
+              name={demo ? "flask-outline" : "people-outline"}
+              size={15}
+              color={colors.goldInk}
+            />
+            <Text style={s.small}>
+              {demo
+                ? tr(
+                    "Community preview · sample conversations · nothing is public",
+                  )
+                : tr("Community · questions and reflections")}
+            </Text>
+          </View>
+        )}
         <Notice text={error || notice} />
         {!demo && (!connected || !userId) && (
           <Card>
@@ -415,11 +422,13 @@ function CommunityScreen({
                 ? tr("Sign in to join the conversation.")
                 : tr("Community is not connected on this build yet.")}
             </Body>
-            <Body small>
-              {tr(
-                "Your private diary stays separate. Only the words you choose to post are shared.",
-              )}
-            </Body>
+            {!feed && (
+              <Body small>
+                {tr(
+                  "Your private diary stays separate. Only the words you choose to post are shared.",
+                )}
+              </Body>
+            )}
             <Button
               secondary
               title={tr("Account and sign in")}
@@ -427,7 +436,7 @@ function CommunityScreen({
             />
           </Card>
         )}
-        {!demo && userId && (
+        {!feed && !demo && userId && (
           <Button
             secondary
             disabled={busy}
@@ -452,26 +461,28 @@ function CommunityScreen({
                 </Body>
               </>
             )}
-            {!demo && !automatic && (
+            {!feed && !demo && !automatic && (
               <Body small>
                 {tr(
                   "New submissions stay private while moderation is being prepared.",
                 )}
               </Body>
             )}
-            <View style={s.sectionBar}>
-              <Text style={s.sectionLabel}>{tr("COMMUNITY")}</Text>
-              <Pressable
-                accessibilityRole="button"
-                onPress={() =>
-                  userId ? startTopic() : router.push("/account")
-                }
-                style={s.newTopic}
-              >
-                <Ionicons name="add" size={18} color={colors.white} />
-                <Text style={s.newTopicText}>{tr("New topic")}</Text>
-              </Pressable>
-            </View>
+            {!feed && (
+              <View style={s.sectionBar}>
+                <Text style={s.sectionLabel}>{tr("COMMUNITY")}</Text>
+                <Pressable
+                  accessibilityRole="button"
+                  onPress={() =>
+                    userId ? startTopic() : router.push("/account")
+                  }
+                  style={s.newTopic}
+                >
+                  <Ionicons name="add" size={18} color={colors.white} />
+                  <Text style={s.newTopicText}>{tr("New topic")}</Text>
+                </Pressable>
+              </View>
+            )}
             {!feed && (
               <Row>
                 <Chip
@@ -543,7 +554,7 @@ function CommunityScreen({
                     </Text>
                   </View>
                 )}
-                {!topics.length && (
+                {!topics.length && !feed && (
                   <Card>
                     <Text style={s.topicTitle}>
                       {tr("There is room for your question.")}
@@ -560,6 +571,9 @@ function CommunityScreen({
                       onPress={startTopic}
                     />
                   </Card>
+                )}
+                {!topics.length && feed && !!userId && !busy && !error && (
+                  <Body small>{tr("No published discussions yet.")}</Body>
                 )}
                 {topics.map((t) =>
                   feed ? (
@@ -665,49 +679,53 @@ function CommunityScreen({
                 onPress={() => void loadMore()}
               />
             )}
-            <Disclosure title={tr("A kind space, together")}>
-              <Body>
-                {tr(
-                  "Ask honestly. Disagree respectfully. No personal attacks, threats, harassment, scams or private information. These are community reflections, not reviewed study notes.",
+            {!feed && (
+              <>
+                <Disclosure title={tr("A kind space, together")}>
+                  <Body>
+                    {tr(
+                      "Ask honestly. Disagree respectfully. No personal attacks, threats, harassment, scams or private information. These are community reflections, not reviewed study notes.",
+                    )}
+                  </Body>
+                  <Body small>
+                    {tr(
+                      "Only what you type here can be shared. Your diary and chosen faith stay separate. You choose any perspective label yourself.",
+                    )}
+                  </Body>
+                </Disclosure>
+                {demo ? (
+                  <Disclosure title={tr("Preview tools")}>
+                    <Body small>
+                      {tr(
+                        "This demo uses local memory and manual review. AI screening, real accounts and public posting are not connected. Changes reset when the app reloads.",
+                      )}
+                    </Body>
+                    <Button
+                      secondary
+                      title={`${tr("Open")} demo review queue (${pending.length + reports.length})`}
+                      onPress={() => {
+                        setNotice("");
+                        setMode("review");
+                      }}
+                    />
+                  </Disclosure>
+                ) : (
+                  moderator && (
+                    <Button
+                      secondary
+                      title={`${tr("Moderation queue")} (${pending.length + reports.length})`}
+                      onPress={() => setMode("review")}
+                    />
+                  )
                 )}
-              </Body>
-              <Body small>
-                {tr(
-                  "Only what you type here can be shared. Your diary and chosen faith stay separate. You choose any perspective label yourself.",
+                {!demo && limits && (
+                  <Body small>
+                    {tr("Showing recent conversations and up to")}
+                    {limits.repliesPerTopic}{" "}
+                    {tr("replies per conversation. Refresh for updates.")}
+                  </Body>
                 )}
-              </Body>
-            </Disclosure>
-            {demo ? (
-              <Disclosure title={tr("Preview tools")}>
-                <Body small>
-                  {tr(
-                    "This demo uses local memory and manual review. AI screening, real accounts and public posting are not connected. Changes reset when the app reloads.",
-                  )}
-                </Body>
-                <Button
-                  secondary
-                  title={`${tr("Open")} demo review queue (${pending.length + reports.length})`}
-                  onPress={() => {
-                    setNotice("");
-                    setMode("review");
-                  }}
-                />
-              </Disclosure>
-            ) : (
-              moderator && (
-                <Button
-                  secondary
-                  title={`${tr("Moderation queue")} (${pending.length + reports.length})`}
-                  onPress={() => setMode("review")}
-                />
-              )
-            )}
-            {!demo && limits && (
-              <Body small>
-                {tr("Showing recent conversations and up to")}
-                {limits.repliesPerTopic}{" "}
-                {tr("replies per conversation. Refresh for updates.")}
-              </Body>
+              </>
             )}
           </>
         )}
