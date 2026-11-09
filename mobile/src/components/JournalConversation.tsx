@@ -6,6 +6,7 @@ import {
   Pressable,
   StyleSheet,
   Image,
+  Platform,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import type { ReactNode } from "react";
@@ -20,6 +21,7 @@ import { AI_CONSENT_VERSION } from "../lib/ai-copy";
 import { copy, needsSupport, type Entry } from "../lib/content";
 import { chatCopy } from "../lib/journal-chat-copy";
 import { jc, type JournalCopyKey } from "../lib/journal-copy";
+import { shouldSendJournalKey } from "../lib/journal-composer";
 export default function JournalConversation({
   entry,
   initialAction,
@@ -45,14 +47,11 @@ export default function JournalConversation({
   const enabled = profile.journalAIConsentVersion === AI_CONSENT_VERSION;
   const full = messages.length >= 40;
   async function send() {
-    if (
-      lock.current ||
-      full ||
-      !enabled ||
-      !backend ||
-      (!pending && !text.trim())
-    )
+    if (lock.current || full || (!pending && !text.trim())) return;
+    if (!backend || !enabled) {
+      setError(chatCopy(lang, !backend ? "local" : "consent"));
       return;
+    }
     lock.current = true;
     setBusy(true);
     setError("");
@@ -99,7 +98,7 @@ export default function JournalConversation({
       lock.current = false;
     }
   }
-  const unavailable = !backend || !enabled || full;
+  const unavailable = full;
   const composer = entry.safety ? undefined : (
     <View style={s.dock}>
       {details && <Text style={s.meta}>{chatCopy(lang, "privacy")}</Text>}
@@ -136,6 +135,20 @@ export default function JournalConversation({
             placeholder={chatCopy(lang, "prompt")}
             placeholderTextColor={colors.muted}
             multiline
+            returnKeyType="send"
+            submitBehavior={Platform.OS === "web" ? "newline" : "submit"}
+            onSubmitEditing={
+              Platform.OS === "web" ? undefined : () => void send()
+            }
+            onKeyPress={(event) => {
+              if (
+                Platform.OS === "web" &&
+                shouldSendJournalKey(event.nativeEvent)
+              ) {
+                event.preventDefault();
+                void send();
+              }
+            }}
             maxLength={1500}
             value={text}
             onChangeText={setText}
@@ -171,13 +184,15 @@ export default function JournalConversation({
         <Text style={[s.meta, { flex: 1 }]}>
           {busy
             ? chatCopy(lang, "waiting")
-            : !backend
-              ? chatCopy(lang, "local")
-              : full
-                ? chatCopy(lang, "limit")
-                : !enabled
-                  ? chatCopy(lang, "consent")
-                  : chatCopy(lang, "ai")}
+            : error
+              ? ""
+              : !backend
+                ? chatCopy(lang, "local")
+                : full
+                  ? chatCopy(lang, "limit")
+                  : !enabled
+                    ? chatCopy(lang, "consent")
+                    : chatCopy(lang, "ai")}
         </Text>
         <Pressable
           accessibilityRole="button"
