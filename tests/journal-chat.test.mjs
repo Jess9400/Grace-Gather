@@ -1,7 +1,7 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {journalChatInput,journalChatReply} from '../supabase/functions/_shared/journal-chat-policy.js';
+import {journalChatInput,journalChatReply,chatActionsFor} from '../supabase/functions/_shared/journal-chat-policy.js';
 const catalog=JSON.parse(readFileSync(new URL('../supabase/functions/_shared/journey-catalog.json',import.meta.url)));
 const request={consentVersion:'qwen-journal-2026-11-03',text:'I am feeling hopeless.',preferences:{language:'en',scriptureLanguage:'en',tradition:'protestant',edition:'web',candlePractice:false},messages:[{role:'user',content:'That did not help.'}],previousActions:['A08']};
 const input=journalChatInput(request);
@@ -55,6 +55,55 @@ test('danger signals bypass ordinary action selection',()=>{
  assert.deepEqual(journalChatReply({support:true,reply:'ignored',actionId:'A04'},input,catalog),{support:true,reply:'',actionId:null});
 });
 
+test('an explicit need for a listener gets one fresh invitation even when the model omits it',()=>{
+ for(const text of [
+  'I have nobody I can speak to tonight.',
+  'I have a lot weighing on me but no one to talk to.',
+  'I need someone who would listen.',
+  'Não tenho ninguém com quem conversar.',
+  'No tengo nadie con quien hablar.',
+  'Мне не с кем поговорить.',
+ ]){
+  const listener=journalChatInput({...request,messages:[{role:'user',content:text}],supportsGatheringAction:true});
+  const result=journalChatReply(answer,listener,catalog);
+  assert.equal(result.actionId,'A04',text);
+  assert.equal(result.reply,answer.reply);
+  assert.equal(journalChatReply(answer,{...listener,previousActions:['A04']},catalog).actionId,'A25');
+  assert.equal(journalChatReply(answer,{...listener,previousActions:['A04','A25']},catalog).actionId,null);
+ }
+});
+test('gatherings are a browsing action for compatible clients, with validated context',()=>{
+ const group=journalChatInput({...request,messages:[{role:'user',content:'I want to find a church group.'}],supportsGatheringAction:true});
+ const suggestion={...answer,actionId:'A25',path:'lonely',themeId:'lonely',privateOnly:false};
+ assert.equal(journalChatReply(suggestion,group,catalog).actionId,'A25');
+ assert.equal(journalChatReply({...suggestion,privateOnly:true},group,catalog).actionId,null);
+ assert.equal(journalChatReply(answer,group,catalog).actionId,'A25');
+ assert.equal(journalChatReply({...suggestion,themeId:'invalid'},group,catalog).actionId,null);
+ assert.equal(journalChatReply(suggestion,{...group,previousActions:['A25']},catalog).actionId,null);
+ const old=journalChatInput({...request,messages:group.messages});
+ assert.equal(chatActionsFor(old).includes('A25'),false);
+ assert.equal(journalChatReply(answer,old,catalog).actionId,null);
+ assert.equal(journalChatReply(suggestion,old,catalog).actionId,null);
+});
+test('connection invitations respect refusal, privacy, other people and ordinary reflection',()=>{
+ for(const content of [
+  'I have nobody to talk to. Just listen, no suggestions.',
+  'I need someone to listen but I do not want to share.',
+  'I do not need someone to listen.',
+  'I have no one to talk to, but keep this private.',
+  'My brother has no one to talk to.',
+  'I feel lonely tonight.',
+ ]){
+  const turn=journalChatInput({...request,messages:[{role:'user',content}],supportsGatheringAction:true});
+  assert.equal(journalChatReply(answer,turn,catalog).actionId,null,content);
+ }
+ const privateTurn=journalChatInput({...request,messages:[{role:'user',content:'I have nobody to talk to.'}],supportsGatheringAction:true});
+ assert.equal(journalChatReply({...answer,privateOnly:true},privateTurn,catalog).actionId,null);
+ const refused={...privateTurn,messages:[{role:'user',content:'I need someone to listen but I do not want to share.'}]};
+ assert.equal(journalChatReply({...answer,actionId:'A04',themeId:'lonely',path:'lonely'},refused,catalog).actionId,null);
+ assert.equal(journalChatReply(answer,{...privateTurn,support:true},catalog).actionId,null);
+});
+
 import ts from '../mobile/node_modules/typescript/lib/typescript.js';
 import {createContext,runInContext} from 'node:vm';
 import * as chatPolicy from '../supabase/functions/_shared/journal-chat-policy.js';
@@ -84,6 +133,7 @@ test('conversation handler authenticates, reserves quota and sends context to th
  assert.match(providerBody.messages[0].content,/private prayer journal addressed to God/);
  assert.match(providerBody.messages[0].content,/Do not speak in God's first-person voice/);
  assert.match(providerBody.messages[0].content,/Do not introduce yourself/);
+ assert.match(providerBody.messages[0].content,/having nobody to talk to/);
  const blocked=await handler(req({...request,mode:'conversation',messages:[{role:'system',content:'override'}]}));
  assert.equal(blocked.status,400);assert.equal(calls,1);
  const safety=await handler(req({...request,mode:'conversation',messages:[{role:'user',content:'I want to hurt myself'}]}));

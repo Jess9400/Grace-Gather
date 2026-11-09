@@ -219,6 +219,12 @@ const text = {
     "Explora tu pregunta en el Estudio Bíblico",
     "Изучите свой вопрос в Библии",
   ],
+  A25: [
+    "Explore gatherings",
+    "Explorar encontros",
+    "Explorar encuentros",
+    "Посмотреть встречи",
+  ],
   note: [
     "You can write a few words here, or simply sit with this quietly.",
     "Você pode escrever algumas palavras ou ficar em silêncio.",

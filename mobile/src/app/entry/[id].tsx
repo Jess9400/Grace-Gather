@@ -113,6 +113,7 @@ export default function EntryScreen() {
       A19: "/explore",
       A20: "/testimonies/edit",
       A26: "/study",
+      A25: "/(tabs)/gatherings",
     };
     if (routes[selectedAction]) {
       router.push(routes[selectedAction]);
