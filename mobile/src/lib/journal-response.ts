@@ -8,6 +8,7 @@ import {
   collectionFor,
   ensureCollection,
   getReadingVerse,
+  themeVerse,
   type ReadingVerse,
 } from "./bible";
 import { journalAction, journalTheme } from "./journal-guidance";
@@ -33,6 +34,8 @@ export async function resolveJournalResponse(
       /* Use the licensed, bundled fallback if a collection cannot load. */
     }
   }
+  if (!entry.safety && !collection)
+    verse = themeVerse(entry.prefs, theme.verse);
   if (!entry.safety && !verse) {
     const candidates = passagesFor(entry.prefs, entry.mood);
     const fallback =

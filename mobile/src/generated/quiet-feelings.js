@@ -8,7 +8,77 @@ export const feelings = {
   unsure: { label: 'not sure', mark: '·', words: ['unsure','confused','lost','uncertain','not sure'], verses: ['web-romans-15-13','web-matthew-11-28','web-john-14-27'] },
 };
 
-export function detectFeelings(text) {
+// Feelings in Portuguese, Spanish and Russian. A trailing * matches any
+// ending (ansioso/ansiosa, sozinho/sozinha, тревожно/тревожный), since these
+// languages change word endings for gender, number and tense.
+export const feelingWords = {
+  pt: {
+    anxious: ['ansios*','ansiedade','preocupad*','preocupação','preocupo','medo','assustad*','nervos*','estressad*','estresse','pânico','aflit*','angústia','angustiad*'],
+    lonely: ['sozinh*','solidão','solitári*','isolad*','abandonad*','saudade*','ninguém me'],
+    great: ['feliz','felizes','felicidade','alegri*','alegre','content*','maravilhos*','animad*','empolgad*','ótimo','ótima','incrível'],
+    sad: ['triste*','tristeza','chorei','chorando','chorar','choro','desanimad*','abatid*','magoad*','coração partido','deprimid*','pra baixo','para baixo'],
+    overwhelmed: ['sobrecarregad*','exaust*','cansad*','esgotad*','não aguento','não dou conta','sem forças','demais pra mim'],
+    grateful: ['grato','grata','gratos','gratas','gratidão','agradecid*','agradeço','abençoad*'],
+    unsure: ['confus*','perdid*','indecis*','incert*','não sei o que fazer'],
+    hopeless: ['sem esperança','desesperanç*','desesperad*','não vejo saída','nada vai mudar'],
+    hopeful: ['esperanç*','otimist*','recomeço','novo começo'],
+    peaceful: ['em paz','tranquil*','calm*','seren*','sossegad*'],
+  },
+  es: {
+    anxious: ['ansios*','ansiedad','preocupad*','preocupación','miedo','asustad*','nervios*','estresad*','estrés','pánico','angustia*'],
+    lonely: ['sola','solos','solas','me siento solo','soledad','aislad*','abandonad*','nadie me'],
+    great: ['feliz','felices','felicidad','alegr*','content*','maravillos*','emocionad*','genial','increíble'],
+    sad: ['triste*','tristeza','lloré','llorando','llorar','llanto','desanimad*','abatid*','dolid*','corazón roto','deprimid*'],
+    overwhelmed: ['agobiad*','abrumad*','exhaust*','cansad*','agotad*','no puedo más','demasiado para mí'],
+    grateful: ['agradecid*','agradezco','gratitud','bendecid*'],
+    unsure: ['confundid*','perdid*','indecis*','insegur*','no sé qué hacer'],
+    hopeless: ['sin esperanza','desesperanz*','desesperad*','nada va a cambiar'],
+    hopeful: ['esperanz*','optimis*','nuevo comienzo'],
+    peaceful: ['en paz','tranquil*','calm*','seren*'],
+  },
+  ru: {
+    anxious: ['тревог*','тревожн*','беспоко*','волну*','страх*','страшно','боюсь','паник*','нервн*','стресс*'],
+    lonely: ['одинок*','одиночеств*','никому не нужн*','скучаю'],
+    great: ['счастлив*','радост*','рада','рад','радуюсь','прекрасн*','замечательн*','отличн*'],
+    sad: ['грустн*','грусть','печал*','плак*','плачу','тоск*','уныни*','депресс*'],
+    overwhelmed: ['устал*','измотан*','выгор*','нет сил','слишком много','не справляюсь'],
+    grateful: ['благодар*','спасибо','благословен*'],
+    unsure: ['запута*','растерян*','не знаю что делать','не уверен*'],
+    hopeless: ['нет надежд*','без надежд*','безнадёжн*','безнадежн*','отчаян*','ничего не изменится','нет смысла'],
+    hopeful: ['надежд*','оптимис*'],
+    peaceful: ['спокойн*','на душе мир','умиротвор*'],
+  },
+};
+// "Not sad", "ya no", "не грустно", and "sem/sin/без/нет" ("sem esperança").
+const negated = /(?:^|[^\p{L}])(?:não|nao|nunca|já não|ya no|no|ni|sem|sin|не|нет|без|больше не|никогда не)\s+(?:(?:estou|estava|me sinto|sinto|fico|estoy|estaba|me siento|siento|чувствую себя|чувствую)\s+)?(?:(?:muito|tão|tao|tan|muy|очень|так)\s+)?$/u;
+const escape = (word) => word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+function detectInLanguage(text, words) {
+  const input = text.toLowerCase().replaceAll('’', "'");
+  const matches = [];
+  for (const [mood, list] of Object.entries(words)) {
+    for (const entry of list) {
+      const stem = entry.endsWith('*');
+      const word = stem ? entry.slice(0, -1) : entry;
+      const pattern = new RegExp(`(?<!\\p{L})${escape(word)}${stem ? '\\p{L}*' : '(?!\\p{L})'}`, 'gu');
+      for (const match of input.matchAll(pattern)) {
+        const before = input.slice(Math.max(0, match.index - 32), match.index);
+        if (negated.test(before)) continue;
+        matches.push({ mood, word: match[0], index: match.index });
+      }
+    }
+  }
+  const scores = {};
+  for (const match of matches) scores[match.mood] = (scores[match.mood] || 0) + 1;
+  const ranked = Object.entries(scores).sort((a,b) => b[1] - a[1]);
+  return {
+    primary: ranked[0]?.[0] || 'unsure',
+    words: [...new Set(matches.sort((a,b) => a.index - b.index).map(x => x.word))].slice(0,6),
+  };
+}
+
+export function detectFeelings(text, language = 'en') {
+  if (language !== 'en') return feelingWords[language] ? detectInLanguage(text, feelingWords[language]) : { primary: 'unsure', words: [] };
   const input = text.toLowerCase().replaceAll('’', "'");
   const matches = [];
   for (const [mood, item] of Object.entries(feelings)) {
