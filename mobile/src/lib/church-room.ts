@@ -6,7 +6,14 @@ import type { ChurchPlace } from "./church-scene";
 // The window (Discover), the altar (prayer requests) and Chats have a strip
 // but are not walked to from Home.
 export type RoomPlace =
-  "bible" | "pews" | "gather" | "candles" | "window" | "altar" | "chats";
+  | "bible"
+  | "pews"
+  | "gather"
+  | "candles"
+  | "confession"
+  | "window"
+  | "altar"
+  | "chats";
 // The spot in the church each room shows; Chats lives behind the side door.
 export const roomSpot = (place: RoomPlace) =>
   place === "chats" ? "gather" : place;
@@ -53,6 +60,7 @@ const ZOOM: Record<RoomPlace, number> = {
   pews: 1.6,
   gather: 2.6,
   candles: 2.4,
+  confession: 2.0,
   window: 1.9,
   altar: 1.9,
   chats: 2.6,
@@ -110,4 +118,5 @@ export const isRoomPlace = (
   place === "bible" ||
   place === "pews" ||
   place === "gather" ||
-  place === "candles";
+  place === "candles" ||
+  place === "confession";

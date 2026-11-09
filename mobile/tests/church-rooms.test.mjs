@@ -34,6 +34,7 @@ test("the walk-in lands each place on the same spot its strip shows it", () => {
     "pews",
     "gather",
     "candles",
+    "confession",
     "window",
     "altar",
     "chats",
@@ -60,12 +61,12 @@ test("the Bible keeps a shorter strip than the other rooms", () => {
   assert.ok(roomGeometry("bible", 0).height < roomGeometry("pews", 0).height);
 });
 
-test("only the church rooms walk in; Confession and the wreath open as before", () => {
+test("the church rooms walk in, Confession included; the wreath opens its note as before", () => {
   assert.deepEqual(
     ["bible", "pews", "gather", "candles", "confession", "wreath"].map(
       isRoomPlace,
     ),
-    [true, true, true, true, false, false],
+    [true, true, true, true, true, false],
   );
 });
 

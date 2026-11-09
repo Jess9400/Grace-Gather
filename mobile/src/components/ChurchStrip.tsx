@@ -29,6 +29,7 @@ const LABEL: Record<RoomPlace, ChurchWord> = {
   pews: "inPews",
   gather: "sideDoor",
   candles: "candles",
+  confession: "quietCorner",
   window: "beneathWindow",
   altar: "atAltar",
   chats: "sideDoor",

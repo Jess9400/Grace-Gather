@@ -334,6 +334,13 @@ const words = {
   // Shown across the top of a room's screen, over its strip of the church.
   atLectern: L("At the lectern", "No atril", "En el atril", "У аналоя"),
   inPews: L("In the pews", "Nos bancos", "En los bancos", "На скамье"),
+  // The confessional, prayer stand or prayer corner, whatever the tradition.
+  quietCorner: L(
+    "In the quiet corner",
+    "No canto silencioso",
+    "En el rincón tranquilo",
+    "В тихом уголке",
+  ),
   beneathWindow: L(
     "Beneath the window",
     "Sob o vitral",
