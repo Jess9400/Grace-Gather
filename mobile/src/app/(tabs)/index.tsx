@@ -5,7 +5,13 @@ import { useBottomTabBarHeight } from "expo-router/tabs";
 import MemberAvatar from "../../components/MemberAvatar";
 import { useReducedMotion } from "../../lib/use-reduced-motion";
 import { useInterfaceCopy } from "../../lib/use-interface-copy";
-import { useCallback, useEffect, useState, useRef, type ComponentRef } from "react";
+import {
+  useCallback,
+  useEffect,
+  useState,
+  useRef,
+  type ComponentRef,
+} from "react";
 import {
   View,
   Text,
@@ -43,7 +49,6 @@ import {
   startAmbience,
   stopAmbience,
 } from "../../lib/church-audio";
-import * as storage from "../../lib/storage";
 
 import type { ChurchPlace } from "../../lib/church-scene";
 import { StepCheckIn } from "../../components/SmallStep";
@@ -171,7 +176,6 @@ export default function Home() {
   useEffect(() => () => stopAmbience(), []);
   const endTour = useCallback(() => {
     setTour(false);
-    void storage.setItem("church-tour-seen", "yes").catch(() => {});
   }, []);
 
   const week = adventWeekFor(profile, now, preview);
@@ -265,7 +269,10 @@ export default function Home() {
           <Pressable
             accessibilityRole="button"
             accessibilityLabel={tr("Account and settings")}
-            onPress={() => { dismissInvitation(); setAccountOpen(true); }}
+            onPress={() => {
+              dismissInvitation();
+              setAccountOpen(true);
+            }}
             style={s.profile}
           >
             <MemberAvatar />
@@ -443,15 +450,74 @@ export default function Home() {
           </View>
         )}
       </View>
-      <Modal visible={accountOpen} transparent animationType={reduced ? "none" : "fade"} onRequestClose={() => setAccountOpen(false)}>
-        <View style={{ flex: 1, paddingTop: insets.top + 68, paddingBottom: insets.bottom + 20, paddingHorizontal: 20, alignItems: "flex-end" }}>
-          <Pressable accessibilityRole="button" accessibilityLabel={tr("Close")} onPress={() => setAccountOpen(false)} style={{ position: "absolute", inset: 0, backgroundColor: "#00000035" }} />
-          <View style={{ width: "100%", maxWidth: 360, maxHeight: "100%", backgroundColor: colors.paper, borderRadius: 20, overflow: "hidden" }}>
+      <Modal
+        visible={accountOpen}
+        transparent
+        animationType={reduced ? "none" : "fade"}
+        onRequestClose={() => setAccountOpen(false)}
+      >
+        <View
+          style={{
+            flex: 1,
+            paddingTop: insets.top + 68,
+            paddingBottom: insets.bottom + 20,
+            paddingHorizontal: 20,
+            alignItems: "flex-end",
+          }}
+        >
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={tr("Close")}
+            onPress={() => setAccountOpen(false)}
+            style={{
+              position: "absolute",
+              inset: 0,
+              backgroundColor: "#00000035",
+            }}
+          />
+          <View
+            style={{
+              width: "100%",
+              maxWidth: 360,
+              maxHeight: "100%",
+              backgroundColor: colors.paper,
+              borderRadius: 20,
+              overflow: "hidden",
+            }}
+          >
             <ScrollView contentContainerStyle={{ padding: 12 }}>
-              <View style={{ flexDirection: "row", alignItems: "center", paddingLeft: 12, paddingBottom: 10, gap: 12 }}>
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  paddingLeft: 12,
+                  paddingBottom: 10,
+                  gap: 12,
+                }}
+              >
                 <MemberAvatar />
-                <Text numberOfLines={2} style={{ flex: 1, color: colors.ink, fontSize: 20, fontFamily: serif }}>{profile.name?.trim() || tr("Your space")}</Text>
-                <Pressable accessibilityRole="button" accessibilityLabel={tr("Close")} onPress={() => setAccountOpen(false)} style={{ width: 44, height: 44, alignItems: "center", justifyContent: "center" }}>
+                <Text
+                  numberOfLines={2}
+                  style={{
+                    flex: 1,
+                    color: colors.ink,
+                    fontSize: 20,
+                    fontFamily: serif,
+                  }}
+                >
+                  {profile.name?.trim() || tr("Your space")}
+                </Text>
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel={tr("Close")}
+                  onPress={() => setAccountOpen(false)}
+                  style={{
+                    width: 44,
+                    height: 44,
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
                   <Ionicons name="close" size={22} color={colors.ink} />
                 </Pressable>
               </View>
@@ -536,12 +602,7 @@ export default function Home() {
           onEntered={() => {
             markEntered();
             setEntrance(false);
-            void storage
-              .getItem("church-tour-seen")
-              .then((seen) => {
-                if (!seen) setTour(true);
-              })
-              .catch(() => {});
+            setTour(true);
           }}
         />
       )}
@@ -660,15 +721,19 @@ const s = StyleSheet.create({
   },
   ctaText: { fontSize: 16, fontWeight: "600", color: colors.ink },
   stay: { minHeight: 44, justifyContent: "center", alignItems: "center" },
-  stayText: { fontSize: 14, color: "#FFF8E9", textAlign: "center" },
+  stayText: {
+    fontSize: 14,
+    color: "#FFF8E9",
+    textAlign: "center",
+    textShadowColor: "#211B16",
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 4,
+  },
   reopen: {
     minHeight: 48,
     paddingHorizontal: 24,
     paddingVertical: 14,
-    borderRadius: 25,
-    borderWidth: 1,
-    borderColor: "#FFF8E945",
-    backgroundColor: "#302C288C",
+    backgroundColor: "transparent",
   },
   fallback: { position: "absolute", left: 20, right: 20 },
   modal: {

@@ -325,7 +325,7 @@ export default function ChurchScene({
     if (failed) onFailure?.();
   }, [failed, onFailure]);
 
-  // The tour: each label fades in slowly with its arrow, rests for a moment,
+  // The tour: each label fades in slowly without a background, rests for a moment,
   // fades out, and the next one follows. Touching the church ends it.
   const keys = places.map((p) => p.key).join(",");
   const stopTour = useRef<(() => void) | null>(null);
@@ -577,7 +577,6 @@ export default function ChurchScene({
                   {p.label}
                 </Text>
               </Pressable>
-              <View style={styles.arrow} />
             </Animated.View>
           </Animated.View>
         ))}
@@ -587,7 +586,11 @@ export default function ChurchScene({
 
 const styles = StyleSheet.create({
   fullScreen: {
-    position: "absolute", top: 0, bottom: 0, left: 0, right: 0,
+    position: "absolute",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
     overflow: "hidden",
     backgroundColor: "#211B16",
   },
@@ -615,24 +618,16 @@ const styles = StyleSheet.create({
     gap: 6,
     minHeight: 34,
     paddingHorizontal: 13,
-    borderRadius: 17,
-    backgroundColor: colors.ink,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: "rgba(255,252,243,0.25)",
-    boxShadow: "0 6px 16px rgba(48,44,40,0.22)",
+    backgroundColor: "transparent",
   },
   label: { alignItems: "center" },
-  arrow: {
-    width: 0,
-    height: 0,
-    borderLeftWidth: 7,
-    borderRightWidth: 7,
-    borderTopWidth: 9,
-    borderLeftColor: "transparent",
-    borderRightColor: "transparent",
-    borderTopColor: colors.ink,
-    marginTop: 2,
+  chipText: {
+    color: colors.white,
+    fontSize: 13,
+    fontWeight: "600",
+    textShadowColor: "#211B16",
+    textShadowOffset: { width: 0, height: 1 },
+    textShadowRadius: 4,
   },
-  chipText: { color: colors.white, fontSize: 13, fontWeight: "600" },
   live: { width: 7, height: 7, borderRadius: 4, backgroundColor: "#B4532F" },
 });
