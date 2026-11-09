@@ -14,7 +14,6 @@ import {
   StyleSheet,
   Platform,
   Alert,
-  AccessibilityInfo,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useApp } from "../../lib/state";
@@ -44,9 +43,10 @@ import { designCopy } from "../../lib/design-copy";
 import Recorder from "../../components/Recorder";
 import AudioPlayback from "../../components/AudioPlayback";
 import ConfessionAudio from "../../components/ConfessionAudio";
-import ConfessionalDoor from "../../components/ConfessionalDoor";
+import ConfessionArrival, {
+  ConfessionLattice,
+} from "../../components/ConfessionArrival";
 import { confessionColors as room } from "../../lib/confession-theme";
-import { prepareWalnutTexture } from "../../lib/confessional-texture";
 type Page =
   "room" | "share" | "list" | "mine" | "detail" | "success" | "review";
 const themes = [
@@ -71,7 +71,8 @@ export default function ConfessionRoom() {
     designCopy(language, key);
   const [themeOpen, setThemeOpen] = useState(false),
     [responseOpen, setResponseOpen] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(true);
+  const [audioOpen, setAudioOpen] = useState(false);
+  const [preview, setPreview] = useState("");
   const [page, setPage] = useState<Page>("room"),
     [entering, setEntering] = useState(false),
     [body, setBody] = useState(""),
@@ -93,7 +94,8 @@ export default function ConfessionRoom() {
     [notes, setNotes] = useState<Record<string, string>>({}),
     [success, setSuccess] = useState("share"),
     [support, setSupport] = useState(false);
-  const enterRoom = useCallback(() => {
+  const enterRoom = useCallback((record = false) => {
+    setAudioOpen(record);
     setEntering(false);
     setPage("share");
   }, []);
@@ -104,29 +106,8 @@ export default function ConfessionRoom() {
   useFocusEffect(useCallback(() => () => setEntering(false), []));
   function startEntrance() {
     setPage("share");
-    setEntering(!reducedMotion);
+    setEntering(true);
   }
-  useEffect(() => {
-    let active = true,
-      changed = false;
-    void AccessibilityInfo.isReduceMotionEnabled()
-      .then((value) => {
-        if (active && !changed) setReducedMotion(value);
-      })
-      .catch(() => {});
-    const sub = AccessibilityInfo.addEventListener(
-      "reduceMotionChanged",
-      (value) => {
-        changed = true;
-        setReducedMotion(value);
-      },
-    );
-    void prepareWalnutTexture().catch(() => {});
-    return () => {
-      active = false;
-      sub.remove();
-    };
-  }, []);
   useEffect(() => {
     navigation.setOptions({
       tabBarHideOnKeyboard: page === "share",
@@ -213,7 +194,15 @@ export default function ConfessionRoom() {
     setPage("detail");
     setReport(null);
   }
+  const fingerprint = JSON.stringify([
+    body,
+    audio,
+    theme,
+    responseType,
+    consent,
+  ]);
   async function share() {
+    if (preview !== fingerprint) return;
     if ((!body.trim() && !audio) || !consent) {
       setError(t("cNeed"));
       return;
@@ -227,6 +216,7 @@ export default function ConfessionRoom() {
     setAudio(undefined);
     setBody("");
     setConsent(false);
+    setPreview("");
     setSuccess("share");
     setSupport(r.supportSuggested);
     setPage("success");
@@ -383,12 +373,13 @@ export default function ConfessionRoom() {
             )}
             {page === "share" && (
               <>
+                <ConfessionLattice />
                 <View style={{ gap: 10 }}>
                   <Text
                     accessibilityRole="header"
                     style={[s.title, { color: room.ink }]}
                   >
-                    {t("cShare")}
+                    {tr("Begin wherever you are.")}
                   </Text>
                   <Body small>{d("audienceSummary")}</Body>
                   <Disclosure
@@ -410,12 +401,14 @@ export default function ConfessionRoom() {
                     onChangeText={setBody}
                     multiline
                     maxLength={3000}
-                    placeholder={t("cPlaceholder")}
+                    placeholder={tr("I’ve been carrying…")}
                     style={{ minHeight: 220, lineHeight: 26 }}
                   />
                   {Platform.OS !== "web" && (
                     <Disclosure
-                      title={t("cAudio")}
+                      title={tr("Record instead")}
+                      open={audioOpen || recording || !!audio}
+                      onToggle={() => setAudioOpen(!audioOpen)}
                       disabled={recording || !!audio}
                     >
                       <Body small>{t("cAudioNotice")}</Body>
@@ -502,7 +495,37 @@ export default function ConfessionRoom() {
                     />
                     <Text style={s.consent}>{t("cConsent")}</Text>
                   </Pressable>
-                  {btn("cSubmit", () => void run(share))}
+                  <Button
+                    title={tr("Preview confession")}
+                    disabled={busy || recording}
+                    onPress={() => {
+                      if ((!body.trim() && !audio) || !consent) {
+                        setError(t("cNeed"));
+                        return;
+                      }
+                      setError("");
+                      setPreview(fingerprint);
+                    }}
+                  />
+                  {preview === fingerprint && (
+                    <Card>
+                      <Body small>{d("audienceSummary")}</Body>
+                      {!!body.trim() && <Body>{body.trim()}</Body>}
+                      {!!audio && (
+                        <AudioPlayback id={audio} language={language} />
+                      )}
+                      <Body small>
+                        {t("c_" + theme)} · {t("c_" + responseType)}
+                      </Body>
+                      {btn("cSubmit", () => void run(share))}
+                      <TextAction
+                        title={tr("Edit confession")}
+                        icon="create-outline"
+                        disabled={busy}
+                        onPress={() => setPreview("")}
+                      />
+                    </Card>
+                  )}
                 </View>
               </>
             )}
@@ -764,11 +787,7 @@ export default function ConfessionRoom() {
         </SurfaceTheme>
       </View>
       {entering && (
-        <ConfessionalDoor
-          language={language}
-          onEntered={enterRoom}
-          onCancel={cancelEntrance}
-        />
+        <ConfessionArrival onEntered={enterRoom} onCancel={cancelEntrance} />
       )}
     </>
   );

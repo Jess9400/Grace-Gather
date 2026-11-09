@@ -1,8 +1,10 @@
+import { setStudySearch } from "../../lib/study-search";
 import { useInterfaceCopy } from "../../lib/use-interface-copy";
 import { useRef, useState, useCallback, useEffect } from "react";
 import {
   View,
   Text,
+  TextInput,
   FlatList,
   Pressable,
   Modal,
@@ -82,6 +84,12 @@ export default function BibleReading() {
   );
 }
 function BibleReader({ collection }: { collection: CollectionId | null }) {
+  const [search, setSearch] = useState("");
+  function openSearch() {
+    if (!search.trim()) return;
+    setStudySearch(search);
+    router.push("/study");
+  }
   const tr = useInterfaceCopy();
   const strip = useRoomStrip("bible");
   const { profile } = useApp(),
@@ -171,23 +179,34 @@ function BibleReader({ collection }: { collection: CollectionId | null }) {
       {strip && <ChurchStrip place="bible" />}
       <View style={[s.header, strip && { marginTop: -16, paddingTop: 0 }]}>
         {!strip && <Brand />}
-        <View style={{ flexDirection: "row", gap: 12 }}>
-          <View style={{ flex: 1 }}>
-            <Button
-              secondary
-              title={tr("Theme or passage")}
-              onPress={() => router.push("/study")}
-            />
-          </View>
-          <View style={{ flex: 1 }}>
-            <Button
-              secondary
-              title={tr("Ask study AI")}
-              onPress={() =>
-                router.push({ pathname: "/study", params: { panel: "ai" } })
-              }
-            />
-          </View>
+        <View style={s.searchBar}>
+          <Ionicons
+            name="search-outline"
+            size={19}
+            color={colors.muted}
+            accessible={false}
+          />
+          <TextInput
+            accessibilityLabel={tr("Theme or passage")}
+            placeholder={tr("Theme or passage")}
+            placeholderTextColor={colors.muted}
+            value={search}
+            onChangeText={setSearch}
+            onSubmitEditing={openSearch}
+            returnKeyType="search"
+            maxLength={200}
+            style={s.searchInput}
+          />
+          {!!search && (
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={tr("Search")}
+              onPress={openSearch}
+              style={s.searchAction}
+            >
+              <Ionicons name="arrow-forward" size={20} color={colors.ink} />
+            </Pressable>
+          )}
         </View>
         <View style={s.location}>
           <Pressable
@@ -372,6 +391,30 @@ function BibleReader({ collection }: { collection: CollectionId | null }) {
   );
 }
 const s = StyleSheet.create({
+  searchBar: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    borderWidth: 1,
+    borderColor: colors.line,
+    borderRadius: 14,
+    paddingLeft: 14,
+    backgroundColor: colors.white,
+  },
+  searchInput: {
+    flex: 1,
+    minWidth: 0,
+    minHeight: 48,
+    color: colors.ink,
+    fontSize: 16,
+    paddingVertical: 12,
+  },
+  searchAction: {
+    minHeight: 48,
+    width: 44,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   safe: { flex: 1, backgroundColor: colors.paper },
   header: {
     paddingHorizontal: 22,
