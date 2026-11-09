@@ -81,7 +81,7 @@ export default function CandleScreen() {
   };
 
   return (
-    <Screen back>
+    <Screen back place="candles">
       <View style={s.head}>
         <Heading>{phase === "lit" ? t("lit") : t("candleTitle")}</Heading>
         <Body>

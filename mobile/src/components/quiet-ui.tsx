@@ -1,4 +1,6 @@
 import MemberAvatar from "./MemberAvatar";
+import ChurchStrip, { useRoomStrip } from "./ChurchStrip";
+import type { RoomPlace } from "../lib/church-room";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
 import React, { createContext, useContext } from "react";
 import {
@@ -39,16 +41,35 @@ function useSurfaceColors() {
     ink: card ? colors.cardInk : colors.ink,
     muted: card ? colors.cardMuted : colors.muted,
     line: card ? colors.cardLine : colors.line,
+    // Small decorative outlines use the antique gold on the page.
+    outline: card ? colors.cardLine : "#B28A3E8C",
   };
 }
+// `place` makes the screen one of the church's rooms: its part of the church
+// runs across the top in place of the plain header.
 export function Screen({
   children,
   back = false,
+  place,
 }: {
   children: React.ReactNode;
   back?: boolean;
+  place?: RoomPlace;
 }) {
   const tr = useInterfaceCopy();
+  const strip = useRoomStrip(place ?? "bible") && !!place;
+  if (strip && place)
+    return (
+      <SafeAreaView style={s.safe} edges={["left", "right"]}>
+        <ScrollView keyboardShouldPersistTaps="handled">
+          <ChurchStrip place={place} back={back} />
+          <View style={[s.page, s.roomPage]}>
+            {children}
+            <View style={{ height: 26 }} />
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    );
   return (
     <SafeAreaView style={s.safe} edges={["top", "left", "right"]}>
       <ScrollView
@@ -164,7 +185,7 @@ export function Button({
       onPress={onPress}
       style={({ pressed }) => [
         s.button,
-        secondary && [s.secondary, { borderColor: surface.line }],
+        secondary && [s.secondary, { borderColor: surface.outline }],
         { opacity: disabled ? 0.45 : pressed ? 0.75 : 1 },
       ]}
     >
@@ -260,6 +281,7 @@ export const s = StyleSheet.create({
     width: "100%",
     alignSelf: "center",
   },
+  roomPage: { marginTop: -18, paddingTop: 0 },
   brand: {
     flexDirection: "row",
     alignItems: "center",
@@ -307,7 +329,7 @@ export const s = StyleSheet.create({
   accentCard: { borderColor: colors.gold },
   button: {
     minHeight: 49,
-    borderRadius: 16,
+    borderRadius: 25,
     paddingVertical: 14,
     paddingHorizontal: 18,
     alignItems: "center",

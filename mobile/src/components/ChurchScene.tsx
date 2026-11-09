@@ -22,12 +22,14 @@ import { prepareChurchTimber } from "../lib/church-texture";
 import { contextLost, releaseContext } from "../lib/gl-recovery";
 import {
   createChurchRenderer,
+  projectFocus,
   projectPlaces,
   placeAt,
   type ChurchPlace,
   type ChurchView,
 } from "../lib/church-scene";
 import { useReducedMotion } from "../lib/use-reduced-motion";
+import { setChurchSnapshot } from "../lib/church-room";
 import { colors } from "./quiet-ui";
 
 const WEB_GL_OPTIONS = {
@@ -94,7 +96,8 @@ export default function ChurchScene({
   night: boolean;
   adventWeek: number;
   litVotives: number;
-  onPlace: (place: ChurchPlace) => void;
+  // `point` is where the place sits in the scene, for the walk-in.
+  onPlace: (place: ChurchPlace, point?: { x: number; y: number }) => void;
   accessibilityLabel: string;
   paused?: boolean;
   fullScreen?: boolean;
@@ -243,6 +246,45 @@ export default function ChurchScene({
     context.current?.endFrameEXP();
     place();
   }, [place]);
+
+  // Where every place sits on the stage, in points.
+  const placePoints = useCallback(() => {
+    const { width, height } = sizeRef.current;
+    if (!width || !height) return {};
+    const projected = projectFocus(width / height, view.current);
+    const points: Partial<Record<ChurchPlace, { x: number; y: number }>> = {};
+    (Object.keys(projected) as ChurchPlace[]).forEach((key) => {
+      const p = projected[key];
+      if (p) points[key] = { x: p.x * width, y: p.y * height };
+    });
+    return points;
+  }, []);
+  // Keep a picture of the church as it is now, so the screens it opens can
+  // show their part of it across the top.
+  const capture = useCallback(async () => {
+    const gl = context.current;
+    const { width, height } = sizeRef.current;
+    if (!gl || !width || !height || !renderer.current) return;
+    // Measure now: leaving Home can resize the stage before the picture is
+    // ready, and the points must match the picture.
+    const points = placePoints();
+    try {
+      const shot = await GLView.takeSnapshotAsync(gl, {
+        format: "jpeg",
+        compress: 0.86,
+      });
+      const raw = shot.uri as unknown;
+      const uri =
+        typeof raw === "string"
+          ? raw
+          : typeof Blob !== "undefined" && raw instanceof Blob
+            ? URL.createObjectURL(raw)
+            : null;
+      if (uri) setChurchSnapshot({ uri, width, height, points });
+    } catch {
+      // The screens keep their usual header without a picture.
+    }
+  }, [placePoints]);
 
   const loop = useCallback(() => {
     if (frame.current !== null) cancelAnimationFrame(frame.current);
@@ -400,6 +442,23 @@ export default function ChurchScene({
     },
     [render, recover],
   );
+  // Refresh the picture once the church settles after anything about it
+  // changes (evening, tradition, candles, Advent), so rooms reached from the
+  // tab bar show it as it is now.
+  useEffect(() => {
+    if (!ready) return;
+    const timer = setTimeout(() => void capture(), 1600);
+    return () => clearTimeout(timer);
+  }, [
+    ready,
+    capture,
+    night,
+    adventWeek,
+    litVotives,
+    protestant,
+    candlesAllowed,
+    orthodox,
+  ]);
 
   // Which place sits under a point in the stage, using the current view.
   const pick = (x: number, y: number) => {
@@ -530,7 +589,10 @@ export default function ChurchScene({
           onPress={(e) => {
             if (dragged.current) return;
             const place = pick(...pointIn(e));
-            if (place) onPlace(place);
+            if (place) {
+              void capture();
+              onPlace(place, placePoints()[place]);
+            }
           }}
         />
       )}
@@ -566,7 +628,10 @@ export default function ChurchScene({
                 accessibilityLabel={p.label}
                 accessibilityHint={p.hint}
                 hitSlop={10}
-                onPress={() => onPlace(p.key)}
+                onPress={() => {
+                  void capture();
+                  onPlace(p.key, placePoints()[p.key]);
+                }}
                 style={({ pressed }) => [
                   styles.chip,
                   pressed && { transform: [{ scale: 0.96 }], opacity: 0.9 },

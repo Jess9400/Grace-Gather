@@ -6,8 +6,10 @@ import {
 import * as storage from "./storage";
 
 // A quiet church ambience for Home, heard after entering through the doors.
-// It respects the silent switch, mixes with other audio and never plays in the
-// background. The person's mute choice is remembered on the device.
+// The church's rooms (Bible, journal, Gather) keep it playing softly, so
+// walking into them does not cut the sound off. It respects the silent
+// switch, mixes with other audio and never plays in the background. The
+// person's mute choice is remembered on the device.
 const KEY = "church-sound";
 const VOLUME = 0.32;
 let player: AudioPlayer | null = null;
@@ -46,7 +48,7 @@ function fadeTo(target: number, ms: number, done?: () => void) {
   }, 50);
 }
 
-export function startAmbience() {
+export function startAmbience(volume = VOLUME, ms = 2500) {
   try {
     if (!player) {
       player = createAudioPlayer(require("../../assets/church/ambience.m4a"));
@@ -59,8 +61,9 @@ export function startAmbience() {
       interruptionMode: "mixWithOthers",
       allowsRecording: false,
     }).catch(() => {});
+    const wasPlaying = player.playing;
     player.play();
-    fadeTo(VOLUME, 2500);
+    fadeTo(volume, wasPlaying ? 900 : ms);
   } catch {
     // Sound is a gentle extra; the church works without it.
   }
@@ -76,4 +79,27 @@ export function stopAmbience() {
       // Already stopped.
     }
   });
+}
+
+// Screens that want the sound "hold" it at a level; the loudest hold wins.
+// When the last hold is released the sound fades out, unless another screen
+// takes hold within a moment (as when Home hands over to a room).
+const LEVELS = { full: VOLUME, soft: VOLUME * 0.35 };
+const holds = new Map<symbol, number>();
+let release: ReturnType<typeof setTimeout> | null = null;
+function applyHolds() {
+  if (release) clearTimeout(release);
+  release = null;
+  const level = Math.max(0, ...holds.values());
+  if (level > 0) startAmbience(level);
+  else release = setTimeout(stopAmbience, 300);
+}
+export function holdAmbience(level: keyof typeof LEVELS) {
+  const id = Symbol(level);
+  holds.set(id, LEVELS[level]);
+  applyHolds();
+  return () => {
+    holds.delete(id);
+    applyHolds();
+  };
 }

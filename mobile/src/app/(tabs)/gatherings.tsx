@@ -106,7 +106,7 @@ export default function Gatherings() {
     }
   }
   return (
-    <Screen>
+    <Screen place="gather">
       <Heading>{c("gatherings")}</Heading>
       <View style={styles.links}>
         {(

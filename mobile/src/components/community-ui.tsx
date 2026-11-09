@@ -19,6 +19,8 @@ import { Ionicons } from "@expo/vector-icons";
 import { useApp } from "../lib/state";
 import { label } from "../lib/labels";
 import { colors } from "./quiet-ui";
+import ChurchStrip, { useRoomStrip } from "./ChurchStrip";
+import type { RoomPlace } from "../lib/church-room";
 export { colors };
 const CardSurface = createContext(false);
 type SurfacePalette = {
@@ -63,6 +65,7 @@ export function Screen({
   keyboardAware = false,
   headerAction,
   scrollRef,
+  place,
 }: {
   children: React.ReactNode;
   back?: boolean;
@@ -70,13 +73,18 @@ export function Screen({
   keyboardAware?: boolean;
   headerAction?: React.ReactNode;
   scrollRef?: React.RefObject<React.ComponentRef<typeof ScrollView> | null>;
+  // Makes the screen one of the church's rooms, with its strip on top.
+  place?: RoomPlace;
 }) {
   const { profile } = useApp();
   const theme = useContext(SurfaceContext);
+  const strip = useRoomStrip(place ?? "gather") && !!place && !quiet;
+  const wrapRoom = (content: React.ReactNode) =>
+    strip ? <View style={[s.page, s.roomPage]}>{content}</View> : content;
   return (
     <SafeAreaView
       style={[s.safe, theme && { backgroundColor: theme.background }]}
-      edges={["top", "left", "right"]}
+      edges={strip ? ["left", "right"] : ["top", "left", "right"]}
     >
       <KeyboardAvoidingView
         style={{ flex: 1 }}
@@ -88,51 +96,61 @@ export function Screen({
           automaticallyAdjustKeyboardInsets={keyboardAware}
           keyboardDismissMode={keyboardAware ? "interactive" : "none"}
           keyboardShouldPersistTaps="handled"
-          contentContainerStyle={s.page}
+          contentContainerStyle={strip ? undefined : s.page}
         >
-          {back && (
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={label(profile.language, "back")}
-              style={{
-                minWidth: 44,
-                minHeight: 44,
-                alignSelf: "flex-start",
-                justifyContent: "center",
-              }}
-              onPress={() =>
-                router.canGoBack() ? router.back() : router.replace("/(tabs)")
-              }
-            >
-              <Ionicons
-                name="arrow-back"
-                size={23}
-                color={theme?.ink ?? colors.ink}
-              />
-            </Pressable>
+          {strip && place && <ChurchStrip place={place} back={back} />}
+          {wrapRoom(
+            <>
+              {!strip && back && (
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel={label(profile.language, "back")}
+                  style={{
+                    minWidth: 44,
+                    minHeight: 44,
+                    alignSelf: "flex-start",
+                    justifyContent: "center",
+                  }}
+                  onPress={() =>
+                    router.canGoBack()
+                      ? router.back()
+                      : router.replace("/(tabs)")
+                  }
+                >
+                  <Ionicons
+                    name="arrow-back"
+                    size={23}
+                    color={theme?.ink ?? colors.ink}
+                  />
+                </Pressable>
+              )}
+              {!quiet && !strip && (
+                <View style={s.brand}>
+                  <Ionicons name="leaf-outline" size={23} color={colors.gold} />
+                  <Text style={s.brandText}>GRACE & GATHER</Text>
+                  <View style={{ marginLeft: "auto" }}>{headerAction}</View>
+                  <Pressable
+                    accessibilityLabel={label(
+                      profile.language,
+                      "accountSettings",
+                    )}
+                    accessibilityRole="button"
+                    onPress={() => router.push("/account")}
+                    style={{
+                      minHeight: 44,
+                      minWidth: 44,
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <MemberAvatar />
+                  </Pressable>
+                </View>
+              )}
+              {children}
+              <View style={{ height: 26 }} />
+            </>,
           )}
-          {!quiet && (
-            <View style={s.brand}>
-              <Ionicons name="leaf-outline" size={23} color={colors.gold} />
-              <Text style={s.brandText}>GRACE & GATHER</Text>
-              <View style={{ marginLeft: "auto" }}>{headerAction}</View>
-              <Pressable
-                accessibilityLabel={label(profile.language, "accountSettings")}
-                accessibilityRole="button"
-                onPress={() => router.push("/account")}
-                style={{
-                  minHeight: 44,
-                  minWidth: 44,
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <MemberAvatar />
-              </Pressable>
-            </View>
-          )}
-          {children}
-          <View style={{ height: 26 }} />
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -362,6 +380,7 @@ export const s = StyleSheet.create({
     width: "100%",
     alignSelf: "center",
   },
+  roomPage: { marginTop: -18, paddingTop: 0 },
   brand: {
     flexDirection: "row",
     alignItems: "center",
@@ -400,7 +419,7 @@ export const s = StyleSheet.create({
   accentCard: { borderTopWidth: 3 },
   button: {
     minHeight: 49,
-    borderRadius: 16,
+    borderRadius: 25,
     paddingVertical: 14,
     paddingHorizontal: 18,
     alignItems: "center",

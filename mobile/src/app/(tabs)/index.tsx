@@ -20,6 +20,8 @@ import {
   Animated,
   ScrollView,
   Modal,
+  Easing,
+  useWindowDimensions,
 } from "react-native";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
@@ -43,12 +45,13 @@ import {
   shouldShowEntrance,
   consumeChurchTour,
 } from "../../lib/church-entrance";
+import { loadSoundOn, saveSoundOn, holdAmbience } from "../../lib/church-audio";
 import {
-  loadSoundOn,
-  saveSoundOn,
-  startAmbience,
-  stopAmbience,
-} from "../../lib/church-audio";
+  getChurchSnapshot,
+  isRoomPlace,
+  roomCrop,
+  type RoomPlace,
+} from "../../lib/church-room";
 
 import type { ChurchPlace } from "../../lib/church-scene";
 import { StepCheckIn } from "../../components/SmallStep";
@@ -71,6 +74,20 @@ export default function Home() {
   const tr = useInterfaceCopy();
   const insets = useSafeAreaInsets();
   const tabHeight = useBottomTabBarHeight();
+  const { width: screenWidth, height: screenHeight } = useWindowDimensions();
+  // Walking into a place: the church glides toward it while the words fade,
+  // then its screen opens. Coming back to Home walks out again.
+  const [walk] = useState(() => new Animated.Value(0));
+  const [chrome] = useState(() => new Animated.Value(1));
+  const [walkTo, setWalkTo] = useState<{
+    x: number;
+    y: number;
+    zoom: number;
+    dx: number;
+    dy: number;
+  } | null>(null);
+  const walked = useRef(false);
+  const arrive = useRef<null | (() => void)>(null);
   const blurTarget = useRef<ComponentRef<typeof View> | null>(null);
   const reduced = useReducedMotion();
   const [invitation, setInvitation] = useState(false);
@@ -137,12 +154,72 @@ export default function Home() {
         if (active) setSoundOn(on);
       });
       if (consumeChurchTour()) setTour(true);
+      if (walked.current) {
+        walked.current = false;
+        Animated.parallel([
+          Animated.timing(walk, {
+            toValue: 0,
+            duration: 760,
+            easing: Easing.inOut(Easing.cubic),
+            useNativeDriver: true,
+          }),
+          Animated.timing(chrome, {
+            toValue: 1,
+            duration: 420,
+            delay: 380,
+            useNativeDriver: true,
+          }),
+        ]).start(() => setWalkTo(null));
+      }
       return () => {
         active = false;
         setFocused(false);
       };
-    }, []),
+    }, [walk, chrome]),
   );
+  // Start the walk once its target has been laid out.
+  useEffect(() => {
+    const go = arrive.current;
+    if (!walkTo || !go) return;
+    arrive.current = null;
+    Animated.parallel([
+      Animated.timing(chrome, {
+        toValue: 0,
+        duration: 220,
+        useNativeDriver: true,
+      }),
+      Animated.timing(walk, {
+        toValue: 1,
+        duration: 850,
+        easing: Easing.inOut(Easing.cubic),
+        useNativeDriver: true,
+      }),
+    ]).start(() => go());
+  }, [walkTo, walk, chrome]);
+  const enter = (
+    place: RoomPlace,
+    go: () => void,
+    point?: { x: number; y: number },
+  ) => {
+    const at = point ?? getChurchSnapshot()?.points[place];
+    if (reduced || sceneFailed || !at || arrive.current) return go();
+    const stage = getChurchSnapshot() ?? {
+      width: screenWidth,
+      height: screenHeight,
+    };
+    const crop = roomCrop(place, insets.top, at, stage, screenWidth);
+    walked.current = true;
+    arrive.current = go;
+    // Scaling about the place leaves it where it is; then slide the picture
+    // to where the room's strip will show it.
+    setWalkTo({
+      x: at.x,
+      y: at.y,
+      zoom: crop.zoom,
+      dx: crop.left - at.x * (1 - crop.zoom),
+      dy: crop.top - at.y * (1 - crop.zoom),
+    });
+  };
   // The labels are shown one by one each time someone walks in through the
   // doors, and again whenever "Show places" is pressed.
   const touring = tour && focused && !entrance;
@@ -166,14 +243,14 @@ export default function Home() {
   };
   const journal = () => {
     dismissInvitation();
-    router.push("/(tabs)/diary");
+    enter("pews", () => router.push("/(tabs)/diary"));
   };
-  // Calm church sound on Home, after the doors, unless muted.
+  // Calm church sound on Home, after the doors, unless muted. The rooms keep
+  // it playing softly; other screens let it fade out.
   useEffect(() => {
-    if (!entrance && focused && soundOn) startAmbience();
-    else stopAmbience();
+    if (entrance || !focused || !soundOn) return;
+    return holdAmbience("full");
   }, [entrance, focused, soundOn]);
-  useEffect(() => () => stopAmbience(), []);
   const endTour = useCallback(() => {
     setTour(false);
   }, []);
@@ -221,9 +298,11 @@ export default function Home() {
           { key: "wreath", label: t("wreath"), hint: t("adventAbout") },
         ]
       : places;
-  const open = (place: ChurchPlace) => {
-    if (place === "wreath") setAboutAdvent((v) => !v);
-    else router.push(ROUTES[place] as never);
+  const open = (place: ChurchPlace, point?: { x: number; y: number }) => {
+    if (place === "wreath") return setAboutAdvent((v) => !v);
+    const go = () => router.push(ROUTES[place] as never);
+    if (isRoomPlace(place)) enter(place, go, point);
+    else go();
   };
   const toggleSound = () => {
     const next = !(soundOn ?? false);
@@ -235,221 +314,262 @@ export default function Home() {
     <View style={s.page}>
       <BlurTargetView ref={blurTarget} style={StyleSheet.absoluteFill}>
         {!sceneFailed && (
-          <ChurchScene
-            fullScreen
-            places={scenePlaces}
-            night={night}
-            adventWeek={week}
-            litVotives={Math.min(15, BASE_VOTIVES + candles.length)}
-            onPlace={open}
-            accessibilityLabel={t("church")}
-            paused={entrance || details || aboutAdvent}
-            protestant={plain}
-            orthodox={isOrthodox(profile)}
-            candlesAllowed={candlesAllowed}
-            tour={touring}
-            onTourDone={endTour}
-            onFailure={() => setSceneFailed(true)}
-          />
-        )}
-      </BlurTargetView>
-      {/* A soft fade behind the name and date so they stay readable over
-          the lighter rooms; it has no edge of its own. */}
-      <View
-        pointerEvents="none"
-        style={[s.headerFade, { height: insets.top + 170 }]}
-      />
-      <View
-        pointerEvents="box-none"
-        style={[s.header, { paddingTop: insets.top + 16 }]}
-      >
-        <View style={s.brandRow}>
-          <Ionicons name="leaf-outline" size={24} color="#E6CE99" />
-          <Text style={s.brand}>GRACE &amp; GATHER</Text>
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel={tr("Account and settings")}
-            onPress={() => {
-              dismissInvitation();
-              setAccountOpen(true);
-            }}
-            style={s.profile}
-          >
-            <MemberAvatar />
-          </Pressable>
-        </View>
-        <View style={s.dateRow}>
-          <Text style={s.date}>
-            {now.toLocaleDateString(profile.language, {
-              weekday: "long",
-              month: "long",
-              day: "numeric",
-            })}
-          </Text>
-          <Text style={s.date}>
-            {now.toLocaleTimeString(profile.language, {
-              hour: "2-digit",
-              minute: "2-digit",
-            })}
-          </Text>
-        </View>
-        {!sceneFailed && <Text style={s.hint}>{t("tapAnywhere")}</Text>}
-        <View style={s.tools}>
-          <Pressable
-            accessibilityRole="switch"
-            accessibilityState={{ checked: night }}
-            accessibilityLabel={t("evening")}
-            onPress={() =>
-              void saveProfile({
-                ...profile,
-                churchLighting: night ? "day" : "night",
-              }).catch(() => {})
-            }
-            style={s.tool}
-          >
-            <Ionicons
-              name={night ? "moon" : "sunny-outline"}
-              size={19}
-              color="#FFF8E9"
-            />
-          </Pressable>
-          <Pressable
-            accessibilityRole="switch"
-            accessibilityState={{ checked: !!soundOn }}
-            accessibilityLabel={soundOn ? t("soundOn") : t("soundOff")}
-            onPress={toggleSound}
-            style={s.tool}
-          >
-            <Ionicons
-              name={soundOn ? "volume-medium-outline" : "volume-mute-outline"}
-              size={19}
-              color="#FFF8E9"
-            />
-          </Pressable>
-          {!sceneFailed && (
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={t("showPlaces")}
-              onPress={() => {
-                dismissInvitation();
-                setTour(true);
-              }}
-              style={s.tool}
-            >
-              <Ionicons name="help-circle-outline" size={20} color="#FFF8E9" />
-            </Pressable>
-          )}
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel={tr("Your next step")}
-            onPress={() => setDetails(true)}
-            style={s.tool}
-          >
-            <Ionicons
-              name="checkmark-circle-outline"
-              size={20}
-              color="#FFF8E9"
-            />
-          </Pressable>
-        </View>
-        {present !== null && present >= 1 && (
           <Animated.View
-            pointerEvents="none"
-            style={[s.presence, { opacity: presenceOpacity }]}
+            style={[
+              StyleSheet.absoluteFill,
+              walkTo && {
+                transformOrigin: [walkTo.x, walkTo.y, 0],
+                transform: [
+                  {
+                    translateX: walk.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [0, walkTo.dx],
+                    }),
+                  },
+                  {
+                    translateY: walk.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [0, walkTo.dy],
+                    }),
+                  },
+                  {
+                    scale: walk.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [1, walkTo.zoom],
+                    }),
+                  },
+                ],
+              },
+            ]}
           >
-            <Text style={s.presenceText}>
-              {present === 1
-                ? t("presentAlone")
-                : t("present").replace("{n}", String(present))}
-            </Text>
+            <ChurchScene
+              fullScreen
+              places={scenePlaces}
+              night={night}
+              adventWeek={week}
+              litVotives={Math.min(15, BASE_VOTIVES + candles.length)}
+              onPlace={open}
+              accessibilityLabel={t("church")}
+              paused={entrance || details || aboutAdvent}
+              protestant={plain}
+              orthodox={isOrthodox(profile)}
+              candlesAllowed={candlesAllowed}
+              tour={touring}
+              onTourDone={endTour}
+              onFailure={() => setSceneFailed(true)}
+            />
           </Animated.View>
         )}
-      </View>
-      {sceneFailed && (
-        <ScrollView
-          style={[
-            s.fallback,
-            { top: insets.top + 180, bottom: tabHeight + 200 },
-          ]}
-          contentContainerStyle={{ gap: 12 }}
-        >
-          {places.map((place) => (
-            <Button
-              key={place.key}
-              title={place.label}
-              onPress={() => open(place.key)}
-            />
-          ))}
-        </ScrollView>
-      )}
-      <View
+      </BlurTargetView>
+      <Animated.View
         pointerEvents="box-none"
-        style={[s.promptArea, { bottom: tabHeight + 18 }]}
+        style={[StyleSheet.absoluteFill, { opacity: chrome }]}
       >
-        {invitation && !touring && !entrance && (
-          <Animated.View style={[s.glass, { opacity: invitationOpacity }]}>
-            <BlurView
-              blurTarget={blurTarget}
-              blurMethod="dimezisBlurViewSdk31Plus"
-              intensity={55}
-              tint="dark"
-              style={StyleSheet.absoluteFill}
-            />
-            <ScrollView contentContainerStyle={s.promptContent}>
-              <Text accessibilityRole="header" style={s.promptTitle}>
-                {tr("What would you like to tell God today?")}
-              </Text>
+        {/* A soft fade behind the name and date so they stay readable over
+          the lighter rooms; it has no edge of its own. */}
+        <View
+          pointerEvents="none"
+          style={[s.headerFade, { height: insets.top + 170 }]}
+        />
+        <View
+          pointerEvents="box-none"
+          style={[s.header, { paddingTop: insets.top + 16 }]}
+        >
+          <View style={s.brandRow}>
+            <Ionicons name="leaf-outline" size={24} color="#E6CE99" />
+            <Text style={s.brand}>GRACE &amp; GATHER</Text>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={tr("Account and settings")}
+              onPress={() => {
+                dismissInvitation();
+                setAccountOpen(true);
+              }}
+              style={s.profile}
+            >
+              <MemberAvatar />
+            </Pressable>
+          </View>
+          <View style={s.dateRow}>
+            <Text style={s.date}>
+              {now.toLocaleDateString(profile.language, {
+                weekday: "long",
+                month: "long",
+                day: "numeric",
+              })}
+            </Text>
+            <Text style={s.date}>
+              {now.toLocaleTimeString(profile.language, {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </Text>
+          </View>
+          {!sceneFailed && <Text style={s.hint}>{t("tapAnywhere")}</Text>}
+          <View style={s.tools}>
+            <Pressable
+              accessibilityRole="switch"
+              accessibilityState={{ checked: night }}
+              accessibilityLabel={t("evening")}
+              onPress={() =>
+                void saveProfile({
+                  ...profile,
+                  churchLighting: night ? "day" : "night",
+                }).catch(() => {})
+              }
+              style={s.tool}
+            >
+              <Ionicons
+                name={night ? "moon" : "sunny-outline"}
+                size={19}
+                color="#FFF8E9"
+              />
+            </Pressable>
+            <Pressable
+              accessibilityRole="switch"
+              accessibilityState={{ checked: !!soundOn }}
+              accessibilityLabel={soundOn ? t("soundOn") : t("soundOff")}
+              onPress={toggleSound}
+              style={s.tool}
+            >
+              <Ionicons
+                name={soundOn ? "volume-medium-outline" : "volume-mute-outline"}
+                size={19}
+                color="#FFF8E9"
+              />
+            </Pressable>
+            {!sceneFailed && (
               <Pressable
                 accessibilityRole="button"
-                onPress={journal}
-                style={s.cta}
+                accessibilityLabel={t("showPlaces")}
+                onPress={() => {
+                  dismissInvitation();
+                  setTour(true);
+                }}
+                style={s.tool}
               >
-                <Text style={s.ctaText}>{tr("Talk to God")}</Text>
+                <Ionicons
+                  name="help-circle-outline"
+                  size={20}
+                  color="#FFF8E9"
+                />
+              </Pressable>
+            )}
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={tr("Your next step")}
+              onPress={() => setDetails(true)}
+              style={s.tool}
+            >
+              <Ionicons
+                name="checkmark-circle-outline"
+                size={20}
+                color="#FFF8E9"
+              />
+            </Pressable>
+          </View>
+          {present !== null && present >= 1 && (
+            <Animated.View
+              pointerEvents="none"
+              style={[s.presence, { opacity: presenceOpacity }]}
+            >
+              <Text style={s.presenceText}>
+                {present === 1
+                  ? t("presentAlone")
+                  : t("present").replace("{n}", String(present))}
+              </Text>
+            </Animated.View>
+          )}
+        </View>
+        {sceneFailed && (
+          <ScrollView
+            style={[
+              s.fallback,
+              { top: insets.top + 180, bottom: tabHeight + 200 },
+            ]}
+            contentContainerStyle={{ gap: 12 }}
+          >
+            {places.map((place) => (
+              <Button
+                key={place.key}
+                title={place.label}
+                onPress={() => open(place.key)}
+              />
+            ))}
+          </ScrollView>
+        )}
+        <View
+          pointerEvents="box-none"
+          style={[s.promptArea, { bottom: tabHeight + 18 }]}
+        >
+          {invitation && !touring && !entrance && (
+            <Animated.View style={[s.glass, { opacity: invitationOpacity }]}>
+              <BlurView
+                blurTarget={blurTarget}
+                blurMethod="dimezisBlurViewSdk31Plus"
+                intensity={55}
+                tint="dark"
+                style={StyleSheet.absoluteFill}
+              />
+              <ScrollView contentContainerStyle={s.promptContent}>
+                <Text accessibilityRole="header" style={s.promptTitle}>
+                  {tr("What would you like to tell God today?")}
+                </Text>
+                <Pressable
+                  accessibilityRole="button"
+                  onPress={journal}
+                  style={s.cta}
+                >
+                  <Text style={s.ctaText}>{tr("Talk to God")}</Text>
+                </Pressable>
+                <Pressable
+                  accessibilityRole="button"
+                  onPress={() => {
+                    setInvitation(false);
+                    router.push({
+                      pathname: "/prayers",
+                      params: { compose: "1" },
+                    });
+                  }}
+                  style={s.stay}
+                >
+                  <Text style={s.stayText}>{tr("Request a prayer")}</Text>
+                </Pressable>
+                <Pressable
+                  accessibilityRole="button"
+                  onPress={dismissInvitation}
+                  style={s.stay}
+                >
+                  <Text style={s.stayText}>{tr("Stay here a little")}</Text>
+                </Pressable>
+              </ScrollView>
+            </Animated.View>
+          )}
+          {!invitation && !entrance && !touring && (
+            <View style={s.reopen}>
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => setInvitation(true)}
+                style={s.stay}
+              >
+                <Text style={s.stayText}>{tr("Talk to God")}</Text>
               </Pressable>
               <Pressable
                 accessibilityRole="button"
-                onPress={() => {
-                  setInvitation(false);
+                onPress={() =>
                   router.push({
                     pathname: "/prayers",
                     params: { compose: "1" },
-                  });
-                }}
+                  })
+                }
                 style={s.stay}
               >
                 <Text style={s.stayText}>{tr("Request a prayer")}</Text>
               </Pressable>
-              <Pressable
-                accessibilityRole="button"
-                onPress={dismissInvitation}
-                style={s.stay}
-              >
-                <Text style={s.stayText}>{tr("Stay here a little")}</Text>
-              </Pressable>
-            </ScrollView>
-          </Animated.View>
-        )}
-        {!invitation && !entrance && !touring && (
-          <View style={s.reopen}>
-            <Pressable
-              accessibilityRole="button"
-              onPress={() => setInvitation(true)}
-              style={s.stay}
-            >
-              <Text style={s.stayText}>{tr("Talk to God")}</Text>
-            </Pressable>
-            <Pressable
-              accessibilityRole="button"
-              onPress={() =>
-                router.push({ pathname: "/prayers", params: { compose: "1" } })
-              }
-              style={s.stay}
-            >
-              <Text style={s.stayText}>{tr("Request a prayer")}</Text>
-            </Pressable>
-          </View>
-        )}
-      </View>
+            </View>
+          )}
+        </View>
+      </Animated.View>
       <Modal
         visible={accountOpen}
         transparent

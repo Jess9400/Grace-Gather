@@ -813,6 +813,24 @@ export function placeAnchors(protestant = false): Record<ChurchPlace, Vec3> {
   return protestant ? { ...ANCHORS, confession: [1.28, 0.72, -4.45] } : ANCHORS;
 }
 
+// Where the walk-in aims for each place: on the object itself (the open
+// Bible, the candle tiers, the doorway, the front pews), not its label.
+const FOCUS: Partial<Record<ChurchPlace, Vec3>> = {
+  bible: [-0.72, -0.45, -4.3],
+  candles: [-1.2, -0.72, -3.0],
+  gather: [-1.75, -0.62, -6.25],
+  pews: [0, -1.0, -1.6],
+};
+export function projectFocus(aspect: number, view: ChurchView) {
+  const { matrix } = churchCamera(aspect, view);
+  const out = {} as Partial<Record<ChurchPlace, { x: number; y: number }>>;
+  (Object.keys(FOCUS) as ChurchPlace[]).forEach((key) => {
+    const p = project(matrix, FOCUS[key]!);
+    if (p) out[key] = p;
+  });
+  return out;
+}
+
 export function projectPlaces(
   aspect: number,
   view: ChurchView,

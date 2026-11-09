@@ -13,11 +13,13 @@ export default function TabsLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: palette.green,
-        tabBarInactiveTintColor: palette.inactive,
+        // One espresso tab bar across the church and its rooms, so moving
+        // between them never flips the chrome.
+        tabBarActiveTintColor: "#FFF8E9",
+        tabBarInactiveTintColor: "#CFC3B1",
         tabBarStyle: {
-          backgroundColor: palette.paper,
-          borderTopColor: palette.line,
+          backgroundColor: palette.ink,
+          borderTopColor: "#FFFFFF14",
         },
         tabBarLabelStyle: { fontSize: 11 },
         sceneStyle: { backgroundColor: palette.paper },
@@ -57,7 +59,17 @@ export default function TabsLayout() {
                   tabBarActiveTintColor: "#FFF8E9",
                   tabBarInactiveTintColor: "#D7CBB9",
                 }
-              : {}),
+              : name === "confession"
+                ? {
+                    // Confession keeps its current look while Jess finishes it.
+                    tabBarActiveTintColor: palette.green,
+                    tabBarInactiveTintColor: palette.inactive,
+                    tabBarStyle: {
+                      backgroundColor: palette.paper,
+                      borderTopColor: palette.line,
+                    },
+                  }
+                : {}),
             tabBarIcon: ({ color, size }) => (
               <Ionicons name={icon} color={color as string} size={size} />
             ),
