@@ -157,7 +157,12 @@ export default function EntryScreen() {
   }
   return (
     <>
-      <Screen back>
+      <JournalConversation
+        key={entry.id}
+        entry={entry}
+        initialAction={action}
+        onAction={openAction}
+      >
         <View style={s.top}>
           <Body small>
             {new Date(entry.createdAt).toLocaleDateString(lang, {
@@ -209,7 +214,7 @@ export default function EntryScreen() {
           </Card>
         ) : (
           <>
-            <Card>
+            <View style={s.scripture}>
               {loading ? (
                 <Body>{copy(lang, "cLoading")}</Body>
               ) : verse ? (
@@ -241,7 +246,7 @@ export default function EntryScreen() {
               ) : (
                 <Body>{copy(lang, "unavailable")}</Body>
               )}
-            </Card>
+            </View>
             <View style={s.action}>
               <Text style={s.invitation}>
                 {hopeReflection
@@ -259,20 +264,12 @@ export default function EntryScreen() {
               </Pressable>
             </View>
             {entry.guidance !== "ai" && (
-              <Body small>{jc(lang, "curated")}</Body>
+              <Text style={s.edition}>{jc(lang, "curated")}</Text>
             )}
           </>
         )}
-        {!entry.safety && (
-          <JournalConversation
-            key={entry.id}
-            entry={entry}
-            initialAction={action}
-            onAction={openAction}
-          />
-        )}
         <Notice text={notice} />
-      </Screen>
+      </JournalConversation>
       <Modal
         visible={noteOpen}
         transparent
@@ -337,16 +334,22 @@ const s = StyleSheet.create({
   entry: { gap: 10, paddingVertical: 12 },
   dear: {
     fontFamily: serif,
-    fontSize: 22,
+    fontSize: 18,
     color: colors.ink,
     fontStyle: "italic",
   },
   writing: { fontSize: 16, lineHeight: 26, color: colors.muted },
-  verse: { fontFamily: serif, fontSize: 27, lineHeight: 41, color: colors.ink },
+  verse: { fontFamily: serif, fontSize: 26, lineHeight: 36, color: colors.ink },
+  scripture: {
+    gap: 12,
+    paddingLeft: 20,
+    paddingVertical: 8,
+    borderLeftWidth: 2,
+    borderLeftColor: colors.gold,
+  },
   invitation: {
-    fontFamily: serif,
-    fontSize: 23,
-    lineHeight: 32,
+    fontSize: 16,
+    lineHeight: 26,
     color: colors.ink,
   },
   verseLink: {
@@ -361,25 +364,22 @@ const s = StyleSheet.create({
   action: {
     paddingVertical: 18,
     gap: 12,
-    borderTopWidth: StyleSheet.hairlineWidth,
-    borderTopColor: colors.line,
   },
   actionRow: {
-    minHeight: 52,
+    minHeight: 44,
     flexDirection: "row",
     alignItems: "center",
-    gap: 16,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderRadius: 16,
-    backgroundColor: "#F3EDDF",
+    gap: 10,
+    alignSelf: "flex-start",
+    paddingVertical: 8,
   },
   actionTitle: {
-    fontSize: 18,
-    lineHeight: 27,
+    fontSize: 16,
+    lineHeight: 24,
     color: colors.ink,
-    flex: 1,
-    fontWeight: "500",
+    flexShrink: 1,
+    fontWeight: "600",
+    textDecorationLine: "underline",
   },
   backdrop: {
     flex: 1,

@@ -2,9 +2,10 @@ import MemberAvatar from "./MemberAvatar";
 import ChurchStrip, { useRoomStrip } from "./ChurchStrip";
 import type { RoomPlace } from "../lib/church-room";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useRef } from "react";
 import {
   ScrollView,
+  type ScrollViewInstance,
   View,
   Text,
   Pressable,
@@ -13,6 +14,7 @@ import {
   Platform,
   Linking,
   ActivityIndicator,
+  KeyboardAvoidingView,
   TextInputProps,
 } from "react-native";
 import { BlurView } from "expo-blur";
@@ -51,11 +53,17 @@ export function Screen({
   children,
   back = false,
   place,
+  footer,
+  scrollToEndKey,
 }: {
   children: React.ReactNode;
   back?: boolean;
   place?: RoomPlace;
+  footer?: React.ReactNode;
+  scrollToEndKey?: string;
 }) {
+  const scroll = useRef<ScrollViewInstance>(null);
+  const lastScrolled = useRef<string | undefined>(undefined);
   const tr = useInterfaceCopy();
   const strip = useRoomStrip(place ?? "bible") && !!place;
   if (strip && place)
@@ -70,42 +78,66 @@ export function Screen({
         </ScrollView>
       </SafeAreaView>
     );
-  return (
-    <SafeAreaView style={s.safe} edges={["top", "left", "right"]}>
-      <ScrollView
-        keyboardShouldPersistTaps="handled"
-        contentContainerStyle={s.page}
+  const content = (
+    <SafeAreaView
+      style={s.safe}
+      edges={
+        footer ? ["top", "left", "right", "bottom"] : ["top", "left", "right"]
+      }
+    >
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={
+          footer ? (Platform.OS === "ios" ? "padding" : "height") : undefined
+        }
       >
-        <View style={s.brand}>
-          {back ? (
+        <ScrollView
+          keyboardShouldPersistTaps="handled"
+          contentContainerStyle={s.page}
+          ref={scroll}
+          onContentSizeChange={() => {
+            if (scrollToEndKey && lastScrolled.current !== scrollToEndKey) {
+              lastScrolled.current = scrollToEndKey;
+              scroll.current?.scrollToEnd({ animated: false });
+            }
+          }}
+        >
+          <View style={s.brand}>
+            {back ? (
+              <Pressable
+                accessibilityRole="button"
+                accessibilityLabel={tr("Back")}
+                onPress={() =>
+                  router.canGoBack() ? router.back() : router.replace("/(tabs)")
+                }
+                style={({ pressed }) => [
+                  s.backControl,
+                  pressed && s.backPressed,
+                ]}
+              >
+                <Ionicons name="chevron-back" size={24} color={colors.ink} />
+              </Pressable>
+            ) : (
+              <Ionicons name="leaf-outline" size={23} color={colors.gold} />
+            )}
+            <Text style={s.brandText}>GRACE & GATHER</Text>
             <Pressable
+              accessibilityLabel={tr("Account and settings")}
               accessibilityRole="button"
-              accessibilityLabel={tr("Back")}
-              onPress={() =>
-                router.canGoBack() ? router.back() : router.replace("/(tabs)")
-              }
-              style={({ pressed }) => [s.backControl, pressed && s.backPressed]}
+              onPress={() => router.push("/account")}
+              style={{ marginLeft: "auto", padding: 8 }}
             >
-              <Ionicons name="chevron-back" size={24} color={colors.ink} />
+              <MemberAvatar />
             </Pressable>
-          ) : (
-            <Ionicons name="leaf-outline" size={23} color={colors.gold} />
-          )}
-          <Text style={s.brandText}>GRACE & GATHER</Text>
-          <Pressable
-            accessibilityLabel={tr("Account and settings")}
-            accessibilityRole="button"
-            onPress={() => router.push("/account")}
-            style={{ marginLeft: "auto", padding: 8 }}
-          >
-            <MemberAvatar />
-          </Pressable>
-        </View>
-        {children}
-        <View style={{ height: 26 }} />
-      </ScrollView>
+          </View>
+          {children}
+          <View style={{ height: 26 }} />
+        </ScrollView>
+        {footer}
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
+  return content;
 }
 export function Heading({ children }: { children: React.ReactNode }) {
   const surface = useSurfaceColors();
