@@ -1868,5 +1868,35 @@
     "pt": "Marcar notificações de oração como lidas",
     "es": "Marcar avisos de oración como leídos",
     "ru": "Отметить уведомления о молитвах прочитанными"
+  },
+  "My discussions": {
+    "pt": "Minhas discussões",
+    "es": "Mis debates",
+    "ru": "Мои обсуждения"
+  },
+  "Topics you started and conversations you joined.": {
+    "pt": "Temas que você iniciou e conversas de que participou.",
+    "es": "Temas que iniciaste y conversaciones en las que participaste.",
+    "ru": "Ваши темы и обсуждения, в которых вы участвовали."
+  },
+  "Conversations I joined": {
+    "pt": "Conversas de que participei",
+    "es": "Conversaciones en las que participé",
+    "ru": "Мои беседы"
+  },
+  "Comments": {
+    "pt": "Comentários",
+    "es": "Comentarios",
+    "ru": "Комментарии"
+  },
+  "Add a comment": {
+    "pt": "Adicionar comentário",
+    "es": "Añadir comentario",
+    "ru": "Добавить комментарий"
+  },
+  "Back to discussions": {
+    "pt": "Voltar às discussões",
+    "es": "Volver a debates",
+    "ru": "Назад к обсуждениям"
   }
 }

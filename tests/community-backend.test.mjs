@@ -23,10 +23,12 @@ before(async () => {
     .filter((f) => f.endsWith(".sql"))
     .sort())
     await db.exec(
-      await readFile(
+      // PGlite has no pg_cron worker. Skip registration only; all functions,
+      // tables and authorization policies still run in this test database.
+      (await readFile(
         new URL("../supabase/migrations/" + file, import.meta.url),
         "utf8",
-      ),
+      )).replace(/^select cron\.schedule\([^\n]+;$/gm, ""),
     );
   await db.query(
     `insert into auth.users(id,email,email_confirmed_at) values($1,'private-alice@example.com',now()),($2,'private-bob@example.com',now()),($3,'staff@example.com',now()),($4,'third@example.com',now())`,

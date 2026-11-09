@@ -1,3 +1,4 @@
+import { friendCopy } from "../../lib/friends-copy";
 import { communityCopy } from "../../lib/community-copy";
 import { useEffect, useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
@@ -43,7 +44,22 @@ export default function Explore() {
   );
   const discoverHeader = (
     <>
-      <Heading>{c("discover")}</Heading>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
+          gap: 8,
+        }}
+      >
+        <Heading>{c("discover")}</Heading>
+        <TextAction
+          title={friendCopy(profile.language, "Find friends")}
+          icon="people-outline"
+          onPress={() => router.push("/friends")}
+        />
+      </View>
       <Field
         label={c("searchDiscover")}
         hideLabel
@@ -55,7 +71,7 @@ export default function Explore() {
     </>
   );
   if (category === "discussions")
-    return <Community header={discoverHeader} search={query} />;
+    return <Community header={discoverHeader} search={query} feed />;
   return (
     <Screen
       place="window"
