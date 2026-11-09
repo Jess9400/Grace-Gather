@@ -637,13 +637,10 @@ export default function ChurchScene({
                   pointerEvents="none"
                   accessible={false}
                 >
-                  <View style={styles.pointerStem} />
-                  <Ionicons
-                    name="chevron-down"
-                    size={34}
-                    color="#E6CE99"
-                    style={styles.pointerTip}
-                  />
+                  <View style={styles.pointerGlowOuter} />
+                  <View style={styles.pointerGlowInner} />
+                  <View style={styles.pointerHalo} />
+                  <Ionicons name="chevron-down" size={24} color="#C7A467" />
                 </View>
               ) : (
                 <Pressable
@@ -696,24 +693,35 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     overflow: "visible",
   },
-  // The arrow tip sits just above the destination; no bounce or pulse.
+  // A quiet halo identifies the destination without a badge, outline or pulse.
   tourPointer: {
-    width: 44,
-    height: 58,
+    width: 72,
+    height: 72,
     alignItems: "center",
-    justifyContent: "flex-end",
+    justifyContent: "center",
   },
-  pointerStem: {
-    width: 2,
-    height: 30,
-    backgroundColor: "#E6CE99",
-    borderRadius: 1,
+  pointerGlowOuter: {
+    position: "absolute",
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    backgroundColor: "rgba(199,164,103,0.06)",
   },
-  pointerTip: {
-    marginTop: -16,
-    textShadowColor: "#302C28",
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 2,
+  pointerGlowInner: {
+    position: "absolute",
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: "rgba(199,164,103,0.10)",
+  },
+  pointerHalo: {
+    position: "absolute",
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: "rgba(199,164,103,0.48)",
+    backgroundColor: "rgba(199,164,103,0.07)",
   },
   // Invisible, named targets retain keyboard/screen-reader access to each place.
   chip: { width: 44, height: 44 },
