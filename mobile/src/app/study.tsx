@@ -1,3 +1,4 @@
+import { getStudySearch } from "../lib/study-search";
 import { FilterStrip } from "../components/CommunityControls";
 import { useCommunity } from "../lib/discussion-state";
 import StudyChat from "../components/StudyChat";
@@ -24,7 +25,7 @@ export default function Study({
   const { userId } = useCommunity();
   const params = useLocalSearchParams<{ panel?: string }>();
   const [panel, setPanel] = useState(params.panel === "ai" ? "ai" : "topics");
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState(getStudySearch);
   const normalize = (s: string) =>
     s
       .toLocaleLowerCase()
