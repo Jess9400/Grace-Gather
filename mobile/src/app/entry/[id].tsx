@@ -253,24 +253,57 @@ export default function EntryScreen() {
                   ? jc(lang, "hopeIntro")
                   : actionInvitation(lang, action)}
               </Text>
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel={actionTitle}
-                onPress={() => openAction()}
-                style={({ pressed }) => [
-                  s.actionRow,
-                  pressed && s.actionPressed,
-                ]}
-              >
-                <Text style={s.actionTitle}>{actionTitle}</Text>
-                <View style={s.actionArrow}>
-                  <Ionicons
-                    name="arrow-forward"
-                    size={20}
-                    color={colors.ink}
+              <View style={s.bookStand}>
+                <View
+                  pointerEvents="none"
+                  accessible={false}
+                  importantForAccessibility="no-hide-descendants"
+                  style={s.bookPages}
+                />
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel={actionTitle}
+                  onPress={() => openAction()}
+                  style={({ pressed }) => [
+                    s.actionRow,
+                    pressed && s.actionPressed,
+                  ]}
+                >
+                  <View
+                    pointerEvents="none"
+                    accessible={false}
+                    importantForAccessibility="no-hide-descendants"
+                    style={s.bookSpine}
                   />
-                </View>
-              </Pressable>
+                  <View
+                    pointerEvents="none"
+                    accessible={false}
+                    importantForAccessibility="no-hide-descendants"
+                    style={s.bookmark}
+                  >
+                    <Ionicons
+                      name="bookmark"
+                      size={30}
+                      color={colors.gold}
+                      accessible={false}
+                    />
+                  </View>
+                  <Text style={s.actionTitle}>{actionTitle}</Text>
+                  <View style={s.actionArrow}>
+                    <Ionicons
+                      name="arrow-forward"
+                      size={20}
+                      color={colors.ink}
+                    />
+                  </View>
+                </Pressable>
+                <View
+                  pointerEvents="none"
+                  accessible={false}
+                  importantForAccessibility="no-hide-descendants"
+                  style={s.bookLedge}
+                />
+              </View>
             </View>
           </>
         )}
@@ -371,25 +404,59 @@ const s = StyleSheet.create({
     paddingVertical: 18,
     gap: 12,
   },
+  bookStand: { marginTop: 10, paddingHorizontal: 8, paddingBottom: 12 },
+  bookPages: {
+    position: "absolute",
+    left: 13,
+    right: 10,
+    bottom: 12,
+    height: 12,
+    borderWidth: 1,
+    borderColor: "#D9CCB3",
+    borderRadius: 3,
+    backgroundColor: "#EDE3D0",
+  },
+  bookSpine: {
+    position: "absolute",
+    left: 12,
+    top: 0,
+    bottom: 0,
+    width: 5,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderColor: "#E7DCC7",
+    backgroundColor: "#F3EBD9",
+  },
+  bookmark: { position: "absolute", right: 24, top: -3 },
+  bookLedge: {
+    height: 7,
+    marginHorizontal: -8,
+    marginTop: 6,
+    borderTopWidth: 2,
+    borderTopColor: "#9D7957",
+    backgroundColor: "#70513C",
+    borderRadius: 2,
+    boxShadow: "0px 5px 9px rgba(48,44,40,0.09)",
+  },
   actionRow: {
-    minHeight: 72,
+    minHeight: 106,
     flexDirection: "row",
     alignItems: "center",
     gap: 18,
-    paddingHorizontal: 22,
-    paddingVertical: 18,
-    borderRadius: 20,
-    backgroundColor: "#FAF6EC",
+    paddingLeft: 34,
+    paddingRight: 24,
+    paddingTop: 32,
+    paddingBottom: 22,
+    borderRadius: 5,
+    borderTopRightRadius: 10,
+    backgroundColor: "#FBF7EC",
     borderWidth: 1,
     borderColor: "#DED2BC",
   },
-  actionPressed: { opacity: 0.86 },
+  actionPressed: { backgroundColor: "#F2E9D6" },
   actionArrow: {
-    width: 36,
+    width: 28,
     height: 36,
-    borderRadius: 18,
-    borderWidth: 1,
-    borderColor: "#DED2BC",
     alignItems: "center",
     justifyContent: "center",
   },
