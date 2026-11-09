@@ -6,7 +6,7 @@ import {COPY, REFLECTIONS} from '../dist/content.js';
 const {editions}=JSON.parse(await readFile(new URL('../dist/scripture.json',import.meta.url)));
 
 test('Every advertised edition has six independently sourced, unique passages',()=>{
-  assert.equal(editions.length,6);
+  assert.equal(editions.length,8);
   for(const e of editions){
     assert.equal(e.passages.length,6);
     assert.equal(new Set(e.passages.map(p=>p.id)).size,6);
@@ -24,9 +24,13 @@ test('All tradition/language combinations either match precisely or return an ho
     for(const passage of result){assert.equal(passage.language,scriptureLanguage);assert.equal(passage.tradition,tradition);}
   }
 });
-test('Catholic Portuguese never silently substitutes a Protestant or English edition',()=>{
+test('Catholic Portuguese gets the Catholic Figueiredo edition, never a Protestant or English substitute',()=>{
   const p=normalizePrefs({language:'pt',scriptureLanguage:'pt',tradition:'catholic',edition:'blivre'},editions);
-  assert.equal(p.edition,'');assert.deepEqual(selectPassages(editions,p,'sad'),[]);
+  assert.equal(p.edition,'figueiredo');
+  const selected=selectPassages(editions,p,'sad');
+  assert.ok(selected.length);for(const v of selected)assert.match(v.id,/^figueiredo-/);
+  const orthodox=normalizePrefs({language:'pt',scriptureLanguage:'pt',tradition:'orthodox',edition:'blivre'},editions);
+  assert.equal(orthodox.edition,'');assert.deepEqual(selectPassages(editions,orthodox,'sad'),[]);
 });
 test('Interface and scripture language remain independent',()=>{
   const p=normalizePrefs({...DEFAULT_PREFS,language:'ru'},editions);
