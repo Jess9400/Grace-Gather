@@ -12,7 +12,6 @@ import {
   Platform,
   Pressable,
   StyleSheet,
-  Text,
   View,
   type GestureResponderEvent,
 } from "react-native";
@@ -30,7 +29,7 @@ import {
 } from "../lib/church-scene";
 import { useReducedMotion } from "../lib/use-reduced-motion";
 import { setChurchSnapshot } from "../lib/church-room";
-import { colors } from "./quiet-ui";
+import { Ionicons } from "@expo/vector-icons";
 
 const WEB_GL_OPTIONS = {
   alpha: false,
@@ -75,7 +74,7 @@ export type PlaceLabel = {
 // The church interior on Home. The view drifts gently on its own and follows a
 // finger moved across it. Tapping an object opens its place. Labels stay hidden
 // (but remain the accessible controls); a short tour shows them one by one,
-// and a label appears while its object is touched or hovered.
+// with a pointer during exploration. Normal browsing has no floating text.
 export default function ChurchScene({
   places,
   night,
@@ -414,7 +413,7 @@ export default function ChurchScene({
     if (touring) onTourPlace?.(touring);
   }, [touring, onTourPlace]);
 
-  const visible = labelsEnabled ? (touring ?? highlight) : null;
+  const visible = labelsEnabled && tour ? touring : null;
   const touringLast = useRef<ChurchPlace | null>(null);
   useEffect(() => {
     if (touring) touringLast.current = touring;
@@ -633,7 +632,13 @@ export default function ChurchScene({
               ]}
             >
               {tour ? (
-                <View style={styles.tourPointer} pointerEvents="none" />
+                <View
+                  style={styles.tourPointer}
+                  pointerEvents="none"
+                  accessible={false}
+                >
+                  <Ionicons name="arrow-down" size={38} color="#FFFCF3" />
+                </View>
               ) : (
                 <Pressable
                   accessibilityRole="button"
@@ -648,12 +653,7 @@ export default function ChurchScene({
                     styles.chip,
                     pressed && { transform: [{ scale: 0.96 }], opacity: 0.9 },
                   ]}
-                >
-                  {p.live && <View style={styles.live} />}
-                  <Text style={styles.chipText} numberOfLines={1}>
-                    {p.label}
-                  </Text>
-                </Pressable>
+                ></Pressable>
               )}
             </Animated.View>
           </Animated.View>
@@ -690,33 +690,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     overflow: "visible",
   },
+  // The arrow tip sits just above the destination; no bounce or pulse.
   tourPointer: {
-    width: 22,
-    height: 22,
-    borderRadius: 11,
+    width: 54,
+    height: 54,
+    borderRadius: 27,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#302C28",
     borderWidth: 2,
     borderColor: "#FFFCF3",
-    backgroundColor: "rgba(178,138,62,0.65)",
   },
-  chip: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-    minHeight: 34,
-    paddingHorizontal: 13,
-    backgroundColor: "rgba(48,44,40,0.92)",
-    borderRadius: 17,
-    borderWidth: 1,
-    borderColor: "rgba(255,252,243,0.28)",
-  },
+  // Invisible, named targets retain keyboard/screen-reader access to each place.
+  chip: { width: 44, height: 44 },
   label: { alignItems: "center" },
-  chipText: {
-    color: colors.white,
-    fontSize: 13,
-    fontWeight: "600",
-    textShadowColor: "#211B16",
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 4,
-  },
-  live: { width: 7, height: 7, borderRadius: 4, backgroundColor: "#B4532F" },
 });
