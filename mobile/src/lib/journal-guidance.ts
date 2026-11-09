@@ -1,3 +1,4 @@
+import { hopelessWriting } from "../generated/quiet-diary";
 import map from "../generated/journal-map.json";
 import { chooseJournalAction } from "../generated/journal-selection";
 import { Entry, Profile, Mood } from "./content";
@@ -35,6 +36,8 @@ export function journalTheme(entry: Entry) {
     ],
   ];
   const match = matches.find(([, r]) => r.test(text));
+  if (!match && hopelessWriting(text))
+    return map.find((t) => t.id === "hopelessness")!;
   const defaults: Record<Mood, string> = {
     sad: "sadness",
     lonely: "lonely",
@@ -68,6 +71,15 @@ export function journalAction(entry: Entry, profile: Profile) {
     )
   )
     id = "A03";
-  if (!entry.suggestedAction && theme.id === "gratitude" && /thank|agradec|gracias|благодар/i.test(entry.text)) id="A12";
+  if (
+    !entry.suggestedAction &&
+    theme.id === "gratitude" &&
+    /thank|agradec|gracias|благодар/i.test(entry.text)
+  )
+    id = "A12";
+  // The owner requested a private 24-hour reflection for hopelessness.
+  // Keep persistent distress and safety handling separate from this invitation.
+  if (theme.id === "hopelessness" && (!entry.suggestedAction || id === "A04"))
+    id = "A08";
   return id;
 }

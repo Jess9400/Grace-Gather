@@ -1,7 +1,13 @@
 import { detectFeelings } from './quiet-feelings.js';
 const mobileMoods={great:'grateful',sad:'sad',anxious:'anxious',lonely:'lonely',overwhelmed:'overwhelmed',grateful:'grateful',unsure:'unsure'};
+export function hopelessWriting(text) {
+ const input=text.toLowerCase().replaceAll('’', "'");
+ const pattern=/hopeless|nothing (?:will|is going to) change|what's the point|sem esperança|sin esperanza|безнадеж|безнадёж/g;
+ return [...input.matchAll(pattern)].some(m=>!/(?:not|never|no longer|don't|do not|isn't|wasn't)\s+(?:(?:feel|feeling|felt|am|be)\s+)?(?:(?:very|so|really)\s+)?$/.test(input.slice(Math.max(0,m.index-32),m.index)));
+}
 export function quietMood(text,chosen={},language='en') {
  const selected=Object.entries(chosen).filter(([key,n])=>Object.hasOwn(mobileMoods,key)&&[1,2,3].includes(n)).sort((a,b)=>b[1]-a[1]);
+ if (!selected.length && hopelessWriting(text)) return 'hopeless';
  return mobileMoods[selected[0]?.[0]??(language==='en'?detectFeelings(text).primary:'unsure')]??'unsure';
 }
 const themes={sad:'rest',overwhelmed:'rest',anxious:'peace',peaceful:'peace',grateful:'gratitude',hopeful:'hope',hopeless:'hope',lonely:'belonging',unsure:'hope'};

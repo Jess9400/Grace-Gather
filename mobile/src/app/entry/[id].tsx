@@ -103,7 +103,12 @@ export default function EntryScreen() {
       </Screen>
     );
   const action = journalAction(entry, profile);
-  const actionTitle = jc(lang, action as JournalCopyKey);
+  const hopeReflection =
+    journalTheme(entry).id === "hopelessness" && action === "A08";
+  const actionTitle = jc(
+    lang,
+    hopeReflection ? "hopeAction" : (action as JournalCopyKey),
+  );
   function edit() {
     update({
       text: entry!.text,
@@ -235,7 +240,11 @@ export default function EntryScreen() {
               )}
             </Card>
             <View style={s.action}>
-              <Text style={s.invitation}>{actionInvitation(lang, action)}</Text>
+              <Text style={s.invitation}>
+                {hopeReflection
+                  ? jc(lang, "hopeIntro")
+                  : actionInvitation(lang, action)}
+              </Text>
               <Pressable
                 accessibilityRole="button"
                 accessibilityLabel={actionTitle}
@@ -246,7 +255,9 @@ export default function EntryScreen() {
                 <Ionicons name="arrow-forward" size={20} color={colors.ink} />
               </Pressable>
             </View>
-            {entry.aiUnavailable && <Body small>{jc(lang, "fallback")}</Body>}
+            {entry.guidance !== "ai" && (
+              <Body small>{jc(lang, "curated")}</Body>
+            )}
           </>
         )}
         <Notice text={notice} />
@@ -271,7 +282,14 @@ export default function EntryScreen() {
               />
               <Heading>{entry.safety ? jc(lang, "A07") : actionTitle}</Heading>
               <Body>
-                {jc(lang, action === "A05" ? "professional" : "note")}
+                {jc(
+                  lang,
+                  hopeReflection
+                    ? "hopeNote"
+                    : action === "A05"
+                      ? "professional"
+                      : "note",
+                )}
               </Body>
               <Field
                 label={jc(lang, "private")}

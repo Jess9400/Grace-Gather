@@ -1,5 +1,29 @@
 import type { Language } from "./content";
 const text = {
+  hopeIntro: [
+    "When hope feels far away, it may help to notice one small moment of care or relief from the past 24 hours. It doesn’t have to make everything feel better.",
+    "Quando a esperança parece distante, talvez ajude lembrar um pequeno momento de cuidado ou alívio nas últimas 24 horas. Isso não precisa resolver tudo.",
+    "Cuando la esperanza parece lejana, quizá ayude recordar un pequeño momento de cuidado o alivio en las últimas 24 horas. No tiene que arreglarlo todo.",
+    "Когда надежда кажется далёкой, попробуйте вспомнить небольшой момент заботы или облегчения за последние сутки. Это не обязано сразу всё исправить.",
+  ],
+  hopeAction: [
+    "Notice one small good thing",
+    "Lembrar algo bom",
+    "Recordar algo bueno",
+    "Вспомнить что-то доброе",
+  ],
+  hopeNote: [
+    "Was there a kind word, a meal, or a moment of rest? Write about one thing, however small. If nothing comes to mind, you can simply write what you need today.",
+    "Houve uma palavra gentil, uma refeição ou um momento de descanso? Escreva sobre algo, por menor que seja. Se nada vier à mente, escreva o que precisa hoje.",
+    "¿Hubo una palabra amable, una comida o un momento de descanso? Escribe sobre algo, por pequeño que sea. Si no recuerdas nada, escribe lo que necesitas hoy.",
+    "Было ли доброе слово, еда или минута отдыха? Напишите об одной мелочи. Если ничего не вспоминается, можно написать о том, что вам нужно сегодня.",
+  ],
+  curated: [
+    "Curated guidance · AI not used",
+    "Orientação selecionada · Sem IA",
+    "Orientación seleccionada · Sin IA",
+    "Подборка · Без ИИ",
+  ],
   aiSetting: [
     "Journal guidance",
     "Orientação no diário",
