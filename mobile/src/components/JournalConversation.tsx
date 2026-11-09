@@ -2,7 +2,6 @@ import { useRef, useState } from "react";
 import { View, Text, TextInput, Pressable, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import type { ReactNode } from "react";
-import { q } from "../lib/quiet-copy";
 import { router } from "expo-router";
 import { randomUUID } from "expo-crypto";
 import { Screen, Notice, colors } from "./quiet-ui";
@@ -99,7 +98,7 @@ export default function JournalConversation({
       <View style={s.composer}>
         <TextInput
           accessibilityLabel={chatCopy(lang, "label")}
-          placeholder={q(lang, "next")}
+          placeholder={chatCopy(lang, "prompt")}
           placeholderTextColor={colors.muted}
           multiline
           maxLength={1500}

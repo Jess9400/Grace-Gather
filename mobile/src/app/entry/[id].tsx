@@ -257,10 +257,19 @@ export default function EntryScreen() {
                 accessibilityRole="button"
                 accessibilityLabel={actionTitle}
                 onPress={() => openAction()}
-                style={s.actionRow}
+                style={({ pressed }) => [
+                  s.actionRow,
+                  pressed && s.actionPressed,
+                ]}
               >
                 <Text style={s.actionTitle}>{actionTitle}</Text>
-                <Ionicons name="arrow-forward" size={20} color={colors.ink} />
+                <View style={s.actionArrow}>
+                  <Ionicons
+                    name="arrow-forward"
+                    size={20}
+                    color={colors.paper}
+                  />
+                </View>
               </Pressable>
             </View>
             {entry.guidance !== "ai" && (
@@ -366,20 +375,31 @@ const s = StyleSheet.create({
     gap: 12,
   },
   actionRow: {
-    minHeight: 44,
+    minHeight: 72,
     flexDirection: "row",
     alignItems: "center",
-    gap: 10,
-    alignSelf: "flex-start",
-    paddingVertical: 8,
+    gap: 18,
+    paddingHorizontal: 22,
+    paddingVertical: 18,
+    borderRadius: 20,
+    backgroundColor: colors.ink,
+  },
+  actionPressed: { opacity: 0.86 },
+  actionArrow: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: "#FFFCF340",
+    alignItems: "center",
+    justifyContent: "center",
   },
   actionTitle: {
-    fontSize: 16,
-    lineHeight: 24,
-    color: colors.ink,
-    flexShrink: 1,
-    fontWeight: "600",
-    textDecorationLine: "underline",
+    fontSize: 17,
+    lineHeight: 25,
+    color: colors.paper,
+    flex: 1,
+    fontWeight: "500",
   },
   backdrop: {
     flex: 1,
