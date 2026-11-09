@@ -1,4 +1,3 @@
-import { interfaceCopy } from "../lib/interface-copy";
 import { useState } from "react";
 import { router } from "expo-router";
 import {
@@ -11,52 +10,50 @@ import {
   Field,
   Notice,
   Card,
+  Subheading,
 } from "../components/quiet-ui";
 import { useApp } from "../lib/state";
 import {
   copy,
   languages,
-  Language,
-  Tradition,
-  editionsFor,
+  type Language,
+  type Profile,
+  type Tradition,
   normalizeProfile,
 } from "../lib/content";
 import { label } from "../lib/labels";
 import { persistent } from "../lib/storage";
 import { q } from "../lib/quiet-copy";
+import { interfaceCopy } from "../lib/interface-copy";
 import { TRADITION_QUESTION_VERSION } from "../lib/onboarding";
-const headings = [
-  "pWelcome",
-  "pYourName",
-  "pIntent",
-  "pFaith",
-  "pLocation",
-  "pNotifications",
-  "pReady",
-];
-export default function ProfileSetup() {
+
+const TRADITIONS: Tradition[] = ["catholic", "protestant", "orthodox"];
+const chosen = (p: Profile) =>
+  !!p.faithChoice && p.faithChoice !== "unspecified";
+
+// Two short steps: language and tradition (required, they shape the church
+// and the Bible), then an optional name and city. Everything else, including
+// the Bible edition, starts from sensible defaults and lives in Preferences.
+export default function Onboarding() {
   const { profile, saveProfile } = useApp();
   const [p, setP] = useState(profile),
     [step, setStep] = useState(0),
     [error, setError] = useState(""),
     [busy, setBusy] = useState(false);
   const t = (k: string) => copy(p.language, k);
-  const update = (v: Partial<typeof p>) =>
+  const tr = (text: string) => interfaceCopy(p.language, text);
+  const update = (v: Partial<Profile>) =>
     setP(normalizeProfile({ ...p, ...v }));
+
   async function finish() {
-    if (p.emailConsent && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(p.email)) {
-      setStep(5);
-      setError(t("pEmailConsent"));
-      return;
-    }
     setBusy(true);
     setError("");
     try {
       await saveProfile({
         ...p,
-        email: p.email.trim(),
+        name: p.name.trim(),
+        city: p.city.trim(),
         onboarded: true,
-        faithChoice: p.faithChoice ?? "unspecified",
         traditionQuestionVersion: TRADITION_QUESTION_VERSION,
       });
       router.replace("/(tabs)");
@@ -66,32 +63,18 @@ export default function ProfileSetup() {
       setBusy(false);
     }
   }
-  async function next() {
-    setError("");
-    if (
-      step === 5 &&
-      p.emailConsent &&
-      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(p.email)
-    ) {
-      setError(t("pEmailConsent"));
-      return;
-    }
-    if (step < 6) {
-      setStep(step + 1);
-      return;
-    }
-    await finish();
-  }
 
   return (
     <Screen>
       <Body small>
-        {t("pStep")} {step + 1} / 7
+        {t("pStep")} {step + 1} / 2
       </Body>
-      <Heading>{t(headings[step])}</Heading>
-      {step === 0 && (
+      {step === 0 ? (
         <>
+          <Heading>{t("pWelcome")}</Heading>
           <Body>{t("pWelcomeSub")}</Body>
+
+          <Subheading>{tr("Your language")}</Subheading>
           <Row>
             {Object.entries(languages).map(([k, v]) => (
               <Chip
@@ -107,102 +90,54 @@ export default function ProfileSetup() {
               />
             ))}
           </Row>
-          <Card tint>
-            <Body>{label(p.language, persistent ? "device" : "webDemo")}</Body>
-          </Card>
-        </>
-      )}
-      {step === 1 && (
-        <>
-          <Body>{t("pNameSub")}</Body>
-          <Field
-            label={t("pName")}
-            value={p.name}
-            maxLength={60}
-            onChangeText={(name) => update({ name })}
-          />
-        </>
-      )}
-      {step === 2 && (
-        <>
-          <Body>{t("pIntentSub")}</Body>
-          {["faith", "calm", "connection", "kindness"].map((x) => (
-            <Chip
-              key={x}
-              title={t("p" + x[0].toUpperCase() + x.slice(1) + "Goal")}
-              selected={p.intent === x}
-              onPress={() => update({ intent: x })}
-            />
-          ))}
-        </>
-      )}
-      {step === 3 && (
-        <>
-          <Body>{t("pFaithSub")}</Body>
-          <Body small>
-            {interfaceCopy(
-              p.language,
-              "Your choice also shapes your Home church. You can change it later in profile preferences.",
-            )}
-          </Body>
+
+          <Subheading>{tr("Your tradition")}</Subheading>
           <Row>
-            {["protestant", "catholic", "orthodox"].map((x) => (
+            {TRADITIONS.map((x) => (
               <Chip
                 key={x}
                 title={t(x)}
                 selected={p.faithChoice === x}
-                onPress={() =>
-                  update({
-                    tradition: x as Tradition,
-                    faithChoice: x as Tradition,
-                  })
-                }
+                onPress={() => update({ tradition: x, faithChoice: x })}
               />
             ))}
-          </Row>
-          <Row>
             <Chip
               title={q(p.language, "exploring")}
               selected={p.faithChoice === "exploring"}
               onPress={() => update({ faithChoice: "exploring" })}
             />
-            <Chip
-              title={q(p.language, "skip")}
-              selected={p.faithChoice === "unspecified"}
-              onPress={() => update({ faithChoice: "unspecified" })}
-            />
           </Row>
-          <Body small>{t("scriptureLanguage")}</Body>
-          <Row>
-            {Object.entries(languages).map(([k, v]) => (
-              <Chip
-                key={k}
-                title={v}
-                selected={p.scriptureLanguage === k}
-                onPress={() => update({ scriptureLanguage: k as Language })}
-              />
-            ))}
-          </Row>
-          {editionsFor(p).map((e) => (
-            <Chip
-              key={e.id}
-              title={e.name}
-              selected={e.id === p.edition}
-              onPress={() => update({ edition: e.id })}
-            />
-          ))}
-          {!editionsFor(p).length && <Notice text={t("unavailable")} />}
           <Body small>
-            {interfaceCopy(
-              p.language,
-              "Your Bible choice controls the verses in your journal. Available full readers: English, Portuguese (Bíblia Livre), Spanish (Reina-Valera 1909), and Russian (Synodal, 66 books). Availability depends on tradition; the Russian source omits additional Orthodox books.",
+            {tr(
+              "This shapes your church and the Bible you read. You can change it anytime in your profile.",
             )}
           </Body>
+          <Card tint>
+            <Body small>
+              {label(p.language, persistent ? "device" : "webDemo")}
+            </Body>
+          </Card>
+          <Button
+            title={t("pContinue")}
+            disabled={!chosen(p)}
+            onPress={() => setStep(1)}
+          />
         </>
-      )}
-      {step === 4 && (
+      ) : (
         <>
-          <Body>{t("pLocationSub")}</Body>
+          <Heading>{tr("A little about you")}</Heading>
+          <Body>
+            {tr(
+              "Both are optional. Your city helps us suggest local ways to help; no precise location is needed.",
+            )}
+          </Body>
+          <Field
+            label={t("pName")}
+            value={p.name}
+            maxLength={60}
+            autoComplete="given-name"
+            onChangeText={(name) => update({ name })}
+          />
           <Row>
             <Chip
               title={t("pBrazil")}
@@ -228,60 +163,20 @@ export default function ProfileSetup() {
             maxLength={80}
             onChangeText={(region) => update({ region: region.toUpperCase() })}
           />
-          <Body small>{t("pBrazilNote")}</Body>
-        </>
-      )}
-      {step === 5 && (
-        <>
-          <Body>{t("pNotificationsSub")}</Body>
-          <Field
-            label={t("pEmail")}
-            keyboardType="email-address"
-            autoCapitalize="none"
-            value={p.email}
-            maxLength={254}
-            onChangeText={(email) => update({ email })}
+          <Notice text={error} />
+          <Button
+            title={tr("Enter the church")}
+            disabled={busy}
+            onPress={() => void finish()}
           />
-          <Chip
-            title={(p.emailConsent ? "✓ " : "") + t("pConsent")}
-            selected={p.emailConsent}
-            onPress={() => update({ emailConsent: !p.emailConsent })}
+          <Button
+            secondary
+            title={t("pBack")}
+            disabled={busy}
+            onPress={() => setStep(0)}
           />
-          <Notice text={label(p.language, "emailNotLive")} />
         </>
       )}
-      {step === 6 && (
-        <>
-          <Body>{t("pReadySub")}</Body>
-          <Card tint>
-            <Body>
-              {t("pDaily")} → {t("journal")} → {t("stepVerse")} →{" "}
-              {t("stepAction")}
-            </Body>
-          </Card>
-        </>
-      )}
-      <Notice text={error} />
-      <Button
-        title={t(step === 6 ? "pStartJournal" : "pContinue")}
-        onPress={() => void next()}
-        disabled={busy}
-      />
-      {step > 0 && (
-        <Button
-          secondary
-          title={t("pBack")}
-          onPress={() => setStep(step - 1)}
-        />
-      )}
-      <Button
-        secondary
-        title={
-          profile.onboarded ? q(p.language, "savePreferences") : t("pLater")
-        }
-        disabled={busy}
-        onPress={() => void finish()}
-      />
     </Screen>
   );
 }

@@ -1508,5 +1508,70 @@
     "pt": "Atualizar",
     "es": "Actualizar",
     "ru": "Обновить"
+  },
+  "Your language": {
+    "pt": "Seu idioma",
+    "es": "Tu idioma",
+    "ru": "Ваш язык"
+  },
+  "Your tradition": {
+    "pt": "Sua tradição",
+    "es": "Tu tradición",
+    "ru": "Ваша традиция"
+  },
+  "This shapes your church and the Bible you read. You can change it anytime in your profile.": {
+    "pt": "Isso define a sua igreja e a Bíblia que você lê. Você pode mudar quando quiser no seu perfil.",
+    "es": "Esto define tu iglesia y la Biblia que lees. Puedes cambiarlo cuando quieras en tu perfil.",
+    "ru": "От этого зависят ваш храм и Библия, которую вы читаете. Это можно изменить в профиле в любое время."
+  },
+  "This shapes your church and the Bible you read.": {
+    "pt": "Isso define a sua igreja e a Bíblia que você lê.",
+    "es": "Esto define tu iglesia y la Biblia que lees.",
+    "ru": "От этого зависят ваш храм и Библия, которую вы читаете."
+  },
+  "A little about you": {
+    "pt": "Um pouco sobre você",
+    "es": "Un poco sobre ti",
+    "ru": "Немного о вас"
+  },
+  "Both are optional. Your city helps us suggest local ways to help; no precise location is needed.": {
+    "pt": "Ambos são opcionais. Sua cidade nos ajuda a sugerir formas de ajudar perto de você; não precisamos da sua localização exata.",
+    "es": "Ambos son opcionales. Tu ciudad nos ayuda a sugerir formas de ayudar cerca de ti; no necesitamos tu ubicación exacta.",
+    "ru": "Оба поля необязательны. Город помогает подсказать, где можно помочь рядом; точное местоположение не нужно."
+  },
+  "Enter the church": {
+    "pt": "Entrar na igreja",
+    "es": "Entrar en la iglesia",
+    "ru": "Войти в храм"
+  },
+  "Profile and preferences": {
+    "pt": "Perfil e preferências",
+    "es": "Perfil y preferencias",
+    "ru": "Профиль и настройки"
+  },
+  "Your Bible": {
+    "pt": "Sua Bíblia",
+    "es": "Tu Biblia",
+    "ru": "Ваша Библия"
+  },
+  "Location": {
+    "pt": "Localização",
+    "es": "Ubicación",
+    "ru": "Местоположение"
+  },
+  "Email reminders": {
+    "pt": "Lembretes por e-mail",
+    "es": "Recordatorios por correo",
+    "ru": "Напоминания по электронной почте"
+  },
+  "Save changes": {
+    "pt": "Salvar alterações",
+    "es": "Guardar cambios",
+    "ru": "Сохранить изменения"
+  },
+  "Saved.": {
+    "pt": "Salvo.",
+    "es": "Guardado.",
+    "ru": "Сохранено."
   }
 }
