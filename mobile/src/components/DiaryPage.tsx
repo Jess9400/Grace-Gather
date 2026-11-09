@@ -81,7 +81,7 @@ export default function Diary() {
     }
   }
   return (
-    <Screen back>
+    <Screen back place="pews">
       <Text accessibilityRole="header" style={s.title}>
         {q(lang, "land")}
       </Text>

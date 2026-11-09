@@ -313,6 +313,15 @@ const words = {
     "Escribe o habla con libertad. Tu página se queda en este dispositivo.",
     "Пишите или говорите свободно. Страница остаётся на этом устройстве.",
   ),
+  // Shown across the top of a room's screen, over its strip of the church.
+  atLectern: L("At the lectern", "No atril", "En el atril", "У аналоя"),
+  inPews: L("In the pews", "Nos bancos", "En los bancos", "На скамье"),
+  sideDoor: L(
+    "Through the side door",
+    "Pela porta lateral",
+    "Por la puerta lateral",
+    "Через боковую дверь",
+  ),
   showPlaces: L(
     "Show places",
     "Mostrar lugares",

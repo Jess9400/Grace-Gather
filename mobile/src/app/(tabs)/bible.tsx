@@ -14,6 +14,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { Brand, Body, Button, colors, serif } from "../../components/quiet-ui";
+import ChurchStrip, { useRoomStrip } from "../../components/ChurchStrip";
 import { useApp } from "../../lib/state";
 import { q } from "../../lib/quiet-copy";
 import { data } from "../../lib/content";
@@ -82,6 +83,7 @@ export default function BibleReading() {
 }
 function BibleReader({ collection }: { collection: CollectionId | null }) {
   const tr = useInterfaceCopy();
+  const strip = useRoomStrip("bible");
   const { profile } = useApp(),
     lang = profile.language,
     { height } = useWindowDimensions();
@@ -162,9 +164,13 @@ function BibleReader({ collection }: { collection: CollectionId | null }) {
       </SafeAreaView>
     );
   return (
-    <SafeAreaView style={s.safe} edges={["top", "left", "right"]}>
-      <View style={s.header}>
-        <Brand />
+    <SafeAreaView
+      style={s.safe}
+      edges={strip ? ["left", "right"] : ["top", "left", "right"]}
+    >
+      {strip && <ChurchStrip place="bible" />}
+      <View style={[s.header, strip && { marginTop: -16, paddingTop: 0 }]}>
+        {!strip && <Brand />}
         <View style={{ flexDirection: "row", gap: 12 }}>
           <View style={{ flex: 1 }}>
             <Button
@@ -382,7 +388,7 @@ const s = StyleSheet.create({
     justifyContent: "space-between",
     gap: 12,
     borderBottomWidth: 1,
-    borderColor: colors.line,
+    borderColor: "#B28A3E80",
   },
   locationText: { fontFamily: serif, fontSize: 25, color: colors.ink },
   edition: { fontSize: 11, color: colors.muted, maxWidth: "45%" },
