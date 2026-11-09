@@ -1,0 +1,263 @@
+[
+  {
+    "id": "grief",
+    "label": "Grief after a death",
+    "example": "“I still reach for my phone to call my dad.”",
+    "verse": "PSA.34.18",
+    "main": "A01",
+    "private": "A02",
+    "mood": "sad"
+  },
+  {
+    "id": "anniversary",
+    "label": "Grief on an anniversary",
+    "example": "“It’s been a year today, and I miss her so much.”",
+    "verse": "MAT.5.4",
+    "main": "A15",
+    "private": "A02",
+    "mood": "sad"
+  },
+  {
+    "id": "sadness",
+    "label": "Sadness",
+    "example": "“Nothing specific happened. I just feel sad today.”",
+    "verse": "PSA.42.11",
+    "main": "A04",
+    "private": "A03",
+    "mood": "sad"
+  },
+  {
+    "id": "venting",
+    "label": "Sadness and needing to vent",
+    "example": "“Só preciso desabafar. I wish someone would listen.”",
+    "verse": "JAS.1.19",
+    "main": "A04",
+    "private": "A03",
+    "mood": "sad"
+  },
+  {
+    "id": "persistent-distress",
+    "label": "Persistent low mood or self-reported depression",
+    "example": "“I’ve barely had the energy to get out of bed for weeks.”",
+    "verse": "PSA.34.18",
+    "main": "A05",
+    "private": "A07",
+    "mood": "sad"
+  },
+  {
+    "id": "homesick",
+    "label": "Loneliness and homesickness",
+    "example": "“I moved abroad and have nobody to go to church with.”",
+    "verse": "ROM.12.5",
+    "main": "A06",
+    "private": "A07",
+    "mood": "lonely"
+  },
+  {
+    "id": "lonely",
+    "label": "Loneliness and wanting contact",
+    "example": "“I wish someone would check in on me tonight.”",
+    "verse": "ECC.4.10",
+    "main": "A25",
+    "private": "A07",
+    "mood": "lonely"
+  },
+  {
+    "id": "anxiety",
+    "label": "Anxiety and worry",
+    "example": "“I can’t stop thinking about tomorrow’s interview.”",
+    "verse": "1PE.5.7",
+    "main": "A15",
+    "private": "A03",
+    "mood": "anxious"
+  },
+  {
+    "id": "overwhelm",
+    "label": "Overwhelm",
+    "example": "“I have too much to do and don’t know where to start.”",
+    "verse": "MAT.11.28",
+    "main": "A15",
+    "private": "A08",
+    "mood": "overwhelmed"
+  },
+  {
+    "id": "exhaustion",
+    "label": "Exhaustion",
+    "example": "“I keep saying yes and now I’m running on empty.”",
+    "verse": "MRK.6.31",
+    "main": "A09",
+    "private": "A23",
+    "mood": "overwhelmed"
+  },
+  {
+    "id": "guilt",
+    "label": "Guilt and repair",
+    "example": "“I snapped at my sister and regret what I said.”",
+    "verse": "1JN.1.9",
+    "main": "A04",
+    "private": "A10",
+    "mood": "unsure"
+  },
+  {
+    "id": "anger",
+    "label": "Anger after conflict",
+    "example": "“I want to text back right now. I’m so angry.”",
+    "verse": "JAS.1.19",
+    "main": "A09",
+    "private": "A16",
+    "mood": "anxious"
+  },
+  {
+    "id": "decision",
+    "label": "Uncertainty, a decision to make",
+    "example": "“I don’t know whether to stay or take the new job.”",
+    "verse": "JAS.1.5",
+    "main": "A15",
+    "private": "A08",
+    "mood": "unsure"
+  },
+  {
+    "id": "doubt",
+    "label": "Feeling far from God, doubt",
+    "example": "“I try to pray, but I feel like God is far away.”",
+    "verse": "PSA.13.1",
+    "main": "A17",
+    "private": "A03",
+    "mood": "unsure"
+  },
+  {
+    "id": "joy",
+    "label": "Joy",
+    "example": "“I got the job! I’m so happy today.”",
+    "verse": "JAS.5.13",
+    "main": "A14",
+    "private": "A11",
+    "mood": "grateful"
+  },
+  {
+    "id": "gratitude",
+    "label": "Gratitude",
+    "example": "“I’m grateful for the people who showed up for me.”",
+    "verse": "1TH.5.18",
+    "main": "A18",
+    "private": "A12",
+    "mood": "grateful"
+  },
+  {
+    "id": "service",
+    "label": "Gratitude and wanting to give back",
+    "example": "“I’ve been blessed lately and want to give back.”",
+    "verse": "HEB.13.16",
+    "main": "A13",
+    "private": "A11",
+    "mood": "grateful"
+  },
+  {
+    "id": "listen",
+    "label": "Ready to listen to someone",
+    "example": "“Someone listened when I needed it. I’d love to do that for someone else.”",
+    "verse": "1TH.5.11",
+    "main": "A14",
+    "private": "A11",
+    "mood": "peaceful"
+  },
+  {
+    "id": "welcome",
+    "label": "Ready to welcome someone",
+    "example": "“I remember feeling alone when I first moved. I’d like to help someone new.”",
+    "verse": "ROM.15.7",
+    "main": "A06",
+    "private": "A11",
+    "mood": "hopeful"
+  },
+  {
+    "id": "hope",
+    "label": "Hope after a hard season",
+    "example": "“Today was the first day in a long time I felt hopeful.”",
+    "verse": "ROM.15.13",
+    "main": "A20",
+    "private": "A08",
+    "mood": "hopeful"
+  },
+  {
+    "id": "habit",
+    "label": "Temptation, struggling with a habit",
+    "example": "“I relapsed again and I hate myself for it.”",
+    "verse": "1CO.10.13",
+    "main": "A04",
+    "private": "A07",
+    "mood": "unsure"
+  },
+  {
+    "id": "illness",
+    "label": "Illness (own or family)",
+    "example": "“My mother is in hospital and we’re waiting for results.”",
+    "verse": "JAS.5.16",
+    "main": "A15",
+    "private": "A03",
+    "mood": "anxious"
+  },
+  {
+    "id": "money",
+    "label": "Money or work stress",
+    "example": "“I lost my job and I don’t know how we’ll pay rent.”",
+    "verse": "MAT.6.34",
+    "main": "A15",
+    "private": "A08",
+    "mood": "anxious"
+  },
+  {
+    "id": "conflict",
+    "label": "Family or relationship conflict",
+    "example": "“We argued again and my son won’t talk to me.”",
+    "verse": "COL.3.13",
+    "main": "A15",
+    "private": "A08",
+    "mood": "sad"
+  },
+  {
+    "id": "betrayal",
+    "label": "Hurt, betrayal",
+    "example": "“She lied to me and I feel betrayed.”",
+    "verse": "PSA.147.3",
+    "main": "A15",
+    "private": "A03",
+    "mood": "sad"
+  },
+  {
+    "id": "hopelessness",
+    "label": "Hopelessness",
+    "example": "“Nothing is going to change. What’s the point?”",
+    "verse": "LAM.3.22",
+    "main": "A19",
+    "private": "A03",
+    "mood": "hopeless"
+  },
+  {
+    "id": "answered-prayer",
+    "label": "Answered prayer, a good turn",
+    "example": "“God answered. It actually worked out.”",
+    "verse": "PSA.116.1",
+    "main": "A20",
+    "private": "A12",
+    "mood": "grateful"
+  },
+  {
+    "id": "peace",
+    "label": "Peace, calm",
+    "example": "“A quiet day. I feel at peace.”",
+    "verse": "PHP.4.7",
+    "main": "A16",
+    "private": "A08",
+    "mood": "peaceful"
+  },
+  {
+    "id": "unclear",
+    "label": "Unclear or mixed",
+    "example": "(no clear theme)",
+    "verse": "PSA.139.23",
+    "main": "A08",
+    "private": "A03",
+    "mood": "unsure"
+  }
+]

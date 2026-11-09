@@ -55,6 +55,7 @@ import {
 } from "../../lib/church-room";
 
 import { placeAt, type ChurchPlace } from "../../lib/church-scene";
+import { weeklyCheckInDue } from "../../generated/journal-selection";
 import { StepCheckIn } from "../../components/SmallStep";
 import { useChurchPresence } from "../../lib/church-presence";
 
@@ -71,7 +72,11 @@ const BASE_VOTIVES = 0;
 const presentCount = (count: number | null) => count !== null && count >= 1;
 
 export default function Home() {
-  const { profile, saveProfile } = useApp();
+  const { profile, saveProfile, entries } = useApp();
+  const weeklyDue = weeklyCheckInDue(
+    entries.filter((e) => !e.sessionOnly).map((e) => e.createdAt),
+    profile.weeklyCheckInAt,
+  );
   const tr = useInterfaceCopy();
   const insets = useSafeAreaInsets();
   const tabHeight = useBottomTabBarHeight();
@@ -559,42 +564,48 @@ export default function Home() {
                 style={StyleSheet.absoluteFill}
               />
               <ScrollView contentContainerStyle={s.promptContent}>
-                <Text accessibilityRole="header" style={s.promptTitle}>
-                  {tr("What would you like to tell God today?")}
-                </Text>
-                <Pressable
-                  accessibilityRole="button"
-                  onPress={journal}
-                  style={s.cta}
-                >
-                  <Text style={s.ctaText}>{tr("Talk to God")}</Text>
-                </Pressable>
-                <Pressable
-                  accessibilityRole="button"
-                  onPress={() => {
-                    setInvitation(false);
-                    enter("altar", () =>
-                      router.push({
-                        pathname: "/prayers",
-                        params: { compose: "1" },
-                      }),
-                    );
-                  }}
-                  style={s.stay}
-                >
-                  <Text style={s.stayText}>{tr("Request a prayer")}</Text>
-                </Pressable>
-                {!hasExplored && !sceneFailed && (
-                  <Pressable
-                    accessibilityRole="button"
-                    onPress={() => {
-                      dismissInvitation();
-                      setTour(true);
-                    }}
-                    style={s.exploreLink}
-                  >
-                    <Text style={s.exploreText}>{t("exploreChurch")}</Text>
-                  </Pressable>
+                {weeklyDue ? (
+                  <StepCheckIn dark />
+                ) : (
+                  <>
+                    <Text accessibilityRole="header" style={s.promptTitle}>
+                      {tr("What would you like to tell God today?")}
+                    </Text>
+                    <Pressable
+                      accessibilityRole="button"
+                      onPress={journal}
+                      style={s.cta}
+                    >
+                      <Text style={s.ctaText}>{tr("Talk to God")}</Text>
+                    </Pressable>
+                    <Pressable
+                      accessibilityRole="button"
+                      onPress={() => {
+                        setInvitation(false);
+                        enter("altar", () =>
+                          router.push({
+                            pathname: "/prayers",
+                            params: { compose: "1" },
+                          }),
+                        );
+                      }}
+                      style={s.stay}
+                    >
+                      <Text style={s.stayText}>{tr("Request a prayer")}</Text>
+                    </Pressable>
+                    {!hasExplored && !sceneFailed && (
+                      <Pressable
+                        accessibilityRole="button"
+                        onPress={() => {
+                          dismissInvitation();
+                          setTour(true);
+                        }}
+                        style={s.exploreLink}
+                      >
+                        <Text style={s.exploreText}>{t("exploreChurch")}</Text>
+                      </Pressable>
+                    )}
+                  </>
                 )}
               </ScrollView>
             </Animated.View>

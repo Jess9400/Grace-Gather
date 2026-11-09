@@ -4,6 +4,7 @@ import { Screen, Heading, Body, Notice } from "../../components/quiet-ui";
 import { TextAction } from "../../components/CommunityControls";
 import { requireUser, backend } from "../../lib/backend";
 import { useInterfaceCopy } from "../../lib/use-interface-copy";
+import Giving from "../giving";
 import Community from "../community";
 import PrayerPage from "../../components/PrayerPage";
 import TestimonyReview from "../testimonies/review";
@@ -50,7 +51,9 @@ export default function AdminDashboard() {
             router.setParams({ view: "" });
           }}
         />
-        {queue === "discussions" ? (
+        {queue === "giving" ? (
+          <Giving review />
+        ) : queue === "discussions" ? (
           <Community review />
         ) : queue === "prayers" ? (
           <PrayerPage mode="review" />
@@ -76,6 +79,7 @@ export default function AdminDashboard() {
             ["confessions", "Confessions"],
             ["testimonies", "Testimonies"],
             ["prayers", "Prayer requests"],
+            ["giving", "Pay it forward"],
           ].map(([id, label]) => (
             <TextAction
               key={id}

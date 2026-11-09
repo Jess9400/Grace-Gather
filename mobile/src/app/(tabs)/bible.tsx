@@ -355,13 +355,6 @@ function BibleReader({ collection }: { collection: CollectionId | null }) {
             />
           </Pressable>
         )}
-        ListHeaderComponent={
-          full && collection !== "web" ? (
-            <View style={{ paddingVertical: 12 }}>
-              <Body small>{tr(bibleIndex.coverageNote ?? "")}</Body>
-            </View>
-          ) : undefined
-        }
         ListEmptyComponent={
           <View style={{ padding: 25, gap: 16 }}>
             <Body>{q(lang, "limited")}</Body>

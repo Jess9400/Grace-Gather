@@ -74,6 +74,8 @@ export default function Diary() {
             safety: result.support,
             passageIds: result.passageIds,
             actionIds: result.actionIds,
+            themeId: result.themeId,
+            suggestedAction: result.suggestedAction,
           };
         } catch {
           entry = { ...entry, aiUnavailable: true };

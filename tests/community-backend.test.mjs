@@ -557,3 +557,17 @@ test('public feed pages older discussions without duplicates and respects visibi
   assert.equal((await page()).topics.length,0);
   await assert.rejects(as('', 'select public.community_feed()', [], 'anon'));
 });
+
+test('pay forward submissions are private until staff review and cannot self-approve',async()=>{
+ const result=await as(alice,"select public.pay_forward_submit('Local food bank','We volunteer at the food bank each week.','London','https://example.org') id");
+ const id=result.rows[0].id;
+ assert.equal((await as(bob,'select * from public.pay_forward_submissions where id=$1',[id])).rows.length,0);
+ assert.equal((await as(bob,'select * from public.pay_forward_list()')).rows.length,0);
+ await assert.rejects(as(alice,'select public.pay_forward_review($1,true)',[id]),/staff_required/);
+ await assert.rejects(as(alice,"update public.pay_forward_submissions set status='approved' where id=$1",[id]),/permission denied/);
+ await as(staff,'select public.pay_forward_review($1,true)',[id]);
+ const published=(await as(bob,'select * from public.pay_forward_list()')).rows;
+ assert.equal(published.length,1);assert.equal(published[0].owner_id,undefined);assert.equal(published[0].reason,undefined);
+ await as(alice,'delete from public.pay_forward_submissions where id=$1',[id]);
+ assert.equal((await as(bob,'select * from public.pay_forward_list()')).rows.length,0);
+});
