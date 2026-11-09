@@ -267,14 +267,11 @@ export default function EntryScreen() {
                   <Ionicons
                     name="arrow-forward"
                     size={20}
-                    color={colors.paper}
+                    color={colors.ink}
                   />
                 </View>
               </Pressable>
             </View>
-            {entry.guidance !== "ai" && (
-              <Text style={s.edition}>{jc(lang, "curated")}</Text>
-            )}
           </>
         )}
         <Notice text={notice} />
@@ -382,7 +379,9 @@ const s = StyleSheet.create({
     paddingHorizontal: 22,
     paddingVertical: 18,
     borderRadius: 20,
-    backgroundColor: colors.ink,
+    backgroundColor: "#FAF6EC",
+    borderWidth: 1,
+    borderColor: "#DED2BC",
   },
   actionPressed: { opacity: 0.86 },
   actionArrow: {
@@ -390,14 +389,14 @@ const s = StyleSheet.create({
     height: 36,
     borderRadius: 18,
     borderWidth: 1,
-    borderColor: "#FFFCF340",
+    borderColor: "#DED2BC",
     alignItems: "center",
     justifyContent: "center",
   },
   actionTitle: {
     fontSize: 17,
     lineHeight: 25,
-    color: colors.paper,
+    color: colors.ink,
     flex: 1,
     fontWeight: "500",
   },
