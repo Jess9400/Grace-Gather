@@ -26,13 +26,13 @@ export default function JournalCleanupNotice({
     .join("|");
   const visible = pending.length > 0 && (!compact || dismissed !== signature);
   useEffect(() => {
-    if (visible && unseen)
+    if (!compact && visible && unseen)
       void acknowledgeJournalNotices(unseen.split("|")).catch(() =>
         setError(journalCopy(profile.language, "failed")),
       );
     // Acknowledging changes entry objects; the unseen IDs are the effect boundary.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [visible, unseen]);
+  }, [compact, visible, unseen]);
   if (!visible) return null;
   const t = (key: Parameters<typeof journalCopy>[1]) =>
     journalCopy(profile.language, key);

@@ -123,3 +123,19 @@ test('restore rejects auth rows, missing recordings, duplicate IDs and malformed
     payload([entry({deletedConversations:[{id:'x',deletedAt:'invalid',messages:[]}]})]),
   ]) assert.throws(()=>backup.decodeBackup(JSON.stringify(bad)));
 });
+
+
+test('a stale writing save preserves concurrently deleted chats, Keep and newer replies', () => {
+  const old = entry();
+  const removed = {...retention.deleteConversation(old,NOW),keepConversation:true};
+  const updated = retention.mergeJournalWriting(removed,{...old,text:'An intentional edit.',reflection:'A small kindness.'});
+  assert.equal(updated.text,'An intentional edit.');
+  assert.deepEqual(updated.conversation,[]);
+  assert.deepEqual(updated.deletedConversations,removed.deletedConversations);
+  assert.equal(updated.keepConversation,true);
+  assert.deepEqual(updated.response,old.response);
+  const withReply={...old,conversation:[...old.conversation,{id:'latest',role:'assistant',content:'A newer reply.'}],conversationUpdatedAt:new Date(NOW).toISOString()};
+  const saved = retention.mergeJournalWriting(withReply,{...old,reflection:'Saved from an older page.'});
+  assert.equal(saved.conversation.at(-1).id,'latest');
+  assert.equal(saved.conversationUpdatedAt,withReply.conversationUpdatedAt);
+});

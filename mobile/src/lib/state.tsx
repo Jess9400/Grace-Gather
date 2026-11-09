@@ -22,6 +22,7 @@ import { JOURNAL_MESSAGE_LIMIT } from "./journal-chat";
 import {
   acknowledgeCleanup,
   applyJournalRetention,
+  mergeJournalWriting,
   deleteConversation,
   restoreConversation,
 } from "./journal-retention";
@@ -181,9 +182,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
           : !keep;
       return [
         {
-          ...previous,
-          ...entry,
-          conversation: previous?.conversation ?? entry.conversation,
+          ...mergeJournalWriting(previous, entry),
           sessionOnly,
         },
         ...all.filter((e) => e.id !== entry.id),

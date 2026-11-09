@@ -13,7 +13,7 @@ Entries older than three calendar months appear in Archive. This is a view, not 
 “Delete AI conversations after 90 days” is off unless the user saves that preference. The clock uses the last message timestamp, falling back to the entry date for legacy conversations.
 
 - An in-app notice appears before cleanup, with the scheduled date, Keep and Export.
-- Cleanup cannot run before a notice has been displayed and a full seven-day grace period has elapsed. Returning after a long absence starts a fresh grace period.
+- Cleanup cannot run before the entry-specific notice and date have been displayed and a full seven-day grace period has elapsed. Returning after a long absence starts a fresh grace period.
 - Keep exempts that conversation. New messages clear the scheduled cleanup; disabling cleanup cancels it.
 - Removed conversations enter Recently deleted for 30 days. Their original entry, verse and first action remain.
 - Explicitly deleted entries also have 30 days of recovery. Only expired, previously deleted entries lose their recordings.

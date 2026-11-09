@@ -6,6 +6,24 @@ export const CLEANUP_NOTICE_DAYS = 7;
 export const RECOVERY_DAYS = 30;
 const stamp = (value?: string) => (value ? Date.parse(value) : NaN);
 
+// A writing/reflection save must not overwrite conversation changes committed
+// by another tab. Conversation and cleanup state have dedicated mutations.
+export function mergeJournalWriting(
+  previous: Entry | undefined,
+  incoming: Entry,
+): Entry {
+  if (!previous) return incoming;
+  return {
+    ...previous,
+    ...incoming,
+    conversation: previous.conversation ?? incoming.conversation,
+    conversationUpdatedAt: previous.conversationUpdatedAt,
+    deletedConversations: previous.deletedConversations,
+    chatCleanup: previous.chatCleanup,
+    keepConversation: previous.keepConversation,
+  };
+}
+
 // Calendar months, with month-end clamping (May 31 -> February 28/29).
 export function archiveCutoff(now = Date.now()) {
   const date = new Date(now);
