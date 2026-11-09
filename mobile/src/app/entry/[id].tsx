@@ -31,6 +31,7 @@ import {
   collectionFor,
   ensureCollection,
   getReadingVerse,
+  themeVerse,
   type ReadingVerse,
 } from "../../lib/bible";
 import { journalAction, journalTheme } from "../../lib/journal-guidance";
@@ -77,6 +78,9 @@ export default function EntryScreen() {
         } catch {
           /* Approved curated fallback below; no invented quotations. */
         }
+      } else {
+        // Passage-only Bibles carry each theme verse, checked against the scans.
+        selected = themeVerse(e.prefs, theme.verse);
       }
       const candidates = passagesFor(e.prefs, e.mood);
       const fallback =

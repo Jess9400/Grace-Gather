@@ -591,8 +591,8 @@
         "catholic"
       ],
       "canon": "Bíblia católica, traduzida da Vulgata latina",
-      "scope": "Seis passagens devocionais e o Salmo 22 em Explorar, da tradução católica do Padre António Pereira de Figueiredo, com a ortografia original de 1866. É uma seleção, não a Bíblia completa.",
-      "attribution": "Bíblia Sagrada, traduzida em português segundo a Vulgata latina por António Pereira de Figueiredo (1725–1797). Londres: Harrison e Filhos, 1866. Domínio público. Texto conferido com as páginas digitalizadas no Internet Archive; ortografia original mantida, chamadas de nota omitidas.",
+      "scope": "Seis passagens devocionais, o Salmo 22 em Explorar e um versículo para cada tema do diário, da tradução católica do Padre António Pereira de Figueiredo, com a ortografia original de 1866. É uma seleção, não a Bíblia completa.",
+      "attribution": "Bíblia Sagrada, traduzida em português segundo a Vulgata latina por António Pereira de Figueiredo (1725–1797). Londres: Harrison e Filhos, 1866. Domínio público. Texto conferido com as páginas digitalizadas no Internet Archive; ortografia original mantida, chamadas de nota omitidas; letras capitulares escritas por extenso, tis apagados na impressão repostos, e títulos dos Salmos e letras hebraicas das Lamentações omitidos.",
       "license": "Public domain",
       "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
       "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866",
@@ -608,7 +608,8 @@
             "pt": "Jesus oferece descanso depois de explicar sua relação com o Pai.",
             "es": "Jesús ofrece descanso después de explicar su relación con el Padre.",
             "ru": "Иисус предлагает покой после слов о Своих отношениях с Отцом."
-          }
+          },
+          "verse": "MAT.11.28"
         },
         {
           "id": "figueiredo-joao-14-27",
@@ -621,7 +622,8 @@
             "pt": "Em seu discurso de despedida, Jesus consola os discípulos antes de sua partida.",
             "es": "En su discurso de despedida, Jesús consuela a sus discípulos antes de su partida.",
             "ru": "В прощальной беседе Иисус утешает учеников перед Своим уходом."
-          }
+          },
+          "verse": "JHN.14.27"
         },
         {
           "id": "figueiredo-romanos-15-13",
@@ -634,7 +636,8 @@
             "pt": "Paulo ora pela esperança após exortar os fiéis judeus e gentios a glorificarem a Deus juntos.",
             "es": "Pablo ora por la esperanza después de exhortar a los creyentes judíos y gentiles a glorificar juntos a Dios.",
             "ru": "Павел молится о надежде, призвав верующих из иудеев и язычников вместе прославлять Бога."
-          }
+          },
+          "verse": "ROM.15.13"
         },
         {
           "id": "figueiredo-1-tessalonicenses-5-18",
@@ -647,7 +650,8 @@
             "pt": "Perto do fim desta carta, Paulo dá à comunidade de Tessalônica breves orientações sobre oração e gratidão.",
             "es": "Cerca del final de esta carta, Pablo da a la comunidad de Tesalónica breves instrucciones sobre la oración y la gratitud.",
             "ru": "В конце послания Павел даёт фессалоникийской общине краткие наставления о молитве и благодарности."
-          }
+          },
+          "verse": "1TH.5.18"
         },
         {
           "id": "figueiredo-joao-15-9",
@@ -660,7 +664,8 @@
             "pt": "Em seu ensinamento de despedida, Jesus passa da imagem da videira e dos ramos à permanência em seu amor.",
             "es": "En su enseñanza de despedida, Jesús pasa de la imagen de la vid y los sarmientos a permanecer en su amor.",
             "ru": "В прощальной беседе Иисус переходит от образа лозы и ветвей к пребыванию в Его любви."
-          }
+          },
+          "verse": "JHN.15.9"
         },
         {
           "id": "figueiredo-salmo-33-19",
@@ -676,7 +681,171 @@
             "pt": "Em um salmo de gratidão e confiança em meio às dificuldades, o autor descreve Deus próximo dos corações feridos.",
             "es": "En un salmo de gratitud y confianza en medio de dificultades, el autor describe a Dios cerca de los corazones heridos.",
             "ru": "В псалме благодарности и доверия среди бед автор говорит о близости Бога к сокрушённым сердцем."
-          }
+          },
+          "verse": "PSA.34.18"
+        }
+      ],
+      "journalVerses": [
+        {
+          "id": "figueiredo-mateus-5-5",
+          "verse": "MAT.5.4",
+          "reference": "Mateus 5:5",
+          "text": "Bemaventurados os que chorão: porque elles serão consolados.",
+          "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866/page/n957/mode/1up"
+        },
+        {
+          "id": "figueiredo-salmo-41-12",
+          "verse": "PSA.42.11",
+          "reference": "Salmo 41:12 (Figueiredo)",
+          "text": "Porque estás tu triste, alma minha? e porque me conturbas? Espera em Deos, porque ainda tenho de o louvar: salvação do meu rosto, e Deos meu.",
+          "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866/page/n583/mode/1up"
+        },
+        {
+          "id": "figueiredo-tiago-1-19",
+          "verse": "JAS.1.19",
+          "reference": "Tiago 1:19",
+          "text": "Vós o sabeis, meus dilectissimos irmãos. Assim cada hum de vós seja prompto para ouvir, porém tardo para fallar, e tardo para se irar.",
+          "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866/page/n1211/mode/1up"
+        },
+        {
+          "id": "figueiredo-romanos-12-5",
+          "verse": "ROM.12.5",
+          "reference": "Romanos 12:5",
+          "text": "Assim ainda que muitos, somos hum só corpo em Christo, e cada hum de nós membros huns dos outros.",
+          "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866/page/n1135/mode/1up"
+        },
+        {
+          "id": "figueiredo-eclesiastes-4-10",
+          "verse": "ECC.4.10",
+          "reference": "Eclesiastes 4:10",
+          "text": "Se hum cahir, o outro o sosterá: ai do que está só: porque quando cahir, não tem quem o levante.",
+          "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866/page/n670/mode/1up"
+        },
+        {
+          "id": "figueiredo-1-pedro-5-7",
+          "verse": "1PE.5.7",
+          "reference": "1 Pedro 5:7",
+          "text": "Remettendo para elle todas as vossas inquietações, porque elle tem cuidado de vós.",
+          "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866/page/n1219/mode/1up"
+        },
+        {
+          "id": "figueiredo-marcos-6-31",
+          "verse": "MRK.6.31",
+          "reference": "Marcos 6:31",
+          "text": "E elle lhes disse: Vinde, retirai-vos a algum lugar deserto, e descançai hum pouco. Porque erão muitos os que entravão e sahião, e não tinhão tempo para comerem.",
+          "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866/page/n998/mode/1up"
+        },
+        {
+          "id": "figueiredo-1-joao-1-9",
+          "verse": "1JN.1.9",
+          "reference": "1 João 1:9",
+          "text": "Porém se nós confessarmos os nossos peccados: elle he fiel, e justo, para nos perdoar esses nossos peccados, e para nos purificar de toda a iniquidade.",
+          "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866/page/n1222/mode/1up"
+        },
+        {
+          "id": "figueiredo-tiago-1-5",
+          "verse": "JAS.1.5",
+          "reference": "Tiago 1:5",
+          "text": "E se algum de vós necessita de sabedoria, peça-a a Deos, que a todos dá liberalmente, e não impropéra: e ser-lhe-ha dada.",
+          "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866/page/n1211/mode/1up"
+        },
+        {
+          "id": "figueiredo-salmo-12-1",
+          "verse": "PSA.13.1",
+          "reference": "Salmo 12:1 (Figueiredo)",
+          "text": "Até quando, Senhor, te esquecerás de mim para sempre? Até quando apartarás de mim a tua face?",
+          "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866/page/n566/mode/1up"
+        },
+        {
+          "id": "figueiredo-tiago-5-13",
+          "verse": "JAS.5.13",
+          "reference": "Tiago 5:13",
+          "text": "Está triste algum de vós? ore: Está alegre? cante louvores a Deos.",
+          "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866/page/n1214/mode/1up"
+        },
+        {
+          "id": "figueiredo-hebreus-13-16",
+          "verse": "HEB.13.16",
+          "reference": "Hebreus 13:16",
+          "text": "E não vos esqueçais de fazer bem, e de repartir dos vossos bens com os outros: porque com taes offrendas he que Deos se dá por obrigado.",
+          "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866/page/n1210/mode/1up"
+        },
+        {
+          "id": "figueiredo-1-tessalonicenses-5-11",
+          "verse": "1TH.5.11",
+          "reference": "1 Tessalonicenses 5:11",
+          "text": "Pelo que consolai-vos mutuamente: e edificai-vos huns aos outros, como ainda o fazeis.",
+          "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866/page/n1186/mode/1up"
+        },
+        {
+          "id": "figueiredo-romanos-15-7",
+          "verse": "ROM.15.7",
+          "reference": "Romanos 15:7",
+          "text": "Por cuja causa mostrai acolhimento huns aos outros, como tambem Christo vo-lo mostrou para gloria de Deos.",
+          "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866/page/n1137/mode/1up"
+        },
+        {
+          "id": "figueiredo-1-corintios-10-13",
+          "verse": "1CO.10.13",
+          "reference": "1 Coríntios 10:13",
+          "text": "Vós ainda não experimentastes, senão tentações humanas: mas Deos he fiel, o qual não permittirá que vós sejais tentados, mais do que podem as vossas forças, antes fará que tireis ainda vantagem da mesma tentação, para a poderdes supportar.",
+          "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866/page/n1147/mode/1up"
+        },
+        {
+          "id": "figueiredo-tiago-5-16",
+          "verse": "JAS.5.16",
+          "reference": "Tiago 5:16",
+          "text": "Confessai pois os vossos peccados huns aos outros, e orai huns pelos outros, para serdes salvos: porque a oração do justo sendo fervorosa póde muito.",
+          "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866/page/n1214/mode/1up"
+        },
+        {
+          "id": "figueiredo-mateus-6-34",
+          "verse": "MAT.6.34",
+          "reference": "Mateus 6:34",
+          "text": "E assim não andeis inquietos pelo dia de á manhãa. Porque o dia de á manhãa a si mesmo trará seu cuidado: ao dia basta a sua propria afflicção.",
+          "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866/page/n960/mode/1up"
+        },
+        {
+          "id": "figueiredo-colossenses-3-13",
+          "verse": "COL.3.13",
+          "reference": "Colossenses 3:13",
+          "text": "Soffrendo-vos huns aos outros, e perdoando-vos mutuamente, se algum tem razão de queixa contra o outro: assim como ainda o Senhor vos perdoou a vós, assim tambem vós.",
+          "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866/page/n1182/mode/1up"
+        },
+        {
+          "id": "figueiredo-salmo-146-3",
+          "verse": "PSA.147.3",
+          "reference": "Salmo 146:3 (Figueiredo)",
+          "text": "O que sara aos attribulados de coração: e liga as suas fracturas.",
+          "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866/page/n637/mode/1up"
+        },
+        {
+          "id": "figueiredo-lamentacoes-3-22",
+          "verse": "LAM.3.22",
+          "reference": "Lamentações 3:22",
+          "text": "Misericordias são do Senhor o não termos sido consumidos: porque as suas commiserações nunca faltárão.",
+          "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866/page/n802/mode/1up"
+        },
+        {
+          "id": "figueiredo-salmo-114-1",
+          "verse": "PSA.116.1",
+          "reference": "Salmo 114:1 (Figueiredo)",
+          "text": "Amei, porque o Senhor ouvirá a voz da minha oração.",
+          "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866/page/n622/mode/1up"
+        },
+        {
+          "id": "figueiredo-filipenses-4-7",
+          "verse": "PHP.4.7",
+          "reference": "Filipenses 4:7",
+          "text": "E a paz de Deos, que sobrepuja todo o entendimento, guarde os vossos corações, e os vossos sentimentos em Jesu Christo.",
+          "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866/page/n1179/mode/1up"
+        },
+        {
+          "id": "figueiredo-salmo-138-23",
+          "verse": "PSA.139.23",
+          "reference": "Salmo 138:23 (Figueiredo)",
+          "text": "Prova-me, ó Deos, e sonda o meu coração: pergunta-me, e conhece as minhas varedas.",
+          "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866/page/n634/mode/1up"
         }
       ]
     },
@@ -688,8 +857,8 @@
         "catholic"
       ],
       "canon": "Biblia católica, traducida de la Vulgata latina",
-      "scope": "Seis pasajes devocionales y el Salmo 22 en Explorar, de la traducción católica de Félix Torres Amat, con la ortografía original de la edición de 1884. Es una selección, no la Biblia completa.",
-      "attribution": "La Sagrada Biblia, traducida de la Vulgata latina al español por Félix Torres Amat (1772–1847). Barcelona: Montaner y Simón, nueva edición ilustrada por Gustavo Doré, con licencia de la autoridad eclesiástica; ejemplar de 1884. Dominio público. Texto cotejado con las páginas digitalizadas en Internet Archive; ortografía original; las palabras que el traductor añadió en cursiva aparecen sin cursiva y se omiten las llamadas a notas.",
+      "scope": "Seis pasajes devocionales, el Salmo 22 en Explorar y un versículo para cada tema del diario, de la traducción católica de Félix Torres Amat, con la ortografía original de la edición de 1884. Es una selección, no la Biblia completa.",
+      "attribution": "La Sagrada Biblia, traducida de la Vulgata latina al español por Félix Torres Amat (1772–1847). Barcelona: Montaner y Simón, nueva edición ilustrada por Gustavo Doré, con licencia de la autoridad eclesiástica; ejemplar de 1884. Dominio público. Texto cotejado con las páginas digitalizadas en Internet Archive; ortografía original; las palabras que el traductor añadió en cursiva aparecen sin cursiva y se omiten las llamadas a notas, los títulos de los Salmos y las letras hebreas de las Lamentaciones.",
       "license": "Public domain",
       "licenseUrl": "https://creativecommons.org/publicdomain/mark/1.0/",
       "sourceUrl": "https://archive.org/details/torresamatbiblia",
@@ -705,7 +874,8 @@
             "pt": "Jesus oferece descanso depois de explicar sua relação com o Pai.",
             "es": "Jesús ofrece descanso después de explicar su relación con el Padre.",
             "ru": "Иисус предлагает покой после слов о Своих отношениях с Отцом."
-          }
+          },
+          "verse": "MAT.11.28"
         },
         {
           "id": "torresamat-juan-14-27",
@@ -718,7 +888,8 @@
             "pt": "Em seu discurso de despedida, Jesus consola os discípulos antes de sua partida.",
             "es": "En su discurso de despedida, Jesús consuela a sus discípulos antes de su partida.",
             "ru": "В прощальной беседе Иисус утешает учеников перед Своим уходом."
-          }
+          },
+          "verse": "JHN.14.27"
         },
         {
           "id": "torresamat-romanos-15-13",
@@ -731,7 +902,8 @@
             "pt": "Paulo ora pela esperança após exortar os fiéis judeus e gentios a glorificarem a Deus juntos.",
             "es": "Pablo ora por la esperanza después de exhortar a los creyentes judíos y gentiles a glorificar juntos a Dios.",
             "ru": "Павел молится о надежде, призвав верующих из иудеев и язычников вместе прославлять Бога."
-          }
+          },
+          "verse": "ROM.15.13"
         },
         {
           "id": "torresamat-1-tesalonicenses-5-18",
@@ -744,7 +916,8 @@
             "pt": "Perto do fim desta carta, Paulo dá à comunidade de Tessalônica breves orientações sobre oração e gratidão.",
             "es": "Cerca del final de esta carta, Pablo da a la comunidad de Tesalónica breves instrucciones sobre la oración y la gratitud.",
             "ru": "В конце послания Павел даёт фессалоникийской общине краткие наставления о молитве и благодарности."
-          }
+          },
+          "verse": "1TH.5.18"
         },
         {
           "id": "torresamat-juan-15-9",
@@ -757,7 +930,8 @@
             "pt": "Em seu ensinamento de despedida, Jesus passa da imagem da videira e dos ramos à permanência em seu amor.",
             "es": "En su enseñanza de despedida, Jesús pasa de la imagen de la vid y los sarmientos a permanecer en su amor.",
             "ru": "В прощальной беседе Иисус переходит от образа лозы и ветвей к пребыванию в Его любви."
-          }
+          },
+          "verse": "JHN.15.9"
         },
         {
           "id": "torresamat-salmo-33-19",
@@ -773,7 +947,171 @@
             "pt": "Em um salmo de gratidão e confiança em meio às dificuldades, o autor descreve Deus próximo dos corações feridos.",
             "es": "En un salmo de gratitud y confianza en medio de dificultades, el autor describe a Dios cerca de los corazones heridos.",
             "ru": "В псалме благодарности и доверия среди бед автор говорит о близости Бога к сокрушённым сердцем."
-          }
+          },
+          "verse": "PSA.34.18"
+        }
+      ],
+      "journalVerses": [
+        {
+          "id": "torresamat-mateo-5-5",
+          "verse": "MAT.5.4",
+          "reference": "Mateo 5:5",
+          "text": "Bienaventurados los que lloran: porque ellos serán consolados.",
+          "sourceUrl": "https://archive.org/details/torresamatbiblia/page/n759/mode/1up"
+        },
+        {
+          "id": "torresamat-salmo-41-12",
+          "verse": "PSA.42.11",
+          "reference": "Salmo 41:12 (Torres Amat)",
+          "text": "Pero, oh alma mia, ¿por qué estás triste? ¿por qué me llenas de turbacion?—Espera en Dios, pues aun he de cantarle alabanzas, por ser él el Salvador que está siempre delante de mí, y el Dios mio.",
+          "sourceUrl": "https://archive.org/details/torresamatbiblia/page/n404/mode/1up"
+        },
+        {
+          "id": "torresamat-santiago-1-19",
+          "verse": "JAS.1.19",
+          "reference": "Santiago 1:19",
+          "text": "Bien lo sabeis vosotros, hermanos mios muy queridos. Y así sea todo hombre pronto para escuchar; pero detenido en hablar, y refrenado en la ira.",
+          "sourceUrl": "https://archive.org/details/torresamatbiblia/page/n935/mode/1up"
+        },
+        {
+          "id": "torresamat-romanos-12-5",
+          "verse": "ROM.12.5",
+          "reference": "Romanos 12:5",
+          "text": "Así nosotros aunque seamos muchos, formamos en Christo un solo cuerpo, siendo todos recíprocamente miembros los unos de los otros.",
+          "sourceUrl": "https://archive.org/details/torresamatbiblia/page/n872/mode/1up"
+        },
+        {
+          "id": "torresamat-eclesiastes-4-10",
+          "verse": "ECC.4.10",
+          "reference": "Eclesiastés 4:10",
+          "text": "Si uno va á caer, el otro le sostiene. Pero ¡ay del hombre que está solo! pues si cae, no tiene quien le levante.",
+          "sourceUrl": "https://archive.org/details/torresamatbiblia/page/n463/mode/1up"
+        },
+        {
+          "id": "torresamat-1-pedro-5-7",
+          "verse": "1PE.5.7",
+          "reference": "1 Pedro 5:7",
+          "text": "Descargando en su amoroso seno todas vuestras solicitudes, pues él tiene cuidado de vosotros.",
+          "sourceUrl": "https://archive.org/details/torresamatbiblia/page/n942/mode/1up"
+        },
+        {
+          "id": "torresamat-marcos-6-31",
+          "verse": "MRK.6.31",
+          "reference": "Marcos 6:31",
+          "text": "Y él les dijo: Venid á retiraros conmigo en un lugar solitario, y reposareis un poquito. Porque eran tantos los yentes y vinientes, que ni aun tiempo de comer les dejaban.",
+          "sourceUrl": "https://archive.org/details/torresamatbiblia/page/n785/mode/1up"
+        },
+        {
+          "id": "torresamat-1-juan-1-9",
+          "verse": "1JN.1.9",
+          "reference": "1 Juan 1:9",
+          "text": "Pero si confesamos humildemente nuestros pecados; fiel, y justo es él, para perdonárnoslos, y lavarnos de toda iniquidad segun su promesa.",
+          "sourceUrl": "https://archive.org/details/torresamatbiblia/page/n946/mode/1up"
+        },
+        {
+          "id": "torresamat-santiago-1-5",
+          "verse": "JAS.1.5",
+          "reference": "Santiago 1:5",
+          "text": "Mas si alguno de vosotros tiene falta de sabiduría, pídasela á Dios, que á todos da copiosamente, y no zahiere á nadie: y le será concedida.",
+          "sourceUrl": "https://archive.org/details/torresamatbiblia/page/n935/mode/1up"
+        },
+        {
+          "id": "torresamat-salmo-12-1",
+          "verse": "PSA.13.1",
+          "reference": "Salmo 12:1 (Torres Amat)",
+          "text": "¿Hasta cuándo, oh Señor, me has de tener en profundo olvido? ¿Hasta cuándo apartarás de mí tu rostro?",
+          "sourceUrl": "https://archive.org/details/torresamatbiblia/page/n393/mode/1up"
+        },
+        {
+          "id": "torresamat-santiago-5-13",
+          "verse": "JAS.5.13",
+          "reference": "Santiago 5:13",
+          "text": "¿Hay entre vosotros alguno que esté triste? haga oracion: ¿Está contento? cante salmos.",
+          "sourceUrl": "https://archive.org/details/torresamatbiblia/page/n938/mode/1up"
+        },
+        {
+          "id": "torresamat-hebreos-13-16",
+          "verse": "HEB.13.16",
+          "reference": "Hebreos 13:16",
+          "text": "Entre tanto no echeis en olvido el ejercer la beneficencia, y el repartir con otros vuestros bienes: porque con tales ofrendas se gana la voluntad de Dios.",
+          "sourceUrl": "https://archive.org/details/torresamatbiblia/page/n934/mode/1up"
+        },
+        {
+          "id": "torresamat-1-tesalonicenses-5-11",
+          "verse": "1TH.5.11",
+          "reference": "1 Tesalonicenses 5:11",
+          "text": "Por lo cual consolaos mútuamente, y edificaos los unos á los otros, como ya lo haceis.",
+          "sourceUrl": "https://archive.org/details/torresamatbiblia/page/n913/mode/1up"
+        },
+        {
+          "id": "torresamat-romanos-15-7",
+          "verse": "ROM.15.7",
+          "reference": "Romanos 15:7",
+          "text": "Por tanto soportaos recíprocamente, así como Christo os ha soportado y acogido con amor á vosotros para gloria de Dios.",
+          "sourceUrl": "https://archive.org/details/torresamatbiblia/page/n874/mode/1up"
+        },
+        {
+          "id": "torresamat-1-corintios-10-13",
+          "verse": "1CO.10.13",
+          "reference": "1 Corintios 10:13",
+          "text": "Hasta ahora no habeis tenido sino tentaciones humanas ú ordinarias: pero fiel es Dios, que no permitirá seais tentados sobre vuestras fuerzas, sino que de la misma tentacion os hará sacar provecho para que podais sosteneros.",
+          "sourceUrl": "https://archive.org/details/torresamatbiblia/page/n882/mode/1up"
+        },
+        {
+          "id": "torresamat-santiago-5-16",
+          "verse": "JAS.5.16",
+          "reference": "Santiago 5:16",
+          "text": "Confesad pues vuestros pecados uno á otro, y orad los unos por los otros, para que seais salvos: porque mucho vale la oracion perseverante del justo.",
+          "sourceUrl": "https://archive.org/details/torresamatbiblia/page/n938/mode/1up"
+        },
+        {
+          "id": "torresamat-mateo-6-34",
+          "verse": "MAT.6.34",
+          "reference": "Mateo 6:34",
+          "text": "No andeis pues acongojados por el dia de mañana; que el dia de mañana harto cuidado traerá por sí: bástale ya á cada dia su propio afan ó tarea.",
+          "sourceUrl": "https://archive.org/details/torresamatbiblia/page/n761/mode/1up"
+        },
+        {
+          "id": "torresamat-colosenses-3-13",
+          "verse": "COL.3.13",
+          "reference": "Colosenses 3:13",
+          "text": "Sufriéndoos los unos á los otros, y perdonándoos mútuamente, si alguno tiene queja contra otro: así como el Señor os ha perdonado, así lo habeis de hacer tambien vosotros.",
+          "sourceUrl": "https://archive.org/details/torresamatbiblia/page/n909/mode/1up"
+        },
+        {
+          "id": "torresamat-salmo-146-3",
+          "verse": "PSA.147.3",
+          "reference": "Salmo 146:3 (Torres Amat)",
+          "text": "Él es quien sana á los de corazon contrito, y venda sus heridas.",
+          "sourceUrl": "https://archive.org/details/torresamatbiblia/page/n441/mode/1up"
+        },
+        {
+          "id": "torresamat-lamentaciones-3-22",
+          "verse": "LAM.3.22",
+          "reference": "Lamentaciones 3:22",
+          "text": "Es una misericordia del Señor el que nosotros no hayamos sido consumidos del todo, porque jamás han faltado sus piedades.",
+          "sourceUrl": "https://archive.org/details/torresamatbiblia/page/n609/mode/1up"
+        },
+        {
+          "id": "torresamat-salmo-114-1",
+          "verse": "PSA.116.1",
+          "reference": "Salmo 114:1 (Torres Amat)",
+          "text": "Amé al Señor, seguro de que oirá la voz de mi oracion.",
+          "sourceUrl": "https://archive.org/details/torresamatbiblia/page/n431/mode/1up"
+        },
+        {
+          "id": "torresamat-filipenses-4-7",
+          "verse": "PHP.4.7",
+          "reference": "Filipenses 4:7",
+          "text": "Y la paz de Dios, que sobrepuja á todo entendimiento, sea la guardia de vuestros corazones, y de vuestros sentimientos, en Jesu-Christo.",
+          "sourceUrl": "https://archive.org/details/torresamatbiblia/page/n907/mode/1up"
+        },
+        {
+          "id": "torresamat-salmo-138-23",
+          "verse": "PSA.139.23",
+          "reference": "Salmo 138:23 (Torres Amat)",
+          "text": "Pruébame, oh Dios mio, y sondea mi corazon: examíname y reconoce mis pasos.",
+          "sourceUrl": "https://archive.org/details/torresamatbiblia/page/n439/mode/1up"
         }
       ]
     }
