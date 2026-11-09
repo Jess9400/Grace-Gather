@@ -218,7 +218,7 @@ export default function JournalConversation({
       {needsSignIn && (
         <TextAction
           title={chatCopy(lang, "signin")}
-          onPress={() => router.push("/account")}
+          onPress={() => router.push("/profile")}
         />
       )}
     </View>
