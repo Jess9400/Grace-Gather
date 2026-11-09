@@ -29,6 +29,7 @@ export default function JournalConversation({
     [text, setText] = useState(""),
     [busy, setBusy] = useState(false),
     [error, setError] = useState("");
+  const [focused, setFocused] = useState(false);
   const [needsSignIn, setNeedsSignIn] = useState(false);
   const lock = useRef(false);
   const lang = profile.language,
@@ -95,39 +96,74 @@ export default function JournalConversation({
   const composer = entry.safety ? undefined : (
     <View style={s.dock}>
       {details && <Text style={s.meta}>{chatCopy(lang, "privacy")}</Text>}
-      <View style={s.composer}>
-        <TextInput
-          accessibilityLabel={chatCopy(lang, "label")}
-          placeholder={chatCopy(lang, "prompt")}
-          placeholderTextColor={colors.muted}
-          multiline
-          maxLength={1500}
-          value={text}
-          onChangeText={setText}
-          editable={!busy && !pending && !full}
-          style={s.input}
-        />
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={chatCopy(lang, pending ? "retry" : "send")}
-          accessibilityState={{
-            disabled: unavailable || busy || (!pending && !text.trim()),
-          }}
-          disabled={unavailable || busy || (!pending && !text.trim())}
-          onPress={() => void send()}
-          style={[
-            s.send,
-            (unavailable || busy || (!pending && !text.trim())) && {
-              opacity: 0.4,
-            },
-          ]}
-        >
-          <Ionicons
-            name={pending ? "refresh" : "arrow-up"}
-            size={23}
-            color={colors.paper}
+      <View style={s.chatBook}>
+        <View style={[s.composer, focused && s.composerFocused]}>
+          <View
+            pointerEvents="none"
+            accessible={false}
+            importantForAccessibility="no-hide-descendants"
+            style={s.spine}
           />
-        </Pressable>
+          <View
+            pointerEvents="none"
+            accessible={false}
+            importantForAccessibility="no-hide-descendants"
+            style={s.ribbon}
+          >
+            <Ionicons
+              name="bookmark"
+              size={28}
+              color={colors.gold}
+              accessible={false}
+            />
+          </View>
+          <TextInput
+            accessibilityLabel={chatCopy(lang, "label")}
+            placeholder={chatCopy(lang, "prompt")}
+            placeholderTextColor={colors.muted}
+            multiline
+            maxLength={1500}
+            value={text}
+            onChangeText={setText}
+            onFocus={() => setFocused(true)}
+            onBlur={() => setFocused(false)}
+            editable={!busy && !pending && !full}
+            style={s.input}
+          />
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={chatCopy(lang, pending ? "retry" : "send")}
+            accessibilityState={{
+              disabled: unavailable || busy || (!pending && !text.trim()),
+            }}
+            disabled={unavailable || busy || (!pending && !text.trim())}
+            onPress={() => void send()}
+            style={[
+              s.send,
+              (unavailable || busy || (!pending && !text.trim())) && {
+                opacity: 0.4,
+              },
+            ]}
+          >
+            <Ionicons
+              name={pending ? "refresh" : "arrow-up"}
+              size={23}
+              color={colors.paper}
+            />
+          </Pressable>
+        </View>
+        <View
+          pointerEvents="none"
+          accessible={false}
+          importantForAccessibility="no-hide-descendants"
+          style={s.pageEdges}
+        />
+        <View
+          pointerEvents="none"
+          accessible={false}
+          importantForAccessibility="no-hide-descendants"
+          style={s.chatLedge}
+        />
       </View>
       <View style={s.metaRow}>
         <Text style={[s.meta, { flex: 1 }]}>
@@ -208,14 +244,52 @@ const s = StyleSheet.create({
     backgroundColor: colors.paper,
     gap: 4,
   },
+  chatBook: { paddingHorizontal: 4 },
+  spine: {
+    position: "absolute",
+    left: 14,
+    top: 0,
+    bottom: 0,
+    width: 5,
+    borderLeftWidth: 1,
+    borderRightWidth: 1,
+    borderColor: "#E4D6BB",
+    backgroundColor: "#F5EDDC",
+  },
+  ribbon: { position: "absolute", right: 24, top: -3 },
+  pageEdges: {
+    height: 5,
+    marginHorizontal: 3,
+    borderWidth: 1,
+    borderTopWidth: 0,
+    borderColor: "#D9CCB3",
+    backgroundColor: "#EEE3CE",
+    borderBottomLeftRadius: 3,
+    borderBottomRightRadius: 3,
+  },
+  chatLedge: {
+    height: 6,
+    marginHorizontal: -4,
+    borderRadius: 2,
+    borderTopWidth: 2,
+    borderTopColor: "#A28464",
+    backgroundColor: "#70513C",
+    boxShadow: "0px 4px 10px rgba(48,44,40,.10)",
+  },
+  composerFocused: { borderColor: colors.gold },
   composer: {
     flexDirection: "row",
     alignItems: "flex-end",
     gap: 12,
-    padding: 12,
+    minHeight: 104,
+    paddingLeft: 28,
+    paddingRight: 16,
+    paddingTop: 28,
+    paddingBottom: 14,
     borderWidth: 1,
-    borderColor: colors.line,
-    borderRadius: 24,
+    borderColor: "#D7C5A6",
+    borderRadius: 7,
+    borderTopRightRadius: 14,
     backgroundColor: "#FFFFFF",
   },
   input: {
