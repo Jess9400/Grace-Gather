@@ -1,5 +1,3 @@
-import StudyChat from "../../components/StudyChat";
-import { useCommunity } from "../../lib/discussion-state";
 import { setStudyDiscussionTopic } from "../../lib/study-discussion-draft";
 import { useInterfaceCopy } from "../../lib/use-interface-copy";
 import { useState, useEffect } from "react";
@@ -450,25 +448,8 @@ function StudyDiscussionActions({
   beforeNavigate?: () => void;
 }) {
   const tr = useInterfaceCopy();
-  const { profile } = useApp();
-  const { userId } = useCommunity();
-  const [aiOpen, setAiOpen] = useState(false);
   return (
     <View>
-      <StudyAction
-        title={tr("Discuss with AI")}
-        icon="chatbubble-outline"
-        onPress={() => setAiOpen(!aiOpen)}
-        expanded={aiOpen}
-      />
-      {aiOpen && (
-        <View style={{ paddingVertical: 18 }}>
-          <StudyChat
-            key={`${userId}:${id}:${profile.language}:${profile.scriptureLanguage}:${profile.tradition}:${profile.edition}`}
-            initialQuestion={`${reference}: ${tr("What does this passage mean?")}`}
-          />
-        </View>
-      )}
       <StudyAction
         icon="people-outline"
         title={tr("Open a public discussion")}
@@ -491,17 +472,14 @@ function StudyAction({
   title,
   icon,
   onPress,
-  expanded,
 }: {
   title: string;
   icon: React.ComponentProps<typeof Ionicons>["name"];
   onPress: () => void;
-  expanded?: boolean;
 }) {
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityState={expanded === undefined ? undefined : { expanded }}
       onPress={onPress}
       style={({ pressed }) => [
         s.option,
@@ -512,11 +490,7 @@ function StudyAction({
         <Ionicons name={icon} size={23} color={colors.goldInk} />
       </View>
       <Text style={[s.optionTitle, { flex: 1 }]}>{title}</Text>
-      <Ionicons
-        name={expanded ? "chevron-down" : "chevron-forward"}
-        size={18}
-        color={colors.muted}
-      />
+      <Ionicons name="chevron-forward" size={18} color={colors.muted} />
     </Pressable>
   );
 }

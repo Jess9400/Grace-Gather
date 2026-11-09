@@ -1,10 +1,8 @@
 import { getStudySearch } from "../lib/study-search";
 import { FilterStrip } from "../components/CommunityControls";
-import { useCommunity } from "../lib/discussion-state";
-import StudyChat from "../components/StudyChat";
 import { setStudyDiscussionTopic } from "../lib/study-discussion-draft";
 import { useEffect, useState } from "react";
-import { router, useLocalSearchParams } from "expo-router";
+import { router } from "expo-router";
 import {
   Screen,
   Heading,
@@ -22,9 +20,7 @@ export default function Study({
 }: { embedded?: boolean } = {}) {
   const { profile } = useApp();
   const tr = useInterfaceCopy();
-  const { userId } = useCommunity();
-  const params = useLocalSearchParams<{ panel?: string }>();
-  const [panel, setPanel] = useState(params.panel === "ai" ? "ai" : "topics");
+  const [panel, setPanel] = useState("topics");
   const [query, setQuery] = useState(getStudySearch);
   const normalize = (s: string) =>
     s
@@ -88,25 +84,16 @@ export default function Study({
         }
       />
       <Body>
-        {tr(
-          "Explore themes in your chosen Bible edition, ask a question, or read by chapter.",
-        )}
+        {tr("Explore themes and resources in your chosen Bible edition.")}
       </Body>
       <FilterStrip
         options={[
           { value: "topics", label: tr("Explore a theme") },
-          { value: "ai", label: tr("Discuss with AI") },
           { value: "resources", label: tr("Study resources") },
         ]}
         value={panel}
         onChange={setPanel}
       />
-      {panel === "ai" && (
-        <StudyChat
-          initialQuestion={query}
-          key={`${userId}:${profile.language}:${profile.scriptureLanguage}:${profile.tradition}:${profile.edition}`}
-        />
-      )}
       {panel === "topics" && (
         <>
           <Field
@@ -114,13 +101,6 @@ export default function Study({
             value={query}
             onChangeText={setQuery}
           />
-          {!!query.trim() && (
-            <Button
-              secondary
-              title={tr("Ask study AI")}
-              onPress={() => setPanel("ai")}
-            />
-          )}
           {!topics.length && (
             <Body>
               {tr(
