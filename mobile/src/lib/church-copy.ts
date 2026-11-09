@@ -8,6 +8,24 @@ const L = (en: string, pt: string, es: string, ru: string) => ({
   ru,
 });
 const words = {
+  exploreChurch: L(
+    "Explore the church",
+    "Explore a igreja",
+    "Explora la iglesia",
+    "Осмотреть храм",
+  ),
+  dismissWelcome: L(
+    "Close invitation",
+    "Fechar convite",
+    "Cerrar invitación",
+    "Закрыть приглашение",
+  ),
+  finishExploring: L(
+    "Finish exploring",
+    "Concluir passeio",
+    "Terminar recorrido",
+    "Завершить осмотр",
+  ),
   peace: L(
     "Peace be with you.",
     "A paz esteja com você.",

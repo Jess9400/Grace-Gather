@@ -62,8 +62,8 @@ const TOUR_ORDER: ChurchPlace[] = [
   "pews",
   "wreath",
 ];
-const TOUR_FADE_MS = 200;
-const TOUR_HOLD_MS = 1000;
+const TOUR_FADE_MS = 400;
+const TOUR_HOLD_MS = 2800;
 
 export type PlaceLabel = {
   key: ChurchPlace;
@@ -89,7 +89,9 @@ export default function ChurchScene({
   candlesAllowed = !protestant,
   orthodox = false,
   tour = false,
+  labelsEnabled = true,
   onTourDone,
+  onTourPlace,
   onFailure,
 }: {
   places: PlaceLabel[];
@@ -105,7 +107,9 @@ export default function ChurchScene({
   candlesAllowed?: boolean;
   orthodox?: boolean;
   tour?: boolean;
+  labelsEnabled?: boolean;
   onTourDone?: () => void;
+  onTourPlace?: (place: ChurchPlace | null) => void;
   onFailure?: () => void;
 }) {
   const reduced = useReducedMotion();
@@ -406,7 +410,11 @@ export default function ChurchScene({
     };
   }, [ready, tour, keys, onTourDone]);
 
-  const visible = touring ?? highlight;
+  useEffect(() => {
+    if (touring) onTourPlace?.(touring);
+  }, [touring, onTourPlace]);
+
+  const visible = labelsEnabled ? (touring ?? highlight) : null;
   const touringLast = useRef<ChurchPlace | null>(null);
   useEffect(() => {
     if (touring) touringLast.current = touring;
@@ -415,8 +423,9 @@ export default function ChurchScene({
     (Object.keys(shown) as ChurchPlace[]).forEach((key) =>
       Animated.timing(shown[key], {
         toValue: key === visible ? 1 : 0,
-        duration:
-          touring || key === touringLast.current
+        duration: reduced
+          ? 0
+          : touring || key === touringLast.current
             ? TOUR_FADE_MS
             : key === visible
               ? 220
@@ -424,7 +433,7 @@ export default function ChurchScene({
         useNativeDriver: true,
       }).start(),
     );
-  }, [visible, touring, shown]);
+  }, [visible, touring, shown, reduced]);
 
   const onContextCreate = useCallback(
     async (gl: ExpoWebGLRenderingContext) => {
@@ -623,25 +632,29 @@ export default function ChurchScene({
                 },
               ]}
             >
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel={p.label}
-                accessibilityHint={p.hint}
-                hitSlop={10}
-                onPress={() => {
-                  void capture();
-                  onPlace(p.key, placePoints()[p.key]);
-                }}
-                style={({ pressed }) => [
-                  styles.chip,
-                  pressed && { transform: [{ scale: 0.96 }], opacity: 0.9 },
-                ]}
-              >
-                {p.live && <View style={styles.live} />}
-                <Text style={styles.chipText} numberOfLines={1}>
-                  {p.label}
-                </Text>
-              </Pressable>
+              {tour ? (
+                <View style={styles.tourPointer} pointerEvents="none" />
+              ) : (
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel={p.label}
+                  accessibilityHint={p.hint}
+                  hitSlop={10}
+                  onPress={() => {
+                    void capture();
+                    onPlace(p.key, placePoints()[p.key]);
+                  }}
+                  style={({ pressed }) => [
+                    styles.chip,
+                    pressed && { transform: [{ scale: 0.96 }], opacity: 0.9 },
+                  ]}
+                >
+                  {p.live && <View style={styles.live} />}
+                  <Text style={styles.chipText} numberOfLines={1}>
+                    {p.label}
+                  </Text>
+                </Pressable>
+              )}
             </Animated.View>
           </Animated.View>
         ))}
@@ -676,6 +689,14 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     overflow: "visible",
+  },
+  tourPointer: {
+    width: 22,
+    height: 22,
+    borderRadius: 11,
+    borderWidth: 2,
+    borderColor: "#FFFCF3",
+    backgroundColor: "rgba(178,138,62,0.65)",
   },
   chip: {
     flexDirection: "row",

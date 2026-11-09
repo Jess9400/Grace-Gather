@@ -116,6 +116,7 @@ export default function Home() {
   const [aboutAdvent, setAboutAdvent] = useState(false);
   const [sceneFailed, setSceneFailed] = useState(false);
   const [tour, setTour] = useState(false);
+  const [tourPlace, setTourPlace] = useState<ChurchPlace | null>(null);
   const [soundOn, setSoundOn] = useState<boolean | null>(null);
   const [focused, setFocused] = useState(true);
   const candles = useCandles();
@@ -153,7 +154,11 @@ export default function Home() {
       void loadSoundOn().then((on) => {
         if (active) setSoundOn(on);
       });
-      if (consumeChurchTour()) setTour(true);
+      if (consumeChurchTour()) {
+        setInvitation(false);
+        setDismissed(true);
+        setTour(true);
+      }
       if (walked.current) {
         walked.current = false;
         Animated.parallel([
@@ -220,18 +225,17 @@ export default function Home() {
       dy: crop.top - at.y * (1 - crop.zoom),
     });
   };
-  // The labels are shown one by one each time someone walks in through the
-  // doors, and again whenever "Show places" is pressed.
-  const touring = tour && focused && !entrance;
+  // Exploration is optional and never runs underneath the welcome invitation.
+  const touring = tour && focused && !entrance && !invitation;
   useEffect(() => {
-    if (entrance || !focused || dismissed) return;
-    const timer = setTimeout(() => setInvitation(true), reduced ? 0 : 300);
+    if (entrance || !focused || dismissed || tour) return;
+    const timer = setTimeout(() => setInvitation(true), reduced ? 0 : 1000);
     return () => clearTimeout(timer);
-  }, [entrance, focused, dismissed, reduced]);
+  }, [entrance, focused, dismissed, tour, reduced]);
   useEffect(() => {
     const animation = Animated.timing(invitationOpacity, {
       toValue: invitation ? 1 : 0,
-      duration: reduced ? 0 : 250,
+      duration: reduced ? 0 : 600,
       useNativeDriver: true,
     });
     animation.start();
@@ -355,7 +359,9 @@ export default function Home() {
               orthodox={isOrthodox(profile)}
               candlesAllowed={candlesAllowed}
               tour={touring}
+              labelsEnabled={!invitation}
               onTourDone={endTour}
+              onTourPlace={setTourPlace}
               onFailure={() => setSceneFailed(true)}
             />
           </Animated.View>
@@ -498,6 +504,14 @@ export default function Home() {
             ))}
           </ScrollView>
         )}
+        {invitation && !entrance && (
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={t("dismissWelcome")}
+            onPress={dismissInvitation}
+            style={StyleSheet.absoluteFill}
+          />
+        )}
         <View
           pointerEvents="box-none"
           style={[s.promptArea, { bottom: tabHeight + 18 }]}
@@ -535,17 +549,37 @@ export default function Home() {
                 >
                   <Text style={s.stayText}>{tr("Request a prayer")}</Text>
                 </Pressable>
-                <Pressable
-                  accessibilityRole="button"
-                  onPress={dismissInvitation}
-                  style={s.stay}
-                >
-                  <Text style={s.stayText}>{tr("Stay here a little")}</Text>
-                </Pressable>
               </ScrollView>
             </Animated.View>
           )}
-          {!invitation && !entrance && (
+          {touring && (
+            <View style={s.tourCaption}>
+              {tourPlace && (
+                <Pressable
+                  accessibilityRole="button"
+                  onPress={() => {
+                    endTour();
+                    open(tourPlace);
+                  }}
+                >
+                  <Text style={s.tourTitle}>
+                    {scenePlaces.find((p) => p.key === tourPlace)?.label}
+                  </Text>
+                  <Text style={s.tourHint}>
+                    {scenePlaces.find((p) => p.key === tourPlace)?.hint}
+                  </Text>
+                </Pressable>
+              )}
+              <Pressable
+                accessibilityRole="button"
+                onPress={endTour}
+                style={s.stay}
+              >
+                <Text style={s.stayText}>{t("finishExploring")}</Text>
+              </Pressable>
+            </View>
+          )}
+          {dismissed && !invitation && !entrance && !touring && (
             <View style={s.reopen}>
               <Pressable
                 accessibilityRole="button"
@@ -566,6 +600,18 @@ export default function Home() {
               >
                 <Text style={s.stayText}>{tr("Request a prayer")}</Text>
               </Pressable>
+              {!sceneFailed && (
+                <Pressable
+                  accessibilityRole="button"
+                  onPress={() => {
+                    dismissInvitation();
+                    setTour(true);
+                  }}
+                  style={s.stay}
+                >
+                  <Text style={s.stayText}>{t("exploreChurch")}</Text>
+                </Pressable>
+              )}
             </View>
           )}
         </View>
@@ -722,7 +768,7 @@ export default function Home() {
           onEntered={() => {
             markEntered();
             setEntrance(false);
-            setTour(true);
+            setTour(false);
           }}
         />
       )}
@@ -807,6 +853,27 @@ const s = StyleSheet.create({
     borderRadius: 20,
   },
   presenceText: { fontSize: 12, color: "#FFF8E9", textAlign: "center" },
+  tourCaption: {
+    width: "100%",
+    maxWidth: 420,
+    padding: 20,
+    borderRadius: 20,
+    backgroundColor: "rgba(48,44,40,0.94)",
+    gap: 8,
+  },
+  tourTitle: {
+    fontFamily: serif,
+    fontSize: 24,
+    color: "#FFFCF3",
+    textAlign: "center",
+  },
+  tourHint: {
+    fontSize: 15,
+    lineHeight: 22,
+    color: "#FFFCF3",
+    textAlign: "center",
+    marginTop: 8,
+  },
   promptArea: {
     position: "absolute",
     left: 16,
