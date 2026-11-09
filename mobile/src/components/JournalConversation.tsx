@@ -111,7 +111,7 @@ export default function JournalConversation({
           style={[s.cloudCorner, s.cloudLeft]}
         >
           <Image
-            source={require("../../assets/journal/cloud-books-frame.png")}
+            source={require("../../assets/journal/cloud-books-compact.png")}
             style={[s.cloudArt, { left: 0 }]}
             resizeMode="contain"
             accessible={false}
@@ -124,7 +124,7 @@ export default function JournalConversation({
           style={[s.cloudCorner, s.cloudRight]}
         >
           <Image
-            source={require("../../assets/journal/cloud-books-frame.png")}
+            source={require("../../assets/journal/cloud-books-compact.png")}
             style={[s.cloudArt, { right: 0 }]}
             resizeMode="contain"
             accessible={false}
@@ -238,7 +238,7 @@ export default function JournalConversation({
 const s = StyleSheet.create({
   dock: {
     paddingHorizontal: 20,
-    paddingTop: 12,
+    paddingTop: 4,
     paddingBottom: 8,
     width: "100%",
     maxWidth: 680,
@@ -247,23 +247,23 @@ const s = StyleSheet.create({
     gap: 4,
   },
   chatFrame: {
-    paddingTop: 50,
+    paddingTop: 32,
     paddingBottom: 6,
   },
   cloudCorner: {
     position: "absolute",
-    top: -70,
-    width: 112,
-    height: 150,
+    top: -16,
+    width: 140,
+    height: 72,
     overflow: "hidden",
   },
-  cloudLeft: { left: -12 },
-  cloudRight: { right: -12 },
+  cloudLeft: { left: -4 },
+  cloudRight: { right: -4 },
   cloudArt: {
     position: "absolute",
-    top: 0,
-    width: 300,
-    height: 150,
+    top: -86,
+    width: 460,
+    height: 230,
   },
   composerFocused: { borderColor: colors.gold },
   composer: {

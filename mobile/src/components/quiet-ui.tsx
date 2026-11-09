@@ -93,7 +93,7 @@ export function Screen({
       >
         <ScrollView
           keyboardShouldPersistTaps="handled"
-          contentContainerStyle={s.page}
+          contentContainerStyle={[s.page, !!footer && { paddingBottom: 8 }]}
           ref={scroll}
           onContentSizeChange={() => {
             if (scrollToEndKey && lastScrolled.current !== scrollToEndKey) {
@@ -131,7 +131,7 @@ export function Screen({
             </Pressable>
           </View>
           {children}
-          <View style={{ height: 26 }} />
+          {!footer && <View style={{ height: 26 }} />}
         </ScrollView>
         {footer}
       </KeyboardAvoidingView>
