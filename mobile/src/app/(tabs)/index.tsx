@@ -49,11 +49,12 @@ import { loadSoundOn, saveSoundOn, holdAmbience } from "../../lib/church-audio";
 import {
   getChurchSnapshot,
   isRoomPlace,
+  setWalker,
   roomCrop,
   type RoomPlace,
 } from "../../lib/church-room";
 
-import type { ChurchPlace } from "../../lib/church-scene";
+import { placeAt, type ChurchPlace } from "../../lib/church-scene";
 import { StepCheckIn } from "../../components/SmallStep";
 import { useChurchPresence } from "../../lib/church-presence";
 
@@ -226,6 +227,20 @@ export default function Home() {
       dy: crop.top - at.y * (1 - crop.zoom),
     });
   };
+  // The tab bar walks in from Home too (to the lectern, side door or window).
+  const enterRef = useRef(enter);
+  useEffect(() => {
+    enterRef.current = enter;
+  });
+  useFocusEffect(
+    useCallback(() => {
+      if (entrance) return;
+      return setWalker((place, go) => {
+        enterRef.current(place, go);
+        return true;
+      });
+    }, [entrance]),
+  );
   // Exploration is optional and never runs underneath the welcome invitation.
   const touring = tour && focused && !entrance && !invitation;
   useEffect(() => {
@@ -511,7 +526,22 @@ export default function Home() {
           <Pressable
             accessibilityRole="button"
             accessibilityLabel={t("dismissWelcome")}
-            onPress={dismissInvitation}
+            onPress={(e) => {
+              dismissInvitation();
+              // A tap on a place in the church also walks into it, so the
+              // welcome card never costs an extra tap.
+              const { pageX, pageY } = e.nativeEvent;
+              const tapped = sceneFailed
+                ? null
+                : placeAt(
+                    screenWidth / screenHeight,
+                    { dx: 0, dy: 0 },
+                    pageX / screenWidth,
+                    pageY / screenHeight,
+                    scenePlaces.map((place) => place.key),
+                  );
+              if (tapped) open(tapped);
+            }}
             style={StyleSheet.absoluteFill}
           />
         )}
@@ -543,10 +573,12 @@ export default function Home() {
                   accessibilityRole="button"
                   onPress={() => {
                     setInvitation(false);
-                    router.push({
-                      pathname: "/prayers",
-                      params: { compose: "1" },
-                    });
+                    enter("altar", () =>
+                      router.push({
+                        pathname: "/prayers",
+                        params: { compose: "1" },
+                      }),
+                    );
                   }}
                   style={s.stay}
                 >
@@ -742,7 +774,7 @@ export default function Home() {
                       title={`${t("youLit")} · ${candles.length}`}
                       onPress={() => {
                         setDetails(false);
-                        router.push("/candle");
+                        enter("candles", () => router.push("/candle"));
                       }}
                     />
                   )}

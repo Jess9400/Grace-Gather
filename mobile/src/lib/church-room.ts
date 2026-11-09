@@ -89,6 +89,20 @@ export function roomCrop(
   const top = Math.min(0, Math.max(g.height - h, g.focusY - at.y * g.zoom));
   return { ...g, width: w, height: g.height, imageHeight: h, left, top };
 }
+// While Home is showing, it can walk into a room before another screen opens
+// (used by the tab bar). Returns false when Home is not there to walk from.
+type Walker = (place: RoomPlace, go: () => void) => boolean;
+let walker: Walker | null = null;
+export function setWalker(next: Walker) {
+  walker = next;
+  return () => {
+    if (walker === next) walker = null;
+  };
+}
+export function walkFromHome(place: RoomPlace, go: () => void) {
+  return walker ? walker(place, go) : false;
+}
+
 // Places on Home that walk into a room (the others open as before).
 export const isRoomPlace = (
   place: ChurchPlace,
