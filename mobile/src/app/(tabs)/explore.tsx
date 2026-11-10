@@ -47,7 +47,7 @@ export default function Explore() {
     useCallback(() => {
       const fresh = () => {
         const now = latest.current;
-        if (!now.loading && now.items.length <= 15) void now.load();
+        if (!now.loading) void now.load(false, true);
       };
       if (visited.current) fresh();
       visited.current = true;

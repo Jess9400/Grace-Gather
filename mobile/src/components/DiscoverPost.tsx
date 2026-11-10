@@ -18,9 +18,11 @@ import { copy } from "../lib/content";
 export function StoryActions({
   item,
   interactions,
+  showComment = true,
 }: {
   item: Story;
   interactions: ReturnType<typeof useInteractions>;
+  showComment?: boolean;
 }) {
   const { profile } = useApp(),
     c = (k: string) => communityCopy(profile.language, k),
@@ -41,17 +43,19 @@ export function StoryActions({
         disabled={interactions.pending.includes(item.id)}
         onPress={() => void interactions.toggle(item.id, "like")}
       />
-      <TextAction
-        icon="chatbubble-outline"
-        title={`${t("comment")}${s?.comments ? " " + s.comments : ""}`}
-        iconOnly
-        onPress={() =>
-          router.push({
-            pathname: "/story/[id]",
-            params: { id: item.id, comments: "1" },
-          })
-        }
-      />
+      {showComment && (
+        <TextAction
+          icon="chatbubble-outline"
+          title={`${t("comment")}${s?.comments ? " " + s.comments : ""}`}
+          iconOnly
+          onPress={() =>
+            router.push({
+              pathname: "/story/[id]",
+              params: { id: item.id, comments: "1" },
+            })
+          }
+        />
+      )}
       <TextAction
         icon="share-outline"
         title={t("share")}
@@ -141,9 +145,11 @@ export default function DiscoverPost({
               ? c("communityTestimony")
               : item.origin === "news"
                 ? c("news")
-                : item.type === "stories"
-                  ? c("historical")
-                  : c("reflection")}
+                : item.origin === "editorial"
+                  ? c("editorial")
+                  : item.type === "stories"
+                    ? c("historical")
+                    : c("reflection")}
             {item.publishedAt
               ? " · " +
                 new Date(item.publishedAt).toLocaleDateString(profile.language)

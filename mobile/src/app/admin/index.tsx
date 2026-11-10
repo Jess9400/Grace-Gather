@@ -9,8 +9,12 @@ import Community from "../../components/CommunityBoard";
 import PrayerPage from "../../components/PrayerPage";
 import TestimonyReview from "../testimonies/review";
 import Confession from "../(tabs)/confession";
+import EditorialStories from "../../components/EditorialStories";
+import { useApp } from "../../lib/state";
+import { communityCopy } from "../../lib/community-copy";
 export default function AdminDashboard() {
   const tr = useInterfaceCopy();
+  const { profile } = useApp();
   const [allowed, setAllowed] = useState(false);
   const [notice, setNotice] = useState("");
   const [checking, setChecking] = useState(true);
@@ -51,7 +55,9 @@ export default function AdminDashboard() {
             router.setParams({ view: "" });
           }}
         />
-        {queue === "giving" ? (
+        {queue === "editorial" ? (
+          <EditorialStories />
+        ) : queue === "giving" ? (
           <Giving review />
         ) : queue === "discussions" ? (
           <Community review />
@@ -74,6 +80,11 @@ export default function AdminDashboard() {
           <Body small>
             {tr("Review submissions and reports across the community.")}
           </Body>
+          <TextAction
+            title={communityCopy(profile.language, "editorialStories")}
+            icon="chevron-forward"
+            onPress={() => setQueue("editorial")}
+          />
           {[
             ["discussions", "Discussions"],
             ["confessions", "Confessions"],
