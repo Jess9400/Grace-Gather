@@ -77,7 +77,7 @@ export function journalExportHtml(entries: Entry[], language: Language) {
       ${verse ? `<section><h3>${t("verse")}</h3>${paragraph(verse.text, "verse")}${paragraph(`${verse.reference} · ${verse.editionName}`, "muted")}${paragraph(verse.attribution, "credit")}</section>` : ""}
       ${response && !entry.safety ? `<section><h3>${t("action")}</h3>${paragraph(response.invitation)}${paragraph(response.actionTitle, "action")}</section>` : ""}
       ${entry.reflection ? `<section><h3>${t("reflection")}</h3>${paragraph(entry.reflection)}</section>` : ""}
-      ${entry.conversation?.length ? `<section><h3>${t("conversation")}</h3>${entry.conversation.map((m) => `<div class="message"><h4>${t(m.role === "user" ? "you" : "ai")}</h4>${paragraph(m.content)}${m.actionId ? paragraph(jc(language, m.actionId as JournalCopyKey), "action") : ""}</div>`).join("")}</section>` : ""}
+      ${entry.conversation?.length ? `<section><h3>${t("conversation")}</h3>${entry.conversation.map((m) => `<div class="message"><h4>${t(m.role === "user" ? "you" : "ai")}</h4>${paragraph(m.content)}${m.actionId ? `${m.actionExplanation ? paragraph(m.actionExplanation) : ""}${paragraph(jc(language, m.actionId as JournalCopyKey), "action")}` : ""}</div>`).join("")}</section>` : ""}
     </article>`;
     })
     .join("");

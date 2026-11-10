@@ -79,6 +79,7 @@ export function journalAction(entry: Entry, profile: Profile) {
     entry.suggestedAction ??
     chooseJournalAction(theme, {
       candles: welcomesCandles(profile),
+      connectedActions: true,
       privateOnly:
         /keep.*private|rather.*private|prefiro.*privad|prefiero.*privad|не хочу делиться/i.test(
           entry.text,

@@ -40,6 +40,8 @@ import {
   TextAction,
 } from "../../components/CommunityControls";
 import { designCopy } from "../../lib/design-copy";
+import { jc } from "../../lib/journal-copy";
+import { journalReturnId } from "../../lib/journal-navigation";
 import Recorder from "../../components/Recorder";
 import AudioPlayback from "../../components/AudioPlayback";
 import ConfessionAudio from "../../components/ConfessionAudio";
@@ -63,11 +65,12 @@ const themes = [
 export default function ConfessionRoom() {
   const tr = useInterfaceCopy();
   const [needsSignIn, setNeedsSignIn] = useState(false);
-  const { profile } = useApp(),
+  const { profile, entries } = useApp(),
     language = profile.language,
     t = (key: string) => copy(language, key);
   const navigation = useNavigation();
-  const { view } = useLocalSearchParams<{ view?: string }>();
+  const { view, returnEntry } = useLocalSearchParams<{ view?: string; returnEntry?: string }>();
+  const journalReturn = journalReturnId(returnEntry, entries);
   const d = (key: Parameters<typeof designCopy>[1]) =>
     designCopy(language, key);
   const [themeOpen, setThemeOpen] = useState(false),
@@ -101,12 +104,15 @@ export default function ConfessionRoom() {
     setAudioOpen(record);
     setEntering(false);
     setPage("share");
-  }, []);
+  }, [setPage]);
   const cancelEntrance = useCallback(() => {
     setEntering(false);
     setPage("room");
-  }, []);
-  useFocusEffect(useCallback(() => () => setEntering(false), []));
+  }, [setPage]);
+  useFocusEffect(useCallback(() => () => {
+    setEntering(false);
+    (navigation.setParams as unknown as (params: { returnEntry?: string }) => void)({ returnEntry: undefined });
+  }, [navigation]));
   function startEntrance() {
     setPage("share");
     setEntering(true);
@@ -191,6 +197,13 @@ export default function ConfessionRoom() {
     setPage(next);
     setReport(null);
   }
+  useEffect(() => {
+    if (view !== "comfort") return;
+    router.setParams({ view: "" });
+    void Promise.resolve().then(() => run(() => load("list")));
+    // Triggered by the explicit journal action; normal room navigation is unchanged.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [view]);
   async function open(id: string, claim = false) {
     const r = await confessionAPI(claim ? "open" : "read", { id });
     if (detail?.id !== id) setDraft("");
@@ -316,6 +329,17 @@ export default function ConfessionRoom() {
                   setEntering(false);
                   setPage("room");
                   setReport(null);
+                }}
+              />
+            )}
+            {page === "room" && journalReturn && (
+              <TextAction
+                title={jc(language, "backToJournal")}
+                icon="arrow-back"
+                disabled={busy || recording || entering}
+                onPress={() => {
+                  (navigation.setParams as unknown as (params: { returnEntry?: string }) => void)({ returnEntry: undefined });
+                  router.push({ pathname: "/entry/[id]", params: { id: journalReturn } });
                 }}
               />
             )}

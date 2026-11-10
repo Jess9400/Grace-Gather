@@ -41,6 +41,7 @@ export interface JournalMessage {
   role: "user" | "assistant";
   content: string;
   actionId?: string;
+  actionExplanation?: string;
   support?: boolean;
   createdAt?: string;
 }
@@ -75,6 +76,7 @@ export interface Entry {
   actionIds?: string[];
   themeId?: string;
   suggestedAction?: string;
+  suggestedActionExplanation?: string;
   text: string;
   audio?: string;
   action?: string;

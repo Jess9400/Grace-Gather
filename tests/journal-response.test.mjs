@@ -12,6 +12,8 @@ function load(path) {
   if (!existsSync(file)) file += existsSync(file + '.ts') ? '.ts' : '.js';
   if (cache.has(file)) return cache.get(file);
   if (file.endsWith('.json')) return JSON.parse(readFileSync(file, 'utf8'));
+  if (file.endsWith('/gatherings.ts')) return { gathering: async () => [] };
+  if (file.endsWith('/discover.ts')) return { storyText: (v, lang) => typeof v === 'string' ? v : v[lang] ?? '' };
   if (file.endsWith('/church-calendar.ts')) return { welcomesCandles: p => p.candlePractice ?? p.tradition !== 'protestant' };
   const module = { exports: {} }; cache.set(file, module.exports);
   const code = ts.transpileModule(readFileSync(file, 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, esModuleInterop: true } }).outputText;
@@ -20,7 +22,7 @@ function load(path) {
 }
 const { data } = load('mobile/src/lib/content.ts');
 const { resolveJournalResponse } = load('mobile/src/lib/journal-response.ts');
-const { journalActionCopy } = load('mobile/src/lib/journal-copy.ts');
+const { journalActionCopy, displayedJournalInvitation, actionInvitation } = load('mobile/src/lib/journal-copy.ts');
 const { journalTheme } = load('mobile/src/lib/journal-guidance.ts');
 const { journalVerseId } = load('mobile/src/lib/journal-verse-reference.ts');
 const themes = load('mobile/src/generated/journal-map.json');
@@ -91,4 +93,49 @@ test('local matching understands prayer addressed to God and preserves saved mod
 test('immediate support does not acquire a verse-led response', async () => {
   const p = prefs(data.editions[0]);
   assert.equal((await resolveJournalResponse(entry(p, { safety: true }), p)).verse, null);
+});
+
+
+test('a saved or new gathering action falls back when no session can be verified', async () => {
+ const p = prefs(data.editions[0]);
+ const item = entry(p, { text: 'I have no one to talk to', themeId:'lonely', suggestedAction:'A25' });
+ const fresh = await resolveJournalResponse(item, p);
+ assert.equal(fresh.actionId,'A04');
+ assert.equal(fresh.actionTitle,'Share what is on your heart');
+ const stored = {...fresh, actionId:'A25', actionTitle:'Explore gatherings'};
+ const reopened = await resolveJournalResponse({...item,response:stored},p);
+ assert.equal(reopened.actionId,'A04');
+ assert.equal(stored.actionId,'A25');
+});
+
+
+test('confession invitation explains the listener and preserves personal saved wording', () => {
+ const legacy={en:'You don’t have to carry this alone.',pt:'Você não precisa carregar isso sozinho.',es:'No tienes que llevar esto a solas.',ru:'Вам не нужно нести это в одиночку.'};
+ for (const lang of ['en','pt','es','ru']) {
+  const updated = journalActionCopy(lang, 'venting', 'A04').invitation;
+  assert.notEqual(updated, legacy[lang]);
+  assert.equal(displayedJournalInvitation(lang, 'venting', 'A04', legacy[lang]), updated);
+  assert.equal(displayedJournalInvitation(lang, 'venting', 'A04', 'My personal wording'), 'My personal wording');
+ }
+ assert.match(journalActionCopy('en', 'venting', 'A04').invitation, /Confession room/);
+ assert.match(journalActionCopy('en', 'venting', 'A04').invitation, /may respond/);
+});
+
+test('a personalized reason follows only the action it describes', async () => {
+ const p = prefs(data.editions[0]);
+ const explanation = 'A small prayer can give your uncertainty some room.';
+ const same = await resolveJournalResponse(entry(p, { suggestedAction:'A03', suggestedActionExplanation:explanation }),p);
+ assert.equal(same.invitation,explanation);
+ const changed = await resolveJournalResponse(entry(p, { text:'I have no one to talk to', themeId:'lonely', suggestedAction:'A25', suggestedActionExplanation:'A group could help you connect.' }),p);
+ assert.equal(changed.actionId,'A04');
+ assert.notEqual(changed.invitation,'A group could help you connect.');
+});
+
+test('every supported action has an understandable localized fallback reason', () => {
+ const ids=['A01','A02','A03','A04','A05','A07','A08','A09','A10','A11','A12','A14','A15','A16','A18','A19','A20','A21','A25','A26','A27'];
+ for(const lang of ['en','pt','es','ru']) for(const id of ids) {
+  const result=journalActionCopy(lang,'unclear',id);
+  assert.ok(result.title && result.invitation,`${lang} ${id}`);
+  assert.notEqual(result.invitation, actionInvitation(lang,'unknown'),`${lang} ${id}`);
+ }
 });

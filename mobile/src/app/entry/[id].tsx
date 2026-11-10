@@ -27,14 +27,18 @@ import { TextAction } from "../../components/CommunityControls";
 import AudioPlayback from "../../components/QuietAudioPlayback";
 import { useApp } from "../../lib/state";
 import { useQuiet } from "../../lib/quiet-state";
-import { copy } from "../../lib/content";
+import { copy, type JournalResponse } from "../../lib/content";
 import { q } from "../../lib/quiet-copy";
 import type { ReadingVerse } from "../../lib/bible";
 import { resolveJournalResponse } from "../../lib/journal-response";
 import { journalAction, journalTheme } from "../../lib/journal-guidance";
+import { gathering } from "../../lib/gatherings";
+import { confessionJournalTarget } from "../../lib/journal-navigation";
+import { hasJournalGatheringTopic, matchingJournalGathering } from "../../lib/journal-gathering";
 import {
   jc,
   journalActionCopy,
+  displayedJournalInvitation,
   type JournalCopyKey,
 } from "../../lib/journal-copy";
 
@@ -46,6 +50,7 @@ export default function EntryScreen() {
   const entry = entries.find((e) => e.id === id);
   const [verse, setVerse] = useState<ReadingVerse | null>(null);
   const [loading, setLoading] = useState(true);
+  const [displayResponse, setDisplayResponse] = useState<JournalResponse>();
   const [noteOpen, setNoteOpen] = useState(false);
   const [noteAction, setNoteAction] = useState<string>();
   const [note, setNote] = useState("");
@@ -72,6 +77,7 @@ export default function EntryScreen() {
       }
       if (active) {
         setVerse(response.verse);
+        setDisplayResponse(response);
         setLoading(false);
       }
     }
@@ -88,9 +94,9 @@ export default function EntryScreen() {
         <Body>{copy(lang, "emptySub")}</Body>
       </Screen>
     );
-  const action = entry.response?.actionId ?? journalAction(entry, profile);
+  const action = displayResponse?.actionId ?? (entry.response?.actionId === "A25" ? "A08" : entry.response?.actionId) ?? journalAction(entry, profile);
   const actionCopy = journalActionCopy(lang, journalTheme(entry).id, action);
-  const actionTitle = entry.response?.actionTitle ?? actionCopy.title;
+  const actionTitle = displayResponse?.actionTitle ?? actionCopy.title;
   // Long letters open folded so the reply stays in reach.
   const long = entry.text.length > 520 || entry.text.split("\n").length > 9;
   function edit() {
@@ -108,7 +114,7 @@ export default function EntryScreen() {
     const routes: Record<string, Href> = {
       A01: "/candle",
       A21: "/candle",
-      A04: "/(tabs)/confession",
+      A27: "/gathering/create",
       A15: "/prayers?compose=1",
       A16: "/prayers",
       A18: "/giving",
@@ -117,6 +123,19 @@ export default function EntryScreen() {
       A26: "/study",
       A25: "/(tabs)/gatherings",
     };
+    if (selectedAction === "A04" || selectedAction === "A14") {
+      router.push(confessionJournalTarget(entry!.id, selectedAction));
+      return;
+    }
+    if (selectedAction === "A25" && selectedAction === action && hasJournalGatheringTopic(journalTheme(entry!).id)) {
+      // Match on the already-selected theme locally; never send journal text to the catalog.
+      void gathering("list").then((items) => {
+        const match = Array.isArray(items) ? matchingJournalGathering(items, journalTheme(entry!).id, profile.language) : undefined;
+        if (match) router.push({ pathname: "/gathering/[id]", params: { id: match.id } });
+        else router.push({ pathname: "/(tabs)/gatherings", params: { journalMatch: "none" } });
+      }).catch(() => router.push("/(tabs)/gatherings"));
+      return;
+    }
     if (routes[selectedAction]) {
       router.push(routes[selectedAction]);
       return;
@@ -254,11 +273,12 @@ export default function EntryScreen() {
                 <Body>{copy(lang, "unavailable")}</Body>
               )}
             </View>
+            {!loading && <>
             <View style={s.divider} />
             <View style={s.section}>
               <Text style={s.label}>{jc(lang, "smallStep")}</Text>
               <Text style={s.invitation}>
-                {entry.response?.invitation ?? actionCopy.invitation}
+                {displayedJournalInvitation(lang, journalTheme(entry).id, action, displayResponse?.invitation)}
               </Text>
               <JournalActionButton
                 primary
@@ -266,6 +286,7 @@ export default function EntryScreen() {
                 onPress={() => openAction()}
               />
             </View>
+            </>}
           </View>
         )}
         <Notice text={notice} />
@@ -297,7 +318,7 @@ export default function EntryScreen() {
               </Heading>
               <Body>
                 {!noteAction || noteAction === action
-                  ? (entry.response?.actionPrompt ?? actionCopy.prompt)
+                  ? (displayResponse?.actionPrompt ?? actionCopy.prompt)
                   : journalActionCopy(lang, "", noteAction).prompt}
               </Body>
               <Field

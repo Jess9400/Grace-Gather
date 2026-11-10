@@ -42,6 +42,7 @@ export default function Diary() {
       // previous entry's theme, action or fallback verse IDs.
       themeId: undefined,
       suggestedAction: undefined,
+      suggestedActionExplanation: undefined,
       passageIds: undefined,
       actionIds: undefined,
       aiUnavailable: undefined,
@@ -77,6 +78,7 @@ export default function Diary() {
             actionIds: result.actionIds,
             themeId: result.themeId,
             suggestedAction: result.suggestedAction,
+            suggestedActionExplanation: result.actionExplanation,
           };
         } catch {
           entry = { ...entry, aiUnavailable: true };

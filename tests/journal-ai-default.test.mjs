@@ -37,6 +37,8 @@ test('disabling guidance blocks both journal and chat calls before contacting th
     if (id === './church-calendar') return { welcomesCandles: () => false };
     if (id === './llm-contract') return {};
     if (id === './ai-error') return {};
+    if (id === './journal-gathering') return {};
+    if (id === './gatherings') return {};
     throw Error(id);
   });
   const off = { ...content.initialProfile, journalAIConsentVersion: undefined };

@@ -4,6 +4,8 @@ import { Profile } from "./content";
 import { validateSuggestion } from "./llm-contract";
 import { AI_CONSENT_VERSION } from "./ai-copy";
 import { aiRequestError } from "./ai-error";
+import { availableJournalAction } from "./journal-gathering";
+import { gathering } from "./gatherings";
 export async function suggestJourney(text: string, preferences: Profile) {
   if (preferences.journalAIConsentVersion !== AI_CONSENT_VERSION)
     throw Error("consent_required");
@@ -11,6 +13,7 @@ export async function suggestJourney(text: string, preferences: Profile) {
   const { data, error } = await client.functions.invoke("llm-journey", {
     body: {
       text,
+      supportsConnectedActions: true,
       preferences: {
         language: preferences.language,
         scriptureLanguage: preferences.scriptureLanguage,
@@ -46,6 +49,9 @@ export async function continueJournal(
     body: {
       mode: "conversation",
       supportsGatheringAction: true,
+      includeActionTheme: true,
+      includeActionExplanation: true,
+      supportsConnectedActions: true,
       text: entry.text,
       consentVersion: AI_CONSENT_VERSION,
       preferences: {
@@ -74,6 +80,7 @@ export async function continueJournal(
     "A10",
     "A11",
     "A12",
+    "A14",
     "A15",
     "A16",
     "A18",
@@ -82,6 +89,7 @@ export async function continueJournal(
     "A21",
     "A25",
     "A26",
+    "A27",
   ];
   if (
     typeof data.reply !== "string" ||
@@ -90,10 +98,13 @@ export async function continueJournal(
     (data.actionId != null && !allowed.includes(data.actionId))
   )
     throw Error("invalid_response");
+  const latest = messages.at(-1)?.content ?? "";
+  const selected = data.actionId === "A25"
+    ? await availableJournalAction(typeof data.actionTheme === "string" ? data.actionTheme : "", preferences.language, latest, previousActions, () => gathering("list"), false)
+    : data.actionId;
   return {
     content: data.reply,
-    actionId: previousActions.includes(data.actionId)
-      ? undefined
-      : (data.actionId ?? undefined),
+    actionId: previousActions.includes(selected) ? undefined : (selected ?? undefined),
+    actionExplanation: selected && selected === data.actionId && !previousActions.includes(selected) && typeof data.actionExplanation === "string" && data.actionExplanation.trim().length > 0 && data.actionExplanation.length <= 240 && !/[\r\n<>]|https?:\/\/|www\./i.test(data.actionExplanation) ? data.actionExplanation.trim() : undefined,
   };
 }
