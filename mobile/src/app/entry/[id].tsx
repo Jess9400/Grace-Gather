@@ -16,7 +16,7 @@ import {
   Screen,
   Heading,
   Body,
-  Glass,
+  Card,
   Button,
   Field,
   Notice,
@@ -146,7 +146,8 @@ export default function EntryScreen() {
         initialAction={action}
         onAction={openAction}
       >
-        <Glass style={[s.bubble, s.mine]}>
+        <View style={s.letter}>
+          <View style={s.margin} />
           <View style={s.letterTop}>
             <Text style={s.date}>
               {new Date(entry.createdAt).toLocaleDateString(lang, {
@@ -197,9 +198,9 @@ export default function EntryScreen() {
             </Pressable>
           )}
           {entry.audio && <AudioPlayback id={entry.audio} language={lang} />}
-        </Glass>
+        </View>
         {entry.safety ? (
-          <Glass style={[s.bubble, s.theirs]}>
+          <Card>
             <Heading>{copy(lang, "supportTitle")}</Heading>
             <Body>{copy(lang, "supportDesc")}</Body>
             <Button
@@ -209,10 +210,10 @@ export default function EntryScreen() {
                 setNoteOpen(true);
               }}
             />
-          </Glass>
+          </Card>
         ) : (
-          <>
-            <Glass style={[s.bubble, s.theirs]}>
+          <View style={s.reply}>
+            <View style={s.section}>
               <Text style={s.label}>{jc(lang, "wordForYou")}</Text>
               {loading ? (
                 <Body>{copy(lang, "cLoading")}</Body>
@@ -247,8 +248,9 @@ export default function EntryScreen() {
               ) : (
                 <Body>{copy(lang, "unavailable")}</Body>
               )}
-            </Glass>
-            <Glass style={[s.bubble, s.theirs]}>
+            </View>
+            <View style={s.divider} />
+            <View style={s.section}>
               <Text style={s.label}>{jc(lang, "smallStep")}</Text>
               <Text style={s.invitation}>
                 {entry.response?.invitation ?? actionCopy.invitation}
@@ -258,8 +260,8 @@ export default function EntryScreen() {
                 title={actionTitle}
                 onPress={() => openAction()}
               />
-            </Glass>
-          </>
+            </View>
+          </View>
         )}
         <Notice text={notice} />
       </JournalConversation>
@@ -314,20 +316,31 @@ export default function EntryScreen() {
   );
 }
 const s = StyleSheet.create({
-  // A dialogue on glass: your letter on the right, the replies on the left.
-  bubble: { padding: 20, gap: 10, width: "92%" },
-  mine: {
-    alignSelf: "flex-end",
-    borderBottomRightRadius: 6,
-    backgroundColor: "#FFFFFFE6",
+  // The same paper as the writing page, so the entry still reads as a letter.
+  letter: {
+    backgroundColor: colors.white,
+    borderRadius: 16,
+    padding: 24,
+    paddingLeft: 38,
+    borderWidth: 1,
+    borderColor: "#B28A3E20",
+    boxShadow: "0px 12px 35px rgba(48,44,40,.055)",
+    gap: 4,
   },
-  theirs: { alignSelf: "flex-start", borderTopLeftRadius: 6 },
+  margin: {
+    position: "absolute",
+    left: 24,
+    top: 0,
+    bottom: 0,
+    width: 1,
+    backgroundColor: "#B28A3E40",
+  },
   letterTop: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
     gap: 12,
-    marginBottom: 4,
+    marginBottom: 12,
   },
   date: { flex: 1, color: colors.muted, fontSize: 12, lineHeight: 18 },
   edit: {
@@ -343,15 +356,16 @@ const s = StyleSheet.create({
   editText: { fontSize: 13, fontWeight: "600", color: colors.goldInk },
   dear: {
     fontFamily: serif,
-    fontSize: 20,
-    lineHeight: 28,
+    fontSize: 22,
+    lineHeight: 30,
     fontStyle: "italic",
     color: colors.ink,
+    marginBottom: 8,
   },
   writing: {
     fontFamily: serif,
-    fontSize: 17,
-    lineHeight: 27,
+    fontSize: 18,
+    lineHeight: 29,
     color: colors.ink,
   },
   more: {
@@ -362,6 +376,9 @@ const s = StyleSheet.create({
     alignSelf: "flex-start",
   },
   moreText: { fontSize: 13, fontWeight: "600", color: colors.goldInk },
+  // The reply: one column with one left edge, a verse then one small step.
+  reply: { paddingTop: 10, paddingHorizontal: 4, gap: 20 },
+  section: { gap: 12 },
   label: {
     fontSize: 11,
     fontWeight: "700",
@@ -369,16 +386,16 @@ const s = StyleSheet.create({
     textTransform: "uppercase",
     color: colors.goldInk,
   },
-  verse: { fontFamily: serif, fontSize: 21, lineHeight: 30, color: colors.ink },
+  verse: { fontFamily: serif, fontSize: 22, lineHeight: 32, color: colors.ink },
   reference: {
-    fontSize: 13,
-    lineHeight: 20,
+    fontSize: 14,
+    lineHeight: 21,
     fontWeight: "600",
     color: colors.ink,
   },
   edition: { fontWeight: "400", color: colors.muted },
   verseLink: {
-    minHeight: 40,
+    minHeight: 44,
     flexDirection: "row",
     alignItems: "center",
     gap: 6,
@@ -391,6 +408,7 @@ const s = StyleSheet.create({
     textDecorationLine: "underline",
     textDecorationColor: "#B28A3E80",
   },
+  divider: { height: 1, backgroundColor: colors.line },
   invitation: { fontSize: 16, lineHeight: 25, color: colors.ink },
   backdrop: {
     flex: 1,
