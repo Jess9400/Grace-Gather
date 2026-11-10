@@ -1,4 +1,3 @@
-import type { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { westernAdventStart } from "./church-calendar";
 import type { Language, Profile } from "./content";
 
@@ -37,12 +36,24 @@ export type HolyDay = CivilDate & { id: HolyDayId; date: string };
 export type HolyDayCalendar =
   "catholic" | "protestant" | "orthodox" | "general";
 
-export type HolyDayIcon =
-  | { set: "ionicons"; name: keyof typeof Ionicons.glyphMap }
-  | {
-      set: "material-community";
-      name: keyof typeof MaterialCommunityIcons.glyphMap;
-    };
+// The small illustration drawn for a day: a file name in assets/holy-days.
+export type HolyDayArt =
+  | "wreath"
+  | "eggs"
+  | "redegg"
+  | "crosses"
+  | "palm"
+  | "candle"
+  | "star"
+  | "nativity"
+  | "ash"
+  | "cloud"
+  | "dovefire"
+  | "dovewater"
+  | "flowers"
+  | "halo"
+  | "rose"
+  | "book";
 
 const civil = (year: number, month: number, day: number): CivilDate => {
   // The Date constructor normalises day overflow (e.g. 30 February) in local
@@ -169,34 +180,27 @@ export const holyDaysForMonth = (
   month: number,
 ) => holyDaysForYear(profile, year).filter((day) => day.month === month);
 
-const ion = (name: keyof typeof Ionicons.glyphMap): HolyDayIcon => ({
-  set: "ionicons",
-  name,
-});
-const mci = (
-  name: keyof typeof MaterialCommunityIcons.glyphMap,
-): HolyDayIcon => ({ set: "material-community", name });
-
-export const holyDayIcons: Record<HolyDayId, HolyDayIcon> = {
-  epiphany: mci("star-four-points"),
-  ashWednesday: mci("cross-outline"),
-  palmSunday: ion("leaf"),
-  goodFriday: mci("cross"),
-  easter: ion("sunny"),
-  ascension: ion("cloud"),
-  pentecost: ion("flame"),
-  adventSunday: mci("candle"),
-  christmas: ion("star"),
-  assumption: ion("flower"),
-  allSaints: ion("sparkles"),
-  immaculateConception: ion("rose"),
-  reformationDay: ion("book"),
-  holyFriday: mci("cross"),
-  pascha: ion("sunny"),
-  nativityNew: ion("star"),
-  nativityOld: ion("star"),
-  theophanyNew: ion("water"),
-  theophanyOld: ion("water"),
+export const holyDayArt: Record<HolyDayId, HolyDayArt> = {
+  epiphany: "star",
+  ashWednesday: "ash",
+  palmSunday: "palm",
+  goodFriday: "crosses",
+  easter: "eggs",
+  ascension: "cloud",
+  pentecost: "dovefire",
+  adventSunday: "candle",
+  christmas: "wreath",
+  assumption: "flowers",
+  allSaints: "halo",
+  immaculateConception: "rose",
+  reformationDay: "book",
+  holyFriday: "crosses",
+  // Orthodox Easter eggs are dyed red.
+  pascha: "redegg",
+  nativityNew: "nativity",
+  nativityOld: "nativity",
+  theophanyNew: "dovewater",
+  theophanyOld: "dovewater",
 };
 
 // Portuguese, Spanish and Russian await the four-language review.

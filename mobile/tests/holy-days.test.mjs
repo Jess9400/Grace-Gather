@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import { runInNewContext } from "node:vm";
@@ -37,7 +37,7 @@ const {
   holyDayCalendar,
   holyDaysForYear,
   holyDaysForMonth,
-  holyDayIcons,
+  holyDayArt,
   holyDayNames,
   holyDayName,
 } = load("src/lib/holy-days.ts", { "./church-calendar": churchCalendar });
@@ -220,23 +220,31 @@ test("every holy day has a name in English, Portuguese, Spanish and Russian", ()
   }
 });
 
-test("every holy-day icon exists in the installed icon fonts", () => {
-  const glyphs = (name) =>
-    require(
-      `../node_modules/@expo/vector-icons/build/vendor/react-native-vector-icons/glyphmaps/${name}.json`,
-    );
-  const sets = {
-    ionicons: glyphs("Ionicons"),
-    "material-community": glyphs("MaterialCommunityIcons"),
-  };
+test("every holy day has its own illustration, drawn and shipped", () => {
   assert.deepEqual(
-    Object.keys(holyDayIcons).sort(),
+    Object.keys(holyDayArt).sort(),
     Object.keys(holyDayNames).sort(),
   );
-  for (const [id, icon] of Object.entries(holyDayIcons)) {
-    assert.ok(sets[icon.set], `${id}: unknown icon set ${icon.set}`);
-    assert.ok(icon.name in sets[icon.set], `${id}: ${icon.set}/${icon.name}`);
+  const images = readFileSync(root + "src/lib/holy-day-art.ts", "utf8");
+  for (const [id, art] of Object.entries(holyDayArt)) {
+    // The PNG the app shows, the SVG it was drawn as, and the require for it.
+    assert.ok(
+      existsSync(root + `assets/holy-days/${art}.png`),
+      `${id}: ${art}.png`,
+    );
+    assert.ok(
+      existsSync(root + `assets/holy-days/svg/${art}.svg`),
+      `${id}: ${art}.svg`,
+    );
+    assert.ok(
+      images.includes(`assets/holy-days/${art}.png`),
+      `${id}: ${art} not wired`,
+    );
   }
+  // Christmas is a wreath and Easter is eggs; the Orthodox egg is red.
+  assert.equal(holyDayArt.christmas, "wreath");
+  assert.equal(holyDayArt.easter, "eggs");
+  assert.equal(holyDayArt.pascha, "redegg");
 });
 
 test("Advent Sunday is the day the Advent wreath starts", () => {
