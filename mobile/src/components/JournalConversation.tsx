@@ -7,13 +7,13 @@ import {
   StyleSheet,
   Image,
   Platform,
-  ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import type { ReactNode } from "react";
 import { router } from "expo-router";
 import { randomUUID } from "expo-crypto";
-import { Screen, Notice, colors } from "./quiet-ui";
+import { Screen, Notice, Glass, colors } from "./quiet-ui";
+import GlassBackdrop from "./GlassBackdrop";
 import { TextAction } from "./CommunityControls";
 import { useApp } from "../lib/state";
 import { backend } from "../lib/backend";
@@ -47,7 +47,6 @@ export default function JournalConversation({
     [error, setError] = useState("");
   const [focused, setFocused] = useState(false);
   const [needsSignIn, setNeedsSignIn] = useState(false);
-  const [open, setOpen] = useState(false);
   const [olderOpen, setOlderOpen] = useState(false);
   const [scrollKey, setScrollKey] = useState<string>();
   const lock = useRef(false);
@@ -57,11 +56,10 @@ export default function JournalConversation({
   const enabled = profile.journalAIConsentVersion === AI_CONSENT_VERSION;
   const full = messages.length >= JOURNAL_MESSAGE_LIMIT;
   const { older, recent } = partitionJournalMessages(messages);
+  // The conversation reads as a dialogue: your words on the right, replies
+  // on the left, both on the same glass as the letter above.
   const renderMessage = (m: (typeof messages)[number]) => (
-    <View key={m.id} style={m.role === "user" ? s.user : s.assistant}>
-      <Text style={s.meta}>
-        {chatCopy(lang, m.role === "user" ? "you" : "ai")}
-      </Text>
+    <Glass key={m.id} style={[s.bubble, m.role === "user" ? s.mine : s.theirs]}>
       <Text selectable style={s.message}>
         {m.support ? copy(lang, "supportDesc") : m.content}
       </Text>
@@ -71,7 +69,7 @@ export default function JournalConversation({
           onPress={() => onAction(m.actionId!)}
         />
       )}
-    </View>
+    </Glass>
   );
   async function send() {
     if (lock.current || full || (!pending && !text.trim())) return;
@@ -97,7 +95,6 @@ export default function JournalConversation({
       lock.current = false;
       return;
     }
-    setOpen(true);
     setScrollKey(saved.conversation?.at(-1)?.id);
     try {
       const history = saved.conversation ?? [];
@@ -140,8 +137,6 @@ export default function JournalConversation({
   const unavailable = full;
   const composer = entry.safety ? undefined : (
     <View style={s.dock}>
-      {/* The page fades out above the dock instead of running under it. */}
-      <View pointerEvents="none" style={s.fade} />
       {details && <Text style={s.meta}>{chatCopy(lang, "privacy")}</Text>}
       <View style={s.chatFrame}>
         <View
@@ -261,111 +256,52 @@ export default function JournalConversation({
     </View>
   );
   return (
-    <Screen back footer={composer} scrollToEndKey={scrollKey}>
+    <Screen
+      back
+      keyboard
+      backdrop={<GlassBackdrop />}
+      scrollToEndKey={scrollKey}
+    >
       {children}
       {messages.length > 0 && (
-        <View style={s.conversation}>
-          <Pressable
-            accessibilityRole="button"
-            accessibilityState={{ expanded: open }}
-            accessibilityLabel={journalCopy(lang, "conversation")}
-            onPress={() => setOpen(!open)}
-            style={s.disclosure}
-          >
-            <Text style={s.disclosureTitle}>
-              {journalCopy(lang, "conversation")}
-            </Text>
-            <Text style={s.meta}>{messages.length}</Text>
-            <Ionicons
-              name={open ? "chevron-up" : "chevron-down"}
-              size={18}
-              color={colors.muted}
-            />
-          </Pressable>
-          {open && (
-            <View style={s.thread}>
-              {older.length > 0 && (
-                <>
-                  <Pressable
-                    accessibilityRole="button"
-                    accessibilityState={{ expanded: olderOpen }}
-                    onPress={() => setOlderOpen(!olderOpen)}
-                    style={s.olderControl}
-                  >
-                    <Text style={s.meta}>
-                      {journalCopy(lang, "earlier")} · {older.length}
-                    </Text>
-                    <Ionicons
-                      name={olderOpen ? "chevron-up" : "chevron-down"}
-                      size={16}
-                      color={colors.muted}
-                    />
-                  </Pressable>
-                  {olderOpen && (
-                    <ScrollView
-                      nestedScrollEnabled
-                      style={{ maxHeight: 360 }}
-                      contentContainerStyle={{ gap: 20 }}
-                      keyboardShouldPersistTaps="handled"
-                    >
-                      {older.map(renderMessage)}
-                    </ScrollView>
-                  )}
-                </>
-              )}
-              {recent.map(renderMessage)}
-            </View>
+        <View style={s.thread}>
+          {older.length > 0 && (
+            <>
+              <Pressable
+                accessibilityRole="button"
+                accessibilityState={{ expanded: olderOpen }}
+                onPress={() => setOlderOpen(!olderOpen)}
+                style={s.olderControl}
+              >
+                <Text style={s.meta}>
+                  {journalCopy(lang, "earlier")} · {older.length}
+                </Text>
+                <Ionicons
+                  name={olderOpen ? "chevron-up" : "chevron-down"}
+                  size={16}
+                  color={colors.muted}
+                />
+              </Pressable>
+              {olderOpen && older.map(renderMessage)}
+            </>
           )}
+          {recent.map(renderMessage)}
         </View>
       )}
-      {/* Room for the last action to clear the fade above the dock. */}
-      {composer && <View style={{ height: 24 }} />}
+      {/* The reply box is part of the page, so the whole page scrolls. */}
+      {composer}
     </Screen>
   );
 }
 
 const s = StyleSheet.create({
-  conversation: { marginTop: 8 },
-  disclosure: {
-    minHeight: 48,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 12,
-    paddingVertical: 12,
-    borderTopWidth: 1,
-    borderColor: colors.line,
-  },
-  disclosureTitle: {
-    flex: 1,
-    fontSize: 15,
-    color: colors.ink,
-    fontWeight: "500",
-  },
   olderControl: {
     minHeight: 44,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
   },
-  dock: {
-    paddingHorizontal: 20,
-    paddingTop: 4,
-    paddingBottom: 8,
-    width: "100%",
-    maxWidth: 680,
-    alignSelf: "center",
-    backgroundColor: colors.paper,
-    gap: 4,
-  },
-  fade: {
-    position: "absolute",
-    left: 0,
-    right: 0,
-    top: -28,
-    height: 28,
-    backgroundImage: `linear-gradient(180deg, rgba(255,252,243,0) 0%, ${colors.paper} 100%)`,
-  },
-  // The cloud art sits wholly inside the dock, so nothing scrolls beneath it.
+  dock: { marginTop: 4, gap: 4 },
   chatFrame: {
     paddingTop: 46,
     paddingBottom: 6,
@@ -424,16 +360,13 @@ const s = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  thread: { gap: 20, paddingTop: 8, paddingBottom: 20 },
-  user: {
+  thread: { gap: 14 },
+  bubble: { padding: 18, gap: 12, maxWidth: "88%" },
+  mine: {
     alignSelf: "flex-end",
-    maxWidth: "88%",
-    padding: 16,
-    borderRadius: 20,
     borderBottomRightRadius: 6,
-    backgroundColor: "#FFFFFF",
-    gap: 6,
+    backgroundColor: "#FFFFFFE6",
   },
-  assistant: { alignSelf: "stretch", gap: 8, paddingVertical: 8 },
-  message: { fontSize: 16, lineHeight: 26, color: colors.ink },
+  theirs: { alignSelf: "flex-start", borderTopLeftRadius: 6 },
+  message: { fontSize: 15, lineHeight: 24, color: colors.ink },
 });
