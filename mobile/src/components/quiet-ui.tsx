@@ -55,12 +55,18 @@ export function Screen({
   place,
   footer,
   scrollToEndKey,
+  keyboard = false,
+  backdrop,
 }: {
   children: React.ReactNode;
   back?: boolean;
   place?: RoomPlace;
   footer?: React.ReactNode;
   scrollToEndKey?: string;
+  // Keep a text field inside the page clear of the keyboard (no footer).
+  keyboard?: boolean;
+  // A quiet picture behind the page, e.g. for glass surfaces.
+  backdrop?: React.ReactNode;
 }) {
   const scroll = useRef<ScrollViewInstance>(null);
   const lastScrolled = useRef<string | undefined>(undefined);
@@ -78,17 +84,23 @@ export function Screen({
         </ScrollView>
       </SafeAreaView>
     );
+  const avoid = !!footer || keyboard;
   const content = (
     <SafeAreaView
       style={s.safe}
       edges={
-        footer ? ["top", "left", "right", "bottom"] : ["top", "left", "right"]
+        avoid ? ["top", "left", "right", "bottom"] : ["top", "left", "right"]
       }
     >
+      {backdrop && (
+        <View pointerEvents="none" style={StyleSheet.absoluteFill}>
+          {backdrop}
+        </View>
+      )}
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={
-          footer ? (Platform.OS === "ios" ? "padding" : "height") : undefined
+          avoid ? (Platform.OS === "ios" ? "padding" : "height") : undefined
         }
       >
         <ScrollView
