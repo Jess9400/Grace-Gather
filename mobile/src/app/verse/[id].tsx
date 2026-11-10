@@ -8,6 +8,7 @@ import {
   StyleSheet,
   ScrollView,
   Modal,
+  Linking,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -38,6 +39,15 @@ import { useApp } from "../../lib/state";
 import { q } from "../../lib/quiet-copy";
 import { useReducedMotion } from "../../lib/use-reduced-motion";
 type Layer = "simple" | "deeper" | "theology";
+// The fuller study notes add these to the basic explanation. Every claim in
+// them is drawn from the sources they list.
+interface RichStudy {
+  words?: { term: string; original: string; meaning: string }[];
+  echoes?: { reference: string; text: string; note: string }[];
+  teaching?: { title: string; text: string }[];
+  differences?: { title: string; text: string }[];
+  sources?: { label: string; url?: string }[];
+}
 function Paragraph({ children }: { children: React.ReactNode }) {
   return (
     <Text selectable style={s.prose}>
@@ -59,7 +69,128 @@ function Section({
       <Text accessibilityRole="header" style={s.sectionTitle}>
         {title}
       </Text>
-      <Paragraph>{children}</Paragraph>
+      {typeof children === "string" ? (
+        children
+          .split("\n\n")
+          .map((paragraph, i) => <Paragraph key={i}>{paragraph}</Paragraph>)
+      ) : (
+        <Paragraph>{children}</Paragraph>
+      )}
+    </View>
+  );
+}
+function Heading({ children }: { children: string }) {
+  return (
+    <Text accessibilityRole="header" style={s.sectionTitle}>
+      {children}
+    </Text>
+  );
+}
+// The words of the verse in their first language, each with what it means.
+function KeyWords({
+  title,
+  words,
+}: {
+  title: string;
+  words: NonNullable<RichStudy["words"]>;
+}) {
+  return (
+    <View style={s.section}>
+      <Heading>{title}</Heading>
+      <View style={s.list}>
+        {words.map((word) => (
+          <View key={word.term} style={s.word}>
+            <Text style={s.wordTerm}>{word.term}</Text>
+            <Text style={s.wordOriginal}>{word.original}</Text>
+            <Text selectable style={s.note}>
+              {word.meaning}
+            </Text>
+          </View>
+        ))}
+      </View>
+    </View>
+  );
+}
+// Other places in Scripture that take this verse up.
+function Echoes({
+  title,
+  echoes,
+}: {
+  title: string;
+  echoes: NonNullable<RichStudy["echoes"]>;
+}) {
+  return (
+    <View style={s.section}>
+      <Heading>{title}</Heading>
+      <View style={s.list}>
+        {echoes.map((echo) => (
+          <View key={echo.reference} style={s.echo}>
+            <Text style={s.label}>{echo.reference}</Text>
+            <Text selectable style={s.echoText}>
+              {echo.text}
+            </Text>
+            <Text selectable style={s.note}>
+              {echo.note}
+            </Text>
+          </View>
+        ))}
+      </View>
+    </View>
+  );
+}
+function Points({
+  points,
+  tint = false,
+}: {
+  points: { title: string; text: string }[];
+  tint?: boolean;
+}) {
+  return (
+    <View style={[s.list, tint && s.callout]}>
+      {points.map((point) => (
+        <View key={point.title} style={{ gap: 7 }}>
+          <Text accessibilityRole="header" style={s.pointTitle}>
+            {point.title}
+          </Text>
+          <Text selectable style={tint ? s.note : s.prose}>
+            {point.text}
+          </Text>
+        </View>
+      ))}
+    </View>
+  );
+}
+function Sources({
+  title,
+  sources,
+}: {
+  title: string;
+  sources: NonNullable<RichStudy["sources"]>;
+}) {
+  return (
+    <View style={s.sources}>
+      <Text accessibilityRole="header" style={s.label}>
+        {title}
+      </Text>
+      {sources.map((source) =>
+        source.url ? (
+          <Text
+            key={source.label}
+            accessibilityRole="link"
+            onPress={() => {
+              if (/^https:\/\//.test(source.url ?? ""))
+                void Linking.openURL(source.url ?? "");
+            }}
+            style={s.source}
+          >
+            {source.label} <Text style={s.sourceLink}>↗</Text>
+          </Text>
+        ) : (
+          <Text key={source.label} style={s.source}>
+            {source.label}
+          </Text>
+        ),
+      )}
     </View>
   );
 }
@@ -154,6 +285,7 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
   const study = lang === "en" ? studyFor(id) : undefined;
   // Journal verses are explained in every language; other studies are English.
   const explanation = study ?? journalVerseStudy(journalReference, lang);
+  const rich: RichStudy = study ?? {};
   if (!verse)
     return (
       <SafeAreaView style={s.safe}>
@@ -423,12 +555,21 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
                       )}
                   </Section>
                   {!!psalmNumbering && <Body small>{psalmNumbering}</Body>}
+                  {!!rich.words && (
+                    <KeyWords title={tr("Key words")} words={rich.words} />
+                  )}
                   <Section title={tr("What it means")} tint>
                     {explanation?.meaning ??
                       tr(
                         "Look for repeated words, contrasts and changes of speaker. Read a difficult line in the flow of the whole passage before deciding what it means. These are reading questions, not a completed commentary on this verse.",
                       )}
                   </Section>
+                  {!!rich.echoes && (
+                    <Echoes
+                      title={tr("Where Scripture picks this up")}
+                      echoes={rich.echoes}
+                    />
+                  )}
                   <Invitation title={tr("In everyday life")}>
                     {explanation?.today ??
                       tr(
@@ -443,21 +584,34 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
                       ? tr("What this says about God")
                       : tr("Questions about God and faith")}
                   </Text>
-                  {(
-                    explanation?.theology ??
-                    tr(
-                      "What does this passage say about God, people, and their relationship? What is being promised, asked, or questioned?\n\nRead the surrounding passage before drawing a conclusion. Christians may read difficult passages differently; a reflection question cannot settle those differences.",
+                  {rich.teaching ? (
+                    <Points points={rich.teaching} />
+                  ) : (
+                    (
+                      explanation?.theology ??
+                      tr(
+                        "What does this passage say about God, people, and their relationship? What is being promised, asked, or questioned?\n\nRead the surrounding passage before drawing a conclusion. Christians may read difficult passages differently; a reflection question cannot settle those differences.",
+                      )
                     )
-                  )
-                    .split("\n\n")
-                    .map((paragraph, i) => (
-                      <Paragraph key={i}>{paragraph}</Paragraph>
-                    ))}
+                      .split("\n\n")
+                      .map((paragraph, i) => (
+                        <Paragraph key={i}>{paragraph}</Paragraph>
+                      ))
+                  )}
+                  {!!rich.differences && (
+                    <>
+                      <Heading>{tr("Where Christians differ")}</Heading>
+                      <Points points={rich.differences} tint />
+                    </>
+                  )}
                   <Invitation title={tr("A question to carry")}>
                     {question}
                   </Invitation>
                 </>
               ) : null}
+              {!!rich.sources && (
+                <Sources title={tr("Sources")} sources={rich.sources} />
+              )}
               <Body small>
                 {explanation
                   ? tr(
@@ -682,8 +836,53 @@ const s = StyleSheet.create({
     lineHeight: 34,
     color: colors.ink,
   },
-  prose: { fontFamily: serif, fontSize: 20, lineHeight: 33, color: colors.ink },
+  prose: { fontFamily: serif, fontSize: 18, lineHeight: 29, color: colors.ink },
   callout: { padding: 22, borderRadius: 21, backgroundColor: colors.pale },
+  list: { gap: 18 },
+  label: {
+    fontSize: 12,
+    lineHeight: 16,
+    fontWeight: "700",
+    letterSpacing: 1.1,
+    textTransform: "uppercase",
+    color: colors.goldInk,
+  },
+  note: { fontSize: 16, lineHeight: 25, color: colors.ink },
+  word: {
+    gap: 5,
+    paddingLeft: 14,
+    borderLeftWidth: 2,
+    borderLeftColor: "#B28A3E8C",
+  },
+  wordTerm: {
+    fontFamily: serif,
+    fontSize: 21,
+    lineHeight: 27,
+    color: colors.ink,
+  },
+  wordOriginal: { fontSize: 14, lineHeight: 20, color: colors.goldInk },
+  echo: { gap: 6 },
+  echoText: {
+    fontFamily: serif,
+    fontStyle: "italic",
+    fontSize: 19,
+    lineHeight: 29,
+    color: colors.ink,
+  },
+  pointTitle: {
+    fontFamily: serif,
+    fontSize: 21,
+    lineHeight: 28,
+    color: colors.ink,
+  },
+  sources: {
+    gap: 9,
+    paddingTop: 18,
+    borderTopWidth: 1,
+    borderTopColor: colors.line,
+  },
+  source: { fontSize: 13, lineHeight: 19, color: colors.muted },
+  sourceLink: { color: colors.goldInk, fontWeight: "700" },
   invitation: {
     gap: 8,
     paddingVertical: 14,
