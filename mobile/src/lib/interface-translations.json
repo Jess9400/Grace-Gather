@@ -2033,5 +2033,25 @@
     "pt": "Amigo",
     "es": "Amigo",
     "ru": "Друг"
+  },
+  "Key words": {
+    "pt": "Palavras-chave",
+    "es": "Palabras clave",
+    "ru": "Ключевые слова"
+  },
+  "Where Scripture picks this up": {
+    "pt": "Onde a Escritura retoma isto",
+    "es": "Dónde la Escritura retoma esto",
+    "ru": "Где Писание к этому возвращается"
+  },
+  "Where Christians differ": {
+    "pt": "Onde os cristãos divergem",
+    "es": "En qué difieren los cristianos",
+    "ru": "В чём христиане расходятся"
+  },
+  "Sources": {
+    "pt": "Fontes",
+    "es": "Fuentes",
+    "ru": "Источники"
   }
 }
