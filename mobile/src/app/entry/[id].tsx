@@ -91,6 +91,8 @@ export default function EntryScreen() {
   const action = entry.response?.actionId ?? journalAction(entry, profile);
   const actionCopy = journalActionCopy(lang, journalTheme(entry).id, action);
   const actionTitle = entry.response?.actionTitle ?? actionCopy.title;
+  // Long letters open folded so the reply stays in reach.
+  const long = entry.text.length > 520 || entry.text.split("\n").length > 9;
   function edit() {
     update({
       text: entry!.text,
@@ -144,43 +146,59 @@ export default function EntryScreen() {
         initialAction={action}
         onAction={openAction}
       >
-        <View style={s.top}>
-          <Body small>
-            {new Date(entry.createdAt).toLocaleDateString(lang, {
-              month: "long",
-              day: "numeric",
-              year: "numeric",
-            })}
-          </Body>
-          <TextAction
-            title={q(lang, "edit")}
-            icon="create-outline"
-            onPress={edit}
-          />
-        </View>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityState={{ expanded }}
-          onPress={() => setExpanded(!expanded)}
-          style={s.entry}
-        >
+        <View style={s.letter}>
+          <View style={s.margin} />
+          <View style={s.letterTop}>
+            <Text style={s.date}>
+              {new Date(entry.createdAt).toLocaleDateString(lang, {
+                weekday: "long",
+                month: "long",
+                day: "numeric",
+                year: "numeric",
+              })}
+            </Text>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={jc(lang, "editLetterLabel")}
+              onPress={edit}
+              hitSlop={8}
+              style={({ pressed }) => [s.edit, pressed && { opacity: 0.6 }]}
+            >
+              <Ionicons
+                name="create-outline"
+                size={16}
+                color={colors.goldInk}
+              />
+              <Text style={s.editText}>{jc(lang, "editLetter")}</Text>
+            </Pressable>
+          </View>
           <Text style={s.dear}>{q(lang, "dear")}</Text>
           <Text
             selectable
-            numberOfLines={expanded ? undefined : 3}
+            numberOfLines={long && !expanded ? 9 : undefined}
             style={s.writing}
           >
             {entry.text || copy(lang, "audioEntry")}
           </Text>
-          <Ionicons
-            name={expanded ? "chevron-up" : "chevron-down"}
-            size={16}
-            color={colors.muted}
-          />
-        </Pressable>
-        {expanded && entry.audio && (
-          <AudioPlayback id={entry.audio} language={lang} />
-        )}
+          {long && (
+            <Pressable
+              accessibilityRole="button"
+              accessibilityState={{ expanded }}
+              onPress={() => setExpanded(!expanded)}
+              style={s.more}
+            >
+              <Text style={s.moreText}>
+                {jc(lang, expanded ? "showLess" : "readAll")}
+              </Text>
+              <Ionicons
+                name={expanded ? "chevron-up" : "chevron-down"}
+                size={15}
+                color={colors.goldInk}
+              />
+            </Pressable>
+          )}
+          {entry.audio && <AudioPlayback id={entry.audio} language={lang} />}
+        </View>
         {entry.safety ? (
           <Card>
             <Heading>{copy(lang, "supportTitle")}</Heading>
@@ -194,15 +212,19 @@ export default function EntryScreen() {
             />
           </Card>
         ) : (
-          <>
-            <View style={s.scripture}>
+          <View style={s.reply}>
+            <View style={s.section}>
+              <Text style={s.label}>{jc(lang, "wordForYou")}</Text>
               {loading ? (
                 <Body>{copy(lang, "cLoading")}</Body>
               ) : verse ? (
                 <>
-                  <Body small>{verse.reference}</Body>
                   <Text selectable style={s.verse}>
                     {verse.text}
+                  </Text>
+                  <Text style={s.reference}>
+                    {verse.reference}
+                    <Text style={s.edition}> · {verse.editionName}</Text>
                   </Text>
                   <Pressable
                     accessibilityRole="button"
@@ -217,27 +239,29 @@ export default function EntryScreen() {
                   >
                     <Text style={s.verseLinkText}>{q(lang, "understand")}</Text>
                     <Ionicons
-                      name="chevron-forward"
-                      size={14}
-                      color={colors.muted}
+                      name="arrow-forward"
+                      size={15}
+                      color={colors.ink}
                     />
                   </Pressable>
-                  <Text style={s.edition}>{verse.editionName}</Text>
                 </>
               ) : (
                 <Body>{copy(lang, "unavailable")}</Body>
               )}
             </View>
-            <View style={s.action}>
+            <View style={s.divider} />
+            <View style={s.section}>
+              <Text style={s.label}>{jc(lang, "smallStep")}</Text>
               <Text style={s.invitation}>
                 {entry.response?.invitation ?? actionCopy.invitation}
               </Text>
               <JournalActionButton
+                primary
                 title={actionTitle}
                 onPress={() => openAction()}
               />
             </View>
-          </>
+          </View>
         )}
         <Notice text={notice} />
       </JournalConversation>
@@ -292,32 +316,84 @@ export default function EntryScreen() {
   );
 }
 const s = StyleSheet.create({
-  top: {
+  // The same paper as the writing page, so the entry still reads as a letter.
+  letter: {
+    backgroundColor: colors.white,
+    borderRadius: 16,
+    padding: 24,
+    paddingLeft: 38,
+    borderWidth: 1,
+    borderColor: "#B28A3E20",
+    boxShadow: "0px 12px 35px rgba(48,44,40,.055)",
+    gap: 4,
+  },
+  margin: {
+    position: "absolute",
+    left: 24,
+    top: 0,
+    bottom: 0,
+    width: 1,
+    backgroundColor: "#B28A3E40",
+  },
+  letterTop: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    gap: 12,
+    marginBottom: 12,
   },
-  entry: { gap: 10, paddingVertical: 12 },
+  date: { flex: 1, color: colors.muted, fontSize: 12, lineHeight: 18 },
+  edit: {
+    minHeight: 36,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+    paddingHorizontal: 12,
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: "#B28A3E40",
+  },
+  editText: { fontSize: 13, fontWeight: "600", color: colors.goldInk },
   dear: {
     fontFamily: serif,
-    fontSize: 18,
-    color: colors.ink,
+    fontSize: 24,
+    lineHeight: 32,
     fontStyle: "italic",
+    color: colors.ink,
+    marginBottom: 8,
   },
-  writing: { fontSize: 16, lineHeight: 26, color: colors.muted },
-  verse: { fontFamily: serif, fontSize: 26, lineHeight: 36, color: colors.ink },
-  scripture: {
-    gap: 12,
-    paddingLeft: 20,
-    paddingVertical: 8,
-    borderLeftWidth: 2,
-    borderLeftColor: colors.gold,
-  },
-  invitation: {
-    fontSize: 16,
-    lineHeight: 26,
+  writing: {
+    fontFamily: serif,
+    fontSize: 19,
+    lineHeight: 31,
     color: colors.ink,
   },
+  more: {
+    minHeight: 44,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    alignSelf: "flex-start",
+  },
+  moreText: { fontSize: 13, fontWeight: "600", color: colors.goldInk },
+  // The reply: one column with one left edge, a verse then one small step.
+  reply: { paddingTop: 12, paddingHorizontal: 4, gap: 26 },
+  section: { gap: 12 },
+  label: {
+    fontSize: 11,
+    fontWeight: "700",
+    letterSpacing: 1.8,
+    textTransform: "uppercase",
+    color: colors.goldInk,
+  },
+  verse: { fontFamily: serif, fontSize: 25, lineHeight: 35, color: colors.ink },
+  reference: {
+    fontSize: 14,
+    lineHeight: 21,
+    fontWeight: "600",
+    color: colors.ink,
+  },
+  edition: { fontWeight: "400", color: colors.muted },
   verseLink: {
     minHeight: 44,
     flexDirection: "row",
@@ -325,12 +401,15 @@ const s = StyleSheet.create({
     gap: 6,
     alignSelf: "flex-start",
   },
-  verseLinkText: { fontSize: 13, color: colors.muted },
-  edition: { fontSize: 12, lineHeight: 18, color: colors.muted },
-  action: {
-    paddingVertical: 18,
-    gap: 12,
+  verseLinkText: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: colors.ink,
+    textDecorationLine: "underline",
+    textDecorationColor: "#B28A3E80",
   },
+  divider: { height: 1, backgroundColor: colors.line },
+  invitation: { fontSize: 17, lineHeight: 27, color: colors.ink },
   backdrop: {
     flex: 1,
     backgroundColor: "#302C2855",

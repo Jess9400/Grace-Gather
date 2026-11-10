@@ -140,6 +140,8 @@ export default function JournalConversation({
   const unavailable = full;
   const composer = entry.safety ? undefined : (
     <View style={s.dock}>
+      {/* The page fades out above the dock instead of running under it. */}
+      <View pointerEvents="none" style={s.fade} />
       {details && <Text style={s.meta}>{chatCopy(lang, "privacy")}</Text>}
       <View style={s.chatFrame}>
         <View
@@ -247,14 +249,6 @@ export default function JournalConversation({
           />
         </Pressable>
       </View>
-      {!!backend && !enabled && (
-        <TextAction
-          title={chatCopy(lang, "preferences")}
-          onPress={() => {
-            router.push("/preferences");
-          }}
-        />
-      )}
       <Notice text={error} />
       {needsSignIn && (
         <TextAction
@@ -324,6 +318,8 @@ export default function JournalConversation({
           )}
         </View>
       )}
+      {/* Room for the last action to clear the fade above the dock. */}
+      {composer && <View style={{ height: 24 }} />}
     </Screen>
   );
 }
@@ -361,13 +357,22 @@ const s = StyleSheet.create({
     backgroundColor: colors.paper,
     gap: 4,
   },
+  fade: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: -28,
+    height: 28,
+    backgroundImage: `linear-gradient(180deg, rgba(255,252,243,0) 0%, ${colors.paper} 100%)`,
+  },
+  // The cloud art sits wholly inside the dock, so nothing scrolls beneath it.
   chatFrame: {
-    paddingTop: 32,
+    paddingTop: 46,
     paddingBottom: 6,
   },
   cloudCorner: {
     position: "absolute",
-    top: -16,
+    top: 0,
     width: 140,
     height: 72,
     overflow: "hidden",
@@ -385,8 +390,9 @@ const s = StyleSheet.create({
     flexDirection: "row",
     alignItems: "flex-end",
     gap: 12,
-    padding: 12,
-    minHeight: 96,
+    padding: 10,
+    paddingLeft: 14,
+    minHeight: 64,
     borderWidth: 1,
     borderColor: colors.line,
     borderRadius: 24,
