@@ -13,32 +13,63 @@ import {
   holyDayName,
   holyDaysForCalendar,
 } from "../lib/holy-days";
-import { holyDayImages } from "../lib/holy-day-art";
-// A feast's small illustration: a wreath for Christmas, eggs for Easter.
-function HolyDayMark({
+import {
+  holyDayDateLight,
+  holyDayDateShape,
+  holyDayImages,
+} from "../lib/holy-day-art";
+// A feast's drawing holds its date: the number is printed in the drawing's
+// calm middle (inside the wreath, on the egg), never over or under it.
+const HOLDER_WIDTH = 45,
+  DATE_LINE = 20,
+  dateTop = (width: number) =>
+    width * holyDayDateShape.ratio * holyDayDateShape.centre - DATE_LINE / 2;
+function DateHolder({
   id,
-  size,
-  opacity = 1,
-  soft = false,
+  day,
+  width = HOLDER_WIDTH,
+  dim = false,
 }: {
   id: HolyDayId;
-  size: number;
-  opacity?: number;
-  // Slightly out of focus, for sitting behind a date.
-  soft?: boolean;
+  day: number;
+  width?: number;
+  dim?: boolean;
 }) {
+  const art = holyDayArt[id];
   return (
-    <Image
-      source={holyDayImages[holyDayArt[id]]}
+    <View
       accessible={false}
-      blurRadius={soft ? 1 : 0}
-      style={{ width: size, height: size, opacity }}
-    />
+      style={{
+        width,
+        height: width * holyDayDateShape.ratio,
+        alignItems: "center",
+      }}
+    >
+      <Image
+        source={holyDayImages[art]}
+        accessible={false}
+        style={{
+          position: "absolute",
+          width,
+          height: width * holyDayDateShape.ratio,
+          opacity: dim ? 0.55 : 1,
+        }}
+      />
+      <Text
+        style={{
+          position: "absolute",
+          top: dateTop(width),
+          lineHeight: DATE_LINE,
+          fontSize: 15,
+          fontWeight: "700",
+          color: holyDayDateLight[art] ? colors.white : colors.ink,
+        }}
+      >
+        {day}
+      </Text>
+    </View>
   );
 }
-// A ring leaves its middle open, so the date reads clearly inside it at full
-// strength. Every other drawing sits faded behind the date.
-const isRing = (id: HolyDayId) => holyDayArt[id] === "wreath";
 export default function GatheringCalendar({
   gatherings,
   selected,
@@ -130,7 +161,8 @@ export default function GatheringCalendar({
             on = selected === key(d),
             isToday = key(d) === todayKey,
             past = d.getTime() < todayStart,
-            feasts = holyDays.filter((h) => h.day === day);
+            feasts = holyDays.filter((h) => h.day === day),
+            feast = feasts[0];
           return (
             <View key={i} style={{ width: "14.28%", padding: 2 }}>
               <Pressable
@@ -142,10 +174,8 @@ export default function GatheringCalendar({
                 ].join(", ")}
                 onPress={() => setSelected(on ? "" : key(d))}
                 style={{
-                  minHeight: 48,
+                  height: 56,
                   alignItems: "center",
-                  justifyContent: "center",
-                  gap: 2,
                   borderRadius: 14,
                   backgroundColor: on
                     ? colors.green
@@ -156,60 +186,56 @@ export default function GatheringCalendar({
                   borderColor: colors.gold,
                 }}
               >
-                {/* The date, with the day's drawing behind it. */}
-                <View
-                  style={{
-                    width: 34,
-                    height: 30,
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  {!!feasts.length && (
-                    <View
-                      accessible={false}
-                      pointerEvents="none"
-                      style={{ position: "absolute", top: -9, left: -7 }}
-                    >
-                      <HolyDayMark
-                        id={feasts[0].id}
-                        size={48}
-                        soft={!isRing(feasts[0].id)}
-                        opacity={
-                          (isRing(feasts[0].id) ? 1 : 0.42) *
-                          (past && !on ? 0.6 : 1)
-                        }
-                      />
-                    </View>
-                  )}
+                {feast ? (
+                  <DateHolder id={feast.id} day={day} dim={past && !on} />
+                ) : (
                   <Text
                     style={{
+                      position: "absolute",
+                      top: dateTop(HOLDER_WIDTH),
+                      lineHeight: DATE_LINE,
                       fontSize: 15,
-                      fontWeight: isToday || feasts.length ? "700" : "500",
+                      fontWeight: isToday ? "700" : "500",
                       color: on
                         ? colors.white
-                        : past && !has && !feasts.length
+                        : past && !has
                           ? colors.muted
                           : colors.ink,
                     }}
                   >
                     {day}
                   </Text>
-                </View>
-                <View
-                  accessible={false}
-                  style={{
-                    width: 6,
-                    height: 6,
-                    borderRadius: 3,
-                    backgroundColor: first
-                      ? on
-                        ? colors.white
-                        : gatheringTheme(first).accent
-                      : "transparent",
-                    opacity: past && !on ? 0.45 : 1,
-                  }}
-                />
+                )}
+                {/* A gathering that day: a dot under the date, or at the
+                    corner when a feast's drawing fills the cell. */}
+                {!!first && (
+                  <View
+                    accessible={false}
+                    style={[
+                      {
+                        position: "absolute",
+                        width: 6,
+                        height: 6,
+                        borderRadius: 3,
+                        backgroundColor: on
+                          ? colors.white
+                          : gatheringTheme(first).accent,
+                        opacity: past && !on ? 0.45 : 1,
+                      },
+                      feast
+                        ? {
+                            top: 1,
+                            right: -1,
+                            width: 9,
+                            height: 9,
+                            borderRadius: 4.5,
+                            borderWidth: 1.5,
+                            borderColor: colors.white,
+                          }
+                        : { bottom: 6 },
+                    ]}
+                  />
+                )}
               </Pressable>
             </View>
           );
@@ -218,7 +244,7 @@ export default function GatheringCalendar({
       {!!holyDays.length && (
         <View
           style={{
-            gap: 8,
+            gap: 6,
             paddingTop: 12,
             borderTopWidth: 1,
             borderTopColor: surface.line,
@@ -232,10 +258,10 @@ export default function GatheringCalendar({
                 style={{
                   flexDirection: "row",
                   alignItems: "center",
-                  gap: 10,
+                  gap: 14,
                 }}
               >
-                <HolyDayMark id={h.id} size={36} />
+                <DateHolder id={h.id} day={h.day} />
                 <Text
                   accessibilityLabel={`${new Date(
                     h.year,
@@ -247,13 +273,12 @@ export default function GatheringCalendar({
                   })}, ${name}`}
                   style={{
                     flex: 1,
-                    fontSize: 14,
-                    lineHeight: 20,
+                    fontSize: 15,
+                    lineHeight: 21,
                     color: surface.ink,
                   }}
                 >
-                  <Text style={{ fontWeight: "700" }}>{h.day}</Text>
-                  {" · " + name}
+                  {name}
                 </Text>
               </View>
             );
