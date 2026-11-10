@@ -300,6 +300,12 @@ const words: Record<string, string[]> = {
     "Opciones del comentario",
     "Действия с комментарием",
   ],
+  storyOptions: [
+    "Story options",
+    "Opções da história",
+    "Opciones de la historia",
+    "Действия с историей",
+  ],
   guidelines: [
     "Community guidelines",
     "Diretrizes da comunidade",
