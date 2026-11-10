@@ -1,0 +1,42 @@
+-- Transactional integration test. Synthetic users and messages are rolled back.
+begin;
+select set_config('test.group_a',gen_random_uuid()::text,true),set_config('test.group_b',gen_random_uuid()::text,true),set_config('test.group_c',gen_random_uuid()::text,true);
+insert into auth.users(id,email,email_confirmed_at) select current_setting(k)::uuid,current_setting(k)||'@example.invalid',now() from unnest(array['test.group_a','test.group_b','test.group_c']) k;
+set local role authenticated;
+do $$
+declare a uuid:=current_setting('test.group_a')::uuid; b uuid:=current_setting('test.group_b')::uuid; c uuid:=current_setting('test.group_c')::uuid;
+ room uuid; mid uuid; blocked boolean; data jsonb;
+begin
+ perform set_config('request.jwt.claim.sub',a::text,true);
+ data:=public.group_chat_command('list');
+ if jsonb_array_length(data->'chats')<1 or data->'me'<>'null'::jsonb then raise exception 'Room list wrong for a new member';end if;
+ room:=(data->'chats'->0->>'id')::uuid;
+ blocked:=false;
+ begin perform public.group_chat_command('send',jsonb_build_object('chat',room,'body','No name yet'));exception when others then blocked:=true;end;
+ if not blocked then raise exception 'Member without a public name can write';end if;
+ perform public.group_chat_command('name','{"name":"Fixture Alpha"}');
+ if (public.friends_command('list')->'me'->>'discoverable')::boolean then raise exception 'Choosing a name made the member findable';end if;
+ perform public.group_chat_command('send',jsonb_build_object('chat',room,'body','Synthetic group message'));
+ perform set_config('request.jwt.claim.sub',b::text,true);
+ perform public.group_chat_command('name','{"name":"Fixture Beta"}');
+ data:=public.group_chat_command('messages',jsonb_build_object('chat',room));
+ select (m->>'id')::uuid into mid from jsonb_array_elements(data) m where m->>'body'='Synthetic group message' and m->>'name'='Fixture Alpha' and not (m->>'mine')::boolean;
+ if mid is null then raise exception 'Another member cannot read the message correctly';end if;
+ perform public.group_chat_command('report',jsonb_build_object('message',mid,'reason','Synthetic permission test'));
+ blocked:=false;
+ begin perform public.group_chat_command('reports');exception when others then blocked:=true;end;
+ if not blocked then raise exception 'Nonstaff can read reports';end if;
+ blocked:=false;
+ begin perform public.group_chat_command('resolve_report',jsonb_build_object('id',mid,'remove',true));exception when others then blocked:=true;end;
+ if not blocked then raise exception 'Nonstaff can remove messages';end if;
+ perform public.group_chat_command('block',jsonb_build_object('message',mid));
+ if exists(select 1 from jsonb_array_elements(public.group_chat_command('messages',jsonb_build_object('chat',room))) m where (m->>'id')::uuid=mid) then raise exception 'Blocked member still visible';end if;
+ perform set_config('request.jwt.claim.sub',c::text,true);
+ if not exists(select 1 from jsonb_array_elements(public.group_chat_command('messages',jsonb_build_object('chat',room))) m where (m->>'id')::uuid=mid) then raise exception 'A block hid the message from an uninvolved member';end if;
+ if has_table_privilege('authenticated','private.group_messages','SELECT') then raise exception 'Group message table exposed';end if;
+ if has_table_privilege('authenticated','private.group_reports','SELECT') then raise exception 'Group report table exposed';end if;
+ if has_function_privilege('anon','public.group_chat_command(text,jsonb)','EXECUTE') then raise exception 'Anonymous command exposed';end if;
+end $$;
+reset role;
+select 'PASS: room list, public names, reading, reporting, staff-only review, blocking and grants' as result;
+rollback;

@@ -97,12 +97,7 @@ const words: Record<string, string[]> = {
     "Buscar sesiones, temas y anfitriones",
     "Поиск встреч, тем и ведущих",
   ],
-  privateChats: [
-    "Private chats",
-    "Conversas privadas",
-    "Chats privados",
-    "Личные чаты",
-  ],
+  chats: ["Chats", "Conversas", "Chats", "Чаты"],
   previousPage: ["Previous", "Anterior", "Anterior", "Назад"],
   nextPage: ["Next", "Próxima", "Siguiente", "Далее"],
   discover: ["Discover", "Descobrir", "Descubrir", "Обзор"],
@@ -297,11 +292,11 @@ const words: Record<string, string[]> = {
   liveNow: ["Live now", "Ao vivo agora", "En directo ahora", "Сейчас идёт"],
   joinNow: ["Join", "Entrar", "Entrar", "Войти"],
   hostedBy: ["Hosted by", "Conduzido por", "Dirigido por", "Ведущий:"],
-  privateChatsHint: [
-    "Talk privately with your friends",
-    "Converse em particular com seus amigos",
-    "Habla en privado con tus amigos",
-    "Личные разговоры с друзьями",
+  chatsHint: [
+    "Friends and group chats",
+    "Amigos e conversas em grupo",
+    "Amigos y chats de grupo",
+    "Друзья и общие чаты",
   ],
   reservedPlace: ["You're going", "Você vai", "Vas a ir", "Вы записаны"],
   createGathering: [

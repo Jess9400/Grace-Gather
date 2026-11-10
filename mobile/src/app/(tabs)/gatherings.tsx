@@ -127,8 +127,8 @@ export default function Gatherings() {
         />
       )}
       <ChatsStrip
-        title={c("privateChats")}
-        hint={c("privateChatsHint")}
+        title={c("chats")}
+        hint={c("chatsHint")}
         onPress={() => router.push("/friends")}
       />
       <Card>
