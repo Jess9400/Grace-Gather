@@ -6,6 +6,7 @@ import { useApp } from "../lib/state";
 import { copy } from "../lib/content";
 import { Gathering } from "../lib/gatherings";
 import { gatheringTheme } from "../lib/gathering-theme";
+import { communityCopy } from "../lib/community-copy";
 import {
   type HolyDayId,
   holyDayArt,
@@ -154,9 +155,12 @@ export default function GatheringCalendar({
           const day = i - offset + 1;
           if (day < 1) return <View key={i} style={{ width: "14.28%" }} />;
           const d = new Date(month.getFullYear(), month.getMonth(), day),
-            first = gatherings.find(
-              (g) => key(new Date(g.starts_at)) === key(d),
+            matches = gatherings.filter(
+              (g) =>
+                g.status === "published" &&
+                key(new Date(g.starts_at)) === key(d),
             ),
+            first = matches[0],
             has = !!first,
             on = selected === key(d),
             isToday = key(d) === todayKey,
@@ -171,6 +175,16 @@ export default function GatheringCalendar({
                 accessibilityLabel={[
                   d.toLocaleDateString(profile.language),
                   ...feasts.map((h) => holyDayName(h.id, profile.language)),
+                  ...(has
+                    ? [
+                        communityCopy(
+                          profile.language,
+                          matches.length === 1
+                            ? "oneGathering"
+                            : "gatheringCount",
+                        ).replace("{count}", String(matches.length)),
+                      ]
+                    : []),
                 ].join(", ")}
                 onPress={() => setSelected(on ? "" : key(d))}
                 style={{
@@ -241,6 +255,9 @@ export default function GatheringCalendar({
           );
         })}
       </View>
+      <Text style={{ fontSize: 12, color: surface.muted }}>
+        {communityCopy(profile.language, "calendarLegend")}
+      </Text>
       {!!holyDays.length && (
         <View
           style={{

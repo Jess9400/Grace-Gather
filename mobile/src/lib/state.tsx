@@ -19,6 +19,7 @@ import * as storage from "./storage";
 import { savedJournalEntries } from "../generated/quiet-diary";
 import { backend } from "./backend";
 import { JOURNAL_MESSAGE_LIMIT } from "./journal-chat";
+import { applyRetriedGuidance } from "./journal-retry";
 import {
   acknowledgeCleanup,
   applyJournalRetention,
@@ -35,6 +36,11 @@ interface State {
   saveProfile: (p: Profile) => Promise<void>;
   saveEntry: (e: Entry, keep?: boolean) => Promise<void>;
   saveJournalResponse: (id: string, response: JournalResponse) => Promise<void>;
+  saveRetriedGuidance: (
+    id: string,
+    expectedText: string,
+    guidance: Partial<Entry>,
+  ) => Promise<void>;
   appendJournalMessages: (
     id: string,
     messages: JournalMessage[],
@@ -196,6 +202,15 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       ),
     );
   }
+  async function saveRetriedGuidance(
+    id: string,
+    expectedText: string,
+    guidance: Partial<Entry>,
+  ) {
+    await commitEntries((all) =>
+      applyRetriedGuidance(all, id, expectedText, guidance),
+    );
+  }
   async function appendJournalMessages(id: string, messages: JournalMessage[]) {
     let updated: Entry | undefined;
     await commitEntries((all) => {
@@ -307,6 +322,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         saveProfile,
         saveEntry,
         saveJournalResponse,
+        saveRetriedGuidance,
         appendJournalMessages,
         deleteEntry,
         restoreEntry,

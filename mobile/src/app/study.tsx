@@ -15,6 +15,9 @@ import {
 import { useApp } from "../lib/state";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
 import { collectionFor, ensureCollection, getReadingVerse } from "../lib/bible";
+import { searchBible } from "../lib/bible-search";
+import type { ReadingVerse } from "../lib/bible";
+import { communityCopy } from "../lib/community-copy";
 export default function Study({
   embedded = false,
 }: { embedded?: boolean } = {}) {
@@ -30,6 +33,16 @@ export default function Study({
   const needle = normalize(query.trim());
   const collection = collectionFor(profile);
   const [loaded, setLoaded] = useState("");
+  const [searchResult, setSearchResult] = useState<{
+    key: string;
+    matches: ReadingVerse[];
+  }>({ key: "", matches: [] });
+  const searchKey = `${collection ?? ""}|${loaded}|${query}`;
+  const eligible =
+    !!collection && loaded === collection && query.trim().length >= 3;
+  const matches =
+    eligible && searchResult.key === searchKey ? searchResult.matches : [];
+  const searching = eligible && searchResult.key !== searchKey;
   useEffect(() => {
     let active = true;
     if (collection)
@@ -44,6 +57,16 @@ export default function Study({
       active = false;
     };
   }, [collection]);
+  useEffect(() => {
+    if (!collection || !eligible) return;
+    const timer = setTimeout(() => {
+      setSearchResult({
+        key: searchKey,
+        matches: searchBible(collection, query),
+      });
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [collection, eligible, query, searchKey]);
   const topics = [
     { mood: "grace", title: tr("Grace"), refs: ["EPH.2.8"] },
     { mood: "forgiveness", title: tr("Forgiveness"), refs: ["MAT.6.14"] },
@@ -101,12 +124,43 @@ export default function Study({
             value={query}
             onChangeText={setQuery}
           />
-          {!topics.length && (
-            <Body>
-              {tr(
-                "No matching theme yet. Try another word or start a discussion.",
-              )}
+          {searching && (
+            <Body small>
+              {communityCopy(profile.language, "searchingBible")}
             </Body>
+          )}
+          {!searching &&
+            !topics.length &&
+            !matches.length &&
+            !!query.trim() && (
+              <Body>{communityCopy(profile.language, "noBibleMatch")}</Body>
+            )}
+          {!!matches.length && (
+            <>
+              <Heading>
+                {communityCopy(profile.language, "matchingPassages")}
+              </Heading>
+              {matches.map((verse) => (
+                <Card key={verse.id}>
+                  <Body>{verse.text}</Body>
+                  <Button
+                    secondary
+                    title={verse.reference}
+                    onPress={() =>
+                      router.push({
+                        pathname: "/verse/[id]",
+                        params: { id: verse.id },
+                      })
+                    }
+                  />
+                </Card>
+              ))}
+              {matches.length === 20 && (
+                <Body small>
+                  {communityCopy(profile.language, "firstPassages")}
+                </Body>
+              )}
+            </>
           )}
           {topics.map((topic) => (
             <Card key={topic.mood}>

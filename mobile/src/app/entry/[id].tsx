@@ -1,3 +1,4 @@
+import JournalGuidanceStatus from "../../components/JournalGuidanceStatus";
 import JournalConversation from "../../components/JournalConversation";
 import JournalActionButton from "../../components/JournalActionButton";
 import { useEffect, useState } from "react";
@@ -118,10 +119,8 @@ export default function EntryScreen() {
       A15: "/prayers?compose=1",
       A16: "/prayers",
       A18: "/giving",
-      A19: "/explore",
       A20: "/testimonies/edit",
       A26: "/study",
-      A25: "/(tabs)/gatherings",
     };
     if (selectedAction === "A04" || selectedAction === "A14") {
       router.push(confessionJournalTarget(entry!.id, selectedAction));
@@ -132,8 +131,12 @@ export default function EntryScreen() {
       void gathering("list").then((items) => {
         const match = Array.isArray(items) ? matchingJournalGathering(items, journalTheme(entry!).id, profile.language) : undefined;
         if (match) router.push({ pathname: "/gathering/[id]", params: { id: match.id } });
-        else router.push({ pathname: "/(tabs)/gatherings", params: { journalMatch: "none" } });
-      }).catch(() => router.push("/(tabs)/gatherings"));
+        else router.push({ pathname: "/(tabs)/gatherings", params: { journalMatch: "none", returnEntry: entry!.id } });
+      }).catch(() => router.push({ pathname: "/(tabs)/gatherings", params: { returnEntry: entry!.id } }));
+      return;
+    }
+    if (selectedAction === "A19" || selectedAction === "A25") {
+      router.push({ pathname: selectedAction === "A19" ? "/(tabs)/explore" : "/(tabs)/gatherings", params: { returnEntry: entry!.id } });
       return;
     }
     if (routes[selectedAction]) {
@@ -165,6 +168,7 @@ export default function EntryScreen() {
         initialAction={action}
         onAction={openAction}
       >
+        <JournalGuidanceStatus entry={entry} />
         <View style={s.letter}>
           <View style={s.margin} />
           <View style={s.letterTop}>

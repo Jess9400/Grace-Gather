@@ -1,4 +1,6 @@
-import { avatarColor, initial } from "../lib/people-theme";
+import { CelestialAvatar } from "../components/MemberAvatar";
+import { avatarVariant } from "../lib/avatar";
+import { useCommunity } from "../lib/discussion-state";
 import { q } from "../lib/quiet-copy";
 import Disclosure from "../components/Disclosure";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
@@ -35,6 +37,7 @@ import {
 } from "../lib/notifications";
 export default function Profile() {
   const tr = useInterfaceCopy();
+  const { userId } = useCommunity();
   const { clear } = useQuiet();
   const { profile, reset } = useApp(),
     t = (k: string) => copy(profile.language, k),
@@ -119,15 +122,10 @@ export default function Profile() {
       <Notice text={notice} />
       <Card>
         <View style={s.who}>
-          <View
-            accessible={false}
-            style={[
-              s.avatar,
-              { backgroundColor: avatarColor(profile.name || "·") },
-            ]}
-          >
-            <Text style={s.initial}>{initial(profile.name)}</Text>
-          </View>
+          <CelestialAvatar
+            variant={userId ? avatarVariant(userId) : 0}
+            size={56}
+          />
           <View style={{ flex: 1, gap: 3 }}>
             <Text style={s.name}>{profile.name.trim() || tr("Friend")}</Text>
             {!!place && <Text style={s.place}>{place}</Text>}
@@ -334,14 +332,6 @@ export default function Profile() {
 }
 const s = StyleSheet.create({
   who: { flexDirection: "row", alignItems: "center", gap: 14 },
-  avatar: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  initial: { fontFamily: serif, fontSize: 24, color: colors.ink },
   name: { fontFamily: serif, fontSize: 24, lineHeight: 30, color: colors.ink },
   place: { fontSize: 14, lineHeight: 20, color: colors.cardMuted },
   facts: { borderTopWidth: 1, borderTopColor: colors.line },

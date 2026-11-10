@@ -1,5 +1,6 @@
 import JournalCleanupNotice from "./JournalCleanupNotice";
 import GatheringReminders from "../components/GatheringReminders";
+import FriendUnreadNotice from "./FriendUnreadNotice";
 import PrayerSchedule from "../components/PrayerSchedule";
 import { Pressable } from "react-native";
 import { useCommunity } from "../lib/discussion-state";
@@ -249,10 +250,7 @@ function PrayerRoom({
               : "Account and sign in",
           )}
         </Body>
-        <Button
-          title={tr("Sign in")}
-          onPress={() => router.push("/sign-in")}
-        />
+        <Button title={tr("Sign in")} onPress={() => router.push("/sign-in")} />
       </Screen>
     );
   if (mode === "review" && !data?.moderator)
@@ -274,6 +272,7 @@ function PrayerRoom({
     <Screen back place={mode === "requests" ? "altar" : undefined}>
       <Heading>{tr(pageTitle)}</Heading>
       {mode === "notifications" && <JournalCleanupNotice />}
+      {mode === "notifications" && <FriendUnreadNotice />}
       <Notice text={tr(error || notice)} />
       {!writing && (
         <>

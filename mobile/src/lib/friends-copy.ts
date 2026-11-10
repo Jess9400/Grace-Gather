@@ -1,5 +1,40 @@
 import type { Language } from "./content";
 const words: Record<string, string[]> = {
+  "Join discussion": [
+    "Participar da discussão",
+    "Participar en la conversación",
+    "Присоединиться к обсуждению",
+  ],
+  "Loading discussions…": [
+    "Carregando discussões…",
+    "Cargando conversaciones…",
+    "Загрузка обсуждений…",
+  ],
+  "No matching discussions found.": [
+    "Nenhuma discussão encontrada.",
+    "No se encontraron conversaciones.",
+    "Обсуждения не найдены.",
+  ],
+  "Enter at least two characters to search discussions.": [
+    "Digite ao menos dois caracteres para buscar discussões.",
+    "Escribe al menos dos caracteres para buscar conversaciones.",
+    "Введите не менее двух символов для поиска обсуждений.",
+  ],
+  "Sign in to take part in discussions.": [
+    "Entre para participar das discussões.",
+    "Inicia sesión para participar en las conversaciones.",
+    "Войдите, чтобы участвовать в обсуждениях.",
+  ],
+  "No matching discussions in the loaded posts.": [
+    "Nenhuma discussão encontrada entre as publicações carregadas.",
+    "No hay conversaciones coincidentes entre las publicaciones cargadas.",
+    "Среди загруженных обсуждений ничего не найдено.",
+  ],
+  "Search covers discussions already loaded. Load more to search further.": [
+    "A busca inclui as discussões já carregadas. Carregue mais para continuar procurando.",
+    "La búsqueda incluye las conversaciones cargadas. Carga más para seguir buscando.",
+    "Поиск охватывает загруженные обсуждения. Загрузите ещё, чтобы продолжить поиск.",
+  ],
   // The screen behind "Chats" on Gather: friends (1:1) and group chats.
   "Your people": ["Sua gente", "Tu gente", "Свои люди"],
   Discussions: ["Discussões", "Conversaciones", "Обсуждения"],

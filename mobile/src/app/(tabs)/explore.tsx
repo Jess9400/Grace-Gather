@@ -1,12 +1,7 @@
 import { friendCopy } from "../../lib/friends-copy";
 import { communityCopy } from "../../lib/community-copy";
 import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  Redirect,
-  router,
-  useFocusEffect,
-  useLocalSearchParams,
-} from "expo-router";
+import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { View } from "react-native";
 import {
   Screen,
@@ -19,18 +14,23 @@ import {
 } from "../../components/community-ui";
 import { FilterStrip, TextAction } from "../../components/CommunityControls";
 import DiscoverPost from "../../components/DiscoverPost";
+import PublicDiscussions from "../../components/PublicDiscussions";
 import { useApp } from "../../lib/state";
 import { useDiscover, useInteractions } from "../../lib/discover";
 import { useInterfaceCopy } from "../../lib/use-interface-copy";
+import { journalReturnId } from "../../lib/journal-navigation";
 export default function Explore() {
   const tr = useInterfaceCopy();
-  const { profile } = useApp(),
+  const { profile, entries } = useApp(),
     c = (k: string) => communityCopy(profile.language, k),
-    { category: requested } = useLocalSearchParams<{ category?: string }>(),
+    { category: requested, returnEntry } = useLocalSearchParams<{
+      category?: string;
+      returnEntry?: string;
+    }>(),
     category = requested === "discussions" ? "discussions" : "all";
   const [search, setSearch] = useState(""),
     [query, setQuery] = useState("");
-  const feed = useDiscover(category, query),
+  const feed = useDiscover("all", query),
     reactions = useInteractions(feed.items.map((x) => x.id));
   useEffect(() => {
     const timer = setTimeout(() => setQuery(search), 300);
@@ -63,8 +63,7 @@ export default function Explore() {
       ]}
       value={category === "discussions" ? "discussions" : "all"}
       onChange={(value) => {
-        // Discussions live in one place: Your people, on Gather.
-        if (value === "discussions") router.push("/friends");
+        router.setParams({ category: value });
       }}
     />
   );
@@ -83,7 +82,9 @@ export default function Explore() {
         <TextAction
           title={friendCopy(profile.language, "Find friends")}
           icon="people-outline"
-          onPress={() => router.push("/friends")}
+          onPress={() =>
+            router.push({ pathname: "/friends", params: { view: "find" } })
+          }
         />
       </View>
       <Field
@@ -96,42 +97,55 @@ export default function Explore() {
       {sections}
     </>
   );
-  if (category === "discussions") return <Redirect href="/friends" />;
   return (
-    <Screen place="window">
+    <Screen place="window" back={!!journalReturnId(returnEntry, entries)}>
       {discoverHeader}
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          flexWrap: "wrap",
-        }}
-      >
-        <TextAction
-          title={c("shareTestimony")}
-          icon="create-outline"
-          onPress={() => router.push("/testimonies/edit")}
-        />
-      </View>
-      <Notice text={feed.error || reactions.error} />
-      {!!feed.error && (
-        <Button secondary title={c("retry")} onPress={() => void feed.load()} />
-      )}
-      {feed.items
-        .filter((x) => !x.tradition || x.tradition === profile.tradition)
-        .map((item) => (
-          <DiscoverPost key={item.id} item={item} interactions={reactions} />
-        ))}
-      {feed.loading && <Busy />}
-      {!feed.loading && !feed.error && !feed.items.length && (
-        <Body>{c("noStories")}</Body>
-      )}
-      {feed.more && !feed.loading && (
-        <Button
-          secondary
-          title={c("moreStories")}
-          onPress={() => void feed.load(true)}
-        />
+      {category === "discussions" ? (
+        <PublicDiscussions query={query} />
+      ) : (
+        <>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              flexWrap: "wrap",
+            }}
+          >
+            <TextAction
+              title={c("shareTestimony")}
+              icon="create-outline"
+              onPress={() => router.push("/testimonies/edit")}
+            />
+          </View>
+          <Notice text={feed.error || reactions.error} />
+          {!!feed.error && (
+            <Button
+              secondary
+              title={c("retry")}
+              onPress={() => void feed.load()}
+            />
+          )}
+          {feed.items
+            .filter((x) => !x.tradition || x.tradition === profile.tradition)
+            .map((item) => (
+              <DiscoverPost
+                key={item.id}
+                item={item}
+                interactions={reactions}
+              />
+            ))}
+          {feed.loading && <Busy />}
+          {!feed.loading && !feed.error && !feed.items.length && (
+            <Body>{c("noStories")}</Body>
+          )}
+          {feed.more && !feed.loading && (
+            <Button
+              secondary
+              title={c("moreStories")}
+              onPress={() => void feed.load(true)}
+            />
+          )}
+        </>
       )}
     </Screen>
   );

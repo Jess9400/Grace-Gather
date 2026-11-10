@@ -1,4 +1,5 @@
 import { setStudySearch } from "../../lib/study-search";
+import { searchBible } from "../../lib/bible-search";
 import { useInterfaceCopy } from "../../lib/use-interface-copy";
 import { useRef, useState, useCallback, useEffect } from "react";
 import {
@@ -92,6 +93,13 @@ function BibleReader({ collection }: { collection: CollectionId | null }) {
   const [search, setSearch] = useState("");
   function openSearch() {
     if (!search.trim()) return;
+    if (collection && /^.+?\s+\d+(?::\d+[a-z]?)?$/i.test(search.trim())) {
+      const match = searchBible(collection, search.trim())[0];
+      if (match) {
+        router.push({ pathname: "/verse/[id]", params: { id: match.id } });
+        return;
+      }
+    }
     setStudySearch(search);
     router.push("/study");
   }
@@ -276,7 +284,9 @@ function BibleReader({ collection }: { collection: CollectionId | null }) {
         </View>
         <Pressable
           accessibilityRole="button"
-          onPress={() => router.push("/friends")}
+          onPress={() =>
+            router.push({ pathname: "/friends", params: { view: "mine" } })
+          }
           style={({ pressed }) => ({
             minHeight: 44,
             alignSelf: "flex-start",
