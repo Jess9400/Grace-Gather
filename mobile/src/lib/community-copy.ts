@@ -97,7 +97,7 @@ const words: Record<string, string[]> = {
     "Buscar sesiones, temas y anfitriones",
     "Поиск встреч, тем и ведущих",
   ],
-  chats: ["Chats", "Conversas", "Chats", "Чаты"],
+  chats: ["Discussions", "Discussões", "Conversaciones", "Обсуждения"],
   previousPage: ["Previous", "Anterior", "Anterior", "Назад"],
   nextPage: ["Next", "Próxima", "Siguiente", "Далее"],
   discover: ["Discover", "Descobrir", "Descubrir", "Обзор"],
@@ -293,10 +293,10 @@ const words: Record<string, string[]> = {
   joinNow: ["Join", "Entrar", "Entrar", "Войти"],
   hostedBy: ["Hosted by", "Conduzido por", "Dirigido por", "Ведущий:"],
   chatsHint: [
-    "Friends and group chats",
-    "Amigos e conversas em grupo",
-    "Amigos y chats de grupo",
-    "Друзья и общие чаты",
+    "Talk together, and message your friends",
+    "Conversem juntos e escreva aos amigos",
+    "Conversen juntos y escribe a tus amigos",
+    "Общие беседы и переписка с друзьями",
   ],
   reservedPlace: ["You're going", "Você vai", "Vas a ir", "Вы записаны"],
   createGathering: [

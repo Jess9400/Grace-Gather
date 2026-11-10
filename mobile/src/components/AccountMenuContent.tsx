@@ -1,3 +1,4 @@
+import { friendCopy } from "../lib/friends-copy";
 import { usePrayerUnread } from "../lib/prayers";
 import { router, type Href } from "expo-router";
 import { View, Text, Pressable, StyleSheet } from "react-native";
@@ -77,9 +78,9 @@ export default function AccountMenuContent({
         onNavigate={onNavigate}
       />
       <AccountMenuRow
-        title={tr("Community")}
+        title={friendCopy(profile.language, "Discussions")}
         icon="people-outline"
-        route="/community"
+        route="/friends"
         onNavigate={onNavigate}
       />
       <AccountMenuRow

@@ -2,17 +2,86 @@ import type { Language } from "./content";
 const words: Record<string, string[]> = {
   // The screen behind "Chats" on Gather: friends (1:1) and group chats.
   "Your people": ["Sua gente", "Tu gente", "Свои люди"],
+  Discussions: ["Discussões", "Conversaciones", "Обсуждения"],
+  Discussion: ["Discussão", "Conversación", "Обсуждение"],
+  "Talk together about a verse or anything on your heart. Every message passes a safety check before others see it.":
+    [
+      "Conversem sobre um versículo ou o que estiver no coração. Cada mensagem passa por uma verificação de segurança antes que outros a vejam.",
+      "Conversen sobre un versículo o lo que lleven en el corazón. Cada mensaje pasa una revisión de seguridad antes de que otros lo vean.",
+      "Говорите о стихе или о том, что на сердце. Каждое сообщение проходит проверку безопасности, прежде чем его увидят другие.",
+    ],
+  "Start a discussion": [
+    "Iniciar uma discussão",
+    "Iniciar una conversación",
+    "Начать обсуждение",
+  ],
+  All: ["Todas", "Todas", "Все"],
+  Mine: ["Minhas", "Mías", "Мои"],
+  "Being checked": ["Em verificação", "En revisión", "На проверке"],
+  "1 reply": ["1 resposta", "1 respuesta", "1 ответ"],
+  replies: ["respostas", "respuestas", "ответов"],
+  "Started by": ["Iniciada por", "Iniciada por", "Автор:"],
+  "You have not joined a discussion yet.": [
+    "Você ainda não participou de nenhuma discussão.",
+    "Aún no has participado en ninguna conversación.",
+    "Вы пока не участвовали ни в одном обсуждении.",
+  ],
+  "No discussions yet. Start the first one.": [
+    "Ainda não há discussões. Comece a primeira.",
+    "Aún no hay conversaciones. Empieza la primera.",
+    "Обсуждений пока нет. Начните первое.",
+  ],
+  "More discussions": [
+    "Mais discussões",
+    "Más conversaciones",
+    "Ещё обсуждения",
+  ],
+  "Be kind. Every message passes a safety check before others see it, and moderators look at anything uncertain. Everyone in the community can read this, so please do not share private details.":
+    [
+      "Seja gentil. Cada mensagem passa por uma verificação de segurança antes que outros a vejam, e moderadores analisam o que gerar dúvida. Toda a comunidade pode ler, então não compartilhe detalhes pessoais.",
+      "Sé amable. Cada mensaje pasa una revisión de seguridad antes de que otros lo vean, y los moderadores revisan lo dudoso. Toda la comunidad puede leerlo, así que no compartas datos personales.",
+      "Будьте добры друг к другу. Каждое сообщение проходит проверку безопасности, прежде чем его увидят другие, а сомнительные случаи смотрят модераторы. Это читает вся община, поэтому не делитесь личными данными.",
+    ],
+  "Being checked. Only you can see this for now.": [
+    "Em verificação. Por enquanto só você vê isto.",
+    "En revisión. Por ahora solo tú lo ves.",
+    "На проверке. Пока это видите только вы.",
+  ],
+  "Not published.": ["Não publicada.", "No publicado.", "Не опубликовано."],
+  "This discussion is no longer available.": [
+    "Esta discussão não está mais disponível.",
+    "Esta conversación ya no está disponible.",
+    "Это обсуждение больше недоступно.",
+  ],
+  "You will stop seeing what this member writes in discussions.": [
+    "Você deixará de ver o que este membro escreve nas discussões.",
+    "Dejarás de ver lo que este miembro escribe en las conversaciones.",
+    "Вы перестанете видеть сообщения этого участника в обсуждениях.",
+  ],
+  "Check again": ["Verificar de novo", "Revisar de nuevo", "Проверить ещё раз"],
+  "Delete my message": [
+    "Apagar minha mensagem",
+    "Eliminar mi mensaje",
+    "Удалить моё сообщение",
+  ],
+  "Anyone in the community can read and answer. It appears once it passes the safety check.":
+    [
+      "Qualquer pessoa da comunidade pode ler e responder. Ela aparece depois de passar pela verificação de segurança.",
+      "Cualquier persona de la comunidad puede leer y responder. Aparece cuando pasa la revisión de seguridad.",
+      "Любой участник общины может прочитать и ответить. Обсуждение появится после проверки безопасности.",
+    ],
+  About: ["Sobre", "Sobre", "О стихе"],
+  Title: ["Título", "Título", "Заголовок"],
+  "What would you like to talk about?": [
+    "Sobre o que você gostaria de conversar?",
+    "¿De qué te gustaría conversar?",
+    "О чём вы хотели бы поговорить?",
+  ],
   "Talk any day of the week, not only at gatherings.": [
     "Converse em qualquer dia da semana, não só nos encontros.",
     "Conversa cualquier día de la semana, no solo en los encuentros.",
     "Общайтесь в любой день недели, не только на встречах.",
   ],
-  "Open rooms for the whole community. Moderators keep them kind.": [
-    "Salas abertas para toda a comunidade. Moderadores cuidam para que sejam acolhedoras.",
-    "Salas abiertas para toda la comunidad. Los moderadores cuidan que sean amables.",
-    "Открытые комнаты для всей общины. Модераторы следят, чтобы в них было по-доброму.",
-  ],
-  "Open to everyone": ["Aberta a todos", "Abierta a todos", "Открыта для всех"],
   "No messages yet": [
     "Ainda sem mensagens",
     "Aún sin mensajes",
@@ -23,12 +92,6 @@ const words: Record<string, string[]> = {
     "Privado · solo ustedes dos",
     "Личный чат · только вы двое",
   ],
-  "Be kind. Moderators look after this chat, and anything unkind is removed. Everyone in the community can read it, so please do not share private details.":
-    [
-      "Seja gentil. Moderadores cuidam desta conversa, e o que for ofensivo é removido. Toda a comunidade pode ler, então não compartilhe detalhes pessoais.",
-      "Sé amable. Los moderadores cuidan este chat y lo ofensivo se elimina. Toda la comunidad puede leerlo, así que no compartas datos personales.",
-      "Будьте добры друг к другу. За чатом следят модераторы, недобрые сообщения удаляются. Его читает вся община, поэтому не делитесь личными данными.",
-    ],
   "Write something kind…": [
     "Escreva algo gentil…",
     "Escribe algo amable…",
@@ -52,7 +115,6 @@ const words: Record<string, string[]> = {
       "Las personas solo aparecen aquí si eligieron ser encontradas y ambos aceptaron.",
       "Люди появляются здесь, только если разрешили себя находить и вы оба согласились.",
     ],
-  "Group chats": ["Conversas em grupo", "Chats de grupo", "Общие чаты"],
   "No messages yet. Be the first to say hello.": [
     "Ainda não há mensagens. Seja o primeiro a dizer olá.",
     "Aún no hay mensajes. Sé el primero en saludar.",
@@ -64,45 +126,17 @@ const words: Record<string, string[]> = {
       "Elige un nombre público para escribir aquí. Solo este nombre aparece con tus mensajes.",
       "Выберите публичное имя, чтобы писать здесь. С сообщениями видно только его.",
     ],
-  "Group chats are not available yet.": [
-    "As conversas em grupo ainda não estão disponíveis.",
-    "Los chats de grupo aún no están disponibles.",
-    "Общие чаты пока недоступны.",
-  ],
-  "You are writing quickly. Please wait a moment.": [
-    "Você está escrevendo rápido. Aguarde um momento.",
-    "Estás escribiendo muy rápido. Espera un momento.",
-    "Вы пишете слишком часто. Подождите немного.",
-  ],
   "Block this member?": [
     "Bloquear este membro?",
     "¿Bloquear a este miembro?",
     "Заблокировать участника?",
   ],
-  "You will stop seeing each other's messages, and any friendship between you ends.":
-    [
-      "Vocês deixarão de ver as mensagens um do outro, e qualquer amizade entre vocês termina.",
-      "Dejarán de ver los mensajes del otro, y cualquier amistad entre ustedes termina.",
-      "Вы перестанете видеть сообщения друг друга, а дружба между вами прекратится.",
-    ],
   Cancel: ["Cancelar", "Cancelar", "Отмена"],
   "Member blocked": [
     "Membro bloqueado",
     "Miembro bloqueado",
     "Участник заблокирован",
   ],
-  "Group chat reports": [
-    "Denúncias das conversas em grupo",
-    "Denuncias de chats de grupo",
-    "Жалобы в общих чатах",
-  ],
-  "Keep message": ["Manter mensagem", "Mantener mensaje", "Оставить сообщение"],
-  "Remove message": [
-    "Remover mensagem",
-    "Eliminar mensaje",
-    "Удалить сообщение",
-  ],
-  Member: ["Membro", "Miembro", "Участник"],
   "Friends & chats": ["Amigos e conversas", "Amigos y chats", "Друзья и чаты"],
   "Find friends": ["Encontrar amigos", "Buscar amigos", "Найти друзей"],
   "Search by public name": [
