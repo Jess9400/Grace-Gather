@@ -1,7 +1,7 @@
 import { interfaceCopy } from "../lib/interface-copy";
 import { testimonyCopy } from "../lib/testimony-copy";
 import { communityCopy } from "../lib/community-copy";
-import { View, Text, Pressable, Share, Linking } from "react-native";
+import { View, Text, Pressable, Share } from "react-native";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { Body, colors } from "./community-ui";
@@ -96,13 +96,7 @@ export default function DiscoverPost({
     c = (k: string) => communityCopy(profile.language, k);
   const open = () =>
     router.push({ pathname: "/story/[id]", params: { id: item.id } });
-  const read = () => {
-    if (item.origin === "publisher" && item.url) {
-      void Linking.openURL(item.url).catch(open);
-    } else {
-      open();
-    }
-  };
+  const read = open;
   const body = storyText(item.summary, profile.language);
   return (
     <View
@@ -149,16 +143,16 @@ export default function DiscoverPost({
           </Text>
           <Text style={{ color: colors.inactive, fontSize: 11, marginTop: 3 }}>
             {item.origin === "publisher"
-              ? interfaceCopy(profile.language, "Publisher story · Opens a PDF")
+              ? c("publisherStory")
               : item.origin === "community"
-              ? c("communityTestimony")
-              : item.origin === "news"
-                ? c("news")
-                : item.origin === "editorial"
-                  ? c("editorial")
-                  : item.type === "stories"
-                    ? c("historical")
-                    : c("reflection")}
+                ? c("communityTestimony")
+                : item.origin === "news"
+                  ? c("news")
+                  : item.origin === "editorial"
+                    ? c("editorial")
+                    : item.type === "stories"
+                      ? c("historical")
+                      : c("reflection")}
             {item.publishedAt
               ? " · " +
                 new Date(item.publishedAt).toLocaleDateString(profile.language)
@@ -194,7 +188,11 @@ export default function DiscoverPost({
         <Body small>{item.tags.slice(0, 2).join(" · ")}</Body>
       )}
       <TextAction
-        title={item.origin === "publisher" ? interfaceCopy(profile.language, "Read the full story") : c("readDeeper")}
+        title={
+          item.origin === "publisher"
+            ? interfaceCopy(profile.language, "Read the full story")
+            : c("readDeeper")
+        }
         icon="arrow-forward"
         onPress={read}
       />

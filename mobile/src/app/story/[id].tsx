@@ -57,7 +57,11 @@ export default function Story() {
   const [item, setItem] = useState<StoryData | null>(null),
     [loading, setLoading] = useState(true),
     [related, setRelated] = useState<StoryData[]>([]),
-    [readError, setReadError] = useState("");
+    [readError, setReadError] = useState(""),
+    [publisherPages, setPublisherPages] = useState<string[]>([]),
+    [publisherLoading, setPublisherLoading] = useState(false),
+    [publisherError, setPublisherError] = useState(false),
+    [publisherRetry, setPublisherRetry] = useState(0);
   const [comments, setComments] = useState<Comment[]>([]),
     [uid, setUid] = useState(""),
     [commentError, setCommentError] = useState(""),
@@ -159,6 +163,42 @@ export default function Story() {
     });
     return () => s?.data.subscription.unsubscribe();
   }, [loadStory, reloadComments]);
+  useEffect(() => {
+    let active = true;
+    if (!backend || item?.origin !== "publisher" || item.id !== id) return;
+    const client = backend;
+    void Promise.resolve()
+      .then(() => {
+        if (!active) return null;
+        setPublisherPages([]);
+        setPublisherError(false);
+        setPublisherLoading(true);
+        return client.functions.invoke("story-reader", { body: { id } });
+      })
+      .then((result) => {
+        if (!active || !result) return;
+        const { data, error } = result;
+        if (
+          error ||
+          !Array.isArray(data?.pages) ||
+          !data.pages.length ||
+          !data.pages.every((page: unknown) => typeof page === "string")
+        ) {
+          setPublisherError(true);
+        } else {
+          setPublisherPages(data.pages);
+        }
+      })
+      .catch(() => {
+        if (active) setPublisherError(true);
+      })
+      .finally(() => {
+        if (active) setPublisherLoading(false);
+      });
+    return () => {
+      active = false;
+    };
+  }, [id, item?.id, item?.origin, publisherRetry]);
   async function act(fn: () => Promise<void>) {
     setBusy(true);
     setNotice("");
@@ -240,14 +280,19 @@ export default function Story() {
           <Body small>
             {item.origin === "community"
               ? c("communityTestimony")
-              : item.origin === "news"
-                ? c("news")
-                : item.origin === "editorial"
-                  ? c("editorial")
-                  : item.type === "stories"
-                    ? c("historical")
-                    : c("reflection")}{" "}
+              : item.origin === "publisher"
+                ? c("publisherStory")
+                : item.origin === "news"
+                  ? c("news")
+                  : item.origin === "editorial"
+                    ? c("editorial")
+                    : item.type === "stories"
+                      ? c("historical")
+                      : c("reflection")}{" "}
             · {item.source}
+            {item.origin === "publisher" && item.author
+              ? ` · ${item.author}`
+              : ""}
           </Body>
         </View>
         <Pressable
@@ -322,24 +367,56 @@ export default function Story() {
       {item.origin === "community" && (
         <Body small>{c("personalExperience")}</Body>
       )}
-      <Card>
-        {item.origin === "community" ? (
-          <Body>{storyText(item.body, profile.language)}</Body>
-        ) : (
-          <>
-            {storyText(item.summary, profile.language) !==
-              storyText(item.body, profile.language) && (
-              <Body>{storyText(item.summary, profile.language)}</Body>
-            )}
-            {storyText(item.body, profile.language)
-              .split(/\n\s*\n/)
-              .filter(Boolean)
-              .map((paragraph, index) => (
-                <Body key={index}>{paragraph}</Body>
+      {item.origin === "publisher" ? (
+        <>
+          {publisherLoading && <Busy />}
+          {publisherError && (
+            <>
+              <Body small>{c("publisherUnavailable")}</Body>
+              <TextAction
+                title={l("retry")}
+                onPress={() => setPublisherRetry((n) => n + 1)}
+              />
+            </>
+          )}
+          {publisherPages.length > 0 && (
+            <Card>
+              {publisherPages.map((page, index) => (
+                <Body key={index}>{page}</Body>
               ))}
-          </>
-        )}
-      </Card>
+            </Card>
+          )}
+          {!!item.url &&
+            /^https:\/\/christianfaithstories\.org\/wp-content\/uploads\/\d{4}\/\d{2}\/[a-z0-9%._-]+\.pdf$/i.test(
+              item.url,
+            ) && (
+              <TextAction
+                title={c("openOriginal")}
+                icon="open-outline"
+                onPress={() => void Linking.openURL(item.url!)}
+              />
+            )}
+        </>
+      ) : (
+        <Card>
+          {item.origin === "community" ? (
+            <Body>{storyText(item.body, profile.language)}</Body>
+          ) : (
+            <>
+              {storyText(item.summary, profile.language) !==
+                storyText(item.body, profile.language) && (
+                <Body>{storyText(item.summary, profile.language)}</Body>
+              )}
+              {storyText(item.body, profile.language)
+                .split(/\n\s*\n/)
+                .filter(Boolean)
+                .map((paragraph, index) => (
+                  <Body key={index}>{paragraph}</Body>
+                ))}
+            </>
+          )}
+        </Card>
+      )}
       {!!item.reflection && <Body>{item.reflection}</Body>}
       {psalm && (
         <Card>
@@ -352,7 +429,7 @@ export default function Story() {
           <External title={t("source")} url={psalm.source} />
         </Card>
       )}
-      {!!item.resources?.length && (
+      {item.origin !== "publisher" && !!item.resources?.length && (
         <View style={{ gap: 2, paddingVertical: 4 }}>
           <Text
             style={{ color: colors.muted, fontSize: 13, fontWeight: "600" }}
