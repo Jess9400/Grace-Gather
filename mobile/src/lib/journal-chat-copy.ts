@@ -1,5 +1,11 @@
 import type { Language } from "./content";
 const words = {
+  dailyLimit: [
+    "You’ve used today’s two free replies. Your message is saved; try again after midnight UTC.",
+    "Você já usou as duas respostas gratuitas de hoje. Sua mensagem foi salva; tente novamente após a meia-noite UTC.",
+    "Ya usaste las dos respuestas gratuitas de hoy. Tu mensaje está guardado; inténtalo después de medianoche UTC.",
+    "Вы уже использовали два бесплатных ответа за сегодня. Сообщение сохранено; попробуйте после полуночи UTC.",
+  ],
   prompt: [
     "Did this help, or would you like to keep talking?",
     "Isso ajudou ou você gostaria de continuar conversando?",

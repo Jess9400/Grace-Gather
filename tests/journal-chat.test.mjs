@@ -109,15 +109,16 @@ import {createContext,runInContext} from 'node:vm';
 import * as chatPolicy from '../supabase/functions/_shared/journal-chat-policy.js';
 import * as journeyPolicy from '../supabase/functions/_shared/journey-policy.js';
 test('conversation handler authenticates, reserves quota and sends context to the provider',async()=>{
- let handler,providerBody,calls=0,quota=0,providerReply=answer;
+ let handler,providerBody,calls=0,quota=0,providerReply=answer,allowed=true,providerFails=false;
+ const reservations=[];
  const map=JSON.parse(readFileSync(new URL('../supabase/functions/_shared/journal-map.json',import.meta.url)));
- const ctx=createContext({exports:{},JSON,Deno:{env:{get:()=>undefined}},require:(id)=>{
-  if(id.endsWith('http.ts'))return {serve:fn=>handler=fn,identity:async req=>{if(!req.headers.get('authorization'))throw Error('unauthorized');return {user:{id:'test-user'},service:{}};},json:(body,status=200)=>new Response(JSON.stringify(body),{status})};
+ const ctx=createContext({exports:{},JSON,crypto,Deno:{env:{get:()=>undefined}},require:(id)=>{
+  if(id.endsWith('http.ts'))return {serve:fn=>handler=fn,identity:async req=>{if(!req.headers.get('authorization'))throw Error('unauthorized');return {user:{id:'test-user'},service:{rpc:async(name,params)=>{reservations.push({name,params});return {data:allowed,error:null};}}};},json:(body,status=200)=>new Response(JSON.stringify(body),{status})};
   if(id.endsWith('journal-chat-policy.js'))return chatPolicy;
   if(id.endsWith('journey-policy.js'))return journeyPolicy;
   if(id.endsWith('journal-map.json'))return map;
   if(id.endsWith('journey-catalog.json'))return catalog;
-  if(id.endsWith('qwen.ts'))return {reserveAI:async()=>{quota++;},qwen:async body=>{calls++;providerBody=body;return JSON.stringify(providerReply);},aiError:()=>new Response('{}',{status:400})};
+  if(id.endsWith('qwen.ts'))return {reserveAI:async()=>{quota++;},qwen:async body=>{calls++;if(providerFails)throw Error('provider_unavailable');providerBody=body;return JSON.stringify(providerReply);},aiError:()=>new Response('{}',{status:400})};
   throw Error(id);
  }});
  const source=readFileSync(new URL('../supabase/functions/llm-journey/index.ts',import.meta.url),'utf8');
@@ -153,6 +154,15 @@ test('conversation handler authenticates, reserves quota and sends context to th
  assert.equal(initialBody.actionExplanation,'A gathering may help you connect.');
  assert.match(providerBody.messages[0].content,/A18 explore Pay it forward/);
  assert.match(providerBody.messages[0].content,/actionExplanation/);
+ assert.ok(reservations.some(x=>x.name==='finish_journal_ai_request' && x.params.p_success===true));
+ providerFails=true;
+ await handler(req({...request,mode:'conversation'}));
+ assert.equal(reservations.at(-1).name,'finish_journal_ai_request');
+ assert.equal(reservations.at(-1).params.p_success,false);
+ const callsBeforeLimit=calls;
+ allowed=false;
+ await handler(req({...request,mode:'conversation'}));
+ assert.equal(calls,callsBeforeLimit);
 });
 
 test('new clients can offer comfort or create a gathering without breaking older clients',()=>{

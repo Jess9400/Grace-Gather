@@ -72,6 +72,7 @@ export interface Entry {
   sessionOnly?: boolean;
   feelings?: Record<string, number>;
   aiUnavailable?: boolean;
+  aiDailyLimitReached?: boolean;
   passageIds?: string[];
   actionIds?: string[];
   themeId?: string;

@@ -15,7 +15,7 @@ export async function qwen(body: Record<string, unknown>) {
 }
 export function aiError(error: unknown) {
   const code=error instanceof Error ? error.message : '';
-  const status: Record<string,number>={consent_required:400,invalid_preferences:400,invalid_entry:400,too_large:413,invalid_audio:400,rate_limited:429,provider_busy:503,provider_unavailable:503,service_not_configured:503,invalid_model_response:502};
+  const status: Record<string,number>={consent_required:400,invalid_preferences:400,invalid_entry:400,too_large:413,invalid_audio:400,rate_limited:429,daily_reflection_limit:429,daily_chat_limit:429,provider_busy:503,provider_unavailable:503,service_not_configured:503,invalid_model_response:502};
   return json({error:code in status?code:'ai_unavailable'},status[code]||503);
 }
 export async function reserveAI(service: ReturnType<typeof import('./http.ts')['admin']>, user: string, kind: string){
