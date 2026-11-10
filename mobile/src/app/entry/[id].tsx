@@ -33,10 +33,12 @@ import type { ReadingVerse } from "../../lib/bible";
 import { resolveJournalResponse } from "../../lib/journal-response";
 import { journalAction, journalTheme } from "../../lib/journal-guidance";
 import { gathering } from "../../lib/gatherings";
+import { confessionJournalTarget } from "../../lib/journal-navigation";
 import { hasJournalGatheringTopic, matchingJournalGathering } from "../../lib/journal-gathering";
 import {
   jc,
   journalActionCopy,
+  displayedJournalInvitation,
   type JournalCopyKey,
 } from "../../lib/journal-copy";
 
@@ -112,8 +114,6 @@ export default function EntryScreen() {
     const routes: Record<string, Href> = {
       A01: "/candle",
       A21: "/candle",
-      A04: "/(tabs)/confession",
-      A14: "/(tabs)/confession?view=comfort",
       A27: "/gathering/create",
       A15: "/prayers?compose=1",
       A16: "/prayers",
@@ -123,6 +123,10 @@ export default function EntryScreen() {
       A26: "/study",
       A25: "/(tabs)/gatherings",
     };
+    if (selectedAction === "A04" || selectedAction === "A14") {
+      router.push(confessionJournalTarget(entry!.id, selectedAction));
+      return;
+    }
     if (selectedAction === "A25" && selectedAction === action && hasJournalGatheringTopic(journalTheme(entry!).id)) {
       // Match on the already-selected theme locally; never send journal text to the catalog.
       void gathering("list").then((items) => {
@@ -274,7 +278,7 @@ export default function EntryScreen() {
             <View style={s.section}>
               <Text style={s.label}>{jc(lang, "smallStep")}</Text>
               <Text style={s.invitation}>
-                {displayResponse?.invitation ?? actionCopy.invitation}
+                {displayedJournalInvitation(lang, journalTheme(entry).id, action, displayResponse?.invitation)}
               </Text>
               <JournalActionButton
                 primary

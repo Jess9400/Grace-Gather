@@ -151,6 +151,12 @@ const text = {
     "Tómate un minuto con Dios",
     "Уделить минуту Богу",
   ],
+  backToJournal: [
+    "Back to journal",
+    "Voltar ao diário",
+    "Volver al diario",
+    "Вернуться к дневнику",
+  ],
   A04: [
     "Share what is on your heart",
     "Compartilhe o que está no seu coração",
@@ -302,6 +308,15 @@ export function journalActionCopy(
   };
   if (specific[`${theme}:${action}`])
     return { title: jc(lang, action as JournalCopyKey), invitation: specific[`${theme}:${action}`][{ en: 0, pt: 1, es: 2, ru: 3 }[lang]], prompt: jc(lang, "note") };
+  if (action === "A04") {
+    const invitations = [
+      "If you’d like someone to listen, the Confession room is a place to share what’s weighing on you. A listener may respond with care.",
+      "Se quiser que alguém escute, a sala de Confissão é um espaço para compartilhar o que pesa no seu coração. Uma pessoa pode responder com carinho.",
+      "Si te gustaría que alguien te escuche, la sala de Confesión es un lugar para compartir lo que pesa en tu corazón. Una persona puede responder con cariño.",
+      "Если хочется, чтобы вас выслушали, в комнате исповеди можно поделиться тем, что лежит на сердце. Другой человек может ответить с заботой.",
+    ];
+    return { title: jc(lang, "A04"), invitation: invitations[{ en: 0, pt: 1, es: 2, ru: 3 }[lang]], prompt: jc(lang, "note") };
+  }
   if (action === "A03") {
     const prayer = prayerCopy(lang, theme);
     if (prayer) return prayer;
@@ -398,4 +413,13 @@ export function actionInvitation(lang: Language, action: string) {
     invitations[groups[action]]?.[{ en: 0, pt: 1, es: 2, ru: 3 }[lang]] ??
     jc(lang, "heading")
   );
+}
+
+// Update the old generic invitation only for display; preserve saved journal data
+// and any individually written invitation intact.
+export function displayedJournalInvitation(lang: Language, theme: string, action: string, saved?: string) {
+  const legacy = actionInvitation(lang, "A04");
+  if (action === "A04" && (!saved || saved === legacy))
+    return journalActionCopy(lang, theme, action).invitation;
+  return saved ?? journalActionCopy(lang, theme, action).invitation;
 }

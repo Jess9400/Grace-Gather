@@ -22,7 +22,7 @@ function load(path) {
 }
 const { data } = load('mobile/src/lib/content.ts');
 const { resolveJournalResponse } = load('mobile/src/lib/journal-response.ts');
-const { journalActionCopy } = load('mobile/src/lib/journal-copy.ts');
+const { journalActionCopy, displayedJournalInvitation, actionInvitation } = load('mobile/src/lib/journal-copy.ts');
 const { journalTheme } = load('mobile/src/lib/journal-guidance.ts');
 const { journalVerseId } = load('mobile/src/lib/journal-verse-reference.ts');
 const themes = load('mobile/src/generated/journal-map.json');
@@ -106,4 +106,16 @@ test('a saved or new gathering action falls back when no session can be verified
  const reopened = await resolveJournalResponse({...item,response:stored},p);
  assert.equal(reopened.actionId,'A04');
  assert.equal(stored.actionId,'A25');
+});
+
+
+test('confession invitation explains the listener and preserves personal saved wording', () => {
+ for (const lang of ['en','pt','es','ru']) {
+  const updated = journalActionCopy(lang, 'venting', 'A04').invitation;
+  assert.notEqual(updated, actionInvitation(lang, 'A04'));
+  assert.equal(displayedJournalInvitation(lang, 'venting', 'A04', actionInvitation(lang, 'A04')), updated);
+  assert.equal(displayedJournalInvitation(lang, 'venting', 'A04', 'My personal wording'), 'My personal wording');
+ }
+ assert.match(journalActionCopy('en', 'venting', 'A04').invitation, /Confession room/);
+ assert.match(journalActionCopy('en', 'venting', 'A04').invitation, /may respond/);
 });

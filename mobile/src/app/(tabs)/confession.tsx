@@ -40,6 +40,8 @@ import {
   TextAction,
 } from "../../components/CommunityControls";
 import { designCopy } from "../../lib/design-copy";
+import { jc } from "../../lib/journal-copy";
+import { journalReturnId } from "../../lib/journal-navigation";
 import Recorder from "../../components/Recorder";
 import AudioPlayback from "../../components/AudioPlayback";
 import ConfessionAudio from "../../components/ConfessionAudio";
@@ -63,11 +65,12 @@ const themes = [
 export default function ConfessionRoom() {
   const tr = useInterfaceCopy();
   const [needsSignIn, setNeedsSignIn] = useState(false);
-  const { profile } = useApp(),
+  const { profile, entries } = useApp(),
     language = profile.language,
     t = (key: string) => copy(language, key);
   const navigation = useNavigation();
-  const { view } = useLocalSearchParams<{ view?: string }>();
+  const { view, returnEntry } = useLocalSearchParams<{ view?: string; returnEntry?: string }>();
+  const journalReturn = journalReturnId(returnEntry, entries);
   const d = (key: Parameters<typeof designCopy>[1]) =>
     designCopy(language, key);
   const [themeOpen, setThemeOpen] = useState(false),
@@ -106,7 +109,10 @@ export default function ConfessionRoom() {
     setEntering(false);
     setPage("room");
   }, [setPage]);
-  useFocusEffect(useCallback(() => () => setEntering(false), []));
+  useFocusEffect(useCallback(() => () => {
+    setEntering(false);
+    (navigation.setParams as unknown as (params: { returnEntry?: string }) => void)({ returnEntry: undefined });
+  }, [navigation]));
   function startEntrance() {
     setPage("share");
     setEntering(true);
@@ -323,6 +329,17 @@ export default function ConfessionRoom() {
                   setEntering(false);
                   setPage("room");
                   setReport(null);
+                }}
+              />
+            )}
+            {page === "room" && journalReturn && (
+              <TextAction
+                title={jc(language, "backToJournal")}
+                icon="arrow-back"
+                disabled={busy || recording || entering}
+                onPress={() => {
+                  (navigation.setParams as unknown as (params: { returnEntry?: string }) => void)({ returnEntry: undefined });
+                  router.push({ pathname: "/entry/[id]", params: { id: journalReturn } });
                 }}
               />
             )}
