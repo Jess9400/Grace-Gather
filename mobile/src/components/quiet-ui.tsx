@@ -1,4 +1,6 @@
 import MemberAvatar from "./MemberAvatar";
+import GlassBackdrop from "./GlassBackdrop";
+import { glassCard, glassOn } from "../lib/glass-proto";
 import ChurchStrip, { useRoomStrip } from "./ChurchStrip";
 import type { RoomPlace } from "../lib/church-room";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
@@ -72,6 +74,7 @@ export function Screen({
   if (strip && place)
     return (
       <SafeAreaView style={s.safe} edges={["left", "right"]}>
+        <GlassBackdrop />
         <ScrollView keyboardShouldPersistTaps="handled">
           <ChurchStrip place={place} back={back} />
           <View style={[s.page, s.roomPage]}>
@@ -89,6 +92,7 @@ export function Screen({
         avoid ? ["top", "left", "right", "bottom"] : ["top", "left", "right"]
       }
     >
+      <GlassBackdrop />
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={
@@ -194,7 +198,7 @@ export function Card({
 }) {
   return (
     <CardSurface.Provider value={true}>
-      <View style={[s.card, tint && s.accentCard]}>{children}</View>
+      <View style={[s.card, tint && s.accentCard, glassCard]}>{children}</View>
     </CardSurface.Provider>
   );
 }

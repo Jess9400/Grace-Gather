@@ -1,3 +1,5 @@
+import GlassBackdrop from "./GlassBackdrop";
+import { glassCard, glassOn } from "../lib/glass-proto";
 import MemberAvatar from "./MemberAvatar";
 import React, { createContext, useContext } from "react";
 import {
@@ -86,6 +88,7 @@ export function Screen({
       style={[s.safe, theme && { backgroundColor: theme.background }]}
       edges={strip ? ["left", "right"] : ["top", "left", "right"]}
     >
+      {!theme && <GlassBackdrop />}
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         enabled={keyboardAware && Platform.OS === "android"}
@@ -214,6 +217,7 @@ export function Card({
         style={[
           s.card,
           tint && s.accentCard,
+          !theme && glassCard,
           theme && {
             backgroundColor: theme.surface,
             borderColor: theme.line,

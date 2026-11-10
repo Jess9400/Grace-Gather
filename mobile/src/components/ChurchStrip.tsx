@@ -12,6 +12,7 @@ import { setStatusBarStyle } from "expo-status-bar";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import MemberAvatar from "./MemberAvatar";
+import { glassOn } from "../lib/glass-proto";
 import { useApp } from "../lib/state";
 import { churchCopy, type ChurchWord } from "../lib/church-copy";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
@@ -78,7 +79,18 @@ export default function ChurchStrip({
   if (!snapshot || !at) return null;
   const crop = roomCrop(place, insets.top, at, snapshot, width);
   return (
-    <View style={[st.strip, { height: crop.height }]}>
+    <View
+      style={[
+        st.strip,
+        { height: crop.height },
+        glassOn &&
+          ({
+            maskImage: "linear-gradient(180deg, #000 62%, transparent 100%)",
+            WebkitMaskImage:
+              "linear-gradient(180deg, #000 62%, transparent 100%)",
+          } as object),
+      ]}
+    >
       <Image
         source={{ uri: snapshot.uri }}
         accessible={false}
@@ -91,7 +103,7 @@ export default function ChurchStrip({
         }}
       />
       <View pointerEvents="none" style={st.topShade} />
-      <View pointerEvents="none" style={st.bottomFade} />
+      {!glassOn && <View pointerEvents="none" style={st.bottomFade} />}
       <View style={[st.row, { paddingTop: insets.top + 6 }]}>
         {back && (
           <Pressable

@@ -22,6 +22,7 @@ import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { Brand, Body, Button, colors, serif } from "../../components/quiet-ui";
 import ChurchStrip, { useRoomStrip } from "../../components/ChurchStrip";
+import GlassBackdrop from "../../components/GlassBackdrop";
 import { useApp } from "../../lib/state";
 import { q } from "../../lib/quiet-copy";
 import { data } from "../../lib/content";
@@ -187,6 +188,7 @@ function BibleReader({ collection }: { collection: CollectionId | null }) {
       style={s.safe}
       edges={strip ? ["left", "right"] : ["top", "left", "right"]}
     >
+      <GlassBackdrop />
       {strip && (
         <Animated.View
           style={{
