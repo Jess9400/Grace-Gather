@@ -83,7 +83,9 @@ test("every sentence on the Your people screens exists in Portuguese, Spanish an
   for (const m of sources.matchAll(/\bc\(\s*"((?:[^"\\]|\\.)+)"/g)) keys.add(m[1]);
   for (const m of sources.matchAll(/setNotice\(\s*"((?:[^"\\]|\\.)+)"/g)) keys.add(m[1]);
   for (const m of sources.matchAll(/^\s+(?:unavailable|rate_limited|name_required|failed):\s*\n?\s*"((?:[^"\\]|\\.)+)"/gm)) keys.add(m[1]);
-  assert.ok(keys.has("Your people") && keys.has("Group chats") && keys.size > 40, [...keys].length);
+  // The two tab titles are listed in an array and translated when drawn.
+  for (const m of sources.matchAll(/\["(?:groups|friends)",\s*"([^"]+)"\]/g)) keys.add(m[1]);
+  assert.ok(keys.has("Your people") && keys.has("Group chats") && keys.has("Friends") && keys.size > 40, [...keys].length);
   // Words that are the same in that language as in English.
   const same = new Set(["es: Chat"]);
   for (const key of keys)

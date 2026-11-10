@@ -175,7 +175,7 @@ function CommunityScreen({
   };
   const startTopic = () => {
     if (!userId) {
-      router.push("/account");
+      router.push("/sign-in");
       return;
     }
     setTitle("");
@@ -355,8 +355,8 @@ function CommunityScreen({
           )}
         </Body>
         <Button
-          title={tr("Account and sign in")}
-          onPress={() => router.push("/account")}
+          title={tr("Sign in")}
+          onPress={() => router.push("/sign-in")}
         />
       </Screen>
     );
@@ -438,8 +438,8 @@ function CommunityScreen({
             )}
             <Button
               secondary
-              title={tr("Account and sign in")}
-              onPress={() => router.push("/account")}
+              title={tr("Sign in")}
+              onPress={() => router.push("/sign-in")}
             />
           </Card>
         )}

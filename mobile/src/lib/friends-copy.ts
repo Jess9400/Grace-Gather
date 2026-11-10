@@ -2,15 +2,57 @@ import type { Language } from "./content";
 const words: Record<string, string[]> = {
   // The screen behind "Chats" on Gather: friends (1:1) and group chats.
   "Your people": ["Sua gente", "Tu gente", "Свои люди"],
-  "Group chats": ["Conversas em grupo", "Chats de grupo", "Общие чаты"],
-  Open: ["Abrir", "Abrir", "Открыть"],
-  "Last message": ["Última mensagem", "Último mensaje", "Последнее сообщение"],
-  "Everyone in the community can read this room. Please do not share private details. Reported messages are reviewed by moderators.":
+  "Talk any day of the week, not only at gatherings.": [
+    "Converse em qualquer dia da semana, não só nos encontros.",
+    "Conversa cualquier día de la semana, no solo en los encuentros.",
+    "Общайтесь в любой день недели, не только на встречах.",
+  ],
+  "Open rooms for the whole community. Moderators keep them kind.": [
+    "Salas abertas para toda a comunidade. Moderadores cuidam para que sejam acolhedoras.",
+    "Salas abiertas para toda la comunidad. Los moderadores cuidan que sean amables.",
+    "Открытые комнаты для всей общины. Модераторы следят, чтобы в них было по-доброму.",
+  ],
+  "Open to everyone": ["Aberta a todos", "Abierta a todos", "Открыта для всех"],
+  "No messages yet": [
+    "Ainda sem mensagens",
+    "Aún sin mensajes",
+    "Сообщений пока нет",
+  ],
+  "Private · only the two of you": [
+    "Privado · só vocês dois",
+    "Privado · solo ustedes dos",
+    "Личный чат · только вы двое",
+  ],
+  "Be kind. Moderators look after this chat, and anything unkind is removed. Everyone in the community can read it, so please do not share private details.":
     [
-      "Todos na comunidade podem ler esta sala. Não compartilhe detalhes pessoais. Mensagens denunciadas são analisadas por moderadores.",
-      "Toda la comunidad puede leer esta sala. No compartas datos personales. Los moderadores revisan los mensajes denunciados.",
-      "Эту комнату читает вся община. Не делитесь личными данными. Жалобы рассматривают модераторы.",
+      "Seja gentil. Moderadores cuidam desta conversa, e o que for ofensivo é removido. Toda a comunidade pode ler, então não compartilhe detalhes pessoais.",
+      "Sé amable. Los moderadores cuidan este chat y lo ofensivo se elimina. Toda la comunidad puede leerlo, así que no compartas datos personales.",
+      "Будьте добры друг к другу. За чатом следят модераторы, недобрые сообщения удаляются. Его читает вся община, поэтому не делитесь личными данными.",
     ],
+  "Write something kind…": [
+    "Escreva algo gentil…",
+    "Escribe algo amable…",
+    "Напишите что-нибудь доброе…",
+  ],
+  More: ["Mais", "Más", "Ещё"],
+  "Report or block": [
+    "Denunciar ou bloquear",
+    "Denunciar o bloquear",
+    "Пожаловаться или заблокировать",
+  ],
+  "Private messages with people you have met. Only the two of you can read them.":
+    [
+      "Mensagens privadas com pessoas que você conheceu. Só vocês dois podem ler.",
+      "Mensajes privados con personas que has conocido. Solo ustedes dos pueden leerlos.",
+      "Личные сообщения с теми, с кем вы познакомились. Их видите только вы двое.",
+    ],
+  "People appear here only if they chose to be findable, and both of you said yes.":
+    [
+      "As pessoas só aparecem aqui se escolheram ser encontradas e se os dois aceitaram.",
+      "Las personas solo aparecen aquí si eligieron ser encontradas y ambos aceptaron.",
+      "Люди появляются здесь, только если разрешили себя находить и вы оба согласились.",
+    ],
+  "Group chats": ["Conversas em grupo", "Chats de grupo", "Общие чаты"],
   "No messages yet. Be the first to say hello.": [
     "Ainda não há mensagens. Seja o primeiro a dizer olá.",
     "Aún no hay mensajes. Sé el primero en saludar.",
@@ -61,7 +103,6 @@ const words: Record<string, string[]> = {
     "Удалить сообщение",
   ],
   Member: ["Membro", "Miembro", "Участник"],
-  You: ["Você", "Tú", "Вы"],
   "Friends & chats": ["Amigos e conversas", "Amigos y chats", "Друзья и чаты"],
   "Find friends": ["Encontrar amigos", "Buscar amigos", "Найти друзей"],
   "Search by public name": [

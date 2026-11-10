@@ -328,7 +328,7 @@ export default function ConfessionRoom() {
             {needsSignIn && (
               <Button
                 title={tr("Sign in")}
-                onPress={() => router.push("/profile")}
+                onPress={() => router.push("/sign-in")}
               />
             )}
             {(busy || view === "review") && (

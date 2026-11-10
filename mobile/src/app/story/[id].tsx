@@ -265,7 +265,7 @@ export default function Story() {
         title={l("report")}
         icon="flag-outline"
         onPress={() =>
-          uid ? setReport({ comment: null }) : router.push("/account")
+          uid ? setReport({ comment: null }) : router.push("/sign-in")
         }
       />
       {report && (
@@ -322,7 +322,7 @@ export default function Story() {
       {!uid ? (
         <Button
           title={l("signInCommunity")}
-          onPress={() => router.push("/account")}
+          onPress={() => router.push("/sign-in")}
         />
       ) : (
         <Card>

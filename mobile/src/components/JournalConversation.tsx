@@ -252,7 +252,7 @@ export default function JournalConversation({
         <TextAction
           title={chatCopy(lang, "signin")}
           onPress={() => {
-            router.push("/profile");
+            router.push("/sign-in");
           }}
         />
       )}

@@ -42,6 +42,7 @@ function Routes() {
         >
           <Stack.Screen name="onboarding" />
           <Stack.Screen name="account" />
+          <Stack.Screen name="sign-in" />
           <Stack.Screen name="privacy" />
           <Stack.Screen name="restore" />
           <Stack.Protected
