@@ -1,6 +1,28 @@
 import type { Language } from "./content";
 import { prayerCopy } from "./journal-prayer-copy";
 const text = {
+  // The saved entry page: your letter, then a verse and one small step.
+  wordForYou: [
+    "A word for you",
+    "Uma palavra para você",
+    "Una palabra para ti",
+    "Слово для вас",
+  ],
+  smallStep: [
+    "A small step",
+    "Um pequeno passo",
+    "Un pequeño paso",
+    "Маленький шаг",
+  ],
+  editLetter: ["Edit", "Editar", "Editar", "Изменить"],
+  editLetterLabel: [
+    "Edit what I wrote",
+    "Editar o que escrevi",
+    "Editar lo que escribí",
+    "Изменить то, что я написал(а)",
+  ],
+  readAll: ["Read all", "Ler tudo", "Leer todo", "Читать полностью"],
+  showLess: ["Show less", "Mostrar menos", "Mostrar menos", "Свернуть"],
   hopeIntro: [
     "When hope feels far away, it may help to notice one small moment of care or relief from the past 24 hours. It doesn’t have to make everything feel better.",
     "Quando a esperança parece distante, talvez ajude lembrar um pequeno momento de cuidado ou alívio nas últimas 24 horas. Isso não precisa resolver tudo.",
