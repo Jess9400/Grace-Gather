@@ -84,6 +84,18 @@ export default function AccountMenuContent({
         onNavigate={onNavigate}
       />
       <AccountMenuRow
+        title={tr("My calendar")}
+        icon="calendar-outline"
+        route="/my-calendar"
+        onNavigate={onNavigate}
+      />
+      <AccountMenuRow
+        title={tr("My testimonies")}
+        icon="chatbubble-outline"
+        route="/testimonies"
+        onNavigate={onNavigate}
+      />
+      <AccountMenuRow
         title={tr("Prayer requests")}
         icon="heart-outline"
         route="/prayers"

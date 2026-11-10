@@ -1,9 +1,9 @@
-import { friendCopy } from "../lib/friends-copy";
-import { AccountMenuRow } from "../components/AccountMenuContent";
+import { avatarColor, initial } from "../lib/people-theme";
+import { q } from "../lib/quiet-copy";
 import Disclosure from "../components/Disclosure";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
 import { useEffect, useState } from "react";
-import { Platform } from "react-native";
+import { Platform, StyleSheet, Text, View } from "react-native";
 import { router } from "expo-router";
 import * as Sharing from "expo-sharing";
 import {
@@ -16,11 +16,13 @@ import {
   Field,
   Notice,
   External,
+  colors,
+  serif,
 } from "../components/quiet-ui";
 import SignInForm from "../components/SignInForm";
 import { useQuiet } from "../lib/quiet-state";
 import { useApp } from "../lib/state";
-import { copy } from "../lib/content";
+import { copy, editionsFor, languages } from "../lib/content";
 import { label } from "../lib/labels";
 import { backend, requireUser, requireBackend } from "../lib/backend";
 import * as storage from "../lib/storage";
@@ -89,35 +91,62 @@ export default function Profile() {
     if (error) throw error;
     setNotice(l("synced"));
   }
+  // What the person told us when they first arrived, and nothing else.
+  const place = [profile.city, profile.region].filter(Boolean).join(", ");
+  const faith = profile.faithChoice;
+  const facts: [string, string][] = [
+    [
+      tr("Tradition"),
+      faith === "catholic" || faith === "protestant" || faith === "orthodox"
+        ? t(faith)
+        : faith === "exploring"
+          ? q(profile.language, "exploring")
+          : "",
+    ],
+    [tr("Your language"), languages[profile.language]],
+    [
+      tr("Your Bible"),
+      editionsFor(profile).find((e) => e.id === profile.edition)?.name ?? "",
+    ],
+    [tr("Location"), place],
+    ...(profile.email
+      ? [[t("pEmail"), profile.email] as [string, string]]
+      : []),
+  ];
   return (
     <Screen back>
       <Heading>{tr("Profile")}</Heading>
       <Notice text={notice} />
-      <AccountMenuRow
-        title={tr("Edit profile and preferences")}
-        route="/preferences"
-        icon="create-outline"
-      />
-      <AccountMenuRow
-        title={tr("My testimonies")}
-        route="/testimonies"
-        icon="chatbubble-outline"
-      />
-      <AccountMenuRow
-        title={tr("Pay it forward")}
-        route="/giving"
-        icon="heart-outline"
-      />
-      <AccountMenuRow
-        title={tr("My calendar")}
-        route="/my-calendar"
-        icon="calendar-outline"
-      />
-      <AccountMenuRow
-        title={friendCopy(profile.language, "Your people")}
-        route="/friends"
-        icon="people-outline"
-      />
+      <Card>
+        <View style={s.who}>
+          <View
+            accessible={false}
+            style={[
+              s.avatar,
+              { backgroundColor: avatarColor(profile.name || "·") },
+            ]}
+          >
+            <Text style={s.initial}>{initial(profile.name)}</Text>
+          </View>
+          <View style={{ flex: 1, gap: 3 }}>
+            <Text style={s.name}>{profile.name.trim() || tr("Friend")}</Text>
+            {!!place && <Text style={s.place}>{place}</Text>}
+          </View>
+        </View>
+        <View style={s.facts}>
+          {facts.map(([title, value]) => (
+            <View key={title} style={s.fact}>
+              <Text style={s.factTitle}>{title}</Text>
+              <Text style={s.factValue}>{value || tr("Not added yet")}</Text>
+            </View>
+          ))}
+        </View>
+        <Button
+          secondary
+          title={tr("Edit")}
+          onPress={() => router.push("/preferences")}
+        />
+      </Card>
       <Disclosure title={l("account")} initiallyOpen={!signedIn}>
         <Card>
           <Subheading>{signedIn ? l("welcomeBack") : l("signIn")}</Subheading>
@@ -303,3 +332,34 @@ export default function Profile() {
     </Screen>
   );
 }
+const s = StyleSheet.create({
+  who: { flexDirection: "row", alignItems: "center", gap: 14 },
+  avatar: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  initial: { fontFamily: serif, fontSize: 24, color: colors.ink },
+  name: { fontFamily: serif, fontSize: 24, lineHeight: 30, color: colors.ink },
+  place: { fontSize: 14, lineHeight: 20, color: colors.cardMuted },
+  facts: { borderTopWidth: 1, borderTopColor: colors.line },
+  fact: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "baseline",
+    gap: 16,
+    paddingVertical: 11,
+    borderBottomWidth: 1,
+    borderBottomColor: colors.line,
+  },
+  factTitle: { fontSize: 14, lineHeight: 20, color: colors.cardMuted },
+  factValue: {
+    flex: 1,
+    textAlign: "right",
+    fontSize: 15,
+    lineHeight: 21,
+    color: colors.ink,
+  },
+});

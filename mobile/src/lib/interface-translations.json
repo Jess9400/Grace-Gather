@@ -2018,5 +2018,20 @@
     "pt": "Só na tela inicial, depois da entrada.",
     "es": "Solo en Inicio, después de la entrada.",
     "ru": "Только на главном экране, после входа."
+  },
+  "Edit": {
+    "pt": "Editar",
+    "es": "Editar",
+    "ru": "Изменить"
+  },
+  "Not added yet": {
+    "pt": "Ainda não informado",
+    "es": "Aún no indicado",
+    "ru": "Пока не указано"
+  },
+  "Friend": {
+    "pt": "Amigo",
+    "es": "Amigo",
+    "ru": "Друг"
   }
 }
