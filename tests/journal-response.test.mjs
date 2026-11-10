@@ -12,6 +12,8 @@ function load(path) {
   if (!existsSync(file)) file += existsSync(file + '.ts') ? '.ts' : '.js';
   if (cache.has(file)) return cache.get(file);
   if (file.endsWith('.json')) return JSON.parse(readFileSync(file, 'utf8'));
+  if (file.endsWith('/gatherings.ts')) return { gathering: async () => [] };
+  if (file.endsWith('/discover.ts')) return { storyText: (v, lang) => typeof v === 'string' ? v : v[lang] ?? '' };
   if (file.endsWith('/church-calendar.ts')) return { welcomesCandles: p => p.candlePractice ?? p.tradition !== 'protestant' };
   const module = { exports: {} }; cache.set(file, module.exports);
   const code = ts.transpileModule(readFileSync(file, 'utf8'), { compilerOptions: { module: ts.ModuleKind.CommonJS, esModuleInterop: true } }).outputText;
@@ -91,4 +93,17 @@ test('local matching understands prayer addressed to God and preserves saved mod
 test('immediate support does not acquire a verse-led response', async () => {
   const p = prefs(data.editions[0]);
   assert.equal((await resolveJournalResponse(entry(p, { safety: true }), p)).verse, null);
+});
+
+
+test('a saved or new gathering action falls back when no session can be verified', async () => {
+ const p = prefs(data.editions[0]);
+ const item = entry(p, { text: 'I have no one to talk to', themeId:'lonely', suggestedAction:'A25' });
+ const fresh = await resolveJournalResponse(item, p);
+ assert.equal(fresh.actionId,'A04');
+ assert.equal(fresh.actionTitle,'Share what is on your heart');
+ const stored = {...fresh, actionId:'A25', actionTitle:'Explore gatherings'};
+ const reopened = await resolveJournalResponse({...item,response:stored},p);
+ assert.equal(reopened.actionId,'A04');
+ assert.equal(stored.actionId,'A25');
 });

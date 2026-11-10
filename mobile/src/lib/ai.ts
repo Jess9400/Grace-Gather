@@ -4,6 +4,8 @@ import { Profile } from "./content";
 import { validateSuggestion } from "./llm-contract";
 import { AI_CONSENT_VERSION } from "./ai-copy";
 import { aiRequestError } from "./ai-error";
+import { availableJournalAction } from "./journal-gathering";
+import { gathering } from "./gatherings";
 export async function suggestJourney(text: string, preferences: Profile) {
   if (preferences.journalAIConsentVersion !== AI_CONSENT_VERSION)
     throw Error("consent_required");
@@ -47,6 +49,7 @@ export async function continueJournal(
     body: {
       mode: "conversation",
       supportsGatheringAction: true,
+      includeActionTheme: true,
       supportsConnectedActions: true,
       text: entry.text,
       consentVersion: AI_CONSENT_VERSION,
@@ -94,10 +97,12 @@ export async function continueJournal(
     (data.actionId != null && !allowed.includes(data.actionId))
   )
     throw Error("invalid_response");
+  const latest = messages.at(-1)?.content ?? "";
+  const selected = data.actionId === "A25"
+    ? await availableJournalAction(typeof data.actionTheme === "string" ? data.actionTheme : "", preferences.language, latest, previousActions, () => gathering("list"), false)
+    : data.actionId;
   return {
     content: data.reply,
-    actionId: previousActions.includes(data.actionId)
-      ? undefined
-      : (data.actionId ?? undefined),
+    actionId: previousActions.includes(selected) ? undefined : (selected ?? undefined),
   };
 }

@@ -27,7 +27,7 @@ import { TextAction } from "../../components/CommunityControls";
 import AudioPlayback from "../../components/QuietAudioPlayback";
 import { useApp } from "../../lib/state";
 import { useQuiet } from "../../lib/quiet-state";
-import { copy } from "../../lib/content";
+import { copy, type JournalResponse } from "../../lib/content";
 import { q } from "../../lib/quiet-copy";
 import type { ReadingVerse } from "../../lib/bible";
 import { resolveJournalResponse } from "../../lib/journal-response";
@@ -48,6 +48,7 @@ export default function EntryScreen() {
   const entry = entries.find((e) => e.id === id);
   const [verse, setVerse] = useState<ReadingVerse | null>(null);
   const [loading, setLoading] = useState(true);
+  const [displayResponse, setDisplayResponse] = useState<JournalResponse>();
   const [noteOpen, setNoteOpen] = useState(false);
   const [noteAction, setNoteAction] = useState<string>();
   const [note, setNote] = useState("");
@@ -74,6 +75,7 @@ export default function EntryScreen() {
       }
       if (active) {
         setVerse(response.verse);
+        setDisplayResponse(response);
         setLoading(false);
       }
     }
@@ -90,9 +92,9 @@ export default function EntryScreen() {
         <Body>{copy(lang, "emptySub")}</Body>
       </Screen>
     );
-  const action = entry.response?.actionId ?? journalAction(entry, profile);
+  const action = displayResponse?.actionId ?? (entry.response?.actionId === "A25" ? "A08" : entry.response?.actionId) ?? journalAction(entry, profile);
   const actionCopy = journalActionCopy(lang, journalTheme(entry).id, action);
-  const actionTitle = entry.response?.actionTitle ?? actionCopy.title;
+  const actionTitle = displayResponse?.actionTitle ?? actionCopy.title;
   // Long letters open folded so the reply stays in reach.
   const long = entry.text.length > 520 || entry.text.split("\n").length > 9;
   function edit() {
@@ -267,11 +269,12 @@ export default function EntryScreen() {
                 <Body>{copy(lang, "unavailable")}</Body>
               )}
             </View>
+            {!loading && <>
             <View style={s.divider} />
             <View style={s.section}>
               <Text style={s.label}>{jc(lang, "smallStep")}</Text>
               <Text style={s.invitation}>
-                {entry.response?.invitation ?? actionCopy.invitation}
+                {displayResponse?.invitation ?? actionCopy.invitation}
               </Text>
               <JournalActionButton
                 primary
@@ -279,6 +282,7 @@ export default function EntryScreen() {
                 onPress={() => openAction()}
               />
             </View>
+            </>}
           </View>
         )}
         <Notice text={notice} />
@@ -310,7 +314,7 @@ export default function EntryScreen() {
               </Heading>
               <Body>
                 {!noteAction || noteAction === action
-                  ? (entry.response?.actionPrompt ?? actionCopy.prompt)
+                  ? (displayResponse?.actionPrompt ?? actionCopy.prompt)
                   : journalActionCopy(lang, "", noteAction).prompt}
               </Body>
               <Field

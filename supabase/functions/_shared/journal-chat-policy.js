@@ -12,7 +12,7 @@ export function journalChatInput(value) {
  });
  if(messages.at(-1).role!=='user'||messages.reduce((n,m)=>n+m.content.length,0)>24000)throw Error('too_large');
  if(!Array.isArray(value.previousActions)||value.previousActions.length>40||value.previousActions.some(id=>!CHAT_ACTIONS.includes(id)))throw Error('invalid_entry');
- return {...input,messages,previousActions:[...new Set(value.previousActions)],supportsGatheringAction:value.supportsGatheringAction===true,supportsConnectedActions:value.supportsConnectedActions===true,support:needsSupport(messages.at(-1).content)};
+ return {...input,messages,previousActions:[...new Set(value.previousActions)],supportsGatheringAction:value.supportsGatheringAction===true,supportsConnectedActions:value.supportsConnectedActions===true,includeActionTheme:value.includeActionTheme===true,support:needsSupport(messages.at(-1).content)};
 }
 // A narrow fallback for an explicit unmet need, not a trigger for every mention
 // of loneliness. The model still interprets broader context and preferences.
@@ -53,5 +53,5 @@ export function journalChatReply(value,input,catalog,onActionOmitted=()=>{}) {
  }
  if(value.actionId==null&&value.privateOnly!==true)actionId=connectionInvitation(input);
  if(['A04','A14','A25','A27'].includes(actionId)&&connectionDeclined(input))actionId=null;
- return {reply:value.reply.trim(),actionId,support:false};
+ return {reply:value.reply.trim(),actionId,support:false,...(input.includeActionTheme && actionId==='A25' && typeof value.themeId==='string' ? {actionTheme:value.themeId} : {})};
 }
