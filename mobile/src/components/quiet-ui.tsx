@@ -56,7 +56,6 @@ export function Screen({
   footer,
   scrollToEndKey,
   keyboard = false,
-  backdrop,
 }: {
   children: React.ReactNode;
   back?: boolean;
@@ -65,8 +64,6 @@ export function Screen({
   scrollToEndKey?: string;
   // Keep a text field inside the page clear of the keyboard (no footer).
   keyboard?: boolean;
-  // A quiet picture behind the page, e.g. for glass surfaces.
-  backdrop?: React.ReactNode;
 }) {
   const scroll = useRef<ScrollViewInstance>(null);
   const lastScrolled = useRef<string | undefined>(undefined);
@@ -92,11 +89,6 @@ export function Screen({
         avoid ? ["top", "left", "right", "bottom"] : ["top", "left", "right"]
       }
     >
-      {backdrop && (
-        <View pointerEvents="none" style={StyleSheet.absoluteFill}>
-          {backdrop}
-        </View>
-      )}
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={
