@@ -26,7 +26,7 @@ import {
   colors,
 } from "../../components/community-ui";
 import { StoryActions } from "../../components/DiscoverPost";
-import { TextAction } from "../../components/CommunityControls";
+import { Disclosure, TextAction } from "../../components/CommunityControls";
 import { useApp } from "../../lib/state";
 import { copy, data } from "../../lib/content";
 import { label } from "../../lib/labels";
@@ -68,10 +68,9 @@ export default function Story() {
     [body, setBody] = useState(""),
     [alias, setAlias] = useState(profile.name),
     [notice, setNotice] = useState(""),
-    [storyMenu, setStoryMenu] = useState(false),
     [editAlias, setEditAlias] = useState(!profile.name),
     [commentMenu, setCommentMenu] = useState<string | null>(null),
-    [showGuidelines, setShowGuidelines] = useState(false),
+    [storyReportNotice, setStoryReportNotice] = useState(""),
     [report, setReport] = useState<{ comment: string | null } | null>(null),
     [busy, setBusy] = useState(false);
   const interactions = useInteractions([id]),
@@ -199,15 +198,17 @@ export default function Story() {
       active = false;
     };
   }, [id, item?.id, item?.origin, publisherRetry]);
-  async function act(fn: () => Promise<void>) {
+  async function act(fn: () => Promise<void>, isStoryReport = false) {
     setBusy(true);
     setNotice("");
+    if (isStoryReport) setStoryReportNotice("");
     try {
       await fn();
       await reloadComments();
       await interactions.reload();
     } catch {
-      setNotice(c("actionError"));
+      if (isStoryReport) setStoryReportNotice(c("actionError"));
+      else setNotice(c("actionError"));
     } finally {
       setBusy(false);
     }
@@ -234,8 +235,9 @@ export default function Story() {
                 });
                 if (result.error) throw result.error;
                 setReport(null);
-                setNotice(l("reported"));
-              })
+                if (commentId === null) setStoryReportNotice(l("reported"));
+                else setNotice(l("reported"));
+              }, commentId === null)
             }
           />
         ))}
@@ -268,71 +270,21 @@ export default function Story() {
       : null;
   return (
     <Screen back keyboardAware scrollRef={scroll}>
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: 12,
-        }}
-      >
-        <View style={{ flex: 1 }}>
-          <Body small>
-            {item.origin === "community"
-              ? c("communityTestimony")
-              : item.origin === "publisher"
-                ? c("publisherStory")
-                : item.origin === "news"
-                  ? c("news")
-                  : item.origin === "editorial"
-                    ? c("editorial")
-                    : item.type === "stories"
-                      ? c("historical")
-                      : c("reflection")}{" "}
-            · {item.source}
-            {item.origin === "publisher" && item.author
-              ? ` · ${item.author}`
-              : ""}
-          </Body>
-        </View>
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={c("storyOptions")}
-          accessibilityState={{ expanded: storyMenu }}
-          onPress={() => setStoryMenu(!storyMenu)}
-          style={{
-            width: 44,
-            height: 44,
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          <Ionicons name="ellipsis-horizontal" size={22} color={colors.ink} />
-        </Pressable>
-      </View>
-      {storyMenu && (
-        <View style={{ alignItems: "flex-end" }}>
-          <TextAction
-            title={l("report")}
-            icon="flag-outline"
-            onPress={() => {
-              setStoryMenu(false);
-              if (uid) setReport({ comment: null });
-              else router.push("/sign-in");
-            }}
-          />
-          <TextAction
-            title={c("guidelines")}
-            icon="information-circle-outline"
-            onPress={() => {
-              setStoryMenu(false);
-              setShowGuidelines(!showGuidelines);
-            }}
-          />
-        </View>
-      )}
-      {showGuidelines && <Body small>{l("communityRules")}</Body>}
-      {report && report.comment === null && reportForm(null)}
+      <Body small>
+        {item.origin === "community"
+          ? c("communityTestimony")
+          : item.origin === "publisher"
+            ? c("publisherStory")
+            : item.origin === "news"
+              ? c("news")
+              : item.origin === "editorial"
+                ? c("editorial")
+                : item.type === "stories"
+                  ? c("historical")
+                  : c("reflection")}{" "}
+        · {item.source}
+        {item.origin === "publisher" && item.author ? ` · ${item.author}` : ""}
+      </Body>
       {(!item.title?.[profile.language] ||
         !item.summary?.[profile.language] ||
         (item.body && !item.body[profile.language])) && (
@@ -755,6 +707,20 @@ export default function Story() {
             ))}
         </>
       )}
+      <Disclosure title={c("guidelines")}>
+        <Body small>{l("communityRules")}</Body>
+        <TextAction
+          title={l("report")}
+          icon="flag-outline"
+          onPress={() => {
+            setStoryReportNotice("");
+            if (uid) setReport({ comment: null });
+            else router.push("/sign-in");
+          }}
+        />
+        {report && report.comment === null && reportForm(null)}
+        <Notice text={storyReportNotice} />
+      </Disclosure>
     </Screen>
   );
 }
