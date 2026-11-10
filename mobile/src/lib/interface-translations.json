@@ -1978,5 +1978,45 @@
     "pt": "Confissões",
     "es": "Confesiones",
     "ru": "Признания"
+  },
+  "Automatic": {
+    "pt": "Automática",
+    "es": "Automática",
+    "ru": "Авто"
+  },
+  "Day": {
+    "pt": "Dia",
+    "es": "Día",
+    "ru": "День"
+  },
+  "Night": {
+    "pt": "Noite",
+    "es": "Noche",
+    "ru": "Ночь"
+  },
+  "Church sounds": {
+    "pt": "Sons da igreja",
+    "es": "Sonidos de la iglesia",
+    "ru": "Звуки церкви"
+  },
+  "Candle recommendations": {
+    "pt": "Sugestões de velas",
+    "es": "Sugerencias de velas",
+    "ru": "Предложения зажечь свечу"
+  },
+  "Tradition": {
+    "pt": "Tradição",
+    "es": "Tradición",
+    "ru": "Традиция"
+  },
+  "Lighting": {
+    "pt": "Iluminação",
+    "es": "Iluminación",
+    "ru": "Освещение"
+  },
+  "Only on Home, after the entrance.": {
+    "pt": "Só na tela inicial, depois da entrada.",
+    "es": "Solo en Inicio, después de la entrada.",
+    "ru": "Только на главном экране, после входа."
   }
 }
