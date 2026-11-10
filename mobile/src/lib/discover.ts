@@ -4,7 +4,7 @@ import { backend, requireUser } from "./backend";
 import { Resource, Language, localized } from "./content";
 export interface Story extends Resource {
   anonymous?: boolean;
-  origin?: "community" | "news" | "historical" | "editorial";
+  origin?: "community" | "news" | "historical" | "editorial" | "publisher";
   publishedAt?: string;
   eventDate?: string;
   retrievedAt?: string;
