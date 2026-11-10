@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useFocusEffect } from "expo-router";
 import { backend, requireUser } from "./backend";
 import { Resource, Language, localized } from "./content";
+import { mergeDiscoverPage } from "./discover-page";
 export interface Story extends Resource {
   anonymous?: boolean;
   origin?: "community" | "news" | "historical" | "editorial";
@@ -48,7 +49,7 @@ export function useDiscover(filter: string, search: string) {
   const generation = useRef(0),
     busy = useRef(false);
   const load = useCallback(
-    async (append = false) => {
+    async (append = false, preserveOlder = false) => {
       if (append && busy.current) return;
       const version = ++generation.current;
       busy.current = true;
@@ -72,15 +73,9 @@ export function useDiscover(filter: string, search: string) {
             sort_at: r.sort_at,
           }),
         );
-        setItems((old) =>
-          append
-            ? [
-                ...old,
-                ...rows.filter((x: Story) => !old.some((p) => p.id === x.id)),
-              ]
-            : rows,
-        );
-        setMore(rows.length === 15);
+        setItems((old) => mergeDiscoverPage(old, rows, append, preserveOlder));
+        if (!preserveOlder || items.length <= 15 || rows.length < 15)
+          setMore(rows.length === 15);
       } catch (e) {
         if (version === generation.current)
           setError(

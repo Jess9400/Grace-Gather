@@ -1,20 +1,28 @@
 import { interfaceCopy } from "../../lib/interface-copy";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
-import { ScrollView, View } from "react-native";
+import {
+  ScrollView,
+  View,
+  Text,
+  TextInput,
+  Pressable,
+  Platform,
+} from "react-native";
+import { Ionicons } from "@expo/vector-icons";
+import { CelestialAvatar } from "../../components/MemberAvatar";
+import { avatarVariant } from "../../lib/avatar";
 import {
   Screen,
   Heading,
   Body,
   Card,
   Subheading,
-  Row,
   Button,
-  Field,
   Notice,
   External,
-  Chip,
   Busy,
+  colors,
 } from "../../components/community-ui";
 import { StoryActions } from "../../components/DiscoverPost";
 import { TextAction } from "../../components/CommunityControls";
@@ -34,6 +42,7 @@ interface Comment {
   alias: string;
   body: string;
   status: string;
+  created_at: string;
 }
 export default function Story() {
   const { id, comments: jump } = useLocalSearchParams<{
@@ -55,10 +64,37 @@ export default function Story() {
     [alias, setAlias] = useState(profile.name),
     [agree, setAgree] = useState(false),
     [notice, setNotice] = useState(""),
+    [commentMenu, setCommentMenu] = useState<string | null>(null),
+    [showGuidelines, setShowGuidelines] = useState(false),
     [report, setReport] = useState<{ comment: string | null } | null>(null),
     [busy, setBusy] = useState(false);
   const interactions = useInteractions([id]),
-    scroll = useRef<React.ComponentRef<typeof ScrollView>>(null);
+    scroll = useRef<React.ComponentRef<typeof ScrollView>>(null),
+    jumpTimer = useRef<ReturnType<typeof setTimeout> | null>(null),
+    commentsY = useRef(0),
+    jumped = useRef(false);
+  useEffect(() => {
+    jumped.current = false;
+  }, [id, jump]);
+  useEffect(() => {
+    if (loading || !item || jump !== "1" || jumped.current) return;
+    jumpTimer.current = setTimeout(() => {
+      if (Platform.OS === "web") {
+        document
+          .getElementById("story-comments")
+          ?.scrollIntoView({ block: "start" });
+      } else {
+        scroll.current?.scrollTo({ y: commentsY.current, animated: false });
+      }
+      jumped.current = true;
+    }, 600);
+  }, [loading, item, jump]);
+  useEffect(
+    () => () => {
+      if (jumpTimer.current) clearTimeout(jumpTimer.current);
+    },
+    [],
+  );
   const loadStory = useCallback(async () => {
     setLoading(true);
     setReadError("");
@@ -103,7 +139,7 @@ export default function Story() {
     }
     const r = await backend
       .from("comments")
-      .select("id,user_id,alias,body,status")
+      .select("id,user_id,alias,body,status,created_at")
       .eq("item_id", id)
       .order("created_at", { ascending: false })
       .limit(100);
@@ -133,6 +169,36 @@ export default function Story() {
     } finally {
       setBusy(false);
     }
+  }
+  function reportForm(commentId: string | null) {
+    return (
+      <Card>
+        <Subheading>{l("report")}</Subheading>
+        {["abuse", "harm", "spam", "rights", "other"].map((reason) => (
+          <Button
+            key={reason}
+            secondary
+            disabled={busy}
+            title={c(reason)}
+            onPress={() =>
+              void act(async () => {
+                const { client } = await requireUser();
+                const result = await client.rpc("report_content", {
+                  p_item: id,
+                  p_comment: commentId,
+                  p_reason: reason,
+                  p_detail: "",
+                });
+                if (result.error) throw result.error;
+                setReport(null);
+                setNotice(l("reported"));
+              })
+            }
+          />
+        ))}
+        <Button secondary title={t("cancel")} onPress={() => setReport(null)} />
+      </Card>
+    );
   }
   if (loading)
     return (
@@ -164,9 +230,11 @@ export default function Story() {
           ? c("communityTestimony")
           : item.origin === "news"
             ? c("news")
-            : item.type === "stories"
-              ? c("historical")
-              : c("reflection")}{" "}
+            : item.origin === "editorial"
+              ? c("editorial")
+              : item.type === "stories"
+                ? c("historical")
+                : c("reflection")}{" "}
         · {item.source}
       </Body>
       {(!item.title?.[profile.language] ||
@@ -213,7 +281,9 @@ export default function Story() {
               <Body>{storyText(item.summary, profile.language)}</Body>
             )}
             {storyText(item.body, profile.language)
-              .split(/\n\s*\n/).filter(Boolean).map((paragraph, index) => (
+              .split(/\n\s*\n/)
+              .filter(Boolean)
+              .map((paragraph, index) => (
                 <Body key={index}>{paragraph}</Body>
               ))}
           </>
@@ -234,14 +304,33 @@ export default function Story() {
           <External title={t("source")} url={psalm.source} />
         </Card>
       )}
-      <StoryActions item={item} interactions={interactions} />
-      <Notice text={interactions.error || notice} />
+      <StoryActions
+        item={item}
+        interactions={interactions}
+        showComment={false}
+      />
+      <Notice text={interactions.error} />
       {!!item.resources?.length && (
         <Card>
-          <Subheading>{interfaceCopy(profile.language, "Watch, listen and explore")}</Subheading>
+          <Subheading>
+            {interfaceCopy(profile.language, "Watch, listen and explore")}
+          </Subheading>
           {item.resources.map(([kind, title, url]) => (
             <View key={url} style={{ gap: 4 }}>
-              <Body small>{interfaceCopy(profile.language, kind === "watch" ? "Watch" : kind === "listen" ? "Listen" : kind === "study" ? "Study" : kind === "pray" ? "Prayer" : "Read")}</Body>
+              <Body small>
+                {interfaceCopy(
+                  profile.language,
+                  kind === "watch"
+                    ? "Watch"
+                    : kind === "listen"
+                      ? "Listen"
+                      : kind === "study"
+                        ? "Study"
+                        : kind === "pray"
+                          ? "Prayer"
+                          : "Read",
+                )}
+              </Body>
               <External title={title} url={url} />
             </View>
           ))}
@@ -268,49 +357,16 @@ export default function Story() {
           uid ? setReport({ comment: null }) : router.push("/sign-in")
         }
       />
-      {report && (
-        <Card>
-          <Subheading>{l("report")}</Subheading>
-          {["abuse", "harm", "spam", "rights", "other"].map((reason) => (
-            <Button
-              key={reason}
-              secondary
-              disabled={busy}
-              title={c(reason)}
-              onPress={() =>
-                void act(async () => {
-                  const { client } = await requireUser();
-                  const r = await client.rpc("report_content", {
-                    p_item: id,
-                    p_comment: report.comment,
-                    p_reason: reason,
-                    p_detail: "",
-                  });
-                  if (r.error) throw r.error;
-                  setReport(null);
-                  setNotice(l("reported"));
-                })
-              }
-            />
-          ))}
-          <Button
-            secondary
-            title={t("cancel")}
-            onPress={() => setReport(null)}
-          />
-        </Card>
-      )}
+      {report && report.comment === null && reportForm(null)}
       <View
+        nativeID="story-comments"
         onLayout={(e) => {
-          if (jump === "1")
-            scroll.current?.scrollTo({
-              y: e.nativeEvent.layout.y,
-              animated: false,
-            });
+          commentsY.current = e.nativeEvent.layout.y;
         }}
       >
-        <Subheading>{t("commentsTitle")}</Subheading>
+        <Subheading>{c("commentsHeading")}</Subheading>
       </View>
+      <Notice text={notice} />
       <Notice text={commentError ? c(commentError) : ""} />
       {!!commentError && (
         <Button
@@ -325,99 +381,236 @@ export default function Story() {
           onPress={() => router.push("/sign-in")}
         />
       ) : (
-        <Card>
-          <Body small>{l("communityRules")}</Body>
-          <Field
-            label={t("displayName")}
-            value={alias}
-            onChangeText={setAlias}
-            maxLength={40}
-          />
-          <Field
-            label={t("commentPlaceholder")}
-            value={body}
-            onChangeText={setBody}
-            multiline
-            maxLength={600}
-          />
-          <Chip
-            title={l("agree")}
-            selected={agree}
-            onPress={() => setAgree(!agree)}
-          />
-          <Button
-            title={t("postComment")}
-            disabled={busy || !agree || !body.trim() || !alias.trim()}
-            onPress={() =>
-              void act(async () => {
-                const { client } = await requireUser();
-                const r = await client.rpc("post_comment", {
-                  p_item: id,
-                  p_alias: alias,
-                  p_body: body,
-                });
-                if (r.error) throw r.error;
-                setBody("");
-                setNotice(l("pending"));
-              })
-            }
-          />
-        </Card>
-      )}
-      {comments.map((comment) => (
-        <Card key={comment.id}>
-          <Subheading>{comment.alias}</Subheading>
-          <Body>{comment.body}</Body>
-          {comment.status === "pending" && <Body small>{l("pending")}</Body>}
-          <Row>
-            {comment.user_id === uid ? (
-              <Button
-                secondary
-                title={t("removeComment")}
-                disabled={busy}
-                onPress={() =>
-                  void act(async () => {
-                    const { client } = await requireUser();
-                    const r = await client
-                      .from("comments")
-                      .delete()
-                      .eq("id", comment.id);
-                    if (r.error) throw r.error;
-                  })
-                }
+        <View style={{ gap: 10 }}>
+          <View
+            style={{ flexDirection: "row", alignItems: "flex-start", gap: 10 }}
+          >
+            <CelestialAvatar variant={avatarVariant(uid)} size={36} />
+            <View style={{ flex: 1, gap: 5 }}>
+              <TextInput
+                accessibilityLabel={t("displayName")}
+                placeholder={t("displayName")}
+                placeholderTextColor={colors.muted}
+                value={alias}
+                onChangeText={setAlias}
+                maxLength={40}
+                style={{
+                  color: colors.ink,
+                  fontSize: 14,
+                  fontWeight: "600",
+                  paddingVertical: 4,
+                }}
               />
-            ) : (
-              <>
-                <Button
-                  secondary
-                  title={l("report")}
-                  onPress={() => setReport({ comment: comment.id })}
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "flex-end",
+                  backgroundColor: "#F2EDE2",
+                  borderRadius: 20,
+                  paddingLeft: 14,
+                }}
+              >
+                <TextInput
+                  accessibilityLabel={c("commentPrompt")}
+                  placeholder={c("commentPrompt")}
+                  placeholderTextColor={colors.muted}
+                  value={body}
+                  onChangeText={setBody}
+                  multiline
+                  maxLength={600}
+                  style={{
+                    flex: 1,
+                    minHeight: 44,
+                    maxHeight: 140,
+                    paddingVertical: 11,
+                    color: colors.ink,
+                    fontSize: 16,
+                  }}
                 />
-                <Button
-                  secondary
-                  title={l("block")}
-                  disabled={busy}
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel={t("postComment")}
+                  disabled={busy || !agree || !body.trim() || !alias.trim()}
+                  style={{
+                    width: 44,
+                    minHeight: 44,
+                    alignItems: "center",
+                    justifyContent: "center",
+                    opacity:
+                      busy || !agree || !body.trim() || !alias.trim()
+                        ? 0.35
+                        : 1,
+                  }}
                   onPress={() =>
                     void act(async () => {
-                      const { client, user } = await requireUser();
-                      const r = await client.from("blocks").upsert(
-                        {
-                          user_id: user.id,
-                          blocked_user_id: comment.user_id,
-                        },
-                        {
-                          onConflict: "user_id,blocked_user_id",
-                          ignoreDuplicates: true,
-                        },
-                      );
+                      const { client } = await requireUser();
+                      const r = await client.rpc("post_comment", {
+                        p_item: id,
+                        p_alias: alias,
+                        p_body: body,
+                      });
                       if (r.error) throw r.error;
+                      setBody("");
+                      setNotice(l("pending"));
                     })
                   }
+                >
+                  <Ionicons
+                    name="arrow-up-circle"
+                    size={28}
+                    color={colors.ink}
+                  />
+                </Pressable>
+              </View>
+              <Pressable
+                accessibilityRole="checkbox"
+                accessibilityState={{ checked: agree }}
+                onPress={() => setAgree(!agree)}
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: 7,
+                  minHeight: 40,
+                }}
+              >
+                <Ionicons
+                  name={agree ? "checkbox" : "square-outline"}
+                  size={18}
+                  color={colors.muted}
                 />
-              </>
+                <Text
+                  style={{ color: colors.muted, fontSize: 13, flexShrink: 1 }}
+                >
+                  {l("agree")}
+                </Text>
+              </Pressable>
+              <TextAction
+                title={c("guidelines")}
+                icon="information-circle-outline"
+                onPress={() => setShowGuidelines(!showGuidelines)}
+              />
+              {showGuidelines && <Body small>{l("communityRules")}</Body>}
+            </View>
+          </View>
+        </View>
+      )}
+      {uid && !commentError && !comments.length && (
+        <Body small>{c("noComments")}</Body>
+      )}
+      {comments.map((comment) => (
+        <View
+          key={comment.id}
+          style={{ flexDirection: "row", alignItems: "flex-start", gap: 10 }}
+        >
+          <CelestialAvatar variant={avatarVariant(comment.user_id)} size={36} />
+          <View style={{ flex: 1, gap: 5 }}>
+            <View
+              style={{
+                backgroundColor: "#F2EDE2",
+                paddingHorizontal: 14,
+                paddingVertical: 10,
+                borderRadius: 16,
+                gap: 4,
+              }}
+            >
+              <View
+                style={{
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Text
+                  style={{
+                    fontSize: 14,
+                    fontWeight: "600",
+                    color: colors.ink,
+                    flexShrink: 1,
+                  }}
+                >
+                  {comment.alias}
+                </Text>
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel={c("commentOptions")}
+                  onPress={() =>
+                    setCommentMenu(
+                      commentMenu === comment.id ? null : comment.id,
+                    )
+                  }
+                  hitSlop={10}
+                  style={{ padding: 6 }}
+                >
+                  <Ionicons
+                    name="ellipsis-horizontal"
+                    size={18}
+                    color={colors.muted}
+                  />
+                </Pressable>
+              </View>
+              <Text style={{ fontSize: 15, lineHeight: 22, color: colors.ink }}>
+                {comment.body}
+              </Text>
+            </View>
+            <Body small>
+              {new Date(comment.created_at).toLocaleDateString(
+                profile.language,
+              )}
+              {comment.status === "pending" ? " · " + l("pending") : ""}
+            </Body>
+            {commentMenu === comment.id && (
+              <View>
+                {comment.user_id === uid ? (
+                  <Button
+                    secondary
+                    title={t("removeComment")}
+                    disabled={busy}
+                    onPress={() =>
+                      void act(async () => {
+                        const { client } = await requireUser();
+                        const r = await client
+                          .from("comments")
+                          .delete()
+                          .eq("id", comment.id);
+                        if (r.error) throw r.error;
+                      })
+                    }
+                  />
+                ) : (
+                  <>
+                    <Button
+                      secondary
+                      title={l("report")}
+                      onPress={() => setReport({ comment: comment.id })}
+                    />
+                    <Button
+                      secondary
+                      title={l("block")}
+                      disabled={busy}
+                      onPress={() =>
+                        void act(async () => {
+                          const { client, user } = await requireUser();
+                          const r = await client.from("blocks").upsert(
+                            {
+                              user_id: user.id,
+                              blocked_user_id: comment.user_id,
+                            },
+                            {
+                              onConflict: "user_id,blocked_user_id",
+                              ignoreDuplicates: true,
+                            },
+                          );
+                          if (r.error) throw r.error;
+                        })
+                      }
+                    />
+                  </>
+                )}
+              </View>
             )}
-          </Row>
-        </Card>
+            {report?.comment === comment.id && reportForm(comment.id)}
+          </View>
+        </View>
       ))}
       {!!related.length && (
         <>
