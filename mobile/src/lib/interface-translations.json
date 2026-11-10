@@ -169,6 +169,11 @@
     "es": "Las reflexiones editoriales están separadas de las Escrituras. Están en inglés y pendientes de revisión teológica. Corresponden a pasajes identificados y no representan la aprobación de una iglesia.",
     "ru": "Редакционные размышления отделены от Писания. Они написаны на английском и ожидают богословской проверки. Они относятся к указанным отрывкам и не означают одобрения церковью."
   },
+  "Editorial reflections are separate from Scripture and await theological review. They are written for this verse and do not represent approval by a church.": {
+    "pt": "As reflexões editoriais são separadas das Escrituras e aguardam revisão teológica. Foram escritas para este versículo e não representam aprovação de uma igreja.",
+    "es": "Las reflexiones editoriales están separadas de las Escrituras y pendientes de revisión teológica. Fueron escritas para este versículo y no representan la aprobación de una iglesia.",
+    "ru": "Редакционные размышления отделены от Писания и ожидают богословской проверки. Они написаны для этого стиха и не означают одобрения церковью."
+  },
   "Read the source passage": {
     "pt": "Ler a passagem na fonte",
     "es": "Leer el pasaje en la fuente",

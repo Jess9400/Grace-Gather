@@ -233,7 +233,12 @@ export default function EntryScreen() {
                     onPress={() =>
                       router.push({
                         pathname: "/verse/[id]",
-                        params: { id: verse.id },
+                        // The theme verse reference finds the explanation
+                        // whatever number this edition prints for the verse.
+                        params: {
+                          id: verse.id,
+                          journal: journalTheme(entry).verse,
+                        },
                       })
                     }
                   >

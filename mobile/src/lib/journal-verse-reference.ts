@@ -2,6 +2,8 @@ import {
   collections,
   getReadingVerse,
   chapterSource,
+  isThemeVerse,
+  studyFor,
   type CollectionId,
   type ReadingVerse,
 } from "./bible";
@@ -21,7 +23,15 @@ const psalms: Record<string, Record<"dra" | "brenton" | "synodal", string>> = {
   "PSA.147.3": { dra: "PSA.146.3", brenton: "PSA.146.3", synodal: "PSA.146.3" },
 };
 
+// The Vulgate places the meek before those who mourn, so Douay-Rheims prints
+// Matthew 5:4 of the theme map as 5:5 (as Figueiredo and Torres Amat do).
+const otherVerses: Record<string, Partial<Record<CollectionId, string>>> = {
+  "MAT.5.4": { dra: "MAT.5.5" },
+};
+
 export function journalVerseId(collection: CollectionId, reference: string) {
+  const other = otherVerses[reference]?.[collection];
+  if (other) return `${collection}:${other}`;
   if (
     reference.startsWith("PSA.") &&
     (collection === "dra" ||
@@ -61,4 +71,25 @@ export function journalScripture(
     };
   }
   return null;
+}
+
+// The theme reference a displayed verse stands for, or undefined when the verse
+// is something else (a mood fallback, or any verse opened from the Bible tab).
+// Only explicit correspondences count, so an explanation written for one verse
+// never lands on a different verse that shares its number in another edition.
+export function journalStudyReference(
+  verseId: string,
+  reference: string | undefined,
+) {
+  if (!reference) return undefined;
+  const [prefix] = verseId.split(":");
+  if (verseId.includes(":") && Object.hasOwn(collections, prefix))
+    return journalVerseId(prefix as CollectionId, reference) === verseId
+      ? reference
+      : undefined;
+  const study = studyFor(verseId);
+  return isThemeVerse(verseId, reference) ||
+    (study?.editionId === "web" && study.bibleId === reference)
+    ? reference
+    : undefined;
 }
