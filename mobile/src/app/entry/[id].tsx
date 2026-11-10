@@ -1,3 +1,4 @@
+import { letter } from "../../lib/look-proto";
 import JournalConversation from "../../components/JournalConversation";
 import JournalActionButton from "../../components/JournalActionButton";
 import { useEffect, useState } from "react";
@@ -167,7 +168,7 @@ export default function EntryScreen() {
               <Ionicons
                 name="create-outline"
                 size={16}
-                color={colors.goldInk}
+                color={letter?.gold ?? colors.goldInk}
               />
               <Text style={s.editText}>{jc(lang, "editLetter")}</Text>
             </Pressable>
@@ -193,7 +194,7 @@ export default function EntryScreen() {
               <Ionicons
                 name={expanded ? "chevron-up" : "chevron-down"}
                 size={15}
-                color={colors.goldInk}
+                color={letter?.gold ?? colors.goldInk}
               />
             </Pressable>
           )}
@@ -318,7 +319,7 @@ export default function EntryScreen() {
 const s = StyleSheet.create({
   // The same paper as the writing page, so the entry still reads as a letter.
   letter: {
-    backgroundColor: colors.white,
+    backgroundColor: letter?.paper ?? colors.white,
     borderRadius: 16,
     padding: 24,
     paddingLeft: 38,
@@ -342,7 +343,12 @@ const s = StyleSheet.create({
     gap: 12,
     marginBottom: 12,
   },
-  date: { flex: 1, color: colors.muted, fontSize: 12, lineHeight: 18 },
+  date: {
+    flex: 1,
+    color: letter?.muted ?? colors.muted,
+    fontSize: 12,
+    lineHeight: 18,
+  },
   edit: {
     minHeight: 36,
     flexDirection: "row",
@@ -353,20 +359,24 @@ const s = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#B28A3E40",
   },
-  editText: { fontSize: 13, fontWeight: "600", color: colors.goldInk },
+  editText: {
+    fontSize: 13,
+    fontWeight: "600",
+    color: letter?.gold ?? colors.goldInk,
+  },
   dear: {
     fontFamily: serif,
     fontSize: 22,
     lineHeight: 30,
     fontStyle: "italic",
-    color: colors.ink,
+    color: letter?.ink ?? colors.ink,
     marginBottom: 8,
   },
   writing: {
     fontFamily: serif,
     fontSize: 18,
     lineHeight: 29,
-    color: colors.ink,
+    color: letter?.ink ?? colors.ink,
   },
   more: {
     minHeight: 44,
@@ -375,7 +385,11 @@ const s = StyleSheet.create({
     gap: 6,
     alignSelf: "flex-start",
   },
-  moreText: { fontSize: 13, fontWeight: "600", color: colors.goldInk },
+  moreText: {
+    fontSize: 13,
+    fontWeight: "600",
+    color: letter?.gold ?? colors.goldInk,
+  },
   // The reply: one column with one left edge, a verse then one small step.
   reply: { paddingTop: 10, paddingHorizontal: 4, gap: 20 },
   section: { gap: 12 },

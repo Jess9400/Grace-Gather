@@ -1,6 +1,6 @@
 import MemberAvatar from "./MemberAvatar";
 import GlassBackdrop from "./GlassBackdrop";
-import { glassCard, glassOn } from "../lib/glass-proto";
+import { candle, candlePalette, lookCard } from "../lib/look-proto";
 import ChurchStrip, { useRoomStrip } from "./ChurchStrip";
 import type { RoomPlace } from "../lib/church-room";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
@@ -23,7 +23,7 @@ import { BlurView } from "expo-blur";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-export const colors = {
+const lightPalette = {
   paper: "#FFFCF3",
   ink: "#302C28",
   muted: "#746A60",
@@ -38,6 +38,7 @@ export const colors = {
   cardMuted: "#746A60",
   cardLine: "#B8AB96",
 };
+export const colors = candle ? candlePalette : lightPalette;
 const CardSurface = createContext(false);
 function useSurfaceColors() {
   const card = useContext(CardSurface);
@@ -198,7 +199,7 @@ export function Card({
 }) {
   return (
     <CardSurface.Provider value={true}>
-      <View style={[s.card, tint && s.accentCard, glassCard]}>{children}</View>
+      <View style={[s.card, tint && s.accentCard, lookCard]}>{children}</View>
     </CardSurface.Provider>
   );
 }

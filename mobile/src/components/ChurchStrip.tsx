@@ -12,7 +12,7 @@ import { setStatusBarStyle } from "expo-status-bar";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import MemberAvatar from "./MemberAvatar";
-import { glassOn } from "../lib/glass-proto";
+import { candle, lookOn as glassOn } from "../lib/look-proto";
 import { useApp } from "../lib/state";
 import { churchCopy, type ChurchWord } from "../lib/church-copy";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
@@ -180,7 +180,7 @@ const st = StyleSheet.create({
   avatar: { padding: 4, marginLeft: "auto" },
   action: {
     borderRadius: 20,
-    backgroundColor: "rgba(255,252,243,0.86)",
+    backgroundColor: candle ? "rgba(33,27,22,0.62)" : "rgba(255,252,243,0.86)",
     paddingHorizontal: 4,
   },
 });

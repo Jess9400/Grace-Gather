@@ -1,3 +1,4 @@
+import { letter } from "../lib/look-proto";
 import { useState } from "react";
 import { View, Text, TextInput, StyleSheet, Platform } from "react-native";
 import { router } from "expo-router";
@@ -152,7 +153,7 @@ export default function Diary() {
           value={draft.text}
           onChangeText={(text) => update({ text })}
           placeholder={copy(lang, "prompt")}
-          placeholderTextColor={colors.muted}
+          placeholderTextColor={letter?.muted ?? colors.muted}
           style={s.input}
         />
         <Text style={s.count}>
@@ -172,7 +173,7 @@ export default function Diary() {
 const s = StyleSheet.create({
   title: { fontFamily: serif, fontSize: 35, lineHeight: 43, color: colors.ink },
   paper: {
-    backgroundColor: colors.white,
+    backgroundColor: letter?.paper ?? colors.white,
     borderRadius: 16,
     padding: 25,
     paddingLeft: 37,
@@ -190,16 +191,20 @@ const s = StyleSheet.create({
     width: 1,
     backgroundColor: "#B28A3E40",
   },
-  date: { color: colors.muted, fontSize: 12, marginBottom: 20 },
+  date: {
+    color: letter?.muted ?? colors.muted,
+    fontSize: 12,
+    marginBottom: 20,
+  },
   dear: {
     fontFamily: serif,
     fontSize: 26,
     fontStyle: "italic",
-    color: colors.ink,
+    color: letter?.ink ?? colors.ink,
     marginBottom: 16,
   },
   input: {
-    color: colors.ink,
+    color: letter?.ink ?? colors.ink,
     fontFamily: serif,
     fontSize: 21,
     lineHeight: 35,
@@ -208,7 +213,7 @@ const s = StyleSheet.create({
     padding: 0,
   },
   count: {
-    color: colors.muted,
+    color: letter?.muted ?? colors.muted,
     fontSize: 11,
     textAlign: "right",
     marginTop: 15,

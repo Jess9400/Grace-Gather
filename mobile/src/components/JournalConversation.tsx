@@ -378,7 +378,7 @@ const s = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.line,
     borderRadius: 24,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.white,
   },
   input: {
     flex: 1,
@@ -413,7 +413,7 @@ const s = StyleSheet.create({
     padding: 16,
     borderRadius: 20,
     borderBottomRightRadius: 6,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.white,
     gap: 6,
   },
   assistant: { alignSelf: "stretch", gap: 8, paddingVertical: 8 },

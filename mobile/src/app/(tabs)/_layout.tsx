@@ -1,3 +1,4 @@
+import { candle } from "../../lib/look-proto";
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useApp } from "../../lib/state";
@@ -27,7 +28,7 @@ export default function TabsLayout() {
         tabBarActiveTintColor: "#FFF8E9",
         tabBarInactiveTintColor: "#CFC3B1",
         tabBarStyle: {
-          backgroundColor: palette.ink,
+          backgroundColor: candle ? "#120E0B" : palette.ink,
           borderTopColor: "#FFFFFF14",
         },
         tabBarLabelStyle: { fontSize: 11 },

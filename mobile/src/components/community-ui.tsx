@@ -1,5 +1,5 @@
 import GlassBackdrop from "./GlassBackdrop";
-import { glassCard, glassOn } from "../lib/glass-proto";
+import { lookCard } from "../lib/look-proto";
 import MemberAvatar from "./MemberAvatar";
 import React, { createContext, useContext } from "react";
 import {
@@ -217,7 +217,7 @@ export function Card({
         style={[
           s.card,
           tint && s.accentCard,
-          !theme && glassCard,
+          !theme && lookCard,
           theme && {
             backgroundColor: theme.surface,
             borderColor: theme.line,

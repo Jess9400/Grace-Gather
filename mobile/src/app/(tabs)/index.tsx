@@ -934,12 +934,12 @@ const s = StyleSheet.create({
   cta: {
     minHeight: 50,
     padding: 14,
-    backgroundColor: colors.paper,
+    backgroundColor: "#FFFCF3",
     borderRadius: 14,
     alignItems: "center",
     justifyContent: "center",
   },
-  ctaText: { fontSize: 16, fontWeight: "600", color: colors.ink },
+  ctaText: { fontSize: 16, fontWeight: "600", color: "#302C28" },
   stay: { minHeight: 44, justifyContent: "center", alignItems: "center" },
   stayText: {
     fontSize: 14,
