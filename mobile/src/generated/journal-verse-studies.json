@@ -1,0 +1,923 @@
+{
+  "note": "Editorial explanations for the journal theme verses, keyed by the Hebrew-based reference in journal-map.json. Written by hand in each language; they explain context and meaning without quoting any edition.",
+  "verses": {
+    "PSA.34.18": {
+      "en": {
+        "simple": "A hurting heart is not a reason for God to turn away. This verse pictures God coming close to people who feel broken or brought low.",
+        "context": "This psalm is a song of thanksgiving, trust and teaching, linked by its heading to a moment of danger in David's life. The lines that follow admit that people who seek God still meet many troubles, so nearness to God is not presented as immunity from pain.",
+        "meaning": "Two images stand side by side: a heart that is broken and a spirit that is crushed or humbled, and translations word them a little differently. The emphasis falls on God's nearness and help, not on blaming a person for their suffering.",
+        "theology": "The psalm joins praise with the reality of affliction. Christians often read it as a witness to God's presence in suffering; it does not require grief to disappear before a person can pray.",
+        "today": "You may sit with these words without trying to turn them into a positive feeling. Consider telling a trusted person what is difficult, or letting someone offer practical support.",
+        "question": "What would help me feel a little less alone with this?"
+      },
+      "pt": {
+        "simple": "Um coração ferido não é motivo para Deus se afastar. Este versículo mostra Deus se aproximando de quem se sente em pedaços ou sem forças.",
+        "context": "Este salmo é um cântico de gratidão, confiança e ensino, ligado pelo seu título a um momento de perigo na vida de Davi. Os versos seguintes reconhecem que quem busca a Deus ainda passa por muitas aflições; a proximidade de Deus não é apresentada como imunidade à dor.",
+        "meaning": "Duas imagens aparecem lado a lado: um coração quebrado e um espírito abatido ou humilde, e as traduções escolhem palavras um pouco diferentes. A ênfase está na proximidade e no socorro de Deus, não em culpar a pessoa pelo que ela sofre.",
+        "theology": "O salmo une o louvor à realidade da aflição. Muitos cristãos o leem como testemunho da presença de Deus no sofrimento; ele não exige que a tristeza desapareça antes que alguém possa orar.",
+        "today": "Você pode ficar com estas palavras sem tentar transformá-las em um sentimento positivo. Considere contar a uma pessoa de confiança o que está difícil, ou deixar que alguém ofereça ajuda prática.",
+        "question": "O que me ajudaria a sentir um pouco menos de solidão com isso?"
+      },
+      "es": {
+        "simple": "Un corazón herido no es motivo para que Dios se aleje. Este versículo muestra a Dios acercándose a quienes sienten el corazón roto o las fuerzas agotadas.",
+        "context": "Este salmo es un canto de gratitud, confianza y enseñanza, que su encabezado relaciona con un momento de peligro en la vida de David. Los versos siguientes reconocen que quienes buscan a Dios también pasan por muchas aflicciones; la cercanía de Dios no se presenta como inmunidad frente al dolor.",
+        "meaning": "Dos imágenes aparecen juntas: un corazón quebrantado y un espíritu abatido o humilde, y las traducciones eligen palabras algo distintas. El acento está en la cercanía y el auxilio de Dios, no en culpar a la persona por lo que sufre.",
+        "theology": "El salmo une la alabanza con la realidad de la aflicción. Muchos cristianos lo leen como testimonio de la presencia de Dios en el sufrimiento; no exige que la tristeza desaparezca antes de poder orar.",
+        "today": "Puedes quedarte con estas palabras sin intentar convertirlas en un sentimiento positivo. Considera contarle a una persona de confianza lo que te resulta difícil, o dejar que alguien te ofrezca ayuda práctica.",
+        "question": "¿Qué me ayudaría a sentir un poco menos de soledad con esto?"
+      },
+      "ru": {
+        "simple": "Раненое сердце — не причина для Бога отвернуться. Этот стих показывает, как Бог приближается к тем, у кого сердце разбито и не осталось сил.",
+        "context": "Этот псалом — песнь благодарности, доверия и наставления; надписание связывает его с опасным моментом в жизни Давида. Следующие строки признают, что и у тех, кто ищет Бога, бывает много скорбей: близость Бога не означает защиты от боли.",
+        "meaning": "Здесь рядом стоят два образа: сокрушённое сердце и подавленный, смирённый дух — в разных переводах слова немного отличаются. Главное в стихе — близость и помощь Бога, а не обвинение человека в том, что он страдает.",
+        "theology": "Псалом соединяет хвалу с реальностью страдания. Многие христиане видят в нём свидетельство о присутствии Бога в скорби; он не требует, чтобы печаль прошла, прежде чем человек сможет молиться.",
+        "today": "Можно просто побыть с этими словами, не пытаясь превратить их в хорошее настроение. Возможно, стоит рассказать о том, что вам тяжело, человеку, которому вы доверяете, или позволить кому-то помочь вам делом.",
+        "question": "Что помогло бы мне чувствовать себя с этим чуть менее одиноко?"
+      }
+    },
+    "MAT.5.4": {
+      "en": {
+        "simple": "Grief is not something to hide or hurry through. Jesus speaks of people who mourn as people God has not forgotten, and he promises them comfort.",
+        "context": "This line belongs to the Beatitudes, the short blessings that open the Sermon on the Mount in Matthew's Gospel. Jesus is teaching his disciples with a crowd nearby, and he begins by naming people who are poor in spirit, grieving and gentle.",
+        "meaning": "Being called blessed here does not mean that sorrow is good or that loss does not hurt. It means that those who grieve are seen by God and that comfort is promised to them; the verse does not say when or how it comes.",
+        "theology": "The comfort is spoken of as something received, not achieved. Many Christians hear in it both God's consolation in the present and the hope that sorrow will not have the last word.",
+        "today": "On a day of remembering, you could let yourself mourn without apology. Saying a name aloud, looking at a photograph or sharing a memory with someone can be a way of receiving a little comfort.",
+        "question": "What do I miss most today, and who could I tell?"
+      },
+      "pt": {
+        "simple": "O luto não é algo para esconder nem para apressar. Jesus fala de quem chora como de pessoas que Deus não esqueceu, e lhes promete consolo.",
+        "context": "Esta frase faz parte das Bem-aventuranças, as breves bênçãos que abrem o Sermão da Montanha no Evangelho de Mateus. Jesus ensina seus discípulos com uma multidão por perto e começa falando dos pobres em espírito, dos que choram e dos mansos.",
+        "meaning": "Ser chamado de bem-aventurado aqui não significa que a tristeza seja boa nem que a perda não doa. Significa que quem está de luto é visto por Deus e que o consolo lhe é prometido; o versículo não diz quando nem como ele chega.",
+        "theology": "O consolo é descrito como algo que se recebe, não que se conquista. Muitos cristãos ouvem aqui tanto a consolação de Deus no presente quanto a esperança de que a tristeza não terá a última palavra.",
+        "today": "Em um dia de lembrança, você pode se permitir chorar sem pedir desculpas. Dizer um nome em voz alta, olhar uma fotografia ou partilhar uma lembrança com alguém pode ser um modo de receber um pouco de consolo.",
+        "question": "Do que mais sinto falta hoje, e a quem eu poderia contar?"
+      },
+      "es": {
+        "simple": "El duelo no es algo que haya que esconder ni apurar. Jesús habla de quienes lloran como de personas que Dios no ha olvidado, y les promete consuelo.",
+        "context": "Esta frase pertenece a las Bienaventuranzas, las breves bendiciones que abren el Sermón de la Montaña en el Evangelio de Mateo. Jesús enseña a sus discípulos con una multitud cerca y comienza hablando de los pobres de espíritu, de los que lloran y de los mansos.",
+        "meaning": "Llamar bienaventurado a alguien aquí no significa que la tristeza sea buena ni que la pérdida no duela. Significa que Dios ve a quienes están de duelo y que se les promete consuelo; el versículo no dice cuándo ni cómo llega.",
+        "theology": "El consuelo se describe como algo que se recibe, no que se consigue. Muchos cristianos escuchan aquí tanto la consolación de Dios en el presente como la esperanza de que la tristeza no tendrá la última palabra.",
+        "today": "En un día de recuerdo, puedes permitirte llorar sin pedir disculpas. Decir un nombre en voz alta, mirar una fotografía o compartir un recuerdo con alguien puede ser una manera de recibir un poco de consuelo.",
+        "question": "¿Qué es lo que más extraño hoy, y a quién podría contárselo?"
+      },
+      "ru": {
+        "simple": "Горе не нужно прятать или торопить. Иисус говорит о скорбящих как о людях, которых Бог не забыл, и обещает им утешение.",
+        "context": "Эта строка входит в Заповеди блаженства — краткие благословения, которыми в Евангелии от Матфея открывается Нагорная проповедь. Иисус учит учеников, рядом стоит народ, и начинает Он с нищих духом, плачущих и кротких.",
+        "meaning": "Слово о блаженстве здесь не означает, что скорбь хороша или что утрата не причиняет боли. Оно означает, что Бог видит тех, кто горюет, и что им обещано утешение; стих не говорит, когда и как оно приходит.",
+        "theology": "Об утешении говорится как о том, что человек получает, а не добывает сам. Многие христиане слышат здесь и утешение от Бога в настоящем, и надежду на то, что последнее слово останется не за скорбью.",
+        "today": "В день памяти можно позволить себе горевать и не извиняться за это. Произнести имя вслух, посмотреть на фотографию или поделиться с кем-то воспоминанием — так тоже можно принять немного утешения.",
+        "question": "Чего мне сегодня не хватает больше всего и кому можно об этом рассказать?"
+      }
+    },
+    "PSA.42.11": {
+      "en": {
+        "simple": "It is possible to feel low and still reach toward hope. In this verse someone speaks honestly to their own sad heart and encourages it to keep hoping in God.",
+        "context": "This psalm is the prayer of someone who feels far from God and remembers happier days of worship with others. The same line returns as a refrain, as though the singer has to say it more than once before it begins to hold.",
+        "meaning": "The psalmist does not deny the sadness or scold it away; the soul is asked why it is so downcast and is answered with a decision to hope. Praise is spoken of as something still to come, which leaves room for a present that is not yet joyful.",
+        "theology": "Faith here sounds less like a steady feeling and more like a conversation that keeps turning back toward God. The psalm treats sorrow and hope as able to live in the same prayer.",
+        "today": "You might name your sadness plainly, in writing or aloud, without needing to explain it. If the low mood stays for a long time, telling someone you trust is a good next step.",
+        "question": "What is weighing on me today, and what small hope can sit beside it?"
+      },
+      "pt": {
+        "simple": "É possível sentir desânimo e, ainda assim, estender a mão para a esperança. Neste versículo alguém fala com sinceridade ao próprio coração triste e o anima a continuar esperando em Deus.",
+        "context": "Este salmo é a oração de alguém que se sente longe de Deus e se lembra de dias mais felizes de culto ao lado de outras pessoas. A mesma frase volta como refrão, como se fosse preciso dizê-la mais de uma vez até que comece a sustentar.",
+        "meaning": "O salmista não nega a tristeza nem a repreende; pergunta à própria alma por que está tão abatida e responde com a decisão de esperar. O louvor aparece como algo que ainda virá, o que deixa espaço para um presente que ainda não é alegre.",
+        "theology": "A fé aqui se parece menos com um sentimento estável e mais com uma conversa que volta sempre para Deus. O salmo trata a tristeza e a esperança como capazes de habitar a mesma oração.",
+        "today": "Você pode dar nome à sua tristeza com simplicidade, por escrito ou em voz alta, sem precisar explicá-la. Se o desânimo durar muito tempo, contar a alguém de confiança é um bom próximo passo.",
+        "question": "O que está pesando em mim hoje, e que pequena esperança pode ficar ao lado disso?"
+      },
+      "es": {
+        "simple": "Es posible sentir desánimo y, aun así, tender la mano hacia la esperanza. En este versículo alguien le habla con sinceridad a su propio corazón triste y lo anima a seguir esperando en Dios.",
+        "context": "Este salmo es la oración de alguien que se siente lejos de Dios y recuerda días más felices de culto junto a otras personas. La misma frase vuelve como estribillo, como si hiciera falta decirla más de una vez para que empiece a sostener.",
+        "meaning": "El salmista no niega la tristeza ni la regaña; le pregunta a su alma por qué está tan abatida y responde con la decisión de esperar. La alabanza aparece como algo que todavía vendrá, lo cual deja lugar a un presente que aún no es alegre.",
+        "theology": "La fe aquí se parece menos a un sentimiento estable y más a una conversación que vuelve una y otra vez hacia Dios. El salmo trata la tristeza y la esperanza como capaces de convivir en la misma oración.",
+        "today": "Puedes ponerle nombre a tu tristeza con sencillez, por escrito o en voz alta, sin necesidad de explicarla. Si el desánimo dura mucho tiempo, contárselo a alguien de confianza es un buen paso siguiente.",
+        "question": "¿Qué me pesa hoy, y qué pequeña esperanza puede quedarse a su lado?"
+      },
+      "ru": {
+        "simple": "Можно чувствовать уныние и всё же тянуться к надежде. В этом стихе человек честно говорит с собственным печальным сердцем и побуждает его не оставлять надежду на Бога.",
+        "context": "Этот псалом — молитва человека, которому кажется, что Бог далеко, и который вспоминает более счастливые дни, когда он молился вместе с другими. Одна и та же строка возвращается как припев, словно её нужно произнести не один раз, прежде чем она начнёт поддерживать.",
+        "meaning": "Псалмопевец не отрицает печаль и не бранит себя за неё: он спрашивает свою душу, почему она так подавлена, и отвечает решением надеяться. О хвале говорится как о том, что ещё впереди, и это оставляет место для настоящего, в котором радости пока нет.",
+        "theology": "Вера здесь похожа не столько на ровное чувство, сколько на разговор, который снова и снова поворачивается к Богу. В псалме печаль и надежда могут жить в одной молитве.",
+        "today": "Можно просто назвать свою печаль — письменно или вслух — и ничего не объяснять. Если подавленность не проходит долго, хорошим следующим шагом будет рассказать о ней тому, кому вы доверяете.",
+        "question": "Что сегодня лежит у меня на душе и какая малая надежда может встать рядом?"
+      }
+    },
+    "JAS.1.19": {
+      "en": {
+        "simple": "Listening first can change what happens next. This verse invites a pause between what you feel and what you say.",
+        "context": "The Letter of James is traditionally attributed to James, a leader of the early church in Jerusalem, and it is full of practical wisdom for everyday life. This line opens a passage about receiving God's word and acting on it, and the next verse adds that human anger does not produce the righteousness God desires.",
+        "meaning": "The verse does not say that anger is never felt or that feelings should be buried. It sets an order: hearing comes first, speech follows with care, and anger is given time to cool, so that words are not chosen in the heat of the moment.",
+        "theology": "James connects the way people speak with the way they receive God's word: a listening heart toward God and a listening ear toward others belong together. Elsewhere Scripture describes God's own patience in similar terms.",
+        "today": "If you need to be heard, you could look for someone who will simply listen. If you are angry, waiting before you reply, even for an hour, can protect both you and the other person.",
+        "question": "What do I most need someone to hear, and what might I need to hear first?"
+      },
+      "pt": {
+        "simple": "Ouvir primeiro pode mudar o que acontece depois. Este versículo convida a uma pausa entre o que você sente e o que você diz.",
+        "context": "A Carta de Tiago é tradicionalmente atribuída a Tiago, um líder da igreja primitiva em Jerusalém, e está cheia de sabedoria prática para o dia a dia. Esta frase abre um trecho sobre acolher a palavra de Deus e colocá-la em prática, e o versículo seguinte acrescenta que a ira humana não produz a justiça que Deus deseja.",
+        "meaning": "O versículo não diz que a raiva nunca é sentida nem que os sentimentos devem ser enterrados. Ele estabelece uma ordem: primeiro vem a escuta, depois a fala com cuidado, e a ira ganha tempo para esfriar, para que as palavras não sejam escolhidas no calor do momento.",
+        "theology": "Tiago liga o modo como as pessoas falam ao modo como recebem a palavra de Deus: um coração que escuta a Deus e um ouvido que escuta os outros andam juntos. Em outros lugares, a Escritura descreve a paciência do próprio Deus em termos parecidos.",
+        "today": "Se você precisa de escuta, pode procurar alguém que simplesmente ouça. Se a raiva está presente, esperar antes de responder, nem que seja uma hora, pode proteger você e a outra pessoa.",
+        "question": "O que eu mais preciso que alguém ouça, e o que talvez eu precise ouvir primeiro?"
+      },
+      "es": {
+        "simple": "Escuchar primero puede cambiar lo que pasa después. Este versículo invita a hacer una pausa entre lo que sientes y lo que dices.",
+        "context": "La Carta de Santiago se atribuye tradicionalmente a Santiago, un dirigente de la iglesia primitiva de Jerusalén, y está llena de sabiduría práctica para la vida diaria. Esta frase abre un pasaje sobre recibir la palabra de Dios y ponerla en práctica, y el versículo siguiente añade que la ira humana no produce la justicia que Dios desea.",
+        "meaning": "El versículo no dice que el enojo nunca se sienta ni que haya que enterrar los sentimientos. Establece un orden: primero viene la escucha, después la palabra dicha con cuidado, y al enojo se le da tiempo para enfriarse, de modo que las palabras no se elijan en el calor del momento.",
+        "theology": "Santiago une la manera de hablar con la manera de recibir la palabra de Dios: un corazón que escucha a Dios y un oído que escucha a los demás van juntos. En otros lugares, la Escritura describe la paciencia del propio Dios con términos parecidos.",
+        "today": "Si necesitas que te escuchen, puedes buscar a alguien que simplemente preste atención. Si sientes enojo, esperar antes de responder, aunque sea una hora, puede protegerte a ti y a la otra persona.",
+        "question": "¿Qué es lo que más necesito que alguien escuche, y qué necesitaría escuchar yo primero?"
+      },
+      "ru": {
+        "simple": "Если сначала выслушать, дальше всё может пойти иначе. Этот стих приглашает сделать паузу между тем, что вы чувствуете, и тем, что вы говорите.",
+        "context": "Послание Иакова по традиции приписывают Иакову, одному из руководителей первой церкви в Иерусалиме; оно полно практической мудрости для повседневной жизни. Эта строка открывает отрывок о том, как принимать слово Божие и исполнять его, а следующий стих добавляет, что человеческий гнев не созидает той праведности, которой желает Бог.",
+        "meaning": "Стих не утверждает, что гнева не бывает или что чувства нужно прятать. Он задаёт порядок: сначала слушание, затем осторожное слово, а гневу даётся время остыть, чтобы слова не выбирались сгоряча.",
+        "theology": "Иаков связывает то, как люди говорят, с тем, как они принимают слово Божие: сердце, внимающее Богу, и слух, открытый другим людям, неотделимы друг от друга. В других местах Писание похожими словами говорит о терпении Самого Бога.",
+        "today": "Если вам нужно, чтобы вас выслушали, можно поискать человека, который просто послушает. Если вы сердитесь, стоит подождать с ответом хотя бы час: это может уберечь и вас, и другого человека.",
+        "question": "Что мне больше всего нужно, чтобы кто-то услышал, и что, возможно, сначала нужно услышать мне?"
+      }
+    },
+    "ROM.12.5": {
+      "en": {
+        "simple": "You belong to something larger than the place where you happen to be. This verse describes believers as parts of one body, joined to Christ and to one another.",
+        "context": "After many chapters about God's mercy, Paul's letter to the Christians in Rome turns to daily life together. He compares the community to a human body with many parts, each with a different gift and each needed by the others.",
+        "meaning": "The picture holds unity and difference together: many people, one body, and no part complete on its own. Belonging is rooted in Christ, so it does not disappear when a person is far from familiar faces.",
+        "theology": "Christians of every tradition confess that the Church is a single body united to Christ, though they describe its visible shape in different ways. The verse itself stresses mutual belonging: each member exists for the others.",
+        "today": "Being far from home does not cut you off from that body. A message to someone from your home community, or one visit to a local congregation, can be a small way of living what the verse describes.",
+        "question": "Who is one person, near or far, with whom I could share faith this week?"
+      },
+      "pt": {
+        "simple": "Você pertence a algo maior do que o lugar onde está agora. Este versículo descreve os que creem como partes de um só corpo, unidas a Cristo e umas às outras.",
+        "context": "Depois de muitos capítulos sobre a misericórdia de Deus, a carta de Paulo aos cristãos de Roma se volta para a vida diária em comum. Ele compara a comunidade a um corpo humano com muitas partes, cada uma com um dom diferente e cada uma necessária às demais.",
+        "meaning": "A imagem mantém juntas a unidade e a diferença: muitas pessoas, um só corpo, e nenhuma parte completa sozinha. O pertencimento tem raiz em Cristo e, por isso, não desaparece quando alguém está longe dos rostos conhecidos.",
+        "theology": "Cristãos de todas as tradições confessam que a Igreja é um só corpo em Cristo, embora descrevam sua forma visível de maneiras diferentes. O próprio versículo destaca o pertencimento mútuo: cada membro existe para os outros.",
+        "today": "Estar longe de casa não separa você desse corpo. Uma mensagem para alguém da sua comunidade de origem, ou uma visita a uma comunidade local, pode ser um jeito simples de viver o que o versículo descreve.",
+        "question": "Quem é uma pessoa, perto ou longe, com quem eu poderia partilhar a fé nesta semana?"
+      },
+      "es": {
+        "simple": "Perteneces a algo más grande que el lugar donde estás ahora. Este versículo describe a los creyentes como partes de un solo cuerpo, unidas a Cristo y entre sí.",
+        "context": "Después de muchos capítulos sobre la misericordia de Dios, la carta de Pablo a los cristianos de Roma pasa a la vida diaria en común. Compara a la comunidad con un cuerpo humano de muchas partes, cada una con un don distinto y cada una necesaria para las demás.",
+        "meaning": "La imagen mantiene juntas la unidad y la diferencia: muchas personas, un solo cuerpo, y ninguna parte completa por sí sola. La pertenencia tiene su raíz en Cristo y por eso no desaparece cuando alguien está lejos de los rostros conocidos.",
+        "theology": "Los cristianos de todas las tradiciones confiesan que la Iglesia es un solo cuerpo en Cristo, aunque describen su forma visible de maneras diferentes. El versículo mismo subraya la pertenencia mutua: cada miembro existe para los demás.",
+        "today": "Estar lejos de casa no te separa de ese cuerpo. Un mensaje a alguien de tu comunidad de origen, o una visita a una comunidad local, puede ser una forma sencilla de vivir lo que el versículo describe.",
+        "question": "¿Quién es una persona, cerca o lejos, con quien podría compartir la fe esta semana?"
+      },
+      "ru": {
+        "simple": "Вы принадлежите чему-то большему, чем место, где сейчас находитесь. Этот стих описывает верующих как части одного тела, соединённые со Христом и друг с другом.",
+        "context": "После многих глав о милости Божией послание Павла к христианам Рима переходит к повседневной совместной жизни. Он сравнивает общину с человеческим телом, в котором много частей: у каждой свой дар, и каждая нужна остальным.",
+        "meaning": "Этот образ удерживает вместе единство и различие: людей много, тело одно, и ни одна часть не полна сама по себе. Принадлежность укоренена во Христе и потому не исчезает, когда человек оказывается далеко от знакомых лиц.",
+        "theology": "Христиане всех традиций исповедуют, что Церковь — единое тело, соединённое со Христом, хотя по-разному описывают её видимый облик. Сам стих подчёркивает взаимную принадлежность: каждый член существует ради других.",
+        "today": "Вдали от дома вы не отрезаны от этого тела. Сообщение кому-то из родной общины или одно посещение местного прихода или общины может стать простым способом жить тем, о чём говорит стих.",
+        "question": "С кем — рядом или далеко — можно было бы разделить веру на этой неделе?"
+      }
+    },
+    "ECC.4.10": {
+      "en": {
+        "simple": "People are not meant to face every fall alone. This verse says plainly how much it matters to have someone who can help you up.",
+        "context": "Ecclesiastes is a book of wisdom whose speaker, known as the Teacher or Preacher and traditionally associated with Solomon, looks honestly at what makes life hard. In this passage he observes that two are better off than one: they share the work, keep each other warm and stand firmer together.",
+        "meaning": "The verse is an observation about life, not a command. It names the real hardship of being alone when things go wrong, and so it treats the wish for companionship as wise, not weak.",
+        "theology": "This book rarely offers easy comfort, which makes its praise of companionship stand out. Many readers hear in it an echo of the conviction, found in the first pages of Scripture, that human beings are not made to be alone.",
+        "today": "Wanting someone to check in on you is a human need, not a failure. You could send one honest message tonight, or accept an invitation you would normally decline.",
+        "question": "Who could I let know that I would welcome some company?"
+      },
+      "pt": {
+        "simple": "Ninguém foi feito para enfrentar todas as quedas sem companhia. Este versículo diz com simplicidade como é importante ter alguém que ajude a levantar.",
+        "context": "Eclesiastes é um livro de sabedoria cujo narrador, conhecido como o Pregador ou o Mestre e tradicionalmente associado a Salomão, olha com franqueza para o que torna a vida difícil. Neste trecho ele observa que dois estão em melhor situação do que um: dividem o trabalho, aquecem-se mutuamente e resistem melhor juntos.",
+        "meaning": "O versículo é uma observação sobre a vida, não um mandamento. Ele reconhece a dureza real de estar só quando as coisas dão errado e, assim, trata o desejo de companhia como sabedoria, não como fraqueza.",
+        "theology": "Este livro raramente oferece consolo fácil, e por isso seu elogio à companhia chama a atenção. Muitos leitores percebem aqui um eco da convicção, presente nas primeiras páginas da Escritura, de que o ser humano não foi feito para a solidão.",
+        "today": "Querer que alguém pergunte como você está é uma necessidade humana, não um fracasso. Você pode enviar uma mensagem sincera hoje à noite, ou aceitar um convite que normalmente recusaria.",
+        "question": "A quem eu poderia dizer que um pouco de companhia me faria bem?"
+      },
+      "es": {
+        "simple": "Nadie está hecho para enfrentar cada caída sin compañía. Este versículo dice con sencillez cuánto importa tener a alguien que te ayude a levantarte.",
+        "context": "Eclesiastés es un libro de sabiduría cuyo narrador, conocido como el Predicador o el Maestro y asociado tradicionalmente con Salomón, mira con franqueza lo que hace difícil la vida. En este pasaje observa que dos están mejor que uno: comparten el trabajo, se dan calor y resisten mejor juntos.",
+        "meaning": "El versículo es una observación sobre la vida, no un mandato. Reconoce la dureza real de la soledad cuando las cosas salen mal y, por eso, trata el deseo de compañía como sabiduría y no como debilidad.",
+        "theology": "Este libro rara vez ofrece consuelos fáciles, y por eso llama la atención su elogio de la compañía. Muchos lectores perciben aquí un eco de la convicción, presente en las primeras páginas de la Escritura, de que el ser humano no está hecho para la soledad.",
+        "today": "Querer que alguien pregunte cómo estás es una necesidad humana, no un fracaso. Puedes enviar un mensaje sincero esta noche, o aceptar una invitación que normalmente rechazarías.",
+        "question": "¿A quién podría decirle que un poco de compañía me vendría bien?"
+      },
+      "ru": {
+        "simple": "Человек не создан для того, чтобы каждое падение переживать в одиночку. Этот стих прямо говорит, как важно, чтобы рядом был тот, кто поможет подняться.",
+        "context": "Книга Екклесиаста — книга мудрости; её рассказчик, которого называют Проповедником и по традиции связывают с Соломоном, честно смотрит на то, что делает жизнь трудной. В этом отрывке он замечает, что двоим лучше, чем одному: они делят труд, согревают друг друга и вместе крепче стоят.",
+        "meaning": "Этот стих — наблюдение о жизни, а не повеление. Он признаёт, как тяжело одиночество, когда что-то идёт не так, и потому видит в желании иметь кого-то рядом мудрость, а не слабость.",
+        "theology": "Эта книга редко предлагает лёгкое утешение, и тем заметнее её похвала дружескому плечу. Многие читатели слышат здесь отзвук убеждения, знакомого по первым страницам Писания: человек не создан для одиночества.",
+        "today": "Желание, чтобы кто-то поинтересовался, как у вас дела, — человеческая потребность, а не неудача. Можно сегодня вечером отправить одно честное сообщение или принять приглашение, от которого вы обычно отказываетесь.",
+        "question": "Кому можно дать знать, что мне было бы хорошо в чьей-то компании?"
+      }
+    },
+    "1PE.5.7": {
+      "en": {
+        "simple": "You do not have to hold every worry by yourself. This verse invites you to hand your anxieties to God, for the simple reason that God cares about you.",
+        "context": "The First Letter of Peter, traditionally attributed to the apostle Peter, was written to scattered Christian communities living under pressure. This line comes near the end, right after a call to humility before God and just before a call to stay alert.",
+        "meaning": "Handing over worries is presented as part of humility: admitting that not everything can be carried or controlled alone. The reason given is God's care, not the smallness of the problem.",
+        "theology": "The verse rests on a claim about God's character: that God is attentive to people and concerned for them. It does not promise that the causes of worry vanish, and the letter goes on to speak about endurance and about fellow believers who face the same trials.",
+        "today": "You could name one worry in a short prayer, or write it down and set the paper aside for the night. Asking for practical help with what worries you fits well with this verse.",
+        "question": "Which worry would I most like to set down, even for one evening?"
+      },
+      "pt": {
+        "simple": "Você não precisa segurar cada preocupação por conta própria. Este versículo convida a entregar as ansiedades a Deus, pela simples razão de que Deus se importa com você.",
+        "context": "A Primeira Carta de Pedro, tradicionalmente atribuída ao apóstolo Pedro, foi escrita a comunidades cristãs dispersas que viviam sob pressão. Esta frase aparece perto do final, logo depois de um chamado à humildade diante de Deus e pouco antes de um chamado à vigilância.",
+        "meaning": "Entregar as preocupações é apresentado como parte da humildade: admitir que nem tudo pode ser carregado ou controlado por uma só pessoa. O motivo dado é o cuidado de Deus, e não a pequenez do problema.",
+        "theology": "O versículo se apoia em uma afirmação sobre o caráter de Deus: Deus está atento às pessoas e se interessa por elas. Ele não promete que as causas da preocupação desapareçam, e a carta continua falando de perseverança e de irmãos na fé que enfrentam as mesmas provações.",
+        "today": "Você pode dar nome a uma preocupação em uma oração curta, ou escrevê-la e deixar o papel de lado durante a noite. Pedir ajuda prática para aquilo que preocupa combina bem com este versículo.",
+        "question": "Qual preocupação eu mais gostaria de pousar, mesmo que só por uma noite?"
+      },
+      "es": {
+        "simple": "No tienes que sostener cada preocupación por tu cuenta. Este versículo invita a entregarle a Dios las ansiedades, por la sencilla razón de que le importas a Dios.",
+        "context": "La Primera Carta de Pedro, atribuida tradicionalmente al apóstol Pedro, fue escrita a comunidades cristianas dispersas que vivían bajo presión. Esta frase aparece cerca del final, justo después de un llamado a la humildad ante Dios y poco antes de un llamado a mantenerse alerta.",
+        "meaning": "Entregar las preocupaciones se presenta como parte de la humildad: admitir que no todo se puede cargar ni controlar a solas. La razón que se da es el cuidado de Dios, no la pequeñez del problema.",
+        "theology": "El versículo se apoya en una afirmación sobre el carácter de Dios: Dios está atento a las personas y se interesa por ellas. No promete que las causas de la preocupación desaparezcan, y la carta sigue hablando de perseverancia y de hermanos en la fe que enfrentan las mismas pruebas.",
+        "today": "Puedes nombrar una preocupación en una oración breve, o escribirla y dejar el papel a un lado por esta noche. Pedir ayuda práctica con aquello que te preocupa encaja bien con este versículo.",
+        "question": "¿Qué preocupación me gustaría soltar, aunque sea por una noche?"
+      },
+      "ru": {
+        "simple": "Вам не нужно удерживать каждую тревогу в одиночку. Этот стих приглашает передать свои заботы Богу по простой причине: вы Ему небезразличны.",
+        "context": "Первое послание Петра, по традиции приписываемое апостолу Петру, обращено к рассеянным христианским общинам, жившим под давлением. Эта строка стоит ближе к концу: сразу после призыва смириться перед Богом и незадолго до призыва бодрствовать.",
+        "meaning": "Передать заботы — здесь часть смирения: признание, что не всё можно нести и контролировать в одиночку. Причиной названа забота Бога, а не незначительность самой беды.",
+        "theology": "Стих опирается на утверждение о характере Бога: Бог внимателен к людям и печётся о них. Он не обещает, что причины тревоги исчезнут; дальше послание говорит о стойкости и о братьях по вере, которые проходят через те же испытания.",
+        "today": "Можно назвать одну тревогу в короткой молитве или записать её и отложить листок до утра. Попросить практической помощи в том, что вас беспокоит, — это вполне в духе этого стиха.",
+        "question": "Какую тревогу мне больше всего хотелось бы отложить — хотя бы на один вечер?"
+      }
+    },
+    "MAT.11.28": {
+      "en": {
+        "simple": "You can come to God tired, unfinished, and carrying more than you know how to hold. You do not have to earn the right to rest.",
+        "context": "Just before these words, Jesus prays to the Father and speaks about making him known. Then he invites those who are weary to come to him, and the next two verses continue the invitation with an image of learning from his gentleness and humility.",
+        "meaning": "The passage moves from coming to Jesus to learning his way. Rest is connected with a relationship and a different way of carrying life, not with a promise that every responsibility immediately disappears.",
+        "theology": "A Christian reading finds both grace and discipleship here: the invitation is offered before a person has solved their burdens, and it leads into learning from Jesus. The image of a yoke that follows connects rest with following his teaching.",
+        "today": "Notice one burden you could name honestly. Rest might begin with a pause, a prayer, or asking someone for practical help; these are ways of responding to the passage, not conditions for being cared for.",
+        "question": "What am I carrying that I could share with someone today?"
+      },
+      "pt": {
+        "simple": "Você pode ir a Deus com cansaço, com coisas por terminar e carregando mais do que consegue segurar. Não é preciso conquistar o direito de descansar.",
+        "context": "Pouco antes destas palavras, Jesus ora ao Pai e fala sobre torná-lo conhecido. Em seguida convida quem está sem forças a ir até ele, e os dois versículos seguintes continuam o convite com a imagem de aprender com sua mansidão e humildade.",
+        "meaning": "O trecho passa de ir até Jesus para aprender o seu caminho. O descanso está ligado a um relacionamento e a um jeito diferente de carregar a vida, não à promessa de que toda responsabilidade desaparece de imediato.",
+        "theology": "Uma leitura cristã encontra aqui graça e discipulado: o convite é feito antes que a pessoa tenha resolvido seus fardos, e conduz ao aprendizado com Jesus. A imagem do jugo, que vem logo depois, liga o descanso ao seguimento do seu ensino.",
+        "today": "Repare em um fardo que você poderia nomear com sinceridade. O descanso pode começar com uma pausa, uma oração ou um pedido de ajuda prática; são maneiras de responder ao texto, não condições para receber cuidado.",
+        "question": "O que estou carregando que eu poderia dividir com alguém hoje?"
+      },
+      "es": {
+        "simple": "Puedes acercarte a Dios con cansancio, con cosas sin terminar y cargando más de lo que sabes sostener. No hace falta ganarse el derecho a descansar.",
+        "context": "Justo antes de estas palabras, Jesús ora al Padre y habla de darlo a conocer. Luego invita a quienes ya no tienen fuerzas a acercarse a él, y los dos versículos siguientes continúan la invitación con la imagen de aprender de su mansedumbre y humildad.",
+        "meaning": "El pasaje va de acercarse a Jesús a aprender su camino. El descanso está unido a una relación y a una manera distinta de llevar la vida, no a la promesa de que toda responsabilidad desaparece de inmediato.",
+        "theology": "Una lectura cristiana encuentra aquí gracia y discipulado: la invitación se ofrece antes de que la persona haya resuelto sus cargas, y conduce a aprender de Jesús. La imagen del yugo, que viene enseguida, une el descanso con el seguimiento de su enseñanza.",
+        "today": "Fíjate en una carga que podrías nombrar con sinceridad. El descanso puede empezar con una pausa, una oración o un pedido de ayuda práctica; son maneras de responder al pasaje, no condiciones para recibir cuidado.",
+        "question": "¿Qué estoy cargando que podría compartir con alguien hoy?"
+      },
+      "ru": {
+        "simple": "К Богу можно прийти с усталостью, с незаконченными делами и с ношей, которую вы не знаете, как удержать. Право на покой не нужно заслуживать.",
+        "context": "Прямо перед этими словами Иисус молится Отцу и говорит о том, как открывает Его людям. Затем Он зовёт к Себе тех, у кого не осталось сил, а два следующих стиха продолжают приглашение образом ученичества у Его кротости и смирения.",
+        "meaning": "Отрывок ведёт от прихода к Иисусу к тому, чтобы учиться Его пути. Покой связан с отношениями и с иным способом нести жизнь, а не с обещанием, что все обязанности сразу исчезнут.",
+        "theology": "Христианское прочтение находит здесь и благодать, и ученичество: приглашение звучит прежде, чем человек справился со своими бременами, и ведёт к тому, чтобы учиться у Иисуса. Образ ига в следующих стихах связывает покой со следованием Его учению.",
+        "today": "Заметьте одну ношу, которую вы могли бы честно назвать. Покой может начаться с паузы, молитвы или просьбы о практической помощи; это способы откликнуться на отрывок, а не условия, при которых о вас позаботятся.",
+        "question": "Что из того, что я несу, можно сегодня с кем-то разделить?"
+      }
+    },
+    "MRK.6.31": {
+      "en": {
+        "simple": "Rest is not laziness. Here Jesus notices that his friends are worn out and invites them to step away for a while.",
+        "context": "In Mark's Gospel the apostles have just returned from the mission Jesus sent them on and are telling him all they did and taught. So many people are coming and going that they cannot even eat, and Jesus proposes a quiet place; the crowd follows them all the same, and the feeding of the five thousand comes next.",
+        "meaning": "The invitation comes from Jesus before the disciples ask for a break: their limits are noticed, not judged. The rest is short and soon interrupted, which makes the scene honest about how hard rest can be to protect.",
+        "theology": "The Gospel shows Jesus caring about bodily needs such as food and rest alongside teaching and healing. Many Christians see here the same rhythm of work and rest that runs through Scripture from the sabbath onward.",
+        "today": "You might choose one thing to decline this week, or one unhurried meal. Saying no to a request can be a way of taking this invitation seriously.",
+        "question": "Where could I step aside and rest for a little while?"
+      },
+      "pt": {
+        "simple": "Descansar não é preguiça. Aqui Jesus percebe que seus amigos estão esgotados e os convida a se afastar por um tempo.",
+        "context": "No Evangelho de Marcos, os apóstolos acabam de voltar da missão que Jesus lhes confiou e contam tudo o que fizeram e ensinaram. É tanta gente indo e vindo que eles nem conseguem comer, e Jesus propõe um lugar tranquilo; mesmo assim a multidão os segue, e logo depois vem a multiplicação dos pães para cinco mil pessoas.",
+        "meaning": "O convite parte de Jesus antes que os discípulos peçam uma pausa: seus limites são percebidos, não julgados. O descanso é breve e logo interrompido, o que torna a cena honesta sobre como é difícil proteger o descanso.",
+        "theology": "O Evangelho mostra Jesus cuidando de necessidades do corpo, como alimento e repouso, ao lado do ensino e das curas. Muitos cristãos veem aqui o mesmo ritmo de trabalho e descanso que atravessa a Escritura desde o sábado.",
+        "today": "Você pode escolher uma coisa para recusar nesta semana, ou uma refeição sem pressa. Dizer não a um pedido pode ser um modo de levar este convite a sério.",
+        "question": "Onde eu poderia me retirar e descansar um pouco?"
+      },
+      "es": {
+        "simple": "Descansar no es pereza. Aquí Jesús nota que sus amigos están agotados y los invita a apartarse por un rato.",
+        "context": "En el Evangelio de Marcos, los apóstoles acaban de regresar de la misión que Jesús les encargó y le cuentan todo lo que hicieron y enseñaron. Es tanta la gente que va y viene que ni siquiera pueden comer, y Jesús propone un lugar tranquilo; aun así la multitud los sigue, y enseguida viene la multiplicación de los panes para cinco mil personas.",
+        "meaning": "La invitación parte de Jesús antes de que los discípulos pidan una pausa: sus límites son advertidos, no juzgados. El descanso es breve y pronto se interrumpe, lo que hace a la escena honesta sobre lo difícil que es proteger el descanso.",
+        "theology": "El Evangelio muestra a Jesús ocupándose de necesidades del cuerpo, como el alimento y el reposo, junto con la enseñanza y las curaciones. Muchos cristianos ven aquí el mismo ritmo de trabajo y descanso que recorre la Escritura desde el sábado.",
+        "today": "Puedes elegir una cosa a la que decir que no esta semana, o una comida sin prisa. Negarte a un pedido puede ser una manera de tomar en serio esta invitación.",
+        "question": "¿Dónde podría apartarme y descansar un rato?"
+      },
+      "ru": {
+        "simple": "Отдых — не лень. Здесь Иисус замечает, что Его друзья выбились из сил, и зовёт их на время уйти в сторону.",
+        "context": "В Евангелии от Марка апостолы только что вернулись с порученного Иисусом служения и рассказывают Ему обо всём, что сделали и чему учили. Людей приходит и уходит так много, что им некогда даже поесть, и Иисус предлагает уединённое место; народ всё равно идёт за ними, и дальше следует рассказ о насыщении пяти тысяч.",
+        "meaning": "Приглашение исходит от Иисуса раньше, чем ученики просят о передышке: их пределы замечены, а не осуждены. Отдых оказывается коротким и скоро прерывается, и этим рассказ честно показывает, как трудно бывает его сберечь.",
+        "theology": "Евангелие показывает, что Иисус заботится о телесных нуждах — пище и отдыхе — наряду с учением и исцелениями. Многие христиане видят здесь тот же ритм труда и покоя, который проходит через всё Писание начиная с субботы.",
+        "today": "Можно выбрать одно дело, от которого вы откажетесь на этой неделе, или одну неспешную трапезу. Сказать «нет» в ответ на просьбу — тоже способ серьёзно отнестись к этому приглашению.",
+        "question": "Где можно было бы ненадолго уединиться и отдохнуть?"
+      }
+    },
+    "1JN.1.9": {
+      "en": {
+        "simple": "Honesty about what went wrong is met with mercy. This verse says that when wrongs are admitted before God, God forgives and makes clean.",
+        "context": "The First Letter of John, traditionally attributed to the apostle John, opens with the image of walking in the light. The verses on either side warn against claiming to have no sin, so honest confession is set against self-deception.",
+        "meaning": "Forgiveness is tied here to God's faithfulness and justice, that is, to who God is, not to how sorry a person manages to feel. Two things are promised: pardon for what was done, and a cleansing that reaches deeper than the single act.",
+        "theology": "All Christian traditions hold that God forgives those who confess. They practise confession in different ways, for instance sacramentally before a priest, in a congregation's shared prayer, or privately before God, and the verse itself does not describe a method.",
+        "today": "You could say plainly, to God and to yourself, what you regret. Where someone was hurt, an apology or a small act of repair can follow from that honesty.",
+        "question": "What would I like to be honest about, and with whom could I begin to make it right?"
+      },
+      "pt": {
+        "simple": "A sinceridade sobre o que deu errado encontra misericórdia. Este versículo diz que, quando as faltas são reconhecidas diante de Deus, Deus perdoa e purifica.",
+        "context": "A Primeira Carta de João, tradicionalmente atribuída ao apóstolo João, começa com a imagem de andar na luz. Os versículos ao redor alertam contra a pretensão de não ter pecado; a confissão sincera é contraposta ao autoengano.",
+        "meaning": "O perdão está ligado aqui à fidelidade e à justiça de Deus, isto é, a quem Deus é, e não ao tamanho do arrependimento que a pessoa consegue sentir. Duas coisas são prometidas: o perdão pelo que foi feito e uma purificação que vai mais fundo do que o ato isolado.",
+        "theology": "Todas as tradições cristãs afirmam que Deus perdoa quem confessa. Elas praticam a confissão de modos diferentes, por exemplo sacramentalmente diante de um sacerdote, na oração comum da comunidade ou em particular diante de Deus, e o próprio versículo não descreve um método.",
+        "today": "Você pode dizer com simplicidade, a Deus e a si, aquilo de que se arrepende. Onde alguém foi ferido, um pedido de desculpas ou um pequeno gesto de reparação pode nascer dessa sinceridade.",
+        "question": "Sobre o que eu gostaria de falar com sinceridade, e com quem eu poderia começar a reparar?"
+      },
+      "es": {
+        "simple": "La sinceridad sobre lo que salió mal encuentra misericordia. Este versículo dice que, cuando las faltas se reconocen ante Dios, Dios perdona y limpia.",
+        "context": "La Primera Carta de Juan, atribuida tradicionalmente al apóstol Juan, comienza con la imagen de caminar en la luz. Los versículos de alrededor advierten contra la pretensión de no tener pecado; la confesión sincera se contrapone al autoengaño.",
+        "meaning": "El perdón está unido aquí a la fidelidad y la justicia de Dios, es decir, a quién es Dios, y no a cuánto arrepentimiento logra sentir la persona. Se prometen dos cosas: el perdón por lo que se hizo y una limpieza que llega más hondo que el acto aislado.",
+        "theology": "Todas las tradiciones cristianas sostienen que Dios perdona a quien confiesa. Practican la confesión de maneras distintas, por ejemplo sacramentalmente ante un sacerdote, en la oración común de la comunidad o en privado ante Dios, y el versículo mismo no describe un método.",
+        "today": "Puedes decir con sencillez, ante Dios y ante ti, aquello de lo que te arrepientes. Si alguien salió lastimado, una disculpa o un pequeño gesto de reparación puede nacer de esa sinceridad.",
+        "question": "¿Sobre qué me gustaría hablar con sinceridad, y con quién podría empezar a reparar?"
+      },
+      "ru": {
+        "simple": "Честность о том, что пошло не так, встречает милость. Этот стих говорит: когда человек признаёт свои грехи перед Богом, Бог прощает и очищает.",
+        "context": "Первое послание Иоанна, по традиции приписываемое апостолу Иоанну, открывается образом хождения во свете. Соседние стихи предостерегают от утверждения, будто у нас нет греха: искреннее исповедание противопоставлено самообману.",
+        "meaning": "Прощение связано здесь с верностью и праведностью Бога, то есть с тем, каков Бог, а не с тем, насколько сильное раскаяние удаётся почувствовать человеку. Обещаны две вещи: прощение сделанного и очищение, которое идёт глубже отдельного поступка.",
+        "theology": "Все христианские традиции исповедуют, что Бог прощает кающихся. Исповедь совершается по-разному: как таинство перед священником, в общей молитве общины или наедине перед Богом, — и сам стих не описывает способа.",
+        "today": "Можно просто сказать — Богу и себе — о чём вы сожалеете. Если кому-то причинена боль, из этой честности может вырасти извинение или небольшой шаг к тому, чтобы исправить сделанное.",
+        "question": "О чём мне хотелось бы сказать честно и с кем можно начать исправлять случившееся?"
+      }
+    },
+    "JAS.1.5": {
+      "en": {
+        "simple": "Not knowing what to do is not a failure. This verse encourages you to ask God for wisdom and describes God as one who gives freely and does not scold the asker.",
+        "context": "The Letter of James, traditionally attributed to James of Jerusalem, begins by speaking about trials and the endurance they can produce. The call to ask for wisdom comes straight after, and the following verses add that the asking should be done with trust.",
+        "meaning": "Wisdom in the Bible is less a hidden answer than the ability to live well and choose well. The verse stresses the character of the giver: generous to all, and without reproach for needing to ask.",
+        "theology": "God is presented as the source of wisdom and as willing to share it. The verse does not say how wisdom arrives; Christians have long looked for it in prayer, in Scripture, in the counsel of others and in patient reflection.",
+        "today": "You might put your decision into one honest sentence and bring it to prayer. Talking it through with someone you trust can be part of how clarity comes.",
+        "question": "What do I most need wisdom for right now?"
+      },
+      "pt": {
+        "simple": "Não saber o que fazer não é um fracasso. Este versículo incentiva a pedir sabedoria a Deus e descreve Deus como quem dá com generosidade e não repreende quem pede.",
+        "context": "A Carta de Tiago, tradicionalmente atribuída a Tiago de Jerusalém, começa falando das provações e da perseverança que elas podem produzir. O convite a pedir sabedoria vem logo em seguida, e os versículos seguintes acrescentam que o pedido deve ser feito com confiança.",
+        "meaning": "Na Bíblia, a sabedoria é menos uma resposta escondida e mais a capacidade de viver bem e escolher bem. O versículo destaca o caráter de quem dá: generoso com todos e sem censura para quem precisa pedir.",
+        "theology": "Deus é apresentado como a fonte da sabedoria e como alguém disposto a reparti-la. O versículo não diz como a sabedoria chega; os cristãos há muito a buscam na oração, na Escritura, no conselho de outras pessoas e na reflexão paciente.",
+        "today": "Você pode colocar sua decisão em uma única frase sincera e levá-la à oração. Conversar sobre ela com alguém de confiança pode fazer parte do modo como a clareza chega.",
+        "question": "Para que eu mais preciso de sabedoria neste momento?"
+      },
+      "es": {
+        "simple": "No saber qué hacer no es un fracaso. Este versículo anima a pedirle sabiduría a Dios y describe a Dios como alguien que da con generosidad y no regaña a quien pide.",
+        "context": "La Carta de Santiago, atribuida tradicionalmente a Santiago de Jerusalén, comienza hablando de las pruebas y de la perseverancia que pueden producir. La invitación a pedir sabiduría viene inmediatamente después, y los versículos siguientes añaden que hay que pedir con confianza.",
+        "meaning": "En la Biblia, la sabiduría es menos una respuesta oculta que la capacidad de vivir bien y elegir bien. El versículo subraya el carácter de quien da: generoso con todos y sin reproches para quien necesita pedir.",
+        "theology": "Dios aparece como la fuente de la sabiduría y como alguien dispuesto a compartirla. El versículo no dice cómo llega la sabiduría; los cristianos la han buscado desde hace mucho en la oración, en la Escritura, en el consejo de otras personas y en la reflexión paciente.",
+        "today": "Puedes poner tu decisión en una sola frase sincera y llevarla a la oración. Conversarla con alguien de confianza puede ser parte de la manera en que llega la claridad.",
+        "question": "¿Para qué necesito más sabiduría en este momento?"
+      },
+      "ru": {
+        "simple": "Не знать, как поступить, — не провал. Этот стих побуждает просить у Бога мудрости и говорит о Боге как о Том, Кто даёт щедро и не укоряет просящего.",
+        "context": "Послание Иакова, по традиции приписываемое Иакову Иерусалимскому, начинается со слов об испытаниях и о терпении, которое они могут рождать. Сразу после этого звучит призыв просить мудрости, а следующие стихи добавляют, что просить нужно с доверием.",
+        "meaning": "В Библии мудрость — не столько скрытый ответ, сколько умение хорошо жить и хорошо выбирать. Стих подчёркивает характер Дающего: Он щедр ко всем и не упрекает за то, что человеку приходится просить.",
+        "theology": "Бог представлен как источник мудрости, готовый ею делиться. Стих не говорит, каким образом мудрость приходит; христиане издавна ищут её в молитве, в Писании, в совете других людей и в терпеливом размышлении.",
+        "today": "Можно выразить своё решение одной честной фразой и принести её в молитве. Разговор с человеком, которому вы доверяете, тоже может стать частью того, как приходит ясность.",
+        "question": "Для чего мне сейчас больше всего нужна мудрость?"
+      }
+    },
+    "PSA.13.1": {
+      "en": {
+        "simple": "Feeling forgotten by God is something the Bible itself puts into words. This verse shows that such a feeling can be brought to God as a prayer.",
+        "context": "This is a short psalm of lament, linked to David by its heading. It opens with the same urgent question asked several times over, moves to a plea for help, and ends with a few lines of trust and song.",
+        "meaning": "The questions are addressed to God, so even the complaint is a form of relationship. The image of a hidden face expresses the experience of absence; the psalm states that experience without correcting it.",
+        "theology": "Psalms of lament were kept in Israel's prayer book and are still prayed by Jews and Christians, which suggests that doubt and protest have a place in the life of faith. This psalm holds the sense of God's distance together with continued speaking to God.",
+        "today": "You can pray exactly as you are, including the words that sound like complaint. If praying is hard, simply reading this psalm slowly can be enough for today.",
+        "question": "If I could ask God one honest question today, what would it be?"
+      },
+      "pt": {
+        "simple": "A sensação de que Deus se esqueceu de nós é algo que a própria Bíblia põe em palavras. Este versículo mostra que esse sentimento pode ser levado a Deus como oração.",
+        "context": "Este é um salmo curto de lamentação, ligado a Davi pelo seu título. Ele começa com a mesma pergunta urgente repetida várias vezes, passa a um pedido de socorro e termina com algumas linhas de confiança e de canto.",
+        "meaning": "As perguntas são dirigidas a Deus, de modo que até a queixa é uma forma de relação. A imagem do rosto escondido expressa a experiência da ausência; o salmo declara essa experiência sem corrigi-la.",
+        "theology": "Os salmos de lamentação foram guardados no livro de orações de Israel e ainda são rezados por judeus e cristãos, o que sugere que a dúvida e o protesto têm lugar na vida de fé. Este salmo mantém juntas a sensação da distância de Deus e a insistência em falar com Deus.",
+        "today": "Você pode orar exatamente como está, inclusive com palavras que soam como queixa. Se orar estiver difícil, apenas ler este salmo devagar pode bastar por hoje.",
+        "question": "Se eu pudesse fazer a Deus uma pergunta sincera hoje, qual seria?"
+      },
+      "es": {
+        "simple": "La sensación de que Dios se ha olvidado de uno es algo que la Biblia misma pone en palabras. Este versículo muestra que ese sentimiento se puede llevar ante Dios como oración.",
+        "context": "Este es un salmo breve de lamentación, vinculado a David por su encabezado. Empieza con la misma pregunta urgente repetida varias veces, pasa a una súplica de ayuda y termina con unas líneas de confianza y de canto.",
+        "meaning": "Las preguntas se dirigen a Dios, de modo que hasta la queja es una forma de relación. La imagen del rostro escondido expresa la experiencia de la ausencia; el salmo declara esa experiencia sin corregirla.",
+        "theology": "Los salmos de lamentación se conservaron en el libro de oraciones de Israel y todavía los rezan judíos y cristianos, lo que sugiere que la duda y la protesta tienen lugar en la vida de fe. Este salmo mantiene juntas la sensación de la lejanía de Dios y la insistencia en hablarle.",
+        "today": "Puedes orar tal como estás, incluso con palabras que suenan a queja. Si orar se te hace difícil, leer este salmo despacio puede ser suficiente por hoy.",
+        "question": "Si hoy pudiera hacerle a Dios una pregunta sincera, ¿cuál sería?"
+      },
+      "ru": {
+        "simple": "Чувство, будто Бог о вас забыл, сама Библия облекает в слова. Этот стих показывает, что с таким чувством можно прийти к Богу и сделать его молитвой.",
+        "context": "Это короткий псалом-плач, который надписание связывает с Давидом. Он открывается одним и тем же настойчивым вопросом, повторённым несколько раз, переходит в просьбу о помощи и завершается несколькими строками доверия и песни.",
+        "meaning": "Вопросы обращены к Богу, поэтому даже жалоба остаётся формой отношений. Образ сокрытого лица передаёт опыт отсутствия; псалом высказывает этот опыт и не спешит его исправлять.",
+        "theology": "Псалмы-плачи сохранились в молитвенной книге Израиля, и ими до сих пор молятся иудеи и христиане; это говорит о том, что сомнению и протесту есть место в жизни веры. В этом псалме ощущение удалённости Бога соединено с продолжающимся разговором с Ним.",
+        "today": "Можно молиться такими, какие вы есть, — и теми словами, которые звучат как жалоба. Если молиться трудно, на сегодня достаточно просто медленно прочитать этот псалом.",
+        "question": "Если бы сегодня можно было задать Богу один честный вопрос, каким бы он был?"
+      }
+    },
+    "JAS.5.13": {
+      "en": {
+        "simple": "Every mood can be turned toward God. This verse suggests prayer when things are hard and song when the heart is glad.",
+        "context": "This line opens the closing section of the Letter of James, which is about prayer in every circumstance. It goes on to speak about praying for the sick and recalls the prayer of the prophet Elijah.",
+        "meaning": "James does not rank joy above sorrow or sorrow above joy; each has its fitting response. Gladness is given somewhere to go: it becomes praise instead of fading unnoticed.",
+        "theology": "Joy is treated here as something to offer back to God, not only to enjoy. Christian worship in every tradition has kept this instinct, giving thanks in song and psalm.",
+        "today": "Let your joy have a voice: sing, say thank you, or tell someone what has made you glad. Sharing good news can lift another person too.",
+        "question": "What has made me glad, and how would I like to express it?"
+      },
+      "pt": {
+        "simple": "Todo estado de ânimo pode ser voltado para Deus. Este versículo sugere a oração quando as coisas estão difíceis e o canto quando o coração está alegre.",
+        "context": "Esta frase abre a parte final da Carta de Tiago, que trata da oração em todas as circunstâncias. Em seguida o texto fala da oração pelos doentes e recorda a oração do profeta Elias.",
+        "meaning": "Tiago não coloca a alegria acima da tristeza nem a tristeza acima da alegria; cada uma tem sua resposta própria. A alegria ganha um destino: torna-se louvor em vez de passar despercebida.",
+        "theology": "A alegria é tratada aqui como algo a ser oferecido de volta a Deus, e não apenas desfrutado. O culto cristão, em todas as tradições, conservou esse impulso de dar graças com cânticos e salmos.",
+        "today": "Dê voz à sua alegria: cante, agradeça ou conte a alguém o que alegrou você. Partilhar uma boa notícia também pode animar outra pessoa.",
+        "question": "O que me alegrou, e como eu gostaria de expressar isso?"
+      },
+      "es": {
+        "simple": "Todo estado de ánimo puede volverse hacia Dios. Este versículo sugiere la oración cuando las cosas se ponen difíciles y el canto cuando el corazón está alegre.",
+        "context": "Esta frase abre la parte final de la Carta de Santiago, que trata de la oración en toda circunstancia. Después el texto habla de orar por los enfermos y recuerda la oración del profeta Elías.",
+        "meaning": "Santiago no pone la alegría por encima de la tristeza ni la tristeza por encima de la alegría; cada una tiene su respuesta propia. A la alegría se le da un destino: se convierte en alabanza en lugar de pasar inadvertida.",
+        "theology": "La alegría se trata aquí como algo que se le ofrece de vuelta a Dios, no solo algo que se disfruta. El culto cristiano, en todas las tradiciones, ha conservado ese impulso de dar gracias con cantos y salmos.",
+        "today": "Dale voz a tu alegría: canta, da las gracias o cuéntale a alguien lo que te alegró. Compartir una buena noticia también puede animar a otra persona.",
+        "question": "¿Qué me ha alegrado, y cómo me gustaría expresarlo?"
+      },
+      "ru": {
+        "simple": "Любое настроение можно обратить к Богу. Этот стих предлагает молиться, когда тяжело, и петь, когда на сердце радость.",
+        "context": "Эта строка открывает заключительную часть Послания Иакова, посвящённую молитве во всех обстоятельствах. Дальше говорится о молитве за больных и вспоминается молитва пророка Илии.",
+        "meaning": "Иаков не ставит радость выше печали или печаль выше радости: у каждой свой уместный отклик. Радости даётся направление: она становится хвалой, а не проходит незамеченной.",
+        "theology": "Радость здесь — то, что можно принести Богу в ответ, а не только пережить. Христианское богослужение во всех традициях сохранило это движение сердца — благодарить песнями и псалмами.",
+        "today": "Дайте своей радости голос: спойте, скажите спасибо или расскажите кому-нибудь, что вас обрадовало. Хорошая новость может поддержать и другого человека.",
+        "question": "Что меня обрадовало и как мне хотелось бы это выразить?"
+      }
+    },
+    "1TH.5.18": {
+      "en": {
+        "simple": "You can notice a small good thing even on a complicated day. Gratitude does not mean pretending that everything that happened was good.",
+        "context": "Near the end of his first letter to the Christians in Thessalonica, Paul gives a series of short instructions for life together. Rejoicing, prayer and thanksgiving stand side by side there, next to the call to encourage and help one another.",
+        "meaning": "Most translations speak of giving thanks in every circumstance, and a few word it as thanks for everything. Read with the lines around it, the verse describes a steady practice within changing circumstances, not an instruction to call every harmful event good.",
+        "theology": "The verse places thanksgiving within life in Christ and relationship with God. Gratitude is held alongside ongoing prayer and the care of a community; it is not presented as a technique for controlling outcomes.",
+        "today": "Name something specific: a person, a moment, or a kindness. You can be grateful and still grieve, ask for help, or work to change something unjust.",
+        "question": "What small kindness would I like to remember from today?"
+      },
+      "pt": {
+        "simple": "É possível notar uma pequena coisa boa mesmo em um dia complicado. Gratidão não significa fingir que tudo o que aconteceu foi bom.",
+        "context": "Perto do final da sua primeira carta aos cristãos de Tessalônica, Paulo dá uma série de breves orientações para a vida em comum. Alegria, oração e ação de graças aparecem ali lado a lado, junto ao convite para animar e ajudar uns aos outros.",
+        "meaning": "A maioria das traduções fala em dar graças em toda circunstância, e algumas dizem dar graças por tudo. Lido com as frases ao redor, o versículo descreve uma prática constante em meio a circunstâncias que mudam, não uma ordem para chamar de bom todo acontecimento que faz mal.",
+        "theology": "O versículo situa a ação de graças dentro da vida em Cristo e da relação com Deus. A gratidão caminha junto com a oração contínua e o cuidado de uma comunidade; não é apresentada como técnica para controlar resultados.",
+        "today": "Dê nome a algo específico: uma pessoa, um momento ou uma gentileza. É possível agradecer e, ao mesmo tempo, sentir a dor de uma perda, pedir ajuda ou trabalhar para mudar algo injusto.",
+        "question": "De que pequena gentileza de hoje eu gostaria de me lembrar?"
+      },
+      "es": {
+        "simple": "Es posible notar una pequeña cosa buena incluso en un día complicado. La gratitud no significa fingir que todo lo que pasó fue bueno.",
+        "context": "Cerca del final de su primera carta a los cristianos de Tesalónica, Pablo da una serie de indicaciones breves para la vida en común. La alegría, la oración y la acción de gracias aparecen allí una junto a otra, al lado del llamado a animarse y ayudarse mutuamente.",
+        "meaning": "La mayoría de las traducciones habla de dar gracias en toda circunstancia, y algunas dicen dar gracias por todo. Leído con las frases que lo rodean, el versículo describe una práctica constante en medio de circunstancias cambiantes, no una orden de llamar bueno a todo hecho que hace daño.",
+        "theology": "El versículo sitúa la acción de gracias dentro de la vida en Cristo y de la relación con Dios. La gratitud va unida a la oración continua y al cuidado de una comunidad; no se presenta como una técnica para controlar resultados.",
+        "today": "Nombra algo concreto: una persona, un momento o un gesto amable. Se puede agradecer y, al mismo tiempo, sentir el dolor de una pérdida, pedir ayuda o trabajar para cambiar algo injusto.",
+        "question": "¿Qué pequeño gesto amable de hoy me gustaría recordar?"
+      },
+      "ru": {
+        "simple": "Даже в непростой день можно заметить что-то маленькое и доброе. Благодарность не означает делать вид, будто всё случившееся было хорошим.",
+        "context": "Ближе к концу своего первого послания христианам в Фессалониках Павел даёт ряд кратких наставлений о совместной жизни. Радость, молитва и благодарение стоят там рядом — вместе с призывом ободрять друг друга и помогать друг другу.",
+        "meaning": "В большинстве переводов говорится о благодарении при любых обстоятельствах, в некоторых — о благодарности за всё. В связи с соседними строками стих описывает постоянную практику среди меняющихся обстоятельств, а не требование называть добром всё, что причиняет вред.",
+        "theology": "Стих помещает благодарение внутрь жизни во Христе и отношений с Богом. Благодарность стоит рядом с непрестанной молитвой и заботой общины; она не представлена как приём, позволяющий управлять исходом событий.",
+        "today": "Назовите что-то конкретное: человека, мгновение или чью-то доброту. Можно благодарить и при этом горевать, просить о помощи или стараться изменить то, что несправедливо.",
+        "question": "Какое небольшое проявление доброты за сегодня мне хотелось бы запомнить?"
+      }
+    },
+    "HEB.13.16": {
+      "en": {
+        "simple": "Gratitude can turn into generosity. This verse says that kindness and generosity with what you have are gifts that matter to God.",
+        "context": "The Letter to the Hebrews, whose author is not named, speaks at length about sacrifice and priesthood. In its final chapter it turns to everyday conduct such as hospitality, remembering prisoners and contentment, and it describes praise and acts of kindness as sacrifices.",
+        "meaning": "Earlier in the letter, sacrifice belongs to the sanctuary and its altar; here the word is used for ordinary goodness and sharing. The reminder not to forget suggests that such acts are easily crowded out, even among sincere people.",
+        "theology": "The verse presents care for others as part of worship, not as something separate from it. Christians describe the relation between good works and God's grace in different ways, but they agree that generosity belongs to the life of faith.",
+        "today": "Giving back does not have to be large: time, a meal, a skill or attention all count. Choose something that fits your means, so that giving stays free and glad.",
+        "question": "What do I have, however small, that someone else could use?"
+      },
+      "pt": {
+        "simple": "A gratidão pode se transformar em generosidade. Este versículo diz que a bondade e a partilha do que se tem são ofertas que importam para Deus.",
+        "context": "A Carta aos Hebreus, cujo autor não é nomeado, fala longamente de sacrifício e sacerdócio. No último capítulo ela se volta para a conduta cotidiana, como a hospitalidade, a lembrança dos presos e o contentamento, e descreve o louvor e os gestos de bondade como sacrifícios.",
+        "meaning": "Antes, na carta, o sacrifício pertence ao santuário e ao seu altar; aqui a palavra é usada para a bondade comum e a partilha. O lembrete para não esquecer sugere que esses gestos facilmente ficam de lado, mesmo entre pessoas sinceras.",
+        "theology": "O versículo apresenta o cuidado com os outros como parte do culto, não como algo separado dele. Os cristãos descrevem de maneiras diferentes a relação entre as boas obras e a graça de Deus, mas concordam que a generosidade pertence à vida de fé.",
+        "today": "Retribuir não precisa ser algo grande: tempo, uma refeição, uma habilidade ou atenção também contam. Escolha algo que caiba nas suas possibilidades, para que a doação continue livre e alegre.",
+        "question": "O que eu tenho, por pequeno que seja, que poderia servir a outra pessoa?"
+      },
+      "es": {
+        "simple": "La gratitud puede convertirse en generosidad. Este versículo dice que hacer el bien y compartir lo que se tiene son ofrendas que le importan a Dios.",
+        "context": "La Carta a los Hebreos, cuyo autor no se nombra, habla extensamente de sacrificio y sacerdocio. En su último capítulo pasa a la conducta de cada día, como la hospitalidad, el recuerdo de los presos y el contentamiento, y describe la alabanza y los gestos de bondad como sacrificios.",
+        "meaning": "Antes, en la carta, el sacrificio pertenece al santuario y a su altar; aquí la palabra se usa para la bondad común y el compartir. El recordatorio de no olvidar sugiere que esos gestos quedan relegados con facilidad, incluso entre personas sinceras.",
+        "theology": "El versículo presenta el cuidado de los demás como parte del culto, no como algo separado de él. Los cristianos describen de maneras distintas la relación entre las buenas obras y la gracia de Dios, pero coinciden en que la generosidad pertenece a la vida de fe.",
+        "today": "Retribuir no tiene que ser algo grande: el tiempo, una comida, una habilidad o la atención también cuentan. Elige algo que esté a tu alcance, para que dar siga siendo libre y alegre.",
+        "question": "¿Qué tengo, por pequeño que sea, que podría servirle a otra persona?"
+      },
+      "ru": {
+        "simple": "Благодарность может превратиться в щедрость. Этот стих говорит, что делать добро и делиться тем, что имеешь, — дары, которые важны для Бога.",
+        "context": "Послание к Евреям, автор которого не назван, подробно говорит о жертве и священстве. В последней главе оно обращается к повседневному поведению — гостеприимству, памяти об узниках, довольству тем, что есть, — и называет жертвами хвалу и дела доброты.",
+        "meaning": "Раньше в послании жертва связана со святилищем и его жертвенником; здесь это слово отнесено к обычной доброте и готовности делиться. Само напоминание о них подсказывает, что такие дела легко вытесняются другими заботами даже у искренних людей.",
+        "theology": "Стих представляет заботу о других как часть поклонения Богу, а не как нечто отдельное от него. Христиане по-разному описывают соотношение добрых дел и Божией благодати, но согласны в том, что щедрость принадлежит жизни веры.",
+        "today": "Отдавать не обязательно много: время, угощение, умение или внимание тоже считаются. Выберите то, что вам по силам, чтобы дар оставался свободным и радостным.",
+        "question": "Что у меня есть — пусть совсем немного — что могло бы пригодиться другому человеку?"
+      }
+    },
+    "1TH.5.11": {
+      "en": {
+        "simple": "Words can hold another person up. This verse asks believers to encourage one another and help each other grow stronger.",
+        "context": "Paul wrote to a young community in Thessalonica that was grieving members who had died and wondering about the future. After reassuring them, he draws a practical conclusion about how they are to treat each other, and adds that they already live this way.",
+        "meaning": "The image of building up comes from construction: a community is strengthened piece by piece, through ordinary care. Depending on the translation, the first instruction is rendered as encouraging, comforting or exhorting, and all three belong to it.",
+        "theology": "Paul treats encouragement as the work of the whole community, not only of its leaders. It rests on the hope he has just described, so comfort here is more than cheerfulness: it points to what God has promised.",
+        "today": "Listening without hurrying to fix things is one of the simplest ways to build someone up. You could ask one open question and give the answer your full attention.",
+        "question": "Who might need my listening this week?"
+      },
+      "pt": {
+        "simple": "Palavras podem sustentar outra pessoa. Este versículo pede aos que creem que se animem mutuamente e se ajudem a ficar mais firmes.",
+        "context": "Paulo escreveu a uma comunidade jovem em Tessalônica que chorava a morte de alguns de seus membros e se perguntava sobre o futuro. Depois de tranquilizá-la, ele tira uma conclusão prática sobre o modo de se tratarem, e acrescenta que isso já fazia parte da vida deles.",
+        "meaning": "A imagem de edificar vem da construção: uma comunidade se fortalece peça por peça, pelo cuidado comum. Conforme a tradução, a primeira orientação aparece como animar, consolar ou exortar, e os três sentidos cabem nela.",
+        "theology": "Paulo trata o encorajamento como tarefa de toda a comunidade, e não só de seus líderes. Ele se apoia na esperança que acabou de ser descrita; por isso o consolo aqui é mais do que bom humor: aponta para o que Deus prometeu.",
+        "today": "Escutar sem pressa de consertar as coisas é uma das formas mais simples de fortalecer alguém. Você pode fazer uma pergunta aberta e dar à resposta toda a sua atenção.",
+        "question": "Quem talvez precise da minha escuta nesta semana?"
+      },
+      "es": {
+        "simple": "Las palabras pueden sostener a otra persona. Este versículo pide a los creyentes que se animen mutuamente y se ayuden a crecer en firmeza.",
+        "context": "Pablo escribió a una comunidad joven de Tesalónica que lloraba la muerte de algunos de sus miembros y se preguntaba por el futuro. Después de tranquilizarla, saca una conclusión práctica sobre la manera de tratarse entre sí, y añade que eso ya formaba parte de su vida.",
+        "meaning": "La imagen de edificar viene de la construcción: una comunidad se fortalece pieza por pieza, mediante el cuidado de cada día. Según la traducción, la primera indicación aparece como animar, consolar o exhortar, y los tres sentidos caben en ella.",
+        "theology": "Pablo trata el aliento mutuo como tarea de toda la comunidad, no solo de sus dirigentes. Se apoya en la esperanza que acaba de describir; por eso el consuelo aquí es más que buen ánimo: señala hacia lo que Dios ha prometido.",
+        "today": "Escuchar sin apuro por arreglar las cosas es una de las formas más sencillas de fortalecer a alguien. Puedes hacer una pregunta abierta y darle a la respuesta toda tu atención.",
+        "question": "¿Quién podría necesitar mi escucha esta semana?"
+      },
+      "ru": {
+        "simple": "Слова могут поддержать другого человека. Этот стих просит верующих ободрять друг друга и помогать друг другу становиться крепче.",
+        "context": "Павел писал молодой общине в Фессалониках, которая оплакивала умерших братьев и сестёр и тревожилась о будущем. Успокоив её, он делает практический вывод о том, как им относиться друг к другу, и добавляет, что они уже так живут.",
+        "meaning": "Образ созидания взят из строительства: община укрепляется шаг за шагом, через обычную заботу. В зависимости от перевода первое наставление передаётся как ободрение, утешение или увещание, и все три оттенка в нём есть.",
+        "theology": "Для Павла взаимная поддержка — дело всей общины, а не только её руководителей. Она опирается на надежду, о которой он только что говорил, поэтому утешение здесь больше, чем бодрое настроение: оно указывает на то, что обещал Бог.",
+        "today": "Слушать, не торопясь всё исправить, — один из самых простых способов поддержать человека. Можно задать один открытый вопрос и выслушать ответ со всем вниманием.",
+        "question": "Кому на этой неделе может понадобиться, чтобы его просто выслушали?"
+      }
+    },
+    "ROM.15.7": {
+      "en": {
+        "simple": "Welcome is something received before it is given. This verse asks believers to make room for one another in the way Christ has made room for them.",
+        "context": "In this part of his letter to Rome, Paul addresses believers who disagreed about matters such as food and special days. He does not ask them to become identical; he asks them to receive one another, and then recalls that Christ came for both Israel and the nations.",
+        "meaning": "The measure of the welcome is Christ's own, and it is offered across real differences. Its aim is described as God's glory, so a community that makes room for people is itself a kind of praise.",
+        "theology": "For Paul, hospitality among Christians flows from what God has already done in Christ. The verse grounds the acceptance of others in grace received, not in likeness or merit.",
+        "today": "Welcoming can be small: learning a name, saving a seat, sending an invitation. Think of someone on the edge of a group you belong to.",
+        "question": "Who could I make room for this week?"
+      },
+      "pt": {
+        "simple": "A acolhida é algo que se recebe antes de se oferecer. Este versículo pede aos que creem que abram espaço uns para os outros do modo como Cristo abriu espaço para eles.",
+        "context": "Nesta parte da carta a Roma, Paulo se dirige a pessoas de fé que discordavam sobre questões como alimentos e dias especiais. Ele não pede que se tornem idênticas; pede que se recebam mutuamente, e em seguida lembra que Cristo veio tanto para Israel quanto para as nações.",
+        "meaning": "A medida da acolhida é a do próprio Cristo, e ela é oferecida em meio a diferenças reais. Seu objetivo é descrito como glorificar a Deus; assim, uma comunidade que abre espaço para as pessoas já é uma forma de louvor.",
+        "theology": "Para Paulo, a hospitalidade entre cristãos nasce do que Deus já fez em Cristo. O versículo fundamenta a aceitação do outro na graça recebida, não na semelhança nem no mérito.",
+        "today": "Acolher pode ser simples: aprender um nome, guardar um lugar, enviar um convite. Pense em alguém que fica à margem de um grupo do qual você faz parte.",
+        "question": "Para quem eu poderia abrir espaço nesta semana?"
+      },
+      "es": {
+        "simple": "La acogida es algo que se recibe antes de darse. Este versículo pide a los creyentes que se hagan lugar unos a otros del modo en que Cristo les hizo lugar a ellos.",
+        "context": "En esta parte de su carta a Roma, Pablo se dirige a creyentes que no estaban de acuerdo en asuntos como los alimentos y los días especiales. No les pide que se vuelvan idénticos; les pide que se reciban mutuamente, y luego recuerda que Cristo vino tanto para Israel como para las naciones.",
+        "meaning": "La medida de la acogida es la de Cristo mismo, y se ofrece en medio de diferencias reales. Su finalidad se describe como la gloria de Dios; así, una comunidad que le hace lugar a la gente ya es una forma de alabanza.",
+        "theology": "Para Pablo, la hospitalidad entre cristianos brota de lo que Dios ya hizo en Cristo. El versículo funda la aceptación del otro en la gracia recibida, no en el parecido ni en el mérito.",
+        "today": "Acoger puede ser algo pequeño: aprender un nombre, guardar un asiento, enviar una invitación. Piensa en alguien que queda al margen de un grupo al que perteneces.",
+        "question": "¿A quién podría hacerle lugar esta semana?"
+      },
+      "ru": {
+        "simple": "Принятие сначала получают, а потом дарят. Этот стих просит верующих давать место друг другу так, как Христос дал место им.",
+        "context": "В этой части послания к Римлянам Павел обращается к верующим, которые расходились во мнениях о пище и особых днях. Он не просит их стать одинаковыми; он просит принимать друг друга, а затем напоминает, что Христос пришёл и ради Израиля, и ради других народов.",
+        "meaning": "Мерой принятия названо то, как принимает Сам Христос, и оно предлагается поверх настоящих различий. Его цель — слава Божия, так что община, где людям находится место, уже сама становится хвалой.",
+        "theology": "Для Павла гостеприимство между христианами вытекает из того, что Бог уже совершил во Христе. Стих основывает принятие другого на полученной благодати, а не на сходстве или заслугах.",
+        "today": "Принять человека можно в малом: запомнить имя, занять место рядом, отправить приглашение. Подумайте о ком-то, кто держится с краю в группе, к которой вы принадлежите.",
+        "question": "Для кого можно было бы найти место на этой неделе?"
+      }
+    },
+    "ROM.15.13": {
+      "en": {
+        "simple": "Hope does not always begin as a big feeling. This is a prayer that joy and peace can grow in you, even when you cannot make them happen on your own.",
+        "context": "This part of Paul's letter to Rome asks a diverse community to welcome one another. Just before this verse he brings together passages of Scripture about the nations praising God, and the prayer follows that picture of people sharing in hope.",
+        "meaning": "Paul asks God, whom he names as the source of hope, to fill people with joy and peace as they believe. The prayer is addressed to a community, so its horizon includes life with other people as well as individual experience.",
+        "theology": "The verse names God, faith and the Holy Spirit, by whose power hope grows. Many Christians read it as a picture of hope sustained by God's action and lived within a welcoming community.",
+        "today": "A small step toward hope might be accepting company, noticing something good, or allowing another person to hope alongside you. The prayer need not become pressure to feel joyful immediately.",
+        "question": "What is one small thing I can still hope for today?"
+      },
+      "pt": {
+        "simple": "A esperança nem sempre começa como um grande sentimento. Esta é uma oração para que a alegria e a paz cresçam em você, mesmo quando não dá para produzi-las por conta própria.",
+        "context": "Esta parte da carta de Paulo a Roma pede a uma comunidade diversa que se acolha mutuamente. Pouco antes deste versículo ele reúne passagens da Escritura sobre as nações louvando a Deus, e a oração vem depois desse quadro de pessoas que partilham a esperança.",
+        "meaning": "Paulo pede a Deus, a quem chama de fonte da esperança, que encha as pessoas de alegria e paz enquanto creem. A oração é dirigida a uma comunidade; por isso seu horizonte inclui a vida com os outros, e não só a experiência individual.",
+        "theology": "O versículo menciona Deus, a fé e o Espírito Santo, por cuja força a esperança cresce. Muitos cristãos o leem como um retrato da esperança sustentada pela ação de Deus e vivida em uma comunidade acolhedora.",
+        "today": "Um pequeno passo rumo à esperança pode ser aceitar companhia, notar algo bom ou deixar que outra pessoa espere junto com você. A oração não precisa virar pressão para sentir alegria imediatamente.",
+        "question": "Qual é uma pequena coisa que ainda posso esperar hoje?"
+      },
+      "es": {
+        "simple": "La esperanza no siempre comienza como un gran sentimiento. Esta es una oración para que la alegría y la paz crezcan en ti, incluso cuando no puedes producirlas por tu cuenta.",
+        "context": "Esta parte de la carta de Pablo a Roma le pide a una comunidad diversa que se acoja mutuamente. Justo antes de este versículo reúne pasajes de la Escritura sobre las naciones que alaban a Dios, y la oración viene después de ese cuadro de personas que comparten la esperanza.",
+        "meaning": "Pablo le pide a Dios, a quien llama fuente de la esperanza, que llene a las personas de alegría y paz mientras creen. La oración se dirige a una comunidad; por eso su horizonte incluye la vida con los demás y no solo la experiencia individual.",
+        "theology": "El versículo menciona a Dios, la fe y el Espíritu Santo, por cuya fuerza crece la esperanza. Muchos cristianos lo leen como una imagen de la esperanza sostenida por la acción de Dios y vivida en una comunidad acogedora.",
+        "today": "Un pequeño paso hacia la esperanza puede ser aceptar compañía, notar algo bueno o dejar que otra persona espere junto a ti. La oración no tiene por qué volverse una presión para sentir alegría de inmediato.",
+        "question": "¿Cuál es una cosa pequeña que todavía puedo esperar hoy?"
+      },
+      "ru": {
+        "simple": "Надежда не всегда начинается с большого чувства. Это молитва о том, чтобы радость и мир росли в вас, даже когда вы не можете вызвать их своими силами.",
+        "context": "Эта часть послания Павла к Римлянам просит разнообразную общину принимать друг друга. Прямо перед этим стихом он собирает места Писания о народах, славящих Бога, и молитва следует за этой картиной людей, разделяющих надежду.",
+        "meaning": "Павел просит Бога, Которого называет источником надежды, наполнить людей радостью и миром в вере. Молитва обращена к общине, поэтому её горизонт — не только личный опыт, но и жизнь рядом с другими.",
+        "theology": "В стихе названы Бог, вера и Святой Дух, Чьей силой возрастает надежда. Многие христиане читают его как образ надежды, которую поддерживает действие Бога и которой живут в гостеприимной общине.",
+        "today": "Небольшим шагом к надежде может стать согласие побыть с кем-то рядом, замеченное добро или готовность позволить другому надеяться вместе с вами. Эта молитва не должна превращаться в требование немедленно почувствовать радость.",
+        "question": "На что небольшое я всё ещё могу надеяться сегодня?"
+      }
+    },
+    "1CO.10.13": {
+      "en": {
+        "simple": "Struggling with temptation does not make you unusual or alone. This verse says that such struggles are part of being human and that God stays faithful in the middle of them.",
+        "context": "Paul is writing to the church in Corinth, a busy trading city where believers felt constant pressure to join in the customs around them. He has just recalled Israel's failures in the wilderness and warned the self-confident to take care; this verse then adds reassurance.",
+        "meaning": "Two things are said: the temptation is of a kind that people commonly face, and God provides a way through so that it can be endured. The verse speaks of bearing up under temptation; it does not promise that the struggle will be effortless or instantly removed.",
+        "theology": "The weight of the verse rests on God's faithfulness, not on human willpower. It is sometimes stretched into a promise that life will never feel too heavy, but its subject is temptation, and the letter as a whole assumes that believers help one another to stand.",
+        "today": "A setback is not the end of the story. Many people find that a habit loosens more easily when it is talked over with a trusted person, a pastor or a professional than when it is fought in secret.",
+        "question": "Where is my way through today, and who could walk it with me?"
+      },
+      "pt": {
+        "simple": "Lutar contra a tentação não faz de você alguém estranho nem isolado. Este versículo diz que essas lutas fazem parte da condição humana e que Deus permanece fiel no meio delas.",
+        "context": "Paulo escreve à igreja de Corinto, uma movimentada cidade comercial onde os cristãos sentiam pressão constante para acompanhar os costumes ao redor. Ele acaba de recordar as falhas de Israel no deserto e de advertir quem confia demais em si; este versículo acrescenta, então, uma palavra de segurança.",
+        "meaning": "Duas coisas são ditas: a tentação é de um tipo que as pessoas costumam enfrentar, e Deus oferece um caminho para atravessá-la, de modo que seja possível suportá-la. O versículo fala em resistir na tentação; não promete que a luta será sem esforço nem que será retirada de imediato.",
+        "theology": "O peso do versículo está na fidelidade de Deus, não na força de vontade humana. Às vezes ele é ampliado para uma promessa de que a vida nunca parecerá pesada demais, mas seu assunto é a tentação, e a carta como um todo supõe que os cristãos se ajudem mutuamente a ficar de pé.",
+        "today": "Uma recaída não é o fim da história. Muitas pessoas percebem que um hábito cede com mais facilidade quando é conversado com alguém de confiança, um pastor, um padre ou um profissional do que quando é combatido em segredo.",
+        "question": "Onde está o meu caminho de saída hoje, e quem poderia percorrê-lo comigo?"
+      },
+      "es": {
+        "simple": "Luchar contra la tentación no te convierte en alguien raro ni te deja a solas. Este versículo dice que esas luchas son parte de la condición humana y que Dios permanece fiel en medio de ellas.",
+        "context": "Pablo le escribe a la iglesia de Corinto, una activa ciudad comercial donde los creyentes sentían una presión constante para sumarse a las costumbres de su entorno. Acaba de recordar las caídas de Israel en el desierto y de advertir a quienes confían demasiado en sí mismos; este versículo añade entonces una palabra de seguridad.",
+        "meaning": "Se dicen dos cosas: la tentación es de un tipo que la gente suele enfrentar, y Dios ofrece un camino para atravesarla, de modo que se pueda soportar. El versículo habla de resistir en la tentación; no promete que la lucha será sin esfuerzo ni que desaparecerá de inmediato.",
+        "theology": "El peso del versículo está en la fidelidad de Dios, no en la fuerza de voluntad humana. A veces se lo extiende hasta convertirlo en la promesa de que la vida nunca se sentirá demasiado pesada, pero su tema es la tentación, y la carta en su conjunto supone que los creyentes se ayudan unos a otros a mantenerse en pie.",
+        "today": "Una recaída no es el final de la historia. Muchas personas descubren que un hábito cede con más facilidad cuando se conversa con alguien de confianza, un pastor, un sacerdote o un profesional que cuando se combate en secreto.",
+        "question": "¿Dónde está hoy mi camino de salida, y quién podría recorrerlo conmigo?"
+      },
+      "ru": {
+        "simple": "Борьба с искушением не делает вас странным исключением и не оставляет вас в одиночестве. Этот стих говорит, что такая борьба — часть человеческой жизни и что Бог остаётся верным посреди неё.",
+        "context": "Павел пишет церкви в Коринфе — оживлённом торговом городе, где верующие постоянно ощущали давление окружающих обычаев. Он только что вспомнил о падениях Израиля в пустыне и предостерёг самонадеянных; этот стих добавляет к предостережению слово ободрения.",
+        "meaning": "Сказаны две вещи: искушение — из тех, с какими люди обычно сталкиваются, и Бог даёт путь, которым его можно пройти и перенести. Стих говорит о том, чтобы выстоять в искушении; он не обещает, что борьба будет лёгкой или сразу прекратится.",
+        "theology": "Центр тяжести стиха — верность Бога, а не человеческая сила воли. Иногда его расширяют до обещания, что жизнь никогда не покажется слишком тяжёлой, но речь в нём идёт об искушении, а всё послание предполагает, что верующие помогают друг другу устоять.",
+        "today": "Срыв — не конец истории. Многие замечают, что привычка отступает легче, когда о ней говорят с человеком, которому доверяют, со священником, пастором или специалистом, чем когда с ней борются втайне.",
+        "question": "Где сегодня мой путь через это и кто мог бы пройти его со мной?"
+      }
+    },
+    "JAS.5.16": {
+      "en": {
+        "simple": "Illness and weakness are not meant to be carried in isolation. This verse encourages believers to be honest with each other and to hold each other in prayer.",
+        "context": "This line belongs to the closing section of the Letter of James, about prayer in suffering, in joy and in sickness. Just before it, James tells the sick to call the elders, or presbyters, of the church to pray over them and anoint them with oil; just after, he recalls the prayer of Elijah.",
+        "meaning": "Honesty, prayer and healing are drawn together as shared actions within a community. Depending on the edition, the hoped-for result is worded as being healed or being saved, and the passage does not treat illness as proof of a person's guilt.",
+        "theology": "Catholic and Orthodox Christians connect this passage with sacramental confession and the anointing of the sick, while many Protestants read it as mutual confession and prayer among believers. All agree that it commends praying for one another with confidence in God.",
+        "today": "You could ask one person to pray for you or for the one who is ill, and say honestly how you are. Prayer goes alongside medical care; it does not take its place.",
+        "question": "Who could I ask to pray with me, and for whom could I pray?"
+      },
+      "pt": {
+        "simple": "A doença e a fraqueza não foram feitas para ser carregadas no isolamento. Este versículo incentiva os que creem a ser sinceros uns com os outros e a orar uns pelos outros.",
+        "context": "Esta frase pertence à parte final da Carta de Tiago, sobre a oração no sofrimento, na alegria e na doença. Pouco antes, Tiago diz aos doentes que chamem os anciãos, ou presbíteros, da igreja para orar por eles e ungi-los com óleo; logo depois, recorda a oração de Elias.",
+        "meaning": "Sinceridade, oração e cura aparecem unidas como ações partilhadas dentro de uma comunidade. Conforme a edição, o resultado esperado é descrito como ser curado ou ser salvo, e o trecho não trata a doença como prova de culpa de alguém.",
+        "theology": "Católicos e ortodoxos relacionam esta passagem com a confissão sacramental e a unção dos enfermos, enquanto muitos protestantes a leem como confissão mútua e oração entre os que creem. Todos concordam que ela recomenda orar uns pelos outros com confiança em Deus.",
+        "today": "Você pode pedir a uma pessoa que ore por você ou por quem está doente, e dizer com sinceridade como está. A oração caminha ao lado do cuidado médico; não o substitui.",
+        "question": "A quem eu poderia pedir que ore comigo, e por quem eu poderia orar?"
+      },
+      "es": {
+        "simple": "La enfermedad y la debilidad no están hechas para cargarse en aislamiento. Este versículo anima a los creyentes a ser sinceros unos con otros y a orar unos por otros.",
+        "context": "Esta frase pertenece a la parte final de la Carta de Santiago, sobre la oración en el sufrimiento, en la alegría y en la enfermedad. Justo antes, Santiago les dice a los enfermos que llamen a los ancianos, o presbíteros, de la iglesia para que oren por ellos y los unjan con aceite; justo después, recuerda la oración de Elías.",
+        "meaning": "Sinceridad, oración y sanación aparecen unidas como acciones compartidas dentro de una comunidad. Según la edición, el resultado esperado se expresa como ser sanados o ser salvados, y el pasaje no trata la enfermedad como prueba de la culpa de alguien.",
+        "theology": "Católicos y ortodoxos relacionan este pasaje con la confesión sacramental y la unción de los enfermos, mientras que muchos protestantes lo leen como confesión mutua y oración entre creyentes. Todos coinciden en que recomienda orar unos por otros con confianza en Dios.",
+        "today": "Puedes pedirle a una persona que ore por ti o por quien está enfermo, y decirle con sinceridad cómo estás. La oración va junto a la atención médica; no la reemplaza.",
+        "question": "¿A quién podría pedirle que ore conmigo, y por quién podría orar yo?"
+      },
+      "ru": {
+        "simple": "Болезнь и немощь не предназначены для того, чтобы нести их в изоляции. Этот стих побуждает верующих быть честными друг с другом и молиться друг за друга.",
+        "context": "Эта строка относится к заключительной части Послания Иакова — о молитве в страдании, в радости и в болезни. Прямо перед ней Иаков говорит больным призвать пресвитеров церкви, чтобы те помолились над ними и помазали их елеем; сразу после неё он вспоминает молитву Илии.",
+        "meaning": "Честность, молитва и исцеление соединены здесь как общие дела внутри общины. В зависимости от издания ожидаемый плод назван исцелением или спасением, и отрывок не рассматривает болезнь как доказательство чьей-то вины.",
+        "theology": "Католики и православные связывают этот отрывок с таинством исповеди и елеосвящением, тогда как многие протестанты читают его как взаимное признание и молитву между верующими. Все согласны в том, что он призывает молиться друг за друга с доверием к Богу.",
+        "today": "Можно попросить одного человека помолиться о вас или о том, кто болен, и честно сказать, как вы себя чувствуете. Молитва идёт рядом с медицинской помощью и не заменяет её.",
+        "question": "Кого можно попросить помолиться вместе со мной и о ком могу помолиться я?"
+      }
+    },
+    "MAT.6.34": {
+      "en": {
+        "simple": "Tomorrow's troubles cannot be solved tonight. Jesus invites his listeners to live the day they are in.",
+        "context": "This verse closes the part of the Sermon on the Mount about worry over food, clothing and the future. Jesus has pointed to the birds and the wildflowers as signs of the Father's care and has asked his hearers to seek God's kingdom first.",
+        "meaning": "Jesus does not deny that each day has real trouble; he says so directly. The point is one of proportion: worry borrows tomorrow's burden and adds it to today's, without making either lighter.",
+        "theology": "The teaching rests on trust that the Father knows what people need. It has not usually been read as forbidding planning or work, but as freeing people from being ruled by fear of what has not yet happened.",
+        "today": "You might ask what today actually requires, and do only that. If money or work is the pressure, sharing the facts with someone who can advise you is a practical way of not carrying tomorrow alone.",
+        "question": "What belongs to today, and what can wait until tomorrow?"
+      },
+      "pt": {
+        "simple": "Os problemas de amanhã não podem ser resolvidos esta noite. Jesus convida quem o escuta a viver o dia em que está.",
+        "context": "Este versículo encerra a parte do Sermão da Montanha sobre a preocupação com a comida, a roupa e o futuro. Jesus apontou as aves e as flores do campo como sinais do cuidado do Pai e pediu aos ouvintes que busquem em primeiro lugar o reino de Deus.",
+        "meaning": "Jesus não nega que cada dia traz dificuldades reais; ele mesmo o afirma. A questão é de proporção: a preocupação toma emprestado o peso de amanhã e o soma ao de hoje, sem tornar nenhum dos dois mais leve.",
+        "theology": "O ensino se apoia na confiança de que o Pai sabe do que as pessoas precisam. Ele não costuma ser lido como proibição de planejar ou trabalhar, e sim como libertação do domínio do medo daquilo que ainda não aconteceu.",
+        "today": "Você pode se perguntar o que o dia de hoje realmente exige, e fazer só isso. Se a pressão vem do dinheiro ou do trabalho, expor os fatos a alguém que possa orientar é um jeito prático de não carregar o amanhã sem ajuda.",
+        "question": "O que pertence ao dia de hoje, e o que pode esperar até amanhã?"
+      },
+      "es": {
+        "simple": "Los problemas de mañana no se pueden resolver esta noche. Jesús invita a quienes lo escuchan a vivir el día en que están.",
+        "context": "Este versículo cierra la parte del Sermón de la Montaña sobre la preocupación por la comida, la ropa y el futuro. Jesús ha señalado las aves y las flores del campo como signos del cuidado del Padre y ha pedido a sus oyentes que busquen primero el reino de Dios.",
+        "meaning": "Jesús no niega que cada día trae dificultades reales; él mismo lo afirma. La cuestión es de proporción: la preocupación toma prestada la carga de mañana y la suma a la de hoy, sin aliviar ninguna de las dos.",
+        "theology": "La enseñanza se apoya en la confianza de que el Padre sabe lo que las personas necesitan. No suele leerse como una prohibición de planificar o trabajar, sino como una liberación del dominio del miedo a lo que todavía no ha ocurrido.",
+        "today": "Puedes preguntarte qué exige realmente el día de hoy, y hacer solo eso. Si la presión viene del dinero o del trabajo, contarle los hechos a alguien que pueda orientarte es una manera práctica de no cargar el mañana sin ayuda.",
+        "question": "¿Qué le corresponde al día de hoy, y qué puede esperar hasta mañana?"
+      },
+      "ru": {
+        "simple": "Завтрашние трудности нельзя решить сегодня ночью. Иисус приглашает слушающих жить тем днём, в котором они находятся.",
+        "context": "Этот стих завершает ту часть Нагорной проповеди, где говорится о тревоге из-за пищи, одежды и будущего. Иисус указал на птиц и полевые цветы как на знаки заботы Отца и призвал слушателей искать прежде всего Царства Божия.",
+        "meaning": "Иисус не отрицает, что у каждого дня есть настоящие трудности: Он прямо об этом говорит. Речь идёт о соразмерности: тревога берёт взаймы завтрашнюю ношу и прибавляет её к сегодняшней, не облегчая ни ту, ни другую.",
+        "theology": "Это учение опирается на доверие к тому, что Отец знает нужды людей. Обычно его понимают не как запрет планировать или трудиться, а как освобождение от власти страха перед тем, что ещё не произошло.",
+        "today": "Можно спросить себя, чего на самом деле требует сегодняшний день, и сделать только это. Если давят деньги или работа, рассказать о положении дел тому, кто способен дать совет, — практичный способ не нести завтрашний день без поддержки.",
+        "question": "Что относится к сегодняшнему дню, а что может подождать до завтра?"
+      }
+    },
+    "COL.3.13": {
+      "en": {
+        "simple": "Living closely with people means there will be things to forgive. This verse asks people to be patient with each other and to forgive in a way shaped by the forgiveness received from the Lord.",
+        "context": "The Letter to the Colossians, traditionally attributed to Paul, describes a new way of life with the image of clothing: putting on compassion, kindness, humility, gentleness and patience. This verse continues that list, and the next one names love as what holds everything together.",
+        "meaning": "The verse takes for granted that real grievances arise, even among people who love each other. Bearing with someone and forgiving them are named separately: one is everyday patience, the other deals with an actual wrong.",
+        "theology": "Forgiveness between people is rooted here in forgiveness already received; it is a response before it is a duty. Christian teaching has generally distinguished forgiving from pretending that no harm was done, and from remaining in a situation that is unsafe.",
+        "today": "Forgiveness is often a process and need not be hurried. A first step might be praying for the person, or deciding not to answer in the same tone; where there is harm or danger, seeking help comes first.",
+        "question": "What would one small step toward peace look like in this relationship?"
+      },
+      "pt": {
+        "simple": "Viver perto de outras pessoas significa que haverá coisas a perdoar. Este versículo pede paciência de uns com os outros e um perdão moldado pelo perdão recebido do Senhor.",
+        "context": "A Carta aos Colossenses, tradicionalmente atribuída a Paulo, descreve um novo modo de viver com a imagem da roupa: revestir-se de compaixão, bondade, humildade, mansidão e paciência. Este versículo continua essa lista, e o seguinte aponta o amor como aquilo que mantém tudo unido.",
+        "meaning": "O versículo dá por certo que surgem queixas reais, mesmo entre pessoas que se amam. Suportar alguém e perdoar alguém são mencionados separadamente: um é a paciência do dia a dia, o outro trata de um mal de fato cometido.",
+        "theology": "O perdão entre as pessoas tem aqui sua raiz no perdão já recebido; é resposta antes de ser dever. O ensino cristão em geral distingue perdoar de fingir que nenhum mal foi feito, e de permanecer em uma situação que não é segura.",
+        "today": "O perdão costuma ser um processo e não precisa ser apressado. Um primeiro passo pode ser orar pela pessoa, ou decidir não responder no mesmo tom; onde há dano ou perigo, buscar ajuda vem em primeiro lugar.",
+        "question": "Como seria um pequeno passo em direção à paz nesta relação?"
+      },
+      "es": {
+        "simple": "Vivir cerca de otras personas significa que habrá cosas que perdonar. Este versículo pide paciencia mutua y un perdón moldeado por el perdón recibido del Señor.",
+        "context": "La Carta a los Colosenses, atribuida tradicionalmente a Pablo, describe una nueva manera de vivir con la imagen de la ropa: revestirse de compasión, bondad, humildad, mansedumbre y paciencia. Este versículo continúa esa lista, y el siguiente señala el amor como aquello que lo mantiene todo unido.",
+        "meaning": "El versículo da por sentado que surgen quejas reales, incluso entre personas que se quieren. Soportar a alguien y perdonarlo se mencionan por separado: lo uno es la paciencia de cada día, lo otro se ocupa de un mal efectivamente cometido.",
+        "theology": "El perdón entre las personas tiene aquí su raíz en el perdón ya recibido; es respuesta antes que deber. La enseñanza cristiana en general distingue perdonar de fingir que no hubo daño, y de permanecer en una situación que no es segura.",
+        "today": "El perdón suele ser un proceso y no hace falta apurarlo. Un primer paso puede ser orar por la persona, o decidir no responder en el mismo tono; donde hay daño o peligro, buscar ayuda es lo primero.",
+        "question": "¿Cómo sería un pequeño paso hacia la paz en esta relación?"
+      },
+      "ru": {
+        "simple": "Жить рядом с людьми — значит, будет что прощать. Этот стих просит терпения друг к другу и прощения по образу того прощения, которое получено от Господа.",
+        "context": "Послание к Колоссянам, по традиции приписываемое Павлу, описывает новый образ жизни через образ одежды: облечься в сострадание, доброту, смирение, кротость и терпение. Этот стих продолжает перечень, а следующий называет любовь тем, что скрепляет всё вместе.",
+        "meaning": "Стих исходит из того, что настоящие обиды возникают даже между любящими людьми. Терпеть друг друга и прощать названы отдельно: первое — повседневное терпение, второе относится к действительно причинённому злу.",
+        "theology": "Прощение между людьми укоренено здесь в прощении, уже полученном; это ответ прежде, чем обязанность. Христианское учение, как правило, отличает прощение от попытки делать вид, будто вреда не было, и от того, чтобы оставаться в небезопасном положении.",
+        "today": "Прощение часто бывает долгим путём, и его не нужно торопить. Первым шагом может стать молитва об этом человеке или решение не отвечать в том же тоне; там, где есть вред или опасность, сначала нужно искать помощь.",
+        "question": "Каким мог бы быть один небольшой шаг к миру в этих отношениях?"
+      }
+    },
+    "PSA.147.3": {
+      "en": {
+        "simple": "Wounds of the heart matter to God. This verse pictures God as a healer who tends carefully to people who have been hurt.",
+        "context": "This psalm is a hymn of praise from the closing pages of the Psalter. Around this verse it speaks of God gathering scattered people and, in the very next line, of God numbering the stars and naming each one.",
+        "meaning": "The image is medical: binding a wound is slow, close, hands-on work. Placed beside the counting of the stars, it says that the one whose reach is immense also attends to a single person's hurt.",
+        "theology": "The psalm praises God for power and tenderness together, without setting one against the other. It describes healing as God's work and says nothing about how long it takes.",
+        "today": "Being hurt by someone you trusted takes time to heal, and you do not have to rush toward trusting again. You could tell the story to one safe person, or simply allow yourself to rest.",
+        "question": "What part of this hurt most needs gentle care?"
+      },
+      "pt": {
+        "simple": "As feridas do coração importam para Deus. Este versículo apresenta Deus como alguém que cura e cuida com atenção de quem foi ferido.",
+        "context": "Este salmo é um hino de louvor das últimas páginas do Saltério. Ao redor deste versículo ele fala de Deus reunindo pessoas dispersas e, logo na linha seguinte, de Deus contando as estrelas e chamando cada uma pelo nome.",
+        "meaning": "A imagem é a de um cuidado médico: enfaixar uma ferida é um trabalho lento, próximo, feito com as mãos. Colocada ao lado da contagem das estrelas, ela diz que aquele cujo alcance é imenso também se ocupa da dor de uma única pessoa.",
+        "theology": "O salmo louva a Deus pelo poder e pela ternura ao mesmo tempo, sem opor um ao outro. Ele descreve a cura como obra de Deus e nada diz sobre quanto tempo ela leva.",
+        "today": "A ferida causada por alguém em quem você confiava leva tempo para sarar, e não é preciso ter pressa para confiar de novo. Você pode contar a história a uma pessoa segura, ou simplesmente se permitir descansar.",
+        "question": "Que parte desta ferida mais precisa de um cuidado delicado?"
+      },
+      "es": {
+        "simple": "Las heridas del corazón le importan a Dios. Este versículo presenta a Dios como alguien que sana y atiende con cuidado a quienes han sido lastimados.",
+        "context": "Este salmo es un himno de alabanza de las últimas páginas del Salterio. En torno a este versículo habla de Dios reuniendo a personas dispersas y, en la línea que sigue, de Dios contando las estrellas y llamando a cada una por su nombre.",
+        "meaning": "La imagen es la de un cuidado médico: vendar una herida es un trabajo lento, cercano, hecho con las manos. Puesta junto al recuento de las estrellas, dice que aquel cuyo alcance es inmenso también se ocupa del dolor de una sola persona.",
+        "theology": "El salmo alaba a Dios por el poder y la ternura a la vez, sin oponer lo uno a lo otro. Describe la sanación como obra de Dios y no dice nada sobre cuánto tiempo toma.",
+        "today": "La herida causada por alguien en quien confiabas tarda en sanar, y no hace falta apurarse para volver a confiar. Puedes contarle lo ocurrido a una persona segura, o simplemente permitirte descansar.",
+        "question": "¿Qué parte de esta herida necesita más un cuidado delicado?"
+      },
+      "ru": {
+        "simple": "Раны сердца важны для Бога. Этот стих изображает Бога как целителя, который бережно заботится о тех, кому причинили боль.",
+        "context": "Этот псалом — хвалебный гимн с последних страниц Псалтири. Рядом с этим стихом говорится о том, как Бог собирает рассеянных людей, а уже в следующей строке — о том, как Бог исчисляет звёзды и каждую называет по имени.",
+        "meaning": "Образ взят из врачевания: перевязывать рану — медленный, близкий труд, который делают руками. Рядом со счётом звёзд он говорит, что Тот, Чья власть безмерна, внимателен и к боли одного человека.",
+        "theology": "Псалом славит Бога одновременно за могущество и за нежность, не противопоставляя одно другому. Он называет исцеление делом Бога и ничего не говорит о том, сколько времени оно занимает.",
+        "today": "Рана, нанесённая тем, кому вы доверяли, заживает не сразу, и не нужно торопить себя доверять снова. Можно рассказать о случившемся одному надёжному человеку или просто позволить себе отдохнуть.",
+        "question": "Какая часть этой боли больше всего нуждается в бережной заботе?"
+      }
+    },
+    "LAM.3.22": {
+      "en": {
+        "simple": "Even in the darkest chapter, mercy has not run out. This verse is a small light in the middle of a very sad book.",
+        "context": "Lamentations is a set of poems grieving the destruction of Jerusalem, traditionally attributed to the prophet Jeremiah. This chapter is spoken by someone who has suffered deeply; partway through, he calls God's mercy to mind and his words turn toward hope.",
+        "meaning": "The hope here does not come from improved circumstances, because nothing around the speaker has changed yet. It comes from remembering God's steadfast love and compassion, which the following line describes as renewed each morning.",
+        "theology": "The verse describes God's mercy as something that does not come to an end, even when everything else seems to have. It stands in a book that gives grief its full voice, so hope and lament are held together and neither is traded for the other.",
+        "today": "You do not need to feel hopeful for this verse to be for you. Getting through today is enough; and if the heaviness does not lift, please let someone you trust know how you are.",
+        "question": "What is one small mercy, however slight, that I can notice today?"
+      },
+      "pt": {
+        "simple": "Mesmo no capítulo mais escuro, a misericórdia não se esgotou. Este versículo é uma pequena luz no meio de um livro muito triste.",
+        "context": "Lamentações é um conjunto de poemas que choram a destruição de Jerusalém, tradicionalmente atribuído ao profeta Jeremias. Este capítulo é a fala de alguém que sofreu profundamente; a certa altura, ele traz à memória a misericórdia de Deus e suas palavras se voltam para a esperança.",
+        "meaning": "A esperança aqui não vem de circunstâncias melhores, porque nada mudou ainda ao redor de quem fala. Ela vem da lembrança do amor fiel e da compaixão de Deus, que a linha seguinte descreve como renovados a cada manhã.",
+        "theology": "O versículo descreve a misericórdia de Deus como algo que não chega ao fim, mesmo quando todo o resto parece ter chegado. Ele está em um livro que dá plena voz à dor; assim, esperança e lamento ficam juntos, sem que um seja trocado pelo outro.",
+        "today": "Não é preciso sentir esperança para que este versículo seja para você. Atravessar o dia de hoje já basta; e, se o peso não aliviar, por favor conte a alguém de confiança como você está.",
+        "question": "Qual é uma pequena misericórdia, por menor que seja, que consigo notar hoje?"
+      },
+      "es": {
+        "simple": "Incluso en el capítulo más oscuro, la misericordia no se ha agotado. Este versículo es una pequeña luz en medio de un libro muy triste.",
+        "context": "Lamentaciones es un conjunto de poemas que lloran la destrucción de Jerusalén, atribuido tradicionalmente al profeta Jeremías. Este capítulo es la voz de alguien que ha sufrido profundamente; en cierto punto trae a la memoria la misericordia de Dios y sus palabras giran hacia la esperanza.",
+        "meaning": "La esperanza aquí no viene de circunstancias mejores, porque todavía nada ha cambiado alrededor de quien habla. Viene de recordar el amor fiel y la compasión de Dios, que la línea siguiente describe como renovados cada mañana.",
+        "theology": "El versículo describe la misericordia de Dios como algo que no se acaba, aun cuando todo lo demás parece haberse acabado. Está en un libro que le da plena voz al dolor; así, la esperanza y el lamento permanecen juntos, sin que uno se cambie por el otro.",
+        "today": "No hace falta sentir esperanza para que este versículo sea para ti. Atravesar el día de hoy es suficiente; y si el peso no se alivia, por favor cuéntale a alguien de confianza cómo estás.",
+        "question": "¿Cuál es una pequeña misericordia, por mínima que sea, que puedo notar hoy?"
+      },
+      "ru": {
+        "simple": "Даже в самой тёмной главе милость не иссякла. Этот стих — небольшой свет посреди очень печальной книги.",
+        "context": "Плач Иеремии — собрание песен, оплакивающих разрушение Иерусалима; по традиции их приписывают пророку Иеремии. В этой главе говорит человек, много перенёсший; в какой-то момент он вспоминает о милости Бога, и его слова поворачиваются к надежде.",
+        "meaning": "Надежда здесь рождается не из того, что обстоятельства улучшились: вокруг говорящего пока ничего не изменилось. Она рождается из памяти о верной любви и сострадании Бога, которые, по словам следующей строки, обновляются каждое утро.",
+        "theology": "Стих говорит о милости Бога как о том, что не кончается, даже когда всё остальное, кажется, кончилось. Он стоит в книге, которая даёт скорби высказаться в полный голос, и потому надежда и плач остаются рядом, не вытесняя друг друга.",
+        "today": "Не обязательно чувствовать надежду, чтобы этот стих был и для вас. Прожить сегодняшний день — уже достаточно; а если тяжесть не отступает, пожалуйста, расскажите о своём состоянии тому, кому вы доверяете.",
+        "question": "Какую небольшую милость — пусть самую малую — я могу заметить сегодня?"
+      }
+    },
+    "PSA.116.1": {
+      "en": {
+        "simple": "Being heard changes things. This verse is the opening line of someone who cried out to God, was listened to, and now responds with love and gladness.",
+        "context": "This psalm is the thanksgiving of a person rescued from great danger, who goes on to describe how close death had come. It belongs to a group of psalms traditionally sung at Jewish festivals such as Passover.",
+        "meaning": "The psalm begins with the response and only then tells the story behind it. Translations word the opening differently, as love or as gladness, but in each the reason is the same: God turned an ear toward the one who called.",
+        "theology": "God is described as one who listens, and the relationship moves in both directions: a cry, a hearing, and thanks in return. The singer answers by resolving to keep calling on God for the rest of life.",
+        "today": "When something turns out well, pause before moving on to the next concern. You could say thank you in prayer, write down what happened, or tell someone the good news.",
+        "question": "What prayer or hope of mine has been met, and how would I like to give thanks?"
+      },
+      "pt": {
+        "simple": "Quando alguém nos escuta, as coisas mudam. Este versículo é a primeira linha de alguém que clamou a Deus, recebeu atenção e agora responde com amor e alegria.",
+        "context": "Este salmo é a ação de graças de uma pessoa resgatada de um grande perigo, que em seguida descreve como a morte esteve perto. Ele pertence a um grupo de salmos tradicionalmente cantados em festas judaicas como a Páscoa.",
+        "meaning": "O salmo começa pela resposta e só depois conta a história por trás dela. As traduções formulam a abertura de modos diferentes, como amor ou como alegria, mas em todas o motivo é o mesmo: Deus inclinou o ouvido para quem o chamava.",
+        "theology": "Deus é descrito como alguém que escuta, e a relação acontece nos dois sentidos: um clamor, uma escuta e um agradecimento em resposta. Quem canta responde decidindo continuar a invocar a Deus pelo resto da vida.",
+        "today": "Quando algo dá certo, faça uma pausa antes de passar para a próxima preocupação. Você pode agradecer em oração, anotar o que aconteceu ou contar a boa notícia a alguém.",
+        "question": "Que oração ou esperança minha foi atendida, e como eu gostaria de agradecer?"
+      },
+      "es": {
+        "simple": "Recibir escucha cambia las cosas. Este versículo es la primera línea de alguien que clamó a Dios, fue atendido y ahora responde con amor y alegría.",
+        "context": "Este salmo es la acción de gracias de una persona rescatada de un gran peligro, que a continuación describe lo cerca que estuvo la muerte. Pertenece a un grupo de salmos que tradicionalmente se cantan en fiestas judías como la Pascua.",
+        "meaning": "El salmo empieza por la respuesta y solo después cuenta la historia que hay detrás. Las traducciones formulan el comienzo de maneras distintas, como amor o como alegría, pero en todas el motivo es el mismo: Dios inclinó el oído hacia quien lo llamaba.",
+        "theology": "Dios aparece como alguien que escucha, y la relación va en ambos sentidos: un clamor, una escucha y un agradecimiento en respuesta. Quien canta responde con la decisión de seguir invocando a Dios durante el resto de su vida.",
+        "today": "Cuando algo sale bien, haz una pausa antes de pasar a la siguiente preocupación. Puedes dar gracias en oración, anotar lo que pasó o contarle a alguien la buena noticia.",
+        "question": "¿Qué oración o esperanza mía ha sido atendida, y cómo me gustaría dar gracias?"
+      },
+      "ru": {
+        "simple": "Когда тебя услышали, многое меняется. Этот стих — первая строка человека, который воззвал к Богу, был услышан и теперь отвечает любовью и радостью.",
+        "context": "Этот псалом — благодарение человека, спасённого от большой опасности; дальше он описывает, как близко подступила смерть. Он входит в группу псалмов, которые по традиции поют на иудейских праздниках, например на Песах.",
+        "meaning": "Псалом начинается с отклика и только потом рассказывает, что за ним стоит. Переводы передают начало по-разному — как любовь или как радость, — но причина везде одна: Бог приклонил ухо к тому, кто звал.",
+        "theology": "Бог описан как Тот, Кто слушает, и отношения идут в обе стороны: зов, слышание и ответная благодарность. Поющий отвечает решением призывать Бога во все дни своей жизни.",
+        "today": "Когда что-то сложилось хорошо, остановитесь, прежде чем переходить к следующей заботе. Можно поблагодарить в молитве, записать случившееся или поделиться с кем-то доброй вестью.",
+        "question": "Какая моя молитва или надежда исполнилась и как мне хотелось бы поблагодарить?"
+      }
+    },
+    "PHP.4.7": {
+      "en": {
+        "simple": "Peace can be deeper than an explanation. This verse speaks of a peace from God that watches over the heart and the mind.",
+        "context": "Paul writes to the Christians in Philippi while he is a prisoner, and yet joy runs through the whole letter. Just before this verse he encourages them to bring every concern to God in prayer and thanksgiving; the peace is described as what follows.",
+        "meaning": "This peace is said to go beyond what the mind can grasp, so it does not depend on having everything worked out. The image is of a guard keeping watch: peace protects the inner life and is not one more thing to achieve.",
+        "theology": "The peace is named as God's own and is located in Christ, a gift that flows from a relationship and not from a technique. Christians often link it with the wider biblical idea of peace as wholeness and well-being, not merely the absence of trouble.",
+        "today": "If you feel calm today, you can simply receive it and give thanks. A quiet moment of prayer, or naming what you are grateful for, can help you remember this peace on a harder day.",
+        "question": "Where do I notice peace today, and what helps me stay near it?"
+      },
+      "pt": {
+        "simple": "A paz pode ser mais profunda do que uma explicação. Este versículo fala de uma paz que vem de Deus e vigia o coração e a mente.",
+        "context": "Paulo escreve aos cristãos de Filipos enquanto está preso, e mesmo assim a alegria atravessa toda a carta. Pouco antes deste versículo ele os anima a levar cada preocupação a Deus em oração e ação de graças; a paz é descrita como aquilo que vem em seguida.",
+        "meaning": "Diz-se que esta paz vai além do que a mente consegue alcançar; por isso ela não depende de ter tudo resolvido. A imagem é a de uma sentinela em vigília: a paz protege a vida interior e não é mais uma coisa a conquistar.",
+        "theology": "A paz é chamada de paz do próprio Deus e está situada em Cristo, um dom que nasce de uma relação e não de uma técnica. Os cristãos costumam ligá-la à ideia bíblica mais ampla de paz como inteireza e bem-estar, e não apenas ausência de problemas.",
+        "today": "Se hoje há calma em você, é possível simplesmente recebê-la e agradecer. Um momento silencioso de oração, ou dar nome àquilo pelo qual você agradece, pode ajudar a lembrar desta paz em um dia mais difícil.",
+        "question": "Onde percebo paz hoje, e o que me ajuda a ficar perto dela?"
+      },
+      "es": {
+        "simple": "La paz puede ser más honda que una explicación. Este versículo habla de una paz que viene de Dios y vela sobre el corazón y la mente.",
+        "context": "Pablo les escribe a los cristianos de Filipos mientras está preso, y aun así la alegría recorre toda la carta. Justo antes de este versículo los anima a llevar cada preocupación a Dios en oración y acción de gracias; la paz se describe como lo que viene después.",
+        "meaning": "De esta paz se dice que va más allá de lo que la mente puede alcanzar; por eso no depende de tenerlo todo resuelto. La imagen es la de un centinela que vigila: la paz protege la vida interior y no es una cosa más que haya que lograr.",
+        "theology": "Esta paz se nombra como propia de Dios y se sitúa en Cristo, un don que brota de una relación y no de una técnica. Los cristianos suelen unirla a la idea bíblica más amplia de paz como plenitud y bienestar, no solo ausencia de problemas.",
+        "today": "Si hoy sientes calma, puedes simplemente recibirla y dar gracias. Un momento silencioso de oración, o nombrar aquello que agradeces, puede ayudarte a recordar esta paz en un día más difícil.",
+        "question": "¿Dónde noto paz hoy, y qué me ayuda a permanecer cerca de ella?"
+      },
+      "ru": {
+        "simple": "Мир может быть глубже любого объяснения. Этот стих говорит о мире от Бога, который хранит сердце и мысли.",
+        "context": "Павел пишет христианам в Филиппах, находясь в узах, и всё же радость проходит через всё послание. Прямо перед этим стихом он призывает их приносить каждую заботу Богу в молитве и с благодарением; о мире говорится как о том, что за этим следует.",
+        "meaning": "Об этом мире сказано, что он выше того, что способен постичь ум, и потому он не зависит от того, всё ли удалось понять и уладить. Это образ стража на посту: мир оберегает внутреннюю жизнь, а не становится ещё одной целью, которой надо добиться.",
+        "theology": "Этот мир назван миром Самого Бога и помещён во Христе: это дар, который вытекает из отношений, а не из приёма или техники. Христиане часто связывают его с более широким библейским представлением о мире как о полноте и благополучии, а не просто об отсутствии бед.",
+        "today": "Если сегодня у вас на душе спокойно, можно просто принять это и поблагодарить. Тихая минута молитвы или перечисление того, за что вы благодарны, поможет вспомнить об этом мире в более трудный день.",
+        "question": "Где я сегодня замечаю мир и что помогает мне оставаться рядом с ним?"
+      }
+    },
+    "PSA.139.23": {
+      "en": {
+        "simple": "You do not have to understand yourself completely before coming to God. This verse asks God to look into the heart and know what is there.",
+        "context": "This psalm is a long meditation on being fully known by God: in every movement, in every place, and from before birth. It begins by saying that God has already searched the singer, and it ends, here, by asking for that search.",
+        "meaning": "What began as a statement becomes a request: the psalmist welcomes being known. The words ask God to examine the heart and its inner life, which some editions word as thoughts and others as paths, and the line that follows asks to be led in a good way.",
+        "theology": "God's knowledge of a person is pictured as close and attentive, not cold or merely watchful. The prayer assumes that being truly known by God is safe, and that God sees clearly what a person cannot yet see in themselves.",
+        "today": "Mixed or unclear feelings do not need to be sorted out at once. You could sit quietly for a few minutes and let whatever is there be seen, without judging it.",
+        "question": "What is one thing I am feeling that I have not yet put into words?"
+      },
+      "pt": {
+        "simple": "Não é preciso se entender por completo antes de ir a Deus. Este versículo pede a Deus que olhe dentro do coração e conheça o que há ali.",
+        "context": "Este salmo é uma longa meditação sobre ser plenamente conhecido por Deus: em cada movimento, em cada lugar e desde antes do nascimento. Ele começa dizendo que Deus já sondou quem canta e termina, aqui, pedindo essa sondagem.",
+        "meaning": "O que começou como afirmação se torna pedido: o salmista acolhe o fato de ser conhecido. As palavras pedem a Deus que examine o coração e a vida interior, que algumas edições chamam de pensamentos e outras de caminhos, e a linha seguinte pede para ser conduzido por um bom caminho.",
+        "theology": "O conhecimento que Deus tem de uma pessoa é retratado como próximo e atento, não frio nem apenas vigilante. A oração supõe que ser de fato conhecido por Deus é seguro, e que Deus vê com clareza o que a pessoa ainda não consegue ver em si.",
+        "today": "Sentimentos misturados ou confusos não precisam ser organizados de uma vez. Você pode ficar em silêncio por alguns minutos e deixar que o que estiver ali seja visto, sem julgamento.",
+        "question": "Qual é uma coisa que estou sentindo e ainda não coloquei em palavras?"
+      },
+      "es": {
+        "simple": "No hace falta entenderse por completo antes de acercarse a Dios. Este versículo le pide a Dios que mire dentro del corazón y conozca lo que hay allí.",
+        "context": "Este salmo es una larga meditación sobre ser plenamente conocido por Dios: en cada movimiento, en cada lugar y desde antes de nacer. Comienza diciendo que Dios ya ha examinado a quien canta y termina, aquí, pidiendo ese examen.",
+        "meaning": "Lo que empezó como afirmación se vuelve petición: el salmista recibe con agrado el ser conocido. Las palabras le piden a Dios que examine el corazón y la vida interior, que algunas ediciones llaman pensamientos y otras caminos, y la línea que sigue pide ser guiado por un buen camino.",
+        "theology": "El conocimiento que Dios tiene de una persona se presenta como cercano y atento, no frío ni meramente vigilante. La oración supone que ser conocido de verdad por Dios es algo seguro, y que Dios ve con claridad lo que la persona todavía no logra ver en sí misma.",
+        "today": "Los sentimientos mezclados o confusos no tienen que ordenarse de una vez. Puedes quedarte en silencio unos minutos y dejar que lo que haya allí sea visto, sin juzgarlo.",
+        "question": "¿Qué es algo que estoy sintiendo y que todavía no he puesto en palabras?"
+      },
+      "ru": {
+        "simple": "Не обязательно до конца понимать себя, прежде чем прийти к Богу. Этот стих просит Бога заглянуть в сердце и узнать, что в нём есть.",
+        "context": "Этот псалом — долгое размышление о том, что Бог знает человека полностью: каждое его движение, в любом месте и ещё до рождения. Он начинается словами о том, что Бог уже испытал поющего, а заканчивается — здесь — просьбой об этом испытании.",
+        "meaning": "То, что начиналось как утверждение, становится просьбой: псалмопевец рад тому, что его знают. Эти слова просят Бога испытать сердце и внутреннюю жизнь — в одних изданиях говорится о помышлениях, в других о путях, — а следующая строка просит вести добрым путём.",
+        "theology": "Знание Бога о человеке изображено близким и внимательным, а не холодным или только надзирающим. Молитва исходит из того, что быть по-настоящему известным Богу безопасно и что Бог ясно видит то, чего человек пока не может разглядеть в себе.",
+        "today": "Смешанные или неясные чувства не нужно разбирать сразу. Можно несколько минут посидеть в тишине и позволить тому, что есть, быть увиденным — без осуждения.",
+        "question": "Какое из моих чувств пока не нашло слов?"
+      }
+    }
+  }
+}

@@ -29,6 +29,11 @@ import {
   chapterSource,
   discussionVerseId,
 } from "../../lib/bible";
+import {
+  journalScripture,
+  journalStudyReference,
+} from "../../lib/journal-verse-reference";
+import { journalVerseStudy } from "../../lib/journal-verse-studies";
 import { useApp } from "../../lib/state";
 import { q } from "../../lib/quiet-copy";
 import { useReducedMotion } from "../../lib/use-reduced-motion";
@@ -59,7 +64,11 @@ function Section({
   );
 }
 export default function VerseStudy() {
-  const { id } = useLocalSearchParams<{ id: string }>();
+  // "journal" is the theme verse reference a saved journal entry passes along.
+  const { id, journal } = useLocalSearchParams<{
+    id: string;
+    journal?: string;
+  }>();
   const tr = useInterfaceCopy();
   const collection = readingLocation(id)?.collection;
   const [loaded, setLoaded] = useState<string | null>(null),
@@ -101,9 +110,9 @@ export default function VerseStudy() {
         )}
       </SafeAreaView>
     );
-  return <StudyPage key={id} id={id} />;
+  return <StudyPage key={id} id={id} journal={journal} />;
 }
-function StudyPage({ id }: { id: string }) {
+function StudyPage({ id, journal }: { id: string; journal?: string }) {
   const tr = useInterfaceCopy();
   const { profile } = useApp(),
     lang = profile.language;
@@ -111,8 +120,17 @@ function StudyPage({ id }: { id: string }) {
   const [chapterOpen, setChapterOpen] = useState(false);
   const [sourcesOpen, setSourcesOpen] = useState(false);
   const reducedMotion = useReducedMotion();
-  const verse = getReadingVerse(id),
-    study = lang === "en" ? studyFor(id) : undefined;
+  const location = readingLocation(id);
+  // Trust the journal's reference only when this is that theme verse here.
+  const journalReference = journalStudyReference(id, journal);
+  const verse =
+    getReadingVerse(id) ??
+    (journalReference && location
+      ? journalScripture(location.collection, journalReference)
+      : null);
+  const study = lang === "en" ? studyFor(id) : undefined;
+  // Journal verses are explained in every language; other studies are English.
+  const explanation = study ?? journalVerseStudy(journalReference, lang);
   if (!verse)
     return (
       <SafeAreaView style={s.safe}>
@@ -125,8 +143,7 @@ function StudyPage({ id }: { id: string }) {
         <Body>{tr("This passage is unavailable.")}</Body>
       </SafeAreaView>
     );
-  const location = readingLocation(id),
-    book = location ? getBook(location.code, location.collection) : null,
+  const book = location ? getBook(location.code, location.collection) : null,
     chapterVerses = location
       ? book?.chapters[String(location.chapter)]
       : undefined;
@@ -150,7 +167,7 @@ function StudyPage({ id }: { id: string }) {
       ? tr("Psalm numbers follow the Septuagint edition shown above.")
       : "";
   const question =
-    study?.question ??
+    explanation?.question ??
     tr(
       "What do I notice in this passage, and what question would I like to carry with me?",
     );
@@ -292,7 +309,11 @@ function StudyPage({ id }: { id: string }) {
                   ? tr(
                       "Editorial reflections are separate from Scripture. They are in English and await theological review. Notes match explicitly identified passages and do not represent approval by a church.",
                     )
-                  : q(lang, "studyLimited")}
+                  : explanation
+                    ? tr(
+                        "Editorial reflections are separate from Scripture and await theological review. They are written for this verse and do not represent approval by a church.",
+                      )
+                    : q(lang, "studyLimited")}
               </Body>
               {!!psalmNumbering && <Body small>{psalmNumbering}</Body>}
               <External
@@ -351,18 +372,18 @@ function StudyPage({ id }: { id: string }) {
               {layer === "simple" ? (
                 <>
                   <Section title={tr("In simple words")}>
-                    {study?.simple ??
+                    {explanation?.simple ??
                       tr(
                         "A verse-specific explanation is still being prepared. Read the words before and after this verse. Notice who is speaking, what is happening, and which words repeat.",
                       )}
                   </Section>
-                  {!study && verse.context && (
+                  {!explanation && verse.context && (
                     <Paragraph>
                       {verse.context[lang] ?? verse.context.en}
                     </Paragraph>
                   )}
                   <Section title={tr("A small response")} tint>
-                    {study?.today ??
+                    {explanation?.today ??
                       tr(
                         "Choose one word or image that stays with you. Give it a little attention before deciding what it means for your own life.",
                       )}
@@ -371,7 +392,7 @@ function StudyPage({ id }: { id: string }) {
               ) : layer === "deeper" ? (
                 <>
                   <Section title={tr("The story around these words")}>
-                    {study?.context ??
+                    {explanation?.context ??
                       verse.context?.[lang] ??
                       verse.context?.en ??
                       tr(
@@ -380,13 +401,13 @@ function StudyPage({ id }: { id: string }) {
                   </Section>
                   {!!psalmNumbering && <Body small>{psalmNumbering}</Body>}
                   <Section title={tr("What it means")} tint>
-                    {study?.meaning ??
+                    {explanation?.meaning ??
                       tr(
                         "Look for repeated words, contrasts and changes of speaker. Read a difficult line in the flow of the whole passage before deciding what it means. These are reading questions, not a completed commentary on this verse.",
                       )}
                   </Section>
                   <Section title={tr("In everyday life")}>
-                    {study?.today ??
+                    {explanation?.today ??
                       tr(
                         "What response might fit the passage as a whole? Notice the difference between what the text says and a personal association it brings to mind. You can hold a question without needing an immediate answer.",
                       )}
@@ -395,12 +416,12 @@ function StudyPage({ id }: { id: string }) {
               ) : layer === "theology" ? (
                 <>
                   <Text accessibilityRole="header" style={s.sectionTitle}>
-                    {study
+                    {explanation
                       ? tr("What this says about God")
                       : tr("Questions about God and faith")}
                   </Text>
                   {(
-                    study?.theology ??
+                    explanation?.theology ??
                     tr(
                       "What does this passage say about God, people, and their relationship? What is being promised, asked, or questioned?\n\nRead the surrounding passage before drawing a conclusion. Christians may read difficult passages differently; a reflection question cannot settle those differences.",
                     )
@@ -415,7 +436,7 @@ function StudyPage({ id }: { id: string }) {
                 </>
               ) : null}
               <Body small>
-                {study
+                {explanation
                   ? tr(
                       "A Christian reflection, separate from Scripture. Traditions may understand some details differently.",
                     )

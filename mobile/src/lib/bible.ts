@@ -243,6 +243,14 @@ export function themeVerse(p: Preferences, verse: string) {
     : undefined;
   return match ? getReadingVerse(match.id) : null;
 }
+// Whether a curated verse is an edition's own wording of that theme verse.
+export function isThemeVerse(id: string, verse: string) {
+  return data.editions.some((edition) =>
+    editionVerses(edition).some(
+      (v) => v.id === id && "verse" in v && v.verse === verse,
+    ),
+  );
+}
 export function studyFor(id: string) {
   // Curated IDs and full-reader aliases are explicit, including Psalm numbering.
   // Reflections are shared only for the identified passage, never by theme alone.
