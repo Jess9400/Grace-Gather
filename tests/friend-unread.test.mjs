@@ -16,7 +16,7 @@ test("private message unread markers are owned, monotonic and respect blocking",
       create table private.friend_blocks(actor uuid,target uuid);
       create table private.suspensions(user_id uuid);
       grant usage on schema private to authenticated;`);
-    await db.exec(await readFile(new URL("../supabase/migrations/20261110145201_friend_unread_receipts.sql", import.meta.url), "utf8"));
+    await db.exec(await readFile(new URL("../supabase/migrations/20261110171923_friend_unread_receipts.sql", import.meta.url), "utf8"));
     const a = "11111111-1111-4111-8111-111111111111", b = "22222222-2222-4222-8222-222222222222", c = "33333333-3333-4333-8333-333333333333", link = "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa", first = "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa1", second = "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaa2";
     await db.query("insert into auth.users values($1),($2),($3)", [a,b,c]);
     await db.query("insert into private.friend_directory values($1,'Alice'),($2,'Bob')", [a,b]);

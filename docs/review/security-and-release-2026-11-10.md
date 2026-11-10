@@ -1,6 +1,6 @@
 # Security and release review · 10 November 2026
 
-This is a bounded review of the live Supabase security-advisor findings and the associated repository functions, not a penetration test or release sign-off. No live permissions, migrations or Auth settings were changed. The local migrations in this branch need review and a coordinated deployment.
+This is a bounded review of the live Supabase security-advisor findings and the associated repository functions, not a penetration test or release sign-off. The three branch migrations were subsequently reviewed and applied as described below; no Auth settings were changed.
 
 The live advisor reported 22 authenticated SECURITY DEFINER warnings. These functions are intentionally callable application endpoints, so revoking all of them would break the app. Their authorization and data boundaries were inspected in the live function definitions:
 
@@ -13,7 +13,7 @@ These observations do not prove every indirect helper or concurrency case safe. 
 
 The advisor also reports compromised-password protection disabled. The app currently emphasizes email codes and Apple sign-in; verify which password-based Auth methods are actually enabled before changing a project-wide setting. Do not assume the warning proves password login is enabled or harmless.
 
-The live migration history uses versions that differ from several checked-in migration filenames. Reconcile using the migration names, actual schema and deployment records before applying any new migration; do not blindly push or rewrite live history. Group-chat tables exist in the database although the matching checked-in version is not recorded in the listed live history. The two new discussion-search and message-read migrations and the Pay it forward guard are not live yet.
+The live migration history uses versions that differ from several older checked-in migration filenames. Reconcile using migration names, actual schema and deployment records before applying historical migrations; do not blindly push or rewrite live history. Group-chat tables exist although the matching checked-in version is not recorded in the listed live history. The discussion-search, message-read and Pay it forward guard migrations were applied individually on November 10, 2026; their checked-in versions match the live records.
 
 ## Operating moderation
 
