@@ -94,10 +94,31 @@ function FriendsScreen({
         .catch(() => {
           if (alive) setNotice("Could not complete this. Please try again.");
         });
+      // New requests and friends appear on their own; nothing to press. The
+      // name and settings being edited are left alone.
+      const quiet = () => {
+        void friends("list")
+          .then((data) => {
+            if (!alive) return;
+            setLinks(data.links);
+            setBlocked(data.blocked);
+            setHasName(!!data.me);
+          })
+          .catch(() => {});
+        if (moderator)
+          void friends("reports")
+            .then((open) => {
+              if (alive) setReports(open);
+            })
+            .catch(() => {});
+      };
+      if (moderator) quiet();
+      const timer = setInterval(quiet, 20000);
       return () => {
         alive = false;
+        clearInterval(timer);
       };
-    }, [signedIn]),
+    }, [signedIn, moderator]),
   );
   // Refresh only while this conversation screen is focused; preserve older history and the draft.
   useFocusEffect(
@@ -126,7 +147,7 @@ function FriendsScreen({
               setNotice("Could not complete this. Please try again.");
             }
           });
-      }, 10000);
+      }, 5000);
       return () => {
         alive = false;
         clearInterval(timer);
@@ -190,15 +211,6 @@ function FriendsScreen({
         menuLabel={c("More")}
         menu={[
           {
-            title: c("Refresh"),
-            onPress: () =>
-              void run(async () => {
-                const data = await friends("messages", { id: active.id });
-                setMessages(data);
-                setOlder(data.length === 50);
-              }),
-          },
-          {
             title: c("Remove friend"),
             onPress: () =>
               void run(async () => {
@@ -217,6 +229,7 @@ function FriendsScreen({
         ]}
         messages={messages}
         peerName={active.name}
+        myName={name || undefined}
         locale={profile.language}
         empty={c("No messages yet. Be the first to say hello.")}
         olderLabel={c("Older messages")}
@@ -481,15 +494,6 @@ function FriendsScreen({
               "People appear here only if they chose to be findable, and both of you said yes.",
             )}
           </Text>
-          <TextAction
-            title={c("Refresh")}
-            disabled={busy}
-            onPress={() =>
-              void run(async () => {
-                await load();
-              })
-            }
-          />
           {!!blocked.length && (
             <Disclosure title={c("Blocked members")}>
               {blocked.map((p) => (
@@ -506,12 +510,6 @@ function FriendsScreen({
           )}
           {moderator && (
             <Disclosure title={c("Chat reports")}>
-              <TextAction
-                title={c("Refresh")}
-                onPress={() =>
-                  void run(async () => setReports(await friends("reports")))
-                }
-              />
               {reports?.map((r) => (
                 <Card key={r.id}>
                   <Body>{r.body}</Body>

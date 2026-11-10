@@ -38,6 +38,7 @@ export default function ChatThread({
   menuLabel,
   messages,
   peerName,
+  myName,
   locale,
   empty,
   onOlder,
@@ -66,6 +67,8 @@ export default function ChatThread({
   messages: ThreadMessage[];
   // In a friend chat every other message is from this person.
   peerName?: string;
+  // The public name you write under, shown on your own messages.
+  myName?: string;
   locale: string;
   empty: string;
   onOlder?: () => void;
@@ -184,10 +187,12 @@ export default function ChatThread({
           {messages.length === 0 && <Text style={s.rule}>{empty}</Text>}
           {messages.map((m) => {
             const name = m.name || peerName || "";
-            if (m.mine)
+            if (m.mine) {
+              const mine = m.name || myName || "";
               return (
                 <View key={m.id} style={s.mineRow}>
                   <View style={[s.bubble, s.mine]}>
+                    {!!mine && <Text style={s.myName}>{mine}</Text>}
                     <Text selectable style={[s.text, { color: colors.paper }]}>
                       {m.body}
                     </Text>
@@ -195,8 +200,17 @@ export default function ChatThread({
                       {when(m.created_at)}
                     </Text>
                   </View>
+                  {!!mine && (
+                    <View
+                      accessible={false}
+                      style={[s.avatar, { backgroundColor: avatarColor(mine) }]}
+                    >
+                      <Text style={s.avatarText}>{initial(mine)}</Text>
+                    </View>
+                  )}
                 </View>
               );
+            }
             return (
               <View key={m.id} style={{ gap: 6 }}>
                 <View style={s.theirRow}>
@@ -320,7 +334,12 @@ const s = StyleSheet.create({
     marginBottom: 4,
   },
   theirRow: { flexDirection: "row", alignItems: "flex-end", gap: 8 },
-  mineRow: { flexDirection: "row", justifyContent: "flex-end" },
+  mineRow: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+    gap: 8,
+  },
   avatar: {
     width: 30,
     height: 30,
@@ -343,6 +362,7 @@ const s = StyleSheet.create({
   },
   mine: { backgroundColor: colors.ink, borderBottomRightRadius: 6 },
   name: { fontSize: 12, fontWeight: "700", color: colors.goldInk },
+  myName: { fontSize: 12, fontWeight: "700", color: "#E9C98A" },
   text: { fontSize: 15, lineHeight: 22, color: colors.ink },
   time: { fontSize: 11, lineHeight: 15, color: colors.muted },
   actions: {

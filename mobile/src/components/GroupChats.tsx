@@ -55,6 +55,13 @@ export default function GroupChats({
           setChats(data.chats);
           setMyName(data.me?.name ?? null);
           setNotice("");
+          // Moderators see open reports without asking for them.
+          if (moderator)
+            void groupChats("reports")
+              .then((open: GroupReport[]) => {
+                if (alive) setReports(open);
+              })
+              .catch(() => {});
         })
         .catch((error) => {
           if (!alive) return;
@@ -65,7 +72,7 @@ export default function GroupChats({
       return () => {
         alive = false;
       };
-    }, [onUnavailable]),
+    }, [moderator, onUnavailable]),
   );
   async function run(action: () => Promise<void>) {
     if (busy) return;
@@ -124,12 +131,6 @@ export default function GroupChats({
       })}
       {moderator && chats && (
         <Disclosure title={c("Group chat reports")}>
-          <TextAction
-            title={c("Refresh")}
-            onPress={() =>
-              void run(async () => setReports(await groupChats("reports")))
-            }
-          />
           {reports?.map((r) => (
             <Card key={r.id}>
               <Body>{r.body}</Body>
@@ -214,7 +215,7 @@ export function GroupRoom({
   // Refresh only while this room is on screen; older pages and the draft stay.
   useFocusEffect(
     useCallback(() => {
-      const timer = setInterval(() => void refresh().catch(() => {}), 10000);
+      const timer = setInterval(() => void refresh().catch(() => {}), 5000);
       return () => clearInterval(timer);
     }, [refresh]),
   );
@@ -244,15 +245,7 @@ export function GroupRoom({
       backLabel={c("Back")}
       onBack={onBack}
       menuLabel={c("More")}
-      menu={[
-        {
-          title: c("Refresh"),
-          onPress: () =>
-            void run(async () => {
-              await refresh();
-            }),
-        },
-      ]}
+      myName={myName ?? undefined}
       messages={messages}
       locale={lang}
       empty={loaded ? c("No messages yet. Be the first to say hello.") : ""}

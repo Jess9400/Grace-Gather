@@ -32,7 +32,7 @@ function PrayerRoom({
 }: {
   mode: "requests" | "notifications" | "review";
 }) {
-  const { data, error, busy, userId, load, act } = usePrayers();
+  const { data, error, busy, userId, act } = usePrayers();
   const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
     const timer = setInterval(() => setNow(Date.now()), 10000);
@@ -275,12 +275,6 @@ function PrayerRoom({
       <Heading>{tr(pageTitle)}</Heading>
       {mode === "notifications" && <JournalCleanupNotice />}
       <Notice text={tr(error || notice)} />
-      <Button
-        secondary
-        title={tr("Refresh")}
-        disabled={busy}
-        onPress={() => void load()}
-      />
       {!writing && (
         <>
           {mode === "requests" && (
