@@ -1,12 +1,17 @@
 import type { Profile } from "./content";
 
 // Western Advent begins on the fourth Sunday before Christmas (between
-// 27 November and 3 December) and ends on Christmas Eve. Returns the Advent
-// week (1–4) for a date, or 0 outside Advent.
+// 27 November and 3 December) and ends on Christmas Eve.
+export function westernAdventStart(year: number) {
+  const christmas = new Date(year, 11, 25);
+  return new Date(year, 11, 25 - ((christmas.getDay() || 7) + 21));
+}
+
+// Returns the Advent week (1–4) for a date, or 0 outside Advent.
 export function westernAdventWeek(date: Date) {
   const year = date.getFullYear();
   const christmas = new Date(year, 11, 25);
-  const start = new Date(year, 11, 25 - ((christmas.getDay() || 7) + 21));
+  const start = westernAdventStart(year);
   const today = new Date(year, date.getMonth(), date.getDate());
   if (today < start || today >= christmas) return 0;
   const days = Math.round((today.getTime() - start.getTime()) / 86400000);
