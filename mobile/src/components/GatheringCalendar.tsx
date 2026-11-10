@@ -19,19 +19,26 @@ function HolyDayMark({
   id,
   size,
   opacity = 1,
+  soft = false,
 }: {
   id: HolyDayId;
   size: number;
   opacity?: number;
+  // Slightly out of focus, for sitting behind a date.
+  soft?: boolean;
 }) {
   return (
     <Image
       source={holyDayImages[holyDayArt[id]]}
       accessible={false}
+      blurRadius={soft ? 1 : 0}
       style={{ width: size, height: size, opacity }}
     />
   );
 }
+// A ring leaves its middle open, so the date reads clearly inside it at full
+// strength. Every other drawing sits faded behind the date.
+const isRing = (id: HolyDayId) => holyDayArt[id] === "wreath";
 export default function GatheringCalendar({
   gatherings,
   selected,
@@ -138,8 +145,7 @@ export default function GatheringCalendar({
                   minHeight: 48,
                   alignItems: "center",
                   justifyContent: "center",
-                  gap: 1,
-                  paddingVertical: 2,
+                  gap: 2,
                   borderRadius: 14,
                   backgroundColor: on
                     ? colors.green
@@ -150,32 +156,46 @@ export default function GatheringCalendar({
                   borderColor: colors.gold,
                 }}
               >
-                {/* Every cell keeps this slot, so the numbers stay in line. */}
+                {/* The date, with the day's drawing behind it. */}
                 <View
-                  accessible={false}
-                  style={{ height: 25, justifyContent: "center" }}
-                >
-                  {!!feasts.length && (
-                    <HolyDayMark
-                      id={feasts[0].id}
-                      size={25}
-                      opacity={past && !on ? 0.6 : 1}
-                    />
-                  )}
-                </View>
-                <Text
                   style={{
-                    fontSize: 15,
-                    fontWeight: isToday ? "700" : "500",
-                    color: on
-                      ? colors.white
-                      : past && !has
-                        ? colors.muted
-                        : colors.ink,
+                    width: 34,
+                    height: 30,
+                    alignItems: "center",
+                    justifyContent: "center",
                   }}
                 >
-                  {day}
-                </Text>
+                  {!!feasts.length && (
+                    <View
+                      accessible={false}
+                      pointerEvents="none"
+                      style={{ position: "absolute", top: -9, left: -7 }}
+                    >
+                      <HolyDayMark
+                        id={feasts[0].id}
+                        size={48}
+                        soft={!isRing(feasts[0].id)}
+                        opacity={
+                          (isRing(feasts[0].id) ? 1 : 0.42) *
+                          (past && !on ? 0.6 : 1)
+                        }
+                      />
+                    </View>
+                  )}
+                  <Text
+                    style={{
+                      fontSize: 15,
+                      fontWeight: isToday || feasts.length ? "700" : "500",
+                      color: on
+                        ? colors.white
+                        : past && !has && !feasts.length
+                          ? colors.muted
+                          : colors.ink,
+                    }}
+                  >
+                    {day}
+                  </Text>
+                </View>
                 <View
                   accessible={false}
                   style={{

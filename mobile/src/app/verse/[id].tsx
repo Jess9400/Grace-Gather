@@ -63,6 +63,29 @@ function Section({
     </View>
   );
 }
+// A suggestion for the reader, not part of the explanation: a small card with
+// its own label, so it reads as "your turn" rather than more commentary.
+function Invitation({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <View style={s.invitation}>
+      <View style={s.invitationHead}>
+        <Ionicons name="leaf-outline" size={15} color={colors.goldInk} />
+        <Text accessibilityRole="header" style={s.invitationLabel}>
+          {title}
+        </Text>
+      </View>
+      <Text selectable style={s.invitationText}>
+        {children}
+      </Text>
+    </View>
+  );
+}
 export default function VerseStudy() {
   // "journal" is the theme verse reference a saved journal entry passes along.
   const { id, journal } = useLocalSearchParams<{
@@ -382,12 +405,12 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
                       {verse.context[lang] ?? verse.context.en}
                     </Paragraph>
                   )}
-                  <Section title={tr("A small response")} tint>
+                  <Invitation title={tr("A small response")}>
                     {explanation?.today ??
                       tr(
                         "Choose one word or image that stays with you. Give it a little attention before deciding what it means for your own life.",
                       )}
-                  </Section>
+                  </Invitation>
                 </>
               ) : layer === "deeper" ? (
                 <>
@@ -406,12 +429,12 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
                         "Look for repeated words, contrasts and changes of speaker. Read a difficult line in the flow of the whole passage before deciding what it means. These are reading questions, not a completed commentary on this verse.",
                       )}
                   </Section>
-                  <Section title={tr("In everyday life")}>
+                  <Invitation title={tr("In everyday life")}>
                     {explanation?.today ??
                       tr(
                         "What response might fit the passage as a whole? Notice the difference between what the text says and a personal association it brings to mind. You can hold a question without needing an immediate answer.",
                       )}
-                  </Section>
+                  </Invitation>
                 </>
               ) : layer === "theology" ? (
                 <>
@@ -430,9 +453,9 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
                     .map((paragraph, i) => (
                       <Paragraph key={i}>{paragraph}</Paragraph>
                     ))}
-                  <Section title={tr("A question to carry")} tint>
+                  <Invitation title={tr("A question to carry")}>
                     {question}
-                  </Section>
+                  </Invitation>
                 </>
               ) : null}
               <Body small>
@@ -661,4 +684,25 @@ const s = StyleSheet.create({
   },
   prose: { fontFamily: serif, fontSize: 20, lineHeight: 33, color: colors.ink },
   callout: { padding: 22, borderRadius: 21, backgroundColor: colors.pale },
+  invitation: {
+    gap: 8,
+    paddingVertical: 14,
+    paddingHorizontal: 16,
+    borderRadius: 16,
+    backgroundColor: colors.white,
+    borderWidth: 1,
+    borderColor: "#B28A3E66",
+    borderLeftWidth: 3,
+    borderLeftColor: colors.gold,
+  },
+  invitationHead: { flexDirection: "row", alignItems: "center", gap: 7 },
+  invitationLabel: {
+    fontSize: 12,
+    lineHeight: 16,
+    fontWeight: "700",
+    letterSpacing: 1.1,
+    textTransform: "uppercase",
+    color: colors.goldInk,
+  },
+  invitationText: { fontSize: 16, lineHeight: 24, color: colors.ink },
 });
