@@ -3,6 +3,10 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   name: "Grace & Gather",
   slug: "away-church",
+  plugins: [
+    ...(config.plugins ?? []),
+    "@react-native-community/datetimepicker",
+  ],
   ios: {
     ...config.ios,
     bundleIdentifier: process.env.APPLE_BUNDLE_ID || "com.awaychurch.preview",

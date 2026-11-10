@@ -10,10 +10,10 @@ const rows: Record<string, string[]> = {
     "Конфиденциальность и помощь",
   ],
   device: [
-    "Your journal is saved encrypted on this device.",
-    "Seu diário é salvo criptografado neste dispositivo.",
-    "Tu diario se guarda cifrado en este dispositivo.",
-    "Дневник сохраняется на этом устройстве в зашифрованном виде.",
+    "Your journal is encrypted on this device. It does not sync automatically; use My Journal to export a backup.",
+    "Seu diário é criptografado neste dispositivo. Ele não sincroniza automaticamente; exporte uma cópia em Meu Diário.",
+    "Tu diario se cifra en este dispositivo. No se sincroniza automáticamente; exporta una copia en Mi diario.",
+    "Дневник зашифрован на этом устройстве. Он не синхронизируется автоматически; создайте копию в разделе «Мой дневник».",
   ],
   webDemo: [
     "Saved in this browser.",

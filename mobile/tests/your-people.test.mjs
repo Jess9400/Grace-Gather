@@ -30,15 +30,30 @@ test("every sentence on Your people exists in Portuguese, Spanish and Russian", 
     .map(source)
     .join("\n");
   const keys = new Set();
-  for (const m of sources.matchAll(/\bc\(\s*"((?:[^"\\]|\\.)+)"/g)) keys.add(m[1]);
-  for (const m of sources.matchAll(/setNotice\(\s*"((?:[^"\\]|\\.)+)"/g)) keys.add(m[1]);
-  // Tab titles and two-way wording sit in arrays or conditionals.
-  for (const m of sources.matchAll(/\["(?:discussions|friends)",\s*"([^"]+)"\]/g)) keys.add(m[1]);
-  for (const m of sources.matchAll(/\?\s*"((?:[^"\\]|\\.){3,})"\s*:\s*"((?:[^"\\]|\\.){3,})"/g)) {
+  for (const m of sources.matchAll(/\bc\(\s*"((?:[^"\\]|\\.)+)"/g))
     keys.add(m[1]);
-    keys.add(m[2]);
+  for (const m of sources.matchAll(/setNotice\(\s*"((?:[^"\\]|\\.)+)"/g))
+    keys.add(m[1]);
+  // Tab titles and two-way wording sit in arrays or conditionals.
+  for (const m of sources.matchAll(
+    /\["(?:discussions|friends)",\s*"([^"]+)"\]/g,
+  ))
+    keys.add(m[1]);
+  for (const m of sources.matchAll(
+    /\?\s*"((?:[^"\\]|\\.){3,})"\s*:\s*"((?:[^"\\]|\\.){3,})"/g,
+  )) {
+    if (!["friends", "discussions", "mine", "all"].includes(m[1]))
+      keys.add(m[1]);
+    if (!["friends", "discussions", "mine", "all"].includes(m[2]))
+      keys.add(m[2]);
   }
-  for (const expected of ["Your people", "Discussions", "Friends", "Start a discussion", "Being checked"])
+  for (const expected of [
+    "Your people",
+    "Discussions",
+    "Friends",
+    "Start a discussion",
+    "Being checked",
+  ])
     assert.ok(keys.has(expected), expected);
   assert.ok(keys.size > 45, String(keys.size));
   // Words that are the same in that language as in English.
@@ -67,18 +82,19 @@ test("each discussion and each person keeps one colour", () => {
   assert.equal(initial(""), "·");
 });
 
-test("discussions live in one place and every other link leads there", () => {
-  // The old page only passes people on.
+test("Discover hosts the public feed while personal activity and friend search have distinct destinations", () => {
   const old = source("src/app/community.tsx");
   assert.match(old, /Redirect/);
   assert.match(old, /pathname: "\/friends"/);
-  assert.ok(old.length < 1200, "the old page should only redirect");
-  // Profile menu, the Bible tab and Discover no longer open a second page.
-  assert.match(source("src/components/AccountMenuContent.tsx"), /route="\/friends"/);
-  assert.doesNotMatch(source("src/components/AccountMenuContent.tsx"), /route="\/community"/);
-  assert.doesNotMatch(source("src/app/(tabs)/bible.tsx"), /push\("\/community"\)/);
-  assert.match(source("src/app/(tabs)/explore.tsx"), /Redirect href="\/friends"/);
-  // The separate group chat is gone from the app.
+  assert.match(source("src/app/(tabs)/bible.tsx"), /view: "mine"/);
+  assert.match(source("src/app/(tabs)/explore.tsx"), /<PublicDiscussions/);
+  assert.match(source("src/app/(tabs)/explore.tsx"), /view: "find"/);
+  assert.doesNotMatch(
+    source("src/app/(tabs)/explore.tsx"),
+    /Redirect href="\/friends"/,
+  );
+  assert.match(source("src/components/PublicDiscussions.tsx"), /topic\.body/);
+  assert.match(source("src/components/PublicDiscussions.tsx"), /canReadPost/);
   assert.ok(!existsSync(root + "src/components/GroupChats.tsx"));
   assert.doesNotMatch(source("src/app/friends.tsx"), /group_chat|GroupChats/);
 });
@@ -92,6 +108,10 @@ test("the Refresh buttons are gone from the screens that refresh themselves", ()
     "src/app/(tabs)/explore.tsx",
   ]) {
     assert.doesNotMatch(source(path), /"Refresh"|refresh-outline/, path);
-    assert.match(source(path) + source("src/lib/prayers.ts"), /setInterval/, path);
+    assert.match(
+      source(path) + source("src/lib/prayers.ts"),
+      /setInterval/,
+      path,
+    );
   }
 });

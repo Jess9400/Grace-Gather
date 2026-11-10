@@ -38,7 +38,12 @@ export function refreshPrayerBadges() {
 }
 export function usePrayerUnread() {
   const { userId } = useCommunity();
-  const [count, setCount] = useState({ userId: "", value: 0 });
+  const [count, setCount] = useState({
+    userId: "",
+    prayers: 0,
+    gatherings: 0,
+    messages: 0,
+  });
   useEffect(() => {
     let active = true;
     if (!userId) return;
@@ -48,15 +53,30 @@ export function usePrayerUnread() {
       void Promise.all([
         backend.rpc("prayer_unread"),
         backend.rpc("gathering_notifications"),
-      ]).then(([prayers, gatherings]) => {
-        if (active)
-          setCount({
-            userId,
-            value:
-              (prayers.error ? 0 : Number(prayers.data) || 0) +
-              (gatherings.error ? 0 : Number(gatherings.data?.unread) || 0),
-          });
-      });
+        backend.rpc("friend_unread"),
+      ])
+        .then(([prayers, gatherings, messages]) => {
+          if (active)
+            setCount((previous) => {
+              const old =
+                previous.userId === userId
+                  ? previous
+                  : { prayers: 0, gatherings: 0, messages: 0 };
+              return {
+                userId,
+                prayers: prayers.error
+                  ? old.prayers
+                  : Number(prayers.data) || 0,
+                gatherings: gatherings.error
+                  ? old.gatherings
+                  : Number(gatherings.data?.unread) || 0,
+                messages: messages.error
+                  ? old.messages
+                  : Number(messages.data) || 0,
+              };
+            });
+        })
+        .catch(() => {});
     };
     load();
     listeners.add(load);
@@ -71,7 +91,9 @@ export function usePrayerUnread() {
       sub.remove();
     };
   }, [userId]);
-  return count.userId === userId ? count.value : 0;
+  return count.userId === userId
+    ? count.prayers + count.gatherings + count.messages
+    : 0;
 }
 export function usePrayers() {
   const { userId } = useCommunity();

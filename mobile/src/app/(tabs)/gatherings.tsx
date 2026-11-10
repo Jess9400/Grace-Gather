@@ -23,10 +23,14 @@ import { communityCopy } from "../../lib/community-copy";
 import { backend } from "../../lib/backend";
 import { gathering, audioCommand, Gathering } from "../../lib/gatherings";
 import { storyText } from "../../lib/discover";
+import { journalReturnId } from "../../lib/journal-navigation";
 export default function Gatherings() {
   const now = useClock();
-  const { journalMatch } = useLocalSearchParams<{ journalMatch?: string }>();
-  const { profile } = useApp(),
+  const { journalMatch, returnEntry } = useLocalSearchParams<{
+    journalMatch?: string;
+    returnEntry?: string;
+  }>();
+  const { profile, entries } = useApp(),
     c = (k: string) => communityCopy(profile.language, k);
   const [items, setItems] = useState<Gathering[]>([]),
     [counts, setCounts] = useState<Record<string, number>>({}),
@@ -107,11 +111,20 @@ export default function Gatherings() {
   const openGathering = (id: string) =>
     router.push({ pathname: "/gathering/[id]", params: { id } });
   return (
-    <Screen place="gather">
+    <Screen place="gather" back={!!journalReturnId(returnEntry, entries)}>
       <Heading>{c("gatherings")}</Heading>
       <Body>{c("gatherIntro")}</Body>
       {journalMatch === "none" && (
-        <Body>{({ en: "No matching gathering was found. You can explore others below.", pt: "Não encontramos um encontro correspondente. Você pode explorar outros abaixo.", es: "No encontramos un encuentro que coincida. Puedes explorar otros abajo.", ru: "Подходящая встреча не найдена. Другие встречи показаны ниже." })[profile.language]}</Body>
+        <Body>
+          {
+            {
+              en: "No matching gathering was found. You can explore others below.",
+              pt: "Não encontramos um encontro correspondente. Você pode explorar outros abaixo.",
+              es: "No encontramos un encuentro que coincida. Puedes explorar otros abajo.",
+              ru: "Подходящая встреча не найдена. Другие встречи показаны ниже.",
+            }[profile.language]
+          }
+        </Body>
       )}
       {liveNow && (
         <LiveNowBanner
@@ -133,7 +146,9 @@ export default function Gatherings() {
       <ChatsStrip
         title={c("chats")}
         hint={c("chatsHint")}
-        onPress={() => router.push("/friends")}
+        onPress={() =>
+          router.push({ pathname: "/friends", params: { view: "friends" } })
+        }
       />
       <Card>
         <GatheringCalendar

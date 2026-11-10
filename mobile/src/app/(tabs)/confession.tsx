@@ -49,6 +49,7 @@ import ConfessionArrival, {
   ConfessionLattice,
 } from "../../components/ConfessionArrival";
 import { confessionColors as room } from "../../lib/confession-theme";
+import { communityCopy } from "../../lib/community-copy";
 import { useRoomStrip } from "../../components/ChurchStrip";
 type Page =
   "room" | "share" | "list" | "mine" | "detail" | "success" | "review";
@@ -69,7 +70,10 @@ export default function ConfessionRoom() {
     language = profile.language,
     t = (key: string) => copy(language, key);
   const navigation = useNavigation();
-  const { view, returnEntry } = useLocalSearchParams<{ view?: string; returnEntry?: string }>();
+  const { view, returnEntry } = useLocalSearchParams<{
+    view?: string;
+    returnEntry?: string;
+  }>();
   const journalReturn = journalReturnId(returnEntry, entries);
   const d = (key: Parameters<typeof designCopy>[1]) =>
     designCopy(language, key);
@@ -80,7 +84,7 @@ export default function ConfessionRoom() {
   const [page, setPage] = useState<Page>("room"),
     [entering, setEntering] = useState(false),
     [body, setBody] = useState(""),
-    [theme, setTheme] = useState("loneliness"),
+    [theme, setTheme] = useState(""),
     [responseType, setResponseType] = useState("listen"),
     [consent, setConsent] = useState(false),
     [audienceDetailsOpen, setAudienceDetailsOpen] = useState(false),
@@ -100,19 +104,31 @@ export default function ConfessionRoom() {
     [support, setSupport] = useState(false);
   // The first page opens with its corner of the church across the top.
   const strip = useRoomStrip("confession");
-  const enterRoom = useCallback((record = false) => {
-    setAudioOpen(record);
-    setEntering(false);
-    setPage("share");
-  }, [setPage]);
+  const enterRoom = useCallback(
+    (record = false) => {
+      setAudioOpen(record);
+      setEntering(false);
+      setPage("share");
+    },
+    [setPage],
+  );
   const cancelEntrance = useCallback(() => {
     setEntering(false);
     setPage("room");
   }, [setPage]);
-  useFocusEffect(useCallback(() => () => {
-    setEntering(false);
-    (navigation.setParams as unknown as (params: { returnEntry?: string }) => void)({ returnEntry: undefined });
-  }, [navigation]));
+  useFocusEffect(
+    useCallback(
+      () => () => {
+        setEntering(false);
+        (
+          navigation.setParams as unknown as (params: {
+            returnEntry?: string;
+          }) => void
+        )({ returnEntry: undefined });
+      },
+      [navigation],
+    ),
+  );
   function startEntrance() {
     setPage("share");
     setEntering(true);
@@ -221,6 +237,10 @@ export default function ConfessionRoom() {
   ]);
   async function share() {
     if (preview !== fingerprint) return;
+    if (!theme) {
+      setError(communityCopy(language, "needConfessionTheme"));
+      return;
+    }
     if ((!body.trim() && !audio) || !consent) {
       setError(t("cNeed"));
       return;
@@ -233,6 +253,7 @@ export default function ConfessionRoom() {
     if (audio) await removeAudio(audio);
     setAudio(undefined);
     setBody("");
+    setTheme("");
     setConsent(false);
     setPreview("");
     setSuccess("share");
@@ -338,8 +359,15 @@ export default function ConfessionRoom() {
                 icon="arrow-back"
                 disabled={busy || recording || entering}
                 onPress={() => {
-                  (navigation.setParams as unknown as (params: { returnEntry?: string }) => void)({ returnEntry: undefined });
-                  router.push({ pathname: "/entry/[id]", params: { id: journalReturn } });
+                  (
+                    navigation.setParams as unknown as (params: {
+                      returnEntry?: string;
+                    }) => void
+                  )({ returnEntry: undefined });
+                  router.push({
+                    pathname: "/entry/[id]",
+                    params: { id: journalReturn },
+                  });
                 }}
               />
             )}
@@ -423,6 +451,9 @@ export default function ConfessionRoom() {
                   >
                     <Body small>{t("cAudience")}</Body>
                     <Body small>{t("cOneReply")}</Body>
+                    <Body small>
+                      {communityCopy(language, "responseNotGuaranteed")}
+                    </Body>
                   </Disclosure>
                 </View>
                 <View style={{ gap: 8 }}>
@@ -472,7 +503,11 @@ export default function ConfessionRoom() {
                 <View>
                   <Disclosure
                     title={t("cTheme")}
-                    summary={t("c_" + theme)}
+                    summary={
+                      theme
+                        ? t("c_" + theme)
+                        : communityCopy(language, "chooseConfessionTheme")
+                    }
                     open={themeOpen}
                     onToggle={() => setThemeOpen(!themeOpen)}
                   >
@@ -531,6 +566,13 @@ export default function ConfessionRoom() {
                     title={tr("Preview confession")}
                     disabled={busy || recording}
                     onPress={() => {
+                      if (!theme) {
+                        setThemeOpen(true);
+                        setError(
+                          communityCopy(language, "needConfessionTheme"),
+                        );
+                        return;
+                      }
                       if ((!body.trim() && !audio) || !consent) {
                         setError(t("cNeed"));
                         return;
@@ -542,6 +584,9 @@ export default function ConfessionRoom() {
                   {preview === fingerprint && (
                     <Card>
                       <Body small>{d("audienceSummary")}</Body>
+                      <Body small>
+                        {communityCopy(language, "responseNotGuaranteed")}
+                      </Body>
                       {!!body.trim() && <Body>{body.trim()}</Body>}
                       {!!audio && (
                         <AudioPlayback id={audio} language={language} />

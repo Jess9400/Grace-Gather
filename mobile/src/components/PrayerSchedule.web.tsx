@@ -7,6 +7,8 @@ export default function PrayerSchedule({
   time,
   onDateChange,
   onTimeChange,
+  dateLabel,
+  timeLabel,
 }: PrayerScheduleProps) {
   const tr = useInterfaceCopy();
   const id = useId();
@@ -30,7 +32,7 @@ export default function PrayerSchedule({
         htmlFor={`${id}-date`}
         style={{ display: "grid", gap: 8, color: colors.ink }}
       >
-        {tr("Prayer date")}
+        {dateLabel ?? tr("Prayer date")}
         <input
           id={`${id}-date`}
           type="date"
@@ -44,7 +46,7 @@ export default function PrayerSchedule({
         htmlFor={`${id}-time`}
         style={{ display: "grid", gap: 8, color: colors.ink }}
       >
-        {tr("Prayer time")}
+        {timeLabel ?? tr("Prayer time")}
         <input
           id={`${id}-time`}
           type="time"

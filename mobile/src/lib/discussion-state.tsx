@@ -39,7 +39,7 @@ const CommunityContext = createContext<{
   busy: boolean;
   error: string;
   limits?: { topics: number; repliesPerTopic: number };
-  reload: (topic?: string, feed?: boolean) => Promise<void>;
+  reload: (topic?: string, feed?: boolean, search?: string) => Promise<void>;
   loadMore: () => Promise<void>;
   hasMore: boolean;
   loadingMore: boolean;
@@ -65,53 +65,68 @@ export function CommunityProvider({ children }: { children: ReactNode }) {
   const [loadingMore, setLoadingMore] = useState(false);
   const paging = useRef(false);
   const feedMode = useRef(false);
+  const feedSearch = useRef("");
   const request = useRef(0);
   const identity = useRef<string | null>(demo ? "you" : null),
     generation = useRef(0),
     active = useRef(true),
     working = useRef(false),
     selectedTopic = useRef<string | undefined>(undefined);
-  const reload = useCallback(async (topic?: string, feed?: boolean) => {
-    if (feed !== undefined) feedMode.current = feed;
-    if (!backend || !identity.current) return;
-    selectedTopic.current = topic;
-    const ticket = generation.current,
-      uid = identity.current,
-      loadId = ++request.current;
-    try {
-      const response =
-        feedMode.current && !topic ? await backend.rpc("community_feed") : null;
-      if (response?.error) throw response.error;
-      const snapshot = response
-        ? response.data
-        : await loadCommunity(backend as unknown as CommunityClient, topic);
-      const next = response?.data?.nextCursor ?? null;
-      if (
-        !active.current ||
-        ticket !== generation.current ||
-        loadId !== request.current ||
-        snapshot.userId !== uid
-      )
-        return;
-      setState({
-        topics: snapshot.topics,
-        blocked: snapshot.blocked,
-        reports: snapshot.reports,
-        nextId: 1,
-      });
-      setCursor(next);
-      setModerator(snapshot.moderator);
-      setLimits(snapshot.limits);
-      setError("");
-    } catch (e) {
-      if (
-        active.current &&
-        ticket === generation.current &&
-        loadId === request.current
-      )
-        setError(communityError(e));
-    }
-  }, []);
+  const reload = useCallback(
+    async (topic?: string, feed?: boolean, search?: string) => {
+      if (feed !== undefined) {
+        feedMode.current = feed;
+        if (search === undefined) feedSearch.current = "";
+      }
+      if (search !== undefined)
+        feedSearch.current = search.trim().slice(0, 100);
+      if (!backend || !identity.current) return;
+      selectedTopic.current = topic;
+      const ticket = generation.current,
+        uid = identity.current,
+        loadId = ++request.current;
+      try {
+        const response =
+          feedMode.current && !topic
+            ? feedSearch.current.length >= 2
+              ? await backend.rpc("community_feed_search", {
+                  p_query: feedSearch.current,
+                })
+              : await backend.rpc("community_feed")
+            : null;
+        if (response?.error) throw response.error;
+        const snapshot = response
+          ? response.data
+          : await loadCommunity(backend as unknown as CommunityClient, topic);
+        const next = response?.data?.nextCursor ?? null;
+        if (
+          !active.current ||
+          ticket !== generation.current ||
+          loadId !== request.current ||
+          snapshot.userId !== uid
+        )
+          return;
+        setState({
+          topics: snapshot.topics,
+          blocked: snapshot.blocked,
+          reports: snapshot.reports,
+          nextId: 1,
+        });
+        setCursor(next);
+        setModerator(snapshot.moderator);
+        setLimits(snapshot.limits);
+        setError("");
+      } catch (e) {
+        if (
+          active.current &&
+          ticket === generation.current &&
+          loadId === request.current
+        )
+          setError(communityError(e));
+      }
+    },
+    [],
+  );
   async function loadMore() {
     if (!backend || !cursor || paging.current || !identity.current) return;
     paging.current = true;
@@ -120,10 +135,18 @@ export function CommunityProvider({ children }: { children: ReactNode }) {
       loadId = request.current,
       uid = identity.current;
     try {
-      const { data, error } = await backend.rpc("community_feed", {
-        p_before: cursor.before,
-        p_id: cursor.id,
-      });
+      const { data, error } = await backend.rpc(
+        feedSearch.current.length >= 2
+          ? "community_feed_search"
+          : "community_feed",
+        {
+          p_before: cursor.before,
+          p_id: cursor.id,
+          ...(feedSearch.current.length >= 2
+            ? { p_query: feedSearch.current }
+            : {}),
+        },
+      );
       if (error) throw error;
       if (
         !active.current ||

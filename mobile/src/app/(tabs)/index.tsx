@@ -122,6 +122,7 @@ export default function Home() {
   const [aboutAdvent, setAboutAdvent] = useState(false);
   const [sceneFailed, setSceneFailed] = useState(false);
   const [tour, setTour] = useState(false);
+  const [toolsOpen, setToolsOpen] = useState(false);
   const [hasExplored, setHasExplored] = useState(false);
   const [tourPlace, setTourPlace] = useState<ChurchPlace | null>(null);
   const [soundOn, setSoundOn] = useState<boolean | null>(null);
@@ -436,62 +437,81 @@ export default function Home() {
           </View>
           {!sceneFailed && <Text style={s.hint}>{t("tapAnywhere")}</Text>}
           <View style={s.tools}>
-            <Pressable
-              accessibilityRole="switch"
-              accessibilityState={{ checked: night }}
-              accessibilityLabel={t("evening")}
-              onPress={() =>
-                void saveProfile({
-                  ...profile,
-                  churchLighting: night ? "day" : "night",
-                }).catch(() => {})
-              }
-              style={s.tool}
-            >
-              <Ionicons
-                name={night ? "moon" : "sunny-outline"}
-                size={19}
-                color="#FFF8E9"
-              />
-            </Pressable>
-            <Pressable
-              accessibilityRole="switch"
-              accessibilityState={{ checked: !!soundOn }}
-              accessibilityLabel={soundOn ? t("soundOn") : t("soundOff")}
-              onPress={toggleSound}
-              style={s.tool}
-            >
-              <Ionicons
-                name={soundOn ? "volume-medium-outline" : "volume-mute-outline"}
-                size={19}
-                color="#FFF8E9"
-              />
-            </Pressable>
-            {!sceneFailed && (
-              <Pressable
-                accessibilityRole="button"
-                accessibilityLabel={t("showPlaces")}
-                onPress={() => {
-                  dismissInvitation();
-                  setTour(true);
-                }}
-                style={s.tool}
-              >
-                <Ionicons
-                  name="help-circle-outline"
-                  size={20}
-                  color="#FFF8E9"
-                />
-              </Pressable>
+            {toolsOpen && (
+              <>
+                <Pressable
+                  accessibilityRole="switch"
+                  accessibilityState={{ checked: night }}
+                  accessibilityLabel={t("evening")}
+                  onPress={() =>
+                    void saveProfile({
+                      ...profile,
+                      churchLighting: night ? "day" : "night",
+                    }).catch(() => {})
+                  }
+                  style={s.tool}
+                >
+                  <Ionicons
+                    name={night ? "moon" : "sunny-outline"}
+                    size={19}
+                    color="#FFF8E9"
+                  />
+                </Pressable>
+                <Pressable
+                  accessibilityRole="switch"
+                  accessibilityState={{ checked: !!soundOn }}
+                  accessibilityLabel={soundOn ? t("soundOn") : t("soundOff")}
+                  onPress={toggleSound}
+                  style={s.tool}
+                >
+                  <Ionicons
+                    name={
+                      soundOn ? "volume-medium-outline" : "volume-mute-outline"
+                    }
+                    size={19}
+                    color="#FFF8E9"
+                  />
+                </Pressable>
+                {!sceneFailed && (
+                  <Pressable
+                    accessibilityRole="button"
+                    accessibilityLabel={t("showPlaces")}
+                    onPress={() => {
+                      dismissInvitation();
+                      setTour(true);
+                    }}
+                    style={s.tool}
+                  >
+                    <Ionicons
+                      name="help-circle-outline"
+                      size={20}
+                      color="#FFF8E9"
+                    />
+                  </Pressable>
+                )}
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel={tr("Your next step")}
+                  onPress={() => setDetails(true)}
+                  style={s.tool}
+                >
+                  <Ionicons
+                    name="checkmark-circle-outline"
+                    size={20}
+                    color="#FFF8E9"
+                  />
+                </Pressable>
+              </>
             )}
             <Pressable
               accessibilityRole="button"
-              accessibilityLabel={tr("Your next step")}
-              onPress={() => setDetails(true)}
+              accessibilityLabel={t("churchControls")}
+              accessibilityState={{ expanded: toolsOpen }}
+              onPress={() => setToolsOpen(!toolsOpen)}
               style={s.tool}
             >
               <Ionicons
-                name="checkmark-circle-outline"
+                name={toolsOpen ? "close" : "ellipsis-horizontal"}
                 size={20}
                 color="#FFF8E9"
               />

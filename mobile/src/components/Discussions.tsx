@@ -40,12 +40,14 @@ export default function Discussions({
   onClearVerse,
   onOpen,
   onStart,
+  initialFilter = "all",
 }: {
   // Show only discussions about this verse (arriving from the Bible).
   verse?: { id: string; reference: string } | null;
   onClearVerse: () => void;
   onOpen: (topicId: string) => void;
   onStart: () => void;
+  initialFilter?: "all" | "mine";
 }) {
   const { profile } = useApp(),
     lang = profile.language,
@@ -53,7 +55,7 @@ export default function Discussions({
     tr = useInterfaceCopy();
   const { state, userId, error, reload, loadMore, hasMore, loadingMore } =
     useCommunity();
-  const [filter, setFilter] = useState<"all" | "mine">("all");
+  const [filter, setFilter] = useState<"all" | "mine">(initialFilter);
   // Opens with the newest discussions and keeps itself fresh; nothing to press.
   useFocusEffect(
     useCallback(() => {

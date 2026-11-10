@@ -1,6 +1,112 @@
 import { Language } from "./content";
 // New community UI copy; authored stories keep their original language.
 const words: Record<string, string[]> = {
+  responseNotGuaranteed: [
+    "A response is not guaranteed.",
+    "Uma resposta não é garantida.",
+    "No se garantiza una respuesta.",
+    "Ответ не гарантирован.",
+  ],
+  oneGathering: ["1 gathering", "1 encontro", "1 encuentro", "1 встреча"],
+  gatheringCount: [
+    "{count} gatherings",
+    "{count} encontros",
+    "{count} encuentros",
+    "Встреч: {count}",
+  ],
+  calendarLegend: [
+    "Dot: gathering · Illustration: church observance",
+    "Ponto: encontro · Ilustração: celebração cristã",
+    "Punto: encuentro · Ilustración: celebración cristiana",
+    "Точка: встреча · Рисунок: церковный праздник",
+  ],
+  oneUnreadMessage: [
+    "1 unread private message",
+    "1 mensagem privada não lida",
+    "1 mensaje privado sin leer",
+    "1 непрочитанное личное сообщение",
+  ],
+  unreadMessages: [
+    "{count} unread private messages",
+    "{count} mensagens privadas não lidas",
+    "{count} mensajes privados sin leer",
+    "Непрочитанных личных сообщений: {count}",
+  ],
+  openPrivateChats: [
+    "Open private chats",
+    "Abrir conversas privadas",
+    "Abrir chats privados",
+    "Открыть личные чаты",
+  ],
+  chooseDate: [
+    "Choose a date",
+    "Escolha uma data",
+    "Elige una fecha",
+    "Выберите дату",
+  ],
+  chooseTime: [
+    "Choose a time",
+    "Escolha um horário",
+    "Elige una hora",
+    "Выберите время",
+  ],
+  doneSelecting: ["Done", "Concluído", "Listo", "Готово"],
+  dateLabel: ["Date", "Data", "Fecha", "Дата"],
+  timeLabel: ["Time", "Horário", "Hora", "Время"],
+  guidanceUnavailable: [
+    "Your entry is saved. Your personal response is unavailable; the suggestion below is general.",
+    "Sua escrita foi salva. A resposta personalizada está indisponível; a sugestão abaixo é geral.",
+    "Tu entrada está guardada. La respuesta personalizada no está disponible; la sugerencia es general.",
+    "Запись сохранена. Персональный ответ недоступен; предложение ниже общее.",
+  ],
+  enableGuidanceToRetry: [
+    "Enable AI guidance in preferences to retry your personal response.",
+    "Ative a orientação por IA nas preferências para tentar novamente sua resposta personalizada.",
+    "Activa la orientación con IA en preferencias para volver a intentar tu respuesta personalizada.",
+    "Включите помощь ИИ в настройках, чтобы повторить запрос персонального ответа.",
+  ],
+  openPreferences: [
+    "Open preferences",
+    "Abrir preferências",
+    "Abrir preferencias",
+    "Открыть настройки",
+  ],
+  retryGuidance: [
+    "Try my response again",
+    "Tentar minha resposta novamente",
+    "Volver a intentar mi respuesta",
+    "Повторить запрос ответа",
+  ],
+  retryGuidanceFailed: [
+    "Still unavailable. Your entry is safe; try again later.",
+    "Ainda indisponível. Sua escrita está salva; tente mais tarde.",
+    "Aún no está disponible. Tu entrada está guardada; inténtalo más tarde.",
+    "Ответ пока недоступен. Запись сохранена; попробуйте позже.",
+  ],
+  searchingBible: [
+    "Searching your Bible…",
+    "Buscando na sua Bíblia…",
+    "Buscando en tu Biblia…",
+    "Поиск в вашей Библии…",
+  ],
+  noBibleMatch: [
+    "No matching passage or theme found. Try a different search.",
+    "Nenhuma passagem ou tema encontrado. Tente outra busca.",
+    "No se encontró ningún pasaje o tema. Prueba otra búsqueda.",
+    "Отрывок или тема не найдены. Попробуйте другой запрос.",
+  ],
+  matchingPassages: [
+    "Matching passages",
+    "Passagens encontradas",
+    "Pasajes encontrados",
+    "Найденные отрывки",
+  ],
+  firstPassages: [
+    "Showing the first 20 matches. Try a more specific search.",
+    "Mostrando os primeiros 20 resultados. Refine a busca.",
+    "Se muestran los primeros 20 resultados. Prueba una búsqueda más específica.",
+    "Показаны первые 20 результатов. Уточните запрос.",
+  ],
   confirmCancel: [
     "Confirm cancellation",
     "Confirmar cancelamento",
@@ -200,6 +306,18 @@ const words: Record<string, string[]> = {
     "Normas de la comunidad",
     "Правила сообщества",
   ],
+  chooseConfessionTheme: [
+    "Choose a theme",
+    "Escolha um tema",
+    "Elige un tema",
+    "Выберите тему",
+  ],
+  needConfessionTheme: [
+    "Choose a theme before previewing.",
+    "Escolha um tema antes de visualizar.",
+    "Elige un tema antes de previsualizar.",
+    "Выберите тему перед просмотром.",
+  ],
   editorialStories: [
     "Discover stories",
     "Histórias para Descobrir",
@@ -304,10 +422,10 @@ const words: Record<string, string[]> = {
     "Мои свидетельства",
   ],
   searchDiscover: [
-    "Search stories, topics and people",
-    "Buscar histórias, temas e pessoas",
-    "Buscar historias, temas y personas",
-    "Поиск историй, тем и людей",
+    "Search stories and topics",
+    "Buscar histórias e temas",
+    "Buscar historias y temas",
+    "Поиск историй и тем",
   ],
   goodNews: [
     "Good news · 24h",

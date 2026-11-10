@@ -15,6 +15,7 @@ import { languages, Language } from "../../lib/content";
 import { gathering } from "../../lib/gatherings";
 import { backend } from "../../lib/backend";
 import { communityCopy } from "../../lib/community-copy";
+import PrayerSchedule from "../../components/PrayerSchedule";
 export default function CreateGathering() {
   const { profile } = useApp(),
     c = (k: string) => communityCopy(profile.language, k);
@@ -155,19 +156,13 @@ export default function CreateGathering() {
               <Body small>{c("weeklyNote")}</Body>
             </>
           )}
-          <Field
-            label={c("dateFormat")}
-            value={date}
-            onChangeText={setDate}
-            placeholder="2026-11-12"
-            maxLength={10}
-          />
-          <Field
-            label={c("timeFormat")}
-            value={time}
-            onChangeText={setTime}
-            placeholder="19:00"
-            maxLength={5}
+          <PrayerSchedule
+            date={date}
+            time={time}
+            onDateChange={setDate}
+            onTimeChange={setTime}
+            dateLabel={c("dateLabel")}
+            timeLabel={c("timeLabel")}
           />
         </>
       )}

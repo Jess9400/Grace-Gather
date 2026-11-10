@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -20,14 +20,20 @@ import Discussions, {
 } from "../components/Discussions";
 import { useApp } from "../lib/state";
 import { useCommunity } from "../lib/discussion-state";
-import { friends, type Friend, type Message } from "../lib/friends";
+import {
+  friends,
+  markFriendMessagesRead,
+  type Friend,
+  type Message,
+} from "../lib/friends";
 import { friendCopy } from "../lib/friends-copy";
 import { discussionVerseId, getReadingVerse } from "../lib/bible";
 import {
   clearStudyDiscussionTopic,
   getStudyDiscussionTopic,
 } from "../lib/study-discussion-draft";
-import { avatarColor, initial } from "../lib/people-theme";
+import { CelestialAvatar } from "../components/MemberAvatar";
+import { avatarVariant } from "../lib/avatar";
 
 // "Your people": discussions anyone can start and join, and 1:1 chats with
 // friends. Every link to discussions in the app leads here.
@@ -73,7 +79,11 @@ function FriendsScreen({
     verse?: string;
     compose?: string;
     topic?: string;
+    view?: string;
+    from?: string;
+    chat?: string;
   }>();
+  const openedFromNotice = useRef("");
   const linkedVerse = params.verse ? discussionVerseId(params.verse) : null,
     reading = linkedVerse ? getReadingVerse(linkedVerse) : null;
   const [verse, setVerse] = useState(
@@ -81,10 +91,14 @@ function FriendsScreen({
       ? { id: linkedVerse, reference: reading.reference }
       : null,
   );
-  const [view, setView] = useState<"discussions" | "friends">("discussions"),
+  const [view, setView] = useState<"discussions" | "friends">(
+      params.view === "friends" || params.view === "find"
+        ? "friends"
+        : "discussions",
+    ),
     [topic, setTopic] = useState<string | null>(params.topic ?? null),
     [starting, setStarting] = useState(params.compose === "1"),
-    [finding, setFinding] = useState(false);
+    [finding, setFinding] = useState(params.view === "find");
   const load = useCallback(async () => {
     const data = await friends("list");
     setLinks(data.links);
@@ -104,6 +118,27 @@ function FriendsScreen({
           setHasName(!!data.me);
           setName(data.me?.name ?? "");
           setDiscoverable(data.me?.discoverable ?? false);
+          const friend = data.links.find(
+            (link: Friend) =>
+              link.id === params.chat && link.status === "accepted",
+          );
+          if (friend && openedFromNotice.current !== friend.id) {
+            openedFromNotice.current = friend.id;
+            void friends("messages", { id: friend.id })
+              .then((messages: Message[]) => {
+                if (!alive) return;
+                setMessages(messages);
+                setOlder(messages.length === 50);
+                setActive(friend);
+                void markFriendMessagesRead(friend.id, messages).catch(
+                  () => {},
+                );
+              })
+              .catch(() => {
+                if (alive)
+                  setNotice("Could not complete this. Please try again.");
+              });
+          }
         })
         .catch(() => {
           if (alive) setNotice("Could not complete this. Please try again.");
@@ -132,7 +167,7 @@ function FriendsScreen({
         alive = false;
         clearInterval(timer);
       };
-    }, [signedIn, moderator]),
+    }, [signedIn, moderator, params.chat]),
   );
   // Refresh only while this conversation screen is focused; preserve older history and the draft.
   useFocusEffect(
@@ -143,6 +178,11 @@ function FriendsScreen({
         void friends("messages", { id: active.id })
           .then((latest: Message[]) => {
             if (!alive) return;
+            setNotice((previous) =>
+              previous === "Could not complete this. Please try again."
+                ? ""
+                : previous,
+            );
             setMessages((previous) => {
               const combined = new Map(
                 previous.map((message) => [message.id, message]),
@@ -154,10 +194,10 @@ function FriendsScreen({
                   a.id.localeCompare(b.id),
               );
             });
+            void markFriendMessagesRead(active.id, latest).catch(() => {});
           })
           .catch(() => {
             if (alive) {
-              setMessages([]);
               setNotice("Could not complete this. Please try again.");
             }
           });
@@ -191,6 +231,7 @@ function FriendsScreen({
     setMessages(data);
     setOlder(data.length === 50);
     setActive(friend);
+    void markFriendMessagesRead(friend.id, data).catch(() => {});
   }
   if (!signedIn)
     return (
@@ -228,7 +269,11 @@ function FriendsScreen({
         topicId={topic}
         myName={hasName ? name : ""}
         onSaveName={saveName}
-        onBack={() => setTopic(null)}
+        onBack={() =>
+          params.from === "discover" && router.canGoBack()
+            ? router.back()
+            : setTopic(null)
+        }
       />
     );
   if (active)
@@ -311,8 +356,20 @@ function FriendsScreen({
           run(async () => {
             await friends("send", { id: active.id, body: text });
             const data = await friends("messages", { id: active.id });
-            setMessages(data);
-            setOlder(data.length === 50);
+            setMessages((previous) => {
+              const combined = new Map(
+                previous.map((message) => [message.id, message]),
+              );
+              data.forEach((message: Message) =>
+                combined.set(message.id, message),
+              );
+              return [...combined.values()].sort(
+                (a, b) =>
+                  a.created_at.localeCompare(b.created_at) ||
+                  a.id.localeCompare(b.id),
+              );
+            });
+            void markFriendMessagesRead(active.id, data).catch(() => {});
           })
         }
       />
@@ -352,6 +409,7 @@ function FriendsScreen({
       </View>
       {view === "discussions" ? (
         <Discussions
+          initialFilter={params.view === "mine" ? "mine" : "all"}
           verse={verse}
           onClearVerse={() => setVerse(null)}
           onOpen={setTopic}
@@ -405,11 +463,7 @@ function FriendsScreen({
                     pressed && { opacity: 0.6 },
                   ]}
                 >
-                  <View
-                    style={[s.avatar, { backgroundColor: avatarColor(l.name) }]}
-                  >
-                    <Text style={s.avatarText}>{initial(l.name)}</Text>
-                  </View>
+                  <CelestialAvatar variant={avatarVariant(l.peer)} size={40} />
                   <Text numberOfLines={1} style={s.rowName}>
                     {l.name}
                   </Text>

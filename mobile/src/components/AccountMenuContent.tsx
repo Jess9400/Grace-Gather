@@ -78,9 +78,9 @@ export default function AccountMenuContent({
         onNavigate={onNavigate}
       />
       <AccountMenuRow
-        title={friendCopy(profile.language, "Discussions")}
+        title={friendCopy(profile.language, "Friends & chats")}
         icon="people-outline"
-        route="/friends"
+        route={{ pathname: "/friends", params: { view: "friends" } }}
         onNavigate={onNavigate}
       />
       <AccountMenuRow

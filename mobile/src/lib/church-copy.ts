@@ -409,16 +409,22 @@ const words = {
     "Коснитесь любого места в храме, чтобы выбрать, с чего начать.",
   ),
   present: L(
-    "There are {n} people in church right now",
-    "Há {n} pessoas na igreja agora",
-    "Hay {n} personas en la iglesia ahora",
-    "Сейчас в храме {n} человек",
+    "{n} connections in church right now",
+    "{n} conexões na igreja agora",
+    "{n} conexiones en la iglesia ahora",
+    "Сейчас в храме {n} подключений",
+  ),
+  churchControls: L(
+    "Church controls",
+    "Controles da igreja",
+    "Controles de la iglesia",
+    "Настройки храма",
   ),
   presentAlone: L(
-    "You're the first one here right now",
-    "Você é a primeira pessoa aqui agora",
-    "Eres la primera persona aquí ahora",
-    "Сейчас вы здесь первый",
+    "1 connection in church right now",
+    "1 conexão na igreja agora",
+    "1 conexión en la iglesia ahora",
+    "Сейчас в храме 1 подключение",
   ),
   // Small step
   stepTitle: L(

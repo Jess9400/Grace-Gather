@@ -1,4 +1,5 @@
 import { requireUser } from "./backend";
+import { refreshPrayerBadges } from "./prayers";
 export type Friend = {
   id: string;
   peer: string;
@@ -23,4 +24,18 @@ export async function friends(
   });
   if (result.error) throw result.error;
   return result.data;
+}
+export async function markFriendMessagesRead(
+  linkId: string,
+  messages: Message[],
+) {
+  const newest = messages.at(-1);
+  if (!newest) return;
+  const { client } = await requireUser();
+  const result = await client.rpc("friend_mark_read", {
+    p_link: linkId,
+    p_message: newest.id,
+  });
+  if (result.error) throw result.error;
+  refreshPrayerBadges();
 }

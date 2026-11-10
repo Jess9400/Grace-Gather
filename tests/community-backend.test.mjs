@@ -89,6 +89,27 @@ async function submit(
 }
 const review = (id, approve = true, user = staff) =>
   as(user, "select public.community_review($1,$2)", [id, approve]);
+test("discussion search only returns approved readable results and paginates", async () => {
+  const visible = await submit(alice, { title: "Finding hope", body: "What does hope mean?" });
+  const pending = await submit(alice, { title: "Hope pending" });
+  await review(visible);
+  const search = async (user, term) => (await as(user, "select public.community_feed_search($1) as result", [term])).rows[0].result;
+  assert.deepEqual((await search(bob, "hope")).topics.map((x) => x.id), [visible]);
+  assert(!(await search(bob, "hope")).topics.some((x) => x.id === pending));
+  await db.query("insert into public.community_posts(author,alias,title,body,perspective,status,created_at) select $1,'Alice','Hope '||n,'A question','Open discussion','approved',now()-make_interval(secs=>n) from generate_series(1,21) n", [alice]);
+  const page = await search(bob, "hope");
+  assert.equal(page.topics.length, 20);
+  assert(page.nextCursor);
+  const next = (await as(bob, "select public.community_feed_search($1,$2,$3) as result", ["hope",page.nextCursor.before,page.nextCursor.id])).rows[0].result;
+  assert.equal(next.topics.length, 2);
+  await as(bob, "insert into public.blocks(user_id,blocked_user_id) values($1,$2)", [bob,alice]);
+  assert.equal((await search(bob, "hope")).topics.length, 0);
+  await assert.rejects(search(bob, "x"), /invalid_search/);
+});
+test("suspended members cannot submit Pay it forward recommendations", async () => {
+  await db.query("insert into private.suspensions(user_id,reason) values($1,'test')", [alice]);
+  await assert.rejects(as(alice,"select public.pay_forward_submit($1,$2,$3,$4)",["Helping","A local suggestion","","https://example.org"]),/sign_in_required/);
+});
 const autoReview=(id,actor,publish,flags=[])=>as('', 'select public.community_auto_result($1,$2,$3,$4,$5) result',[id,actor,publish,flags,'Automated safety assessment'],'service_role');
 test('automatic moderation is service-only, scoped to the author and cannot grant staff rights',async()=>{
  const id=await submit();
