@@ -88,7 +88,7 @@ export default function MyCalendar() {
           <Body>{tr("Sign in to see your calendar.")}</Body>
           <Button
             title={tr("Sign in")}
-            onPress={() => router.push("/profile")}
+            onPress={() => router.push("/sign-in")}
           />
         </>
       ) : error ? (

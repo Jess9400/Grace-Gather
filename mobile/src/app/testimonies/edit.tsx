@@ -1,3 +1,4 @@
+import { label } from "../../lib/labels";
 import { ScrollView } from "react-native";
 import { testimonyCopy } from "../../lib/testimony-copy";
 import { backend } from "../../lib/backend";
@@ -104,8 +105,8 @@ export default function EditTestimony() {
       {!signedIn && (
         <Button
           secondary
-          title={t("account")}
-          onPress={() => router.push("/account")}
+          title={label(profile.language, "signIn")}
+          onPress={() => router.push("/sign-in")}
         />
       )}
       {preview ? (
@@ -186,7 +187,9 @@ export default function EditTestimony() {
             onPress={() => {
               setError("");
               setPreview(true);
-              requestAnimationFrame(() => scroll.current?.scrollTo({y:0,animated:false}));
+              requestAnimationFrame(() =>
+                scroll.current?.scrollTo({ y: 0, animated: false }),
+              );
             }}
           />
           <Button

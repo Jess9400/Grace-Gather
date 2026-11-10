@@ -28,6 +28,33 @@ const rows: Record<string, string[]> = {
     "Выберите чувство для подбора стихов и шагов. ИИ пока не подключён.",
   ],
   signIn: ["Sign in", "Entrar", "Entrar", "Войти"],
+  // The sign-in page.
+  signInEmail: ["Email", "Email", "Correo electrónico", "Email"],
+  signInIntro: [
+    "Enter your email and we will send you a code. There is no password to remember.",
+    "Digite seu email e enviaremos um código. Não há senha para lembrar.",
+    "Escribe tu correo y te enviaremos un código. No hay contraseña que recordar.",
+    "Введите email, и мы пришлём код. Пароль запоминать не нужно.",
+  ],
+  codeSent: [
+    "We sent a code to your email. Enter it below.",
+    "Enviamos um código para o seu email. Digite-o abaixo.",
+    "Te enviamos un código a tu correo. Escríbelo abajo.",
+    "Мы отправили код на ваш email. Введите его ниже.",
+  ],
+  codeWait: [
+    "Please wait a minute before requesting another code.",
+    "Aguarde um minuto antes de pedir outro código.",
+    "Espera un minuto antes de pedir otro código.",
+    "Подождите минуту, прежде чем запросить новый код.",
+  ],
+  signedInAs: [
+    "You are signed in.",
+    "Você entrou na sua conta.",
+    "Has iniciado sesión.",
+    "Вы вошли в аккаунт.",
+  ],
+  continue: ["Continue", "Continuar", "Continuar", "Продолжить"],
   sendCode: [
     "Send sign-in code",
     "Enviar código de acesso",
