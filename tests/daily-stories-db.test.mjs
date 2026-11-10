@@ -12,7 +12,7 @@ test('daily publication is service-only, source-bound and idempotent', async () 
    create view vault.decrypted_secrets as select * from vault.secrets;
    create function vault.create_secret(secret text, label text) returns uuid language plpgsql as $$begin insert into vault.secrets values(label,secret);return gen_random_uuid();end$$;
    create table public.content_items(id text primary key,kind text,data jsonb,published boolean,sort_at timestamptz);`);
-  await db.exec(await readFile(new URL('../supabase/migrations/20261110161435_daily_stories.sql',import.meta.url),'utf8'));
+  await db.exec(await readFile(new URL('../supabase/migrations/20261110170258_daily_stories.sql',import.meta.url),'utf8'));
   assert.equal((await db.query('select public.story_import_claim() ok')).rows[0].ok,true);
   assert.equal((await db.query('select public.story_import_claim() ok')).rows[0].ok,false);
   const items=[{title:'A fake story',url:'https://evil.example/wp-content/uploads/2024/01/story.pdf'}, {title:'A story about hope',url:'https://christianfaithstories.org/wp-content/uploads/2024/01/hope.pdf'}];
