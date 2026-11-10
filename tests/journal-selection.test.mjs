@@ -48,3 +48,18 @@ test('initial AI selections accept connected destinations only for compatible cl
  }
  assert.equal(recommendations({path:'lonely',themeId:'lonely',actionId:'A25',support:false,privateOnly:true},prefs,catalog,true).suggestedAction,'A08');
 });
+
+test('an AI explanation survives only for the validated action it describes',async()=>{
+ const {recommendations}=await import('../supabase/functions/_shared/journey-policy.js');
+ const catalog=JSON.parse(await readFile(new URL('../supabase/functions/_shared/journey-catalog.json',import.meta.url)));
+ const prefs={edition:'web',scriptureLanguage:'en',tradition:'protestant',candlePractice:false};
+ const base={path:'lonely',themeId:'lonely',actionId:'A25',actionExplanation:'A gathering can help you connect with others.',support:false};
+ assert.equal(recommendations(base,prefs,catalog,true).actionExplanation,base.actionExplanation);
+ assert.equal(recommendations(base,prefs,catalog,false).actionExplanation,undefined);
+ assert.equal(recommendations({...base,privateOnly:true},prefs,catalog,true).actionExplanation,undefined);
+ for(const bad of ['', 'x'.repeat(241), 'Go to https://example.test', '<b>click</b>', 'line one\nline two'])
+  assert.equal(recommendations({...base,actionExplanation:bad},prefs,catalog,true).actionExplanation,undefined);
+ const candle={...base,path:'sad',themeId:'grief',actionId:'A01',actionExplanation:'Light a candle.'};
+ assert.equal(recommendations(candle,prefs,catalog,true).suggestedAction,'A02');
+ assert.equal(recommendations(candle,prefs,catalog,true).actionExplanation,undefined);
+});

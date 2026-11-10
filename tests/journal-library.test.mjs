@@ -92,14 +92,14 @@ test('a removed conversation can be exported explicitly without exposing other d
   assert.equal(selected[0].conversation.length,2);assert.equal(selected[0].deletedConversations,undefined);
 });
 test('PDF HTML preserves paragraphs and Unicode, escapes user markup, and has no external font or script requests', () => {
-  const html = exported.journalExportHtml([entry({text:'Obrigado. Спасибо.\n<script>alert(1)</script>'})],'pt');
+  const html = exported.journalExportHtml([entry({text:'Obrigado. Спасибо.\n<script>alert(1)</script>',conversation:[{id:'reply',role:'assistant',content:'Here is an idea.',actionId:'A09',actionExplanation:'A pause can make room to breathe.'}]})],'pt');
   assert.ok(html.includes('Obrigado. Спасибо.\n&lt;script&gt;alert(1)&lt;/script&gt;'));
-  assert.ok(html.includes('Notice one small good thing'));assert.ok(html.includes('What might help?'));
+  assert.ok(html.includes('Notice one small good thing'));assert.ok(html.includes('A pause can make room to breathe.'));
   assert.ok(!html.includes('<script>'));assert.ok(!html.includes('@import'));
   assert.ok(html.includes('break-before: page'));assert.ok(html.includes('white-space: pre-wrap'));
 });
 test('encrypted backup round-trips entry, saved verse, action and chat; wrong keys and tampering fail', async () => {
-  const original = payload([entry({text:'My private words. Спасибо.'})]);
+  const original = payload([entry({text:'My private words. Спасибо.',suggestedActionExplanation:'A quiet pause can help.',conversation:[{id:'reply-one',role:'assistant',content:'Take a breath.',actionId:'A09',actionExplanation:'A pause can make room to breathe.'}]})]);
   const result = await crypto.sealBackup(original,webcrypto);
   assert.equal(result.key.length,64);assert.equal(new TextDecoder().decode(result.bytes).includes('private words'),false);
   assert.deepEqual(await crypto.unsealBackup(result.bytes,result.key,webcrypto),original);

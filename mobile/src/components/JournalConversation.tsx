@@ -21,7 +21,7 @@ import { continueJournal } from "../lib/ai";
 import { AI_CONSENT_VERSION } from "../lib/ai-copy";
 import { copy, needsSupport, type Entry } from "../lib/content";
 import { chatCopy } from "../lib/journal-chat-copy";
-import { jc, type JournalCopyKey } from "../lib/journal-copy";
+import { jc, journalActionCopy, type JournalCopyKey } from "../lib/journal-copy";
 import { shouldSendJournalKey } from "../lib/journal-composer";
 import {
   JOURNAL_MESSAGE_LIMIT,
@@ -66,10 +66,13 @@ export default function JournalConversation({
         {m.support ? copy(lang, "supportDesc") : m.content}
       </Text>
       {m.role === "assistant" && m.actionId && !m.support && (
-        <JournalActionButton
-          title={jc(lang, m.actionId as JournalCopyKey)}
-          onPress={() => onAction(m.actionId!)}
-        />
+        <>
+          <Text style={s.message}>{m.actionExplanation ?? journalActionCopy(lang, "", m.actionId).invitation}</Text>
+          <JournalActionButton
+            title={jc(lang, m.actionId as JournalCopyKey)}
+            onPress={() => onAction(m.actionId!)}
+          />
+        </>
       )}
     </View>
   );

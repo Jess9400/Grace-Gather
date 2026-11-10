@@ -110,12 +110,32 @@ test('a saved or new gathering action falls back when no session can be verified
 
 
 test('confession invitation explains the listener and preserves personal saved wording', () => {
+ const legacy={en:'You don’t have to carry this alone.',pt:'Você não precisa carregar isso sozinho.',es:'No tienes que llevar esto a solas.',ru:'Вам не нужно нести это в одиночку.'};
  for (const lang of ['en','pt','es','ru']) {
   const updated = journalActionCopy(lang, 'venting', 'A04').invitation;
-  assert.notEqual(updated, actionInvitation(lang, 'A04'));
-  assert.equal(displayedJournalInvitation(lang, 'venting', 'A04', actionInvitation(lang, 'A04')), updated);
+  assert.notEqual(updated, legacy[lang]);
+  assert.equal(displayedJournalInvitation(lang, 'venting', 'A04', legacy[lang]), updated);
   assert.equal(displayedJournalInvitation(lang, 'venting', 'A04', 'My personal wording'), 'My personal wording');
  }
  assert.match(journalActionCopy('en', 'venting', 'A04').invitation, /Confession room/);
  assert.match(journalActionCopy('en', 'venting', 'A04').invitation, /may respond/);
+});
+
+test('a personalized reason follows only the action it describes', async () => {
+ const p = prefs(data.editions[0]);
+ const explanation = 'A small prayer can give your uncertainty some room.';
+ const same = await resolveJournalResponse(entry(p, { suggestedAction:'A03', suggestedActionExplanation:explanation }),p);
+ assert.equal(same.invitation,explanation);
+ const changed = await resolveJournalResponse(entry(p, { text:'I have no one to talk to', themeId:'lonely', suggestedAction:'A25', suggestedActionExplanation:'A group could help you connect.' }),p);
+ assert.equal(changed.actionId,'A04');
+ assert.notEqual(changed.invitation,'A group could help you connect.');
+});
+
+test('every supported action has an understandable localized fallback reason', () => {
+ const ids=['A01','A02','A03','A04','A05','A07','A08','A09','A10','A11','A12','A14','A15','A16','A18','A19','A20','A21','A25','A26','A27'];
+ for(const lang of ['en','pt','es','ru']) for(const id of ids) {
+  const result=journalActionCopy(lang,'unclear',id);
+  assert.ok(result.title && result.invitation,`${lang} ${id}`);
+  assert.notEqual(result.invitation, actionInvitation(lang,'unknown'),`${lang} ${id}`);
+ }
 });

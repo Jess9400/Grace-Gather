@@ -12,6 +12,7 @@ export interface JourneySuggestion {
   actionIds: string[];
   themeId?: string;
   suggestedAction?: string;
+  actionExplanation?: string;
 }
 // The provider may select approved identifiers; it cannot invent Bible quotations.
 export function validateSuggestion(
@@ -70,6 +71,7 @@ export function validateSuggestion(
     throw new Error("Unapproved action");
   return {
     ...candidate,
+    actionExplanation: typeof candidate.actionExplanation === "string" && candidate.actionExplanation.trim().length > 0 && candidate.actionExplanation.length <= 240 && !/[\r\n<>]|https?:\/\/|www\./i.test(candidate.actionExplanation) ? candidate.actionExplanation.trim() : undefined,
     passageIds: candidate.passageIds.slice(0, 1),
     actionIds: candidate.actionIds.slice(0, 1),
   };

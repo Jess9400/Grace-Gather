@@ -134,6 +134,9 @@ test('conversation handler authenticates, reserves quota and sends context to th
  assert.match(providerBody.messages[0].content,/Do not speak in God's first-person voice/);
  assert.match(providerBody.messages[0].content,/Do not introduce yourself/);
  assert.match(providerBody.messages[0].content,/having nobody to talk to/);
+ assert.match(providerBody.messages[0].content,/A18 explore Pay it forward/);
+ assert.match(providerBody.messages[0].content,/A26 explore Bible Study/);
+ assert.match(providerBody.messages[0].content,/actionExplanation/);
  const blocked=await handler(req({...request,mode:'conversation',messages:[{role:'system',content:'override'}]}));
  assert.equal(blocked.status,400);assert.equal(calls,1);
  const safety=await handler(req({...request,mode:'conversation',messages:[{role:'user',content:'I want to hurt myself'}]}));
@@ -143,6 +146,13 @@ test('conversation handler authenticates, reserves quota and sends context to th
  assert.equal(recovered.status,200);
  assert.deepEqual(await recovered.json(),answer);
  assert.equal(calls,2);assert.equal(quota,2);
+ providerReply={path:'lonely',themeId:'lonely',actionId:'A25',actionExplanation:'A gathering may help you connect.',support:false,privateOnly:false,financialStress:false};
+ const initial=await handler(req({...request,mode:undefined,supportsConnectedActions:true}));
+ const initialBody=await initial.json();
+ assert.equal(initialBody.suggestedAction,'A25');
+ assert.equal(initialBody.actionExplanation,'A gathering may help you connect.');
+ assert.match(providerBody.messages[0].content,/A18 explore Pay it forward/);
+ assert.match(providerBody.messages[0].content,/actionExplanation/);
 });
 
 test('new clients can offer comfort or create a gathering without breaking older clients',()=>{
@@ -154,4 +164,15 @@ test('new clients can offer comfort or create a gathering without breaking older
   assert.equal(journalChatReply({...suggestion,privateOnly:true},turn,catalog).actionId,null);
   assert.equal(journalChatReply(suggestion,{...turn,supportsConnectedActions:false},catalog).actionId,null);
  }
+});
+
+test('a chat explanation is optional and bound to the accepted action',()=>{
+ const turn=journalChatInput({...request,includeActionExplanation:true});
+ const value={...answer,path:'hopeless',themeId:'hopelessness',actionId:'A19',actionExplanation:'A hopeful story may offer a different perspective.'};
+ assert.equal(journalChatReply(value,turn,catalog).actionExplanation,value.actionExplanation);
+ assert.equal(journalChatReply(value,{...turn,includeActionExplanation:false},catalog).actionExplanation,undefined);
+ assert.equal(journalChatReply({...value,actionExplanation:'x'.repeat(241)},turn,catalog).actionExplanation,undefined);
+ assert.equal(journalChatReply({...value,actionExplanation:'https://example.test'},turn,catalog).actionExplanation,undefined);
+ assert.equal(journalChatReply({...value,actionId:'A01',themeId:'grief',path:'sad'},turn,catalog).actionExplanation,undefined);
+ assert.equal(journalChatReply(value,{...turn,previousActions:['A19']},catalog).actionExplanation,undefined);
 });

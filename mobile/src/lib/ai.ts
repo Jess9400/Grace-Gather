@@ -50,6 +50,7 @@ export async function continueJournal(
       mode: "conversation",
       supportsGatheringAction: true,
       includeActionTheme: true,
+      includeActionExplanation: true,
       supportsConnectedActions: true,
       text: entry.text,
       consentVersion: AI_CONSENT_VERSION,
@@ -104,5 +105,6 @@ export async function continueJournal(
   return {
     content: data.reply,
     actionId: previousActions.includes(selected) ? undefined : (selected ?? undefined),
+    actionExplanation: selected && selected === data.actionId && !previousActions.includes(selected) && typeof data.actionExplanation === "string" && data.actionExplanation.trim().length > 0 && data.actionExplanation.length <= 240 && !/[\r\n<>]|https?:\/\/|www\./i.test(data.actionExplanation) ? data.actionExplanation.trim() : undefined,
   };
 }

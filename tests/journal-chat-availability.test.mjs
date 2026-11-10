@@ -15,7 +15,7 @@ const helper=compile('../mobile/src/lib/journal-gathering.ts', id => {
 const item={id:'1',status:'published',visibility:'public',language:'en',topic:'loneliness',title:{en:'Connection'},starts_at:new Date(Date.now()+86400000).toISOString(),ends_at:new Date(Date.now()+90000000).toISOString()};
 function client(items){
  const ai=compile('../mobile/src/lib/ai.ts',id=>{
-  if(id==='./backend')return {requireUser:async()=>({client:{functions:{invoke:async()=>({data:{reply:'Your words matter.',actionId:'A25',actionTheme:'lonely',support:false}})}}})};
+  if(id==='./backend')return {requireUser:async()=>({client:{functions:{invoke:async()=>({data:{reply:'Your words matter.',actionId:'A25',actionTheme:'lonely',actionExplanation:'A group could help you connect.',support:false}})}}})};
   if(id==='./church-calendar')return {welcomesCandles:()=>false};
   if(id==='./llm-contract')return {};
   if(id==='./ai-copy')return {AI_CONSENT_VERSION:'test'};
@@ -30,6 +30,8 @@ test('chat confirms an available gathering before displaying its action',async()
  assert.equal((await client([item])('I have no one to talk to')).actionId,'A25');
  const noMatch=await client([])('I have no one to talk to');
  assert.equal(noMatch.actionId,'A04');
+ assert.equal(noMatch.actionExplanation,undefined);
+ assert.equal((await client([item])('I have no one to talk to')).actionExplanation,'A group could help you connect.');
  assert.equal(noMatch.content,'Your words matter.');
  assert.equal((await client([])('I have no one to talk to',['A04'])).actionId,undefined);
  assert.equal((await client([])('I feel lonely')).actionId,undefined);

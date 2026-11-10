@@ -57,7 +57,7 @@ export async function resolveJournalResponse(
     verse,
     actionId,
     actionTitle: action.title,
-    invitation: action.invitation,
+    invitation: entry.suggestedAction === actionId && typeof entry.suggestedActionExplanation === "string" && entry.suggestedActionExplanation.trim() && entry.suggestedActionExplanation.length <= 240 ? entry.suggestedActionExplanation : action.invitation,
     actionPrompt: action.prompt,
   };
 }

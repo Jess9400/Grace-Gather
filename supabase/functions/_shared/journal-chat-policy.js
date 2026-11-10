@@ -1,4 +1,4 @@
-import { journeyInput, needsSupport, recommendations } from './journey-policy.js';
+import { journeyInput, needsSupport, recommendations, safeActionExplanation } from './journey-policy.js';
 export const CHAT_ACTIONS=['A01','A02','A03','A04','A05','A07','A08','A09','A10','A11','A12','A14','A15','A16','A18','A19','A20','A21','A25','A26','A27'];
 export function chatActionsFor(input) {
  return CHAT_ACTIONS.filter(id=>(!['A14','A27'].includes(id)||input.supportsConnectedActions)&&(id!=='A25'||input.supportsGatheringAction));
@@ -12,7 +12,7 @@ export function journalChatInput(value) {
  });
  if(messages.at(-1).role!=='user'||messages.reduce((n,m)=>n+m.content.length,0)>24000)throw Error('too_large');
  if(!Array.isArray(value.previousActions)||value.previousActions.length>40||value.previousActions.some(id=>!CHAT_ACTIONS.includes(id)))throw Error('invalid_entry');
- return {...input,messages,previousActions:[...new Set(value.previousActions)],supportsGatheringAction:value.supportsGatheringAction===true,supportsConnectedActions:value.supportsConnectedActions===true,includeActionTheme:value.includeActionTheme===true,support:needsSupport(messages.at(-1).content)};
+ return {...input,messages,previousActions:[...new Set(value.previousActions)],supportsGatheringAction:value.supportsGatheringAction===true,supportsConnectedActions:value.supportsConnectedActions===true,includeActionTheme:value.includeActionTheme===true,includeActionExplanation:value.includeActionExplanation===true,support:needsSupport(messages.at(-1).content)};
 }
 // A narrow fallback for an explicit unmet need, not a trigger for every mention
 // of loneliness. The model still interprets broader context and preferences.
@@ -53,5 +53,6 @@ export function journalChatReply(value,input,catalog,onActionOmitted=()=>{}) {
  }
  if(value.actionId==null&&value.privateOnly!==true)actionId=connectionInvitation(input);
  if(['A04','A14','A25','A27'].includes(actionId)&&connectionDeclined(input))actionId=null;
- return {reply:value.reply.trim(),actionId,support:false,...(input.includeActionTheme && actionId==='A25' && typeof value.themeId==='string' ? {actionTheme:value.themeId} : {})};
+ const explanation=input.includeActionExplanation && actionId && actionId===value.actionId ? safeActionExplanation(value.actionExplanation) : undefined;
+ return {reply:value.reply.trim(),actionId,support:false,...(explanation ? {actionExplanation:explanation} : {}),...(input.includeActionTheme && actionId==='A25' && typeof value.themeId==='string' ? {actionTheme:value.themeId} : {})};
 }
