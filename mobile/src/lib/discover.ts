@@ -5,7 +5,7 @@ import { Resource, Language, localized } from "./content";
 import { mergeDiscoverPage } from "./discover-page";
 export interface Story extends Resource {
   anonymous?: boolean;
-  origin?: "community" | "news" | "historical" | "editorial";
+  origin?: "community" | "news" | "historical" | "editorial" | "publisher";
   publishedAt?: string;
   eventDate?: string;
   retrievedAt?: string;
