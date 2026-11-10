@@ -199,6 +199,18 @@ const text = {
     "Agradece a alguien su bondad",
     "Поблагодарите за доброту",
   ],
+  A14: [
+    "Offer comfort to someone",
+    "Ofereça conforto a alguém",
+    "Ofrece consuelo a alguien",
+    "Поддержать другого человека",
+  ],
+  A27: [
+    "Create a gathering",
+    "Crie um encontro",
+    "Crea un encuentro",
+    "Создать встречу",
+  ],
   A15: [
     "Request a prayer",
     "Peça uma oração",
@@ -282,6 +294,14 @@ export function journalActionCopy(
   theme: string,
   action: string,
 ) {
+  const specific: Record<string, string[]> = {
+    "lonely:A25": ["Being with others might help you feel connected.", "Estar com outras pessoas pode ajudar você a se sentir conectado.", "Estar con otras personas puede ayudarte a sentirte acompañado.", "Встреча с другими может помочь почувствовать связь."],
+    "homesick:A25": ["A gathering may be a gentle way to find connection.", "Um encontro pode ser uma forma acolhedora de encontrar companhia.", "Un encuentro puede ser una manera amable de encontrar compañía.", "Встреча может стать бережным шагом к общению."],
+    "listen:A14": ["Your wish to listen could offer someone comfort.", "Sua vontade de escutar pode levar conforto a alguém.", "Tus ganas de escuchar pueden dar consuelo a alguien.", "Ваше желание выслушать может кого-то поддержать."],
+    "service:A18": ["If you would like to give back, explore a cause that matters to you.", "Se quiser retribuir, encontre uma causa importante para você.", "Si quieres devolver algo, descubre una causa importante para ti.", "Если хотите помочь, найдите важное для вас дело."],
+  };
+  if (specific[`${theme}:${action}`])
+    return { title: jc(lang, action as JournalCopyKey), invitation: specific[`${theme}:${action}`][{ en: 0, pt: 1, es: 2, ru: 3 }[lang]], prompt: jc(lang, "note") };
   if (action === "A03") {
     const prayer = prayerCopy(lang, theme);
     if (prayer) return prayer;
@@ -363,6 +383,9 @@ export function actionInvitation(lang: Language, action: string) {
     A10: "apology",
     A11: "kindness",
     A12: "thanks",
+    A14: "kindness",
+    A25: "connection",
+    A27: "kindness",
     A15: "connection",
     A16: "prayer",
     A18: "kindness",

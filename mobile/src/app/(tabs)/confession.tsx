@@ -101,11 +101,11 @@ export default function ConfessionRoom() {
     setAudioOpen(record);
     setEntering(false);
     setPage("share");
-  }, []);
+  }, [setPage]);
   const cancelEntrance = useCallback(() => {
     setEntering(false);
     setPage("room");
-  }, []);
+  }, [setPage]);
   useFocusEffect(useCallback(() => () => setEntering(false), []));
   function startEntrance() {
     setPage("share");
@@ -191,6 +191,13 @@ export default function ConfessionRoom() {
     setPage(next);
     setReport(null);
   }
+  useEffect(() => {
+    if (view !== "comfort") return;
+    router.setParams({ view: "" });
+    void Promise.resolve().then(() => run(() => load("list")));
+    // Triggered by the explicit journal action; normal room navigation is unchanged.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [view]);
   async function open(id: string, claim = false) {
     const r = await confessionAPI(claim ? "open" : "read", { id });
     if (detail?.id !== id) setDraft("");

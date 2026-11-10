@@ -11,6 +11,7 @@ export async function suggestJourney(text: string, preferences: Profile) {
   const { data, error } = await client.functions.invoke("llm-journey", {
     body: {
       text,
+      supportsConnectedActions: true,
       preferences: {
         language: preferences.language,
         scriptureLanguage: preferences.scriptureLanguage,
@@ -46,6 +47,7 @@ export async function continueJournal(
     body: {
       mode: "conversation",
       supportsGatheringAction: true,
+      supportsConnectedActions: true,
       text: entry.text,
       consentVersion: AI_CONSENT_VERSION,
       preferences: {
@@ -74,6 +76,7 @@ export async function continueJournal(
     "A10",
     "A11",
     "A12",
+    "A14",
     "A15",
     "A16",
     "A18",
@@ -82,6 +85,7 @@ export async function continueJournal(
     "A21",
     "A25",
     "A26",
+    "A27",
   ];
   if (
     typeof data.reply !== "string" ||

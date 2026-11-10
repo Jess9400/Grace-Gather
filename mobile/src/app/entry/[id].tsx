@@ -32,6 +32,8 @@ import { q } from "../../lib/quiet-copy";
 import type { ReadingVerse } from "../../lib/bible";
 import { resolveJournalResponse } from "../../lib/journal-response";
 import { journalAction, journalTheme } from "../../lib/journal-guidance";
+import { gathering } from "../../lib/gatherings";
+import { hasJournalGatheringTopic, matchingJournalGathering } from "../../lib/journal-gathering";
 import {
   jc,
   journalActionCopy,
@@ -109,6 +111,8 @@ export default function EntryScreen() {
       A01: "/candle",
       A21: "/candle",
       A04: "/(tabs)/confession",
+      A14: "/(tabs)/confession?view=comfort",
+      A27: "/gathering/create",
       A15: "/prayers?compose=1",
       A16: "/prayers",
       A18: "/giving",
@@ -117,6 +121,15 @@ export default function EntryScreen() {
       A26: "/study",
       A25: "/(tabs)/gatherings",
     };
+    if (selectedAction === "A25" && selectedAction === action && hasJournalGatheringTopic(journalTheme(entry!).id)) {
+      // Match on the already-selected theme locally; never send journal text to the catalog.
+      void gathering("list").then((items) => {
+        const match = Array.isArray(items) ? matchingJournalGathering(items, journalTheme(entry!).id, profile.language) : undefined;
+        if (match) router.push({ pathname: "/gathering/[id]", params: { id: match.id } });
+        else router.push({ pathname: "/(tabs)/gatherings", params: { journalMatch: "none" } });
+      }).catch(() => router.push("/(tabs)/gatherings"));
+      return;
+    }
     if (routes[selectedAction]) {
       router.push(routes[selectedAction]);
       return;

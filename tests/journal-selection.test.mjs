@@ -22,3 +22,29 @@ test('weekly invitation waits seven days, and dismissal resets the cooldown',()=
  assert.equal(weeklyCheckInDue(['2026-11-02T12:00:00Z'],undefined,now),true);
  assert.equal(weeklyCheckInDue(['2026-10-01'],new Date(now).toISOString(),now),false);
 });
+
+test('connected actions follow the expressed need without breaking older clients',()=>{
+ const theme=id=>map.find(x=>x.id===id);
+ assert.equal(chooseJournalAction(theme('lonely'),{connectedActions:true}),'A25');
+ assert.equal(chooseJournalAction(theme('listen'),{connectedActions:true}),'A14');
+ assert.equal(chooseJournalAction(theme('service'),{connectedActions:true}),'A18');
+ assert.equal(chooseJournalAction({main:'A27',private:'A08'},{connectedActions:true}),'A27');
+ assert.equal(chooseJournalAction({main:'A27',private:'A08'},{connectedActions:false}),'A18');
+ assert.equal(chooseJournalAction(theme('lonely'),{connectedActions:true,privateOnly:true}),'A08');
+ assert.equal(chooseJournalAction(theme('grief'),{connectedActions:true,candles:false}),'A02');
+ assert.equal(chooseJournalAction(theme('grief'),{connectedActions:true,candles:true}),'A01');
+ assert.equal(chooseJournalAction(theme('service'),{connectedActions:true,financialStress:true}),'A03');
+});
+
+test('initial AI selections accept connected destinations only for compatible clients',async()=>{
+ const {recommendations}=await import('../supabase/functions/_shared/journey-policy.js');
+ const catalog=JSON.parse(await readFile(new URL('../supabase/functions/_shared/journey-catalog.json',import.meta.url)));
+ const prefs={edition:'web',scriptureLanguage:'en',tradition:'protestant',candlePractice:false};
+ const cases=[['lonely','lonely','A25'],['peaceful','listen','A14'],['grateful','service','A18'],['peaceful','welcome','A27']];
+ for(const [path,themeId,actionId] of cases){
+  const request={path,themeId,actionId,support:false};
+  assert.equal(recommendations(request,prefs,catalog,true).suggestedAction,actionId);
+  if(actionId!=='A18')assert.notEqual(recommendations(request,prefs,catalog,false).suggestedAction,actionId);
+ }
+ assert.equal(recommendations({path:'lonely',themeId:'lonely',actionId:'A25',support:false,privateOnly:true},prefs,catalog,true).suggestedAction,'A08');
+});

@@ -55,13 +55,16 @@ export function validateSuggestion(
       "A10",
       "A11",
       "A12",
+      "A14",
       "A15",
       "A16",
       "A18",
       "A19",
       "A20",
       "A21",
+      "A25",
       "A26",
+      "A27",
     ].includes(candidate.suggestedAction)
   )
     throw new Error("Unapproved action");

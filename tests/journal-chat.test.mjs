@@ -144,3 +144,14 @@ test('conversation handler authenticates, reserves quota and sends context to th
  assert.deepEqual(await recovered.json(),answer);
  assert.equal(calls,2);assert.equal(quota,2);
 });
+
+test('new clients can offer comfort or create a gathering without breaking older clients',()=>{
+ const turn=journalChatInput({...request,supportsConnectedActions:true,supportsGatheringAction:true,messages:[{role:'user',content:'I would like to listen and help someone.'}]});
+ for(const actionId of ['A14','A27']){
+  const suggestion={...answer,actionId,path:'peaceful',themeId:'listen',privateOnly:false};
+  assert.equal(journalChatReply(suggestion,turn,catalog).actionId,actionId);
+  assert.equal(journalChatReply(suggestion,{...turn,previousActions:[actionId]},catalog).actionId,null);
+  assert.equal(journalChatReply({...suggestion,privateOnly:true},turn,catalog).actionId,null);
+  assert.equal(journalChatReply(suggestion,{...turn,supportsConnectedActions:false},catalog).actionId,null);
+ }
+});

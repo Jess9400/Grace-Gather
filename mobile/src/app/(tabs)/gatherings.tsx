@@ -1,6 +1,6 @@
 import { useClock } from "../../lib/use-clock";
 import { useCallback, useState, useEffect } from "react";
-import { router, useFocusEffect } from "expo-router";
+import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { Text, View } from "react-native";
 import { colors } from "../../components/quiet-ui";
 import {
@@ -25,6 +25,7 @@ import { gathering, audioCommand, Gathering } from "../../lib/gatherings";
 import { storyText } from "../../lib/discover";
 export default function Gatherings() {
   const now = useClock();
+  const { journalMatch } = useLocalSearchParams<{ journalMatch?: string }>();
   const { profile } = useApp(),
     c = (k: string) => communityCopy(profile.language, k);
   const [items, setItems] = useState<Gathering[]>([]),
@@ -109,6 +110,9 @@ export default function Gatherings() {
     <Screen place="gather">
       <Heading>{c("gatherings")}</Heading>
       <Body>{c("gatherIntro")}</Body>
+      {journalMatch === "none" && (
+        <Body>{({ en: "No matching gathering was found. You can explore others below.", pt: "Não encontramos um encontro correspondente. Você pode explorar outros abaixo.", es: "No encontramos un encuentro que coincida. Puedes explorar otros abajo.", ru: "Подходящая встреча не найдена. Другие встречи показаны ниже." })[profile.language]}</Body>
+      )}
       {liveNow && (
         <LiveNowBanner
           eyebrow={c("liveNow")}
