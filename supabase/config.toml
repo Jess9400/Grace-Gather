@@ -14,6 +14,8 @@ verify_jwt = false
 verify_jwt = false
 [functions.news]
 verify_jwt = false
+[functions.daily-stories]
+verify_jwt = false
 [functions.llm-journey]
 verify_jwt = false
 [functions.llm-transcribe]
