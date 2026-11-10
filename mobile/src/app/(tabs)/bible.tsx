@@ -276,7 +276,7 @@ function BibleReader({ collection }: { collection: CollectionId | null }) {
         </View>
         <Pressable
           accessibilityRole="button"
-          onPress={() => router.push("/community")}
+          onPress={() => router.push("/friends")}
           style={({ pressed }) => ({
             minHeight: 44,
             alignSelf: "flex-start",

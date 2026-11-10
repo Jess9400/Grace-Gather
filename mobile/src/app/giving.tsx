@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Screen,
   Heading,
@@ -85,6 +85,15 @@ export default function Giving({ review = false }: { review?: boolean }) {
   useEffect(() => {
     void Promise.resolve().then(load);
   }, [page, review]); // eslint-disable-line react-hooks/exhaustive-deps
+  // The list keeps itself fresh while the page is open; nothing to press.
+  const refresh = useRef(load);
+  useEffect(() => {
+    refresh.current = load;
+  });
+  useEffect(() => {
+    const timer = setInterval(() => void refresh.current(), 60000);
+    return () => clearInterval(timer);
+  }, []);
   async function submit() {
     setBusy(true);
     try {
@@ -318,7 +327,6 @@ export default function Giving({ review = false }: { review?: boolean }) {
       {items.length === 20 && (
         <TextAction title={tr("Next")} onPress={() => setPage(page + 1)} />
       )}
-      <TextAction title={tr("Refresh")} onPress={() => void load()} />
     </Screen>
   );
 }

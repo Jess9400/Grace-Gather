@@ -20,8 +20,10 @@ export type ThreadMessage = {
   id: string;
   body: string;
   mine: boolean;
-  created_at: string;
+  created_at?: string;
   name?: string;
+  // A short line under the words, e.g. that a message is still being checked.
+  note?: string;
 };
 
 // One conversation, for a group room or a friend: a tinted header, bubbles
@@ -45,6 +47,7 @@ export default function ChatThread({
   olderLabel,
   actionsHint,
   renderActions,
+  renderOwnActions,
   notice,
   extraNotice,
   composer,
@@ -76,6 +79,8 @@ export default function ChatThread({
   // What tapping someone else's message offers, and the controls for it.
   actionsHint: string;
   renderActions: (message: ThreadMessage, close: () => void) => ReactNode;
+  // The same for your own messages (e.g. delete); without it they are not tappable.
+  renderOwnActions?: (message: ThreadMessage, close: () => void) => ReactNode;
   notice: string;
   extraNotice?: string;
   // Shown in place of the message box, e.g. choosing a public name first.
@@ -93,7 +98,8 @@ export default function ChatThread({
     [menuOpen, setMenuOpen] = useState(false),
     [selected, setSelected] = useState<string | null>(null);
   const newest = messages.at(-1)?.id;
-  const when = (iso: string) =>
+  const when = (iso?: string) =>
+    iso &&
     new Date(iso).toLocaleString(locale, {
       month: "short",
       day: "numeric",
@@ -189,23 +195,56 @@ export default function ChatThread({
             const name = m.name || peerName || "";
             if (m.mine) {
               const mine = m.name || myName || "";
-              return (
-                <View key={m.id} style={s.mineRow}>
-                  <View style={[s.bubble, s.mine]}>
-                    {!!mine && <Text style={s.myName}>{mine}</Text>}
-                    <Text selectable style={[s.text, { color: colors.paper }]}>
-                      {m.body}
-                    </Text>
+              const bubble = (
+                <>
+                  {!!mine && <Text style={s.myName}>{mine}</Text>}
+                  <Text
+                    selectable={!renderOwnActions}
+                    style={[s.text, { color: colors.paper }]}
+                  >
+                    {m.body}
+                  </Text>
+                  {!!m.note && <Text style={s.myNote}>{m.note}</Text>}
+                  {!!m.created_at && (
                     <Text style={[s.time, { color: "#D8CDB9" }]}>
                       {when(m.created_at)}
                     </Text>
+                  )}
+                </>
+              );
+              return (
+                <View key={m.id} style={{ gap: 6 }}>
+                  <View style={s.mineRow}>
+                    {renderOwnActions ? (
+                      <Pressable
+                        accessibilityRole="button"
+                        accessibilityLabel={`${mine}: ${m.body}`}
+                        accessibilityState={{ expanded: selected === m.id }}
+                        onPress={() =>
+                          setSelected(selected === m.id ? null : m.id)
+                        }
+                        style={[s.bubble, s.mine]}
+                      >
+                        {bubble}
+                      </Pressable>
+                    ) : (
+                      <View style={[s.bubble, s.mine]}>{bubble}</View>
+                    )}
+                    {!!mine && (
+                      <View
+                        accessible={false}
+                        style={[
+                          s.avatar,
+                          { backgroundColor: avatarColor(mine) },
+                        ]}
+                      >
+                        <Text style={s.avatarText}>{initial(mine)}</Text>
+                      </View>
+                    )}
                   </View>
-                  {!!mine && (
-                    <View
-                      accessible={false}
-                      style={[s.avatar, { backgroundColor: avatarColor(mine) }]}
-                    >
-                      <Text style={s.avatarText}>{initial(mine)}</Text>
+                  {selected === m.id && renderOwnActions && (
+                    <View style={[s.actions, s.ownActions]}>
+                      {renderOwnActions(m, () => setSelected(null))}
                     </View>
                   )}
                 </View>
@@ -230,7 +269,9 @@ export default function ChatThread({
                   >
                     {!!m.name && <Text style={s.name}>{m.name}</Text>}
                     <Text style={s.text}>{m.body}</Text>
-                    <Text style={s.time}>{when(m.created_at)}</Text>
+                    {!!m.created_at && (
+                      <Text style={s.time}>{when(m.created_at)}</Text>
+                    )}
                   </Pressable>
                 </View>
                 {selected === m.id && (
@@ -363,6 +404,13 @@ const s = StyleSheet.create({
   mine: { backgroundColor: colors.ink, borderBottomRightRadius: 6 },
   name: { fontSize: 12, fontWeight: "700", color: colors.goldInk },
   myName: { fontSize: 12, fontWeight: "700", color: "#E9C98A" },
+  myNote: {
+    fontSize: 12,
+    lineHeight: 17,
+    color: "#E9C98A",
+    fontStyle: "italic",
+  },
+  ownActions: { marginLeft: 0, marginRight: 38 },
   text: { fontSize: 15, lineHeight: 22, color: colors.ink },
   time: { fontSize: 11, lineHeight: 15, color: colors.muted },
   actions: {

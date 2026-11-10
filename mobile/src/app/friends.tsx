@@ -1,5 +1,5 @@
-import { useCallback, useRef, useState } from "react";
-import { router, useFocusEffect } from "expo-router";
+import { useCallback, useState } from "react";
+import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import {
@@ -14,15 +14,23 @@ import {
 } from "../components/quiet-ui";
 import { TextAction, Disclosure } from "../components/CommunityControls";
 import ChatThread from "../components/ChatThread";
-import GroupChats, { GroupRoom } from "../components/GroupChats";
+import Discussions, {
+  DiscussionRoom,
+  StartDiscussion,
+} from "../components/Discussions";
 import { useApp } from "../lib/state";
 import { useCommunity } from "../lib/discussion-state";
 import { friends, type Friend, type Message } from "../lib/friends";
 import { friendCopy } from "../lib/friends-copy";
-import type { GroupChat } from "../lib/group-chats";
+import { discussionVerseId, getReadingVerse } from "../lib/bible";
+import {
+  clearStudyDiscussionTopic,
+  getStudyDiscussionTopic,
+} from "../lib/study-discussion-draft";
 import { avatarColor, initial } from "../lib/people-theme";
 
-// "Your people": group chats anyone can write in, and 1:1 chats with friends.
+// "Your people": discussions anyone can start and join, and 1:1 chats with
+// friends. Every link to discussions in the app leads here.
 export default function Friends() {
   const { userId, moderator } = useCommunity();
   return (
@@ -59,18 +67,24 @@ function FriendsScreen({
   const [reports, setReports] = useState<
     { id: string; body: string; reason: string }[] | null
   >(null);
-  // Two kinds of chat live here. Group chats come first; if they are not set
-  // up yet the screen opens on friends, unless the person already chose a tab.
-  const [view, setView] = useState<"groups" | "friends">("groups"),
-    [room, setRoom] = useState<{
-      chat: GroupChat;
-      myName: string | null;
-    } | null>(null),
+  // A verse's "Open a public discussion" and Bible study arrive with a verse
+  // and/or compose=1; a link to one discussion arrives with its id.
+  const params = useLocalSearchParams<{
+    verse?: string;
+    compose?: string;
+    topic?: string;
+  }>();
+  const linkedVerse = params.verse ? discussionVerseId(params.verse) : null,
+    reading = linkedVerse ? getReadingVerse(linkedVerse) : null;
+  const [verse, setVerse] = useState(
+    linkedVerse && reading
+      ? { id: linkedVerse, reference: reading.reference }
+      : null,
+  );
+  const [view, setView] = useState<"discussions" | "friends">("discussions"),
+    [topic, setTopic] = useState<string | null>(params.topic ?? null),
+    [starting, setStarting] = useState(params.compose === "1"),
     [finding, setFinding] = useState(false);
-  const chose = useRef(false);
-  const groupsUnavailable = useCallback(() => {
-    if (!chose.current) setView("friends");
-  }, []);
   const load = useCallback(async () => {
     const data = await friends("list");
     setLinks(data.links);
@@ -186,12 +200,35 @@ function FriendsScreen({
         <Button title={c("Sign in")} onPress={() => router.push("/sign-in")} />
       </Screen>
     );
-  if (room)
+  // Discussions use the same public name as friend search; choosing one here
+  // never makes anyone findable.
+  const saveName = (next: string) =>
+    run(async () => {
+      await act("directory", { name: next, discoverable });
+      setName(next);
+    });
+  if (starting)
     return (
-      <GroupRoom
-        chat={room.chat}
-        initialName={room.myName}
-        onBack={() => setRoom(null)}
+      <StartDiscussion
+        myName={hasName ? name : ""}
+        onSaveName={saveName}
+        initialTitle={getStudyDiscussionTopic()}
+        verse={verse}
+        onBack={() => setStarting(false)}
+        onDone={() => {
+          clearStudyDiscussionTopic();
+          setStarting(false);
+          setView("discussions");
+        }}
+      />
+    );
+  if (topic)
+    return (
+      <DiscussionRoom
+        topicId={topic}
+        myName={hasName ? name : ""}
+        onSaveName={saveName}
+        onBack={() => setTopic(null)}
       />
     );
   if (active)
@@ -293,7 +330,7 @@ function FriendsScreen({
       <View accessibilityRole="tablist" style={s.tabs}>
         {(
           [
-            ["groups", "Group chats"],
+            ["discussions", "Discussions"],
             ["friends", "Friends"],
           ] as const
         ).map(([id, title]) => (
@@ -302,7 +339,6 @@ function FriendsScreen({
             accessibilityRole="tab"
             accessibilityState={{ selected: view === id }}
             onPress={() => {
-              chose.current = true;
               setNotice("");
               setView(id);
             }}
@@ -314,11 +350,12 @@ function FriendsScreen({
           </Pressable>
         ))}
       </View>
-      {view === "groups" ? (
-        <GroupChats
-          moderator={moderator}
-          onOpen={(chat, myName) => setRoom({ chat, myName })}
-          onUnavailable={groupsUnavailable}
+      {view === "discussions" ? (
+        <Discussions
+          verse={verse}
+          onClearVerse={() => setVerse(null)}
+          onOpen={setTopic}
+          onStart={() => setStarting(true)}
         />
       ) : (
         <>

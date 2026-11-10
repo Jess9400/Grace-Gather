@@ -1,7 +1,12 @@
 import { friendCopy } from "../../lib/friends-copy";
 import { communityCopy } from "../../lib/community-copy";
-import { useEffect, useState } from "react";
-import { router, useLocalSearchParams } from "expo-router";
+import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  Redirect,
+  router,
+  useFocusEffect,
+  useLocalSearchParams,
+} from "expo-router";
 import { View } from "react-native";
 import {
   Screen,
@@ -16,7 +21,6 @@ import { FilterStrip, TextAction } from "../../components/CommunityControls";
 import DiscoverPost from "../../components/DiscoverPost";
 import { useApp } from "../../lib/state";
 import { useDiscover, useInteractions } from "../../lib/discover";
-import Community from "../community";
 import { useInterfaceCopy } from "../../lib/use-interface-copy";
 export default function Explore() {
   const tr = useInterfaceCopy();
@@ -32,6 +36,25 @@ export default function Explore() {
     const timer = setTimeout(() => setQuery(search), 300);
     return () => clearTimeout(timer);
   }, [search]);
+  // Discover keeps itself fresh: it reloads when you come back to it and every
+  // two minutes, unless you have scrolled further down the list.
+  const latest = useRef(feed);
+  useEffect(() => {
+    latest.current = feed;
+  });
+  const visited = useRef(false);
+  useFocusEffect(
+    useCallback(() => {
+      const fresh = () => {
+        const now = latest.current;
+        if (!now.loading && now.items.length <= 15) void now.load();
+      };
+      if (visited.current) fresh();
+      visited.current = true;
+      const timer = setInterval(fresh, 120000);
+      return () => clearInterval(timer);
+    }, []),
+  );
   const sections = (
     <FilterStrip
       options={[
@@ -39,7 +62,10 @@ export default function Explore() {
         { value: "discussions", label: tr("Discussions") },
       ]}
       value={category === "discussions" ? "discussions" : "all"}
-      onChange={(value) => router.setParams({ category: value, compose: "" })}
+      onChange={(value) => {
+        // Discussions live in one place: Your people, on Gather.
+        if (value === "discussions") router.push("/friends");
+      }}
     />
   );
   const discoverHeader = (
@@ -70,21 +96,9 @@ export default function Explore() {
       {sections}
     </>
   );
-  if (category === "discussions")
-    return <Community header={discoverHeader} search={query} feed />;
+  if (category === "discussions") return <Redirect href="/friends" />;
   return (
-    <Screen
-      place="window"
-      headerAction={
-        <TextAction
-          icon="refresh-outline"
-          iconOnly
-          title={c("retry")}
-          disabled={feed.loading}
-          onPress={() => void feed.load()}
-        />
-      }
-    >
+    <Screen place="window">
       {discoverHeader}
       <View
         style={{

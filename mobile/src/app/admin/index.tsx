@@ -5,7 +5,7 @@ import { TextAction } from "../../components/CommunityControls";
 import { requireUser, backend } from "../../lib/backend";
 import { useInterfaceCopy } from "../../lib/use-interface-copy";
 import Giving from "../giving";
-import Community from "../community";
+import Community from "../../components/CommunityBoard";
 import PrayerPage from "../../components/PrayerPage";
 import TestimonyReview from "../testimonies/review";
 import Confession from "../(tabs)/confession";
