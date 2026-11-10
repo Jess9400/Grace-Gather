@@ -1,11 +1,46 @@
 import { useState } from "react";
 import { View, Text, Pressable } from "react-native";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { TextAction } from "./CommunityControls";
-import { Subheading, colors } from "./community-ui";
+import { Subheading, colors, useSurfaceColors } from "./community-ui";
 import { useApp } from "../lib/state";
 import { copy } from "../lib/content";
 import { Gathering } from "../lib/gatherings";
 import { gatheringTheme } from "../lib/gathering-theme";
+import {
+  type HolyDayId,
+  holyDayCalendar,
+  holyDayIcons,
+  holyDayName,
+  holyDaysForCalendar,
+} from "../lib/holy-days";
+// A feast's small gold mark. The day cell keeps it at a fixed size, like the
+// gathering dot; the list under the grid lets it grow with large text.
+function HolyDayMark({
+  id,
+  size,
+  scales = false,
+  opacity = 1,
+}: {
+  id: HolyDayId;
+  size: number;
+  scales?: boolean;
+  opacity?: number;
+}) {
+  const icon = holyDayIcons[id],
+    shared = {
+      size,
+      color: colors.gold,
+      accessible: false,
+      allowFontScaling: scales,
+      style: { opacity },
+    };
+  return icon.set === "ionicons" ? (
+    <Ionicons name={icon.name} {...shared} />
+  ) : (
+    <MaterialCommunityIcons name={icon.name} {...shared} />
+  );
+}
 export default function GatheringCalendar({
   gatherings,
   selected,
@@ -17,7 +52,8 @@ export default function GatheringCalendar({
 }) {
   const { profile } = useApp(),
     t = (k: string) => copy(profile.language, k),
-    setSelected = onSelect;
+    setSelected = onSelect,
+    surface = useSurfaceColors();
   const [month, setMonth] = useState(
     () => new Date(new Date().getFullYear(), new Date().getMonth(), 1),
   );
@@ -31,6 +67,12 @@ export default function GatheringCalendar({
       today.getMonth(),
       today.getDate(),
     ).getTime();
+  // The tradition chosen at set-up decides which holy days the month shows.
+  // A year is a dozen days of integer arithmetic, so it is simply recomputed.
+  const holyDays = holyDaysForCalendar(
+    holyDayCalendar(profile),
+    month.getFullYear(),
+  ).filter((h) => h.month === month.getMonth() + 1);
   return (
     <View style={{ gap: 8 }}>
       <View
@@ -89,19 +131,23 @@ export default function GatheringCalendar({
             has = !!first,
             on = selected === key(d),
             isToday = key(d) === todayKey,
-            past = d.getTime() < todayStart;
+            past = d.getTime() < todayStart,
+            feasts = holyDays.filter((h) => h.day === day);
           return (
             <View key={i} style={{ width: "14.28%", padding: 2 }}>
               <Pressable
                 accessibilityRole="button"
                 accessibilityState={{ selected: on }}
-                accessibilityLabel={d.toLocaleDateString(profile.language)}
+                accessibilityLabel={[
+                  d.toLocaleDateString(profile.language),
+                  ...feasts.map((h) => holyDayName(h.id, profile.language)),
+                ].join(", ")}
                 onPress={() => setSelected(on ? "" : key(d))}
                 style={{
-                  height: 48,
+                  minHeight: 48,
                   alignItems: "center",
                   justifyContent: "center",
-                  gap: 3,
+                  gap: 2,
                   borderRadius: 14,
                   backgroundColor: on
                     ? colors.green
@@ -112,6 +158,19 @@ export default function GatheringCalendar({
                   borderColor: colors.gold,
                 }}
               >
+                {/* Every cell keeps this slot, so the numbers stay in line. */}
+                <View
+                  accessible={false}
+                  style={{ height: 13, justifyContent: "center" }}
+                >
+                  {!!feasts.length && (
+                    <HolyDayMark
+                      id={feasts[0].id}
+                      size={13}
+                      opacity={past && !on ? 0.6 : 1}
+                    />
+                  )}
+                </View>
                 <Text
                   style={{
                     fontSize: 15,
@@ -144,6 +203,61 @@ export default function GatheringCalendar({
           );
         })}
       </View>
+      {!!holyDays.length && (
+        <View
+          style={{
+            gap: 6,
+            paddingTop: 10,
+            borderTopWidth: 1,
+            borderTopColor: surface.line,
+          }}
+        >
+          {holyDays.map((h) => {
+            const name = holyDayName(h.id, profile.language);
+            return (
+              <View
+                key={h.id}
+                style={{
+                  flexDirection: "row",
+                  alignItems: "flex-start",
+                  gap: 8,
+                }}
+              >
+                {/* One line tall, so the mark stays by a wrapped name's day. */}
+                <View
+                  style={{
+                    minWidth: 18,
+                    minHeight: 20,
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <HolyDayMark id={h.id} size={15} scales />
+                </View>
+                <Text
+                  accessibilityLabel={`${new Date(
+                    h.year,
+                    h.month - 1,
+                    h.day,
+                  ).toLocaleDateString(profile.language, {
+                    day: "numeric",
+                    month: "long",
+                  })}, ${name}`}
+                  style={{
+                    flex: 1,
+                    fontSize: 14,
+                    lineHeight: 20,
+                    color: surface.ink,
+                  }}
+                >
+                  <Text style={{ fontWeight: "700" }}>{h.day}</Text>
+                  {" · " + name}
+                </Text>
+              </View>
+            );
+          })}
+        </View>
+      )}
     </View>
   );
 }
