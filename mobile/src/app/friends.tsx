@@ -1,4 +1,5 @@
 import { useCallback, useState } from "react";
+import GroupChats from "../components/GroupChats";
 import { router, useFocusEffect } from "expo-router";
 import { View, Pressable } from "react-native";
 import {
@@ -9,6 +10,8 @@ import {
   Button,
   Card,
   Notice,
+  Chip,
+  Row,
 } from "../components/quiet-ui";
 import { TextAction, Disclosure } from "../components/CommunityControls";
 import { useApp } from "../lib/state";
@@ -54,6 +57,9 @@ function FriendsScreen({
   const [reports, setReports] = useState<
     { id: string; body: string; reason: string }[] | null
   >(null);
+  // Two kinds of chat live here: 1:1 with friends, and open group rooms.
+  const [view, setView] = useState<"friends" | "groups">("friends"),
+    [room, setRoom] = useState(false);
   const load = useCallback(async () => {
     const data = await friends("list");
     setLinks(data.links);
@@ -143,16 +149,35 @@ function FriendsScreen({
   if (!signedIn)
     return (
       <Screen back>
-        <Heading>{c("Friends & chats")}</Heading>
+        <Heading>{c("Your people")}</Heading>
         <Body>{c("Sign in to find friends and chat.")}</Body>
         <Button title={c("Sign in")} onPress={() => router.push("/account")} />
       </Screen>
     );
   return (
     <Screen back>
-      <Heading>{active ? active.name : c("Friends & chats")}</Heading>
-      <Notice text={notice ? c(notice) : ""} />
-      {active ? (
+      <Heading>{active ? active.name : c("Your people")}</Heading>
+      {!active && !room && (
+        <Row>
+          <Chip
+            title={c("Friends")}
+            selected={view === "friends"}
+            onPress={() => setView("friends")}
+          />
+          <Chip
+            title={c("Group chats")}
+            selected={view === "groups"}
+            onPress={() => {
+              setNotice("");
+              setView("groups");
+            }}
+          />
+        </Row>
+      )}
+      {view === "friends" && <Notice text={notice ? c(notice) : ""} />}
+      {view === "groups" ? (
+        <GroupChats moderator={moderator} onRoom={setRoom} />
+      ) : active ? (
         <>
           <TextAction
             icon="chevron-back"
