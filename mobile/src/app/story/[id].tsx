@@ -8,6 +8,7 @@ import {
   TextInput,
   Pressable,
   Platform,
+  Linking,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { CelestialAvatar } from "../../components/MemberAvatar";
@@ -25,7 +26,7 @@ import {
   colors,
 } from "../../components/community-ui";
 import { StoryActions } from "../../components/DiscoverPost";
-import { TextAction } from "../../components/CommunityControls";
+import { Disclosure, TextAction } from "../../components/CommunityControls";
 import { useApp } from "../../lib/state";
 import { copy, data } from "../../lib/content";
 import { label } from "../../lib/labels";
@@ -56,16 +57,20 @@ export default function Story() {
   const [item, setItem] = useState<StoryData | null>(null),
     [loading, setLoading] = useState(true),
     [related, setRelated] = useState<StoryData[]>([]),
-    [readError, setReadError] = useState("");
+    [readError, setReadError] = useState(""),
+    [publisherPages, setPublisherPages] = useState<string[]>([]),
+    [publisherLoading, setPublisherLoading] = useState(false),
+    [publisherError, setPublisherError] = useState(false),
+    [publisherRetry, setPublisherRetry] = useState(0);
   const [comments, setComments] = useState<Comment[]>([]),
     [uid, setUid] = useState(""),
     [commentError, setCommentError] = useState(""),
     [body, setBody] = useState(""),
     [alias, setAlias] = useState(profile.name),
-    [agree, setAgree] = useState(false),
     [notice, setNotice] = useState(""),
+    [editAlias, setEditAlias] = useState(!profile.name),
     [commentMenu, setCommentMenu] = useState<string | null>(null),
-    [showGuidelines, setShowGuidelines] = useState(false),
+    [storyReportNotice, setStoryReportNotice] = useState(""),
     [report, setReport] = useState<{ comment: string | null } | null>(null),
     [busy, setBusy] = useState(false);
   const interactions = useInteractions([id]),
@@ -157,15 +162,53 @@ export default function Story() {
     });
     return () => s?.data.subscription.unsubscribe();
   }, [loadStory, reloadComments]);
-  async function act(fn: () => Promise<void>) {
+  useEffect(() => {
+    let active = true;
+    if (!backend || item?.origin !== "publisher" || item.id !== id) return;
+    const client = backend;
+    void Promise.resolve()
+      .then(() => {
+        if (!active) return null;
+        setPublisherPages([]);
+        setPublisherError(false);
+        setPublisherLoading(true);
+        return client.functions.invoke("story-reader", { body: { id } });
+      })
+      .then((result) => {
+        if (!active || !result) return;
+        const { data, error } = result;
+        if (
+          error ||
+          !Array.isArray(data?.pages) ||
+          !data.pages.length ||
+          !data.pages.every((page: unknown) => typeof page === "string")
+        ) {
+          setPublisherError(true);
+        } else {
+          setPublisherPages(data.pages);
+        }
+      })
+      .catch(() => {
+        if (active) setPublisherError(true);
+      })
+      .finally(() => {
+        if (active) setPublisherLoading(false);
+      });
+    return () => {
+      active = false;
+    };
+  }, [id, item?.id, item?.origin, publisherRetry]);
+  async function act(fn: () => Promise<void>, isStoryReport = false) {
     setBusy(true);
     setNotice("");
+    if (isStoryReport) setStoryReportNotice("");
     try {
       await fn();
       await reloadComments();
       await interactions.reload();
     } catch {
-      setNotice(c("actionError"));
+      if (isStoryReport) setStoryReportNotice(c("actionError"));
+      else setNotice(c("actionError"));
     } finally {
       setBusy(false);
     }
@@ -173,11 +216,12 @@ export default function Story() {
   function reportForm(commentId: string | null) {
     return (
       <Card>
-        <Subheading>{l("report")}</Subheading>
+        <Text style={{ fontSize: 16, fontWeight: "600", color: colors.ink }}>
+          {l("report")}
+        </Text>
         {["abuse", "harm", "spam", "rights", "other"].map((reason) => (
-          <Button
+          <TextAction
             key={reason}
-            secondary
             disabled={busy}
             title={c(reason)}
             onPress={() =>
@@ -191,12 +235,13 @@ export default function Story() {
                 });
                 if (result.error) throw result.error;
                 setReport(null);
-                setNotice(l("reported"));
-              })
+                if (commentId === null) setStoryReportNotice(l("reported"));
+                else setNotice(l("reported"));
+              }, commentId === null)
             }
           />
         ))}
-        <Button secondary title={t("cancel")} onPress={() => setReport(null)} />
+        <TextAction title={t("cancel")} onPress={() => setReport(null)} />
       </Card>
     );
   }
@@ -228,14 +273,17 @@ export default function Story() {
       <Body small>
         {item.origin === "community"
           ? c("communityTestimony")
-          : item.origin === "news"
-            ? c("news")
-            : item.origin === "editorial"
-              ? c("editorial")
-              : item.type === "stories"
-                ? c("historical")
-                : c("reflection")}{" "}
+          : item.origin === "publisher"
+            ? c("publisherStory")
+            : item.origin === "news"
+              ? c("news")
+              : item.origin === "editorial"
+                ? c("editorial")
+                : item.type === "stories"
+                  ? c("historical")
+                  : c("reflection")}{" "}
         · {item.source}
+        {item.origin === "publisher" && item.author ? ` · ${item.author}` : ""}
       </Body>
       {(!item.title?.[profile.language] ||
         !item.summary?.[profile.language] ||
@@ -271,28 +319,57 @@ export default function Story() {
       {item.origin === "community" && (
         <Body small>{c("personalExperience")}</Body>
       )}
-      <Card>
-        {item.origin === "community" ? (
-          <Body>{storyText(item.body, profile.language)}</Body>
-        ) : (
-          <>
-            {storyText(item.summary, profile.language) !==
-              storyText(item.body, profile.language) && (
-              <Body>{storyText(item.summary, profile.language)}</Body>
-            )}
-            {storyText(item.body, profile.language)
-              .split(/\n\s*\n/)
-              .filter(Boolean)
-              .map((paragraph, index) => (
-                <Body key={index}>{paragraph}</Body>
+      {item.origin === "publisher" ? (
+        <>
+          {publisherLoading && <Busy />}
+          {publisherError && (
+            <>
+              <Body small>{c("publisherUnavailable")}</Body>
+              <TextAction
+                title={l("retry")}
+                onPress={() => setPublisherRetry((n) => n + 1)}
+              />
+            </>
+          )}
+          {publisherPages.length > 0 && (
+            <Card>
+              {publisherPages.map((page, index) => (
+                <Body key={index}>{page}</Body>
               ))}
-          </>
-        )}
-      </Card>
-      {!!item.reflection && <Body>{item.reflection}</Body>}
-      {item.origin !== "community" && !item.reflection && (
-        <Body small>{c("reflectionQuestion")}</Body>
+            </Card>
+          )}
+          {!!item.url &&
+            /^https:\/\/christianfaithstories\.org\/wp-content\/uploads\/\d{4}\/\d{2}\/[a-z0-9%._-]+\.pdf$/i.test(
+              item.url,
+            ) && (
+              <TextAction
+                title={c("openOriginal")}
+                icon="open-outline"
+                onPress={() => void Linking.openURL(item.url!)}
+              />
+            )}
+        </>
+      ) : (
+        <Card>
+          {item.origin === "community" ? (
+            <Body>{storyText(item.body, profile.language)}</Body>
+          ) : (
+            <>
+              {storyText(item.summary, profile.language) !==
+                storyText(item.body, profile.language) && (
+                <Body>{storyText(item.summary, profile.language)}</Body>
+              )}
+              {storyText(item.body, profile.language)
+                .split(/\n\s*\n/)
+                .filter(Boolean)
+                .map((paragraph, index) => (
+                  <Body key={index}>{paragraph}</Body>
+                ))}
+            </>
+          )}
+        </Card>
       )}
+      {!!item.reflection && <Body>{item.reflection}</Body>}
       {psalm && (
         <Card>
           <Subheading>{psalm.reference}</Subheading>
@@ -304,35 +381,34 @@ export default function Story() {
           <External title={t("source")} url={psalm.source} />
         </Card>
       )}
-      <StoryActions
-        item={item}
-        interactions={interactions}
-        showComment={false}
-      />
-      <Notice text={interactions.error} />
-      {!!item.resources?.length && (
-        <Card>
-          <Subheading>
+      {item.origin !== "publisher" && !!item.resources?.length && (
+        <View style={{ gap: 2, paddingVertical: 4 }}>
+          <Text
+            style={{ color: colors.muted, fontSize: 13, fontWeight: "600" }}
+          >
             {interfaceCopy(profile.language, "Watch, listen and explore")}
-          </Subheading>
+          </Text>
           {item.resources.map(([kind, title, url]) => (
-            <View key={url} style={{ gap: 4 }}>
-              <Body small>
-                {interfaceCopy(
-                  profile.language,
-                  kind === "watch"
-                    ? "Watch"
-                    : kind === "listen"
-                      ? "Listen"
-                      : kind === "study"
-                        ? "Study"
-                        : kind === "pray"
-                          ? "Prayer"
-                          : "Read",
-                )}
-              </Body>
-              <External title={title} url={url} />
-            </View>
+            <TextAction
+              key={url}
+              icon="open-outline"
+              title={`${interfaceCopy(
+                profile.language,
+                kind === "watch"
+                  ? "Watch"
+                  : kind === "listen"
+                    ? "Listen"
+                    : kind === "study"
+                      ? "Study"
+                      : kind === "pray"
+                        ? "Prayer"
+                        : "Read",
+              )} · ${title}`}
+              onPress={() => {
+                if (/^https:\/\//.test(url) || url.startsWith("mailto:"))
+                  void Linking.openURL(url);
+              }}
+            />
           ))}
           {!!item.license && (
             <>
@@ -348,16 +424,22 @@ export default function Story() {
               {new Date(item.retrievedAt).toLocaleString(profile.language)}
             </Body>
           )}
-        </Card>
+        </View>
       )}
-      <TextAction
-        title={l("report")}
-        icon="flag-outline"
-        onPress={() =>
-          uid ? setReport({ comment: null }) : router.push("/sign-in")
-        }
-      />
-      {report && report.comment === null && reportForm(null)}
+      <View
+        style={{
+          borderTopWidth: 1,
+          borderTopColor: colors.line,
+          paddingTop: 4,
+        }}
+      >
+        <StoryActions
+          item={item}
+          interactions={interactions}
+          showComment={false}
+        />
+      </View>
+      <Notice text={interactions.error} />
       <View
         nativeID="story-comments"
         onLayout={(e) => {
@@ -376,7 +458,7 @@ export default function Story() {
         />
       )}
       {!uid ? (
-        <Button
+        <TextAction
           title={l("signInCommunity")}
           onPress={() => router.push("/sign-in")}
         />
@@ -385,22 +467,33 @@ export default function Story() {
           <View
             style={{ flexDirection: "row", alignItems: "flex-start", gap: 10 }}
           >
-            <CelestialAvatar variant={avatarVariant(uid)} size={36} />
+            <View
+              style={{
+                minWidth: 44,
+                minHeight: 44,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <CelestialAvatar variant={avatarVariant(uid)} size={36} />
+            </View>
             <View style={{ flex: 1, gap: 5 }}>
-              <TextInput
-                accessibilityLabel={t("displayName")}
-                placeholder={t("displayName")}
-                placeholderTextColor={colors.muted}
-                value={alias}
-                onChangeText={setAlias}
-                maxLength={40}
-                style={{
-                  color: colors.ink,
-                  fontSize: 14,
-                  fontWeight: "600",
-                  paddingVertical: 4,
-                }}
-              />
+              {(editAlias || !alias.trim()) && (
+                <TextInput
+                  accessibilityLabel={t("displayName")}
+                  placeholder={t("displayName")}
+                  placeholderTextColor={colors.muted}
+                  value={alias}
+                  onChangeText={setAlias}
+                  maxLength={40}
+                  style={{
+                    color: colors.ink,
+                    fontSize: 14,
+                    fontWeight: "600",
+                    paddingVertical: 4,
+                  }}
+                />
+              )}
               <View
                 style={{
                   flexDirection: "row",
@@ -430,16 +523,13 @@ export default function Story() {
                 <Pressable
                   accessibilityRole="button"
                   accessibilityLabel={t("postComment")}
-                  disabled={busy || !agree || !body.trim() || !alias.trim()}
+                  disabled={busy || !body.trim() || !alias.trim()}
                   style={{
                     width: 44,
                     minHeight: 44,
                     alignItems: "center",
                     justifyContent: "center",
-                    opacity:
-                      busy || !agree || !body.trim() || !alias.trim()
-                        ? 0.35
-                        : 1,
+                    opacity: busy || !body.trim() || !alias.trim() ? 0.35 : 1,
                   }}
                   onPress={() =>
                     void act(async () => {
@@ -462,40 +552,25 @@ export default function Story() {
                   />
                 </Pressable>
               </View>
-              <Pressable
-                accessibilityRole="checkbox"
-                accessibilityState={{ checked: agree }}
-                onPress={() => setAgree(!agree)}
-                style={{
-                  flexDirection: "row",
-                  alignItems: "center",
-                  gap: 7,
-                  minHeight: 40,
-                }}
-              >
-                <Ionicons
-                  name={agree ? "checkbox" : "square-outline"}
-                  size={18}
-                  color={colors.muted}
-                />
-                <Text
-                  style={{ color: colors.muted, fontSize: 13, flexShrink: 1 }}
+              {!!body.trim() && !editAlias && !!alias.trim() && (
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel={`${t("displayName")}: ${alias}`}
+                  onPress={() => setEditAlias(true)}
+                  style={{
+                    alignSelf: "flex-start",
+                    minHeight: 32,
+                    justifyContent: "center",
+                  }}
                 >
-                  {l("agree")}
-                </Text>
-              </Pressable>
-              <TextAction
-                title={c("guidelines")}
-                icon="information-circle-outline"
-                onPress={() => setShowGuidelines(!showGuidelines)}
-              />
-              {showGuidelines && <Body small>{l("communityRules")}</Body>}
+                  <Text style={{ color: colors.muted, fontSize: 12 }}>
+                    {alias} · ✎
+                  </Text>
+                </Pressable>
+              )}
             </View>
           </View>
         </View>
-      )}
-      {uid && !commentError && !comments.length && (
-        <Body small>{c("noComments")}</Body>
       )}
       {comments.map((comment) => (
         <View
@@ -632,6 +707,20 @@ export default function Story() {
             ))}
         </>
       )}
+      <Disclosure title={c("guidelines")}>
+        <Body small>{l("communityRules")}</Body>
+        <TextAction
+          title={l("report")}
+          icon="flag-outline"
+          onPress={() => {
+            setStoryReportNotice("");
+            if (uid) setReport({ comment: null });
+            else router.push("/sign-in");
+          }}
+        />
+        {report && report.comment === null && reportForm(null)}
+        <Notice text={storyReportNotice} />
+      </Disclosure>
     </Screen>
   );
 }

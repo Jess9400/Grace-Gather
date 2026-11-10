@@ -300,6 +300,24 @@ const words: Record<string, string[]> = {
     "Opciones del comentario",
     "Действия с комментарием",
   ],
+  publisherStory: [
+    "Publisher story",
+    "História da fonte",
+    "Historia de la fuente",
+    "История издателя",
+  ],
+  publisherUnavailable: [
+    "Could not load the full story. Try again or open the original.",
+    "Não foi possível carregar a história completa. Tente novamente ou abra o original.",
+    "No se pudo cargar la historia completa. Reintenta o abre el original.",
+    "Не удалось загрузить историю. Повторите попытку или откройте оригинал.",
+  ],
+  openOriginal: [
+    "Open original",
+    "Abrir original",
+    "Abrir original",
+    "Открыть оригинал",
+  ],
   guidelines: [
     "Community guidelines",
     "Diretrizes da comunidade",
