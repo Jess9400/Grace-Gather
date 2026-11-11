@@ -15,6 +15,8 @@ import {
 } from "./quiet-ui";
 import { TextAction } from "./CommunityControls";
 import ChatThread from "./ChatThread";
+import HelpLine from "./HelpLine";
+import { helplineText } from "../lib/help-lines";
 import { useApp } from "../lib/state";
 import { copy, needsSupport } from "../lib/content";
 import { useCommunity } from "../lib/discussion-state";
@@ -359,7 +361,11 @@ export function DiscussionRoom({
       }}
       notice={error ? tr(error) : notice ? c(notice) : ""}
       // Someone writing about harming themselves sees where to find help.
-      extraNotice={support ? copy(lang, "supportDesc") : undefined}
+      extraNotice={
+        support
+          ? `${copy(lang, "supportDesc")} ${helplineText(profile)}`
+          : undefined
+      }
       placeholder={c("Write something kind…")}
       sendLabel={c("Send")}
       maxLength={2000}
@@ -508,6 +514,7 @@ export function StartDiscussion({
               })
             }
           />
+          <HelpLine />
         </>
       ) : (
         <NamePrompt busy={busy} onSave={(name) => void onSaveName(name)} />
