@@ -60,16 +60,16 @@ const words: Record<string, string[]> = {
     "Сейчас не удалось написать личный ответ. Молитва сохранена, а стих ниже выбран по тому, что вы написали.",
   ],
   replyCardTitle: [
-    "A reply written for this prayer",
-    "Uma resposta escrita para esta oração",
-    "Una respuesta escrita para esta oración",
-    "Ответ, написанный для этой молитвы",
+    "Would you like a reply?",
+    "Gostaria de uma resposta?",
+    "¿Te gustaría una respuesta?",
+    "Хотите получить ответ?",
   ],
   replyCardBody: [
-    "Add your email and we’ll write back to what you just shared. Your journal stays on this phone; the email is only for your account.",
-    "Adicione seu e-mail e responderemos ao que você acabou de partilhar. Seu diário continua neste telefone; o e-mail serve apenas para sua conta.",
-    "Añade tu correo y responderemos a lo que acabas de compartir. Tu diario sigue en este teléfono; el correo es solo para tu cuenta.",
-    "Укажите email, и мы ответим на то, чем вы только что поделились. Дневник остаётся на этом телефоне; email нужен только для учётной записи.",
+    "Add your email and a reflection written for this prayer will appear right here. Your journal is still kept only on this phone.",
+    "Adicione seu e-mail e uma reflexão escrita para esta oração aparecerá aqui mesmo. Seu diário continua guardado só neste telefone.",
+    "Añade tu correo y aquí mismo aparecerá una reflexión escrita para esta oración. Tu diario sigue guardado solo en este teléfono.",
+    "Укажите email, и размышление, написанное для этой молитвы, появится прямо здесь. Дневник по-прежнему хранится только на этом телефоне.",
   ],
   replyCardAdd: [
     "Add my email",
@@ -77,7 +77,12 @@ const words: Record<string, string[]> = {
     "Añadir mi correo",
     "Указать email",
   ],
-  replyCardLater: ["Not now", "Agora não", "Ahora no", "Не сейчас"],
+  replyCardLater: [
+    "Maybe later",
+    "Talvez depois",
+    "Quizás más tarde",
+    "Может быть, позже",
+  ],
   replyWriting: [
     "Writing your reply…",
     "Escrevendo sua resposta…",
