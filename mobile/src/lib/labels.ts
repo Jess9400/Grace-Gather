@@ -168,9 +168,9 @@ const rows: Record<string, string[]> = {
   ],
   confirmDelete: [
     "Type DELETE to confirm",
-    "Digite DELETE para confirmar",
-    "Escribe DELETE para confirmar",
-    "Введите DELETE для подтверждения",
+    "Digite EXCLUIR para confirmar",
+    "Escribe BORRAR para confirmar",
+    "Введите УДАЛИТЬ для подтверждения",
   ],
   backup: [
     "Export encrypted backup",

@@ -29,8 +29,8 @@ confession content as test data.
 5. **Languages.** Keep interface and Bible languages independent, and show
    both choices together so the user can deliberately change either. Eliminate
    conflicting tradition controls and preserve unavailable-edition warnings.
-6. **Journal backup and deletion.** Use localized date selection and localized
-   confirmation rather than requiring English text. Test readable exports and
+6. **Journal backup and deletion.** Add localized date selection for exports.
+   Deletion confirmation now uses a word in the selected language. Test readable exports and
    encrypted backup/restore on actual devices and explain that local entries
    are not automatically synchronized. Do not change retention or delete data.
 
