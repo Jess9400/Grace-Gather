@@ -130,6 +130,43 @@ const words = {
     "Terminé de escribir",
     "Я закончил(а) писать",
   ),
+  editingTitle: L(
+    "Editing your prayer",
+    "Editando sua oração",
+    "Editando tu oración",
+    "Вы редактируете молитву",
+  ),
+  editingFrom: L(
+    "Written {date}. Your changes replace this page; the earlier wording is kept.",
+    "Escrita em {date}. Suas alterações substituem esta página; o texto anterior fica guardado.",
+    "Escrita el {date}. Tus cambios reemplazan esta página; el texto anterior se guarda.",
+    "Написано {date}. Изменения заменят эту страницу; прежний текст сохранится.",
+  ),
+  saveChanges: L(
+    "Save changes",
+    "Salvar alterações",
+    "Guardar cambios",
+    "Сохранить изменения",
+  ),
+  cancelEdit: L("Cancel", "Cancelar", "Cancelar", "Отмена"),
+  earlierVersion: L(
+    "See earlier version",
+    "Ver versão anterior",
+    "Ver versión anterior",
+    "Показать прежний текст",
+  ),
+  hideEarlierVersion: L(
+    "Hide earlier version",
+    "Ocultar versão anterior",
+    "Ocultar versión anterior",
+    "Скрыть прежний текст",
+  ),
+  editedOn: L(
+    "Edited {date}",
+    "Editada em {date}",
+    "Editada el {date}",
+    "Изменено {date}",
+  ),
   land: L(
     "What would you like to tell God today?",
     "O que você gostaria de dizer a Deus hoje?",
