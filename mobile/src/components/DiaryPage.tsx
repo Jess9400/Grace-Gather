@@ -11,6 +11,7 @@ import { resolveJournalResponse } from "../lib/journal-response";
 import { q } from "../lib/quiet-copy";
 import { quietMood } from "../generated/quiet-diary";
 import { suggestJourney } from "../lib/ai";
+import { isSignedIn } from "../lib/account";
 import { transcribeRecording } from "../lib/ai-audio";
 import { aiCopy, AI_CONSENT_VERSION } from "../lib/ai-copy";
 export default function Diary() {
@@ -87,6 +88,9 @@ export default function Diary() {
       saving.current = entry.id;
       if (useAI && draft.text.trim() && !safety) {
         try {
+          // Without an account the server cannot reply; the entry page
+          // offers to add an email and then writes the reply.
+          if (!(await isSignedIn())) throw Error("signed_out");
           const result = await suggestJourney(draft.text, profile);
           entry = {
             ...entry,

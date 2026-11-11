@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View } from "react-native";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
@@ -32,14 +32,18 @@ import { interfaceCopy } from "../lib/interface-copy";
 import { TRADITION_QUESTION_VERSION } from "../lib/onboarding";
 import { AI_CONSENT_VERSION } from "../lib/ai-copy";
 import { jc } from "../lib/journal-copy";
+import { backend } from "../lib/backend";
+import { useSignedIn } from "../lib/account";
+import SignInForm from "../components/SignInForm";
 
 const TRADITIONS: Tradition[] = ["catholic", "protestant", "orthodox"];
 const chosen = (p: Profile) =>
   !!p.faithChoice && p.faithChoice !== "unspecified";
 
-// Two short steps: language and tradition (required, they shape the church
-// and the Bible), then an optional name and city. Everything else, including
-// the Bible edition, starts from sensible defaults and lives in Preferences.
+// Short steps: language and tradition (required, they shape the church and
+// the Bible), then an optional name and city, then, when personal replies are
+// on, an optional email so the first prayer can get one. Everything else,
+// including the Bible edition, starts from sensible defaults in Preferences.
 export default function Onboarding() {
   const { profile, saveProfile } = useApp();
   const [p, setP] = useState(profile),
@@ -52,6 +56,13 @@ export default function Onboarding() {
     setP(normalizeProfile({ ...p, ...v }));
   // The Bible that the chosen language and tradition will give them.
   const bible = editionsFor(p).find((e) => e.id === p.edition);
+  const signedIn = useSignedIn();
+  // Ask for an email only when replies are on and there is an account to make.
+  const askEmail =
+    !!backend &&
+    signedIn === false &&
+    p.journalAIConsentVersion === AI_CONSENT_VERSION;
+  const steps = askEmail || step === 2 ? 3 : 2;
 
   async function finish() {
     setBusy(true);
@@ -71,11 +82,19 @@ export default function Onboarding() {
       setBusy(false);
     }
   }
+  // Adding an email on the last step (by code or Apple) finishes onboarding.
+  useEffect(() => {
+    if (step !== 2 || !signedIn) return;
+    const timer = setTimeout(() => void finish(), 0);
+    return () => clearTimeout(timer);
+    // finish reads the latest answers on each render.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [step, signedIn]);
 
   return (
     <Screen>
       <Body small>
-        {t("pStep")} {step + 1} / 2
+        {t("pStep")} {step + 1} / {steps}
       </Body>
       {step === 0 ? (
         <>
@@ -148,6 +167,29 @@ export default function Onboarding() {
             onPress={() => setStep(1)}
           />
         </>
+      ) : step === 2 ? (
+        <>
+          <Heading>{tr("A reply written for you")}</Heading>
+          <Body>
+            {tr(
+              "When you write to God, we can send back a reflection written for what you shared. Add your email to turn this on. Your journal stays on this phone.",
+            )}
+          </Body>
+          <SignInForm language={p.language} />
+          <Notice text={error} />
+          <Button
+            secondary
+            title={tr("Skip for now")}
+            disabled={busy}
+            onPress={() => void finish()}
+          />
+          <Button
+            secondary
+            title={t("pBack")}
+            disabled={busy}
+            onPress={() => setStep(1)}
+          />
+        </>
       ) : (
         <>
           <Heading>{tr("A little about you")}</Heading>
@@ -213,9 +255,9 @@ export default function Onboarding() {
           </Card>
           <Notice text={error} />
           <Button
-            title={tr("Enter the church")}
+            title={askEmail ? t("pContinue") : tr("Enter the church")}
             disabled={busy}
-            onPress={() => void finish()}
+            onPress={() => (askEmail ? setStep(2) : void finish())}
           />
           <Button
             secondary
