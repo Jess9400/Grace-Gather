@@ -35,7 +35,8 @@
     "Publisher introductions, appendix, errata and other non-scriptural front/back matter are excluded."
   ],
   "normalizationNotes": [
-    "The publisher has differing Nehemiah copies in EZR chapters 11-23 and NEH chapters 1-13. This collection consistently uses the combined EZR source: Ezra chapters 1-10 and Nehemiah chapters 1-13 mapped from EZR 11-23. Verse wording and numbering stay as in the combined source; chapter source links preserve the offset. The separate NEH transcription is excluded."
+    "The publisher has differing Nehemiah copies in EZR chapters 11-23 and NEH chapters 1-13. This collection consistently uses the combined EZR source: Ezra chapters 1-10 and Nehemiah chapters 1-13 mapped from EZR 11-23. Verse wording and numbering stay as in the combined source; chapter source links preserve the offset. The separate NEH transcription is excluded.",
+    "Verses whose number sits inside a title (verse 1 of most Psalms, and 15 verses in Isaiah, Jeremiah and Habakkuk) were skipped by the first import. On 2026-11-11 they were restored from the publisher archive with sha256 484a544d237c6b43aaab8abcb97c856f0d9f6c8a5ecd25fae861b56edef9549a; every other verse of those four books was confirmed identical to the pinned import before restoring."
   ],
   "licenseUrl": "https://ebible.org/eng-Brenton/copyright.htm",
   "imported": "2026-11-04",
@@ -360,7 +361,7 @@
       "code": "ISA",
       "name": "Esaias",
       "chapters": 66,
-      "verses": 1279,
+      "verses": 1289,
       "sourceEdition": "Brenton Septuagint, 1851",
       "sourceBookCode": "ISA",
       "sourceChapterOffset": 0,
@@ -375,7 +376,7 @@
       "code": "JER",
       "name": "Jeremias",
       "chapters": 52,
-      "verses": 1295,
+      "verses": 1299,
       "sourceEdition": "Brenton Septuagint, 1851",
       "sourceBookCode": "JER",
       "sourceChapterOffset": 0,
@@ -525,7 +526,7 @@
       "code": "HAB",
       "name": "Ambacum",
       "chapters": 3,
-      "verses": 55,
+      "verses": 56,
       "sourceEdition": "Brenton Septuagint, 1851",
       "sourceBookCode": "HAB",
       "sourceChapterOffset": 0,
@@ -1262,12 +1263,7 @@
   "noteOnlyVerseIds": [
     "PRO.30.1"
   ],
-  "scriptureVerseCount": 37497,
-  "verseCount": 37498,
-  "chapterCount": 1380,
-  "psalmRestorationSource": {
-    "source": "https://ebible.org/Scriptures/eng-Brenton_usfx.zip",
-    "archive_sha256": "484a544d237c6b43aaab8abcb97c856f0d9f6c8a5ecd25fae861b56edef9549a",
-    "note": "Restored missing numbered Psalm passages from a later publisher snapshot; all previously imported Psalm verses matched exactly."
-  }
+  "scriptureVerseCount": 37512,
+  "verseCount": 37513,
+  "chapterCount": 1380
 }

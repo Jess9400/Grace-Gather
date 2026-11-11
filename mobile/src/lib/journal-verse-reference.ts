@@ -8,11 +8,12 @@ import {
 } from "./bible";
 
 // The theme map uses Hebrew/WEB numbering. These are explicit correspondences
-// for its six Psalms, checked against each bundled edition, not chapter offsets.
+// for its seven Psalms, checked against each bundled edition, not chapter offsets.
 const psalms: Record<string, Record<"dra" | "brenton" | "synodal", string>> = {
   "PSA.13.1": { dra: "PSA.12.1", brenton: "PSA.12.2", synodal: "PSA.12.2" },
   "PSA.34.18": { dra: "PSA.33.19", brenton: "PSA.33.19", synodal: "PSA.33.19" },
   "PSA.42.11": { dra: "PSA.41.12", brenton: "PSA.41.12", synodal: "PSA.41.12" },
+  "PSA.62.8": { dra: "PSA.61.9", brenton: "PSA.61.9", synodal: "PSA.61.9" },
   "PSA.116.1": { dra: "PSA.114.1", brenton: "PSA.114.1", synodal: "PSA.114.1" },
   "PSA.139.23": {
     dra: "PSA.138.23",
@@ -50,8 +51,7 @@ export function journalScripture(
   const id = journalVerseId(collection, reference);
   if (!id) return null;
   const verse = getReadingVerse(id);
-  if (verse?.text) return verse;
-  return null;
+  return verse?.text ? verse : null;
 }
 
 // The theme reference a displayed verse stands for, or undefined when the verse

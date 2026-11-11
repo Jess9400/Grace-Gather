@@ -57,7 +57,7 @@ test('original spelling is kept, not modernised', () => {
 test('every journal theme has its verse in each Catholic passage edition, from the scans', () => {
   const map = JSON.parse(readFileSync(root + 'mobile/src/generated/journal-map.json', 'utf8'));
   // Hebrew-based Psalm and Matthew 5 numbers, as each Vulgate edition prints them.
-  const vulgate = { 'PSA.42.11': '41:12', 'PSA.13.1': '12:1', 'PSA.34.18': '33:19', 'PSA.147.3': '146:3', 'PSA.116.1': '114:1', 'PSA.139.23': '138:23', 'MAT.5.4': '5:5' };
+  const vulgate = { 'PSA.42.11': '41:12', 'PSA.13.1': '12:1', 'PSA.34.18': '33:19', 'PSA.147.3': '146:3', 'PSA.116.1': '114:1', 'PSA.139.23': '138:23', 'PSA.62.8': '61:9', 'MAT.5.4': '5:5' };
   for (const id of Object.keys(editions)) {
     const edition = catalog.editions.find((e) => e.id === id);
     const verses = [...edition.passages, ...edition.journalVerses];

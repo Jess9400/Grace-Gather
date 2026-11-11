@@ -42,6 +42,15 @@ export function journalTheme(entry: Entry) {
   );
   if (!match && hopelessWriting(text))
     return map.find((t) => t.id === "hopelessness")!;
+  // Thanks comes after every hard theme and hopelessness, so a difficult
+  // moment written with "thank you" still finds the theme it needs.
+  if (
+    !match &&
+    /thank|grateful|gratitude|obrigad|agradeç|grat[oa]\b|gracias|agradec|спасибо|благодар/.test(
+      text,
+    )
+  )
+    return map.find((t) => t.id === "gratitude")!;
   const defaults: Record<Mood, string> = {
     sad: "sadness",
     lonely: "lonely",

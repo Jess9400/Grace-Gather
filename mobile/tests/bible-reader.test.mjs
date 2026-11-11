@@ -190,3 +190,15 @@ test('passage-only Catholic Bibles give the journal their own wording of each th
   assert.equal(reader.themeVerse({ ...prefs('figueiredo', 'pt'), tradition: 'protestant' }, '1JN.1.9'), null);
   assert.equal(reader.themeVerse(prefs('torresamat', 'es'), 'GEN.1.1'), null);
 });
+
+test('every Orthodox psalm keeps its first verse, title included, as the publisher numbers it', () => {
+  const psalms = JSON.parse(readFileSync(resolve(root, 'mobile/src/generated/bible-brenton/PSA.json'), 'utf8')).chapters;
+  for (const [chapter, verses] of Object.entries(psalms)) {
+    // Psalms 115 and 144 keep the publisher's own labels (such as 4a) later on.
+    assert.equal(verses[0].number, '1', `Brenton Psalm ${chapter}`);
+  }
+  assert.match(psalms['22'][0].text, /The Lord tends me as a shepherd, and I shall want nothing\./);
+  assert.match(psalms['26'][0].text, /The Lord is my light/);
+  const habakkuk = JSON.parse(readFileSync(resolve(root, 'mobile/src/generated/bible-brenton/HAB.json'), 'utf8')).chapters;
+  assert.match(habakkuk['3'][0].text, /^A Prayer of the Prophet Ambacum/);
+});

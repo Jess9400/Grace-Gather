@@ -846,6 +846,20 @@
           "reference": "Salmo 138:23 (Figueiredo)",
           "text": "Prova-me, ó Deos, e sonda o meu coração: pergunta-me, e conhece as minhas varedas.",
           "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866/page/n634/mode/1up"
+        },
+        {
+          "id": "figueiredo-deuteronomio-31-8",
+          "verse": "DEU.31.8",
+          "reference": "Deuteronômio 31:8",
+          "text": "E o Senhor que he o vosso conductor, elle mesmo será comtigo: elle te não deixará, nem te desamparará: não temas, nem te assustes.",
+          "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866/page/n223/mode/1up"
+        },
+        {
+          "id": "figueiredo-salmo-61-9",
+          "verse": "PSA.62.8",
+          "reference": "Salmo 61:9 (Figueiredo)",
+          "text": "Esperai nelle toda a congregação do povo, derramai ante elle os vossos corações: Deos he o nosso favorecedor eternamente.",
+          "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866/page/n592/mode/1up"
         }
       ]
     },
@@ -1112,6 +1126,20 @@
           "reference": "Salmo 138:23 (Torres Amat)",
           "text": "Pruébame, oh Dios mio, y sondea mi corazon: examíname y reconoce mis pasos.",
           "sourceUrl": "https://archive.org/details/torresamatbiblia/page/n439/mode/1up"
+        },
+        {
+          "id": "torresamat-deuteronomio-31-8",
+          "verse": "DEU.31.8",
+          "reference": "Deuteronomio 31:8",
+          "text": "Y el Señor que es vuestro caudillo, él mismo será contigo: no te dejará, ni te desamparará: no temas, ni te amedrentes.",
+          "sourceUrl": "https://archive.org/details/torresamatbiblia/page/n142/mode/1up"
+        },
+        {
+          "id": "torresamat-salmo-61-9",
+          "verse": "PSA.62.8",
+          "reference": "Salmo 61:9 (Torres Amat)",
+          "text": "Esperad en él vosotros, pueblos todos aquí congregados: derramad vuestros corazones en su acatamiento: Dios es nuestro protector eternamente.",
+          "sourceUrl": "https://archive.org/details/torresamatbiblia/page/n410/mode/1up"
         }
       ]
     }

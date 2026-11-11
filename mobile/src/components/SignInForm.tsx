@@ -2,15 +2,16 @@ import { useState } from "react";
 import { Body, Button, Field, Notice } from "./quiet-ui";
 import AppleSignIn from "./AppleSignIn";
 import { useApp } from "../lib/state";
-import { copy } from "../lib/content";
+import { copy, type Language } from "../lib/content";
 import { label } from "../lib/labels";
 import { requireBackend } from "../lib/backend";
 
 // Signing in: an emailed code, or Apple where it is available. Used by the
-// sign-in page and by the Account section of Profile.
-export default function SignInForm() {
+// sign-in page, the Account section of Profile, onboarding and the journal.
+export default function SignInForm({ language }: { language?: Language }) {
   const { profile } = useApp(),
-    l = (k: string) => label(profile.language, k);
+    lang = language ?? profile.language,
+    l = (k: string) => label(lang, k);
   const [email, setEmail] = useState(""),
     [code, setCode] = useState(""),
     [sent, setSent] = useState(false),
@@ -23,9 +24,7 @@ export default function SignInForm() {
     try {
       await fn();
     } catch (e) {
-      setNotice(
-        e instanceof Error ? e.message : copy(profile.language, "socialError"),
-      );
+      setNotice(e instanceof Error ? e.message : copy(lang, "socialError"));
     } finally {
       setBusy(false);
     }

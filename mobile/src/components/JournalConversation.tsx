@@ -28,7 +28,7 @@ import {
   partitionJournalMessages,
 } from "../lib/journal-chat";
 import { journalCopy } from "../lib/journal-library-copy";
-import { useJournalAccount } from "../lib/use-journal-account";
+import { useSignedIn } from "../lib/account";
 import JournalActionButton from "./JournalActionButton";
 export default function JournalConversation({
   entry,
@@ -48,7 +48,6 @@ export default function JournalConversation({
     [error, setError] = useState("");
   const [focused, setFocused] = useState(false);
   const [needsSignIn, setNeedsSignIn] = useState(false);
-  const signedIn = useJournalAccount();
   const [open, setOpen] = useState(false);
   const [olderOpen, setOlderOpen] = useState(false);
   const [scrollKey, setScrollKey] = useState<string>();
@@ -57,6 +56,9 @@ export default function JournalConversation({
     messages = entry.conversation ?? [];
   const pending = messages.at(-1)?.role === "user";
   const enabled = profile.journalAIConsentVersion === AI_CONSENT_VERSION;
+  // Replies need an account; say so before someone types, not after.
+  const signedIn = useSignedIn();
+  const needsEmail = !!backend && enabled && signedIn === false;
   const full = messages.length >= JOURNAL_MESSAGE_LIMIT;
   const { older, recent } = partitionJournalMessages(messages);
   const renderMessage = (m: (typeof messages)[number]) => (
@@ -80,12 +82,12 @@ export default function JournalConversation({
   );
   async function send() {
     if (lock.current || full || (!pending && !text.trim())) return;
-    if (!backend || !enabled) {
-      setError(chatCopy(lang, !backend ? "local" : "consent"));
+    if (needsEmail) {
+      router.push("/sign-in");
       return;
     }
-    if (signedIn !== true) {
-      if (signedIn === false) setNeedsSignIn(true);
+    if (!backend || !enabled) {
+      setError(chatCopy(lang, !backend ? "local" : "consent"));
       return;
     }
     lock.current = true;
@@ -146,7 +148,7 @@ export default function JournalConversation({
       lock.current = false;
     }
   }
-  const unavailable = full || (!!backend && signedIn !== true);
+  const unavailable = full;
   const composer = entry.safety ? undefined : (
     <View style={s.dock}>
       {details && <Text style={s.meta}>{chatCopy(lang, "privacy")}</Text>}
@@ -202,7 +204,7 @@ export default function JournalConversation({
             onChangeText={setText}
             onFocus={() => setFocused(true)}
             onBlur={() => setFocused(false)}
-            editable={!busy && !pending && !full && (!backend || signedIn === true)}
+            editable={!busy && !pending && !full}
             style={s.input}
           />
           <Pressable
@@ -236,6 +238,8 @@ export default function JournalConversation({
               ? ""
               : !backend
                 ? chatCopy(lang, "local")
+                : needsEmail
+                  ? chatCopy(lang, "emailFirst")
                 : full
                   ? chatCopy(lang, "limit")
                   : !enabled
@@ -257,7 +261,13 @@ export default function JournalConversation({
         </Pressable>
       </View>
       <Notice text={error} />
-      {(needsSignIn || (!!backend && signedIn === false)) && (
+      {needsEmail && (
+        <TextAction
+          title={chatCopy(lang, "addEmail")}
+          onPress={() => router.push("/sign-in")}
+        />
+      )}
+      {needsSignIn && (
         <TextAction
           title={chatCopy(lang, "signin")}
           onPress={() => {
