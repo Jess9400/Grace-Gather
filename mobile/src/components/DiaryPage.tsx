@@ -46,6 +46,7 @@ export default function Diary() {
       passageIds: undefined,
       actionIds: undefined,
       aiUnavailable: undefined,
+      aiDailyLimitReached: undefined,
       id: draft.entryId ?? randomUUID(),
       createdAt: draft.createdAt,
       text: draft.text,
@@ -80,8 +81,14 @@ export default function Diary() {
             suggestedAction: result.suggestedAction,
             suggestedActionExplanation: result.actionExplanation,
           };
-        } catch {
-          entry = { ...entry, aiUnavailable: true };
+        } catch (error) {
+          entry = {
+            ...entry,
+            aiUnavailable: true,
+            aiDailyLimitReached:
+              error instanceof Error &&
+              error.message === "daily_reflection_limit",
+          };
         }
         await saveEntry(entry, true);
       }
@@ -162,6 +169,10 @@ export default function Diary() {
           {q(lang, "words")}
         </Text>
       </View>
+      {Platform.OS !== "web" && (
+        <Text style={s.dictation}>{aiCopy(lang, "dictation")}</Text>
+      )}
+      {useAI && <Text style={s.dictation}>{aiCopy(lang, "freeAllowance")}</Text>}
       <Notice text={error} />
       <Button
         title={busy ? aiCopy(lang, "working") : q(lang, "done")}
@@ -215,4 +226,5 @@ const s = StyleSheet.create({
     textAlign: "right",
     marginTop: 15,
   },
+  dictation: { color: colors.muted, fontSize: 12, lineHeight: 18 },
 });

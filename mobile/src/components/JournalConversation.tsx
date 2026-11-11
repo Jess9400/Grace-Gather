@@ -128,7 +128,9 @@ export default function JournalConversation({
       setError(
         chatCopy(
           lang,
-          error instanceof Error && error.message === "rate_limited"
+          error instanceof Error && error.message === "daily_chat_limit"
+            ? "dailyLimit"
+            : error instanceof Error && error.message === "rate_limited"
             ? "rateLimit"
             : error instanceof Error && error.message === "provider_busy"
               ? "providerBusy"

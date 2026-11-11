@@ -1,5 +1,23 @@
 import type { Language } from "./content";
 const words = {
+  freeAllowance: [
+    "One free reflection and two follow-up replies each day. You can always write.",
+    "Uma reflexão gratuita e duas respostas por dia. Você pode escrever sempre que quiser.",
+    "Una reflexión gratuita y dos respuestas al día. Puedes escribir siempre que quieras.",
+    "Одно бесплатное размышление и два ответа в день. Писать можно в любое время.",
+  ],
+  dictation: [
+    "To dictate, use the microphone on your keyboard, if available.",
+    "Para ditar, use o microfone do teclado, se disponível.",
+    "Para dictar, usa el micrófono del teclado, si está disponible.",
+    "Чтобы диктовать, используйте микрофон на клавиатуре, если он доступен.",
+  ],
+  dailyReflectionLimit: [
+    "Your entry is saved. You’ve used today’s free reflection. Try again after midnight UTC.",
+    "Sua entrada foi salva. Você já usou sua reflexão gratuita de hoje. Tente novamente após a meia-noite UTC.",
+    "Tu entrada está guardada. Ya usaste la reflexión gratuita de hoy. Inténtalo después de medianoche UTC.",
+    "Запись сохранена. Вы уже использовали бесплатное размышление за сегодня. Попробуйте после полуночи UTC.",
+  ],
   title: [
     "Optional AI guidance",
     "Orientação por IA opcional",

@@ -30,6 +30,7 @@ import { useApp } from "../../lib/state";
 import { useQuiet } from "../../lib/quiet-state";
 import { copy, type JournalResponse } from "../../lib/content";
 import { q } from "../../lib/quiet-copy";
+import { aiCopy } from "../../lib/ai-copy";
 import type { ReadingVerse } from "../../lib/bible";
 import { resolveJournalResponse } from "../../lib/journal-response";
 import { journalAction, journalTheme } from "../../lib/journal-guidance";
@@ -222,7 +223,9 @@ export default function EntryScreen() {
           )}
           {entry.audio && <AudioPlayback id={entry.audio} language={lang} />}
         </View>
-        {entry.safety ? (
+        {entry.aiDailyLimitReached && !entry.safety ? (
+          <Notice text={aiCopy(lang, "dailyReflectionLimit")} />
+        ) : entry.safety ? (
           <Card>
             <Heading>{copy(lang, "supportTitle")}</Heading>
             <Body>{copy(lang, "supportDesc")}</Body>
