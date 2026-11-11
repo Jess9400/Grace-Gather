@@ -12,7 +12,7 @@ const getBook = (key, code) => {
 };
 const verse = (key, code, chapter, number) => getBook(key, code).chapters[String(chapter)].find(v => v.number === String(number));
 
-for (const [key, counts] of [['dra', [73, 1334, 35811]], ['brenton', [81, 1380, 37344]]]) {
+for (const [key, counts] of [['dra', [73, 1334, 35811]], ['brenton', [81, 1380, 37513]]]) {
   test(`${key} collection has complete verified chapter assets and unique source verse labels`, () => {
     const collection = index(key);
     assert.equal(collection.books.length, counts[0]);

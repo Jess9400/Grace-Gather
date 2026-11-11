@@ -78,7 +78,13 @@ def parse_book(book, code, empty_note=None, include_book_tails=False):
                 note = clean(' '.join(''.join(child.itertext()) for child in el if child.tag not in ('fr', 'xo')))
                 if note:
                     current['notes'].append(note)
-        elif el.tag in ('d', 's', 'r', 'toc', 'h', 'id', 'ide') or (el.tag == 'p' and el.attrib.get('sfm', '').startswith(('mt', 'is', 'ip'))):
+        elif (
+            el.tag in ('d', 's', 'r', 'toc', 'h', 'id', 'ide')
+            # A psalm or prophecy title that carries a verse number is part of
+            # that verse in this numbering (Brenton: "1 A Psalm of David. The
+            # Lord tends me as a shepherd..."), so it is read, not skipped.
+            and not (el.tag == 'd' and el.find('v') is not None)
+        ) or (el.tag == 'p' and el.attrib.get('sfm', '').startswith(('mt', 'is', 'ip'))):
             pass
         else:
             if current is not None and el.text:
