@@ -59,6 +59,18 @@ const words: Record<string, string[]> = {
     "Tu entrada está guardada. La respuesta personalizada no está disponible; la sugerencia es general.",
     "Запись сохранена. Персональный ответ недоступен; предложение ниже общее.",
   ],
+  guidanceSignIn: [
+    "Your entry is saved. Sign in to receive your personal response.",
+    "Sua escrita foi salva. Entre para receber sua resposta personalizada.",
+    "Tu entrada está guardada. Inicia sesión para recibir tu respuesta personalizada.",
+    "Запись сохранена. Войдите, чтобы получить персональный ответ.",
+  ],
+  signInForGuidance: [
+    "Sign in for your response",
+    "Entre para receber sua resposta",
+    "Inicia sesión para recibir tu respuesta",
+    "Войдите, чтобы получить ответ",
+  ],
   enableGuidanceToRetry: [
     "Enable AI guidance in preferences to retry your personal response.",
     "Ative a orientação por IA nas preferências para tentar novamente sua resposta personalizada.",

@@ -1,5 +1,6 @@
 import { setStudyDiscussionTopic } from "../../lib/study-discussion-draft";
 import { useInterfaceCopy } from "../../lib/use-interface-copy";
+import { verseIdFromRoute } from "../../lib/verse-route";
 import { useState, useEffect } from "react";
 import {
   View,
@@ -219,10 +220,11 @@ function Invitation({
 }
 export default function VerseStudy() {
   // "journal" is the theme verse reference a saved journal entry passes along.
-  const { id, journal } = useLocalSearchParams<{
+  const { id: routeId, journal } = useLocalSearchParams<{
     id: string;
     journal?: string;
   }>();
+  const id = verseIdFromRoute(routeId ?? "");
   const tr = useInterfaceCopy();
   const collection = readingLocation(id)?.collection;
   const [loaded, setLoaded] = useState<string | null>(null),

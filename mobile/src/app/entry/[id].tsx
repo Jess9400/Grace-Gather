@@ -35,6 +35,7 @@ import { resolveJournalResponse } from "../../lib/journal-response";
 import { journalAction, journalTheme } from "../../lib/journal-guidance";
 import { gathering } from "../../lib/gatherings";
 import { confessionJournalTarget } from "../../lib/journal-navigation";
+import { verseRouteId } from "../../lib/verse-route";
 import { hasJournalGatheringTopic, matchingJournalGathering } from "../../lib/journal-gathering";
 import {
   jc,
@@ -297,7 +298,7 @@ export default function EntryScreen() {
                         // The theme verse reference finds the explanation
                         // whatever number this edition prints for the verse.
                         params: {
-                          id: verse.id,
+                          id: verseRouteId(verse.id),
                           journal: journalTheme(entry).verse,
                         },
                       })

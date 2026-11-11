@@ -102,7 +102,7 @@ export default function ChurchStrip({
             }
             style={({ pressed }) => [st.back, pressed && { opacity: 0.7 }]}
           >
-            <Ionicons name="chevron-back" size={22} color="#FFF8E9" />
+            <Ionicons name="chevron-back" size={22} color="#302C28" />
           </Pressable>
         )}
         <Text style={st.label} numberOfLines={1}>
@@ -148,12 +148,12 @@ const st = StyleSheet.create({
     paddingHorizontal: 18,
   },
   back: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "rgba(33,27,22,0.42)",
+    backgroundColor: "rgba(255,252,243,0.93)",
   },
   label: {
     flex: 1,

@@ -35,6 +35,7 @@ import {
   type DiscussionAction,
 } from "../lib/discussion-model";
 import { getReadingVerse, discussionVerseId } from "../lib/bible";
+import { verseRouteId } from "../lib/verse-route";
 
 type ViewMode = "list" | "thread" | "compose" | "review";
 type CommunityProps = {
@@ -732,7 +733,7 @@ function CommunityScreen({
                     onPress={() =>
                       router.push({
                         pathname: "/verse/[id]",
-                        params: { id: topic.verseId! },
+                        params: { id: verseRouteId(topic.verseId!) },
                       })
                     }
                     style={s.verseContext}

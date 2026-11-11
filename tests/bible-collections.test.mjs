@@ -12,7 +12,7 @@ const getBook = (key, code) => {
 };
 const verse = (key, code, chapter, number) => getBook(key, code).chapters[String(chapter)].find(v => v.number === String(number));
 
-for (const [key, counts] of [['dra', [73, 1334, 35811]], ['brenton', [81, 1380, 37344]]]) {
+for (const [key, counts] of [['dra', [73, 1334, 35811]], ['brenton', [81, 1380, 37498]]]) {
   test(`${key} collection has complete verified chapter assets and unique source verse labels`, () => {
     const collection = index(key);
     assert.equal(collection.books.length, counts[0]);
@@ -53,6 +53,16 @@ for (const [key, counts] of [['dra', [73, 1334, 35811]], ['brenton', [81, 1380, 
     assert.equal(records - noteOnly.length, collection.scriptureVerseCount);
   });
 }
+
+test('Brenton Psalms retain numbered headings and opening scripture', () => {
+  const psalms = getBook('brenton', 'PSA');
+  for (let chapter = 1; chapter <= 151; chapter++) {
+    assert.equal(psalms.chapters[String(chapter)][0].number, '1', `Psalm ${chapter}`);
+  }
+  assert.match(verse('brenton', 'PSA', 22, 1).text, /^The Lord tends me as a shepherd/);
+  assert.match(verse('brenton', 'PSA', 26, 1).text, /The Lord is my light/);
+  assert.match(verse('brenton', 'PSA', 3, 1).text, /A Psalm of David/);
+});
 
 test('Douay-Rheims retains the longer Catholic books and expanded Esther/Daniel/Baruch', () => {
   const books = index('dra').books;

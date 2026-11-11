@@ -78,7 +78,20 @@ def parse_book(book, code, empty_note=None, include_book_tails=False):
                 note = clean(' '.join(''.join(child.itertext()) for child in el if child.tag not in ('fr', 'xo')))
                 if note:
                     current['notes'].append(note)
-        elif el.tag in ('d', 's', 'r', 'toc', 'h', 'id', 'ide') or (el.tag == 'p' and el.attrib.get('sfm', '').startswith(('mt', 'is', 'ip'))):
+        elif el.tag == 'd':
+            # Some headings constitute a numbered verse; others contain its
+            # marker but the verse text starts in the following paragraph.
+            # Preserve a numbered heading only when it closes inside the
+            # heading, and otherwise retain the marker without the title.
+            numbered_heading = any(child.tag == 've' for child in el)
+            for child in el:
+                if child.tag in ('v', 've'):
+                    walk(child)
+                elif numbered_heading:
+                    walk(child)
+                if numbered_heading and current is not None and child.tail:
+                    fragments.append(child.tail)
+        elif el.tag in ('s', 'r', 'toc', 'h', 'id', 'ide') or (el.tag == 'p' and el.attrib.get('sfm', '').startswith(('mt', 'is', 'ip'))):
             pass
         else:
             if current is not None and el.text:

@@ -14,6 +14,7 @@ import {
 } from "../components/quiet-ui";
 import { useApp } from "../lib/state";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
+import { verseRouteId } from "../lib/verse-route";
 import { collectionFor, ensureCollection, getReadingVerse } from "../lib/bible";
 import { searchBible } from "../lib/bible-search";
 import type { ReadingVerse } from "../lib/bible";
@@ -149,7 +150,7 @@ export default function Study({
                     onPress={() =>
                       router.push({
                         pathname: "/verse/[id]",
-                        params: { id: verse.id },
+                        params: { id: verseRouteId(verse.id) },
                       })
                     }
                   />
@@ -176,7 +177,7 @@ export default function Study({
                   onPress={() =>
                     router.push({
                       pathname: "/verse/[id]",
-                      params: { id: v.id },
+                      params: { id: verseRouteId(v.id) },
                     })
                   }
                 />

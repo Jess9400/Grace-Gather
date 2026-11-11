@@ -9,11 +9,14 @@ import { suggestJourney } from "../lib/ai";
 import { AI_CONSENT_VERSION } from "../lib/ai-copy";
 import { resolveJournalResponse } from "../lib/journal-response";
 import { communityCopy } from "../lib/community-copy";
+import { backend } from "../lib/backend";
+import { useJournalAccount } from "../lib/use-journal-account";
 
 export default function JournalGuidanceStatus({ entry }: { entry: Entry }) {
   const { profile, saveRetriedGuidance } = useApp();
   const [busy, setBusy] = useState(false);
   const [notice, setNotice] = useState("");
+  const signedIn = useJournalAccount();
   const c = (key: string) => communityCopy(profile.language, key);
   if (!entry.aiUnavailable) return null;
   async function retry() {
@@ -45,12 +48,23 @@ export default function JournalGuidanceStatus({ entry }: { entry: Entry }) {
   }
   return (
     <View style={{ gap: 4 }}>
-      <Body small>{c("guidanceUnavailable")}</Body>
+      <Body small>
+        {c(
+          backend && signedIn === false
+            ? "guidanceSignIn"
+            : "guidanceUnavailable",
+        )}
+      </Body>
       <Notice text={notice} />
-      {profile.journalAIConsentVersion === AI_CONSENT_VERSION ? (
+      {backend && signedIn === false ? (
+        <TextAction
+          title={c("signInForGuidance")}
+          onPress={() => router.push("/sign-in")}
+        />
+      ) : profile.journalAIConsentVersion === AI_CONSENT_VERSION ? (
         <TextAction
           title={c("retryGuidance")}
-          disabled={busy}
+          disabled={busy || (!!backend && signedIn === null)}
           onPress={() => void retry()}
         />
       ) : (
