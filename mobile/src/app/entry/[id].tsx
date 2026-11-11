@@ -31,6 +31,7 @@ import { useQuiet } from "../../lib/quiet-state";
 import { copy, type JournalResponse } from "../../lib/content";
 import { q } from "../../lib/quiet-copy";
 import HelpLine from "../../components/HelpLine";
+import { toVerseRoute } from "../../lib/verse-route";
 import type { ReadingVerse } from "../../lib/bible";
 import { resolveJournalResponse } from "../../lib/journal-response";
 import { journalAction, journalTheme } from "../../lib/journal-guidance";
@@ -318,7 +319,7 @@ export default function EntryScreen() {
                         // The theme verse reference finds the explanation
                         // whatever number this edition prints for the verse.
                         params: {
-                          id: verse.id,
+                          id: toVerseRoute(verse.id),
                           journal: journalTheme(entry).verse,
                         },
                       })

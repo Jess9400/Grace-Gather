@@ -1,3 +1,4 @@
+import { toVerseRoute } from "../lib/verse-route";
 import { getStudySearch } from "../lib/study-search";
 import { FilterStrip } from "../components/CommunityControls";
 import { setStudyDiscussionTopic } from "../lib/study-discussion-draft";
@@ -149,7 +150,7 @@ export default function Study({
                     onPress={() =>
                       router.push({
                         pathname: "/verse/[id]",
-                        params: { id: verse.id },
+                        params: { id: toVerseRoute(verse.id) },
                       })
                     }
                   />
@@ -176,7 +177,7 @@ export default function Study({
                   onPress={() =>
                     router.push({
                       pathname: "/verse/[id]",
-                      params: { id: v.id },
+                      params: { id: toVerseRoute(v.id) },
                     })
                   }
                 />

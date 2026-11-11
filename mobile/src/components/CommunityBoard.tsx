@@ -1,3 +1,4 @@
+import { toVerseRoute } from "../lib/verse-route";
 import { TextAction } from "./CommunityControls";
 import {
   getStudyDiscussionTopic,
@@ -732,7 +733,7 @@ function CommunityScreen({
                     onPress={() =>
                       router.push({
                         pathname: "/verse/[id]",
-                        params: { id: topic.verseId! },
+                        params: { id: toVerseRoute(topic.verseId!) },
                       })
                     }
                     style={s.verseContext}
