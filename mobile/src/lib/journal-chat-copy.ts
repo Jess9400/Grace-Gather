@@ -76,6 +76,18 @@ const words = {
     "La conversación no está conectada en esta vista previa.",
     "В этом предпросмотре разговор недоступен.",
   ],
+  emailFirst: [
+    "Add your email to keep talking. Your journal stays on this phone.",
+    "Adicione seu e-mail para continuar conversando. Seu diário continua neste telefone.",
+    "Añade tu correo para seguir hablando. Tu diario sigue en este teléfono.",
+    "Укажите email, чтобы продолжить разговор. Дневник остаётся на этом телефоне.",
+  ],
+  addEmail: [
+    "Add my email",
+    "Adicionar meu e-mail",
+    "Añadir mi correo",
+    "Указать email",
+  ],
   signin: [
     "Sign in to continue",
     "Entre para continuar",

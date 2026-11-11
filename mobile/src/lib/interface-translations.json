@@ -2063,5 +2063,20 @@
     "pt": "Fontes",
     "es": "Fuentes",
     "ru": "Источники"
+  },
+  "A reply written for you": {
+    "pt": "Uma resposta escrita para você",
+    "es": "Una respuesta escrita para ti",
+    "ru": "Ответ, написанный для вас"
+  },
+  "When you write to God, we can send back a reflection written for what you shared. Add your email to turn this on. Your journal stays on this phone.": {
+    "pt": "Quando você escrever a Deus, podemos responder com uma reflexão escrita para o que você partilhou. Adicione seu e-mail para ativar. Seu diário continua neste telefone.",
+    "es": "Cuando escribas a Dios, podemos responder con una reflexión escrita para lo que compartiste. Añade tu correo para activarlo. Tu diario sigue en este teléfono.",
+    "ru": "Когда вы пишете Богу, мы можем ответить размышлением о том, чем вы поделились. Укажите email, чтобы включить это. Дневник остаётся на этом телефоне."
+  },
+  "Skip for now": {
+    "pt": "Pular por agora",
+    "es": "Omitir por ahora",
+    "ru": "Пропустить"
   }
 }

@@ -28,6 +28,7 @@ import {
   partitionJournalMessages,
 } from "../lib/journal-chat";
 import { journalCopy } from "../lib/journal-library-copy";
+import { useSignedIn } from "../lib/account";
 import JournalActionButton from "./JournalActionButton";
 export default function JournalConversation({
   entry,
@@ -55,6 +56,9 @@ export default function JournalConversation({
     messages = entry.conversation ?? [];
   const pending = messages.at(-1)?.role === "user";
   const enabled = profile.journalAIConsentVersion === AI_CONSENT_VERSION;
+  // Replies need an account; say so before someone types, not after.
+  const signedIn = useSignedIn();
+  const needsEmail = !!backend && enabled && signedIn === false;
   const full = messages.length >= JOURNAL_MESSAGE_LIMIT;
   const { older, recent } = partitionJournalMessages(messages);
   const renderMessage = (m: (typeof messages)[number]) => (
@@ -78,6 +82,10 @@ export default function JournalConversation({
   );
   async function send() {
     if (lock.current || full || (!pending && !text.trim())) return;
+    if (needsEmail) {
+      router.push("/sign-in");
+      return;
+    }
     if (!backend || !enabled) {
       setError(chatCopy(lang, !backend ? "local" : "consent"));
       return;
@@ -230,6 +238,8 @@ export default function JournalConversation({
               ? ""
               : !backend
                 ? chatCopy(lang, "local")
+                : needsEmail
+                  ? chatCopy(lang, "emailFirst")
                 : full
                   ? chatCopy(lang, "limit")
                   : !enabled
@@ -251,6 +261,12 @@ export default function JournalConversation({
         </Pressable>
       </View>
       <Notice text={error} />
+      {needsEmail && (
+        <TextAction
+          title={chatCopy(lang, "addEmail")}
+          onPress={() => router.push("/sign-in")}
+        />
+      )}
       {needsSignIn && (
         <TextAction
           title={chatCopy(lang, "signin")}
