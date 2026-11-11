@@ -1,7 +1,6 @@
 import {
   collections,
   getReadingVerse,
-  chapterSource,
   isThemeVerse,
   studyFor,
   type CollectionId,
@@ -52,26 +51,7 @@ export function journalScripture(
   const id = journalVerseId(collection, reference);
   if (!id) return null;
   const verse = getReadingVerse(id);
-  if (verse?.text) return verse;
-  // The bundled Brenton reader omits this first verse after the psalm heading.
-  // Preserve the publisher's exact text/citation instead of silently substituting
-  // an unrelated mood verse. Source checked: https://ebible.org/eng-Brenton/PSA114.htm
-  if (id === "brenton:PSA.114.1") {
-    const index = collections.brenton.index;
-    const book = index.books.find((b) => b.code === "PSA")!;
-    return {
-      id,
-      collection,
-      reference: `${book.name} 114:1`,
-      text: "Alleluia. I am well pleased, because the Lord will hearken to the voice of my supplication.",
-      sourceUrl: chapterSource("PSA", 114, collection),
-      editionName: book.sourceEdition ?? index.edition,
-      attribution: book.sourceAttribution ?? index.attribution ?? "",
-      licenseUrl: book.sourceLicenseUrl ?? index.licenseUrl ?? "",
-      notes: [],
-    };
-  }
-  return null;
+  return verse?.text ? verse : null;
 }
 
 // The theme reference a displayed verse stands for, or undefined when the verse
