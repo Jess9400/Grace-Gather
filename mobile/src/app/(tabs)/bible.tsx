@@ -1,3 +1,4 @@
+import { toVerseRoute } from "../../lib/verse-route";
 import { setStudySearch } from "../../lib/study-search";
 import { searchBible } from "../../lib/bible-search";
 import { useInterfaceCopy } from "../../lib/use-interface-copy";
@@ -96,7 +97,7 @@ function BibleReader({ collection }: { collection: CollectionId | null }) {
     if (collection && /^.+?\s+\d+(?::\d+[a-z]?)?$/i.test(search.trim())) {
       const match = searchBible(collection, search.trim())[0];
       if (match) {
-        router.push({ pathname: "/verse/[id]", params: { id: match.id } });
+        router.push({ pathname: "/verse/[id]", params: { id: toVerseRoute(match.id) } });
         return;
       }
     }
@@ -343,7 +344,7 @@ function BibleReader({ collection }: { collection: CollectionId | null }) {
             accessibilityRole="button"
             accessibilityLabel={`${item.reference} ${item.text}`}
             onPress={() =>
-              router.push({ pathname: "/verse/[id]", params: { id: item.id } })
+              router.push({ pathname: "/verse/[id]", params: { id: toVerseRoute(item.id) } })
             }
             style={[s.verse, { minHeight: Math.max(300, height * 0.57) }]}
           >

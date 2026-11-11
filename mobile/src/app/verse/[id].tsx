@@ -36,6 +36,7 @@ import {
 } from "../../lib/journal-verse-reference";
 import { journalVerseStudy } from "../../lib/journal-verse-studies";
 import { useApp } from "../../lib/state";
+import { fromVerseRoute } from "../../lib/verse-route";
 import { q } from "../../lib/quiet-copy";
 import { useReducedMotion } from "../../lib/use-reduced-motion";
 type Layer = "simple" | "deeper" | "theology";
@@ -219,10 +220,12 @@ function Invitation({
 }
 export default function VerseStudy() {
   // "journal" is the theme verse reference a saved journal entry passes along.
-  const { id, journal } = useLocalSearchParams<{
+  const { id: route, journal } = useLocalSearchParams<{
     id: string;
     journal?: string;
   }>();
+  // Addresses use "~" in place of ":" (see verse-route); old links still work.
+  const id = fromVerseRoute(route);
   const tr = useInterfaceCopy();
   const collection = readingLocation(id)?.collection;
   const [loaded, setLoaded] = useState<string | null>(null),
