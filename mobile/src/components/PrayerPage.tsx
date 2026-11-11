@@ -2,6 +2,7 @@ import JournalCleanupNotice from "./JournalCleanupNotice";
 import GatheringReminders from "../components/GatheringReminders";
 import FriendUnreadNotice from "./FriendUnreadNotice";
 import PrayerSchedule from "../components/PrayerSchedule";
+import HelpLine from "./HelpLine";
 import { Pressable } from "react-native";
 import { useCommunity } from "../lib/discussion-state";
 import { useEffect, useState } from "react";
@@ -412,6 +413,7 @@ function PrayerRoom({
               {!!scheduleError && <Notice text={tr(scheduleError)} />}
             </>
           )}
+          <HelpLine />
           <Body small>
             {tr(
               "Your theme, reason and display name are screened by Alibaba Qwen. Clear requests are shared with members; others wait for moderator review. Anonymous requests remain linked to your account. Avoid sharing someone else’s private details.",

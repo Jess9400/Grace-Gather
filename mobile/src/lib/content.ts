@@ -207,11 +207,7 @@ export function dailyVerse(p: Preferences) {
     editionName: edition.name,
   };
 }
-export function needsSupport(text: string) {
-  return /\b(kill myself|end my life|hurt myself|suicid(?:e|al)|matarme|quitarme la vida|suicidarme|me matar|tirar minha vida|me machucar|suicídio|suicidio)\b|(?:покончить с собой|убить себя|хочу умереть|самоубийств)/iu.test(
-    text,
-  );
-}
+export { needsSupport } from "./safety";
 const normalizeCity = (s: string) =>
   s
     .normalize("NFD")

@@ -30,6 +30,7 @@ import { useApp } from "../../lib/state";
 import { useQuiet } from "../../lib/quiet-state";
 import { copy, type JournalResponse } from "../../lib/content";
 import { q } from "../../lib/quiet-copy";
+import HelpLine from "../../components/HelpLine";
 import type { ReadingVerse } from "../../lib/bible";
 import { resolveJournalResponse } from "../../lib/journal-response";
 import { journalAction, journalTheme } from "../../lib/journal-guidance";
@@ -282,6 +283,7 @@ export default function EntryScreen() {
           <Card>
             <Heading>{copy(lang, "supportTitle")}</Heading>
             <Body>{copy(lang, "supportDesc")}</Body>
+            <HelpLine bare />
             <Button
               title={jc(lang, "A07")}
               onPress={() => {
@@ -347,6 +349,9 @@ export default function EntryScreen() {
                 onPress={() => openAction()}
               />
             </View>
+            {["hopelessness", "persistent-distress"].includes(
+              journalTheme(entry).id,
+            ) && <HelpLine gentle />}
             </>}
           </View>
         )}
