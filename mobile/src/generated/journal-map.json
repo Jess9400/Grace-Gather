@@ -3,7 +3,7 @@
     "id": "grief",
     "label": "Grief after a death",
     "example": "“I still reach for my phone to call my dad.”",
-    "verse": "PSA.34.18",
+    "verse": "PSA.147.3",
     "main": "A01",
     "private": "A02",
     "mood": "sad"
@@ -57,7 +57,7 @@
     "id": "lonely",
     "label": "Loneliness and wanting contact",
     "example": "“I wish someone would check in on me tonight.”",
-    "verse": "ECC.4.10",
+    "verse": "DEU.31.8",
     "main": "A25",
     "private": "A07",
     "mood": "lonely"
@@ -255,7 +255,7 @@
     "id": "unclear",
     "label": "Unclear or mixed",
     "example": "(no clear theme)",
-    "verse": "PSA.139.23",
+    "verse": "PSA.62.8",
     "main": "A08",
     "private": "A03",
     "mood": "unsure"

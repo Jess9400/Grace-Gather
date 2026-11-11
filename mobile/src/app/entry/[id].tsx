@@ -44,6 +44,24 @@ import {
 } from "../../lib/journal-copy";
 
 // One saved verse and one invitation, with replies inline beneath them.
+// English Catholic and Orthodox Bibles number most Psalms one lower than the
+// Bibles most people know; show the familiar number beside theirs.
+function familiarPsalm(
+  verse: ReadingVerse,
+  themeReference: string,
+  lang: string,
+) {
+  if (
+    lang !== "en" ||
+    !themeReference.startsWith("PSA.") ||
+    (verse.collection !== "dra" && verse.collection !== "brenton")
+  )
+    return "";
+  const familiar = themeReference.split(".").slice(1).join(":");
+  return verse.reference.endsWith(familiar)
+    ? ""
+    : ` (${familiar} in most Bibles)`;
+}
 export default function EntryScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { entries, profile, saveEntry, saveJournalResponse } = useApp();
@@ -285,6 +303,7 @@ export default function EntryScreen() {
                   </Text>
                   <Text style={s.reference}>
                     {verse.reference}
+                    {familiarPsalm(verse, journalTheme(entry).verse, lang)}
                     <Text style={s.edition}> · {verse.editionName}</Text>
                   </Text>
                   <Pressable

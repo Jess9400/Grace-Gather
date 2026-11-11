@@ -124,6 +124,22 @@ export function chapterSource(
   const sourceChapter = chapter + (metadata?.sourceChapterOffset ?? 0);
   return `${metadata?.sourceBaseUrl ?? "https://ebible.org/engwebp/"}${metadata?.sourceBookCode ?? code}${String(sourceChapter).padStart(metadata?.sourceChapterDigits ?? (code === "PSA" ? 3 : 2), "0")}.htm`;
 }
+// Douay-Rheims prints the Hebrew letter of each acrostic stanza (Lamentations,
+// Psalm 118) as the first word of the verse, e.g. "Heth. The mercies of the
+// Lord…". It is a heading, not Scripture, so it is not shown in the verse.
+const acrostic =
+  /^(?:Aleph|Beth|Ghimel|Gimel|Daleth|He|Vau|Zain|Heth|Teth|Jod|Caph|Lamed|Mem|Nun|Samech|Ain|Phe|Sade|Coph|Res|Sin|Thau|Tau)\.\s+/i;
+function verseText(
+  text: string,
+  collection: CollectionId,
+  code: string,
+  chapter: number,
+) {
+  return collection === "dra" &&
+    (code === "LAM" || (code === "PSA" && chapter === 118))
+    ? text.replace(acrostic, "")
+    : text;
+}
 export function chapterRows(
   bookIndex: number,
   chapter: number,
@@ -135,6 +151,7 @@ export function chapterRows(
   const book = getBook(metadata.code, collection);
   return (book?.chapters[String(chapter)] ?? []).map((v) => ({
     ...v,
+    text: verseText(v.text, collection, metadata.code, chapter),
     id: `${collection}:${metadata.code}.${chapter}.${v.number}`,
     collection,
     reference: `${metadata.name} ${chapter}:${v.number}`,
