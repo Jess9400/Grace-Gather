@@ -58,6 +58,7 @@ export default function EntryScreen() {
   const [notice, setNotice] = useState("");
   const [busy, setBusy] = useState(false);
   const [expanded, setExpanded] = useState(false);
+  const [earlierOpen, setEarlierOpen] = useState(false);
   const lang = profile.language;
   useEffect(() => {
     let active = true;
@@ -219,6 +220,43 @@ export default function EntryScreen() {
                 color={colors.goldInk}
               />
             </Pressable>
+          )}
+          {!!entry.revisions?.length && (
+            <View style={s.earlier}>
+              <Pressable
+                accessibilityRole="button"
+                accessibilityState={{ expanded: earlierOpen }}
+                onPress={() => setEarlierOpen(!earlierOpen)}
+                style={s.more}
+              >
+                <Text style={s.moreText}>
+                  {entry.editedAt
+                    ? q(lang, "editedOn").replace(
+                        "{date}",
+                        new Date(entry.editedAt).toLocaleDateString(lang, {
+                          month: "long",
+                          day: "numeric",
+                        }),
+                      ) + " · "
+                    : ""}
+                  {q(
+                    lang,
+                    earlierOpen ? "hideEarlierVersion" : "earlierVersion",
+                  )}
+                </Text>
+                <Ionicons
+                  name={earlierOpen ? "chevron-up" : "chevron-down"}
+                  size={15}
+                  color={colors.goldInk}
+                />
+              </Pressable>
+              {earlierOpen &&
+                entry.revisions.map((revision) => (
+                  <Text key={revision.savedAt} selectable style={s.earlierText}>
+                    {revision.text}
+                  </Text>
+                ))}
+            </View>
           )}
           {entry.audio && <AudioPlayback id={entry.audio} language={lang} />}
         </View>
@@ -406,6 +444,20 @@ const s = StyleSheet.create({
     alignSelf: "flex-start",
   },
   moreText: { fontSize: 13, fontWeight: "600", color: colors.goldInk },
+  earlier: {
+    gap: 10,
+    marginTop: 4,
+    paddingTop: 6,
+    borderTopWidth: 1,
+    borderTopColor: colors.line,
+  },
+  earlierText: {
+    fontFamily: serif,
+    fontSize: 16,
+    lineHeight: 26,
+    color: colors.muted,
+    fontStyle: "italic",
+  },
   // The reply: one column with one left edge, a verse then one small step.
   reply: { paddingTop: 10, paddingHorizontal: 4, gap: 20 },
   section: { gap: 12 },

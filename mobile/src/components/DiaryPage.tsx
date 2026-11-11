@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { View, Text, TextInput, StyleSheet, Platform } from "react-native";
 import { router } from "expo-router";
 import { randomUUID } from "expo-crypto";
@@ -15,12 +15,17 @@ import { transcribeRecording } from "../lib/ai-audio";
 import { aiCopy, AI_CONSENT_VERSION } from "../lib/ai-copy";
 export default function Diary() {
   const { profile, saveEntry, entries } = useApp(),
-    { draft, update } = useQuiet();
+    { draft, update, clear } = useQuiet();
+  // A new page saved once but not yet finished (for example when storage
+  // failed partway) keeps its id, so trying again cannot make a duplicate.
+  const saving = useRef<string | undefined>(undefined);
   const [busy, setBusy] = useState(false),
     [recording, setRecording] = useState(false),
     [error, setError] = useState("");
   const useAI = profile.journalAIConsentVersion === AI_CONSENT_VERSION;
   const lang = profile.language;
+  // Editing a saved prayer, opened from its Edit button.
+  const editing = entries.find((e) => e.id === draft.entryId && !e.deletedAt);
   async function submit() {
     if (
       !draft.text.trim() &&
@@ -34,7 +39,11 @@ export default function Diary() {
     setError("");
     const mood = quietMood(draft.text, draft.chosen, lang),
       safety = needsSupport(draft.text);
-    const previous = entries.find((e) => e.id === draft.entryId);
+    const id = draft.entryId ?? saving.current ?? randomUUID();
+    const previous = entries.find((e) => e.id === id);
+    // An edit that changes the words keeps the earlier wording, so nothing a
+    // person wrote to God can disappear without them choosing to delete it.
+    const changed = !!previous && previous.text !== draft.text;
     let entry: Entry = {
       ...previous,
       response: undefined,
@@ -46,12 +55,22 @@ export default function Diary() {
       passageIds: undefined,
       actionIds: undefined,
       aiUnavailable: undefined,
-      id: draft.entryId ?? randomUUID(),
+      id,
       createdAt: draft.createdAt,
       text: draft.text,
       audio: draft.audio,
-      conversation: entries.find((e) => e.id === draft.entryId)?.conversation,
-      reflection: entries.find((e) => e.id === draft.entryId)?.reflection,
+      conversation: previous?.conversation,
+      reflection: previous?.reflection,
+      revisions: changed
+        ? [
+            {
+              text: previous.text,
+              savedAt: previous.editedAt ?? previous.createdAt,
+            },
+            ...(previous.revisions ?? []),
+          ].slice(0, 10)
+        : previous?.revisions,
+      editedAt: changed ? new Date().toISOString() : previous?.editedAt,
       mood,
       guidance: Object.keys(draft.chosen).length ? "selected" : "local",
       feelings: { ...draft.chosen },
@@ -65,7 +84,7 @@ export default function Diary() {
     };
     try {
       await saveEntry(entry, true);
-      update({ entryId: entry.id });
+      saving.current = entry.id;
       if (useAI && draft.text.trim() && !safety) {
         try {
           const result = await suggestJourney(draft.text, profile);
@@ -89,6 +108,10 @@ export default function Diary() {
       if (response.verse || entry.safety)
         await saveEntry({ ...entry, response }, true);
       router.push({ pathname: "/entry/[id]", params: { id: entry.id } });
+      // The saved page is finished. Whoever comes back here, by Back or by
+      // "Talk to God", finds a fresh page; editing goes through Edit.
+      saving.current = undefined;
+      clear();
     } catch {
       setError(copy(lang, "storageError"));
     } finally {
@@ -98,8 +121,22 @@ export default function Diary() {
   return (
     <Screen back place="pews">
       <Text accessibilityRole="header" style={s.title}>
-        {q(lang, "land")}
+        {q(lang, editing ? "editingTitle" : "land")}
       </Text>
+      {editing && (
+        <Text style={s.editing}>
+          {q(lang, "editingFrom").replace(
+            "{date}",
+            new Date(editing.createdAt).toLocaleString(lang, {
+              weekday: "long",
+              month: "long",
+              day: "numeric",
+              hour: "numeric",
+              minute: "2-digit",
+            }),
+          )}
+        </Text>
+      )}
       {Platform.OS !== "web" && (
         <View style={{ gap: 10 }}>
           <Text
@@ -164,15 +201,36 @@ export default function Diary() {
       </View>
       <Notice text={error} />
       <Button
-        title={busy ? aiCopy(lang, "working") : q(lang, "done")}
+        title={
+          busy
+            ? aiCopy(lang, "working")
+            : q(lang, editing ? "saveChanges" : "done")
+        }
         onPress={() => void submit()}
         disabled={busy || recording}
       />
+      {editing && (
+        <Button
+          secondary
+          title={q(lang, "cancelEdit")}
+          disabled={busy}
+          onPress={() => {
+            clear();
+            // Editing opened the writing tab, so Back would land on Home:
+            // return to the prayer that was being edited.
+            router.navigate({
+              pathname: "/entry/[id]",
+              params: { id: editing.id },
+            });
+          }}
+        />
+      )}
     </Screen>
   );
 }
 const s = StyleSheet.create({
   title: { fontFamily: serif, fontSize: 35, lineHeight: 43, color: colors.ink },
+  editing: { color: colors.muted, fontSize: 14, lineHeight: 21 },
   paper: {
     backgroundColor: colors.white,
     borderRadius: 16,

@@ -83,6 +83,9 @@ export interface Entry {
   // One small step chosen after the verse; Home asks about it later.
   step?: import("./small-step").SmallStep;
   reflection?: string;
+  // Earlier wordings, newest first, kept when an edit changes the text.
+  revisions?: { text: string; savedAt: string }[];
+  editedAt?: string;
   safety: boolean;
   prefs: Preferences;
 }
