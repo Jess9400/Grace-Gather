@@ -31,7 +31,6 @@ function load(file, modules = {}) {
 const { prayerList, namesPrayer, prayCopy } = load("src/lib/pray-copy.ts");
 const geometry = load("src/lib/gl-mesh.ts");
 const scene = load("src/lib/church-scene.ts", { "./gl-mesh": geometry });
-const doors = load("src/lib/church-door-scene.ts", { "./gl-mesh": geometry });
 const languages = ["en", "pt", "es", "ru"];
 
 test("every prayer has a title, note and text in all four languages", () => {
@@ -82,19 +81,4 @@ test("the Orthodox church has an icon to pray before and no pews", () => {
   assert.ok(anchors.pray && scene.PLACE_BOXES.pray);
   // The icon stands inside the view at the left, before the icon screen.
   assert.ok(anchors.pray[0] < -0.8 && anchors.pray[0] > -1.7);
-});
-
-test("the Orthodox entrance opens onto an icon screen, not stained glass", () => {
-  const kinds = (mesh) => {
-    const out = new Set();
-    for (let i = 0; i < mesh.length; i += 11) out.add(mesh[i + 9]);
-    return out;
-  };
-  const general = doors.buildChurchDoorMesh();
-  const orthodox = doors.buildChurchDoorMesh(true);
-  assert.ok(general.every(Number.isFinite) && orthodox.every(Number.isFinite));
-  // Kind 7 is stained glass.
-  assert.ok(kinds(general).has(7));
-  assert.ok(!kinds(orthodox).has(7));
-  assert.deepEqual(doors.buildChurchDoorMesh(false), general);
 });

@@ -54,7 +54,7 @@ const KIND = {
   glass: 7,
 };
 
-export function buildChurchDoorMesh(orthodox = false) {
+export function buildChurchDoorMesh() {
   const mesh = new MeshBuilder();
   const stone: Material = { color: [0.72, 0.66, 0.58], kind: KIND.stone };
   const darkStone: Material = { color: [0.6, 0.55, 0.49], kind: KIND.stone };
@@ -77,19 +77,9 @@ export function buildChurchDoorMesh(orthodox = false) {
       mesh.box(side * x, SILL + 0.04, z, 0.12, 0.08, 0.12, darkStone);
     }
   }
-  // A carved cross above the arch: eight-pointed for an Orthodox church.
+  // A carved cross above the arch.
   mesh.box(0, 2.02, 0.13, 0.07, 0.5, 0.05, darkStone);
   mesh.box(0, 2.12, 0.13, 0.3, 0.07, 0.05, darkStone);
-  if (orthodox) {
-    mesh.box(0, 2.22, 0.13, 0.16, 0.05, 0.05, darkStone);
-    mesh.quad(
-      [-0.13, 1.84, 0.156],
-      [0.13, 1.92, 0.156],
-      [0.13, 1.97, 0.156],
-      [-0.13, 1.89, 0.156],
-      darkStone,
-    );
-  }
   // Steps and pavement.
   mesh.box(0, SILL - 0.1, 0.0, 2.7, 0.2, 0.96, darkStone);
   mesh.box(0, SILL - 0.3, 0.62, 3.2, 0.2, 0.56, stone);
@@ -203,10 +193,7 @@ export function buildChurchDoorMesh(orthodox = false) {
   }
 
   // The candlelit nave behind the doors.
-  const plaster: Material = {
-    color: orthodox ? [0.86, 0.79, 0.68] : [0.58, 0.5, 0.41],
-    kind: KIND.interior,
-  };
+  const plaster: Material = { color: [0.58, 0.5, 0.41], kind: KIND.interior };
   const floor: Material = { color: [0.55, 0.45, 0.35], kind: KIND.interior };
   const pew: Material = { color: [0.34, 0.21, 0.12], kind: KIND.interior };
   const linen: Material = { color: [0.92, 0.88, 0.8], kind: KIND.interior };
@@ -222,77 +209,27 @@ export function buildChurchDoorMesh(orthodox = false) {
   for (const z of [-1.6, -3.4, -5.2])
     for (const x of [-1.22, 1.22])
       mesh.cylinder(x, z, SILL, 3.05, 0.13, plaster, 18);
-  if (orthodox) {
-    // A white nave with a golden icon screen: icons, royal doors and lamps.
-    const screen: Material = { color: [0.9, 0.7, 0.36], kind: KIND.interior };
-    const ground: Material = { color: [0.16, 0.1, 0.07], kind: KIND.interior };
-    const halo: Material = { color: [1, 0.82, 0.45], kind: KIND.interior };
-    const robes: Material[] = [
-      { color: [0.5, 0.16, 0.14], kind: KIND.interior },
-      { color: [0.18, 0.27, 0.42], kind: KIND.interior },
-      { color: [0.18, 0.33, 0.26], kind: KIND.interior },
-    ];
-    const disk = (x: number, y: number, z: number, r: number, m: Material) => {
-      for (let i = 0; i < 24; i++) {
-        const a = (i * Math.PI) / 12,
-          b = ((i + 1) * Math.PI) / 12;
-        mesh.triangle(
-          [x, y, z],
-          [x + Math.cos(a) * r, y + Math.sin(a) * r, z],
-          [x + Math.cos(b) * r, y + Math.sin(b) * r, z],
-          m,
-        );
-      }
-    };
-    const icon = (x: number, y: number, w: number, h: number, i: number) => {
-      mesh.box(x, y, -6.52, w, h, 0.02, ground);
-      disk(x, y + h * 0.28, -6.505, w * 0.24, halo);
-      mesh.triangle(
-        [x, y + h * 0.12, -6.5],
-        [x - w * 0.36, y - h * 0.46, -6.5],
-        [x + w * 0.36, y - h * 0.46, -6.5],
-        robes[i % 3],
-      );
-    };
-    mesh.box(0, 0.2, -6.6, 3.1, 3.4, 0.12, screen);
-    mesh.box(0, 1.15, -6.52, 3.1, 0.05, 0.04, gilt);
-    for (let i = 0; i < 7; i++) icon(-1.2 + i * 0.4, 1.5, 0.3, 0.5, i);
-    [-1.18, -0.68, 0.68, 1.18].forEach((x, i) => icon(x, -0.3, 0.38, 1.55, i));
-    mesh.box(0, -0.62, -6.52, 0.72, 1.76, 0.03, {
-      color: [1, 0.86, 0.55],
-      kind: KIND.interior,
-    });
-    mesh.box(0, -0.62, -6.5, 0.025, 1.7, 0.02, gilt);
-    mesh.box(0, 2.15, -6.58, 0.06, 0.5, 0.05, gilt);
-    mesh.box(0, 2.2, -6.58, 0.32, 0.05, 0.05, gilt);
-    for (const x of [-0.93, 0, 0.93])
-      mesh.box(x, 0.62, -6.3, 0.05, 0.08, 0.05, {
-        color: [1, 0.55, 0.3],
-        kind: KIND.flame,
-      });
-  } else {
-    for (const z of [-2.0, -2.75, -3.5, -4.25, -5.0]) {
-      for (const x of [-0.82, 0.82]) {
-        mesh.box(x, SILL + 0.38, z, 1.0, 0.07, 0.34, pew);
-        mesh.box(x, SILL + 0.62, z + 0.17, 1.0, 0.42, 0.05, pew);
-        mesh.box(x, SILL + 0.2, z, 1.0, 0.36, 0.04, pew);
-      }
+  for (const z of [-2.0, -2.75, -3.5, -4.25, -5.0]) {
+    for (const x of [-0.82, 0.82]) {
+      mesh.box(x, SILL + 0.38, z, 1.0, 0.07, 0.34, pew);
+      mesh.box(x, SILL + 0.62, z + 0.17, 1.0, 0.42, 0.05, pew);
+      mesh.box(x, SILL + 0.2, z, 1.0, 0.36, 0.04, pew);
     }
-    mesh.box(0, SILL + 0.15, -6.35, 2.2, 0.3, 1.1, plaster);
-    mesh.box(0, SILL + 0.62, -6.4, 1.3, 0.66, 0.55, linen);
-    mesh.box(0, SILL + 0.6, -6.11, 0.42, 0.5, 0.02, gilt);
-    for (const x of [-0.45, 0.45]) {
-      mesh.cylinder(x, -6.4, SILL + 0.95, SILL + 1.2, 0.025, linen, 10);
-      mesh.box(x, SILL + 1.25, -6.4, 0.03, 0.07, 0.03, {
-        color: [1, 0.72, 0.32],
-        kind: KIND.flame,
-      });
-    }
-    mesh.box(0, 0.35, -7.08, 0.07, 0.8, 0.04, gilt);
-    mesh.box(0, 0.52, -7.08, 0.4, 0.07, 0.04, gilt);
-    const glass = archOutline(0.48, 1.55, 0.95);
-    mesh.prism(glass, -7.11, -7.09, { color: [1, 1, 1], kind: KIND.glass });
   }
+  mesh.box(0, SILL + 0.15, -6.35, 2.2, 0.3, 1.1, plaster);
+  mesh.box(0, SILL + 0.62, -6.4, 1.3, 0.66, 0.55, linen);
+  mesh.box(0, SILL + 0.6, -6.11, 0.42, 0.5, 0.02, gilt);
+  for (const x of [-0.45, 0.45]) {
+    mesh.cylinder(x, -6.4, SILL + 0.95, SILL + 1.2, 0.025, linen, 10);
+    mesh.box(x, SILL + 1.25, -6.4, 0.03, 0.07, 0.03, {
+      color: [1, 0.72, 0.32],
+      kind: KIND.flame,
+    });
+  }
+  mesh.box(0, 0.35, -7.08, 0.07, 0.8, 0.04, gilt);
+  mesh.box(0, 0.52, -7.08, 0.4, 0.07, 0.04, gilt);
+  const glass = archOutline(0.48, 1.55, 0.95);
+  mesh.prism(glass, -7.11, -7.09, { color: [1, 1, 1], kind: KIND.glass });
   return mesh.build();
 }
 
@@ -563,7 +500,6 @@ export function doorCamera(aspect: number, approach: number, time: number) {
 export function createChurchDoorRenderer(
   gl: WebGLRenderingContext,
   woodImage: TexImageSource,
-  orthodox = false,
 ) {
   const buffers: WebGLBuffer[] = [];
   const programs: WebGLProgram[] = [];
@@ -607,7 +543,7 @@ export function createChurchDoorRenderer(
     gl.generateMipmap(gl.TEXTURE_2D);
     gl.uniform1i(gl.getUniformLocation(main.program, "uWood"), 0);
 
-    const mesh = buildChurchDoorMesh(orthodox);
+    const mesh = buildChurchDoorMesh();
     const meshBuffer = gl.createBuffer();
     const glowMesh = buildGlowMesh();
     const glowBuffer = gl.createBuffer();
