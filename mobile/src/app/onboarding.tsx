@@ -238,7 +238,7 @@ export default function Onboarding() {
                 title={jc(
                   p.language,
                   p.journalAIConsentVersion === AI_CONSENT_VERSION
-                    ? "aiEnabled"
+                    ? "aiDisable"
                     : "aiEnable",
                 )}
                 selected={p.journalAIConsentVersion === AI_CONSENT_VERSION}

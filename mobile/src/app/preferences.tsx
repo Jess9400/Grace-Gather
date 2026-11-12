@@ -213,7 +213,7 @@ export default function Preferences() {
           title={jc(
             p.language,
             p.journalAIConsentVersion === AI_CONSENT_VERSION
-              ? "aiEnabled"
+              ? "aiDisable"
               : "aiEnable",
           )}
           selected={p.journalAIConsentVersion === AI_CONSENT_VERSION}

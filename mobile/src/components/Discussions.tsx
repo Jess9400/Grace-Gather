@@ -27,6 +27,7 @@ import {
   type Topic,
 } from "../lib/discussion-model";
 import { friendCopy } from "../lib/friends-copy";
+import { replyCount } from "../lib/plural";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
 import { roomTheme } from "../lib/people-theme";
 
@@ -122,7 +123,7 @@ export default function Discussions({
             key={topic.id}
             topic={topic}
             tag={topic.reference || c("Discussion")}
-            detail={replies === 1 ? c("1 reply") : `${replies} ${c("replies")}`}
+            detail={replyCount(lang, replies)}
             onPress={() => onOpen(topic.id)}
           />
         );

@@ -28,7 +28,7 @@ const words = {
     "A reply is taking longer than usual. Your message is saved. Please try again shortly.",
     "A resposta está demorando mais que o normal. Sua mensagem foi salva. Tente novamente em breve.",
     "La respuesta está tardando más de lo habitual. Tu mensaje está guardado. Inténtalo de nuevo en un momento.",
-    "Ответ занимает больше времени, чем обычно. Сообщение сохранено. Попробуйте чуть позже.",
+    "Ответ готовится дольше обычного. Сообщение сохранено. Попробуйте чуть позже.",
   ],
   close: [
     "Close conversation",
@@ -49,7 +49,7 @@ const words = {
     "Try reply again",
     "Tentar resposta novamente",
     "Volver a intentar la respuesta",
-    "Повторить ответ",
+    "Запросить ответ ещё раз",
   ],
   failed: [
     "Your message is saved. The reply is unavailable right now.",
@@ -106,7 +106,7 @@ const words = {
     "This conversation is full. You can begin a new journal entry.",
     "Esta conversa está cheia. Você pode iniciar uma nova entrada.",
     "Esta conversación está llena. Puedes comenzar una nueva entrada.",
-    "Разговор заполнен. Можно начать новую запись.",
+    "Разговор достиг максимальной длины. Можно начать новую запись.",
   ],
 };
 export function chatCopy(lang: Language, key: keyof typeof words) {

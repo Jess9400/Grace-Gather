@@ -57,7 +57,7 @@ const words: Record<string, string[]> = {
     "We couldn’t write a personal reply just now. Your prayer is saved, and the verse below was chosen for what you wrote.",
     "Não conseguimos escrever uma resposta pessoal agora. Sua oração está salva, e o versículo abaixo foi escolhido para o que você escreveu.",
     "No pudimos escribir una respuesta personal ahora. Tu oración está guardada y el versículo de abajo fue elegido para lo que escribiste.",
-    "Сейчас не удалось написать личный ответ. Молитва сохранена, а стих ниже выбран по тому, что вы написали.",
+    "Сейчас не удалось написать личный ответ. Молитва сохранена, а стих ниже подобран с учётом того, что вы написали.",
   ],
   replyCardTitle: [
     "Would you like a reply?",
@@ -93,7 +93,7 @@ const words: Record<string, string[]> = {
     "Enable AI guidance in preferences to retry your personal response.",
     "Ative a orientação por IA nas preferências para tentar novamente sua resposta personalizada.",
     "Activa la orientación con IA en preferencias para volver a intentar tu respuesta personalizada.",
-    "Включите помощь ИИ в настройках, чтобы повторить запрос персонального ответа.",
+    "Включите подсказки ИИ в настройках, чтобы снова запросить личный ответ.",
   ],
   openPreferences: [
     "Open preferences",
@@ -105,13 +105,13 @@ const words: Record<string, string[]> = {
     "Try my response again",
     "Tentar minha resposta novamente",
     "Volver a intentar mi respuesta",
-    "Повторить запрос ответа",
+    "Запросить ответ ещё раз",
   ],
   retryGuidanceFailed: [
     "Still unavailable. Your entry is safe; try again later.",
     "Ainda indisponível. Sua escrita está salva; tente mais tarde.",
     "Aún no está disponible. Tu entrada está guardada; inténtalo más tarde.",
-    "Ответ пока недоступен. Запись сохранена; попробуйте позже.",
+    "Ответ всё ещё недоступен. Запись сохранена, попробуйте позже.",
   ],
   searchingBible: [
     "Searching your Bible…",
@@ -147,14 +147,14 @@ const words: Record<string, string[]> = {
     "Keep session",
     "Manter sessão",
     "Mantener sesión",
-    "Сохранить встречу",
+    "Не отменять",
   ],
 
   gatheringsNotConnected: [
     "This preview is not connected to the gathering service.",
     "Esta prévia não está conectada ao serviço de encontros.",
     "Esta vista previa no está conectada al servicio de encuentros.",
-    "Предпросмотр не подключён к сервису встреч.",
+    "Эта предварительная версия не подключена к сервису встреч.",
   ],
   reloadSessions: [
     "Reload sessions",
@@ -181,7 +181,7 @@ const words: Record<string, string[]> = {
     "Hosts and registered attendees receive an in-app reminder 24 hours before each session. If you book later, it arrives shortly after booking.",
     "Anfitriões e inscritos recebem um lembrete no app 24 horas antes de cada sessão. Inscrições posteriores recebem o aviso logo após a reserva.",
     "Anfitriones e inscritos reciben un recordatorio en la app 24 horas antes de cada sesión. Si reservas después, llegará poco después de reservar.",
-    "Ведущие и участники получают уведомление в приложении за 24 часа. При поздней записи оно придёт вскоре после бронирования.",
+    "Ведущие и записавшиеся участники получают напоминание в приложении за 24 часа до каждой встречи. Если вы запишетесь позже, оно придёт вскоре после записи.",
   ],
   gatheringReminders: [
     "Gathering reminders",
@@ -211,7 +211,7 @@ const words: Record<string, string[]> = {
     "Mark read",
     "Marcar como lido",
     "Marcar como leído",
-    "Отметить прочитанным",
+    "Отметить как прочитанное",
   ],
   cancelSession: [
     "Cancel this session",
@@ -225,7 +225,7 @@ const words: Record<string, string[]> = {
     "Cancelar sesiones restantes",
     "Отменить оставшиеся встречи",
   ],
-  cancelled: ["Cancelled", "Cancelado", "Cancelado", "Отменено"],
+  cancelled: ["Cancelled", "Cancelado", "Cancelado", "Встреча отменена"],
 
   searchSessions: [
     "Search sessions, themes and hosts",
@@ -267,7 +267,7 @@ const words: Record<string, string[]> = {
     "Fecha del acontecimiento",
     "Дата события",
   ],
-  retrieved: ["Retrieved", "Consultado", "Consultado", "Получено"],
+  retrieved: ["Retrieved", "Consultado", "Consultado", "Дата обращения:"],
   publisherExcerpt: [
     "Attributed publisher excerpt",
     "Trecho da publicação original",
@@ -309,7 +309,7 @@ const words: Record<string, string[]> = {
     "Comments could not load. Retry or check your account connection.",
     "Os comentários não carregaram. Tente novamente ou confira sua conta.",
     "No cargaron los comentarios. Reintenta o comprueba tu cuenta.",
-    "Комментарии не загрузились. Повторите попытку или проверьте аккаунт.",
+    "Комментарии не загрузились. Повторите попытку или проверьте, что вы вошли в аккаунт.",
   ],
   commentsHeading: ["Comments", "Comentários", "Comentarios", "Комментарии"],
   commentPrompt: [
@@ -334,7 +334,7 @@ const words: Record<string, string[]> = {
     "Publisher story",
     "História da fonte",
     "Historia de la fuente",
-    "История издателя",
+    "Материал издания",
   ],
   publisherUnavailable: [
     "Could not load the full story. Try again or open the original.",
@@ -445,7 +445,7 @@ const words: Record<string, string[]> = {
     "Safety concern",
     "Risco à segurança",
     "Riesgo para la seguridad",
-    "Опасный контент",
+    "Угроза безопасности",
   ],
   spam: ["Spam", "Spam", "Spam", "Спам"],
   rights: [
@@ -456,12 +456,12 @@ const words: Record<string, string[]> = {
   ],
   other: ["Other", "Outro", "Otro", "Другое"],
   retry: ["Try again", "Tentar novamente", "Reintentar", "Повторить"],
-  cancel: ["Cancel", "Cancelar", "Cancelar", "Отмена"],
+  cancel: ["Cancel", "Cancelar", "Cancelar", "Отменить"],
   shareTestimony: [
     "Share your testimony",
     "Compartilhe seu testemunho",
     "Comparte tu testimonio",
-    "Поделитесь своей историей",
+    "Поделиться свидетельством",
   ],
   myTestimonies: [
     "My testimonies",
@@ -479,13 +479,13 @@ const words: Record<string, string[]> = {
     "Good news · 24h",
     "Boas notícias · 24h",
     "Buenas noticias · 24h",
-    "Добрые новости · 24ч",
+    "Добрые новости · 24 ч",
   ],
   earlierNews: [
     "Earlier news",
     "Notícias anteriores",
     "Noticias anteriores",
-    "Ранние новости",
+    "Более ранние новости",
   ],
   newsTime: [
     "Published in the past 24 hours. Events may be earlier.",
@@ -503,7 +503,7 @@ const words: Record<string, string[]> = {
     "A publisher is unavailable. Showing the latest saved collection.",
     "Uma fonte está indisponível. Mostrando a coleção salva.",
     "Una fuente no está disponible. Mostramos la colección guardada.",
-    "Источник недоступен. Показана сохранённая подборка.",
+    "Один из источников недоступен. Показана последняя сохранённая подборка.",
   ],
   noNews: [
     "No verified publications in the past 24 hours.",
@@ -515,7 +515,7 @@ const words: Record<string, string[]> = {
     "No published testimonies yet. Your story could encourage someone.",
     "Ainda não há testemunhos. Sua história pode encorajar alguém.",
     "Aún no hay testimonios. Tu historia podría animar a alguien.",
-    "Пока нет свидетельств. Ваша история может поддержать кого-то.",
+    "Опубликованных свидетельств пока нет. Ваша история может кого-то поддержать.",
   ],
   noSaved: [
     "Sign in and save a story to find it here.",
@@ -533,7 +533,7 @@ const words: Record<string, string[]> = {
     "Browse earlier news",
     "Ver notícias anteriores",
     "Ver noticias anteriores",
-    "Смотреть ранние новости",
+    "Показать более ранние новости",
   ],
   moreStories: [
     "More stories",
@@ -546,7 +546,7 @@ const words: Record<string, string[]> = {
     "Circles of people who feel what you feel and want to grow. Come as you are.",
     "Círculos de pessoas que sentem o que você sente e querem crescer. Venha como você está.",
     "Círculos de personas que sienten lo que tú sientes y quieren crecer. Ven tal como eres.",
-    "Круги людей, которые чувствуют то же, что и вы, и хотят расти. Приходите такими, какие вы есть.",
+    "Круги людей, которые чувствуют то же, что и вы, и хотят духовно расти. Приходите такими, какие вы есть.",
   ],
   liveNow: ["Live now", "Ao vivo agora", "En directo ahora", "Сейчас идёт"],
   joinNow: ["Join", "Entrar", "Entrar", "Войти"],
@@ -598,7 +598,7 @@ const words: Record<string, string[]> = {
     "Thursday circle · in planning",
     "Encontro de quinta · em planejamento",
     "Círculo del jueves · en preparación",
-    "По четвергам · в подготовке",
+    "Круг по четвергам · в подготовке",
   ],
   noLive: [
     "No live rooms right now. Explore upcoming sessions or create one.",
@@ -658,7 +658,7 @@ const words: Record<string, string[]> = {
     "Use the host’s invitation link.",
     "Use o link de convite do anfitrião.",
     "Usa el enlace de invitación del anfitrión.",
-    "Используйте ссылку организатора.",
+    "Используйте ссылку-приглашение от ведущего.",
   ],
   not_allowed: [
     "Participation is unavailable for this account.",
@@ -676,7 +676,7 @@ const words: Record<string, string[]> = {
     "Only the host can do this.",
     "Somente o anfitrião pode fazer isso.",
     "Solo el anfitrión puede hacerlo.",
-    "Доступно только организатору.",
+    "Это может сделать только ведущий.",
   ],
   participant_missing: [
     "This person has left.",
@@ -688,7 +688,7 @@ const words: Record<string, string[]> = {
     "Audio rooms are not connected yet. Scheduling is available.",
     "As salas de áudio ainda não estão conectadas. É possível agendar.",
     "Las salas de audio aún no están conectadas. Puedes programar encuentros.",
-    "Аудиокомнаты ещё не подключены. Планирование доступно.",
+    "Аудиокомнаты пока не работают, но встречу уже можно запланировать.",
   ],
   audioSetupNote: [
     "Audio rooms are being connected. You can schedule a future gathering.",
@@ -712,13 +712,13 @@ const words: Record<string, string[]> = {
     "New joins are blocked. Retry ending the call to disconnect everyone.",
     "Novas entradas bloqueadas. Tente encerrar novamente para desconectar todos.",
     "Nuevas entradas bloqueadas. Reintenta finalizar para desconectar a todos.",
-    "Новые подключения закрыты. Повторите завершение звонка, чтобы отключить всех.",
+    "Новые участники больше не могут войти. Попробуйте ещё раз завершить встречу, чтобы отключить всех.",
   ],
   createIntro: [
     "Host an audio conversation and manage who can speak.",
     "Organize uma conversa em áudio e gerencie quem pode falar.",
     "Organiza una conversación de audio y gestiona quién puede hablar.",
-    "Организуйте аудиобеседу и предоставляйте слово участникам.",
+    "Проведите аудиобеседу и решайте, кому дать слово.",
   ],
   title: ["Title", "Título", "Título", "Название"],
   description: [
@@ -732,7 +732,7 @@ const words: Record<string, string[]> = {
     "Host display name",
     "Nome do anfitrião",
     "Nombre del anfitrión",
-    "Имя организатора",
+    "Имя ведущего",
   ],
   language: ["Language", "Idioma", "Idioma", "Язык"],
   schedule: [
@@ -752,14 +752,14 @@ const words: Record<string, string[]> = {
     "Time (24h, HH:MM)",
     "Horário (24h, HH:MM)",
     "Hora (24h, HH:MM)",
-    "Время (24ч, ЧЧ:ММ)",
+    "Время (24 ч, ЧЧ:ММ)",
   ],
   timezone: ["Timezone", "Fuso horário", "Zona horaria", "Часовой пояс"],
   timezoneNote: [
     "Date and time use this timezone. Repeated clock-change hours use the later, standard-time occurrence.",
     "A data e hora usam este fuso. Horas repetidas usam a ocorrência posterior, no horário padrão.",
     "La fecha y hora usan esta zona. Las horas repetidas usan la segunda ocurrencia, en horario estándar.",
-    "Дата и время используют этот часовой пояс. При повторе часа берётся более позднее стандартное время.",
+    "Дата и время указываются в этом часовом поясе. Если из-за перевода часов время повторяется, выбирается более позднее — по стандартному времени.",
   ],
   public: ["Public", "Público", "Público", "Открытая"],
   inviteOnly: [
@@ -772,19 +772,19 @@ const words: Record<string, string[]> = {
     "Visible in Gatherings. Signed-in members can reserve and join.",
     "Visível em Encontros. Membros conectados podem reservar e entrar.",
     "Visible en Encuentros. Los miembros conectados pueden reservar y entrar.",
-    "Видна в разделе встреч. Участники с аккаунтом могут записаться и войти.",
+    "Видна в разделе «Встречи». Участники, вошедшие в аккаунт, могут записаться и присоединиться.",
   ],
   inviteGatheringNotice: [
     "Only people with your link can reserve. Share it after creating the room.",
     "Somente pessoas com seu link podem reservar. Compartilhe após criar a sala.",
     "Solo las personas con tu enlace pueden reservar. Compártelo después de crear la sala.",
-    "Запись доступна по вашей ссылке. Поделитесь ею после создания комнаты.",
+    "Записаться можно только по вашей ссылке. Поделитесь ею после создания комнаты.",
   ],
   capacity: [
     "Participant limit (2–100, including host)",
     "Limite de participantes (2–100, com anfitrião)",
     "Límite de participantes (2–100, con anfitrión)",
-    "Лимит участников (2–100, с организатором)",
+    "Лимит участников (2–100, включая ведущего)",
   ],
   duration: [
     "Duration in minutes (15–180)",
@@ -830,19 +830,19 @@ const words: Record<string, string[]> = {
     "The connection ended. Rejoin when ready.",
     "A conexão terminou. Entre novamente quando quiser.",
     "La conexión terminó. Vuelve cuando quieras.",
-    "Соединение завершено. Можно войти снова.",
+    "Соединение прервалось. Войдите снова, когда будете готовы.",
   ],
   micDenied: [
     "Microphone access denied. You can listen. Enable access in device or browser settings to speak.",
     "Acesso ao microfone negado. Você pode ouvir. Ative nas configurações para falar.",
     "Acceso al micrófono denegado. Puedes escuchar. Actívalo en ajustes para hablar.",
-    "Доступ к микрофону отклонён. Можно слушать. Разрешите доступ в настройках, чтобы говорить.",
+    "Нет доступа к микрофону. Слушать можно, а чтобы говорить, разрешите доступ в настройках устройства или браузера.",
   ],
   micError: [
     "Check your microphone permissions.",
     "Confira as permissões do microfone.",
     "Comprueba los permisos del micrófono.",
-    "Проверьте разрешения микрофона.",
+    "Проверьте, разрешён ли доступ к микрофону.",
   ],
   handError: [
     "Could not send your request. Try again.",
@@ -854,7 +854,7 @@ const words: Record<string, string[]> = {
     "Could not change audio output.",
     "Não foi possível alterar a saída de áudio.",
     "No se pudo cambiar la salida de audio.",
-    "Не удалось изменить аудиовыход.",
+    "Не удалось переключить вывод звука.",
   ],
   systemAudioOutput: [
     "Choose speakers or headphones in your device’s sound controls.",
@@ -866,7 +866,7 @@ const words: Record<string, string[]> = {
     "Audio output",
     "Saída de áudio",
     "Salida de audio",
-    "Аудиовыход",
+    "Вывод звука",
   ],
   audioOnly: ["Audio only", "Somente áudio", "Solo audio", "Только аудио"],
   enableSound: [
@@ -882,7 +882,7 @@ const words: Record<string, string[]> = {
     "Участник сообщества",
   ],
   you: ["You", "Você", "Tú", "Вы"],
-  host: ["Host", "Anfitrião", "Anfitrión", "Организатор"],
+  host: ["Host", "Anfitrião", "Anfitrión", "Ведущий"],
   speaker: ["Speaker", "Falante", "Orador", "Выступающий"],
   listener: ["Listener", "Ouvinte", "Oyente", "Слушатель"],
   speaking: ["Speaking", "Falando", "Hablando", "Говорит"],
@@ -898,7 +898,7 @@ const words: Record<string, string[]> = {
     "Requested to speak",
     "Pediu para falar",
     "Pidió hablar",
-    "Просит слово",
+    "Просит слова",
   ],
   invite: ["Invite", "Convidar", "Invitar", "Пригласить"],
   inviteError: [
@@ -959,7 +959,7 @@ const words: Record<string, string[]> = {
     "Join muted. Listen with kindness; the host can invite you to speak. This is peer support, not professional care.",
     "Entre com o microfone desligado. Ouça com carinho; o anfitrião pode convidá-lo a falar. Apoio entre pares, não atendimento profissional.",
     "Entra con el micrófono apagado. Escucha con respeto; el anfitrión puede darte la palabra. Apoyo entre pares, no atención profesional.",
-    "Войдите с выключенным микрофоном. Слушайте с добротой; организатор может дать слово. Это взаимная поддержка, не профессиональная помощь.",
+    "Войдите с выключенным микрофоном. Слушайте доброжелательно; ведущий может дать вам слово. Это взаимная поддержка, а не профессиональная помощь.",
   ],
   switchRoom: [
     "Joining will leave your current room.",

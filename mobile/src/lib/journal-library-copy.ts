@@ -64,7 +64,7 @@ const words = {
     "Move this entry to Recently deleted?",
     "Mover esta entrada para Excluídos recentemente?",
     "¿Mover esta entrada a Eliminados recientemente?",
-    "Переместить запись в недавно удалённые?",
+    "Переместить запись в «Недавно удалённые»?",
   ],
   deleteChat: [
     "Delete conversation",
@@ -76,15 +76,15 @@ const words = {
     "Move this conversation to Recently deleted? Your entry, verse and first action stay.",
     "Mover esta conversa para Excluídos recentemente? A entrada, o versículo e a primeira ação permanecem.",
     "¿Mover esta conversación a Eliminados recientemente? Se conservan la entrada, el versículo y la primera acción.",
-    "Переместить разговор в недавно удалённые? Запись, стих и первое действие сохранятся.",
+    "Переместить разговор в «Недавно удалённые»? Запись, стих и первое действие сохранятся.",
   ],
-  cancel: ["Cancel", "Cancelar", "Cancelar", "Отмена"],
+  cancel: ["Cancel", "Cancelar", "Cancelar", "Отменить"],
   restore: ["Restore", "Restaurar", "Restaurar", "Восстановить"],
   recoverUntil: [
     "Recover until",
     "Recuperar até",
     "Recuperar hasta",
-    "Восстановить до",
+    "Можно восстановить до",
   ],
   kept: [
     "Conversation kept",
@@ -97,7 +97,7 @@ const words = {
     "Conversation moves to Recently deleted on",
     "A conversa irá para Excluídos recentemente em",
     "La conversación pasará a Eliminados recientemente el",
-    "Разговор будет перемещён в недавно удалённые",
+    "Разговор будет перемещён в «Недавно удалённые»:",
   ],
   cleanupTitle: [
     "Upcoming chat cleanup",
@@ -116,7 +116,7 @@ const words = {
     "After 90 days without a new message. We notify you in the app at least seven days before cleanup. Entries, verses and first actions stay. Removed chats can be recovered for 30 days. Cleanup runs while the app is open.",
     "Após 90 dias sem novas mensagens. Avisamos no app pelo menos sete dias antes. Entradas, versículos e primeiras ações permanecem. Conversas removidas podem ser recuperadas por 30 dias. A limpeza ocorre com o app aberto.",
     "Tras 90 días sin mensajes nuevos. Te avisamos en la app al menos siete días antes. Se conservan las entradas, los versículos y las primeras acciones. Puedes recuperar las conversaciones durante 30 días. La limpieza se realiza con la app abierta.",
-    "Через 90 дней без новых сообщений. Мы предупредим в приложении минимум за семь дней. Записи, стихи и первые действия сохранятся. Удалённые разговоры можно восстановить в течение 30 дней. Очистка выполняется, когда приложение открыто.",
+    "Через 90 дней без новых сообщений. Мы предупредим вас в приложении минимум за семь дней до очистки. Записи, стихи и первые действия сохранятся. Удалённые разговоры можно восстановить в течение 30 дней. Очистка выполняется, пока приложение открыто.",
   ],
   cleanupUnavailable: [
     "Automatic cleanup is unavailable in this browser. Your conversations will stay saved.",
@@ -160,9 +160,9 @@ const words = {
     "Include our conversations",
     "Incluir nossas conversas",
     "Incluir nuestras conversaciones",
-    "Включить наши разговоры",
+    "Добавить наши разговоры",
   ],
-  pdf: ["Save as PDF", "Salvar como PDF", "Guardar como PDF", "Сохранить PDF"],
+  pdf: ["Save as PDF", "Salvar como PDF", "Guardar como PDF", "Сохранить в PDF"],
   pdfInfo: [
     "A readable copy of the selected entries. Audio stays in the encrypted backup.",
     "Uma cópia legível das entradas selecionadas. O áudio fica no backup criptografado.",
@@ -179,7 +179,7 @@ const words = {
     "A private file you can restore on another device, including recordings. Keep the recovery key separately.",
     "Um arquivo privado para restaurar em outro dispositivo, incluindo gravações. Guarde a chave de recuperação separadamente.",
     "Un archivo privado para restaurar en otro dispositivo, incluidas las grabaciones. Guarda la clave de recuperación por separado.",
-    "Личный файл для восстановления на другом устройстве, включая аудио. Храните ключ восстановления отдельно.",
+    "Личный файл, из которого можно восстановить дневник на другом устройстве, вместе с аудиозаписями. Храните ключ восстановления отдельно.",
   ],
   recoveryKey: [
     "Recovery key",
@@ -197,7 +197,7 @@ const words = {
     "I saved my recovery key",
     "Guardei minha chave de recuperação",
     "He guardado mi clave de recuperación",
-    "Я сохранил(а) ключ восстановления",
+    "Ключ восстановления сохранён",
   ],
   restoreBackup: [
     "Restore a backup",
@@ -209,7 +209,7 @@ const words = {
     "Adds missing entries. Entries already on this device are kept unchanged.",
     "Adiciona entradas ausentes. Entradas já neste dispositivo não são alteradas.",
     "Añade las entradas que faltan. Las entradas de este dispositivo no se modifican.",
-    "Добавляет отсутствующие записи. Существующие записи не изменяются.",
+    "Добавляются только недостающие записи. Записи, которые уже есть на этом устройстве, не изменятся.",
   ],
   restored: [
     "Your journal has been restored.",

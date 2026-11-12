@@ -16,6 +16,7 @@ import {
 } from "../lib/holy-days";
 import {
   holyDayDateLight,
+  holyDayArtScale,
   holyDayDateShape,
   holyDayImages,
 } from "../lib/holy-day-art";
@@ -68,6 +69,24 @@ function DateHolder({
       >
         {day}
       </Text>
+    </View>
+  );
+}
+// Shows a holy day's drawing at its own size (tall drawings a little smaller),
+// shifted so its date sits on exactly the same line as every other date.
+function ScaledDateHolder({
+  id,
+  day,
+  dim = false,
+}: {
+  id: HolyDayId;
+  day: number;
+  dim?: boolean;
+}) {
+  const width = HOLDER_WIDTH * (holyDayArtScale[holyDayArt[id]] ?? 1);
+  return (
+    <View style={{ marginTop: dateTop(HOLDER_WIDTH) - dateTop(width) }}>
+      <DateHolder id={id} day={day} width={width} dim={dim} />
     </View>
   );
 }
@@ -201,7 +220,7 @@ export default function GatheringCalendar({
                 }}
               >
                 {feast ? (
-                  <DateHolder id={feast.id} day={day} dim={past && !on} />
+                  <ScaledDateHolder id={feast.id} day={day} dim={past && !on} />
                 ) : (
                   <Text
                     style={{
@@ -278,7 +297,7 @@ export default function GatheringCalendar({
                   gap: 14,
                 }}
               >
-                <DateHolder id={h.id} day={h.day} />
+                <ScaledDateHolder id={h.id} day={h.day} />
                 <Text
                   accessibilityLabel={`${new Date(
                     h.year,
