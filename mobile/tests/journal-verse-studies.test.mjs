@@ -26,7 +26,7 @@ function load(path) {
 const reader = load(resolve(root, 'mobile/src/lib/bible.ts'));
 const references = load(resolve(root, 'mobile/src/lib/journal-verse-reference.ts'));
 const { journalVerseStudy } = load(resolve(root, 'mobile/src/lib/journal-verse-studies.ts'));
-await Promise.all(['blivre', 'rv1909', 'synodal'].map(id => reader.ensureCollection(id)));
+await Promise.all(['web', 'dra', 'brenton', 'blivre', 'rv1909', 'synodal'].map(id => reader.ensureCollection(id)));
 
 const map = JSON.parse(readFileSync(root + 'mobile/src/generated/journal-map.json', 'utf8'));
 const studies = JSON.parse(readFileSync(root + 'mobile/src/generated/journal-verse-studies.json', 'utf8')).verses;

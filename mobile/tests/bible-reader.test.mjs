@@ -24,7 +24,7 @@ function load(path) {
   return module.exports;
 }
 const reader = load(resolve(root, 'mobile/src/lib/bible.ts'));
-await Promise.all(['blivre','rv1909','synodal'].map(id => reader.ensureCollection(id)));
+await Promise.all(['web','dra','brenton','blivre','rv1909','synodal'].map(id => reader.ensureCollection(id)));
 
 test('Community maps curated quotations only through explicit edition-specific verse aliases', () => {
   assert.equal(reader.discussionVerseId('brenton-psalm-22-2'),'brenton:PSA.22.2');
