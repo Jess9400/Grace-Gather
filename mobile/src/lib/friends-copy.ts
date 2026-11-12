@@ -43,7 +43,7 @@ const words: Record<string, string[]> = {
     [
       "Conversem sobre um versículo ou o que estiver no coração. Cada mensagem passa por uma verificação de segurança antes que outros a vejam.",
       "Conversen sobre un versículo o lo que lleven en el corazón. Cada mensaje pasa una revisión de seguridad antes de que otros lo vean.",
-      "Говорите о стихе или о том, что на сердце. Каждое сообщение проходит проверку безопасности, прежде чем его увидят другие.",
+      "Обсуждайте стих или то, что у вас на сердце. Каждое сообщение проходит проверку безопасности, прежде чем его увидят другие.",
     ],
   "Start a discussion": [
     "Iniciar uma discussão",
@@ -54,7 +54,7 @@ const words: Record<string, string[]> = {
   Mine: ["Minhas", "Mías", "Мои"],
   "Being checked": ["Em verificação", "En revisión", "На проверке"],
   "1 reply": ["1 resposta", "1 respuesta", "1 ответ"],
-  replies: ["respostas", "respuestas", "ответов"],
+  replies: ["respostas", "respuestas", "отв."],
   "Started by": ["Iniciada por", "Iniciada por", "Автор:"],
   "You have not joined a discussion yet.": [
     "Você ainda não participou de nenhuma discussão.",
@@ -75,7 +75,7 @@ const words: Record<string, string[]> = {
     [
       "Seja gentil. Cada mensagem passa por uma verificação de segurança antes que outros a vejam, e moderadores analisam o que gerar dúvida. Toda a comunidade pode ler, então não compartilhe detalhes pessoais.",
       "Sé amable. Cada mensaje pasa una revisión de seguridad antes de que otros lo vean, y los moderadores revisan lo dudoso. Toda la comunidad puede leerlo, así que no compartas datos personales.",
-      "Будьте добры друг к другу. Каждое сообщение проходит проверку безопасности, прежде чем его увидят другие, а сомнительные случаи смотрят модераторы. Это читает вся община, поэтому не делитесь личными данными.",
+      "Будьте добры друг к другу. Каждое сообщение проходит проверку безопасности, прежде чем его увидят другие, а всё сомнительное просматривают модераторы. Это могут прочитать все в сообществе, поэтому не делитесь личными данными.",
     ],
   "Being checked. Only you can see this for now.": [
     "Em verificação. Por enquanto só você vê isto.",
@@ -103,7 +103,7 @@ const words: Record<string, string[]> = {
     [
       "Qualquer pessoa da comunidade pode ler e responder. Ela aparece depois de passar pela verificação de segurança.",
       "Cualquier persona de la comunidad puede leer y responder. Aparece cuando pasa la revisión de seguridad.",
-      "Любой участник общины может прочитать и ответить. Обсуждение появится после проверки безопасности.",
+      "Любой участник сообщества может прочитать и ответить. Обсуждение появится после проверки безопасности.",
     ],
   About: ["Sobre", "Sobre", "О стихе"],
   Title: ["Título", "Título", "Заголовок"],
@@ -159,14 +159,14 @@ const words: Record<string, string[]> = {
     [
       "Escolha um nome público para escrever aqui. Só este nome aparece com suas mensagens.",
       "Elige un nombre público para escribir aquí. Solo este nombre aparece con tus mensajes.",
-      "Выберите публичное имя, чтобы писать здесь. С сообщениями видно только его.",
+      "Выберите публичное имя, чтобы писать здесь. Рядом с вашими сообщениями будет видно только оно.",
     ],
   "Block this member?": [
     "Bloquear este membro?",
     "¿Bloquear a este miembro?",
     "Заблокировать участника?",
   ],
-  Cancel: ["Cancelar", "Cancelar", "Отмена"],
+  Cancel: ["Cancelar", "Cancelar", "Отменить"],
   "Member blocked": [
     "Membro bloqueado",
     "Miembro bloqueado",
@@ -179,7 +179,7 @@ const words: Record<string, string[]> = {
     "Buscar por nombre público",
     "Поиск по публичному имени",
   ],
-  Search: ["Buscar", "Buscar", "Поиск"],
+  Search: ["Buscar", "Buscar", "Найти"],
   "Your public name": [
     "Seu nome público",
     "Tu nombre público",
@@ -193,7 +193,7 @@ const words: Record<string, string[]> = {
   "Let members find me by this name": [
     "Permitir que membros me encontrem por este nome",
     "Permitir que otros me encuentren por este nombre",
-    "Разрешить поиск меня по этому имени",
+    "Разрешить находить меня по этому имени",
   ],
   "Only your chosen name appears in search. Your email stays private.": [
     "Só o nome escolhido aparece na busca. Seu email é privado.",
@@ -221,7 +221,7 @@ const words: Record<string, string[]> = {
   "No friends yet. Search for someone to connect with.": [
     "Ainda sem amigos. Busque alguém para se conectar.",
     "Aún no tienes amigos. Busca a alguien para conectar.",
-    "Пока нет друзей. Найдите кого-нибудь.",
+    "Друзей пока нет. Найдите тех, с кем хотите общаться.",
   ],
   "No members found.": [
     "Nenhum membro encontrado.",
@@ -231,7 +231,7 @@ const words: Record<string, string[]> = {
   "Choose and save a public name before requesting friends.": [
     "Escolha e salve um nome público antes de adicionar amigos.",
     "Elige y guarda un nombre público antes de añadir amigos.",
-    "Сначала выберите и сохраните публичное имя.",
+    "Чтобы добавлять друзей, сначала выберите и сохраните публичное имя.",
   ],
   "Sign in to find friends and chat.": [
     "Entre para encontrar amigos e conversar.",
@@ -242,7 +242,7 @@ const words: Record<string, string[]> = {
   "Could not complete this. Please try again.": [
     "Não foi possível concluir. Tente novamente.",
     "No se pudo completar. Inténtalo de nuevo.",
-    "Не удалось выполнить. Попробуйте снова.",
+    "Не удалось выполнить действие. Попробуйте ещё раз.",
   ],
   "Private conversation": [
     "Conversa privada",
@@ -253,7 +253,7 @@ const words: Record<string, string[]> = {
     [
       "Mensagens são compartilhadas com seu amigo. Moderadores podem revisar mensagens denunciadas.",
       "Los mensajes se comparten con tu amigo. Moderadores pueden revisar mensajes denunciados.",
-      "Сообщения видны вашему другу. Модераторы могут проверить сообщения с жалобами.",
+      "Сообщения видны вашему другу. Модераторы могут проверить сообщения, на которые поступили жалобы.",
     ],
   "Write a message": [
     "Escreva uma mensagem",
@@ -264,7 +264,7 @@ const words: Record<string, string[]> = {
   "Older messages": [
     "Mensagens anteriores",
     "Mensajes anteriores",
-    "Ранние сообщения",
+    "Более ранние сообщения",
   ],
   Back: ["Voltar", "Volver", "Назад"],
   Block: ["Bloquear", "Bloquear", "Заблокировать"],

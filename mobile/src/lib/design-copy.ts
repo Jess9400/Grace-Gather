@@ -6,13 +6,13 @@ const words = {
     "Find Scripture",
     "Encontrar passagens",
     "Encontrar pasajes",
-    "Найти слова Писания",
+    "Найти в Писании",
   ],
   voiceNote: [
     "Add a voice note",
     "Adicionar áudio",
     "Añadir una nota de voz",
-    "Добавить голосовую запись",
+    "Добавить голосовую заметку",
   ],
   aboutSpace: [
     "About this space",
@@ -36,13 +36,13 @@ const words = {
     "Be heard anonymously.",
     "Seja ouvido de forma anônima.",
     "Encuentra escucha de forma anónima.",
-    "Поделитесь анонимно.",
+    "Вас выслушают анонимно.",
   ],
   comfortHint: [
     "Respond with kindness.",
     "Responda com carinho.",
     "Responde con cariño.",
-    "Ответьте с добротой.",
+    "Ответьте по-доброму.",
   ],
   audienceSummary: [
     "Anonymous to community listeners · One response",
@@ -79,7 +79,7 @@ const words = {
     "A little time together.",
     "Um tempo para estar juntos.",
     "Un tiempo para estar juntos.",
-    "Немного времени вместе.",
+    "Побудем немного вместе.",
   ],
   plannedTitle: [
     "Thursday conversations",

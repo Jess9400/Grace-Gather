@@ -77,6 +77,13 @@ const text = {
     "Activar orientación con IA",
     "Включить подсказки ИИ",
   ],
+  // Shown on the AI button while AI is on: the button says what tapping does.
+  aiDisable: [
+    "Turn off AI guidance",
+    "Desativar orientação por IA",
+    "Desactivar orientación con IA",
+    "Отключить подсказки ИИ",
+  ],
   aiEnabled: [
     "AI guidance enabled",
     "Orientação por IA ativada",
