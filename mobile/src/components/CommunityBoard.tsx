@@ -36,6 +36,7 @@ import {
   type DiscussionAction,
 } from "../lib/discussion-model";
 import { getReadingVerse, discussionVerseId } from "../lib/bible";
+import { useBibleFor } from "../lib/use-bible";
 
 type ViewMode = "list" | "thread" | "compose" | "review";
 type CommunityProps = {
@@ -72,8 +73,11 @@ function CommunityScreen({
     verse?: string;
     compose?: string;
   }>();
+  const bibleReady = useBibleFor(params.verse);
   const linkedVerse =
-    !feed && params.verse ? discussionVerseId(params.verse) : null;
+    !feed && params.verse && bibleReady
+      ? discussionVerseId(params.verse)
+      : null;
   const verse = linkedVerse ? getReadingVerse(linkedVerse) : null;
   const {
     state,
