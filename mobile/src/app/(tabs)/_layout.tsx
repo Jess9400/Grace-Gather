@@ -38,7 +38,7 @@ export default function TabsLayout() {
         [
           ["index", churchCopy(profile.language, "home"), "home-outline"],
           ["explore", copy(profile.language, "explore"), "compass-outline"],
-          ["bible", q(profile.language, "bible"), "book-outline"],
+          ["bible", q(profile.language, "bibleTab"), "book-outline"],
           [
             "confession",
             isProtestant(profile)

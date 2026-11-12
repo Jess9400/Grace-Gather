@@ -121,7 +121,7 @@ export default function Gatherings() {
               en: "No matching gathering was found. You can explore others below.",
               pt: "Não encontramos um encontro correspondente. Você pode explorar outros abaixo.",
               es: "No encontramos un encuentro que coincida. Puedes explorar otros abajo.",
-              ru: "Подходящая встреча не найдена. Другие встречи показаны ниже.",
+              ru: "Подходящей встречи не нашлось. Другие встречи можно посмотреть ниже.",
             }[profile.language]
           }
         </Body>

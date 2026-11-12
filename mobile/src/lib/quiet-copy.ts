@@ -41,7 +41,7 @@ const words = {
     "Optional reading about everyday life, separate from faith-specific study.",
     "Leituras opcionais sobre a vida cotidiana, separadas do estudo da fé.",
     "Lecturas opcionales sobre la vida cotidiana, separadas del estudio de la fe.",
-    "Необязательные книги о повседневной жизни, отдельно от изучения веры.",
+    "Книги о повседневной жизни — по желанию, отдельно от изучения веры.",
   ),
   library: L(
     "Courses and books",
@@ -61,13 +61,13 @@ const words = {
     "Which Christian tradition do you follow?",
     "Qual tradição cristã você segue?",
     "¿Qué tradición cristiana sigues?",
-    "Какой христианской традиции вы следуете?",
+    "К какой христианской традиции вы относитесь?",
   ),
   closest: L(
     "Choose what feels closest. You can change this anytime.",
     "Escolha o que mais combina com você. Pode mudar depois.",
     "Elige lo que más se acerque a ti. Puedes cambiarlo después.",
-    "Выберите то, что вам ближе. Это можно изменить.",
+    "Выберите то, что вам ближе. Это можно изменить в любой момент.",
   ),
   exploring: L(
     "Still exploring",
@@ -75,7 +75,7 @@ const words = {
     "Todavía explorando",
     "Ещё ищу",
   ),
-  skip: L("Skip for now", "Agora não", "Por ahora no", "Пока пропустить"),
+  skip: L("Skip for now", "Agora não", "Por ahora no", "Не сейчас"),
   continue: L("Continue", "Continuar", "Continuar", "Продолжить"),
   question: L(
     "How are you\nfeeling today?",
@@ -87,7 +87,7 @@ const words = {
     "a moment for you",
     "um momento para você",
     "un momento para ti",
-    "мгновение для вас",
+    "минутка для вас",
   ),
   great: L("great", "muito bem", "muy bien", "отлично"),
   low: L("a little low", "um pouco triste", "algo triste", "немного грустно"),
@@ -101,7 +101,7 @@ const words = {
     "There is no right answer. Just yours.",
     "Não existe resposta certa. Apenas a sua.",
     "No hay una respuesta correcta. Solo la tuya.",
-    "Нет правильного ответа. Есть ваш.",
+    "Правильного ответа нет. Есть только ваш.",
   ),
   home: L("Journal", "Diário", "Diario", "Дневник"),
   languagePreferences: L(
@@ -123,24 +123,26 @@ const words = {
     "Сохранить настройки",
   ),
   bible: L("Bible Study", "Estudo bíblico", "Estudio bíblico", "Изучение Библии"),
+  // The tab bar has little room; «Изучение Библии» is cut off there.
+  bibleTab: L("Bible Study", "Estudo bíblico", "Estudio bíblico", "Библия"),
   diary: L("Diary", "Diário", "Diario", "Дневник"),
   done: L(
     "I’m done writing",
     "Terminei de escrever",
     "Terminé de escribir",
-    "Я закончил(а) писать",
+    "Закончить запись",
   ),
   editingTitle: L(
     "Editing your prayer",
     "Editando sua oração",
     "Editando tu oración",
-    "Вы редактируете молитву",
+    "Редактирование молитвы",
   ),
   editingFrom: L(
     "Written {date}. Your changes replace this page; the earlier wording is kept.",
     "Escrita em {date}. Suas alterações substituem esta página; o texto anterior fica guardado.",
     "Escrita el {date}. Tus cambios reemplazan esta página; el texto anterior se guarda.",
-    "Написано {date}. Изменения заменят эту страницу; прежний текст сохранится.",
+    "Написано {date}. Изменения заменят этот текст, но прежний вариант сохранится.",
   ),
   saveChanges: L(
     "Save changes",
@@ -148,7 +150,7 @@ const words = {
     "Guardar cambios",
     "Сохранить изменения",
   ),
-  cancelEdit: L("Cancel", "Cancelar", "Cancelar", "Отмена"),
+  cancelEdit: L("Cancel", "Cancelar", "Cancelar", "Отменить"),
   earlierVersion: L(
     "See earlier version",
     "Ver versão anterior",
@@ -183,7 +185,7 @@ const words = {
     "Dear God,",
     "Querido Deus,",
     "Querido Dios,",
-    "Дорогой Бог,",
+    "Господи,",
   ),
   keep: L(
     "Save on this device",
@@ -201,7 +203,7 @@ const words = {
     "Your words stay on this device. Saving is optional. Verse suggestions and this conversation are not saved in your diary.",
     "Suas palavras ficam neste dispositivo. Salvar é opcional. Versículos e esta conversa não são salvos no diário.",
     "Tus palabras permanecen en este dispositivo. Guardar es opcional. Los versículos y esta conversación no se guardan en el diario.",
-    "Ваши слова остаются на этом устройстве. Сохранение необязательно. Стихи и беседа не сохраняются в дневнике.",
+    "Ваши слова остаются на этом устройстве. Сохранять их необязательно. Подсказанные стихи и этот разговор в дневнике не сохраняются.",
   ),
   visit: L(
     "Just for this visit",
@@ -249,9 +251,9 @@ const words = {
     "Explore giving",
     "Explorar doações",
     "Explorar donaciones",
-    "Помочь пожертвованием",
+    "Узнать о пожертвованиях",
   ),
-  simple: L("Simple", "Simples", "Sencillo", "Просто"),
+  simple: L("Simple", "Simples", "Sencillo", "Проще"),
   deeper: L("Deeper", "Mais fundo", "Más profundo", "Глубже"),
   theology: L("Theology", "Teologia", "Teología", "Богословие"),
   read: L(
@@ -265,7 +267,7 @@ const words = {
     "Guided reading, not a complete verse commentary. Study notes are in English and await theological review.",
     "Leitura guiada, não um comentário completo. Notas em inglês aguardam revisão teológica.",
     "Lectura guiada, no un comentario completo. Las notas en inglés esperan revisión teológica.",
-    "Это вопросы для чтения, а не полный комментарий. Заметки на английском ожидают богословской проверки.",
+    "Это чтение с подсказками, а не полный комментарий к стиху. Заметки пока на английском и ещё не прошли богословскую проверку.",
   ),
   selections: L(
     "Selected passages",
@@ -277,13 +279,13 @@ const words = {
     "A complete reader is not yet available for this edition. These are sourced selections from your chosen Bible.",
     "A leitura completa ainda não está disponível nesta edição. Estas são passagens da sua Bíblia.",
     "La lectura completa aún no está disponible en esta edición. Estos son pasajes de tu Biblia.",
-    "Полное чтение этого издания пока недоступно. Здесь избранные отрывки из выбранной Библии.",
+    "Полный текст этого издания пока недоступен. Здесь — избранные отрывки из выбранной вами Библии.",
   ),
   tap: L(
     "Tap a verse to explore.",
     "Toque num versículo para explorar.",
     "Toca un versículo para explorar.",
-    "Нажмите на стих, чтобы изучить его.",
+    "Коснитесь стиха, чтобы изучить его.",
   ),
   chooseBook: L(
     "Choose a book",
@@ -298,7 +300,7 @@ const words = {
     "Выберите главу",
   ),
   close: L("Close", "Fechar", "Cerrar", "Закрыть"),
-  words: L("words", "palavras", "palabras", "слов"),
+  words: L("words", "palavras", "palabras", "сл."),
   edit: L(
     "Edit my page",
     "Editar minha página",
@@ -322,7 +324,7 @@ const words = {
     "Your Bible choice controls the verses in your journal. Available full readers: English, Portuguese (B\u00edblia Livre), Spanish (Reina-Valera 1909), and Russian (Synodal, 66 books). Availability depends on tradition; the Russian source omits additional Orthodox books.",
     "Sua escolha de B\u00edblia define os vers\u00edculos do di\u00e1rio. Leitura dispon\u00edvel: ingl\u00eas, portugu\u00eas (B\u00edblia Livre), espanhol (Reina-Valera 1909) e russo (Sinodal, 66 livros). A disponibilidade depende da tradi\u00e7\u00e3o; a fonte russa n\u00e3o inclui os livros ortodoxos adicionais.",
     "Tu elecci\u00f3n de Biblia determina los vers\u00edculos del diario. Lectura disponible: ingl\u00e9s, portugu\u00e9s (B\u00edblia Livre), espa\u00f1ol (Reina-Valera 1909) y ruso (Sinodal, 66 libros). La disponibilidad depende de la tradici\u00f3n; la fuente rusa no incluye los libros ortodoxos adicionales.",
-    "\u0412\u044b\u0431\u0440\u0430\u043d\u043d\u0430\u044f \u0411\u0438\u0431\u043b\u0438\u044f \u043e\u043f\u0440\u0435\u0434\u0435\u043b\u044f\u0435\u0442 \u0441\u0442\u0438\u0445\u0438 \u0432 \u0434\u043d\u0435\u0432\u043d\u0438\u043a\u0435. \u0414\u043e\u0441\u0442\u0443\u043f\u043d\u044b \u0438\u0437\u0434\u0430\u043d\u0438\u044f \u043d\u0430 \u0430\u043d\u0433\u043b\u0438\u0439\u0441\u043a\u043e\u043c, \u043f\u043e\u0440\u0442\u0443\u0433\u0430\u043b\u044c\u0441\u043a\u043e\u043c (B\u00edblia Livre), \u0438\u0441\u043f\u0430\u043d\u0441\u043a\u043e\u043c (Reina-Valera 1909) \u0438 \u0440\u0443\u0441\u0441\u043a\u043e\u043c (\u0421\u0438\u043d\u043e\u0434\u0430\u043b\u044c\u043d\u044b\u0439, 66 \u043a\u043d\u0438\u0433). \u0414\u043e\u0441\u0442\u0443\u043f\u043d\u043e\u0441\u0442\u044c \u0437\u0430\u0432\u0438\u0441\u0438\u0442 \u043e\u0442 \u0442\u0440\u0430\u0434\u0438\u0446\u0438\u0438; \u0440\u0443\u0441\u0441\u043a\u0438\u0439 \u0438\u0441\u0442\u043e\u0447\u043d\u0438\u043a \u043d\u0435 \u0432\u043a\u043b\u044e\u0447\u0430\u0435\u0442 \u0434\u043e\u043f\u043e\u043b\u043d\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0435 \u043f\u0440\u0430\u0432\u043e\u0441\u043b\u0430\u0432\u043d\u044b\u0435 \u043a\u043d\u0438\u0433\u0438.",
+    "\u0412\u044b\u0431\u0440\u0430\u043d\u043d\u0430\u044f \u0411\u0438\u0431\u043b\u0438\u044f \u043e\u043f\u0440\u0435\u0434\u0435\u043b\u044f\u0435\u0442 \u0441\u0442\u0438\u0445\u0438 \u0432 \u0434\u043d\u0435\u0432\u043d\u0438\u043a\u0435. \u041f\u043e\u043b\u043d\u044b\u0435 \u0442\u0435\u043a\u0441\u0442\u044b \u0434\u043e\u0441\u0442\u0443\u043f\u043d\u044b \u043d\u0430 \u0430\u043d\u0433\u043b\u0438\u0439\u0441\u043a\u043e\u043c, \u043f\u043e\u0440\u0442\u0443\u0433\u0430\u043b\u044c\u0441\u043a\u043e\u043c (B\u00edblia Livre), \u0438\u0441\u043f\u0430\u043d\u0441\u043a\u043e\u043c (Reina-Valera 1909) \u0438 \u0440\u0443\u0441\u0441\u043a\u043e\u043c (\u0421\u0438\u043d\u043e\u0434\u0430\u043b\u044c\u043d\u044b\u0439 \u043f\u0435\u0440\u0435\u0432\u043e\u0434, 66 \u043a\u043d\u0438\u0433) \u044f\u0437\u044b\u043a\u0430\u0445. \u0427\u0442\u043e \u0438\u043c\u0435\u043d\u043d\u043e \u0434\u043e\u0441\u0442\u0443\u043f\u043d\u043e, \u0437\u0430\u0432\u0438\u0441\u0438\u0442 \u043e\u0442 \u0442\u0440\u0430\u0434\u0438\u0446\u0438\u0438; \u0432 \u0440\u0443\u0441\u0441\u043a\u043e\u043c \u0438\u0441\u0442\u043e\u0447\u043d\u0438\u043a\u0435 \u043d\u0435\u0442 \u0434\u043e\u043f\u043e\u043b\u043d\u0438\u0442\u0435\u043b\u044c\u043d\u044b\u0445 \u043a\u043d\u0438\u0433, \u043a\u043e\u0442\u043e\u0440\u044b\u0435 \u0432\u0445\u043e\u0434\u044f\u0442 \u0432 \u043f\u0440\u0430\u0432\u043e\u0441\u043b\u0430\u0432\u043d\u0443\u044e \u0411\u0438\u0431\u043b\u0438\u044e.",
   ),
 };
 export function q(language: Language, key: keyof typeof words) {
