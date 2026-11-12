@@ -13,6 +13,7 @@ import {
   Chip,
   Notice,
   colors,
+  switchColors,
 } from "../components/quiet-ui";
 import { TextAction } from "../components/CommunityControls";
 import { useApp } from "../lib/state";
@@ -118,6 +119,7 @@ export default function Practices() {
           hint={tr("Only on Home, after the entrance.")}
         >
           <Switch
+            {...switchColors}
             accessibilityLabel={tr("Church sounds")}
             disabled={sound === null}
             value={sound === true}
@@ -130,6 +132,7 @@ export default function Practices() {
         <View style={s.line} />
         <Setting title={tr("Candle recommendations")}>
           <Switch
+            {...switchColors}
             accessibilityLabel={tr("Candle recommendations")}
             disabled={busy}
             value={welcomesCandles(profile)}

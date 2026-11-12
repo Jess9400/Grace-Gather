@@ -498,7 +498,7 @@ export default function Story() {
                 style={{
                   flexDirection: "row",
                   alignItems: "flex-end",
-                  backgroundColor: "#F2EDE2",
+                  backgroundColor: colors.pale,
                   borderRadius: 20,
                   paddingLeft: 14,
                 }}
@@ -581,7 +581,7 @@ export default function Story() {
           <View style={{ flex: 1, gap: 5 }}>
             <View
               style={{
-                backgroundColor: "#F2EDE2",
+                backgroundColor: colors.pale,
                 paddingHorizontal: 14,
                 paddingVertical: 10,
                 borderRadius: 16,

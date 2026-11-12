@@ -129,7 +129,7 @@ const s = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 12,
   },
-  pressed: { backgroundColor: "#302C280A" },
+  pressed: { backgroundColor: "#F4EBDA14" },
   copy: { flex: 1, gap: 3 },
   title: { color: colors.ink, fontSize: 16, lineHeight: 22 },
   detail: { color: colors.muted, fontSize: 13, lineHeight: 18 },

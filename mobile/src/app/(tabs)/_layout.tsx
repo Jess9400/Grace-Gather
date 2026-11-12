@@ -22,12 +22,12 @@ export default function TabsLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
-        // One espresso tab bar across the church and its rooms, so moving
+        // One dark espresso tab bar across the church and its rooms, so moving
         // between them never flips the chrome.
         tabBarActiveTintColor: "#FFF8E9",
         tabBarInactiveTintColor: "#CFC3B1",
         tabBarStyle: {
-          backgroundColor: palette.ink,
+          backgroundColor: palette.night,
           borderTopColor: "#FFFFFF14",
         },
         tabBarLabelStyle: { fontSize: 11 },

@@ -670,7 +670,7 @@ const s = StyleSheet.create({
     gap: 4,
     padding: 4,
     borderRadius: 24,
-    backgroundColor: "#F1EBDD",
+    backgroundColor: colors.pale,
   },
   tab: {
     flex: 1,
@@ -701,7 +701,7 @@ const s = StyleSheet.create({
       "0px 1px 2px rgba(48,44,40,0.05), 0px 8px 22px rgba(48,44,40,0.06)",
   },
   row: { minHeight: 68, flexDirection: "row", alignItems: "center", gap: 12 },
-  rowLine: { borderBottomWidth: 1, borderBottomColor: "#EDE6D8" },
+  rowLine: { borderBottomWidth: 1, borderBottomColor: colors.line },
   avatar: {
     width: 44,
     height: 44,

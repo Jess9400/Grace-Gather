@@ -104,7 +104,7 @@ export default function PublicDiscussions({ query }: { query: string }) {
                 <View
                   key={reply.id}
                   style={{
-                    backgroundColor: "#F2EDE2",
+                    backgroundColor: colors.pale,
                     borderRadius: 14,
                     padding: 12,
                     gap: 4,

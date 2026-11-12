@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { View, Text } from "react-native";
 import { router } from "expo-router";
-import { Button, Notice } from "./quiet-ui";
+import { Button, Notice, colors } from "./quiet-ui";
 import { useApp } from "../lib/state";
 import { useQuiet } from "../lib/quiet-state";
 import { weeklyCheckInDue } from "../generated/journal-selection";
@@ -45,7 +45,7 @@ export function StepCheckIn({ dark = false }: { dark?: boolean }) {
         style={{
           fontSize: 24,
           lineHeight: 32,
-          color: dark ? "#FFFCF3" : "#302C28",
+          color: dark ? "#FFFCF3" : colors.ink,
         }}
       >
         {jc(profile.language, "weekly")}
@@ -54,7 +54,7 @@ export function StepCheckIn({ dark = false }: { dark?: boolean }) {
         style={{
           fontSize: 16,
           lineHeight: 24,
-          color: dark ? "#FFFCF3" : "#746B61",
+          color: dark ? "#FFFCF3" : colors.muted,
         }}
       >
         {jc(profile.language, "weeklyIntro")}

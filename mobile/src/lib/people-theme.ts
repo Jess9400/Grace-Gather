@@ -1,13 +1,13 @@
 // Colours for "Your people": each group chat has its own soft tint, and each
 // person a small coloured circle with their initial. These pastels come from
-// the approved Gather prototype and sit on the app's ivory and espresso.
+// the approved Gather prototype, deepened to sit in the candlelit rooms.
 export type RoomTheme = { tint: string; dot: string };
 const THEMES: RoomTheme[] = [
-  { tint: "#F4E0D8", dot: "#C27D67" }, // rose
-  { tint: "#E3EADB", dot: "#7C9471" }, // sage
-  { tint: "#EAE4EF", dot: "#8E7BA8" }, // lavender
-  { tint: "#E3E8EE", dot: "#6F8597" }, // blue-grey
-  { tint: "#F6E9C9", dot: "#B28A3E" }, // gold
+  { tint: "#3B2723", dot: "#D28E77" }, // rose
+  { tint: "#2B3125", dot: "#93AB86" }, // sage
+  { tint: "#302A38", dot: "#A592BE" }, // lavender
+  { tint: "#262E36", dot: "#8BA0B2" }, // blue-grey
+  { tint: "#3A2F1C", dot: "#C9A45C" }, // gold
 ];
 const AVATARS = ["#E9C98A", "#CBD8C4", "#E6C8BC", "#D9C4B0", "#D5CCE0"];
 // A small stable number from a string, so a room or a person keeps its colour.
