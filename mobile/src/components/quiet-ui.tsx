@@ -17,6 +17,7 @@ import {
   KeyboardAvoidingView,
   TextInputProps,
 } from "react-native";
+import { useKeyboardReveal } from "../lib/keyboard-reveal";
 import { BlurView } from "expo-blur";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
@@ -74,9 +75,19 @@ export function Backdrop() {
     />
   );
 }
-const CardSurface = createContext(false);
+// What a control sits on: the dark page, a card, or a cream journal letter.
+type Surface = "page" | "card" | "letter";
+const CardSurface = createContext<Surface>("page");
 function useSurfaceColors() {
-  const card = useContext(CardSurface);
+  const surface = useContext(CardSurface);
+  if (surface === "letter")
+    return {
+      ink: letter.ink,
+      muted: letter.muted,
+      line: letter.line,
+      outline: letter.gold + "8C",
+    };
+  const card = surface === "card";
   return {
     ink: card ? colors.cardInk : colors.ink,
     muted: card ? colors.cardMuted : colors.muted,
@@ -104,6 +115,7 @@ export function Screen({
   keyboard?: boolean;
 }) {
   const scroll = useRef<ScrollViewInstance>(null);
+  const onScroll = useKeyboardReveal(scroll);
   const lastScrolled = useRef<string | undefined>(undefined);
   const tr = useInterfaceCopy();
   const strip = useRoomStrip(place ?? "bible") && !!place;
@@ -112,8 +124,11 @@ export function Screen({
       <SafeAreaView style={s.safe} edges={["left", "right"]}>
         <Backdrop />
         <ScrollView
+          ref={scroll}
           keyboardShouldPersistTaps="handled"
           automaticallyAdjustKeyboardInsets
+          onScroll={onScroll}
+          scrollEventThrottle={32}
         >
           <ChurchStrip place={place} back={back} />
           <View style={[s.page, s.roomPage]}>
@@ -144,6 +159,8 @@ export function Screen({
           // number pad for a sign-in code, say). Pages with a footer or
           // `keyboard` already make room by resizing instead.
           automaticallyAdjustKeyboardInsets={!avoid}
+          onScroll={onScroll}
+          scrollEventThrottle={32}
           contentContainerStyle={[s.page, !!footer && { paddingBottom: 8 }]}
           ref={scroll}
           onContentSizeChange={() => {
@@ -232,6 +249,10 @@ export function Body({
     </Text>
   );
 }
+// Shared controls placed on a journal letter (the cream page) take its ink.
+export function LetterSurface({ children }: { children: React.ReactNode }) {
+  return <CardSurface.Provider value="letter">{children}</CardSurface.Provider>;
+}
 export function Card({
   children,
   tint = false,
@@ -240,7 +261,7 @@ export function Card({
   tint?: boolean;
 }) {
   return (
-    <CardSurface.Provider value={true}>
+    <CardSurface.Provider value="card">
       <View style={[s.card, tint && s.accentCard]}>{children}</View>
     </CardSurface.Provider>
   );
@@ -345,7 +366,7 @@ export function External({ title, url }: { title: string; url: string }) {
 }
 export function Notice({ text }: { text: string }) {
   return text ? (
-    <CardSurface.Provider value={true}>
+    <CardSurface.Provider value="card">
       <View accessibilityLiveRegion="polite" style={s.notice}>
         <Body small>{text}</Body>
       </View>

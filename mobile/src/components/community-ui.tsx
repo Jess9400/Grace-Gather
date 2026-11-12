@@ -1,5 +1,5 @@
 import MemberAvatar from "./MemberAvatar";
-import React, { createContext, useContext } from "react";
+import React, { createContext, useContext, useRef } from "react";
 import {
   ScrollView,
   KeyboardAvoidingView,
@@ -18,6 +18,7 @@ import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useApp } from "../lib/state";
 import { label } from "../lib/labels";
+import { useKeyboardReveal } from "../lib/keyboard-reveal";
 import { colors } from "./quiet-ui";
 import ChurchStrip, { useRoomStrip } from "./ChurchStrip";
 import type { RoomPlace } from "../lib/church-room";
@@ -78,6 +79,9 @@ export function Screen({
 }) {
   const { profile } = useApp();
   const theme = useContext(SurfaceContext);
+  const ownScroll = useRef<React.ComponentRef<typeof ScrollView>>(null);
+  const scroll = scrollRef ?? ownScroll;
+  const onScroll = useKeyboardReveal(scroll);
   const strip = useRoomStrip(place ?? "gather") && !!place && !quiet;
   const wrapRoom = (content: React.ReactNode) =>
     strip ? <View style={[s.page, s.roomPage]}>{content}</View> : content;
@@ -92,8 +96,12 @@ export function Screen({
         behavior="height"
       >
         <ScrollView
-          ref={scrollRef}
-          automaticallyAdjustKeyboardInsets={keyboardAware}
+          ref={scroll}
+          // On iPhone, typing scrolls the page so the field and the button
+          // under it stay above the keyboard.
+          automaticallyAdjustKeyboardInsets
+          onScroll={onScroll}
+          scrollEventThrottle={32}
           keyboardDismissMode={keyboardAware ? "interactive" : "none"}
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={strip ? undefined : s.page}
