@@ -57,6 +57,7 @@ function Routes() {
               "prayers",
               "diary",
               "candle",
+              "pray",
               "entry/[id]",
               "verse/[id]",
               "preferences",

@@ -14,6 +14,7 @@ import {
   StyleSheet,
   View,
   type GestureResponderEvent,
+  Text,
 } from "react-native";
 import { useFocusEffect } from "expo-router";
 import { GLView, type ExpoWebGLRenderingContext } from "expo-gl";
@@ -54,6 +55,7 @@ class SceneBoundary extends Component<
 }
 
 const TOUR_ORDER: ChurchPlace[] = [
+  "pray",
   "confession",
   "gather",
   "bible",
@@ -89,6 +91,7 @@ export default function ChurchScene({
   orthodox = false,
   tour = false,
   labelsEnabled = true,
+  labelsAlways = false,
   onTourDone,
   onTourPlace,
   onFailure,
@@ -107,6 +110,8 @@ export default function ChurchScene({
   orthodox?: boolean;
   tour?: boolean;
   labelsEnabled?: boolean;
+  // Show every place's name all the time (a church with only a few places).
+  labelsAlways?: boolean;
   onTourDone?: () => void;
   onTourPlace?: (place: ChurchPlace | null) => void;
   onFailure?: () => void;
@@ -182,6 +187,7 @@ export default function ChurchScene({
         "gather",
         "pews",
         "wreath",
+        "pray",
       ] as ChurchPlace[]
     ).forEach((k) => {
       map[k] = new Animated.ValueXY({ x: -999, y: -999 });
@@ -198,6 +204,7 @@ export default function ChurchScene({
         "gather",
         "pews",
         "wreath",
+        "pray",
       ] as ChurchPlace[]
     ).forEach((k) => {
       map[k] = new Animated.Value(0);
@@ -220,6 +227,7 @@ export default function ChurchScene({
       width / height,
       view.current,
       props.current.protestant,
+      props.current.orthodox,
     );
     (Object.keys(projected) as ChurchPlace[]).forEach((key) => {
       const p = projected[key];
@@ -414,6 +422,7 @@ export default function ChurchScene({
   }, [touring, onTourPlace]);
 
   const visible = labelsEnabled && tour ? touring : null;
+  const named = labelsAlways && labelsEnabled && !tour;
   const touringLast = useRef<ChurchPlace | null>(null);
   useEffect(() => {
     if (touring) touringLast.current = touring;
@@ -421,7 +430,7 @@ export default function ChurchScene({
   useEffect(() => {
     (Object.keys(shown) as ChurchPlace[]).forEach((key) =>
       Animated.timing(shown[key], {
-        toValue: key === visible ? 1 : 0,
+        toValue: named || key === visible ? 1 : 0,
         duration: reduced
           ? 0
           : touring || key === touringLast.current
@@ -432,7 +441,7 @@ export default function ChurchScene({
         useNativeDriver: true,
       }).start(),
     );
-  }, [visible, touring, shown, reduced]);
+  }, [visible, named, touring, shown, reduced]);
 
   const onContextCreate = useCallback(
     async (gl: ExpoWebGLRenderingContext) => {
@@ -618,6 +627,7 @@ export default function ChurchScene({
               pointerEvents="box-none"
               style={[
                 styles.label,
+                named && styles.namedLabel,
                 {
                   opacity: shown[p.key],
                   transform: [
@@ -653,10 +663,16 @@ export default function ChurchScene({
                     onPlace(p.key, placePoints()[p.key]);
                   }}
                   style={({ pressed }) => [
-                    styles.chip,
+                    named ? styles.namedChip : styles.chip,
                     pressed && { transform: [{ scale: 0.96 }], opacity: 0.9 },
                   ]}
-                ></Pressable>
+                >
+                  {named && (
+                    <Text numberOfLines={1} style={styles.namedText}>
+                      {p.label}
+                    </Text>
+                  )}
+                </Pressable>
               )}
             </Animated.View>
           </Animated.View>
@@ -724,6 +740,18 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(80,51,65,0.94)",
   },
   // Invisible, named targets retain keyboard/screen-reader access to each place.
+  namedChip: {
+    minHeight: 30,
+    paddingHorizontal: 12,
+    borderRadius: 15,
+    justifyContent: "center",
+    backgroundColor: "rgba(48,44,40,0.82)",
+    borderWidth: 1,
+    borderColor: "rgba(255,252,243,0.35)",
+  },
+  namedText: { color: "#FFFCF3", fontSize: 13, fontWeight: "600" },
   chip: { width: 44, height: 44 },
   label: { alignItems: "center" },
+  // Room for a name on one line; the anchor itself has no width.
+  namedLabel: { width: 220 },
 });

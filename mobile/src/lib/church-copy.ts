@@ -97,6 +97,13 @@ const words = {
     "Encuentros, calendario, conversaciones e historias",
     "Круги, календарь, беседы и истории",
   ),
+  pray: L("Pray", "Rezar", "Rezar", "Помолиться"),
+  praySub: L(
+    "Before the icon, with the prayers of the Church",
+    "Diante do ícone, com as orações da Igreja",
+    "Ante el icono, con las oraciones de la Iglesia",
+    "Перед иконой, молитвами Церкви",
+  ),
   pews: L(
     "Sit quietly · Journal",
     "Sentar em silêncio · Diário",
