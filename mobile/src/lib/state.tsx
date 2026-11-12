@@ -16,6 +16,8 @@ import {
   normalizeProfile,
 } from "./content";
 import * as storage from "./storage";
+import { setTraditionWording } from "./tradition-wording";
+import { isOrthodox } from "./church-calendar";
 import { savedJournalEntries } from "../generated/quiet-diary";
 import { backend } from "./backend";
 import { JOURNAL_MESSAGE_LIMIT } from "./journal-chat";
@@ -311,6 +313,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     writes.current = task.catch(() => {});
     return task;
   }
+  // Wording that depends on tradition (Orthodox «поставить свечу») follows
+  // the current profile; set before any child reads copy this render.
+  setTraditionWording(isOrthodox(profile), profile.language);
   return (
     <Context.Provider
       value={{

@@ -1,3 +1,4 @@
+import { traditionWording } from "./tradition-wording";
 import type { Language } from "./content";
 import { prayerCopy } from "./journal-prayer-copy";
 const text = {
@@ -298,7 +299,7 @@ const text = {
   ],
 };
 export function jc(lang: Language, key: keyof typeof text) {
-  return text[key][{ en: 0, pt: 1, es: 2, ru: 3 }[lang]];
+  return traditionWording(text[key][{ en: 0, pt: 1, es: 2, ru: 3 }[lang]]);
 }
 export type JournalCopyKey = keyof typeof text;
 

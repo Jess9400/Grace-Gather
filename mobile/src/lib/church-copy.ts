@@ -1,4 +1,5 @@
 import type { Language } from "./content";
+import { traditionWording } from "./tradition-wording";
 // Copy for the church entrance, the church Home, candles and Advent.
 // Portuguese, Spanish and Russian await the four-language review.
 const L = (en: string, pt: string, es: string, ru: string) => ({
@@ -524,5 +525,5 @@ const words = {
 };
 export type ChurchWord = keyof typeof words;
 export function churchCopy(language: Language, key: ChurchWord) {
-  return words[key][language] ?? words[key].en;
+  return traditionWording(words[key][language] ?? words[key].en);
 }
