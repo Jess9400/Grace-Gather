@@ -28,6 +28,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { Button, Body, colors, serif } from "../../components/quiet-ui";
 import ChurchScene, { type PlaceLabel } from "../../components/ChurchScene";
 import ChurchEntrance from "../../components/ChurchEntrance";
+import OrthodoxEntrance from "../../components/OrthodoxEntrance";
 import { useApp } from "../../lib/state";
 import { useQuiet } from "../../lib/quiet-state";
 import { q } from "../../lib/quiet-copy";
@@ -352,6 +353,8 @@ export default function Home() {
           { key: "wreath", label: t("wreath"), hint: t("adventAbout") },
         ]
       : places;
+  // An Orthodox church has its own entrance: a white church with a golden dome.
+  const EntranceView = eastern ? OrthodoxEntrance : ChurchEntrance;
   const open = (place: ChurchPlace, point?: { x: number; y: number }) => {
     if (place === "wreath") return setAboutAdvent((v) => !v);
     const go = () => router.push(ROUTES[place] as never);
@@ -845,9 +848,8 @@ export default function Home() {
         </View>
       </Modal>
       {entrance && (
-        <ChurchEntrance
+        <EntranceView
           language={profile.language}
-          orthodox={eastern}
           onEntered={() => {
             markEntered();
             setEntrance(false);
