@@ -57,6 +57,7 @@ import {
 
 import { placeAt, type ChurchPlace } from "../../lib/church-scene";
 import { pendingStep } from "../../lib/small-step";
+import { firstChurchVisit } from "../../lib/church-tools";
 import { StepCheckIn } from "../../components/SmallStep";
 import { useChurchPresence } from "../../lib/church-presence";
 
@@ -158,6 +159,10 @@ export default function Home() {
   useEffect(() => {
     void loadCandles();
     void loadSoundOn().then(setSoundOn);
+    // A new person finds the church controls open on their first visit.
+    void firstChurchVisit().then((first) => {
+      if (first) setToolsOpen(true);
+    });
   }, []);
   useFocusEffect(
     useCallback(() => {
