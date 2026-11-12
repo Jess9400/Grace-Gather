@@ -35,6 +35,8 @@ interface State {
   journalItems: Entry[];
   saveProfile: (p: Profile) => Promise<void>;
   saveEntry: (e: Entry, keep?: boolean) => Promise<void>;
+  chooseJournalStep: (id: string, action: string) => Promise<void>;
+  acknowledgeJournalStep: (id: string, chosenAt: string) => Promise<void>;
   saveJournalResponse: (id: string, response: JournalResponse) => Promise<void>;
   saveRetriedGuidance: (
     id: string,
@@ -195,6 +197,40 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       ].sort((a, b) => b.createdAt.localeCompare(a.createdAt));
     });
   }
+  async function chooseJournalStep(id: string, action: string) {
+    await commitEntries((all) =>
+      all.map((entry) => {
+        if (entry.id !== id || entry.deletedAt || entry.sessionOnly)
+          return entry;
+        if (
+          entry.step?.id === action &&
+          !entry.step.checkedAt &&
+          !entry.step.status
+        )
+          return entry;
+        return {
+          ...entry,
+          step: { id: action, chosenAt: new Date().toISOString() },
+        };
+      }),
+    );
+  }
+  async function acknowledgeJournalStep(id: string, chosenAt: string) {
+    await commitEntries((all) =>
+      all.map((entry) => {
+        if (
+          entry.id !== id ||
+          entry.deletedAt ||
+          entry.step?.chosenAt !== chosenAt
+        )
+          return entry;
+        return {
+          ...entry,
+          step: { ...entry.step, checkedAt: new Date().toISOString() },
+        };
+      }),
+    );
+  }
   async function saveJournalResponse(id: string, response: JournalResponse) {
     await commitEntries((all) =>
       all.map((e) =>
@@ -321,6 +357,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         entries: journalItems.filter((e) => !e.deletedAt),
         saveProfile,
         saveEntry,
+        chooseJournalStep,
+        acknowledgeJournalStep,
         saveJournalResponse,
         saveRetriedGuidance,
         appendJournalMessages,

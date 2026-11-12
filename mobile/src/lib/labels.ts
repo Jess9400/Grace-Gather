@@ -70,16 +70,22 @@ const rows: Record<string, string[]> = {
   ],
   signOut: ["Sign out", "Sair", "Salir", "Выйти"],
   unconnected: [
-    "Accounts are not connected yet. You can keep a private journal on this device.",
-    "As contas ainda não estão conectadas. Você pode manter um diário privado neste dispositivo.",
-    "Las cuentas aún no están conectadas. Puedes mantener un diario privado en este dispositivo.",
-    "Аккаунты ещё не подключены. Вы можете вести личный дневник на этом устройстве.",
+    "Sign-in is unavailable right now. Please try again later.",
+    "O acesso está indisponível no momento. Tente novamente mais tarde.",
+    "El inicio de sesión no está disponible ahora. Inténtalo más tarde.",
+    "Сейчас вход недоступен. Попробуйте позже.",
   ],
   optionalAccount: [
     "A free account lets you comment, like stories and join gatherings. Your journal stays separate.",
     "Uma conta gratuita permite comentar, curtir histórias e participar de encontros. Seu diário fica separado.",
     "Una cuenta gratuita permite comentar, dar me gusta y unirte a encuentros. Tu diario queda separado.",
     "Бесплатный аккаунт позволяет комментировать, ставить отметки и участвовать во встречах. Дневник хранится отдельно.",
+  ],
+  requiredAccount: [
+    "Your journal stays on this device. Sign in to enter Grace & Gather.",
+    "Seu diário fica neste dispositivo. Entre para acessar o Grace & Gather.",
+    "Tu diario permanece en este dispositivo. Inicia sesión para entrar en Grace & Gather.",
+    "Дневник хранится на этом устройстве. Войдите, чтобы открыть Grace & Gather.",
   ],
   pending: [
     "Submitted for moderation",

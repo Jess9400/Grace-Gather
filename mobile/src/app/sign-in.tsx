@@ -5,6 +5,7 @@ import SignInForm from "../components/SignInForm";
 import { useApp } from "../lib/state";
 import { label } from "../lib/labels";
 import { backend } from "../lib/backend";
+import { isMemberSession } from "../lib/account";
 
 // One clear place to sign in. Every "Sign in" button leads here, and signing
 // in returns the person to the screen they came from.
@@ -16,15 +17,15 @@ export default function SignIn() {
   const wasSignedOut = useRef(false);
   useEffect(() => {
     void backend?.auth.getSession().then(({ data }) => {
-      wasSignedOut.current = !data.session;
-      setSignedIn(!!data.session);
+      wasSignedOut.current = !isMemberSession(data.session);
+      setSignedIn(isMemberSession(data.session));
       setEmail(data.session?.user.email ?? "");
     });
     const listener = backend?.auth.onAuthStateChange((_event, session) => {
-      setSignedIn(!!session);
+      setSignedIn(isMemberSession(session));
       setEmail(session?.user.email ?? "");
       // Just signed in here: go straight back to what they were doing.
-      if (session && wasSignedOut.current) {
+      if (isMemberSession(session) && wasSignedOut.current) {
         wasSignedOut.current = false;
         leave();
       }
@@ -32,7 +33,7 @@ export default function SignIn() {
     return () => listener?.data.subscription.unsubscribe();
   }, []);
   return (
-    <Screen back>
+    <Screen back={!!signedIn}>
       <Heading>{l("signIn")}</Heading>
       {!backend ? (
         <Notice text={l("unconnected")} />
@@ -45,7 +46,7 @@ export default function SignIn() {
       ) : signedIn === false ? (
         <>
           <Body>{l("signInIntro")}</Body>
-          <Body small>{l("optionalAccount")}</Body>
+          <Body small>{l("requiredAccount")}</Body>
           <SignInForm />
         </>
       ) : null}
@@ -54,5 +55,5 @@ export default function SignIn() {
 }
 function leave() {
   if (router.canGoBack()) router.back();
-  else router.replace("/(tabs)");
+  else router.replace("/");
 }

@@ -4,31 +4,22 @@ import { router } from "expo-router";
 import { Button, Notice } from "./quiet-ui";
 import { useApp } from "../lib/state";
 import { useQuiet } from "../lib/quiet-state";
-import { weeklyCheckInDue } from "../generated/journal-selection";
+import { pendingStep } from "../lib/small-step";
 import { jc } from "../lib/journal-copy";
 import { copy } from "../lib/content";
 
-// A weekly invitation, not a task-completion tracker. Opening or dismissing it
-// persists the seven-day cooldown; no completion states or streaks are created.
+// A private invitation after a chosen action, without a completion requirement.
 export function StepCheckIn({ dark = false }: { dark?: boolean }) {
-  const { entries, profile, saveProfile } = useApp();
+  const { entries, profile, acknowledgeJournalStep } = useApp();
   const { clear } = useQuiet();
   const [busy, setBusy] = useState(false),
     [error, setError] = useState("");
-  if (
-    !weeklyCheckInDue(
-      entries.filter((e) => !e.sessionOnly).map((e) => e.createdAt),
-      profile.weeklyCheckInAt,
-    )
-  )
-    return null;
+  const pending = pendingStep(entries, new Date());
+  if (!pending) return null;
   async function respond(write: boolean) {
     setBusy(true);
     try {
-      await saveProfile({
-        ...profile,
-        weeklyCheckInAt: new Date().toISOString(),
-      });
+      await acknowledgeJournalStep(pending!.entry.id, pending!.step.chosenAt);
       if (write) {
         clear();
         router.push("/(tabs)/diary");

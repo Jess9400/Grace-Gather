@@ -66,7 +66,7 @@ function familiarPsalm(
 }
 export default function EntryScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { entries, profile, saveEntry, saveJournalResponse } = useApp();
+  const { entries, profile, saveEntry, saveJournalResponse, chooseJournalStep } = useApp();
   const { update } = useQuiet();
   const entry = entries.find((e) => e.id === id);
   const [verse, setVerse] = useState<ReadingVerse | null>(null);
@@ -131,7 +131,15 @@ export default function EntryScreen() {
     });
     router.push("/(tabs)/diary");
   }
-  function openAction(selectedAction = action) {
+  async function openAction(selectedAction = action) {
+    if (!entry!.sessionOnly && (!entry!.step || entry!.step.id !== selectedAction || entry!.step.checkedAt || entry!.step.status)) {
+      try {
+        await chooseJournalStep(entry!.id, selectedAction);
+      } catch {
+        setNotice(copy(lang, "storageError"));
+        return;
+      }
+    }
     setNoteAction(selectedAction);
     if (selectedAction === "A01" || selectedAction === "A21") {
       router.push({ pathname: "/candle", params: { returnEntry: entry!.id } });
@@ -189,7 +197,7 @@ export default function EntryScreen() {
         key={entry.id}
         entry={entry}
         initialAction={action}
-        onAction={openAction}
+        onAction={(id) => void openAction(id)}
       >
         <JournalGuidanceStatus entry={entry} />
         <View style={s.letter}>
