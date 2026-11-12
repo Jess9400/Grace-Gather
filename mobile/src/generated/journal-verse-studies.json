@@ -1,5 +1,5 @@
 {
-  "note": "Editorial explanations for the journal theme verses, keyed by the Hebrew-based reference in journal-map.json. Written by hand in each language; they explain context and meaning without quoting any edition.",
+  "note": "Editorial explanations for the journal theme verses, keyed by the Hebrew-based reference in journal-map.json. Each note is drawn from the public-domain sources listed with it and written in plain words in each language, without quoting the sources or any edition.",
   "verses": {
     "PSA.34.18": {
       "en": {
@@ -1231,36 +1231,260 @@
     },
     "ROM.12.5": {
       "en": {
-        "simple": "You belong to something larger than the place where you happen to be. This verse describes believers as parts of one body, joined to Christ and to one another.",
-        "context": "After many chapters about God's mercy, Paul's letter to the Christians in Rome turns to daily life together. He compares the community to a human body with many parts, each with a different gift and each needed by the others.",
-        "meaning": "The picture holds unity and difference together: many people, one body, and no part complete on its own. Belonging is rooted in Christ, so it does not disappear when a person is far from familiar faces.",
-        "theology": "Christians of every tradition confess that the Church is a single body united to Christ, though they describe its visible shape in different ways. The verse itself stresses mutual belonging: each member exists for the others.",
-        "today": "Being far from home does not cut you off from that body. A message to someone from your home community, or one visit to a local congregation, can be a small way of living what the verse describes.",
-        "question": "Who is one person, near or far, with whom I could share faith this week?"
+        "simple": "Paul says that all who belong to Christ, many as they are, make up a single body. Each person is joined to the others and belongs to them, the way the parts of a body belong together. Great or small, everyone is part of it.",
+        "context": "Paul is writing to the believers in Rome. He has just asked each of them not to think of themselves more highly than they should. Here he backs that up with the picture of a human body. Next he describes the different gifts God shares out, and then turns to sincere love and care for one another.",
+        "meaning": "Believers are not a loose, scattered heap. They are knit together, joined to Christ as their head and given life by one Spirit. And the bond runs both ways: the stronger belong to the weaker just as much as the weaker belong to the stronger. So no one has reason to look down on another, or to think so little of themselves that they feel they do not count.",
+        "theology": "People could never join themselves into this kind of union. Christ himself is the bond that holds it together. Inside it, gifts differ and no one has everything, so each needs help and each has something to give. Joined so closely, believers are meant to help one another. When one member suffers, all suffer with it, and when one is honoured, all rejoice.",
+        "today": "Feeling far from home, or out of place where you are, can be very lonely. Today you might bring that feeling to God in a few honest words. Then perhaps reach toward one person, even with a short message, or let someone help you with something small.",
+        "question": "Where might I let someone come a little closer, or reach out toward someone else?",
+        "words": [],
+        "echoes": [
+          {
+            "ref": "1CO.12.12"
+          },
+          {
+            "ref": "EPH.4.16"
+          },
+          {
+            "ref": "GAL.3.28"
+          },
+          {
+            "ref": "JHN.15.5"
+          }
+        ],
+        "teaching": [
+          {
+            "title": "Christ is the bond that holds us",
+            "text": "People could not join themselves into this kind of union on their own. Christ himself becomes the bond. Believers are not a scattered crowd of strangers. They are knit together, joined to one head and given life by one Spirit."
+          },
+          {
+            "title": "No one is meant to have everything",
+            "text": "God shares out his gifts so that no one has them all. Each person needs to borrow from others, and each has something to give. What anyone receives is given for the good of others too, not only for themselves."
+          },
+          {
+            "title": "The small belong to the great as well",
+            "text": "The bond runs in both directions. The weaker are part of the stronger, and the stronger are part of the weaker. So no one should look down on someone else, and no one should despise themselves either."
+          },
+          {
+            "title": "Jesus did not leave his friends orphans",
+            "text": "When Jesus was no longer visibly with his disciples, he did not leave them as orphans. He promised to stay with them always and sent them his Spirit. Through that Spirit he gathers people from every nation into one body, a unity that reaches across every human division."
+          }
+        ],
+        "differences": [],
+        "sources": [
+          {
+            "label": "John Chrysostom, Homily 21 on Romans, translated by J. Walker, J. Sheppard and H. Browne, revised by George B. Stevens, Nicene and Post-Nicene Fathers, First Series, Vol. 11, ed. Philip Schaff (Christian Literature Publishing Co., 1889), revised for New Advent by Kevin Knight",
+            "url": "https://www.newadvent.org/fathers/210221.htm"
+          },
+          {
+            "label": "John Calvin, Commentary on Romans, Romans 12:4-8 (Christian Classics Ethereal Library)",
+            "url": "https://ccel.org/ccel/calvin/calcom38/calcom38.xvi.iii.html"
+          },
+          {
+            "label": "Matthew Henry, Commentary on the Whole Bible, Volume VI (Acts to Revelation), Romans, Chapter XII (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/henry/mhc6.Rom.xiii.html"
+          },
+          {
+            "label": "John Wesley, Wesley's Notes on the Bible, Romans XII (Christian Classics Ethereal Library)",
+            "url": "https://ccel.org/ccel/wesley/notes/notes.i.vii.xiii.html"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part One, Article 9, Paragraph 2, II. The Church - Body of Christ, paragraphs 787-796 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P28.HTM"
+          }
+        ]
       },
       "pt": {
-        "simple": "Você pertence a algo maior do que o lugar onde está agora. Este versículo descreve os que creem como partes de um só corpo, unidas a Cristo e umas às outras.",
-        "context": "Depois de muitos capítulos sobre a misericórdia de Deus, a carta de Paulo aos cristãos de Roma se volta para a vida diária em comum. Ele compara a comunidade a um corpo humano com muitas partes, cada uma com um dom diferente e cada uma necessária às demais.",
-        "meaning": "A imagem mantém juntas a unidade e a diferença: muitas pessoas, um só corpo, e nenhuma parte completa sozinha. O pertencimento tem raiz em Cristo e, por isso, não desaparece quando alguém está longe dos rostos conhecidos.",
-        "theology": "Cristãos de todas as tradições confessam que a Igreja é um só corpo em Cristo, embora descrevam sua forma visível de maneiras diferentes. O próprio versículo destaca o pertencimento mútuo: cada membro existe para os outros.",
-        "today": "Estar longe de casa não separa você desse corpo. Uma mensagem para alguém da sua comunidade de origem, ou uma visita a uma comunidade local, pode ser um jeito simples de viver o que o versículo descreve.",
-        "question": "Quem é uma pessoa, perto ou longe, com quem eu poderia partilhar a fé nesta semana?"
+        "simple": "Paulo diz que todos os que pertencem a Cristo, por mais numerosos que sejam, formam um só corpo. Cada pessoa está unida às outras e pertence a elas, assim como as partes de um corpo pertencem umas às outras. Grande ou pequeno, cada um faz parte.",
+        "context": "Paulo está escrevendo aos cristãos de Roma. Ele acabou de pedir que ninguém se tenha em conta mais alta do que deve. Aqui ele reforça o pedido com a imagem do corpo humano. Em seguida, descreve os diferentes dons que Deus reparte e passa a falar do amor sincero e do cuidado de uns pelos outros.",
+        "meaning": "Os que creem não são um amontoado solto e espalhado. Estão bem unidos, ligados a Cristo como cabeça e animados por um só Espírito. E o laço vale nos dois sentidos: os mais fortes pertencem aos mais fracos tanto quanto os fracos pertencem aos fortes. Por isso ninguém tem motivo para desprezar o outro, nem para se ver tão pouco a ponto de achar que não conta.",
+        "theology": "Por si mesmas, as pessoas jamais conseguiriam formar uma união assim. O próprio Cristo é o laço que a mantém. Dentro dela os dons variam e ninguém tem tudo; cada um precisa de ajuda e cada um tem algo a dar. Unidos tão de perto, os que creem são chamados a ajudar-se. Quando um membro sofre, todos sofrem com ele; quando um é honrado, todos se alegram.",
+        "today": "Sentir-se longe de casa, ou fora do lugar onde se está, pode trazer muita solidão. Hoje talvez valha a pena levar esse sentimento a Deus em poucas palavras sinceras. Depois, quem sabe, procurar uma pessoa, mesmo com uma mensagem curta, ou deixar que alguém ajude em algo pequeno.",
+        "question": "Onde eu poderia deixar alguém chegar um pouco mais perto, ou me aproximar de outra pessoa?",
+        "words": [],
+        "echoes": [
+          {
+            "ref": "1CO.12.12"
+          },
+          {
+            "ref": "EPH.4.16"
+          },
+          {
+            "ref": "GAL.3.28"
+          },
+          {
+            "ref": "JHN.15.5"
+          }
+        ],
+        "teaching": [
+          {
+            "title": "Cristo é o laço que nos une",
+            "text": "Sozinhas, as pessoas não conseguiriam formar esse tipo de união. O próprio Cristo se torna o laço. Os que creem não são uma multidão espalhada de estranhos. Estão bem unidos, ligados a uma só cabeça e animados por um só Espírito."
+          },
+          {
+            "title": "Ninguém foi feito para ter tudo",
+            "text": "Deus reparte seus dons de modo que ninguém tenha todos. Cada pessoa precisa receber dos outros, e cada uma tem algo a oferecer. O que alguém recebe é dado também para o bem dos outros, não só para si."
+          },
+          {
+            "title": "Os pequenos também pertencem aos grandes",
+            "text": "O laço vale nos dois sentidos. Os mais fracos fazem parte dos mais fortes, e os mais fortes fazem parte dos mais fracos. Por isso ninguém deve desprezar o outro, nem desprezar a si mesmo."
+          },
+          {
+            "title": "Jesus não deixou seus amigos órfãos",
+            "text": "Quando Jesus já não estava visivelmente com seus discípulos, não os deixou órfãos. Prometeu ficar com eles sempre e enviou-lhes o seu Espírito. Por esse Espírito ele reúne pessoas de todas as nações num só corpo, uma unidade que atravessa todas as divisões humanas."
+          }
+        ],
+        "differences": [],
+        "sources": [
+          {
+            "label": "John Chrysostom, Homily 21 on Romans, translated by J. Walker, J. Sheppard and H. Browne, revised by George B. Stevens, Nicene and Post-Nicene Fathers, First Series, Vol. 11, ed. Philip Schaff (Christian Literature Publishing Co., 1889), revised for New Advent by Kevin Knight",
+            "url": "https://www.newadvent.org/fathers/210221.htm"
+          },
+          {
+            "label": "John Calvin, Commentary on Romans, Romans 12:4-8 (Christian Classics Ethereal Library)",
+            "url": "https://ccel.org/ccel/calvin/calcom38/calcom38.xvi.iii.html"
+          },
+          {
+            "label": "Matthew Henry, Commentary on the Whole Bible, Volume VI (Acts to Revelation), Romans, Chapter XII (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/henry/mhc6.Rom.xiii.html"
+          },
+          {
+            "label": "John Wesley, Wesley's Notes on the Bible, Romans XII (Christian Classics Ethereal Library)",
+            "url": "https://ccel.org/ccel/wesley/notes/notes.i.vii.xiii.html"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part One, Article 9, Paragraph 2, II. The Church - Body of Christ, paragraphs 787-796 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P28.HTM"
+          }
+        ]
       },
       "es": {
-        "simple": "Perteneces a algo más grande que el lugar donde estás ahora. Este versículo describe a los creyentes como partes de un solo cuerpo, unidas a Cristo y entre sí.",
-        "context": "Después de muchos capítulos sobre la misericordia de Dios, la carta de Pablo a los cristianos de Roma pasa a la vida diaria en común. Compara a la comunidad con un cuerpo humano de muchas partes, cada una con un don distinto y cada una necesaria para las demás.",
-        "meaning": "La imagen mantiene juntas la unidad y la diferencia: muchas personas, un solo cuerpo, y ninguna parte completa por sí sola. La pertenencia tiene su raíz en Cristo y por eso no desaparece cuando alguien está lejos de los rostros conocidos.",
-        "theology": "Los cristianos de todas las tradiciones confiesan que la Iglesia es un solo cuerpo en Cristo, aunque describen su forma visible de maneras diferentes. El versículo mismo subraya la pertenencia mutua: cada miembro existe para los demás.",
-        "today": "Estar lejos de casa no te separa de ese cuerpo. Un mensaje a alguien de tu comunidad de origen, o una visita a una comunidad local, puede ser una forma sencilla de vivir lo que el versículo describe.",
-        "question": "¿Quién es una persona, cerca o lejos, con quien podría compartir la fe esta semana?"
+        "simple": "Pablo dice que todos los que pertenecen a Cristo, por muchos que sean, forman un solo cuerpo. Cada persona está unida a las demás y les pertenece, como las partes de un cuerpo se pertenecen entre sí. Grande o pequeño, cada uno forma parte de él.",
+        "context": "Pablo escribe a los creyentes de Roma. Acaba de pedir que nadie se tenga en más de lo que debe. Aquí respalda ese pedido con la imagen del cuerpo humano. Después describe los distintos dones que Dios reparte y pasa a hablar del amor sincero y del cuidado mutuo.",
+        "meaning": "Los creyentes no son un montón suelto y disperso. Están bien unidos, ligados a Cristo como cabeza y animados por un mismo Espíritu. Y el lazo va en las dos direcciones: los fuertes pertenecen a los débiles tanto como los débiles a los fuertes. Así que nadie tiene motivo para mirar a otro por encima del hombro, ni para tenerse en tan poco que sienta que no cuenta.",
+        "theology": "Por sí mismas, las personas nunca podrían formar una unión así. Cristo mismo es el lazo que la sostiene. Dentro de ella los dones son distintos y nadie lo tiene todo; cada uno necesita ayuda y cada uno tiene algo que dar. Unidos tan de cerca, los creyentes están llamados a ayudarse. Cuando un miembro sufre, todos sufren con él; cuando uno es honrado, todos se alegran.",
+        "today": "Sentirse lejos de casa, o fuera de lugar donde uno está, puede ser muy solitario. Hoy podrías llevar ese sentimiento a Dios con unas pocas palabras sinceras. Luego, quizá, acercarte a una persona, aunque sea con un mensaje corto, o dejar que alguien te ayude con algo pequeño.",
+        "question": "¿Dónde podría dejar que alguien se acerque un poco más, o acercarme yo a otra persona?",
+        "words": [],
+        "echoes": [
+          {
+            "ref": "1CO.12.12"
+          },
+          {
+            "ref": "EPH.4.16"
+          },
+          {
+            "ref": "GAL.3.28"
+          },
+          {
+            "ref": "JHN.15.5"
+          }
+        ],
+        "teaching": [
+          {
+            "title": "Cristo es el lazo que nos une",
+            "text": "Por su cuenta, las personas no podrían formar esta clase de unión. Cristo mismo se convierte en el lazo. Los creyentes no son una multitud dispersa de desconocidos. Están bien unidos, ligados a una sola cabeza y animados por un mismo Espíritu."
+          },
+          {
+            "title": "Nadie está hecho para tenerlo todo",
+            "text": "Dios reparte sus dones de modo que nadie los tenga todos. Cada persona necesita recibir de otros, y cada una tiene algo que ofrecer. Lo que alguien recibe se le da también para el bien de los demás, no solo para sí."
+          },
+          {
+            "title": "Los pequeños también pertenecen a los grandes",
+            "text": "El lazo va en las dos direcciones. Los más débiles son parte de los más fuertes, y los más fuertes son parte de los más débiles. Por eso nadie debe despreciar a otro, ni despreciarse a sí mismo."
+          },
+          {
+            "title": "Jesús no dejó huérfanos a sus amigos",
+            "text": "Cuando Jesús ya no estaba visiblemente con sus discípulos, no los dejó huérfanos. Prometió quedarse con ellos siempre y les envió su Espíritu. Por ese Espíritu reúne a personas de todas las naciones en un solo cuerpo, una unidad que supera toda división humana."
+          }
+        ],
+        "differences": [],
+        "sources": [
+          {
+            "label": "John Chrysostom, Homily 21 on Romans, translated by J. Walker, J. Sheppard and H. Browne, revised by George B. Stevens, Nicene and Post-Nicene Fathers, First Series, Vol. 11, ed. Philip Schaff (Christian Literature Publishing Co., 1889), revised for New Advent by Kevin Knight",
+            "url": "https://www.newadvent.org/fathers/210221.htm"
+          },
+          {
+            "label": "John Calvin, Commentary on Romans, Romans 12:4-8 (Christian Classics Ethereal Library)",
+            "url": "https://ccel.org/ccel/calvin/calcom38/calcom38.xvi.iii.html"
+          },
+          {
+            "label": "Matthew Henry, Commentary on the Whole Bible, Volume VI (Acts to Revelation), Romans, Chapter XII (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/henry/mhc6.Rom.xiii.html"
+          },
+          {
+            "label": "John Wesley, Wesley's Notes on the Bible, Romans XII (Christian Classics Ethereal Library)",
+            "url": "https://ccel.org/ccel/wesley/notes/notes.i.vii.xiii.html"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part One, Article 9, Paragraph 2, II. The Church - Body of Christ, paragraphs 787-796 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P28.HTM"
+          }
+        ]
       },
       "ru": {
-        "simple": "Вы принадлежите чему-то большему, чем место, где сейчас находитесь. Этот стих описывает верующих как части одного тела, соединённые со Христом и друг с другом.",
-        "context": "После многих глав о милости Божией послание Павла к христианам Рима переходит к повседневной совместной жизни. Он сравнивает общину с человеческим телом, в котором много частей: у каждой свой дар, и каждая нужна остальным.",
-        "meaning": "Этот образ соединяет единство и различие: людей много, тело одно, и ни одна часть не полна сама по себе. Принадлежность укоренена во Христе и потому не исчезает, когда человек оказывается далеко от знакомых лиц.",
-        "theology": "Христиане всех традиций исповедуют, что Церковь — единое тело, соединённое со Христом, хотя по-разному описывают её видимый облик. Сам стих подчёркивает взаимную принадлежность: каждый член существует ради других.",
-        "today": "Вдали от дома вы не отрезаны от этого тела. Сообщение кому-то из родной общины или одно посещение церкви неподалёку может стать простым способом жить тем, о чём говорит стих.",
-        "question": "С кем — рядом или далеко — можно было бы разделить веру на этой неделе?"
+        "simple": "Павел говорит, что все, кто принадлежит Христу, как бы много их ни было, составляют единое тело. Каждый соединён с другими и принадлежит им, как части тела принадлежат друг другу. Великий или малый, каждый в нём на своём месте.",
+        "context": "Павел пишет верующим в Риме. Он только что попросил каждого не думать о себе выше, чем следует. Здесь он подкрепляет эту просьбу образом человеческого тела. Дальше он говорит о разных дарах, которые раздаёт Бог, а затем о нелицемерной любви и заботе друг о друге.",
+        "meaning": "Верующие — не случайная, рассыпанная груда. Они крепко связаны между собой, соединены со Христом как с главой и оживлены одним Духом. И связь эта взаимна: сильные принадлежат слабым так же, как слабые — сильным. Поэтому нет причины ни смотреть на другого свысока, ни думать о себе так мало, будто ты ничего не значишь.",
+        "theology": "Сами люди никогда не смогли бы создать такой союз. Его скрепляет сам Христос. Внутри него дары различны, и ни у кого нет всего: каждому нужна помощь, и каждому есть что дать. Будучи так тесно связаны, верующие призваны помогать друг другу. Когда страдает один член, страдают с ним все; когда один прославлен, все радуются.",
+        "today": "Когда чувствуешь себя вдали от дома или не на своём месте, бывает очень одиноко. Сегодня можно принести это чувство Богу в нескольких простых и честных словах. А потом, может быть, протянуть руку одному человеку, хотя бы коротким сообщением, или позволить кому-то помочь в чём-то малом.",
+        "question": "Кому сегодня можно позволить стать чуть ближе или к кому сделать шаг навстречу?",
+        "words": [],
+        "echoes": [
+          {
+            "ref": "1CO.12.12"
+          },
+          {
+            "ref": "EPH.4.16"
+          },
+          {
+            "ref": "GAL.3.28"
+          },
+          {
+            "ref": "JHN.15.5"
+          }
+        ],
+        "teaching": [
+          {
+            "title": "Христос — та связь, что нас соединяет",
+            "text": "Сами по себе люди не смогли бы создать такое единство. Связью становится сам Христос. Верующие — не рассеянная толпа чужих друг другу людей. Они крепко соединены, связаны с одной Главой и оживлены одним Духом."
+          },
+          {
+            "title": "Никому не дано иметь всё",
+            "text": "Бог распределяет Свои дары так, чтобы ни у кого не было всех сразу. Каждому нужно получать от других, и у каждого есть что дать. То, что человек получает, дано и для блага других, а не только для него самого."
+          },
+          {
+            "title": "Малые тоже принадлежат великим",
+            "text": "Связь действует в обе стороны. Слабые — часть сильных, а сильные — часть слабых. Поэтому никто не должен презирать другого и не должен презирать самого себя."
+          },
+          {
+            "title": "Иисус не оставил учеников сиротами",
+            "text": "Когда Иисус перестал быть видимо рядом с учениками, Он не оставил их сиротами. Он обещал пребывать с ними всегда и послал им Своего Духа. Этим Духом Он собирает людей из всех народов в одно тело, и это единство превосходит всякое человеческое разделение."
+          }
+        ],
+        "differences": [],
+        "sources": [
+          {
+            "label": "John Chrysostom, Homily 21 on Romans, translated by J. Walker, J. Sheppard and H. Browne, revised by George B. Stevens, Nicene and Post-Nicene Fathers, First Series, Vol. 11, ed. Philip Schaff (Christian Literature Publishing Co., 1889), revised for New Advent by Kevin Knight",
+            "url": "https://www.newadvent.org/fathers/210221.htm"
+          },
+          {
+            "label": "John Calvin, Commentary on Romans, Romans 12:4-8 (Christian Classics Ethereal Library)",
+            "url": "https://ccel.org/ccel/calvin/calcom38/calcom38.xvi.iii.html"
+          },
+          {
+            "label": "Matthew Henry, Commentary on the Whole Bible, Volume VI (Acts to Revelation), Romans, Chapter XII (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/henry/mhc6.Rom.xiii.html"
+          },
+          {
+            "label": "John Wesley, Wesley's Notes on the Bible, Romans XII (Christian Classics Ethereal Library)",
+            "url": "https://ccel.org/ccel/wesley/notes/notes.i.vii.xiii.html"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part One, Article 9, Paragraph 2, II. The Church - Body of Christ, paragraphs 787-796 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P28.HTM"
+          }
+        ]
       }
     },
     "1PE.5.7": {
@@ -3101,36 +3325,312 @@
     },
     "JAS.5.13": {
       "en": {
-        "simple": "Every mood can be turned toward God. This verse suggests prayer when things are hard and song when the heart is glad.",
-        "context": "This line opens the closing section of the Letter of James, which is about prayer in every circumstance. It goes on to speak about praying for the sick and recalls the prayer of the prophet Elijah.",
-        "meaning": "James does not rank joy above sorrow or sorrow above joy; each has its fitting response. Gladness is given somewhere to go: it becomes praise instead of fading unnoticed.",
-        "theology": "Joy is treated here as something to offer back to God, not only to enjoy. Christian worship in every tradition has kept this instinct, giving thanks in song and psalm.",
-        "today": "Let your joy have a voice: sing, say thank you, or tell someone what has made you glad. Sharing good news can lift another person too.",
-        "question": "What has made me glad, and how would I like to express it?"
+        "simple": "James gives two short directions for two kinds of days. When life is hard, bring it to God in prayer. When the heart is glad, turn that gladness into a song for God. There is no season of life in which God does not invite people to come to him.",
+        "context": "These lines come near the end of the letter of James. Just before, he urges believers to be patient under trials and warns against careless oaths. Just after, he speaks about praying for the sick. Here he names the two great seasons of life, sadness and gladness, and shows how each can be brought to God.",
+        "meaning": "Good days can make people forget God, just as hard days can make them lose heart. So James gives joy a direction. Gladness is not set aside but turned into praise, a song that tells of God's goodness. This does not mean prayer is only for bad days, or singing only for good ones. Each season simply has its own natural way to God.",
+        "theology": "Praise is the kind of prayer that most simply recognizes that God is God. It honours him for who he is, not only for what he gives. Singing has long been treasured as prayer made fuller, joining words and heart, and it belongs at home alone as well as in church. Any happy event can become an offering of thanks.",
+        "today": "If today has been a good day, you might let the gladness go somewhere. Hum a hymn you love, sing a line from a psalm, or say thank you out loud for one thing that made the day bright. It does not need to be polished. Even alone in the kitchen, joy can become praise.",
+        "question": "Which good thing from today would I like to give back to God as thanks?",
+        "words": [
+          {
+            "term": "sing praises",
+            "original": "ψαλλέτω",
+            "meaning": "The original word simply means sing. It does not say whether the song is a psalm or something else. From the earliest times, Christians sang hymns in worship, some taken from Scripture and some newly written."
+          }
+        ],
+        "echoes": [
+          {
+            "ref": "EPH.5.19"
+          },
+          {
+            "ref": "COL.3.16"
+          }
+        ],
+        "teaching": [
+          {
+            "title": "Every season has its own way to God",
+            "text": "Life does not stay the same. Some days bring sadness and others bring gladness, and both can be brought to God. Hard times are a natural moment to pray, and good times a natural moment to praise. There is no time when God does not invite people to himself."
+          },
+          {
+            "title": "Joy is meant to lead back to God",
+            "text": "Gladness can easily pull the heart away from God. James turns it the other way, so that joy becomes a way of telling of his goodness. Joy given to God is holy joy, and it belongs in homes and in quiet moments alone, not only in church."
+          },
+          {
+            "title": "Sing with the heart, not only the lips",
+            "text": "Singing to God means paying attention to the words, with the heart present and not wandering elsewhere. Those who sing this way find real delight in it, and the day is filled with something better than passing pleasures. God is pleased with this simple kind of devotion."
+          },
+          {
+            "title": "Singing is prayer twice over",
+            "text": "The Church has long said that one who sings prays twice. Sung psalms and hymns help the heart toward devotion and warm its love for God. They can move a person deeply, even to tears that do them good."
+          }
+        ],
+        "differences": [
+          {
+            "title": "Psalms only, or other songs too?",
+            "text": "The word here simply means sing. Some have read the related words of Paul, about psalms, hymns and spiritual songs, as meaning only the songs found in Scripture. Others point out that the first Christians sang hymns of their own making as well as songs from Scripture. Either way, the joy itself is meant to be given to God."
+          }
+        ],
+        "sources": [
+          {
+            "label": "John Calvin, Commentaries on the Catholic Epistles, James 5:12-13 (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/calvin/calcom45.vi.vi.iv.html"
+          },
+          {
+            "label": "Matthew Henry, Commentary on the Whole Bible, Volume VI (Acts to Revelation), James, Chapter V (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/henry/mhc6.Jam.vi.html"
+          },
+          {
+            "label": "John Chrysostom, Homily 19 on Ephesians, translated by Gross Alexander, Nicene and Post-Nicene Fathers, First Series, Vol. 13, ed. Philip Schaff (Christian Literature Publishing Co., 1889), revised and edited for New Advent by Kevin Knight",
+            "url": "https://www.newadvent.org/fathers/230119.htm"
+          },
+          {
+            "label": "Augustine, Letter 55 (A.D. 400), chapter 18, section 34, translated by J.G. Cunningham, Nicene and Post-Nicene Fathers, First Series, Vol. 1, ed. Philip Schaff (Christian Literature Publishing Co., 1887), revised and edited for New Advent by Kevin Knight",
+            "url": "https://www.newadvent.org/fathers/1102055.htm"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part Two, How is the Liturgy Celebrated?, Singing and music, paragraphs 1156-1158 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P38.HTM"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part Four, Christian Prayer, IV. Prayer of Thanksgiving, paragraphs 2637-2638 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P99.HTM"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part Four, Christian Prayer, V. Prayer of Praise, paragraphs 2639-2643 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P9A.HTM"
+          }
+        ]
       },
       "pt": {
-        "simple": "Todo estado de ânimo pode ser voltado para Deus. Este versículo sugere a oração quando as coisas estão difíceis e o canto quando o coração está alegre.",
-        "context": "Esta frase abre a parte final da Carta de Tiago, que trata da oração em todas as circunstâncias. Em seguida o texto fala da oração pelos doentes e recorda a oração do profeta Elias.",
-        "meaning": "Tiago não coloca a alegria acima da tristeza nem a tristeza acima da alegria; cada uma tem sua resposta própria. A alegria ganha um destino: torna-se louvor em vez de passar despercebida.",
-        "theology": "A alegria é tratada aqui como algo a ser oferecido de volta a Deus, e não apenas desfrutado. O culto cristão, em todas as tradições, conservou esse impulso de dar graças com cânticos e salmos.",
-        "today": "Dê voz à sua alegria: cante, agradeça ou conte a alguém o que alegrou você. Partilhar uma boa notícia também pode animar outra pessoa.",
-        "question": "O que me alegrou, e como eu gostaria de expressar isso?"
+        "simple": "Tiago dá duas orientações curtas para dois tipos de dia. Quando a vida pesa, leve isso a Deus em oração. Quando o coração está alegre, transforme essa alegria em canto para Deus. Não existe estação da vida em que Deus não convide as pessoas a se aproximarem dele.",
+        "context": "Estas linhas aparecem perto do fim da carta de Tiago. Logo antes, ele anima os fiéis a terem paciência nas provações e adverte contra juramentos feitos à toa. Logo depois, fala da oração pelos doentes. Aqui ele nomeia as duas grandes estações da vida, a tristeza e a alegria, e mostra como cada uma pode ser levada a Deus.",
+        "meaning": "Os dias bons podem fazer a gente esquecer Deus, assim como os dias difíceis podem fazer perder o ânimo. Por isso Tiago dá um rumo à alegria. Ela não é deixada de lado, mas vira louvor, um canto que conta a bondade de Deus. Isso não quer dizer que a oração seja só para os dias ruins, nem o canto só para os bons. Cada estação tem o seu caminho natural até Deus.",
+        "theology": "O louvor é a forma de oração que reconhece de modo mais direto que Deus é Deus. Ele honra a Deus por quem ele é, e não só pelo que ele dá. O canto sempre foi estimado como uma oração mais plena, que une palavra e coração, e cabe tanto em casa, a sós, quanto na igreja. Qualquer acontecimento feliz pode se tornar uma oferta de gratidão.",
+        "today": "Se hoje foi um dia bom, que tal deixar essa alegria ir a algum lugar? Cantarole um hino de que você gosta, cante um verso de um salmo ou diga obrigado em voz alta por algo que iluminou o dia. Não precisa ficar bonito. Mesmo a sós na cozinha, a alegria pode virar louvor.",
+        "question": "Que coisa boa de hoje eu gostaria de devolver a Deus em forma de gratidão?",
+        "words": [
+          {
+            "term": "cante louvores",
+            "original": "ψαλλέτω",
+            "meaning": "A palavra original quer dizer simplesmente cantar. Não diz se o canto é um salmo ou outra coisa. Desde os primeiros tempos, os cristãos cantavam hinos no culto, uns tirados das Escrituras e outros compostos por eles mesmos."
+          }
+        ],
+        "echoes": [
+          {
+            "ref": "EPH.5.19"
+          },
+          {
+            "ref": "COL.3.16"
+          }
+        ],
+        "teaching": [
+          {
+            "title": "Cada estação tem seu caminho até Deus",
+            "text": "A vida não fica sempre igual. Alguns dias trazem tristeza e outros trazem alegria, e os dois podem ser levados a Deus. Os tempos difíceis são um momento natural para orar, e os bons, um momento natural para louvar. Não há hora em que Deus não chame as pessoas para perto de si."
+          },
+          {
+            "title": "A alegria é feita para levar a Deus",
+            "text": "A alegria pode facilmente afastar o coração de Deus. Tiago a vira na direção contrária, para que ela se torne um jeito de contar a bondade dele. A alegria entregue a Deus é uma alegria santa, e tem lugar em casa e nos momentos a sós, não só na igreja."
+          },
+          {
+            "title": "Cantar com o coração, não só com os lábios",
+            "text": "Cantar para Deus é prestar atenção às palavras, com o coração presente e não distraído em outro lugar. Quem canta assim encontra ali um prazer verdadeiro, e o dia se enche de algo melhor do que alegrias passageiras. Deus se agrada dessa forma simples de devoção."
+          },
+          {
+            "title": "Quem canta reza duas vezes",
+            "text": "A Igreja diz há muito tempo que quem canta reza duas vezes. Salmos e hinos cantados ajudam o coração a se recolher em devoção e aquecem o seu amor por Deus. Podem tocar alguém profundamente, até levar a lágrimas que fazem bem."
+          }
+        ],
+        "differences": [
+          {
+            "title": "Só salmos, ou outros cantos também?",
+            "text": "A palavra aqui quer dizer simplesmente cantar. Alguns leram as palavras parecidas de Paulo, sobre salmos, hinos e cânticos espirituais, como se falassem só dos cantos que estão nas Escrituras. Outros lembram que os primeiros cristãos cantavam tanto cantos das Escrituras quanto hinos compostos por eles. De um jeito ou de outro, a própria alegria é para ser entregue a Deus."
+          }
+        ],
+        "sources": [
+          {
+            "label": "John Calvin, Commentaries on the Catholic Epistles, James 5:12-13 (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/calvin/calcom45.vi.vi.iv.html"
+          },
+          {
+            "label": "Matthew Henry, Commentary on the Whole Bible, Volume VI (Acts to Revelation), James, Chapter V (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/henry/mhc6.Jam.vi.html"
+          },
+          {
+            "label": "John Chrysostom, Homily 19 on Ephesians, translated by Gross Alexander, Nicene and Post-Nicene Fathers, First Series, Vol. 13, ed. Philip Schaff (Christian Literature Publishing Co., 1889), revised and edited for New Advent by Kevin Knight",
+            "url": "https://www.newadvent.org/fathers/230119.htm"
+          },
+          {
+            "label": "Augustine, Letter 55 (A.D. 400), chapter 18, section 34, translated by J.G. Cunningham, Nicene and Post-Nicene Fathers, First Series, Vol. 1, ed. Philip Schaff (Christian Literature Publishing Co., 1887), revised and edited for New Advent by Kevin Knight",
+            "url": "https://www.newadvent.org/fathers/1102055.htm"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part Two, How is the Liturgy Celebrated?, Singing and music, paragraphs 1156-1158 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P38.HTM"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part Four, Christian Prayer, IV. Prayer of Thanksgiving, paragraphs 2637-2638 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P99.HTM"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part Four, Christian Prayer, V. Prayer of Praise, paragraphs 2639-2643 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P9A.HTM"
+          }
+        ]
       },
       "es": {
-        "simple": "Todo estado de ánimo puede volverse hacia Dios. Este versículo sugiere la oración cuando las cosas se ponen difíciles y el canto cuando el corazón está alegre.",
-        "context": "Esta frase abre la parte final de la Carta de Santiago, que trata de la oración en toda circunstancia. Después el texto habla de orar por los enfermos y recuerda la oración del profeta Elías.",
-        "meaning": "Santiago no pone la alegría por encima de la tristeza ni la tristeza por encima de la alegría; cada una tiene su respuesta propia. A la alegría se le da un destino: se convierte en alabanza en lugar de pasar inadvertida.",
-        "theology": "La alegría se trata aquí como algo que se le ofrece de vuelta a Dios, no solo algo que se disfruta. El culto cristiano, en todas las tradiciones, ha conservado ese impulso de dar gracias con cantos y salmos.",
-        "today": "Dale voz a tu alegría: canta, da las gracias o cuéntale a alguien lo que te alegró. Compartir una buena noticia también puede animar a otra persona.",
-        "question": "¿Qué me ha alegrado, y cómo me gustaría expresarlo?"
+        "simple": "Santiago da dos indicaciones breves para dos clases de días. Cuando la vida pesa, llévala a Dios en oración. Cuando el corazón está contento, convierte esa alegría en un canto para Dios. No hay época de la vida en la que Dios no invite a las personas a acercarse a él.",
+        "context": "Estas líneas aparecen cerca del final de la carta de Santiago. Justo antes, anima a los creyentes a tener paciencia en las pruebas y advierte contra los juramentos hechos a la ligera. Justo después, habla de la oración por los enfermos. Aquí nombra las dos grandes estaciones de la vida, la tristeza y la alegría, y muestra cómo cada una puede llevarse a Dios.",
+        "meaning": "Los días buenos pueden hacer que uno se olvide de Dios, igual que los días duros pueden quitar el ánimo. Por eso Santiago le da un rumbo a la alegría. No se deja de lado, sino que se vuelve alabanza, un canto que cuenta la bondad de Dios. Esto no significa que la oración sea solo para los días malos, ni el canto solo para los buenos. Cada estación tiene su camino natural hacia Dios.",
+        "theology": "La alabanza es la forma de oración que reconoce de la manera más directa que Dios es Dios. Lo honra por quien es, y no solo por lo que da. El canto siempre se ha apreciado como una oración más plena, que une palabra y corazón, y cabe tanto en casa, a solas, como en la iglesia. Cualquier suceso feliz puede convertirse en una ofrenda de gratitud.",
+        "today": "Si hoy ha sido un buen día, quizá puedas dejar que esa alegría vaya a alguna parte. Tararea un himno que te guste, canta un verso de un salmo o da gracias en voz alta por algo que iluminó el día. No hace falta que suene bonito. Incluso a solas en la cocina, la alegría puede volverse alabanza.",
+        "question": "¿Qué cosa buena de hoy me gustaría devolverle a Dios como gratitud?",
+        "words": [
+          {
+            "term": "cante salmos",
+            "original": "ψαλλέτω",
+            "meaning": "La palabra original significa simplemente cantar. No dice si el canto es un salmo u otra cosa. Desde los primeros tiempos, los cristianos cantaban himnos en el culto, unos tomados de las Escrituras y otros compuestos por ellos mismos."
+          }
+        ],
+        "echoes": [
+          {
+            "ref": "EPH.5.19"
+          },
+          {
+            "ref": "COL.3.16"
+          }
+        ],
+        "teaching": [
+          {
+            "title": "Cada estación tiene su camino hacia Dios",
+            "text": "La vida no se queda siempre igual. Algunos días traen tristeza y otros traen alegría, y los dos pueden llevarse a Dios. Los tiempos difíciles son un momento natural para orar, y los buenos, un momento natural para alabar. No hay hora en que Dios no llame a las personas a acercarse a él."
+          },
+          {
+            "title": "La alegría está hecha para llevar a Dios",
+            "text": "La alegría puede alejar fácilmente el corazón de Dios. Santiago la orienta en la dirección contraria, para que se convierta en una manera de contar su bondad. La alegría entregada a Dios es una alegría santa, y tiene su lugar en el hogar y en los ratos a solas, no solo en la iglesia."
+          },
+          {
+            "title": "Cantar con el corazón, no solo con los labios",
+            "text": "Cantarle a Dios es prestar atención a las palabras, con el corazón presente y no distraído en otra parte. Quien canta así encuentra en ello un gusto verdadero, y el día se llena de algo mejor que los placeres pasajeros. A Dios le agrada esta forma sencilla de devoción."
+          },
+          {
+            "title": "Quien canta ora dos veces",
+            "text": "Desde hace mucho, la Iglesia dice que quien canta ora dos veces. Los salmos y los himnos cantados ayudan al corazón a recogerse en devoción y encienden su amor a Dios. Pueden conmover a alguien hondamente, hasta hacerle derramar lágrimas que le hacen bien."
+          }
+        ],
+        "differences": [
+          {
+            "title": "¿Solo salmos, o también otros cantos?",
+            "text": "La palabra aquí significa simplemente cantar. Algunos han leído las palabras parecidas de Pablo, sobre salmos, himnos y cánticos espirituales, como si hablaran solo de los cantos que están en las Escrituras. Otros recuerdan que los primeros cristianos cantaban tanto cantos de las Escrituras como himnos compuestos por ellos. Sea como sea, la alegría misma está hecha para entregarse a Dios."
+          }
+        ],
+        "sources": [
+          {
+            "label": "John Calvin, Commentaries on the Catholic Epistles, James 5:12-13 (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/calvin/calcom45.vi.vi.iv.html"
+          },
+          {
+            "label": "Matthew Henry, Commentary on the Whole Bible, Volume VI (Acts to Revelation), James, Chapter V (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/henry/mhc6.Jam.vi.html"
+          },
+          {
+            "label": "John Chrysostom, Homily 19 on Ephesians, translated by Gross Alexander, Nicene and Post-Nicene Fathers, First Series, Vol. 13, ed. Philip Schaff (Christian Literature Publishing Co., 1889), revised and edited for New Advent by Kevin Knight",
+            "url": "https://www.newadvent.org/fathers/230119.htm"
+          },
+          {
+            "label": "Augustine, Letter 55 (A.D. 400), chapter 18, section 34, translated by J.G. Cunningham, Nicene and Post-Nicene Fathers, First Series, Vol. 1, ed. Philip Schaff (Christian Literature Publishing Co., 1887), revised and edited for New Advent by Kevin Knight",
+            "url": "https://www.newadvent.org/fathers/1102055.htm"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part Two, How is the Liturgy Celebrated?, Singing and music, paragraphs 1156-1158 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P38.HTM"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part Four, Christian Prayer, IV. Prayer of Thanksgiving, paragraphs 2637-2638 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P99.HTM"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part Four, Christian Prayer, V. Prayer of Praise, paragraphs 2639-2643 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P9A.HTM"
+          }
+        ]
       },
       "ru": {
-        "simple": "Любое настроение можно обратить к Богу. Этот стих предлагает молиться, когда тяжело, и петь, когда на сердце радость.",
-        "context": "Эта строка открывает заключительную часть Послания Иакова, посвящённую молитве во всех обстоятельствах. Дальше говорится о молитве за больных и вспоминается молитва пророка Илии.",
-        "meaning": "Иаков не ставит радость выше печали или печаль выше радости: у каждой свой уместный отклик. Радости даётся направление: она становится хвалой, а не проходит незамеченной.",
-        "theology": "Радость здесь — то, что можно принести Богу в ответ, а не только пережить. Христианское богослужение во всех традициях сохранило это движение сердца — благодарить песнями и псалмами.",
-        "today": "Дайте своей радости голос: спойте, скажите спасибо или расскажите кому-нибудь, что вас обрадовало. Хорошая новость может поддержать и другого человека.",
-        "question": "Что меня обрадовало и как мне хотелось бы это выразить?"
+        "simple": "Иаков даёт два коротких совета для двух разных дней. Когда жизнь тяжела, с этим можно прийти к Богу в молитве. Когда на сердце радостно, эту радость можно превратить в песнь Богу. Нет такого времени в жизни, когда Бог не звал бы людей к Себе.",
+        "context": "Эти строки стоят почти в самом конце послания Иакова. Чуть раньше он призывает верующих к терпению в испытаниях и предостерегает от легкомысленных клятв. Сразу после он говорит о молитве за больных. Здесь он называет два больших времени жизни, печаль и радость, и показывает, как с каждым из них прийти к Богу.",
+        "meaning": "В хорошие дни легко забыть о Боге, так же как в тяжёлые легко пасть духом. Поэтому Иаков даёт радости направление. Её не откладывают в сторону, а превращают в хвалу, в песнь о Божьей доброте. Это не значит, что молитва нужна только в плохие дни, а пение только в хорошие. Просто у каждого времени есть свой естественный путь к Богу.",
+        "theology": "Хвала — это та форма молитвы, которая прямее всего признаёт, что Бог есть Бог. Она прославляет Его за то, Кто Он, а не только за то, что Он даёт. Пение издавна ценят как более полную молитву, соединяющую слова и сердце, и ему есть место и дома, наедине, и в церкви. Любое радостное событие может стать благодарственным приношением.",
+        "today": "Если сегодня был хороший день, можно дать этой радости выход. Напеть любимый гимн, спеть строчку из псалма или просто сказать вслух спасибо за то, что сделало день светлым. Не нужно, чтобы это звучало красиво. Даже наедине на кухне радость может стать хвалой.",
+        "question": "Что хорошее из сегодняшнего дня мне хотелось бы вернуть Богу как благодарность?",
+        "words": [
+          {
+            "term": "пусть поёт",
+            "original": "ψαλλέτω",
+            "meaning": "Слово в оригинале означает просто петь. Оно не уточняет, псалом это или другая песня. С самых первых времён христиане пели гимны на богослужении: одни были взяты из Писания, другие сложены ими самими."
+          }
+        ],
+        "echoes": [
+          {
+            "ref": "EPH.5.19"
+          },
+          {
+            "ref": "COL.3.16"
+          }
+        ],
+        "teaching": [
+          {
+            "title": "У каждого времени свой путь к Богу",
+            "text": "Жизнь не бывает всё время одинаковой. Одни дни приносят печаль, другие радость, и с тем и с другим можно прийти к Богу. Трудное время естественно для молитвы, а доброе естественно для хвалы. Нет такого часа, когда Бог не звал бы людей к Себе."
+          },
+          {
+            "title": "Радость должна вести к Богу",
+            "text": "Радость легко уводит сердце от Бога. Иаков поворачивает её в другую сторону, чтобы она стала способом рассказать о Его доброте. Радость, отданная Богу, становится святой радостью, и ей есть место дома и в тихие минуты наедине, а не только в церкви."
+          },
+          {
+            "title": "Петь сердцем, а не только устами",
+            "text": "Петь Богу значит вникать в слова, когда сердце присутствует, а не блуждает где-то ещё. Кто поёт так, находит в этом настоящую отраду, и день наполняется чем-то лучшим, чем мимолётные удовольствия. Богу угодна такая простая преданность."
+          },
+          {
+            "title": "Кто поёт, тот молится дважды",
+            "text": "Церковь издавна говорит, что поющий молится дважды. Псалмы и гимны, которые поют, помогают сердцу собраться для молитвы и разжигают его любовь к Богу. Они могут глубоко тронуть человека, вплоть до слёз, которые идут ему на пользу."
+          }
+        ],
+        "differences": [
+          {
+            "title": "Только псалмы или и другие песни?",
+            "text": "Слово здесь означает просто петь. Некоторые понимали похожие слова Павла о псалмах, славословиях и духовных песнях так, будто речь идёт только о песнях из Писания. Другие напоминают, что первые христиане пели и песни из Писания, и гимны, сложенные ими самими. Как бы то ни было, сама радость предназначена для Бога."
+          }
+        ],
+        "sources": [
+          {
+            "label": "John Calvin, Commentaries on the Catholic Epistles, James 5:12-13 (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/calvin/calcom45.vi.vi.iv.html"
+          },
+          {
+            "label": "Matthew Henry, Commentary on the Whole Bible, Volume VI (Acts to Revelation), James, Chapter V (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/henry/mhc6.Jam.vi.html"
+          },
+          {
+            "label": "John Chrysostom, Homily 19 on Ephesians, translated by Gross Alexander, Nicene and Post-Nicene Fathers, First Series, Vol. 13, ed. Philip Schaff (Christian Literature Publishing Co., 1889), revised and edited for New Advent by Kevin Knight",
+            "url": "https://www.newadvent.org/fathers/230119.htm"
+          },
+          {
+            "label": "Augustine, Letter 55 (A.D. 400), chapter 18, section 34, translated by J.G. Cunningham, Nicene and Post-Nicene Fathers, First Series, Vol. 1, ed. Philip Schaff (Christian Literature Publishing Co., 1887), revised and edited for New Advent by Kevin Knight",
+            "url": "https://www.newadvent.org/fathers/1102055.htm"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part Two, How is the Liturgy Celebrated?, Singing and music, paragraphs 1156-1158 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P38.HTM"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part Four, Christian Prayer, IV. Prayer of Thanksgiving, paragraphs 2637-2638 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P99.HTM"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part Four, Christian Prayer, V. Prayer of Praise, paragraphs 2639-2643 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P9A.HTM"
+          }
+        ]
       }
     },
     "1TH.5.18": {
@@ -3369,104 +3869,980 @@
     },
     "HEB.13.16": {
       "en": {
-        "simple": "Gratitude can turn into generosity. This verse says that kindness and generosity with what you have are gifts that matter to God.",
-        "context": "The Letter to the Hebrews, whose author is not named, speaks at length about sacrifice and priesthood. In its final chapter it turns to everyday conduct such as hospitality, remembering prisoners and contentment, and it describes praise and acts of kindness as sacrifices.",
-        "meaning": "Earlier in the letter, sacrifice belongs to the sanctuary and its altar; here the word is used for ordinary goodness and sharing. The reminder not to forget suggests that such acts are easily crowded out, even among sincere people.",
-        "theology": "The verse presents care for others as part of worship, not as something separate from it. Christians describe the relation between good works and God's grace in different ways, but they agree that generosity belongs to the life of faith.",
-        "today": "Giving back does not have to be large: time, a meal, a skill or attention all count. Choose something that fits your means, so that giving stays free and glad.",
-        "question": "What do I have, however small, that someone else could use?"
+        "simple": "The letter asks believers to keep on being kind and to share what they have with people in need. Then it gives a surprising reason. These everyday acts of help are offerings to God himself, and he takes delight in them. Every deed of love is counted as a gift laid before him.",
+        "context": "This comes near the end of the letter to the Hebrews. Its first readers had suffered much, and some had even had their property taken from them. The old temple offerings were passing away, and some wondered what offering was left to bring to God. The verse before names one: thanks and praise. This verse adds a second: kindness, and sharing with others.",
+        "meaning": "Sharing here is a wide word. It covers every way people can help one another, and it is a true sign of love among those whom God's Spirit has joined together. God counts the good we do for others as done for him. Each person helps as they are able. No kindness is too small to count.",
+        "theology": "Christ has already made the one great offering that reconciles people to God, and nothing needs to be added to it. What remains for believers are offerings of thanks: praise on their lips and good done to others. These do not stand on their own worth. They rest on Christ, and through him God gladly receives them. Joined to his offering, a whole life can become a gift to God.",
+        "today": "Perhaps you have been helping someone, or wondering how you could. You might name one small kindness today, already done or still waiting, and quietly offer it to God as a gift. If caring for others has left you tired, there is room for rest as well.",
+        "question": "Which small kindness today could I offer to God as a gift?",
+        "words": [
+          {
+            "term": "doing good",
+            "original": "εὐποιΐα",
+            "meaning": "Kindness and goodwill: doing good to others in general."
+          },
+          {
+            "term": "sharing",
+            "original": "κοινωνία",
+            "meaning": "Generosity: giving others what they need, especially the poor."
+          }
+        ],
+        "echoes": [
+          {
+            "ref": "HEB.13.15"
+          },
+          {
+            "ref": "ROM.15.26"
+          },
+          {
+            "ref": "2CO.9.13"
+          }
+        ],
+        "teaching": [
+          {
+            "title": "Every kindness is an offering to God",
+            "text": "All the deeds of love are offerings to God. It is no small honour that he treats the help we give others as a gift given to him. He takes ordinary kindness, which can seem worth very little, and calls it holy and pleasing to him."
+          },
+          {
+            "title": "Praise and kindness belong together",
+            "text": "The verse before speaks of praise as an offering, and this verse adds good deeds. Thanks spoken to God is not meant to stay as words alone. Long ago the prophets warned against worship that was not joined to love of neighbour."
+          },
+          {
+            "title": "Help reaches body and soul",
+            "text": "Doing good is not only about money. It meets the needs of both body and spirit. Feeding the hungry and visiting the sick are works of mercy, and so are advising, comforting and patiently bearing a wrong."
+          },
+          {
+            "title": "Kindness is given with love",
+            "text": "Help is meant to come from the heart, not as a bare duty. Welcoming a stranger is more than giving them a meal or a bed. It means receiving them with love."
+          }
+        ],
+        "differences": [
+          {
+            "title": "How wide is sharing?",
+            "text": "Some read the word for sharing very widely, as every way people can help one another and a true mark of love. Others read it more narrowly, as giving the poor what they need. Either way, the verse keeps both kindness and generosity in view."
+          }
+        ],
+        "sources": [
+          {
+            "label": "John Chrysostom, Homily 33 on Hebrews, translated by Frederic Gardiner, Nicene and Post-Nicene Fathers, First Series, Vol. 14, ed. Philip Schaff (Christian Literature Publishing Co., 1889), revised for New Advent by Kevin Knight",
+            "url": "https://www.newadvent.org/fathers/240233.htm"
+          },
+          {
+            "label": "John Calvin, Commentaries on the Epistle of Paul the Apostle to the Hebrews, Hebrews 13:10-15, translated and edited by John Owen (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/calvin/calcom44/calcom44.xix.iii.html"
+          },
+          {
+            "label": "John Calvin, Commentaries on the Epistle of Paul the Apostle to the Hebrews, Hebrews 13:16-19, translated and edited by John Owen (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/calvin/calcom44/calcom44.xix.iv.html"
+          },
+          {
+            "label": "Matthew Henry, Commentary on the Whole Bible, Volume VI (Acts to Revelation), Hebrews, Chapter XIII (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/henry/mhc6.Heb.xiv.html"
+          },
+          {
+            "label": "John Wesley, Explanatory Notes upon the New Testament, Hebrews XIII (Wesley's Notes on the Bible, Christian Classics Ethereal Library)",
+            "url": "https://ccel.org/ccel/wesley/notes/notes.i.xx.xiv.html"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part Three, Section Two, Article 1, The First Commandment, II. Him Only Shall You Serve, paragraphs 2095-2109 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P7D.HTM"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part Three, Section Two, Article 7, The Seventh Commandment, VI. Love for the Poor, paragraphs 2443-2449 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P8F.HTM"
+          }
+        ]
       },
       "pt": {
-        "simple": "A gratidão pode se transformar em generosidade. Este versículo diz que a bondade e a partilha do que se tem são ofertas que importam para Deus.",
-        "context": "A Carta aos Hebreus, cujo autor não é nomeado, fala longamente de sacrifício e sacerdócio. No último capítulo ela se volta para a conduta cotidiana, como a hospitalidade, a lembrança dos presos e o contentamento, e descreve o louvor e os gestos de bondade como sacrifícios.",
-        "meaning": "Antes, na carta, o sacrifício pertence ao santuário e ao seu altar; aqui a palavra é usada para a bondade comum e a partilha. O lembrete para não esquecer sugere que esses gestos facilmente ficam de lado, mesmo entre pessoas sinceras.",
-        "theology": "O versículo apresenta o cuidado com os outros como parte do culto, não como algo separado dele. Os cristãos descrevem de maneiras diferentes a relação entre as boas obras e a graça de Deus, mas concordam que a generosidade pertence à vida de fé.",
-        "today": "Retribuir não precisa ser algo grande: tempo, uma refeição, uma habilidade ou atenção também contam. Escolha algo que caiba nas suas possibilidades, para que a doação continue livre e alegre.",
-        "question": "O que eu tenho, por pequeno que seja, que poderia servir a outra pessoa?"
+        "simple": "A carta pede aos cristãos que continuem sendo bondosos e repartindo o que têm com quem passa necessidade. Depois dá um motivo surpreendente: esses gestos simples de ajuda são ofertas ao próprio Deus, e ele se alegra com elas. Cada ato de amor conta como um presente colocado diante dele.",
+        "context": "Estas palavras aparecem perto do fim da carta aos Hebreus. Os primeiros leitores tinham sofrido muito, e alguns chegaram a perder seus bens. As antigas ofertas do templo estavam passando, e havia quem se perguntasse o que ainda restava para oferecer a Deus. O versículo anterior aponta uma oferta: a gratidão e o louvor. Este acrescenta outra: a bondade e a partilha com o próximo.",
+        "meaning": "Partilhar, aqui, é uma palavra ampla. Abrange todas as maneiras de as pessoas se ajudarem, e é um sinal verdadeiro de amor entre aqueles que o Espírito de Deus uniu. Deus considera o bem que fazemos aos outros como feito a ele mesmo. Cada um ajuda conforme pode. Nenhuma bondade é pequena demais para contar.",
+        "theology": "Cristo já fez a grande oferta que reconcilia as pessoas com Deus, e nada precisa ser acrescentado a ela. O que resta aos cristãos são ofertas de gratidão: o louvor nos lábios e o bem feito ao próximo. Elas não se apoiam no próprio valor, mas em Cristo, e por meio dele Deus as recebe com alegria. Unida à oferta dele, a vida inteira pode se tornar um presente para Deus.",
+        "today": "Talvez você esteja ajudando alguém, ou pensando em como poderia ajudar. Hoje você pode lembrar de um pequeno gesto de bondade, já feito ou ainda por fazer, e oferecê-lo a Deus em silêncio, como um presente. Se cuidar dos outros trouxe cansaço, também há lugar para descansar.",
+        "question": "Que pequeno gesto de bondade eu poderia oferecer hoje a Deus como um presente?",
+        "words": [
+          {
+            "term": "fazer o bem",
+            "original": "εὐποιΐα",
+            "meaning": "Bondade e boa vontade: fazer o bem aos outros de modo geral."
+          },
+          {
+            "term": "repartir",
+            "original": "κοινωνία",
+            "meaning": "Generosidade: dar aos outros aquilo de que precisam, sobretudo aos pobres."
+          }
+        ],
+        "echoes": [
+          {
+            "ref": "HEB.13.15"
+          },
+          {
+            "ref": "ROM.15.26"
+          },
+          {
+            "ref": "2CO.9.13"
+          }
+        ],
+        "teaching": [
+          {
+            "title": "Toda bondade é uma oferta a Deus",
+            "text": "Todos os atos de amor são ofertas a Deus. Não é pouca honra que ele trate a ajuda que damos aos outros como um presente dado a ele. Ele pega a bondade comum, que pode parecer valer muito pouco, e a chama de santa e agradável aos seus olhos."
+          },
+          {
+            "title": "Louvor e bondade andam juntos",
+            "text": "O versículo anterior fala do louvor como uma oferta, e este acrescenta as boas obras. A gratidão dita a Deus não foi feita para ficar só em palavras. Há muito tempo os profetas já advertiam contra um culto que não vinha junto com o amor ao próximo."
+          },
+          {
+            "title": "A ajuda alcança o corpo e a alma",
+            "text": "Fazer o bem não é só uma questão de dinheiro. É atender às necessidades do corpo e do espírito. Dar de comer a quem tem fome e visitar os doentes são obras de misericórdia, assim como aconselhar, consolar e suportar com paciência uma ofensa."
+          },
+          {
+            "title": "A bondade se dá com amor",
+            "text": "A ajuda deve nascer do coração, e não como mera obrigação. Acolher um estrangeiro é mais do que lhe dar uma refeição ou uma cama. É recebê-lo com amor."
+          }
+        ],
+        "differences": [
+          {
+            "title": "Até onde vai a partilha?",
+            "text": "Alguns entendem a palavra partilha de modo bem amplo, como toda forma de as pessoas se ajudarem e um sinal verdadeiro de amor. Outros a entendem de modo mais restrito, como dar aos pobres aquilo de que precisam. De um jeito ou de outro, o versículo mantém à vista a bondade e a generosidade."
+          }
+        ],
+        "sources": [
+          {
+            "label": "John Chrysostom, Homily 33 on Hebrews, translated by Frederic Gardiner, Nicene and Post-Nicene Fathers, First Series, Vol. 14, ed. Philip Schaff (Christian Literature Publishing Co., 1889), revised for New Advent by Kevin Knight",
+            "url": "https://www.newadvent.org/fathers/240233.htm"
+          },
+          {
+            "label": "John Calvin, Commentaries on the Epistle of Paul the Apostle to the Hebrews, Hebrews 13:10-15, translated and edited by John Owen (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/calvin/calcom44/calcom44.xix.iii.html"
+          },
+          {
+            "label": "John Calvin, Commentaries on the Epistle of Paul the Apostle to the Hebrews, Hebrews 13:16-19, translated and edited by John Owen (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/calvin/calcom44/calcom44.xix.iv.html"
+          },
+          {
+            "label": "Matthew Henry, Commentary on the Whole Bible, Volume VI (Acts to Revelation), Hebrews, Chapter XIII (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/henry/mhc6.Heb.xiv.html"
+          },
+          {
+            "label": "John Wesley, Explanatory Notes upon the New Testament, Hebrews XIII (Wesley's Notes on the Bible, Christian Classics Ethereal Library)",
+            "url": "https://ccel.org/ccel/wesley/notes/notes.i.xx.xiv.html"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part Three, Section Two, Article 1, The First Commandment, II. Him Only Shall You Serve, paragraphs 2095-2109 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P7D.HTM"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part Three, Section Two, Article 7, The Seventh Commandment, VI. Love for the Poor, paragraphs 2443-2449 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P8F.HTM"
+          }
+        ]
       },
       "es": {
-        "simple": "La gratitud puede convertirse en generosidad. Este versículo dice que hacer el bien y compartir lo que se tiene son ofrendas que le importan a Dios.",
-        "context": "La Carta a los Hebreos, cuyo autor no se nombra, habla extensamente de sacrificio y sacerdocio. En su último capítulo pasa a la conducta de cada día, como la hospitalidad, el recuerdo de los presos y el contentamiento, y describe la alabanza y los gestos de bondad como sacrificios.",
-        "meaning": "Antes, en la carta, el sacrificio pertenece al santuario y a su altar; aquí la palabra se usa para la bondad común y el compartir. El recordatorio de no olvidar sugiere que esos gestos quedan relegados con facilidad, incluso entre personas sinceras.",
-        "theology": "El versículo presenta el cuidado de los demás como parte del culto, no como algo separado de él. Los cristianos describen de maneras distintas la relación entre las buenas obras y la gracia de Dios, pero coinciden en que la generosidad pertenece a la vida de fe.",
-        "today": "Retribuir no tiene que ser algo grande: el tiempo, una comida, una habilidad o la atención también cuentan. Elige algo que esté a tu alcance, para que dar siga siendo libre y alegre.",
-        "question": "¿Qué tengo, por pequeño que sea, que podría servirle a otra persona?"
+        "simple": "La carta pide a los creyentes que sigan siendo bondadosos y que compartan lo que tienen con quienes pasan necesidad. Luego da una razón sorprendente: esos gestos sencillos de ayuda son ofrendas al mismo Dios, y él se alegra con ellas. Cada acto de amor cuenta como un regalo puesto delante de él.",
+        "context": "Estas palabras aparecen cerca del final de la carta a los Hebreos. Sus primeros lectores habían sufrido mucho, y a algunos incluso les habían quitado sus bienes. Las antiguas ofrendas del templo estaban pasando, y algunos se preguntaban qué quedaba para ofrecer a Dios. El versículo anterior nombra una ofrenda: la gratitud y la alabanza. Este añade otra: la bondad y el compartir con el prójimo.",
+        "meaning": "Compartir, aquí, es una palabra amplia. Abarca todas las maneras en que las personas pueden ayudarse, y es una señal verdadera de amor entre quienes el Espíritu de Dios ha unido. Dios considera el bien que hacemos a los demás como hecho a él mismo. Cada uno ayuda según sus posibilidades. Ninguna bondad es demasiado pequeña para contar.",
+        "theology": "Cristo ya hizo la gran ofrenda que reconcilia a las personas con Dios, y no hace falta añadirle nada. Lo que queda para los creyentes son ofrendas de gratitud: la alabanza en los labios y el bien hecho al prójimo. No se apoyan en su propio valor, sino en Cristo, y por medio de él Dios las recibe con gusto. Unida a su ofrenda, la vida entera puede convertirse en un regalo para Dios.",
+        "today": "Tal vez estés ayudando a alguien, o pensando en cómo podrías hacerlo. Hoy podrías recordar un pequeño gesto de bondad, ya hecho o todavía pendiente, y ofrecérselo a Dios en silencio, como un regalo. Si cuidar de otros te ha dejado sin fuerzas, también hay lugar para descansar.",
+        "question": "¿Qué pequeño gesto de bondad podría ofrecerle hoy a Dios como un regalo?",
+        "words": [
+          {
+            "term": "hacer el bien",
+            "original": "εὐποιΐα",
+            "meaning": "Bondad y buena voluntad: hacer el bien a los demás en general."
+          },
+          {
+            "term": "compartir",
+            "original": "κοινωνία",
+            "meaning": "Generosidad: dar a otros lo que necesitan, sobre todo a los pobres."
+          }
+        ],
+        "echoes": [
+          {
+            "ref": "HEB.13.15"
+          },
+          {
+            "ref": "ROM.15.26"
+          },
+          {
+            "ref": "2CO.9.13"
+          }
+        ],
+        "teaching": [
+          {
+            "title": "Toda bondad es una ofrenda a Dios",
+            "text": "Todos los actos de amor son ofrendas a Dios. No es poco honor que él trate la ayuda que damos a otros como un regalo hecho a él. Toma la bondad corriente, que puede parecer de muy poco valor, y la llama santa y agradable a sus ojos."
+          },
+          {
+            "title": "La alabanza y la bondad van juntas",
+            "text": "El versículo anterior habla de la alabanza como una ofrenda, y este añade las buenas obras. La gratitud que se dice a Dios no está pensada para quedarse solo en palabras. Hace mucho tiempo los profetas ya advertían contra un culto que no iba unido al amor al prójimo."
+          },
+          {
+            "title": "La ayuda alcanza el cuerpo y el alma",
+            "text": "Hacer el bien no es solo cuestión de dinero. Es atender las necesidades del cuerpo y del espíritu. Dar de comer al hambriento y visitar a los enfermos son obras de misericordia, igual que aconsejar, consolar y soportar con paciencia una ofensa."
+          },
+          {
+            "title": "La bondad se da con amor",
+            "text": "La ayuda debe nacer del corazón, y no como un simple deber. Acoger a un forastero es más que darle una comida o una cama. Es recibirlo con amor."
+          }
+        ],
+        "differences": [
+          {
+            "title": "¿Hasta dónde llega el compartir?",
+            "text": "Algunos entienden la palabra compartir de forma muy amplia, como toda manera en que las personas se ayudan y una señal verdadera de amor. Otros la entienden de forma más concreta, como dar a los pobres lo que necesitan. De un modo u otro, el versículo mantiene a la vista la bondad y la generosidad."
+          }
+        ],
+        "sources": [
+          {
+            "label": "John Chrysostom, Homily 33 on Hebrews, translated by Frederic Gardiner, Nicene and Post-Nicene Fathers, First Series, Vol. 14, ed. Philip Schaff (Christian Literature Publishing Co., 1889), revised for New Advent by Kevin Knight",
+            "url": "https://www.newadvent.org/fathers/240233.htm"
+          },
+          {
+            "label": "John Calvin, Commentaries on the Epistle of Paul the Apostle to the Hebrews, Hebrews 13:10-15, translated and edited by John Owen (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/calvin/calcom44/calcom44.xix.iii.html"
+          },
+          {
+            "label": "John Calvin, Commentaries on the Epistle of Paul the Apostle to the Hebrews, Hebrews 13:16-19, translated and edited by John Owen (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/calvin/calcom44/calcom44.xix.iv.html"
+          },
+          {
+            "label": "Matthew Henry, Commentary on the Whole Bible, Volume VI (Acts to Revelation), Hebrews, Chapter XIII (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/henry/mhc6.Heb.xiv.html"
+          },
+          {
+            "label": "John Wesley, Explanatory Notes upon the New Testament, Hebrews XIII (Wesley's Notes on the Bible, Christian Classics Ethereal Library)",
+            "url": "https://ccel.org/ccel/wesley/notes/notes.i.xx.xiv.html"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part Three, Section Two, Article 1, The First Commandment, II. Him Only Shall You Serve, paragraphs 2095-2109 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P7D.HTM"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part Three, Section Two, Article 7, The Seventh Commandment, VI. Love for the Poor, paragraphs 2443-2449 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P8F.HTM"
+          }
+        ]
       },
       "ru": {
-        "simple": "Благодарность может превратиться в щедрость. Этот стих говорит, что делать добро и делиться тем, что имеешь, — дары, которые важны для Бога.",
-        "context": "Послание к Евреям, автор которого не назван, подробно говорит о жертве и священстве. В последней главе оно обращается к повседневному поведению — гостеприимству, памяти об узниках, довольству тем, что есть, — и называет жертвами хвалу и добрые дела.",
-        "meaning": "Раньше в послании жертва связана со святилищем и его жертвенником; здесь это слово отнесено к обычной доброте и готовности делиться. Само напоминание о них подсказывает, что такие дела легко вытесняются другими заботами даже у искренних людей.",
-        "theology": "Стих представляет заботу о других как часть поклонения Богу, а не как нечто отдельное от него. Христиане по-разному описывают соотношение добрых дел и Божией благодати, но согласны в том, что щедрость — неотъемлемая часть жизни веры.",
-        "today": "Отдавать не обязательно много: время, угощение, умение или внимание — всё это тоже ценно. Выберите то, что вам по силам, чтобы дар оставался свободным и радостным.",
-        "question": "Что у меня есть — пусть совсем немного — что могло бы пригодиться другому человеку?"
+        "simple": "Послание просит верующих и дальше делать добро и делиться тем, что у них есть, с теми, кто в нужде. А затем называет неожиданную причину: такая простая помощь становится приношением Самому Богу, и Он радуется ей. Каждое дело любви считается даром, положенным перед Ним.",
+        "context": "Эти слова стоят почти в самом конце Послания к Евреям. Его первые читатели много претерпели, а у некоторых даже отняли имущество. Прежние храмовые жертвы уходили в прошлое, и кто-то спрашивал, что же теперь можно принести Богу. Предыдущий стих называет одно приношение: благодарность и хвалу. Этот добавляет второе: доброту и готовность делиться с ближними.",
+        "meaning": "Делиться здесь означает очень многое. Сюда входит всякая помощь, которую люди могут оказать друг другу, и это верный знак любви между теми, кого соединил Дух Божий. Добро, сделанное другим, Бог считает сделанным Ему Самому. Каждый помогает по своим силам. Никакая доброта не бывает слишком малой.",
+        "theology": "Христос уже совершил единственную великую Жертву, примиряющую людей с Богом, и к ней ничего не нужно добавлять. Верующим остаются жертвы благодарности: хвала на устах и добро, сделанное ближним. Они держатся не на собственной ценности, а на Христе, и через Него Бог с радостью их принимает. Соединённая с Его Жертвой, вся жизнь может стать даром Богу.",
+        "today": "Возможно, сейчас вы кому-то помогаете или думаете, как могли бы помочь. Сегодня можно вспомнить одно небольшое доброе дело, уже сделанное или ещё задуманное, и тихо принести его Богу как дар. А если забота о других отняла много сил, для отдыха тоже есть место.",
+        "question": "Какое маленькое доброе дело можно было бы сегодня принести Богу в дар?",
+        "words": [
+          {
+            "term": "благотворение",
+            "original": "εὐποιΐα",
+            "meaning": "Доброта и благожелательность: делать добро другим в самом широком смысле."
+          },
+          {
+            "term": "общительность",
+            "original": "κοινωνία",
+            "meaning": "Щедрость: давать другим то, в чём они нуждаются, особенно бедным."
+          }
+        ],
+        "echoes": [
+          {
+            "ref": "HEB.13.15"
+          },
+          {
+            "ref": "ROM.15.26"
+          },
+          {
+            "ref": "2CO.9.13"
+          }
+        ],
+        "teaching": [
+          {
+            "title": "Всякая доброта есть приношение Богу",
+            "text": "Все дела любви являются приношениями Богу. Это немалая честь, что помощь, оказанную другим, Он принимает как дар Себе. Обычную доброту, которая может казаться почти ничего не стоящей, Он называет святой и угодной Ему."
+          },
+          {
+            "title": "Хвала и доброта неразделимы",
+            "text": "Предыдущий стих говорит о хвале как о приношении, а этот добавляет добрые дела. Благодарность Богу не должна оставаться только словами. Ещё пророки в древности обличали поклонение, не соединённое с любовью к ближнему."
+          },
+          {
+            "title": "Помощь касается и тела, и души",
+            "text": "Делать добро значит не только давать деньги. Это забота о нуждах и тела, и духа. Накормить голодного и навестить больного — дела милосердия, и так же дела милосердия — дать совет, утешить и терпеливо перенести обиду."
+          },
+          {
+            "title": "Доброту дарят с любовью",
+            "text": "Помощь должна идти от сердца, а не быть сухой обязанностью. Принять странника значит больше, чем дать ему еду или ночлег. Это значит встретить его с любовью."
+          }
+        ],
+        "differences": [
+          {
+            "title": "Насколько широко понимать слово делиться?",
+            "text": "Одни понимают это слово очень широко: как всякую помощь, которую люди оказывают друг другу, и верный знак любви. Другие понимают его уже: как помощь бедным тем, в чём они нуждаются. В любом случае стих держит в поле зрения и доброту, и щедрость."
+          }
+        ],
+        "sources": [
+          {
+            "label": "John Chrysostom, Homily 33 on Hebrews, translated by Frederic Gardiner, Nicene and Post-Nicene Fathers, First Series, Vol. 14, ed. Philip Schaff (Christian Literature Publishing Co., 1889), revised for New Advent by Kevin Knight",
+            "url": "https://www.newadvent.org/fathers/240233.htm"
+          },
+          {
+            "label": "John Calvin, Commentaries on the Epistle of Paul the Apostle to the Hebrews, Hebrews 13:10-15, translated and edited by John Owen (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/calvin/calcom44/calcom44.xix.iii.html"
+          },
+          {
+            "label": "John Calvin, Commentaries on the Epistle of Paul the Apostle to the Hebrews, Hebrews 13:16-19, translated and edited by John Owen (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/calvin/calcom44/calcom44.xix.iv.html"
+          },
+          {
+            "label": "Matthew Henry, Commentary on the Whole Bible, Volume VI (Acts to Revelation), Hebrews, Chapter XIII (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/henry/mhc6.Heb.xiv.html"
+          },
+          {
+            "label": "John Wesley, Explanatory Notes upon the New Testament, Hebrews XIII (Wesley's Notes on the Bible, Christian Classics Ethereal Library)",
+            "url": "https://ccel.org/ccel/wesley/notes/notes.i.xx.xiv.html"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part Three, Section Two, Article 1, The First Commandment, II. Him Only Shall You Serve, paragraphs 2095-2109 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P7D.HTM"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part Three, Section Two, Article 7, The Seventh Commandment, VI. Love for the Poor, paragraphs 2443-2449 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P8F.HTM"
+          }
+        ]
       }
     },
     "1TH.5.11": {
       "en": {
-        "simple": "Words can hold another person up. This verse asks believers to encourage one another and help each other grow stronger.",
-        "context": "Paul wrote to a young community in Thessalonica that was grieving members who had died and wondering about the future. After reassuring them, he draws a practical conclusion about how they are to treat each other, and adds that they already live this way.",
-        "meaning": "The image of building up comes from construction: a community is strengthened piece by piece, through ordinary care. Depending on the translation, the first instruction is rendered as encouraging, comforting or exhorting, and all three belong to it.",
-        "theology": "Paul treats encouragement as the work of the whole community, not only of its leaders. It rests on the hope he has just described, so comfort here is more than cheerfulness: it points to what God has promised.",
-        "today": "Listening without hurrying to fix things is one of the simplest ways to build someone up. You could ask one open question and give the answer your full attention.",
-        "question": "Who might need my listening this week?"
+        "simple": "Paul asks the believers to keep comforting and encouraging each other, and to help one another grow strong in faith. He notices that they are already doing this, and he gently urges them to carry on. Even people who already care well for others still need a word now and then to keep them going.",
+        "context": "Paul is writing to the believers in Thessalonica. Some of their loved ones had died, and although they believed in the resurrection, they still grieved. Paul has just written about Christ's return. He reminds them that Christ died for them, so that whether they live or die, they will live together with him. This verse turns that hope into something to share.",
+        "meaning": "The word Paul uses can mean both to comfort and to urge on, and both fit here. The believers are to pass on to each other what God has given them. Building up means helping one another stand firm in faith, like living stones built together into one house. It can look like sharing what we have learned and lived through, praying together, and setting a good example.",
+        "theology": "The comfort Paul has in mind rests on what God has done. God did not choose his people for destruction but for salvation, giving his own Son to die for them, and so there is no need to despair. In the Church, when one member suffers, all suffer together, and even the smallest act of love does good to all. Christian hope keeps hearts from discouragement and holds them up when they feel abandoned.",
+        "today": "If a friend is on your heart, there is no need for perfect words. Today it might be enough to listen, to sit with them for a while, or to send a short note saying you are thinking of them. You could also hold their name before God for a quiet moment.",
+        "question": "What might my friend need most from me right now: words, company, or simply a listening ear?",
+        "words": [
+          {
+            "term": "comfort, exhort",
+            "original": "παρακαλεῖτε",
+            "meaning": "The original word can be translated either way, so some Bibles say comfort and others say exhort. Both belong here: consoling someone who is sad, and gently urging them on."
+          }
+        ],
+        "echoes": [
+          {
+            "ref": "1TH.4.18",
+            "dra": "1TH.4.17"
+          },
+          {
+            "ref": "ROM.14.19"
+          },
+          {
+            "ref": "GAL.6.2"
+          },
+          {
+            "ref": "1PE.2.5"
+          }
+        ],
+        "teaching": [
+          {
+            "title": "Even those doing well need encouragement",
+            "text": "Paul praises the believers for already caring for each other, so his words do not sound like a rebuke. Yet all of us are slow to do good. Even the most willing people need to be stirred up now and then, to keep going and to do more."
+          },
+          {
+            "title": "Caring for others is part of faith",
+            "text": "Faith is not only about our own comfort and well-being. It looks after the comfort and well-being of others too. Believers are asked to carry each other's burdens, and in this way they fulfil the law of Christ."
+          },
+          {
+            "title": "Comfort begins close to home",
+            "text": "This kind of care belongs especially among people who live near each other, in families and among close friends. Those who love each other have the most chances to help. That makes them the best placed to show this kindness."
+          },
+          {
+            "title": "Comforting is a work of mercy",
+            "text": "Advising and comforting someone are counted among the works of mercy, just as feeding the hungry is. They meet needs of the spirit. And no act of love is too small. Even the least of them does good to the whole Church."
+          }
+        ],
+        "differences": [],
+        "sources": [
+          {
+            "label": "John Chrysostom, Homily 7 on First Thessalonians, translated by John A. Broadus, Nicene and Post-Nicene Fathers, First Series, Vol. 13, ed. Philip Schaff (Christian Literature Publishing Co., 1889), revised for New Advent by Kevin Knight",
+            "url": "https://www.newadvent.org/fathers/230407.htm"
+          },
+          {
+            "label": "John Chrysostom, Homily 9 on First Thessalonians, translated by John A. Broadus, Nicene and Post-Nicene Fathers, First Series, Vol. 13, ed. Philip Schaff (Christian Literature Publishing Co., 1889), revised for New Advent by Kevin Knight",
+            "url": "https://www.newadvent.org/fathers/230409.htm"
+          },
+          {
+            "label": "John Calvin, Commentaries on the Epistles of Paul to the Philippians, Colossians, and Thessalonians, 1 Thessalonians 5:11-14, translated and edited by John Pringle (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/calvin/calcom42/calcom42.vi.vii.iii.html"
+          },
+          {
+            "label": "Matthew Henry, Commentary on the Whole Bible, Volume VI (Acts to Revelation), First Thessalonians, Chapter V (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/henry/mhc6.iTh.vi.html"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part One, Section Two, Article 9, Paragraph 5, The Communion of Saints, paragraphs 946-962 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P2B.HTM"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part Three, Section One, Article 7, The Virtues, II. The Theological Virtues, paragraphs 1812-1829 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P66.HTM"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part Three, Section Two, Article 7, The Seventh Commandment, VI. Love for the Poor, paragraphs 2443-2449 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P8F.HTM"
+          }
+        ]
       },
       "pt": {
-        "simple": "Palavras podem sustentar outra pessoa. Este versículo pede aos que creem que se animem mutuamente e se ajudem a ficar mais firmes.",
-        "context": "Paulo escreveu a uma comunidade jovem em Tessalônica que chorava a morte de alguns de seus membros e se perguntava sobre o futuro. Depois de tranquilizá-la, ele tira uma conclusão prática sobre o modo de se tratarem, e acrescenta que isso já fazia parte da vida deles.",
-        "meaning": "A imagem de edificar vem da construção: uma comunidade se fortalece peça por peça, pelo cuidado comum. Conforme a tradução, a primeira orientação aparece como animar, consolar ou exortar, e os três sentidos cabem nela.",
-        "theology": "Paulo trata o encorajamento como tarefa de toda a comunidade, e não só de seus líderes. Ele se apoia na esperança que acabou de ser descrita; por isso o consolo aqui é mais do que bom humor: aponta para o que Deus prometeu.",
-        "today": "Escutar sem pressa de consertar as coisas é uma das formas mais simples de fortalecer alguém. Você pode fazer uma pergunta aberta e dar à resposta toda a sua atenção.",
-        "question": "Quem talvez precise da minha escuta nesta semana?"
+        "simple": "Paulo pede aos cristãos que continuem se consolando e se animando mutuamente, e que se ajudem a crescer firmes na fé. Ele percebe que já fazem isso e, com delicadeza, os incentiva a seguir em frente. Até quem já cuida bem dos outros precisa, de vez em quando, de uma palavra que o ajude a continuar.",
+        "context": "Paulo escreve aos cristãos de Tessalônica. Alguns de seus entes queridos tinham morrido e, embora acreditassem na ressurreição, eles ainda choravam. Paulo acaba de falar da volta de Cristo. Ele lembra que Cristo morreu por eles para que, vivos ou mortos, vivam junto com ele. Este versículo transforma essa esperança em algo para ser partilhado.",
+        "meaning": "A palavra que Paulo usa pode significar tanto consolar quanto encorajar, e as duas cabem aqui. Os cristãos devem passar uns aos outros o que Deus lhes deu. Edificar é ajudar o outro a permanecer firme na fé, como pedras vivas construídas juntas numa só casa. Isso pode ser partilhar o que aprendemos e vivemos, rezar juntos e dar bom exemplo.",
+        "theology": "O consolo de que Paulo fala se apoia no que Deus fez. Deus não escolheu seu povo para a destruição, mas para a salvação, entregando o próprio Filho à morte por ele; por isso não há motivo para desespero. Na Igreja, quando um membro sofre, todos sofrem juntos, e até o menor gesto de amor faz bem a todos. A esperança cristã guarda o coração do desânimo e o sustenta quando ele se sente abandonado.",
+        "today": "Se alguém querido está no seu coração, não é preciso ter palavras perfeitas. Hoje pode bastar escutar, ficar um pouco ao lado dessa pessoa ou mandar uma mensagem curta dizendo que você está pensando nela. Você também pode colocar o nome dela diante de Deus por um momento de silêncio.",
+        "question": "Do que essa pessoa querida mais precisa de mim agora: palavras, companhia ou simplesmente alguém que escute?",
+        "words": [
+          {
+            "term": "consolar, exortar",
+            "original": "παρακαλεῖτε",
+            "meaning": "A palavra original pode ser traduzida das duas maneiras, por isso algumas Bíblias dizem consolai e outras exortai. As duas cabem aqui: consolar quem está triste e animar com delicadeza a seguir em frente."
+          }
+        ],
+        "echoes": [
+          {
+            "ref": "1TH.4.18",
+            "dra": "1TH.4.17"
+          },
+          {
+            "ref": "ROM.14.19"
+          },
+          {
+            "ref": "GAL.6.2"
+          },
+          {
+            "ref": "1PE.2.5"
+          }
+        ],
+        "teaching": [
+          {
+            "title": "Até quem vai bem precisa de ânimo",
+            "text": "Paulo elogia os cristãos porque já cuidam uns dos outros, para que suas palavras não soem como repreensão. Mesmo assim, todos somos lentos para fazer o bem. Até as pessoas mais dispostas precisam ser estimuladas de vez em quando, para continuar e fazer ainda mais."
+          },
+          {
+            "title": "Cuidar dos outros faz parte da fé",
+            "text": "A fé não se preocupa apenas com o nosso próprio consolo e bem-estar. Ela cuida também do consolo e do bem-estar dos outros. Os cristãos são chamados a carregar os fardos uns dos outros, e assim cumprem a lei de Cristo."
+          },
+          {
+            "title": "O consolo começa perto de casa",
+            "text": "Esse cuidado cabe especialmente entre pessoas que vivem perto umas das outras, nas famílias e entre amigos próximos. Quem se ama tem mais oportunidades de ajudar. Por isso está no melhor lugar para mostrar essa bondade."
+          },
+          {
+            "title": "Consolar é uma obra de misericórdia",
+            "text": "Aconselhar e consolar alguém estão entre as obras de misericórdia, assim como dar de comer a quem tem fome. Atendem às necessidades do espírito. E nenhum gesto de amor é pequeno demais. Até o menor deles faz bem a toda a Igreja."
+          }
+        ],
+        "differences": [],
+        "sources": [
+          {
+            "label": "John Chrysostom, Homily 7 on First Thessalonians, translated by John A. Broadus, Nicene and Post-Nicene Fathers, First Series, Vol. 13, ed. Philip Schaff (Christian Literature Publishing Co., 1889), revised for New Advent by Kevin Knight",
+            "url": "https://www.newadvent.org/fathers/230407.htm"
+          },
+          {
+            "label": "John Chrysostom, Homily 9 on First Thessalonians, translated by John A. Broadus, Nicene and Post-Nicene Fathers, First Series, Vol. 13, ed. Philip Schaff (Christian Literature Publishing Co., 1889), revised for New Advent by Kevin Knight",
+            "url": "https://www.newadvent.org/fathers/230409.htm"
+          },
+          {
+            "label": "John Calvin, Commentaries on the Epistles of Paul to the Philippians, Colossians, and Thessalonians, 1 Thessalonians 5:11-14, translated and edited by John Pringle (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/calvin/calcom42/calcom42.vi.vii.iii.html"
+          },
+          {
+            "label": "Matthew Henry, Commentary on the Whole Bible, Volume VI (Acts to Revelation), First Thessalonians, Chapter V (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/henry/mhc6.iTh.vi.html"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part One, Section Two, Article 9, Paragraph 5, The Communion of Saints, paragraphs 946-962 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P2B.HTM"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part Three, Section One, Article 7, The Virtues, II. The Theological Virtues, paragraphs 1812-1829 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P66.HTM"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part Three, Section Two, Article 7, The Seventh Commandment, VI. Love for the Poor, paragraphs 2443-2449 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P8F.HTM"
+          }
+        ]
       },
       "es": {
-        "simple": "Las palabras pueden sostener a otra persona. Este versículo pide a los creyentes que se animen mutuamente y se ayuden a crecer en firmeza.",
-        "context": "Pablo escribió a una comunidad joven de Tesalónica que lloraba la muerte de algunos de sus miembros y se preguntaba por el futuro. Después de tranquilizarla, saca una conclusión práctica sobre la manera de tratarse entre sí, y añade que eso ya formaba parte de su vida.",
-        "meaning": "La imagen de edificar viene de la construcción: una comunidad se fortalece pieza por pieza, mediante el cuidado de cada día. Según la traducción, la primera indicación aparece como animar, consolar o exhortar, y los tres sentidos caben en ella.",
-        "theology": "Pablo trata el aliento mutuo como tarea de toda la comunidad, no solo de sus dirigentes. Se apoya en la esperanza que acaba de describir; por eso el consuelo aquí es más que buen ánimo: señala hacia lo que Dios ha prometido.",
-        "today": "Escuchar sin apuro por arreglar las cosas es una de las formas más sencillas de fortalecer a alguien. Puedes hacer una pregunta abierta y darle a la respuesta toda tu atención.",
-        "question": "¿Quién podría necesitar mi escucha esta semana?"
+        "simple": "Pablo pide a los creyentes que sigan consolándose y animándose entre sí, y que se ayuden a crecer firmes en la fe. Se da cuenta de que ya lo hacen y, con suavidad, los anima a continuar. Incluso quienes ya cuidan bien de los demás necesitan, de vez en cuando, una palabra que les ayude a seguir.",
+        "context": "Pablo escribe a los creyentes de Tesalónica. Algunos de sus seres queridos habían muerto y, aunque creían en la resurrección, seguían llorándolos. Pablo acaba de hablar del regreso de Cristo. Les recuerda que Cristo murió por ellos para que, vivos o muertos, vivan junto con él. Este versículo convierte esa esperanza en algo para compartir.",
+        "meaning": "La palabra que usa Pablo puede significar tanto consolar como animar, y las dos encajan aquí. Los creyentes han de pasarse unos a otros lo que Dios les ha dado. Edificar es ayudar al otro a mantenerse firme en la fe, como piedras vivas construidas juntas en una sola casa. Puede ser compartir lo que hemos aprendido y vivido, orar juntos y dar buen ejemplo.",
+        "theology": "El consuelo del que habla Pablo se apoya en lo que Dios ha hecho. Dios no eligió a su pueblo para la destrucción, sino para la salvación, entregando a su propio Hijo a la muerte por él; por eso no hay motivo para desesperar. En la Iglesia, cuando un miembro sufre, todos sufren con él, y hasta el menor gesto de amor hace bien a todos. La esperanza cristiana guarda el corazón del desaliento y lo sostiene cuando se siente abandonado.",
+        "today": "Si una persona querida está en tu corazón, no hacen falta palabras perfectas. Hoy puede bastar con escuchar, quedarte un rato a su lado o enviarle un mensaje breve diciéndole que piensas en ella. También podrías poner su nombre delante de Dios durante un momento de silencio.",
+        "question": "¿Qué necesita más de mí ahora esa persona querida: palabras, compañía o sencillamente alguien que escuche?",
+        "words": [
+          {
+            "term": "consolar, exhortar",
+            "original": "παρακαλεῖτε",
+            "meaning": "La palabra original puede traducirse de las dos maneras, por eso algunas Biblias dicen consolaos y otras exhortaos. Las dos caben aquí: consolar a quien está triste y animarle con suavidad a seguir adelante."
+          }
+        ],
+        "echoes": [
+          {
+            "ref": "1TH.4.18",
+            "dra": "1TH.4.17"
+          },
+          {
+            "ref": "ROM.14.19"
+          },
+          {
+            "ref": "GAL.6.2"
+          },
+          {
+            "ref": "1PE.2.5"
+          }
+        ],
+        "teaching": [
+          {
+            "title": "Incluso a quien va bien le hace falta ánimo",
+            "text": "Pablo elogia a los creyentes porque ya se cuidan entre sí, para que sus palabras no suenen a reproche. Aun así, todos somos lentos para hacer el bien. Hasta las personas más dispuestas necesitan que se las anime de vez en cuando, para seguir y hacer todavía más."
+          },
+          {
+            "title": "Cuidar de otros es parte de la fe",
+            "text": "La fe no se ocupa solo de nuestro propio consuelo y bienestar. También cuida del consuelo y el bienestar de los demás. Los creyentes están llamados a llevar las cargas de los otros, y así cumplen la ley de Cristo."
+          },
+          {
+            "title": "El consuelo empieza cerca de casa",
+            "text": "Este cuidado corresponde sobre todo a quienes viven cerca, en las familias y entre amigos cercanos. Quienes se quieren tienen más ocasiones de ayudar. Por eso están en el mejor lugar para mostrar esta bondad."
+          },
+          {
+            "title": "Consolar es una obra de misericordia",
+            "text": "Aconsejar y consolar a alguien se cuentan entre las obras de misericordia, igual que dar de comer al hambriento. Atienden las necesidades del espíritu. Y ningún gesto de amor es demasiado pequeño. Hasta el menor de ellos hace bien a toda la Iglesia."
+          }
+        ],
+        "differences": [],
+        "sources": [
+          {
+            "label": "John Chrysostom, Homily 7 on First Thessalonians, translated by John A. Broadus, Nicene and Post-Nicene Fathers, First Series, Vol. 13, ed. Philip Schaff (Christian Literature Publishing Co., 1889), revised for New Advent by Kevin Knight",
+            "url": "https://www.newadvent.org/fathers/230407.htm"
+          },
+          {
+            "label": "John Chrysostom, Homily 9 on First Thessalonians, translated by John A. Broadus, Nicene and Post-Nicene Fathers, First Series, Vol. 13, ed. Philip Schaff (Christian Literature Publishing Co., 1889), revised for New Advent by Kevin Knight",
+            "url": "https://www.newadvent.org/fathers/230409.htm"
+          },
+          {
+            "label": "John Calvin, Commentaries on the Epistles of Paul to the Philippians, Colossians, and Thessalonians, 1 Thessalonians 5:11-14, translated and edited by John Pringle (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/calvin/calcom42/calcom42.vi.vii.iii.html"
+          },
+          {
+            "label": "Matthew Henry, Commentary on the Whole Bible, Volume VI (Acts to Revelation), First Thessalonians, Chapter V (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/henry/mhc6.iTh.vi.html"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part One, Section Two, Article 9, Paragraph 5, The Communion of Saints, paragraphs 946-962 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P2B.HTM"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part Three, Section One, Article 7, The Virtues, II. The Theological Virtues, paragraphs 1812-1829 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P66.HTM"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part Three, Section Two, Article 7, The Seventh Commandment, VI. Love for the Poor, paragraphs 2443-2449 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P8F.HTM"
+          }
+        ]
       },
       "ru": {
-        "simple": "Слова могут поддержать другого человека. Этот стих просит верующих ободрять друг друга и помогать друг другу становиться крепче.",
-        "context": "Павел писал молодой общине в Фессалониках, которая оплакивала умерших братьев и сестёр и тревожилась о будущем. Успокоив её, он делает практический вывод о том, как им относиться друг к другу, и добавляет, что они уже так живут.",
-        "meaning": "Образ созидания взят из строительства: община укрепляется шаг за шагом, через обычную заботу. В зависимости от перевода первое наставление передаётся как ободрение, утешение или увещание, и все три оттенка в нём есть.",
-        "theology": "Для Павла взаимная поддержка — дело всей общины, а не только её руководителей. Она опирается на надежду, о которой он только что говорил, поэтому утешение здесь больше, чем бодрое настроение: оно указывает на то, что обещал Бог.",
-        "today": "Слушать, не торопясь всё исправить, — один из самых простых способов поддержать человека. Можно задать один открытый вопрос и выслушать ответ со всем вниманием.",
-        "question": "Кому на этой неделе может понадобиться, чтобы его просто выслушали?"
+        "simple": "Павел просит верующих и дальше утешать и ободрять друг друга и помогать друг другу укрепляться в вере. Он замечает, что они уже так поступают, и мягко побуждает их продолжать. Даже тем, кто уже хорошо заботится о других, время от времени нужно доброе слово, чтобы не остановиться.",
+        "context": "Павел пишет верующим в Фессалониках. Некоторые их близкие умерли, и хотя они верили в воскресение, всё равно горевали. Павел только что говорил о пришествии Христа. Он напоминает, что Христос умер за них, чтобы они, живые или умершие, жили вместе с Ним. Этот стих превращает такую надежду в то, чем можно делиться.",
+        "meaning": "Слово, которое использует Павел, означает и утешать, и побуждать, и здесь подходят оба смысла. Верующие должны передавать друг другу то, что дал им Бог. Назидать значит помогать другому стоять твёрдо в вере, словно живые камни, вместе устроенные в один дом. Это может быть рассказ о том, чему мы научились и что пережили, совместная молитва и добрый пример.",
+        "theology": "Утешение, о котором говорит Павел, опирается на то, что сделал Бог. Бог предназначил Свой народ не к погибели, а к спасению и отдал за него на смерть Своего Сына, поэтому нет причины отчаиваться. В Церкви, когда страдает один член, страдают все, и даже самое малое дело любви идёт на пользу всем. Христианская надежда хранит сердце от уныния и поддерживает его, когда оно чувствует себя оставленным.",
+        "today": "Если сейчас на сердце близкий человек, не нужно искать идеальных слов. Сегодня может быть достаточно выслушать, немного побыть рядом или отправить короткое сообщение о том, что вы о нём думаете. Можно также ненадолго в тишине принести его имя Богу.",
+        "question": "Что сейчас нужнее всего этому человеку: слова, присутствие рядом или просто тот, кто выслушает?",
+        "words": [
+          {
+            "term": "увещевать, утешать",
+            "original": "παρακαλεῖτε",
+            "meaning": "Исходное слово можно перевести и так, и так, поэтому в одних Библиях стоит утешайте, а в других увещевайте. Здесь уместны оба смысла: утешить того, кому грустно, и мягко побудить его идти дальше."
+          }
+        ],
+        "echoes": [
+          {
+            "ref": "1TH.4.18",
+            "dra": "1TH.4.17"
+          },
+          {
+            "ref": "ROM.14.19"
+          },
+          {
+            "ref": "GAL.6.2"
+          },
+          {
+            "ref": "1PE.2.5"
+          }
+        ],
+        "teaching": [
+          {
+            "title": "Ободрение нужно даже тем, у кого всё хорошо",
+            "text": "Павел хвалит верующих за то, что они уже заботятся друг о друге, чтобы его слова не звучали как упрёк. И всё же все мы медлительны на добро. Даже самым усердным людям время от времени нужно побуждение, чтобы продолжать и делать ещё больше."
+          },
+          {
+            "title": "Забота о других есть часть веры",
+            "text": "Вера думает не только о нашем собственном утешении и благополучии. Она заботится и об утешении и благополучии других. Верующих призывают носить бремена друг друга, и так они исполняют закон Христов."
+          },
+          {
+            "title": "Утешение начинается рядом",
+            "text": "Такая забота особенно уместна между теми, кто живёт рядом: в семьях и среди близких друзей. У тех, кто любит друг друга, больше всего возможностей помочь. Поэтому именно им легче всего проявить эту доброту."
+          },
+          {
+            "title": "Утешение есть дело милосердия",
+            "text": "Дать совет и утешить человека тоже относится к делам милосердия, так же как накормить голодного. Это забота о нуждах души. И никакое дело любви не бывает слишком малым. Даже самое малое из них идёт на пользу всей Церкви."
+          }
+        ],
+        "differences": [],
+        "sources": [
+          {
+            "label": "John Chrysostom, Homily 7 on First Thessalonians, translated by John A. Broadus, Nicene and Post-Nicene Fathers, First Series, Vol. 13, ed. Philip Schaff (Christian Literature Publishing Co., 1889), revised for New Advent by Kevin Knight",
+            "url": "https://www.newadvent.org/fathers/230407.htm"
+          },
+          {
+            "label": "John Chrysostom, Homily 9 on First Thessalonians, translated by John A. Broadus, Nicene and Post-Nicene Fathers, First Series, Vol. 13, ed. Philip Schaff (Christian Literature Publishing Co., 1889), revised for New Advent by Kevin Knight",
+            "url": "https://www.newadvent.org/fathers/230409.htm"
+          },
+          {
+            "label": "John Calvin, Commentaries on the Epistles of Paul to the Philippians, Colossians, and Thessalonians, 1 Thessalonians 5:11-14, translated and edited by John Pringle (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/calvin/calcom42/calcom42.vi.vii.iii.html"
+          },
+          {
+            "label": "Matthew Henry, Commentary on the Whole Bible, Volume VI (Acts to Revelation), First Thessalonians, Chapter V (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/henry/mhc6.iTh.vi.html"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part One, Section Two, Article 9, Paragraph 5, The Communion of Saints, paragraphs 946-962 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P2B.HTM"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part Three, Section One, Article 7, The Virtues, II. The Theological Virtues, paragraphs 1812-1829 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P66.HTM"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part Three, Section Two, Article 7, The Seventh Commandment, VI. Love for the Poor, paragraphs 2443-2449 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P8F.HTM"
+          }
+        ]
       }
     },
     "ROM.15.7": {
       "en": {
-        "simple": "Welcome is something received before it is given. This verse asks believers to make room for one another in the way Christ has made room for them.",
-        "context": "In this part of his letter to Rome, Paul addresses believers who disagreed about matters such as food and special days. He does not ask them to become identical; he asks them to receive one another, and then recalls that Christ came for both Israel and the nations.",
-        "meaning": "The measure of the welcome is Christ's own, and it is offered across real differences. Its aim is described as God's glory, so a community that makes room for people is itself a kind of praise.",
-        "theology": "For Paul, hospitality among Christians flows from what God has already done in Christ. The verse grounds the acceptance of others in grace received, not in likeness or merit.",
-        "today": "Welcoming can be small: learning a name, saving a seat, sending an invitation. Think of someone on the edge of a group you belong to.",
-        "question": "Who could I make room for this week?"
+        "simple": "Paul asks Christians to welcome each other in the same way Christ welcomed them, so that God is honoured. Christ took them in while they were still strangers in need of mercy.",
+        "context": "Paul is writing to believers in Rome who were divided over which foods were allowed, a quarrel rooted in the old gap between Jews and Gentiles. He has already asked the strong in faith to welcome the weak. Now he asks all of them to welcome one another. Next he shows how Christ came for both peoples alike.",
+        "meaning": "To welcome here means to take people into your affection, your fellowship and your everyday company. It runs both ways. Sometimes the weak hang back from the strong, and sometimes pride makes the strong hang back from the weak. Paul asks that neither keep their distance, even from those who are poor, looked down on, or see lesser matters differently.",
+        "theology": "The pattern is Christ himself. He took people into his family and his friendship when they were strangers in need of mercy. He welcomed not one or two, but all together, and so bound them to each other. Few things honour God as much as those who belong to him living closely united in love.",
+        "today": "Perhaps you are hoping someone will make room for you, or wondering how to make room for someone else. Today you might think of one person and one small way to welcome them: a greeting, a seat beside you, a question about their day. And if you are the one waiting, you might tell God plainly how much you long to be received.",
+        "question": "Who comes to mind when I think about welcome, and what is one small step toward them?",
+        "words": [
+          {
+            "term": "to the glory of God",
+            "original": "εἰς δόξαν Θεοῦ",
+            "meaning": "Literally, into God's glory. It can mean so that God is honoured, or it can point to the glory God gives, the lasting joy he has promised his people."
+          }
+        ],
+        "echoes": [
+          {
+            "ref": "ROM.14.1"
+          },
+          {
+            "ref": "JHN.17.21"
+          },
+          {
+            "ref": "JHN.13.35"
+          },
+          {
+            "ref": "EPH.2.14"
+          }
+        ],
+        "teaching": [
+          {
+            "title": "Christ welcomed us first",
+            "text": "Christ took people into his fold and his family, into friendship with himself. He did it while they were still strangers, even those who had wandered far like the son in the parable. Those who have been welcomed so warmly have every reason to be warm toward others who are his."
+          },
+          {
+            "title": "Christ made room at his table",
+            "text": "Christ called to himself even those who turned against him. The weaker people were, the more care he showed them. He shared his table with tax collectors and sinners, people others kept at a distance."
+          },
+          {
+            "title": "Many peoples, one family",
+            "text": "From the very start, the Church has gathered many peoples and cultures, with different gifts and ways of life. This variety is a richness, not a threat to unity. What binds it all together, above everything else, is love."
+          },
+          {
+            "title": "Unity helps the world know Jesus",
+            "text": "Jesus prayed that his followers would be one, so that the world would know the Father had sent him. He also said everyone would recognise his disciples by their love for one another."
+          }
+        ],
+        "differences": [
+          {
+            "title": "Whose glory, and how",
+            "text": "Some read the honour of God as the aim of our welcoming one another; others, as the aim of Christ welcoming us, and many take it as both. Others again see the glory as where Christ welcomes us to: the glorious, lasting life God has promised."
+          },
+          {
+            "title": "Us or you",
+            "text": "Some Bibles say that Christ welcomed you, the readers in Rome; others say us, with Paul counting himself in. That is why translations differ at this point."
+          }
+        ],
+        "sources": [
+          {
+            "label": "John Chrysostom, Homily 27 on Romans, translated by J. Walker, J. Sheppard and H. Browne, revised by George B. Stevens, Nicene and Post-Nicene Fathers, First Series, Vol. 11, ed. Philip Schaff (Christian Literature Publishing Co., 1889), revised for New Advent by Kevin Knight",
+            "url": "https://www.newadvent.org/fathers/210227.htm"
+          },
+          {
+            "label": "John Calvin, Commentary on Romans, Romans 15:7-12 (Christian Classics Ethereal Library)",
+            "url": "https://ccel.org/ccel/calvin/calcom38/calcom38.xix.iii.html"
+          },
+          {
+            "label": "Matthew Henry, Commentary on the Whole Bible, Volume VI (Acts to Revelation), Romans, Chapter XV (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/henry/mhc6.Rom.xvi.html"
+          },
+          {
+            "label": "John Wesley, Wesley's Notes on the Bible, Romans XV (Christian Classics Ethereal Library)",
+            "url": "https://ccel.org/ccel/wesley/notes/notes.i.vii.xvi.html"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part One, Article 9, Paragraph 3, I. The Church Is One, paragraphs 813-815 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P29.HTM"
+          }
+        ]
       },
       "pt": {
-        "simple": "A acolhida é algo que se recebe antes de se oferecer. Este versículo pede aos que creem que abram espaço uns para os outros do modo como Cristo abriu espaço para eles.",
-        "context": "Nesta parte da carta a Roma, Paulo se dirige a pessoas de fé que discordavam sobre questões como alimentos e dias especiais. Ele não pede que se tornem idênticas; pede que se recebam mutuamente, e em seguida lembra que Cristo veio tanto para Israel quanto para as nações.",
-        "meaning": "A medida da acolhida é a do próprio Cristo, e ela é oferecida em meio a diferenças reais. Seu objetivo é descrito como glorificar a Deus; assim, uma comunidade que abre espaço para as pessoas já é uma forma de louvor.",
-        "theology": "Para Paulo, a hospitalidade entre cristãos nasce do que Deus já fez em Cristo. O versículo fundamenta a aceitação do outro na graça recebida, não na semelhança nem no mérito.",
-        "today": "Acolher pode ser simples: aprender um nome, guardar um lugar, enviar um convite. Pense em alguém que fica à margem de um grupo do qual você faz parte.",
-        "question": "Para quem eu poderia abrir espaço nesta semana?"
+        "simple": "Paulo pede que os cristãos acolham uns aos outros do mesmo jeito que Cristo os acolheu, para que Deus seja honrado. Cristo os recebeu quando ainda eram estranhos, necessitados de misericórdia.",
+        "context": "Paulo escreve a cristãos de Roma que estavam divididos sobre quais alimentos eram permitidos, uma disputa nascida da antiga separação entre judeus e gentios. Ele já tinha pedido aos fortes na fé que acolhessem os fracos. Agora pede que todos se acolham mutuamente. Em seguida, mostra como Cristo veio para os dois povos igualmente.",
+        "meaning": "Acolher, aqui, é receber as pessoas no afeto, na comunhão e na convivência do dia a dia. Isso vale nos dois sentidos. Às vezes os fracos se retraem diante dos fortes, e às vezes o orgulho faz os fortes se afastarem dos fracos. Paulo pede que ninguém mantenha distância, nem mesmo dos pobres, dos desprezados ou de quem pensa diferente em questões menores.",
+        "theology": "O modelo é o próprio Cristo. Ele recebeu as pessoas em sua família e em sua amizade quando eram estranhas e precisavam de misericórdia. Não acolheu um ou dois, mas todos juntos, e assim os ligou uns aos outros. Poucas coisas honram tanto a Deus quanto ver os seus vivendo bem unidos no amor.",
+        "today": "Talvez você esteja esperando que alguém abra espaço para você, ou pensando em como abrir espaço para outra pessoa. Hoje, quem sabe, pense em alguém e num pequeno gesto de acolhida: um cumprimento, um lugar ao seu lado, uma pergunta sobre o dia dela. E, se é você quem espera, pode dizer a Deus com simplicidade o quanto deseja encontrar acolhida.",
+        "question": "Quem me vem à mente quando penso em acolhida, e qual seria um pequeno passo em direção a essa pessoa?",
+        "words": [
+          {
+            "term": "para a glória de Deus",
+            "original": "εἰς δόξαν Θεοῦ",
+            "meaning": "Literalmente, rumo à glória de Deus. Pode significar para que Deus seja honrado, ou pode apontar para a glória que Deus concede, a alegria duradoura que ele prometeu ao seu povo."
+          }
+        ],
+        "echoes": [
+          {
+            "ref": "ROM.14.1"
+          },
+          {
+            "ref": "JHN.17.21"
+          },
+          {
+            "ref": "JHN.13.35"
+          },
+          {
+            "ref": "EPH.2.14"
+          }
+        ],
+        "teaching": [
+          {
+            "title": "Cristo nos acolheu primeiro",
+            "text": "Cristo recebeu as pessoas em seu rebanho e em sua família, na amizade com ele. Fez isso quando ainda eram estranhas, até mesmo as que tinham se afastado muito, como o filho da parábola. Quem foi acolhido com tanto carinho tem todos os motivos para ser caloroso com os outros que são dele."
+          },
+          {
+            "title": "Cristo abriu lugar à sua mesa",
+            "text": "Cristo chamou para perto até os que se voltavam contra ele. Quanto mais fracas eram as pessoas, maior o cuidado que lhes mostrava. Ele partilhou a mesa com cobradores de impostos e pecadores, gente que outros mantinham à distância."
+          },
+          {
+            "title": "Muitos povos, uma só família",
+            "text": "Desde o início, a Igreja reúne muitos povos e culturas, com dons e modos de vida diferentes. Essa variedade é uma riqueza, não uma ameaça à unidade. O que une tudo, acima de qualquer outra coisa, é o amor."
+          },
+          {
+            "title": "A unidade mostra quem é Jesus",
+            "text": "Jesus rezou para que os seus fossem um, para que o mundo soubesse que o Pai o enviou. Ele também disse que todos reconheceriam seus discípulos pelo amor que tivessem uns pelos outros."
+          }
+        ],
+        "differences": [
+          {
+            "title": "De quem é a glória",
+            "text": "Alguns entendem que a honra de Deus é o objetivo do nosso acolhimento mútuo; outros, que é o objetivo de Cristo ao nos acolher, e muitos dizem que vale para os dois. Há ainda quem veja a glória como o lugar para onde Cristo nos recebe: a vida gloriosa e duradoura que Deus prometeu."
+          },
+          {
+            "title": "Nós ou vós",
+            "text": "Algumas Bíblias dizem que Cristo acolheu vocês, os leitores de Roma; outras dizem nós, com Paulo se incluindo. Por isso as traduções variam neste ponto."
+          }
+        ],
+        "sources": [
+          {
+            "label": "John Chrysostom, Homily 27 on Romans, translated by J. Walker, J. Sheppard and H. Browne, revised by George B. Stevens, Nicene and Post-Nicene Fathers, First Series, Vol. 11, ed. Philip Schaff (Christian Literature Publishing Co., 1889), revised for New Advent by Kevin Knight",
+            "url": "https://www.newadvent.org/fathers/210227.htm"
+          },
+          {
+            "label": "John Calvin, Commentary on Romans, Romans 15:7-12 (Christian Classics Ethereal Library)",
+            "url": "https://ccel.org/ccel/calvin/calcom38/calcom38.xix.iii.html"
+          },
+          {
+            "label": "Matthew Henry, Commentary on the Whole Bible, Volume VI (Acts to Revelation), Romans, Chapter XV (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/henry/mhc6.Rom.xvi.html"
+          },
+          {
+            "label": "John Wesley, Wesley's Notes on the Bible, Romans XV (Christian Classics Ethereal Library)",
+            "url": "https://ccel.org/ccel/wesley/notes/notes.i.vii.xvi.html"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part One, Article 9, Paragraph 3, I. The Church Is One, paragraphs 813-815 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P29.HTM"
+          }
+        ]
       },
       "es": {
-        "simple": "La acogida es algo que se recibe antes de darse. Este versículo pide a los creyentes que se hagan lugar unos a otros del modo en que Cristo les hizo lugar a ellos.",
-        "context": "En esta parte de su carta a Roma, Pablo se dirige a creyentes que no estaban de acuerdo en asuntos como los alimentos y los días especiales. No les pide que se vuelvan idénticos; les pide que se reciban mutuamente, y luego recuerda que Cristo vino tanto para Israel como para las naciones.",
-        "meaning": "La medida de la acogida es la de Cristo mismo, y se ofrece en medio de diferencias reales. Su finalidad se describe como la gloria de Dios; así, una comunidad que le hace lugar a la gente ya es una forma de alabanza.",
-        "theology": "Para Pablo, la hospitalidad entre cristianos brota de lo que Dios ya hizo en Cristo. El versículo funda la aceptación del otro en la gracia recibida, no en el parecido ni en el mérito.",
-        "today": "Acoger puede ser algo pequeño: aprender un nombre, guardar un asiento, enviar una invitación. Piensa en alguien que queda al margen de un grupo al que perteneces.",
-        "question": "¿A quién podría hacerle lugar esta semana?"
+        "simple": "Pablo pide a los cristianos que se acojan unos a otros tal como Cristo los acogió, para que Dios sea honrado. Cristo los recibió cuando aún eran extraños necesitados de misericordia.",
+        "context": "Pablo escribe a creyentes de Roma que estaban divididos sobre qué alimentos estaban permitidos, una disputa nacida de la antigua separación entre judíos y gentiles. Ya había pedido a los fuertes en la fe que acogieran a los débiles. Ahora pide que todos se acojan mutuamente. A continuación muestra cómo Cristo vino para ambos pueblos por igual.",
+        "meaning": "Acoger, aquí, es recibir a las personas en el afecto, en la comunión y en el trato de cada día. Esto va en las dos direcciones. A veces los débiles se retraen ante los fuertes, y a veces el orgullo hace que los fuertes se alejen de los débiles. Pablo pide que nadie guarde distancia, ni siquiera de los pobres, de los despreciados o de quienes piensan distinto en cuestiones menores.",
+        "theology": "El modelo es Cristo mismo. Él recibió a las personas en su familia y en su amistad cuando eran extrañas y necesitaban misericordia. No acogió a uno o dos, sino a todos juntos, y así los unió entre sí. Pocas cosas honran tanto a Dios como ver a los suyos viviendo estrechamente unidos en el amor.",
+        "today": "Quizá esperas que alguien te haga un lugar, o te preguntas cómo hacer lugar a otra persona. Hoy podrías pensar en alguien y en un pequeño gesto de acogida: un saludo, un sitio a tu lado, una pregunta sobre su día. Y si eres tú quien espera, puedes decirle a Dios con sencillez cuánto deseas encontrar acogida.",
+        "question": "¿Quién me viene a la mente cuando pienso en acoger, y cuál sería un pequeño paso hacia esa persona?",
+        "words": [
+          {
+            "term": "para gloria de Dios",
+            "original": "εἰς δόξαν Θεοῦ",
+            "meaning": "Literalmente, hacia la gloria de Dios. Puede significar para que Dios sea honrado, o puede señalar la gloria que Dios da, la alegría duradera que ha prometido a su pueblo."
+          }
+        ],
+        "echoes": [
+          {
+            "ref": "ROM.14.1"
+          },
+          {
+            "ref": "JHN.17.21"
+          },
+          {
+            "ref": "JHN.13.35"
+          },
+          {
+            "ref": "EPH.2.14"
+          }
+        ],
+        "teaching": [
+          {
+            "title": "Cristo nos acogió primero",
+            "text": "Cristo recibió a las personas en su rebaño y en su familia, en amistad consigo. Lo hizo cuando aún eran extrañas, incluso las que se habían alejado mucho, como el hijo de la parábola. Quien ha sido acogido con tanto cariño tiene todos los motivos para ser cálido con los demás que son suyos."
+          },
+          {
+            "title": "Cristo hizo sitio en su mesa",
+            "text": "Cristo llamó a sí incluso a quienes se volvían contra él. Cuanto más débiles eran las personas, mayor cuidado les mostraba. Compartió la mesa con publicanos y pecadores, gente que otros mantenían a distancia."
+          },
+          {
+            "title": "Muchos pueblos, una sola familia",
+            "text": "Desde el principio, la Iglesia reúne a muchos pueblos y culturas, con dones y modos de vida diferentes. Esa variedad es una riqueza, no una amenaza para la unidad. Lo que lo une todo, por encima de cualquier otra cosa, es el amor."
+          },
+          {
+            "title": "La unidad muestra quién es Jesús",
+            "text": "Jesús oró para que los suyos fueran uno, para que el mundo supiera que el Padre lo había enviado. También dijo que todos reconocerían a sus discípulos por el amor que se tuvieran unos a otros."
+          }
+        ],
+        "differences": [
+          {
+            "title": "De quién es la gloria",
+            "text": "Algunos leen la honra de Dios como el fin de nuestra acogida mutua; otros, como el fin de Cristo al acogernos, y muchos la entienden de ambas maneras. Otros, en cambio, ven la gloria como el lugar al que Cristo nos recibe: la vida gloriosa y duradera que Dios ha prometido."
+          },
+          {
+            "title": "Nosotros o vosotros",
+            "text": "Algunas Biblias dicen que Cristo os acogió a vosotros, los lectores de Roma; otras dicen nos, y Pablo se incluye. Por eso las traducciones difieren en este punto."
+          }
+        ],
+        "sources": [
+          {
+            "label": "John Chrysostom, Homily 27 on Romans, translated by J. Walker, J. Sheppard and H. Browne, revised by George B. Stevens, Nicene and Post-Nicene Fathers, First Series, Vol. 11, ed. Philip Schaff (Christian Literature Publishing Co., 1889), revised for New Advent by Kevin Knight",
+            "url": "https://www.newadvent.org/fathers/210227.htm"
+          },
+          {
+            "label": "John Calvin, Commentary on Romans, Romans 15:7-12 (Christian Classics Ethereal Library)",
+            "url": "https://ccel.org/ccel/calvin/calcom38/calcom38.xix.iii.html"
+          },
+          {
+            "label": "Matthew Henry, Commentary on the Whole Bible, Volume VI (Acts to Revelation), Romans, Chapter XV (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/henry/mhc6.Rom.xvi.html"
+          },
+          {
+            "label": "John Wesley, Wesley's Notes on the Bible, Romans XV (Christian Classics Ethereal Library)",
+            "url": "https://ccel.org/ccel/wesley/notes/notes.i.vii.xvi.html"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part One, Article 9, Paragraph 3, I. The Church Is One, paragraphs 813-815 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P29.HTM"
+          }
+        ]
       },
       "ru": {
-        "simple": "Принятие сначала получают, а потом дарят. Этот стих просит верующих принимать друг друга так, как их принял Христос.",
-        "context": "В этой части послания к Римлянам Павел обращается к верующим, которые расходились во мнениях о пище и особых днях. Он не просит их стать одинаковыми; он просит принимать друг друга, а затем напоминает, что Христос пришёл и ради Израиля, и ради других народов.",
-        "meaning": "Мерой принятия названо то, как принимает Сам Христос, и оно предлагается несмотря на настоящие различия. Его цель — слава Божия, так что община, где людям находится место, уже сама становится хвалой.",
-        "theology": "Для Павла гостеприимство между христианами вытекает из того, что Бог уже совершил во Христе. Стих основывает принятие другого на полученной благодати, а не на сходстве или заслугах.",
-        "today": "Принять человека можно в малом: запомнить имя, занять место рядом, отправить приглашение. Подумайте о ком-то, кто держится с краю в группе, к которой вы принадлежите.",
-        "question": "Для кого можно было бы найти место на этой неделе?"
+        "simple": "Павел просит христиан принимать друг друга так же, как их принял Христос, чтобы был прославлен Бог. Христос принял людей, когда они ещё были чужими и нуждались в милости.",
+        "context": "Павел пишет верующим в Риме, которые разошлись во мнениях о том, какую пищу можно есть. Этот спор вырос из давней преграды между иудеями и язычниками. Он уже просил сильных в вере принимать немощных. Теперь он обращается ко всем: пусть все принимают друг друга. Дальше он показывает, что Христос пришёл ради обоих народов одинаково.",
+        "meaning": "Принять здесь значит впустить человека в своё сердце, в общение и в повседневную жизнь. Это действует в обе стороны. Бывает, что слабые сторонятся сильных, а бывает, что гордость отталкивает сильных от слабых. Павел просит, чтобы никто не держался в стороне, даже от бедных, презираемых или тех, кто иначе смотрит на второстепенные вещи.",
+        "theology": "Образец здесь — сам Христос. Он принял людей в Свою семью и в дружбу с Собой, когда они были чужими и нуждались в милости. Он принял не одного-двух, а всех вместе и тем связал их друг с другом. Мало что так прославляет Бога, как тесное единство в любви тех, кто принадлежит Ему.",
+        "today": "Возможно, сейчас очень хочется, чтобы кто-то принял и дал место рядом. А может быть, есть желание открыть дверь для другого. Сегодня можно вспомнить одного человека и один маленький знак гостеприимства: приветствие, место рядом, вопрос о том, как прошёл его день. А если больше всего не хватает того, чтобы тебя приняли, об этом можно просто и честно сказать Богу.",
+        "question": "Кто приходит на ум, когда я думаю о гостеприимстве, и каким может быть маленький шаг навстречу этому человеку?",
+        "words": [
+          {
+            "term": "в славу Божию",
+            "original": "εἰς δόξαν Θεοῦ",
+            "meaning": "Буквально: в славу Бога. Это может значить, чтобы Бог был прославлен, а может указывать на славу, которую Бог дарует, — вечную радость, обещанную Его народу."
+          }
+        ],
+        "echoes": [
+          {
+            "ref": "ROM.14.1"
+          },
+          {
+            "ref": "JHN.17.21"
+          },
+          {
+            "ref": "JHN.13.35"
+          },
+          {
+            "ref": "EPH.2.14"
+          }
+        ],
+        "teaching": [
+          {
+            "title": "Христос первым принял нас",
+            "text": "Христос принял людей в Своё стадо и в Свою семью, в дружбу с Собой. Он сделал это, когда они ещё были чужими, даже тех, кто ушёл далеко, как сын из притчи. У того, кого приняли так тепло, есть все причины с теплом принимать других, кто принадлежит Ему."
+          },
+          {
+            "title": "Христос дал место за Своим столом",
+            "text": "Христос призывал к Себе даже тех, кто восставал против Него. Чем слабее были люди, тем больше заботы Он им оказывал. Он делил трапезу с мытарями и грешниками — с теми, кого другие держали на расстоянии."
+          },
+          {
+            "title": "Много народов — одна семья",
+            "text": "С самого начала Церковь собирает множество народов и культур, с разными дарами и образом жизни. Такое разнообразие — богатство, а не угроза единству. А соединяет всё воедино прежде всего любовь."
+          },
+          {
+            "title": "Единство помогает миру узнать Иисуса",
+            "text": "Иисус молился, чтобы Его ученики были едины и мир узнал, что Отец послал Его. Он также сказал, что все узнают Его учеников по любви друг к другу."
+          }
+        ],
+        "differences": [
+          {
+            "title": "Чья слава и как",
+            "text": "Одни понимают прославление Бога как цель нашего взаимного принятия; другие — как цель того, что Христос принял нас, а многие видят здесь и то и другое. Третьи же понимают славу как то, куда Христос нас принимает: славную и вечную жизнь, которую обещал Бог."
+          },
+          {
+            "title": "Нас или вас",
+            "text": "В одних Библиях сказано, что Христос принял вас, читателей в Риме; в других — нас, и Павел включает в это себя. Поэтому переводы здесь расходятся."
+          }
+        ],
+        "sources": [
+          {
+            "label": "John Chrysostom, Homily 27 on Romans, translated by J. Walker, J. Sheppard and H. Browne, revised by George B. Stevens, Nicene and Post-Nicene Fathers, First Series, Vol. 11, ed. Philip Schaff (Christian Literature Publishing Co., 1889), revised for New Advent by Kevin Knight",
+            "url": "https://www.newadvent.org/fathers/210227.htm"
+          },
+          {
+            "label": "John Calvin, Commentary on Romans, Romans 15:7-12 (Christian Classics Ethereal Library)",
+            "url": "https://ccel.org/ccel/calvin/calcom38/calcom38.xix.iii.html"
+          },
+          {
+            "label": "Matthew Henry, Commentary on the Whole Bible, Volume VI (Acts to Revelation), Romans, Chapter XV (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/henry/mhc6.Rom.xvi.html"
+          },
+          {
+            "label": "John Wesley, Wesley's Notes on the Bible, Romans XV (Christian Classics Ethereal Library)",
+            "url": "https://ccel.org/ccel/wesley/notes/notes.i.vii.xvi.html"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part One, Article 9, Paragraph 3, I. The Church Is One, paragraphs 813-815 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P29.HTM"
+          }
+        ]
       }
     },
     "ROM.15.13": {
@@ -3761,36 +5137,288 @@
     },
     "1CO.10.13": {
       "en": {
-        "simple": "Struggling with temptation does not make you unusual or alone. This verse says that such struggles are part of being human and that God stays faithful in the middle of them.",
-        "context": "Paul is writing to the church in Corinth, a busy trading city where believers felt constant pressure to join in the customs around them. He has just recalled Israel's failures in the wilderness and warned the self-confident to take care; this verse then adds reassurance.",
-        "meaning": "Two things are said: the temptation is of a kind that people commonly face, and God provides a way through so that it can be endured. The verse speaks of bearing up under temptation; it does not promise that the struggle will be effortless or instantly removed.",
-        "theology": "The weight of the verse rests on God's faithfulness, not on human willpower. It is sometimes stretched into a promise that life will never feel too heavy, but its subject is temptation, and the letter as a whole assumes that believers help one another to stand.",
-        "today": "A setback is not the end of the story. Many people find that a habit loosens more easily when it is talked over with a trusted person, a pastor or a professional than when it is fought in secret.",
-        "question": "Where is my way through today, and who could walk it with me?"
+        "simple": "Paul tells his readers that what they are facing is a struggle every human being knows. God keeps faith with them. He will not let the pull grow past what they can carry, and alongside it he opens a way out, so they can hold on. Even ordinary struggles are not carried on our own strength alone; the help comes from God.",
+        "context": "Paul is writing to the young church in Corinth. He has just told how Israel stumbled in the wilderness, and warned that anyone who feels sure of standing should take care. Some believers there were being drawn back toward feasts held for idols. After such a sober warning, Paul turns to comfort, so that no one would lose heart.",
+        "meaning": "The word human points to something ordinary: others have carried the same burden and come through. God is called faithful because he guards his own and does not leave them alone when they are ready to sink. The way out may be an end to the trial, or at least a way past its harm. There is no valley so dark that he cannot find a path through it. Temptation here covers everything that pulls at us.",
+        "theology": "God tempts no one; he wants to set people free from evil. Feeling a pull is not the same as giving in to it. God helps in two ways: he gives strength, and he sets a limit on the trial. The strength promised is his support, not only our natural power. And despair does not please him. After a fall, the way back is still open.",
+        "today": "If something with a strong pull on you came up today, you might name it to God just as it is, without dressing it up. Perhaps notice one small way out of the next hard moment, and think of one person you could tell.",
+        "question": "What small way through might be waiting for me in the next hard moment?",
+        "words": [
+          {
+            "term": "human",
+            "original": "anthrōpinos · ἀνθρώπινος",
+            "meaning": "The Greek word simply means human. It can be taken as a trial measured to human strength, or one suited to human weakness. Either way, it is the kind of struggle people know, not something beyond them."
+          }
+        ],
+        "echoes": [
+          {
+            "ref": "1CO.10.12"
+          },
+          {
+            "ref": "JAS.1.13"
+          },
+          {
+            "ref": "MAT.6.13"
+          },
+          {
+            "ref": "2CO.1.8"
+          }
+        ],
+        "teaching": [
+          {
+            "title": "No one struggles alone",
+            "text": "The struggles of ordinary believers are ordinary struggles. Others have carried the same burdens and felt the same pull. What they have borne and come through, others can come through as well."
+          },
+          {
+            "title": "Strength comes from God's help",
+            "text": "Even small, everyday struggles cannot be carried by our own power alone. God's help is needed to pass through them, and to keep going until they are past. He gives patience and brings release, and in this way the struggle becomes bearable."
+          },
+          {
+            "title": "Being tempted is not giving in",
+            "text": "Feeling tempted is not the same as consenting to it. God tempts no one; he wants to set people free from evil. The Spirit helps people see through what looks good but leads to harm. And in prayer, Jesus joins his own struggle to ours."
+          },
+          {
+            "title": "Never too late to turn back",
+            "text": "These words were meant to comfort, so that people who had just heard hard warnings would not lose heart. There is room for repentance. Despair does not please God, any more than overconfidence does."
+          }
+        ],
+        "differences": [
+          {
+            "title": "What human means here",
+            "text": "Some read human as the kind of trial every person meets, so that no one is singled out. Others read it as a trial of human size: modest and passing, the kind a person, with help, can come through."
+          }
+        ],
+        "sources": [
+          {
+            "label": "John Chrysostom, Homily 24 on First Corinthians, translated by Talbot W. Chambers, Nicene and Post-Nicene Fathers, First Series, Vol. 12, ed. Philip Schaff (Christian Literature Publishing Co., 1889), revised for New Advent by Kevin Knight",
+            "url": "https://www.newadvent.org/fathers/220124.htm"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part Four, Section Two, Article 3, VI. And Lead Us not into Temptation (2846-2849) (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__PAC.HTM"
+          },
+          {
+            "label": "John Calvin, Commentary on Corinthians, Volume 1, 1 Corinthians 10:13-18, translated by John Pringle (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/calvin/calcom39/calcom39.xvii.iii.html"
+          },
+          {
+            "label": "Matthew Henry, Commentary on the Whole Bible, Volume VI (Acts to Revelation), 1 Corinthians, Chapter X (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/henry/mhc6.iCor.xi.html"
+          }
+        ]
       },
       "pt": {
-        "simple": "Lutar contra a tentação não faz de você alguém estranho nem isolado. Este versículo diz que essas lutas fazem parte da condição humana e que Deus permanece fiel no meio delas.",
-        "context": "Paulo escreve à igreja de Corinto, uma movimentada cidade comercial onde os cristãos sentiam pressão constante para acompanhar os costumes ao redor. Ele acaba de recordar as falhas de Israel no deserto e de advertir quem confia demais em si; este versículo acrescenta, então, uma palavra de segurança.",
-        "meaning": "Duas coisas são ditas: a tentação é de um tipo que as pessoas costumam enfrentar, e Deus oferece um caminho para atravessá-la, de modo que seja possível suportá-la. O versículo fala em resistir na tentação; não promete que a luta será sem esforço nem que será retirada de imediato.",
-        "theology": "O peso do versículo está na fidelidade de Deus, não na força de vontade humana. Às vezes ele é ampliado para uma promessa de que a vida nunca parecerá pesada demais, mas seu assunto é a tentação, e a carta como um todo supõe que os cristãos se ajudem mutuamente a ficar de pé.",
-        "today": "Uma recaída não é o fim da história. Muitas pessoas percebem que um hábito cede com mais facilidade quando é conversado com alguém de confiança, um pastor, um padre ou um profissional do que quando é combatido em segredo.",
-        "question": "Onde está o meu caminho de saída hoje, e quem poderia percorrê-lo comigo?"
+        "simple": "Paulo diz aos seus leitores que aquilo que estão enfrentando é uma luta que todo ser humano conhece. Deus permanece fiel a eles. Ele não deixará a pressão crescer além do que conseguem carregar, e junto com ela abre um caminho de saída, para que consigam resistir. Nem as lutas comuns se carregam só com as nossas forças; a ajuda vem de Deus.",
+        "context": "Paulo escreve à jovem igreja de Corinto. Ele acabou de contar como Israel tropeçou no deserto e avisou que quem se sente firme deve tomar cuidado. Alguns ali estavam sendo atraídos de volta aos banquetes oferecidos aos ídolos. Depois de um aviso tão sério, Paulo passa ao consolo, para que ninguém perca o ânimo.",
+        "meaning": "A palavra humana aponta para algo comum: outros já carregaram o mesmo peso e passaram por ele. Deus é chamado fiel porque guarda os seus e não os deixa sozinhos quando estão prestes a afundar. A saída pode ser o fim da prova, ou ao menos escapar do seu dano. Não há vale tão escuro que ele não encontre um caminho através dele. Aqui, tentação abrange tudo o que nos puxa.",
+        "theology": "Deus não tenta ninguém; ele quer libertar as pessoas do mal. Sentir a atração não é o mesmo que ceder a ela. Deus ajuda de duas maneiras: dá força e põe limite à prova. A força prometida é o apoio dele, não apenas a nossa força natural. E o desespero não agrada a Deus. Depois de uma queda, o caminho de volta continua aberto.",
+        "today": "Se hoje surgiu algo que puxa você com força, dá para dizê-lo a Deus do jeito que é, sem enfeitar. Talvez valha notar uma pequena saída para o próximo momento difícil, e lembrar de uma pessoa a quem você poderia contar.",
+        "question": "Que pequeno caminho de saída pode estar à minha espera no próximo momento difícil?",
+        "words": [
+          {
+            "term": "humana",
+            "original": "anthrōpinos · ἀνθρώπινος",
+            "meaning": "A palavra grega quer dizer simplesmente humano. Pode ser entendida como uma prova medida pela força humana, ou ajustada à fraqueza humana. De todo modo, é o tipo de luta que as pessoas conhecem, não algo fora do seu alcance."
+          }
+        ],
+        "echoes": [
+          {
+            "ref": "1CO.10.12"
+          },
+          {
+            "ref": "JAS.1.13"
+          },
+          {
+            "ref": "MAT.6.13"
+          },
+          {
+            "ref": "2CO.1.8"
+          }
+        ],
+        "teaching": [
+          {
+            "title": "Ninguém luta sozinho",
+            "text": "As lutas dos fiéis comuns são lutas comuns. Outros já carregaram os mesmos pesos e sentiram a mesma atração. Aquilo que eles suportaram e venceram, outros também podem vencer."
+          },
+          {
+            "title": "A força vem da ajuda de Deus",
+            "text": "Nem as pequenas lutas de cada dia podem ser carregadas só com as nossas próprias forças. É preciso a ajuda de Deus para atravessá-las e para continuar firme até que passem. Ele dá paciência e traz alívio, e assim a luta se torna suportável."
+          },
+          {
+            "title": "Ser tentado não é ceder",
+            "text": "Sentir a tentação não é o mesmo que consentir nela. Deus não tenta ninguém; ele quer libertar do mal. O Espírito ajuda a enxergar através do que parece bom, mas leva ao dano. E na oração, Jesus une a sua própria luta à nossa."
+          },
+          {
+            "title": "Nunca é tarde para voltar",
+            "text": "Essas palavras foram ditas para consolar, para que quem acabara de ouvir avisos duros não perdesse o ânimo. Há espaço para o arrependimento. O desespero não agrada a Deus, assim como o excesso de confiança também não."
+          }
+        ],
+        "differences": [
+          {
+            "title": "O que humana quer dizer aqui",
+            "text": "Alguns entendem humana como o tipo de prova que toda pessoa enfrenta, de modo que ninguém é posto à parte. Outros a entendem como uma prova de tamanho humano: modesta e passageira, do tipo que, com ajuda, uma pessoa consegue atravessar."
+          }
+        ],
+        "sources": [
+          {
+            "label": "John Chrysostom, Homily 24 on First Corinthians, translated by Talbot W. Chambers, Nicene and Post-Nicene Fathers, First Series, Vol. 12, ed. Philip Schaff (Christian Literature Publishing Co., 1889), revised for New Advent by Kevin Knight",
+            "url": "https://www.newadvent.org/fathers/220124.htm"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part Four, Section Two, Article 3, VI. And Lead Us not into Temptation (2846-2849) (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__PAC.HTM"
+          },
+          {
+            "label": "John Calvin, Commentary on Corinthians, Volume 1, 1 Corinthians 10:13-18, translated by John Pringle (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/calvin/calcom39/calcom39.xvii.iii.html"
+          },
+          {
+            "label": "Matthew Henry, Commentary on the Whole Bible, Volume VI (Acts to Revelation), 1 Corinthians, Chapter X (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/henry/mhc6.iCor.xi.html"
+          }
+        ]
       },
       "es": {
-        "simple": "Luchar contra la tentación no te convierte en alguien raro ni te deja a solas. Este versículo dice que esas luchas son parte de la condición humana y que Dios permanece fiel en medio de ellas.",
-        "context": "Pablo le escribe a la iglesia de Corinto, una activa ciudad comercial donde los creyentes sentían una presión constante para sumarse a las costumbres de su entorno. Acaba de recordar las caídas de Israel en el desierto y de advertir a quienes confían demasiado en sí mismos; este versículo añade entonces una palabra de seguridad.",
-        "meaning": "Se dicen dos cosas: la tentación es de un tipo que la gente suele enfrentar, y Dios ofrece un camino para atravesarla, de modo que se pueda soportar. El versículo habla de resistir en la tentación; no promete que la lucha será sin esfuerzo ni que desaparecerá de inmediato.",
-        "theology": "El peso del versículo está en la fidelidad de Dios, no en la fuerza de voluntad humana. A veces se lo extiende hasta convertirlo en la promesa de que la vida nunca se sentirá demasiado pesada, pero su tema es la tentación, y la carta en su conjunto supone que los creyentes se ayudan unos a otros a mantenerse en pie.",
-        "today": "Una recaída no es el final de la historia. Muchas personas descubren que un hábito cede con más facilidad cuando se conversa con alguien de confianza, un pastor, un sacerdote o un profesional que cuando se combate en secreto.",
-        "question": "¿Dónde está hoy mi camino de salida, y quién podría recorrerlo conmigo?"
+        "simple": "Pablo dice a sus lectores que lo que están viviendo es una lucha que todo ser humano conoce. Dios les guarda fidelidad. No dejará que la presión crezca más allá de lo que pueden cargar, y junto con ella abre una salida, para que puedan resistir. Ni siquiera las luchas comunes se llevan solo con nuestras fuerzas; la ayuda viene de Dios.",
+        "context": "Pablo escribe a la joven iglesia de Corinto. Acaba de contar cómo Israel tropezó en el desierto, y ha advertido que quien se siente firme debe tener cuidado. Algunos creyentes de allí se sentían atraídos de nuevo a los banquetes ofrecidos a los ídolos. Después de un aviso tan serio, Pablo pasa al consuelo, para que nadie se desanime.",
+        "meaning": "La palabra humana apunta a algo común: otros han llevado la misma carga y han salido adelante. Dios es llamado fiel porque cuida de los suyos y no los deja solos cuando están a punto de hundirse. La salida puede ser el final de la prueba, o al menos librarse de su daño. No hay valle tan oscuro que él no sepa atravesar. Aquí, tentación abarca todo lo que tira de nosotros.",
+        "theology": "Dios no tienta a nadie; quiere librar a las personas del mal. Sentir la atracción no es lo mismo que ceder a ella. Dios ayuda de dos maneras: da fuerza y pone un límite a la prueba. La fuerza prometida es su apoyo, no solo nuestra fuerza natural. Y la desesperación no agrada a Dios. Después de una caída, el camino de regreso sigue abierto.",
+        "today": "Si hoy apareció algo que tira de ti con fuerza, quizá puedas nombrarlo ante Dios tal como es, sin adornos. Tal vez también notar una pequeña salida para el próximo momento difícil, y pensar en una persona a quien podrías contárselo.",
+        "question": "¿Qué pequeña salida podría estar esperándome en el próximo momento difícil?",
+        "words": [
+          {
+            "term": "humana",
+            "original": "anthrōpinos · ἀνθρώπινος",
+            "meaning": "La palabra griega significa sencillamente humano. Puede entenderse como una prueba a la medida de la fuerza humana, o ajustada a la debilidad humana. En todo caso, es el tipo de lucha que la gente conoce, no algo fuera de su alcance."
+          }
+        ],
+        "echoes": [
+          {
+            "ref": "1CO.10.12"
+          },
+          {
+            "ref": "JAS.1.13"
+          },
+          {
+            "ref": "MAT.6.13"
+          },
+          {
+            "ref": "2CO.1.8"
+          }
+        ],
+        "teaching": [
+          {
+            "title": "Nadie lucha solo",
+            "text": "Las luchas de los creyentes comunes son luchas comunes. Otros han llevado las mismas cargas y han sentido la misma atracción. Lo que ellos soportaron y superaron, otros también pueden superarlo."
+          },
+          {
+            "title": "La fuerza viene de la ayuda de Dios",
+            "text": "Ni siquiera las pequeñas luchas de cada día se pueden llevar solo con nuestras propias fuerzas. Hace falta la ayuda de Dios para atravesarlas y para sostenerse hasta que pasen. Él da paciencia y trae alivio, y así la lucha se vuelve llevadera."
+          },
+          {
+            "title": "Ser tentado no es ceder",
+            "text": "Sentir la tentación no es lo mismo que consentir en ella. Dios no tienta a nadie; quiere librarnos del mal. El Espíritu ayuda a ver a través de lo que parece bueno, pero lleva al daño. Y en la oración, Jesús une su propia lucha a la nuestra."
+          },
+          {
+            "title": "Nunca es tarde para volver",
+            "text": "Estas palabras se dijeron para consolar, para que quienes acababan de oír advertencias duras no se desanimaran. Hay lugar para el arrepentimiento. La desesperación no agrada a Dios, como tampoco el exceso de confianza."
+          }
+        ],
+        "differences": [
+          {
+            "title": "Qué significa humana aquí",
+            "text": "Algunos entienden humana como el tipo de prueba que toda persona enfrenta, de modo que nadie queda señalado. Otros la entienden como una prueba de tamaño humano: modesta y pasajera, de las que, con ayuda, una persona puede atravesar."
+          }
+        ],
+        "sources": [
+          {
+            "label": "John Chrysostom, Homily 24 on First Corinthians, translated by Talbot W. Chambers, Nicene and Post-Nicene Fathers, First Series, Vol. 12, ed. Philip Schaff (Christian Literature Publishing Co., 1889), revised for New Advent by Kevin Knight",
+            "url": "https://www.newadvent.org/fathers/220124.htm"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part Four, Section Two, Article 3, VI. And Lead Us not into Temptation (2846-2849) (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__PAC.HTM"
+          },
+          {
+            "label": "John Calvin, Commentary on Corinthians, Volume 1, 1 Corinthians 10:13-18, translated by John Pringle (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/calvin/calcom39/calcom39.xvii.iii.html"
+          },
+          {
+            "label": "Matthew Henry, Commentary on the Whole Bible, Volume VI (Acts to Revelation), 1 Corinthians, Chapter X (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/henry/mhc6.iCor.xi.html"
+          }
+        ]
       },
       "ru": {
-        "simple": "Борьба с искушением не делает вас исключением и не означает, что вы одни. Этот стих говорит, что такая борьба — часть человеческой жизни и что Бог остаётся верным посреди неё.",
-        "context": "Павел пишет церкви в Коринфе — оживлённом торговом городе, где верующие постоянно ощущали давление окружающих обычаев. Он только что вспомнил о падениях Израиля в пустыне и предостерёг самонадеянных; этот стих добавляет к предостережению слово ободрения.",
-        "meaning": "Сказаны две вещи: искушение — из тех, с какими люди обычно сталкиваются, и Бог даёт путь, которым его можно пройти и перенести. Стих говорит о том, чтобы выстоять в искушении; он не обещает, что борьба будет лёгкой или сразу прекратится.",
-        "theology": "Центр тяжести стиха — верность Бога, а не человеческая сила воли. Иногда его расширяют до обещания, что жизнь никогда не покажется слишком тяжёлой, но речь в нём идёт об искушении, а всё послание предполагает, что верующие помогают друг другу устоять.",
-        "today": "Срыв — не конец истории. Многие замечают, что привычка отступает легче, когда о ней говорят с человеком, которому доверяют, со священником, пастором или специалистом, чем когда с ней борются втайне.",
-        "question": "Где сегодня для меня выход и кто мог бы пройти этот путь вместе со мной?"
+        "simple": "Павел говорит своим читателям, что то, с чем они столкнулись, знакомо каждому человеку. Бог остаётся им верен. Он не даст тяге вырасти больше, чем им по силам нести, и вместе с ней откроет выход, чтобы можно было устоять. Даже обычную борьбу не вынести одними своими силами; помощь приходит от Бога.",
+        "context": "Павел пишет молодой церкви в Коринфе. Он только что рассказал, как Израиль спотыкался в пустыне, и предупредил: кто уверен, что стоит твёрдо, пусть будет осторожен. Некоторых там снова тянуло к пирам в честь идолов. После такого серьёзного предупреждения Павел переходит к утешению, чтобы никто не пал духом.",
+        "meaning": "Слово человеческое указывает на что-то обычное: другие уже несли то же бремя и прошли через него. Бог назван верным, потому что хранит своих и не оставляет их одних, когда они вот-вот пойдут ко дну. Выход может быть концом испытания или хотя бы избавлением от его вреда. Нет такой тёмной долины, через которую он не нашёл бы пути. Искушением здесь названо всё, что нас манит.",
+        "theology": "Бог никого не искушает; он хочет освободить людей от зла. Чувствовать тягу не значит поддаться ей. Бог помогает двумя путями: даёт силы и ставит испытанию предел. Обещанная сила — это его поддержка, а не только наши природные силы. И отчаяние не угодно Богу. После падения путь назад остаётся открытым.",
+        "today": "Если сегодня дало о себе знать что-то, что сильно тянет, можно назвать это перед Богом таким, как есть, ничего не приукрашивая. Можно заметить один маленький выход из следующей трудной минуты и вспомнить одного человека, которому можно об этом рассказать.",
+        "question": "Какой маленький выход может ждать меня в следующую трудную минуту?",
+        "words": [
+          {
+            "term": "человеческое",
+            "original": "anthrōpinos · ἀνθρώπινος",
+            "meaning": "Греческое слово значит просто человеческий. Его можно понять как испытание по мере человеческих сил или как соответствующее человеческой немощи. В любом случае это знакомая людям борьба, а не что-то за пределами их сил."
+          }
+        ],
+        "echoes": [
+          {
+            "ref": "1CO.10.12"
+          },
+          {
+            "ref": "JAS.1.13"
+          },
+          {
+            "ref": "MAT.6.13"
+          },
+          {
+            "ref": "2CO.1.8"
+          }
+        ],
+        "teaching": [
+          {
+            "title": "Никто не борется в одиночку",
+            "text": "Трудности обычных верующих — обычные трудности. Другие несли те же тяготы и чувствовали ту же тягу. То, что они вынесли и преодолели, могут преодолеть и другие."
+          },
+          {
+            "title": "Сила приходит от Божьей помощи",
+            "text": "Даже маленькую повседневную борьбу не вынести одними своими силами. Нужна помощь Бога, чтобы пройти через неё и держаться, пока она не минует. Он даёт терпение и приносит облегчение, и так борьба становится посильной."
+          },
+          {
+            "title": "Искушение ещё не падение",
+            "text": "Испытывать искушение не то же самое, что согласиться с ним. Бог никого не искушает; он хочет избавить от зла. Дух помогает увидеть обман в том, что кажется добрым, но ведёт ко вреду. И в молитве Иисус соединяет свою борьбу с нашей."
+          },
+          {
+            "title": "Вернуться никогда не поздно",
+            "text": "Эти слова сказаны в утешение, чтобы те, кто только что услышал суровые предупреждения, не пали духом. Место для покаяния есть. Отчаяние не угодно Богу так же, как и самонадеянность."
+          }
+        ],
+        "differences": [
+          {
+            "title": "Что здесь значит человеческое",
+            "text": "Одни понимают это слово как испытание, которое встречает каждый, так что никто не выделен особо. Другие видят в нём испытание человеческой меры: скромное и преходящее, такое, через которое человек, получив помощь, может пройти."
+          }
+        ],
+        "sources": [
+          {
+            "label": "John Chrysostom, Homily 24 on First Corinthians, translated by Talbot W. Chambers, Nicene and Post-Nicene Fathers, First Series, Vol. 12, ed. Philip Schaff (Christian Literature Publishing Co., 1889), revised for New Advent by Kevin Knight",
+            "url": "https://www.newadvent.org/fathers/220124.htm"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part Four, Section Two, Article 3, VI. And Lead Us not into Temptation (2846-2849) (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__PAC.HTM"
+          },
+          {
+            "label": "John Calvin, Commentary on Corinthians, Volume 1, 1 Corinthians 10:13-18, translated by John Pringle (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/calvin/calcom39/calcom39.xvii.iii.html"
+          },
+          {
+            "label": "Matthew Henry, Commentary on the Whole Bible, Volume VI (Acts to Revelation), 1 Corinthians, Chapter X (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/henry/mhc6.iCor.xi.html"
+          }
+        ]
       }
     },
     "JAS.5.16": {
@@ -5229,36 +6857,308 @@
     },
     "PSA.116.1": {
       "en": {
-        "simple": "Being heard changes things. This verse is the opening line of someone who cried out to God, was listened to, and now responds with love and gladness.",
-        "context": "This psalm is the thanksgiving of a person rescued from great danger, who goes on to describe how close death had come. It belongs to a group of psalms traditionally sung at Jewish festivals such as Passover.",
-        "meaning": "The psalm begins with the response and only then tells the story behind it. Translations word the opening differently, as love or as gladness, but in each the reason is the same: God turned an ear toward the one who called.",
-        "theology": "God is described as one who listens, and the relationship moves in both directions: a cry, a hearing, and thanks in return. The singer answers by resolving to keep calling on God for the rest of life.",
-        "today": "When something turns out well, pause before moving on to the next concern. You could say thank you in prayer, write down what happened, or tell someone the good news.",
-        "question": "What prayer or hope of mine has been met, and how would I like to give thanks?"
+        "simple": "The writer opens with love and gladness toward God, and gives the reason straight away: God heard him when he cried out for mercy. He prayed, God listened, and now his heart answers with love. Because God bent down to listen, he means to keep calling on him for the rest of his days.",
+        "context": "This is a song of thanks from someone who has come through great danger and deep anguish of mind, close to despair. It is linked with David. It may recall a single rescue, or many rescues remembered together. Some connect it with a king's recovery from grave illness, others with David's escape when his own son rebelled. Either way, the first line comes after the rescue. He prayed in trouble, and he was heard.",
+        "meaning": "The psalm begins abruptly with love and gladness, because the writer's heart is full. To be heard means that God took his case to heart and gave him an answer of peace. The picture is of God bending down and putting his ear close, so that even a prayer whispered in groans is caught. From that experience comes a love that finds its joy and rest in God alone.",
+        "theology": "An answered prayer points past the gift to the Giver, who is worth more than anything he gives. Being heard makes prayer dearer, and invites a lifetime of calling on God. Faith, hope and love grow together here: trusting that God listens gives hope, and hope warms into love. Even the first cry was his gift, since God calls a person before that person calls on him.",
+        "today": "Before the day moves on, you might pause over the prayer that was answered. Tell God plainly what he did, and thank him for himself as well as for the gift. A line in your journal could help you remember, on some harder day, that he bent down and listened.",
+        "question": "What does this answered prayer show me about the One who heard it?",
+        "words": [],
+        "echoes": [
+          {
+            "ref": "PSA.18.1",
+            "dra": "PSA.17.2",
+            "brenton": "PSA.17.2",
+            "synodal": "PSA.17.2"
+          },
+          {
+            "ref": "PSA.34.6",
+            "dra": "PSA.33.7",
+            "brenton": "PSA.33.7",
+            "synodal": "PSA.33.7"
+          },
+          {
+            "ref": "1CO.13.13"
+          }
+        ],
+        "teaching": [
+          {
+            "title": "God bends down to listen",
+            "text": "God is ready and willing to hear prayer. It is as if he puts his ear to the lips of the one praying, even when the prayer is only a whisper or a groan too deep for words. It is a wonder that the God of all should stoop so low to listen."
+          },
+          {
+            "title": "Answered prayer makes prayer dearer",
+            "text": "God answers prayer partly so that people will come to love praying. A past answer is a strong encouragement to keep praying, even with all our weakness in prayer. As long as life goes on, prayer can go on too, every day, to the last."
+          },
+          {
+            "title": "The Giver matters more than the gift",
+            "text": "Being heard is an invitation to rest in God himself, so that nothing is truly sweet without him. When Jesus prayed before raising his friend Lazarus, he gave thanks before the gift came. His prayer shows that the Giver is more precious than any gift."
+          },
+          {
+            "title": "God calls first",
+            "text": "Before anyone calls on God, God has already called them. That is why he is called gracious: he leaned toward a person who did not yet know he was near. The good he does is not earned by our deserving or our strength. It is given because he is good."
+          }
+        ],
+        "differences": [
+          {
+            "title": "Loved because God heard, or will hear?",
+            "text": "Some older translations have the writer love God because God will hear him. One reading takes this as hope stirring up love: he loves because he trusts that God will listen. Others read the verb as looking back, so the line means that God has already heard him. Both readings meet in a heart moved to love by God's kindness."
+          },
+          {
+            "title": "All my days, or my days of trouble?",
+            "text": "The next line speaks of calling on God in my days. Most have read this as every day for the rest of life. Others take these days to mean the hard days, the time of need, when calling on God matters most. Both readings have been offered in good faith, without quarrel."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Augustine, Exposition on Psalm 116 (Psalms 114 and 115 in his Latin Bible), translated by J.E. Tweed, Nicene and Post-Nicene Fathers, First Series, Vol. 8, ed. Philip Schaff (Christian Literature Publishing Co., 1888), revised and edited for New Advent by Kevin Knight",
+            "url": "https://www.newadvent.org/fathers/1801116.htm"
+          },
+          {
+            "label": "John Calvin, Commentary on Psalms, Volume 4, Psalm 116 (introduction and note) (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/calvin/calcom11/calcom11.xxv.html"
+          },
+          {
+            "label": "John Calvin, Commentary on Psalms, Volume 4, Psalm 116:1-4 (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/calvin/calcom11/calcom11.xxv.i.html"
+          },
+          {
+            "label": "Matthew Henry, Commentary on the Whole Bible, Volume III (Job to Song of Solomon), Psalms, Psalm CXVI (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/henry/mhc3.Ps.cxvii.html"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part Four, Christian Prayer, Article 2, In the Fullness of Time, paragraphs 2603-2604 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P93.HTM"
+          }
+        ]
       },
       "pt": {
-        "simple": "Quando alguém nos escuta, as coisas mudam. Este versículo é a primeira linha de alguém que clamou a Deus, recebeu atenção e agora responde com amor e alegria.",
-        "context": "Este salmo é a ação de graças de uma pessoa resgatada de um grande perigo, que em seguida descreve como a morte esteve perto. Ele pertence a um grupo de salmos tradicionalmente cantados em festas judaicas como a Páscoa.",
-        "meaning": "O salmo começa pela resposta e só depois conta a história por trás dela. As traduções formulam a abertura de modos diferentes, como amor ou como alegria, mas em todas o motivo é o mesmo: Deus inclinou o ouvido para quem o chamava.",
-        "theology": "Deus é descrito como alguém que escuta, e a relação acontece nos dois sentidos: um clamor, uma escuta e um agradecimento em resposta. Quem canta responde decidindo continuar a invocar a Deus pelo resto da vida.",
-        "today": "Quando algo dá certo, faça uma pausa antes de passar para a próxima preocupação. Você pode agradecer em oração, anotar o que aconteceu ou contar a boa notícia a alguém.",
-        "question": "Que oração ou esperança minha foi atendida, e como eu gostaria de agradecer?"
+        "simple": "Quem escreve começa falando de amor a Deus e logo diz o motivo: Deus o ouviu quando ele clamou por misericórdia. Ele orou, Deus escutou, e agora o seu coração responde com amor. Porque Deus se inclinou para ouvir, ele pretende continuar a chamar por ele todos os dias da sua vida.",
+        "context": "Este é um cântico de gratidão de alguém que passou por grande perigo e profunda angústia, perto do desespero. Ele é ligado a Davi. Pode lembrar um livramento só, ou muitos vistos juntos ao olhar para trás. Alguns o associam à cura de um rei gravemente doente, outros à fuga de Davi quando o próprio filho se rebelou. De todo modo, a primeira linha vem depois do livramento. Ele orou na aflição e foi ouvido.",
+        "meaning": "O salmo começa de repente, falando de amor, porque o coração de quem escreve está cheio. Ser ouvido quer dizer que Deus acolheu o seu caso e lhe deu uma resposta de paz. A imagem é a de Deus se inclinando e aproximando o ouvido, de modo que até uma oração sussurrada em gemidos é escutada. Dessa experiência nasce um amor que encontra a sua alegria e o seu descanso só em Deus.",
+        "theology": "Uma oração respondida aponta para além do presente, para Aquele que o deu, que vale mais do que tudo o que ele dá. Ser ouvido torna a oração mais querida e convida a chamar por Deus a vida inteira. Fé, esperança e amor crescem juntos aqui: confiar que Deus escuta traz esperança, e a esperança se aquece em amor. Até o primeiro clamor foi dom dele, pois Deus chama a pessoa antes que ela o chame.",
+        "today": "Antes que o dia siga adiante, que tal parar um pouco diante da oração que foi respondida? Conte a Deus, com simplicidade, o que ele fez, e agradeça a ele por quem ele é, e não só pelo presente. Uma linha no seu diário pode ajudar a lembrar, num dia mais difícil, que ele se inclinou e escutou.",
+        "question": "O que esta oração respondida me mostra sobre Aquele que a ouviu?",
+        "words": [],
+        "echoes": [
+          {
+            "ref": "PSA.18.1",
+            "dra": "PSA.17.2",
+            "brenton": "PSA.17.2",
+            "synodal": "PSA.17.2"
+          },
+          {
+            "ref": "PSA.34.6",
+            "dra": "PSA.33.7",
+            "brenton": "PSA.33.7",
+            "synodal": "PSA.33.7"
+          },
+          {
+            "ref": "1CO.13.13"
+          }
+        ],
+        "teaching": [
+          {
+            "title": "Deus se inclina para ouvir",
+            "text": "Deus está pronto e disposto a ouvir a oração. É como se ele encostasse o ouvido aos lábios de quem ora, mesmo quando a oração é só um sussurro ou um gemido fundo demais para palavras. É uma maravilha que o Deus de tudo se abaixe tanto para escutar."
+          },
+          {
+            "title": "Oração respondida torna a oração mais querida",
+            "text": "Deus responde à oração, em parte, para que as pessoas aprendam a amar orar. Uma resposta recebida é um grande incentivo para continuar orando, mesmo com todas as nossas fraquezas na oração. Enquanto a vida dura, a oração também pode durar, todos os dias, até o último."
+          },
+          {
+            "title": "Quem dá vale mais do que o presente",
+            "text": "Ser ouvido é um convite a descansar no próprio Deus, de modo que nada seja de fato doce sem ele. Quando Jesus orou antes de ressuscitar o seu amigo Lázaro, deu graças antes que o dom chegasse. A sua oração mostra que Aquele que dá é mais precioso do que qualquer presente."
+          },
+          {
+            "title": "Deus chama primeiro",
+            "text": "Antes que alguém chame por Deus, Deus já o chamou. Por isso ele é chamado bondoso: inclinou-se para uma pessoa que ainda nem sabia que ele estava perto. O bem que ele faz não é ganho por mérito ou força nossa. É dado porque ele é bom."
+          }
+        ],
+        "differences": [
+          {
+            "title": "Amou porque Deus ouviu, ou porque vai ouvir?",
+            "text": "Algumas traduções antigas dizem que quem escreve ama a Deus porque Deus o ouvirá. Uma leitura entende isso como esperança que desperta o amor: ele ama porque confia que Deus vai escutar. Outros leem o verbo olhando para trás, de modo que a linha quer dizer que Deus já o ouviu. As duas leituras se encontram num coração movido ao amor pela bondade de Deus."
+          },
+          {
+            "title": "Todos os meus dias, ou os meus dias de aflição?",
+            "text": "A linha seguinte fala de chamar por Deus nos meus dias. A maioria entendeu isso como todos os dias, pelo resto da vida. Outros entendem esses dias como os dias difíceis, o tempo da necessidade, quando chamar por Deus mais importa. As duas leituras foram propostas de boa-fé, sem disputa."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Augustine, Exposition on Psalm 116 (Psalms 114 and 115 in his Latin Bible), translated by J.E. Tweed, Nicene and Post-Nicene Fathers, First Series, Vol. 8, ed. Philip Schaff (Christian Literature Publishing Co., 1888), revised and edited for New Advent by Kevin Knight",
+            "url": "https://www.newadvent.org/fathers/1801116.htm"
+          },
+          {
+            "label": "John Calvin, Commentary on Psalms, Volume 4, Psalm 116 (introduction and note) (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/calvin/calcom11/calcom11.xxv.html"
+          },
+          {
+            "label": "John Calvin, Commentary on Psalms, Volume 4, Psalm 116:1-4 (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/calvin/calcom11/calcom11.xxv.i.html"
+          },
+          {
+            "label": "Matthew Henry, Commentary on the Whole Bible, Volume III (Job to Song of Solomon), Psalms, Psalm CXVI (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/henry/mhc3.Ps.cxvii.html"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part Four, Christian Prayer, Article 2, In the Fullness of Time, paragraphs 2603-2604 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P93.HTM"
+          }
+        ]
       },
       "es": {
-        "simple": "Recibir escucha cambia las cosas. Este versículo es la primera línea de alguien que clamó a Dios, fue atendido y ahora responde con amor y alegría.",
-        "context": "Este salmo es la acción de gracias de una persona rescatada de un gran peligro, que a continuación describe lo cerca que estuvo la muerte. Pertenece a un grupo de salmos que tradicionalmente se cantan en fiestas judías como la Pascua.",
-        "meaning": "El salmo empieza por la respuesta y solo después cuenta la historia que hay detrás. Las traducciones formulan el comienzo de maneras distintas, como amor o como alegría, pero en todas el motivo es el mismo: Dios inclinó el oído hacia quien lo llamaba.",
-        "theology": "Dios aparece como alguien que escucha, y la relación va en ambos sentidos: un clamor, una escucha y un agradecimiento en respuesta. Quien canta responde con la decisión de seguir invocando a Dios durante el resto de su vida.",
-        "today": "Cuando algo sale bien, haz una pausa antes de pasar a la siguiente preocupación. Puedes dar gracias en oración, anotar lo que pasó o contarle a alguien la buena noticia.",
-        "question": "¿Qué oración o esperanza mía ha sido atendida, y cómo me gustaría dar gracias?"
+        "simple": "Quien escribe empieza hablando de amor a Dios y enseguida dice por qué: Dios lo escuchó cuando clamó pidiendo misericordia. Él oró, Dios prestó oído, y ahora su corazón responde con amor. Como Dios se inclinó para escucharlo, piensa seguir invocándolo todos los días de su vida.",
+        "context": "Este es un canto de gratitud de alguien que ha pasado por un gran peligro y una profunda angustia, al borde de la desesperación. Se relaciona con David. Puede recordar un solo rescate, o muchos mirados juntos hacia atrás. Algunos lo vinculan con la curación de un rey gravemente enfermo; otros, con la huida de David cuando su propio hijo se rebeló. En todo caso, la primera línea llega después del rescate. Oró en la angustia y fue escuchado.",
+        "meaning": "El salmo comienza de golpe hablando de amor, porque el corazón de quien escribe está lleno. Ser escuchado significa que Dios tomó a pecho su situación y le dio una respuesta de paz. La imagen es la de Dios inclinándose y acercando el oído, de modo que hasta una oración susurrada entre gemidos llega a él. De esa experiencia nace un amor que encuentra su alegría y su descanso solo en Dios.",
+        "theology": "Una oración respondida apunta más allá del regalo, hacia Aquel que lo da, que vale más que todo lo que da. Ser escuchado hace más querida la oración e invita a invocar a Dios toda la vida. Fe, esperanza y amor crecen juntos aquí: confiar en que Dios escucha da esperanza, y la esperanza se enciende en amor. Hasta el primer clamor fue un don suyo, porque Dios llama a la persona antes de que ella lo llame.",
+        "today": "Antes de que el día siga su curso, quizá puedas detenerte un momento ante la oración que fue respondida. Cuéntale a Dios con sencillez lo que hizo, y dale gracias por quien es, no solo por el regalo. Una línea en tu diario puede ayudarte a recordar, en un día más difícil, que él se inclinó y escuchó.",
+        "question": "¿Qué me muestra esta oración respondida sobre Aquel que la escuchó?",
+        "words": [],
+        "echoes": [
+          {
+            "ref": "PSA.18.1",
+            "dra": "PSA.17.2",
+            "brenton": "PSA.17.2",
+            "synodal": "PSA.17.2"
+          },
+          {
+            "ref": "PSA.34.6",
+            "dra": "PSA.33.7",
+            "brenton": "PSA.33.7",
+            "synodal": "PSA.33.7"
+          },
+          {
+            "ref": "1CO.13.13"
+          }
+        ],
+        "teaching": [
+          {
+            "title": "Dios se inclina para escuchar",
+            "text": "Dios está pronto y dispuesto a escuchar la oración. Es como si acercara el oído a los labios de quien ora, aunque la oración sea solo un susurro o un gemido demasiado hondo para las palabras. Es asombroso que el Dios de todo se abaje tanto para escuchar."
+          },
+          {
+            "title": "La oración respondida hace más querida la oración",
+            "text": "Dios responde a la oración, en parte, para que las personas aprendan a amar orar. Una respuesta recibida es un gran aliento para seguir orando, aun con todas nuestras debilidades en la oración. Mientras dura la vida, también puede durar la oración, cada día, hasta el último."
+          },
+          {
+            "title": "El que da vale más que el regalo",
+            "text": "Ser escuchado es una invitación a descansar en Dios mismo, de modo que nada sea de verdad dulce sin él. Cuando Jesús oró antes de resucitar a su amigo Lázaro, dio gracias antes de que llegara el don. Su oración muestra que Aquel que da es más precioso que cualquier regalo."
+          },
+          {
+            "title": "Dios llama primero",
+            "text": "Antes de que alguien invoque a Dios, Dios ya lo ha llamado. Por eso se le llama bondadoso: se inclinó hacia una persona que aún no sabía que él estaba cerca. El bien que hace no se gana por nuestro mérito ni por nuestra fuerza. Se da porque él es bueno."
+          }
+        ],
+        "differences": [
+          {
+            "title": "¿Amó porque Dios escuchó, o porque escuchará?",
+            "text": "Algunas traducciones antiguas dicen que quien escribe ama a Dios porque Dios lo escuchará. Una lectura entiende esto como la esperanza que despierta el amor: ama porque confía en que Dios lo escuchará. Otros leen el verbo mirando hacia atrás, de modo que la línea quiere decir que Dios ya lo escuchó. Ambas lecturas se encuentran en un corazón movido al amor por la bondad de Dios."
+          },
+          {
+            "title": "¿Todos mis días, o mis días de angustia?",
+            "text": "La línea siguiente habla de invocar a Dios en mis días. La mayoría lo ha entendido como cada día, por el resto de la vida. Otros entienden esos días como los días difíciles, el tiempo de necesidad, cuando invocar a Dios más importa. Ambas lecturas se han propuesto de buena fe, sin disputa."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Augustine, Exposition on Psalm 116 (Psalms 114 and 115 in his Latin Bible), translated by J.E. Tweed, Nicene and Post-Nicene Fathers, First Series, Vol. 8, ed. Philip Schaff (Christian Literature Publishing Co., 1888), revised and edited for New Advent by Kevin Knight",
+            "url": "https://www.newadvent.org/fathers/1801116.htm"
+          },
+          {
+            "label": "John Calvin, Commentary on Psalms, Volume 4, Psalm 116 (introduction and note) (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/calvin/calcom11/calcom11.xxv.html"
+          },
+          {
+            "label": "John Calvin, Commentary on Psalms, Volume 4, Psalm 116:1-4 (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/calvin/calcom11/calcom11.xxv.i.html"
+          },
+          {
+            "label": "Matthew Henry, Commentary on the Whole Bible, Volume III (Job to Song of Solomon), Psalms, Psalm CXVI (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/henry/mhc3.Ps.cxvii.html"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part Four, Christian Prayer, Article 2, In the Fullness of Time, paragraphs 2603-2604 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P93.HTM"
+          }
+        ]
       },
       "ru": {
-        "simple": "Когда тебя услышали, многое меняется. Этим стихом начинается песнь человека, который воззвал к Богу, был услышан и теперь отвечает любовью и радостью.",
-        "context": "Этот псалом — благодарение человека, спасённого от большой опасности; дальше он описывает, как близко подступила смерть. Он входит в группу псалмов, которые по традиции поют на иудейских праздниках, например на Песах.",
-        "meaning": "Псалом начинается с отклика и только потом рассказывает, что за ним стоит. Переводы передают начало по-разному — как любовь или как радость, — но причина везде одна: Бог приклонил ухо к тому, кто звал.",
-        "theology": "Бог описан как Тот, Кто слушает, и отношения идут в обе стороны: зов, отклик и ответная благодарность. Поющий отвечает решением призывать Бога во все дни своей жизни.",
-        "today": "Когда что-то сложилось хорошо, остановитесь, прежде чем переходить к следующей заботе. Можно поблагодарить в молитве, записать случившееся или поделиться с кем-то доброй вестью.",
-        "question": "Какая моя молитва или надежда исполнилась и как мне хотелось бы поблагодарить?"
+        "simple": "Автор псалма начинает с радости и любви к Богу и сразу называет причину: Бог услышал его, когда он взывал о милости. Он молился, Бог внимал, и теперь его сердце отвечает любовью. Раз Бог склонился, чтобы выслушать, он решает призывать Его до конца своих дней.",
+        "context": "Это благодарственная песнь человека, прошедшего через большую опасность и тяжкую душевную муку, почти до отчаяния. Её связывают с Давидом. Она может вспоминать одно избавление или многие, увиденные вместе. Одни относят её к выздоровлению царя от тяжёлой болезни, другие к спасению Давида, когда против него восстал собственный сын. Так или иначе, первая строка звучит уже после избавления. Он молился в беде и был услышан.",
+        "meaning": "Псалом начинается внезапно, словами о радости и любви, потому что сердце автора переполнено. Быть услышанным значит, что Бог принял его дело к сердцу и дал ему мирный ответ. Образ здесь такой: Бог склоняется и приближает ухо, так что слышит даже молитву, прошёптанную со стоном. Из этого опыта рождается любовь, которая находит радость и покой только в Боге.",
+        "theology": "Исполненная молитва ведёт дальше дара, к Самому Дарующему, Который дороже всего, что Он даёт. Когда человек услышан, молитва становится ему дороже, и хочется призывать Бога всю жизнь. Вера, надежда и любовь растут здесь вместе: доверие, что Бог слышит, рождает надежду, а надежда разгорается любовью. Даже первый вопль был Его даром, ведь Бог зовёт человека прежде, чем тот позовёт Его.",
+        "today": "Пока день не ушёл дальше, можно остановиться у той молитвы, на которую пришёл ответ. Простыми словами рассказать Богу, что Он сделал, и поблагодарить Его за Него Самого, а не только за дар. Одна строчка в дневнике поможет вспомнить в более трудный день, что Он склонился и выслушал.",
+        "question": "Что эта исполненная молитва говорит мне о Том, Кто её услышал?",
+        "words": [],
+        "echoes": [
+          {
+            "ref": "PSA.18.1",
+            "dra": "PSA.17.2",
+            "brenton": "PSA.17.2",
+            "synodal": "PSA.17.2"
+          },
+          {
+            "ref": "PSA.34.6",
+            "dra": "PSA.33.7",
+            "brenton": "PSA.33.7",
+            "synodal": "PSA.33.7"
+          },
+          {
+            "ref": "1CO.13.13"
+          }
+        ],
+        "teaching": [
+          {
+            "title": "Бог склоняется, чтобы услышать",
+            "text": "Бог готов и хочет слышать молитву. Он словно прикладывает ухо к устам молящегося, даже если молитва звучит лишь шёпотом или стоном, слишком глубоким для слов. Удивительно, что Бог всего мира так низко склоняется, чтобы выслушать."
+          },
+          {
+            "title": "Услышанная молитва делает молитву дороже",
+            "text": "Бог отвечает на молитву отчасти для того, чтобы люди полюбили молиться. Полученный ответ сильно ободряет продолжать молиться, несмотря на всю нашу немощь в молитве. Пока длится жизнь, может длиться и молитва, каждый день, до последнего."
+          },
+          {
+            "title": "Дарующий дороже дара",
+            "text": "Быть услышанным значит быть позванным к покою в Самом Боге, так что без Него ничто не бывает по-настоящему сладким. Когда Иисус молился перед воскрешением Своего друга Лазаря, Он благодарил ещё до того, как пришёл дар. Его молитва показывает, что Дарующий драгоценнее любого дара."
+          },
+          {
+            "title": "Бог зовёт первым",
+            "text": "Прежде чем человек призовёт Бога, Бог уже позвал его. Поэтому Он назван благим: Он склонился к тому, кто ещё не знал, что Он рядом. Добро, которое Он делает, не заслужено нашими достоинствами или силой. Оно дано потому, что Он благ."
+          }
+        ],
+        "differences": [
+          {
+            "title": "Полюбил, потому что Бог услышал или услышит?",
+            "text": "В некоторых старых переводах сказано, что автор любит Бога, потому что Бог услышит его. Одно прочтение видит здесь надежду, пробуждающую любовь: он любит, потому что верит, что Бог выслушает. Другие понимают глагол как обращённый в прошлое, так что строка значит, что Бог уже услышал. Оба прочтения сходятся в сердце, которое Божья доброта подвигла к любви."
+          },
+          {
+            "title": "Все мои дни или дни моей беды?",
+            "text": "Следующая строка говорит о призывании Бога во дни мои. Большинство понимали это как каждый день, до конца жизни. Другие видят в этих днях трудные дни, время нужды, когда призывать Бога важнее всего. Оба прочтения предлагались честно и без спора."
+          }
+        ],
+        "sources": [
+          {
+            "label": "Augustine, Exposition on Psalm 116 (Psalms 114 and 115 in his Latin Bible), translated by J.E. Tweed, Nicene and Post-Nicene Fathers, First Series, Vol. 8, ed. Philip Schaff (Christian Literature Publishing Co., 1888), revised and edited for New Advent by Kevin Knight",
+            "url": "https://www.newadvent.org/fathers/1801116.htm"
+          },
+          {
+            "label": "John Calvin, Commentary on Psalms, Volume 4, Psalm 116 (introduction and note) (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/calvin/calcom11/calcom11.xxv.html"
+          },
+          {
+            "label": "John Calvin, Commentary on Psalms, Volume 4, Psalm 116:1-4 (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/calvin/calcom11/calcom11.xxv.i.html"
+          },
+          {
+            "label": "Matthew Henry, Commentary on the Whole Bible, Volume III (Job to Song of Solomon), Psalms, Psalm CXVI (Christian Classics Ethereal Library)",
+            "url": "https://www.ccel.org/ccel/henry/mhc3.Ps.cxvii.html"
+          },
+          {
+            "label": "Catechism of the Catholic Church, Part Four, Christian Prayer, Article 2, In the Fullness of Time, paragraphs 2603-2604 (Libreria Editrice Vaticana)",
+            "url": "https://www.vatican.va/archive/ENG0015/__P93.HTM"
+          }
+        ]
       }
     },
     "PHP.4.7": {
