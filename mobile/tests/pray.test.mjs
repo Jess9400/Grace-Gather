@@ -56,9 +56,13 @@ test("the prayer for loved ones carries the names, living or departed", () => {
   }
 });
 
-test("the Orthodox church has an icon to pray before and no pews", () => {
+test("the Russian Orthodox church has an icon to pray before and no pews", () => {
   const options = { adventWeek: 0, litVotives: 0 };
-  const vertices = scene.buildChurchMesh({ ...options, orthodox: true });
+  const vertices = scene.buildChurchMesh({
+    ...options,
+    orthodox: true,
+    russian: true,
+  });
   const general = scene.buildChurchMesh(options);
   // Pews fill the nave floor either side of the aisle, in front of the screen.
   const inPews = (mesh) => {
@@ -81,4 +85,23 @@ test("the Orthodox church has an icon to pray before and no pews", () => {
   assert.ok(anchors.pray && scene.PLACE_BOXES.pray);
   // The icon stands inside the view at the left, before the icon screen.
   assert.ok(anchors.pray[0] < -0.8 && anchors.pray[0] > -1.7);
+});
+
+test("Orthodox people in other languages keep the earlier church", () => {
+  const options = { adventWeek: 0, litVotives: 0, orthodox: true };
+  const earlier = scene.buildChurchMesh(options);
+  const russian = scene.buildChurchMesh({ ...options, russian: true });
+  const general = scene.buildChurchMesh({ adventWeek: 0, litVotives: 0 });
+  assert.notDeepEqual(Array.from(earlier), Array.from(russian));
+  assert.notDeepEqual(Array.from(earlier), Array.from(general));
+  // The earlier church keeps the general places (no Russian icon spot).
+  assert.deepEqual(scene.placeAnchors(false, false), scene.placeAnchors());
+  assert.notDeepEqual(scene.placeAnchors(false, true), scene.placeAnchors());
+  // «Russian» alone, without Orthodox, changes nothing.
+  assert.deepEqual(
+    Array.from(
+      scene.buildChurchMesh({ adventWeek: 0, litVotives: 0, russian: true }),
+    ),
+    Array.from(general),
+  );
 });

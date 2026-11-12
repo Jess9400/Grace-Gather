@@ -112,9 +112,11 @@ export default function Home() {
       ? Math.max(0, Math.min(4, Number(params.advent) || 0))
       : undefined;
   const plain = isProtestant(profile);
-  // The Orthodox church opens straight onto its three named places, with one
-  // "Talk to God" button, instead of the invitation card.
-  const eastern = isOrthodox(profile);
+  // The Russian Orthodox church opens straight onto its named places, with one
+  // «Поговорить с Богом» button instead of the invitation card. It is only for
+  // Orthodox people using the app in Russian; Orthodox people in other
+  // languages keep the earlier church, entrance and invitation.
+  const eastern = isOrthodox(profile) && profile.language === "ru";
   const [now, setNow] = useState(() => new Date());
   useEffect(() => {
     const clock = setInterval(() => setNow(new Date()), 30000);
@@ -410,6 +412,7 @@ export default function Home() {
               paused={entrance || details || aboutAdvent}
               protestant={plain}
               orthodox={isOrthodox(profile)}
+              russian={eastern}
               candlesAllowed={candlesAllowed}
               tour={touring}
               labelsEnabled={!invitation}
