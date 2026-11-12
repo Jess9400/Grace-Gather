@@ -89,6 +89,7 @@ export default function ChurchScene({
   protestant = false,
   candlesAllowed = !protestant,
   orthodox = false,
+  russian = false,
   tour = false,
   labelsEnabled = true,
   labelsAlways = false,
@@ -108,6 +109,8 @@ export default function ChurchScene({
   protestant?: boolean;
   candlesAllowed?: boolean;
   orthodox?: boolean;
+  // The Russian Orthodox church; only together with `orthodox`.
+  russian?: boolean;
   tour?: boolean;
   labelsEnabled?: boolean;
   // Show every place's name all the time (a church with only a few places).
@@ -155,6 +158,7 @@ export default function ChurchScene({
     protestant,
     candlesAllowed,
     orthodox,
+    russian,
   });
   useEffect(() => {
     props.current = {
@@ -166,6 +170,7 @@ export default function ChurchScene({
       protestant,
       candlesAllowed,
       orthodox,
+      russian,
     };
   }, [
     night,
@@ -176,6 +181,7 @@ export default function ChurchScene({
     protestant,
     candlesAllowed,
     orthodox,
+    russian,
   ]);
   const [positions] = useState(() => {
     const map = {} as Record<ChurchPlace, Animated.ValueXY>;
@@ -227,7 +233,7 @@ export default function ChurchScene({
       width / height,
       view.current,
       props.current.protestant,
-      props.current.orthodox,
+      props.current.orthodox && props.current.russian,
     );
     (Object.keys(projected) as ChurchPlace[]).forEach((key) => {
       const p = projected[key];
@@ -245,6 +251,7 @@ export default function ChurchScene({
       protestant: plain,
       candlesAllowed: showCandles,
       orthodox: eastern,
+      russian: russianStyle,
     } = props.current;
     const time = still ? 0 : (Date.now() - born.current) / 1000;
     renderer.current?.draw(time, nightLevel.current, view.current, {
@@ -253,6 +260,7 @@ export default function ChurchScene({
       protestant: plain,
       candlesAllowed: showCandles,
       orthodox: eastern,
+      russian: russianStyle,
     });
     context.current?.endFrameEXP();
     place();
@@ -371,6 +379,7 @@ export default function ChurchScene({
     protestant,
     candlesAllowed,
     orthodox,
+    russian,
     loop,
   ]);
 
@@ -475,6 +484,7 @@ export default function ChurchScene({
     protestant,
     candlesAllowed,
     orthodox,
+    russian,
   ]);
 
   // Which place sits under a point in the stage, using the current view.

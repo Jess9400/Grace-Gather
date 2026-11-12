@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import { router } from "expo-router";
+import { Redirect, router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import {
   Body,
@@ -17,7 +17,7 @@ import {
   serif,
 } from "../components/quiet-ui";
 import { useApp } from "../lib/state";
-import { welcomesCandles } from "../lib/church-calendar";
+import { isOrthodox, welcomesCandles } from "../lib/church-calendar";
 import {
   namesPrayer,
   prayCopy,
@@ -36,6 +36,9 @@ export default function Pray() {
   const [kind, setKind] = useState<"health" | "repose">("health");
   const [names, setNames] = useState("");
   const [error, setError] = useState("");
+
+  // Opened only from the Russian Orthodox church; anyone else goes Home.
+  if (!isOrthodox(profile) || lang !== "ru") return <Redirect href="/" />;
 
   if (reading)
     return (

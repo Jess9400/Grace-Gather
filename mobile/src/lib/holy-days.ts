@@ -241,12 +241,9 @@ export const holyDayNames: Record<HolyDayId, Record<Language, string>> = {
     "Вознесение Господне",
   ),
   pentecost: L("Pentecost", "Pentecostes", "Pentecostés", "Пятидесятница"),
-  trinity: L(
-    "Pentecost (Holy Trinity)",
-    "Pentecostes (Santíssima Trindade)",
-    "Pentecostés (Santísima Trinidad)",
-    "Троица",
-  ),
+  // Russian Orthodox call this feast «Троица»; other languages keep the name
+  // they had before.
+  trinity: L("Pentecost", "Pentecostes", "Pentecostés", "Троица"),
   adventSunday: L(
     "First Sunday of Advent",
     "Primeiro Domingo do Advento",
