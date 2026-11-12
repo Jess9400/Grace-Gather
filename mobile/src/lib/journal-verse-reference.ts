@@ -1,3 +1,4 @@
+import themeMap from "../generated/journal-map.json";
 import {
   collections,
   getReadingVerse,
@@ -6,6 +7,8 @@ import {
   type CollectionId,
   type ReadingVerse,
 } from "./bible";
+
+const themeReferences = [...new Set(themeMap.map((theme) => theme.verse))];
 
 // The theme map uses Hebrew/WEB numbering. These are explicit correspondences
 // for its seven Psalms, checked against each bundled edition, not chapter offsets.
@@ -73,4 +76,16 @@ export function journalStudyReference(
     (study?.editionId === "web" && study.bibleId === reference)
     ? reference
     : undefined;
+}
+
+// The journal theme reference for a verse opened anywhere (e.g. from the Bible
+// tab), when that verse is one of the journal's theme verses in this edition.
+export function themeReferenceFor(verseId: string) {
+  const [prefix] = verseId.split(":");
+  if (!verseId.includes(":") || !Object.hasOwn(collections, prefix))
+    return undefined;
+  return themeReferences.find(
+    (reference) =>
+      journalVerseId(prefix as CollectionId, reference) === verseId,
+  );
 }

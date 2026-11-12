@@ -52,7 +52,9 @@ test('every explanation has every section in English, Portuguese, Spanish and Ru
     assert.deepEqual(Object.keys(studies[reference]).sort(), [...languages].sort(), reference);
     for (const language of languages) {
       const study = studies[reference][language];
-      assert.deepEqual(Object.keys(study).sort(), [...fields].sort(), `${reference} ${language}`);
+      const optional = ['words', 'echoes', 'teaching', 'differences', 'sources'];
+      for (const field of fields) assert.ok(Object.hasOwn(study, field), `${reference} ${language} ${field}`);
+      for (const key of Object.keys(study)) assert.ok(fields.includes(key) || optional.includes(key), `${reference} ${language} unexpected ${key}`);
       for (const field of fields) {
         const where = `${reference} ${language} ${field}`;
         assert.equal(typeof study[field], 'string', where);
@@ -165,7 +167,10 @@ test('the saved entry passes its theme verse and the verse screen reads it', () 
   const verse = readFileSync(root + 'mobile/src/app/verse/[id].tsx', 'utf8');
   assert.match(entry, /journal: journalTheme\(entry\)\.verse/);
   assert.match(verse, /journalStudyReference\(id, journal\)/);
-  assert.match(verse, /study \?\? journalVerseStudy\(journalReference, lang\)/);
+  // The journal note is found by the entry's reference, or by the verse itself
+  // when it is a theme verse opened elsewhere; sourced notes come first.
+  assert.match(verse, /journalVerseStudy\(\s*journalReference \?\? themeReferenceFor\(id\),\s*lang,?\s*\)/);
+  assert.match(verse, /sourced \?\? study \?\? journalNote/);
   // The shipped English studies stay English-only.
   assert.match(verse, /study = lang === "en" \? studyFor\(id\) : undefined/);
   // The note shown with these explanations is translated too.
@@ -173,4 +178,30 @@ test('the saved entry passes its theme verse and the verse screen reads it', () 
   const translations = JSON.parse(readFileSync(root + 'mobile/src/lib/interface-translations.json', 'utf8'));
   assert.ok(verse.includes(`"${note}"`));
   for (const language of ['pt', 'es', 'ru']) assert.ok(translations[note][language].length > 60, language);
+});
+
+test('rebuilt notes name their sources and every related verse exists', () => {
+  const allowed = /^https:\/\/(www\.newadvent\.org|www\.ccel\.org|ccel\.org|www\.vatican\.va|ebible\.org|archive\.org)\//;
+  for (const reference of themeVerses) for (const language of languages) {
+    const study = studies[reference][language];
+    if (!study.sources) {
+      for (const key of ['words', 'echoes', 'teaching', 'differences']) assert.equal(study[key], undefined, `${reference} ${language} ${key} without sources`);
+      continue;
+    }
+    const where = `${reference} ${language}`;
+    assert.ok(study.sources.length >= 2, where);
+    for (const source of study.sources) {
+      assert.ok(source.label.length > 10, where);
+      assert.match(source.url, allowed, `${where} ${source.url}`);
+    }
+    assert.ok(study.teaching?.length >= 2, `${where} teaching`);
+    for (const point of [...study.teaching, ...(study.differences ?? [])]) assert.ok(point.title && point.text.length > 40, where);
+    for (const word of study.words ?? []) assert.ok(word.term && word.original && word.meaning, where);
+    for (const echo of study.echoes ?? []) {
+      assert.ok(reader.getReadingVerse(`web:${echo.ref}`), `${where} echo ${echo.ref}`);
+      for (const id of ['dra', 'brenton', 'synodal']) if (echo[id]) assert.ok(reader.getReadingVerse(`${id}:${echo[id]}`), `${where} echo ${id}:${echo[id]}`);
+    }
+    // Every language of a rebuilt note is rebuilt too, from the same sources.
+    assert.deepEqual(study.sources.map(s => s.url), studies[reference].en.sources.map(s => s.url), where);
+  }
 });
