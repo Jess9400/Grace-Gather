@@ -123,7 +123,7 @@ export default function CandleScreen() {
                   >
                     {t(i.title)}
                   </Text>
-                  <Text style={[s.optionSub, selected && { color: "#E9E1D3" }]}>
+                  <Text style={[s.optionSub, selected && { color: "#665D54" }]}>
                     {t(i.sub)}
                   </Text>
                 </Pressable>
@@ -216,7 +216,7 @@ const s = StyleSheet.create({
     borderRadius: 18,
     backgroundColor: colors.white,
     borderWidth: 1,
-    borderColor: "#E5DCCB",
+    borderColor: colors.line,
     justifyContent: "center",
     gap: 3,
     boxShadow: "0 4px 12px rgba(48,44,40,0.06)",

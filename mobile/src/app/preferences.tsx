@@ -16,6 +16,7 @@ import {
   Field,
   Notice,
   Card,
+  switchColors,
 } from "../components/quiet-ui";
 import { useApp } from "../lib/state";
 import {
@@ -233,6 +234,7 @@ export default function Preferences() {
             <Subheading>{journalCopy(p.language, "cleanupSetting")}</Subheading>
           </View>
           <Switch
+            {...switchColors}
             accessibilityLabel={journalCopy(p.language, "cleanupSetting")}
             disabled={!automaticCleanupSupported}
             value={p.deleteJournalChatsAfter90Days === true}

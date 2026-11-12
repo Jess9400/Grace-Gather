@@ -100,10 +100,10 @@ The web preview now has a separate anonymous peer-support room, theme-only selec
 
 ## Approved quiet-diary integration
 
-The native app now implements the approved ivory prototype: #FFFCF3 background,
-#FFFFFF reading surfaces, #302C28 text and buttons, and #B28A3E accents. The
-Confession room retains its own original components and colors. No Confession
-service, screen, recorder or playback code is restyled.
+The app uses the approved Candlelight look: dark espresso rooms (#1B1612) with a
+warm glow from the top, deep brown cards (#2A221B), ivory text (#F4EBDA), cream
+primary buttons and antique gold details (#C9A45C). Journal letters stay cream
+pages with espresso ink. The Confession room uses the same palette.
 
 Home preserves gently floating feelings and respects reduced motion. Large
 accessibility text uses a wrapping layout so choices remain reachable. Diary

@@ -847,7 +847,7 @@ const s = StyleSheet.create({
   },
   backdrop: {
     flex: 1,
-    backgroundColor: "#302C2845",
+    backgroundColor: "#000000AA",
     justifyContent: "flex-end",
   },
   sheet: {

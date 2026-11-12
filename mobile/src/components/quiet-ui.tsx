@@ -21,21 +21,59 @@ import { BlurView } from "expo-blur";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+// Candlelight: dark espresso rooms, ivory words and antique gold details.
+// `green` fills primary buttons and selected items (cream, with `white` text);
+// `white` is the card surface. `night` is the darker tab bar under the rooms.
 export const colors = {
-  paper: "#FFFCF3",
-  ink: "#302C28",
-  muted: "#746A60",
-  inactive: "#746A60",
-  green: "#302C28",
-  pale: "#F5EFE2",
-  line: "#302C282D",
-  white: "#FFFFFF",
-  gold: "#B28A3E",
-  goldInk: "#806122",
-  cardInk: "#302C28",
-  cardMuted: "#746A60",
-  cardLine: "#B8AB96",
+  paper: "#1B1612",
+  ink: "#F4EBDA",
+  muted: "#B7A993",
+  inactive: "#B7A993",
+  green: "#F1E4CB",
+  pale: "#2F271F",
+  line: "#F4EBDA2D",
+  white: "#2A221B",
+  gold: "#C9A45C",
+  goldInk: "#D9B974",
+  cardInk: "#F4EBDA",
+  cardMuted: "#B7A993",
+  cardLine: "#F4EBDA33",
+  night: "#120E0B",
 };
+// A journal letter is always a cream page with dark ink, so it reads as the
+// person's own writing in the candlelit room.
+export const letter = {
+  paper: "#F8F0DE",
+  ink: "#302C28",
+  muted: "#665D54",
+  gold: "#806122",
+  line: "#302C282D",
+};
+// On/off switches: a gold track when on, a soft espresso track when off.
+export const switchColors = {
+  trackColor: { false: "#4A3F35", true: "#C9A45C" },
+  thumbColor: "#F4EBDA",
+  ios_backgroundColor: "#4A3F35",
+  // The web build colours the knob of a switch that is on separately.
+  activeThumbColor: "#F4EBDA",
+};
+// The candle's glow over every room: a warm light from above on deep espresso.
+const glow =
+  "radial-gradient(70% 38% at 50% 0%, rgba(224,160,82,0.26) 0%, rgba(224,160,82,0) 100%), radial-gradient(60% 30% at 85% 100%, rgba(201,164,92,0.10) 0%, rgba(201,164,92,0) 100%), linear-gradient(180deg, #211A14 0%, #17120E 100%)";
+export function Backdrop() {
+  return (
+    <View
+      pointerEvents="none"
+      style={[
+        StyleSheet.absoluteFill,
+        { backgroundColor: colors.paper },
+        (Platform.OS === "web"
+          ? { backgroundImage: glow }
+          : { experimental_backgroundImage: glow }) as object,
+      ]}
+    />
+  );
+}
 const CardSurface = createContext(false);
 function useSurfaceColors() {
   const card = useContext(CardSurface);
@@ -44,7 +82,7 @@ function useSurfaceColors() {
     muted: card ? colors.cardMuted : colors.muted,
     line: card ? colors.cardLine : colors.line,
     // Small decorative outlines use the antique gold on the page.
-    outline: card ? colors.cardLine : "#B28A3E8C",
+    outline: card ? colors.cardLine : "#C9A45C8C",
   };
 }
 // `place` makes the screen one of the church's rooms: its part of the church
@@ -72,6 +110,7 @@ export function Screen({
   if (strip && place)
     return (
       <SafeAreaView style={s.safe} edges={["left", "right"]}>
+        <Backdrop />
         <ScrollView keyboardShouldPersistTaps="handled">
           <ChurchStrip place={place} back={back} />
           <View style={[s.page, s.roomPage]}>
@@ -89,6 +128,7 @@ export function Screen({
         avoid ? ["top", "left", "right", "bottom"] : ["top", "left", "right"]
       }
     >
+      <Backdrop />
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={
@@ -331,7 +371,7 @@ export const s = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  backPressed: { backgroundColor: "#302C280A", opacity: 0.7 },
+  backPressed: { backgroundColor: "#F4EBDA14", opacity: 0.7 },
   brandText: {
     flexShrink: 1,
     letterSpacing: 2.1,
@@ -438,12 +478,12 @@ export function Glass({
     borderColor: colors.line,
     borderRadius: 23,
     overflow: "hidden" as const,
-    backgroundColor: "#FFFFFFB8",
+    backgroundColor: "#2A221BB8",
   };
   if (Platform.OS === "android")
     return <View style={[surface, style]}>{children}</View>;
   return (
-    <BlurView tint="light" intensity={35} style={[surface, style]}>
+    <BlurView tint="dark" intensity={35} style={[surface, style]}>
       {children}
     </BlurView>
   );

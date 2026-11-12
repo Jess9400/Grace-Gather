@@ -135,7 +135,7 @@ export function ActionCard({
       style={({ pressed }) => [
         styles.actionCard,
         {
-          backgroundColor: primary ? colors.pale : "#183D33",
+          backgroundColor: primary ? colors.pale : colors.white,
           opacity: disabled ? 0.45 : pressed ? 0.8 : 1,
         },
       ]}
@@ -204,7 +204,7 @@ export function FilterStrip({
             style={{
               fontSize: 13,
               fontWeight: "500",
-              color: option.value === value ? colors.cardInk : colors.ink,
+              color: option.value === value ? colors.paper : colors.ink,
             }}
           >
             {option.label}

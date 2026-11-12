@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { View, Text, TextInput, StyleSheet, Platform } from "react-native";
 import { router } from "expo-router";
 import { randomUUID } from "expo-crypto";
-import { Screen, Button, Notice, colors, serif } from "./quiet-ui";
+import { Screen, Button, Notice, colors, letter, serif } from "./quiet-ui";
 import Recorder from "./QuietRecorder";
 import { useApp } from "../lib/state";
 import { useQuiet } from "../lib/quiet-state";
@@ -195,7 +195,7 @@ export default function Diary() {
           value={draft.text}
           onChangeText={(text) => update({ text })}
           placeholder={copy(lang, "prompt")}
-          placeholderTextColor={colors.muted}
+          placeholderTextColor={letter.muted}
           style={s.input}
         />
       </View>
@@ -231,16 +231,17 @@ export default function Diary() {
 const s = StyleSheet.create({
   title: { fontFamily: serif, fontSize: 35, lineHeight: 43, color: colors.ink },
   editing: { color: colors.muted, fontSize: 14, lineHeight: 21 },
+  // The letter stays a cream page with dark ink in the candlelit room.
   paper: {
-    backgroundColor: colors.white,
+    backgroundColor: letter.paper,
     borderRadius: 16,
     padding: 25,
     paddingLeft: 37,
     position: "relative",
     borderWidth: 1,
-    borderColor: "#B28A3E20",
+    borderColor: "#C9A45C40",
     marginTop: 8,
-    boxShadow: "0px 12px 35px rgba(48,44,40,.055)",
+    boxShadow: "0px 14px 34px rgba(0,0,0,.35)",
   },
   rule: {
     position: "absolute",
@@ -250,16 +251,16 @@ const s = StyleSheet.create({
     width: 1,
     backgroundColor: "#B28A3E40",
   },
-  date: { color: colors.muted, fontSize: 12, marginBottom: 20 },
+  date: { color: letter.muted, fontSize: 12, marginBottom: 20 },
   dear: {
     fontFamily: serif,
     fontSize: 26,
     fontStyle: "italic",
-    color: colors.ink,
+    color: letter.ink,
     marginBottom: 16,
   },
   input: {
-    color: colors.ink,
+    color: letter.ink,
     fontFamily: serif,
     fontSize: 21,
     lineHeight: 35,

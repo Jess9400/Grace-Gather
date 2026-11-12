@@ -23,7 +23,8 @@ import {
   type RoomPlace,
 } from "../lib/church-room";
 
-const PAPER = "#FFFCF3";
+// The strip melts into the top of the candlelit room.
+const PAPER = "#211A14";
 const LABEL: Record<RoomPlace, ChurchWord> = {
   bible: "atLectern",
   pews: "inPews",
@@ -139,7 +140,7 @@ const st = StyleSheet.create({
     right: 0,
     bottom: 0,
     height: "30%",
-    backgroundImage: `linear-gradient(180deg, rgba(255,252,243,0) 0%, ${PAPER} 100%)`,
+    backgroundImage: `linear-gradient(180deg, rgba(33,26,20,0) 0%, ${PAPER} 100%)`,
   },
   row: {
     flexDirection: "row",
@@ -168,7 +169,7 @@ const st = StyleSheet.create({
   avatar: { padding: 4, marginLeft: "auto" },
   action: {
     borderRadius: 20,
-    backgroundColor: "rgba(255,252,243,0.86)",
+    backgroundColor: "rgba(33,27,22,0.62)",
     paddingHorizontal: 4,
   },
 });

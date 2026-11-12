@@ -30,13 +30,13 @@ function Routes() {
     );
   return (
     <>
-      <StatusBar style={legacy ? "light" : "dark"} />
+      <StatusBar style="light" />
       <View style={{ flex: 1 }}>
         <Stack
           screenOptions={{
             headerShown: false,
             contentStyle: {
-              backgroundColor: legacy ? colors.paper : "#FFFCF3",
+              backgroundColor: legacy ? colors.paper : "#1B1612",
             },
           }}
         >
