@@ -164,7 +164,7 @@ const rows: Record<string, string[]> = {
     "This permanently removes your account, profile, comments, confessions, comfort replies, uploaded confession audio and reservations. Your private journal can be kept or deleted separately.",
     "Isso remove permanentemente sua conta, perfil, comentários, confissões, respostas de acolhimento, áudios de confissão enviados e reservas. Seu diário privado pode ser mantido ou excluído separadamente.",
     "Esto elimina tu cuenta, perfil, comentarios, confesiones, respuestas de apoyo, audios de confesión subidos y reservas de forma permanente. Tu diario privado puede conservarse o borrarse aparte.",
-    "Это навсегда удалит аккаунт, профиль, комментарии, признания, ответы поддержки, загруженные аудиопризнания и записи на встречи. Личный дневник можно сохранить или удалить отдельно.",
+    "Это навсегда удалит аккаунт, профиль, комментарии, исповеди, ответы поддержки, загруженные аудиоисповеди и записи на встречи. Личный дневник можно сохранить или удалить отдельно.",
   ],
   confirmDelete: [
     "Type DELETE to confirm",

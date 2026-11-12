@@ -1077,7 +1077,7 @@
   "Sign in to offer comfort or share a confession. Your draft stays here.": {
     "pt": "Entre para oferecer conforto ou compartilhar uma confissão. Seu rascunho continua aqui.",
     "es": "Inicia sesión para ofrecer consuelo o compartir una confesión. Tu borrador sigue aquí.",
-    "ru": "Войдите, чтобы поддержать другого человека или поделиться признанием. Ваш черновик останется здесь."
+    "ru": "Войдите, чтобы поддержать другого человека или поделиться исповедью. Ваш черновик останется здесь."
   },
   "Sign in to see your calendar.": {
     "pt": "Entre para ver seu calendário.",
@@ -1862,12 +1862,12 @@
   "Preview confession": {
     "pt": "Prévia da confissão",
     "es": "Vista previa de la confesión",
-    "ru": "Предпросмотр признания"
+    "ru": "Предпросмотр исповеди"
   },
   "Edit confession": {
     "pt": "Editar confissão",
     "es": "Editar confesión",
-    "ru": "Редактировать признание"
+    "ru": "Редактировать исповедь"
   },
   "A moderator account is required.": {
     "pt": "É necessária uma conta de moderador.",
@@ -1987,7 +1987,7 @@
   "Confessions": {
     "pt": "Confissões",
     "es": "Confesiones",
-    "ru": "Признания"
+    "ru": "Исповеди"
   },
   "Automatic": {
     "pt": "Automática",
