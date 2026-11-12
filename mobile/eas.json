@@ -19,9 +19,18 @@
       "env": {
         "RELEASE_BUILD": "true"
       }
+    },
+    "testflight": {
+      "extends": "production",
+      "environment": "production",
+      "env": {
+        "RELEASE_BUILD": "false",
+        "TESTFLIGHT_BUILD": "true"
+      }
     }
   },
   "submit": {
-    "production": {}
+    "production": {},
+    "testflight": {}
   }
 }
