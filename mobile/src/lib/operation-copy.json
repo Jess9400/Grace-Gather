@@ -27,7 +27,7 @@
     "Check {email} for your sign-in code. If it is missing, check Spam.",
     "Confira o código de acesso em {email}. Se não encontrar, verifique o spam.",
     "Busca tu código de acceso en {email}. Si no aparece, revisa el correo no deseado.",
-    "Проверьте письмо с кодом на {email}. Если его нет, загляните в «Спам»."
+    "Мы отправили код для входа на {email}. Если письма нет, загляните в папку «Спам»."
   ],
   "authSending": [
     "Sending code…",
@@ -81,7 +81,7 @@
     "Too many attempts. Please wait before trying again.",
     "Muitas tentativas. Aguarde antes de tentar novamente.",
     "Demasiados intentos. Espera antes de volver a intentarlo.",
-    "Слишком много попыток. Подождите перед повторной попыткой."
+    "Слишком много попыток. Подождите немного и попробуйте снова."
   ],
   "authNetworkError": [
     "Couldn’t connect. Check your internet connection and try again.",
@@ -99,7 +99,7 @@
     "Couldn’t export your backup. Your journal has been preserved.",
     "Não foi possível exportar a cópia. Seu diário foi preservado.",
     "No pudimos exportar la copia. Tu diario se ha conservado.",
-    "Не удалось экспортировать копию. Дневник сохранён."
+    "Не удалось экспортировать копию. Ваш дневник не пострадал."
   ],
   "backupTitle": [
     "Grace & Gather encrypted backup",
@@ -117,7 +117,7 @@
     "Restore requires an empty journal. Export your existing journal before deleting it.",
     "A restauração exige um diário vazio. Exporte seu diário atual antes de apagá-lo.",
     "La restauración requiere un diario vacío. Exporta el actual antes de borrarlo.",
-    "Для восстановления дневник должен быть пустым. Экспортируйте текущий дневник перед удалением."
+    "Для восстановления дневник должен быть пустым. Прежде чем удалить текущий дневник, экспортируйте его."
   ],
   "restoreDone": [
     "Your journal has been restored.",
@@ -129,13 +129,13 @@
     "Couldn’t restore. Check the recovery key and backup file. Existing entries have been preserved.",
     "Não foi possível restaurar. Confira a chave e o arquivo da cópia. Os registros existentes foram preservados.",
     "No pudimos restaurar. Comprueba la clave y el archivo de copia. Las entradas existentes se han conservado.",
-    "Не удалось восстановить дневник. Проверьте ключ и файл копии. Существующие записи сохранены."
+    "Не удалось восстановить дневник. Проверьте ключ и файл копии. Текущие записи не пострадали."
   ],
   "restoreNative": [
     "Restore encrypted backups in the iPhone app.",
     "Restaure cópias criptografadas no app para iPhone.",
     "Restaura copias cifradas en la app para iPhone.",
-    "Восстанавливайте зашифрованные копии в приложении для iPhone."
+    "Восстановить зашифрованную копию можно в приложении для iPhone."
   ],
   "journalOpen": [
     "Open my journal",
@@ -171,7 +171,7 @@
     "You’re signed in. Account services need attention; please contact support.",
     "Você entrou. Os serviços da conta precisam de atenção; fale com o suporte.",
     "Has iniciado sesión. Los servicios de cuenta necesitan atención; contacta con soporte.",
-    "Вы вошли. Сервису аккаунта требуется проверка; обратитесь в поддержку."
+    "Вы вошли, но с сервисами аккаунта возникла проблема. Обратитесь в поддержку."
   ],
   "pushEnable": [
     "Enable gathering notifications",
@@ -219,7 +219,7 @@
     "By joining, you agree to the community rules. Your microphone starts off. Others can hear what you choose to share; avoid sharing private information.",
     "Ao entrar, você aceita as regras da comunidade. Seu microfone começa desligado. As outras pessoas podem ouvir o que você compartilhar; evite informações privadas.",
     "Al entrar, aceptas las normas de la comunidad. El micrófono empieza apagado. Los demás pueden oír lo que compartas; evita la información privada.",
-    "Присоединяясь, вы принимаете правила сообщества. Сначала микрофон выключен. Другие услышат то, чем вы решите поделиться; избегайте личных данных."
+    "Присоединяясь, вы принимаете правила сообщества. Микрофон сначала выключен. Другие услышат то, чем вы решите поделиться, поэтому не делитесь личными данными."
   ],
   "audioIntro": [
     "Audio conversation · microphone off until you choose to speak.",
@@ -357,7 +357,7 @@
     "Your email could not be remembered on this device. Check that browser storage is allowed.",
     "Não foi possível lembrar seu email neste dispositivo. Verifique se o armazenamento do navegador está permitido.",
     "No se pudo recordar tu correo en este dispositivo. Comprueba que el almacenamiento del navegador esté permitido.",
-    "Не удалось сохранить почту на этом устройстве. Проверьте, разрешено ли хранилище браузера."
+    "Не удалось запомнить ваш email на этом устройстве. Проверьте, разрешено ли браузеру хранить данные."
   ],
   "authChecking": [
     "Checking your sign-in…",
@@ -369,7 +369,7 @@
     "Your saved data could not open. It has not been erased. Check that this browser allows storage, then reopen the app. Contact support if the problem continues.",
     "Não foi possível abrir seus dados salvos. Eles não foram apagados. Verifique se este navegador permite armazenamento e reabra o app. Se o problema continuar, entre em contato com o suporte.",
     "No se pudieron abrir tus datos guardados. No se han borrado. Comprueba que el navegador permita almacenamiento y vuelve a abrir la app. Contacta con ayuda si el problema continúa.",
-    "Не удалось открыть сохранённые данные. Они не удалены. Разрешите хранилище в браузере и откройте приложение снова. Если проблема останется, обратитесь в поддержку."
+    "Не удалось открыть сохранённые данные. Они не удалены. Проверьте, разрешено ли этому браузеру хранить данные, и откройте приложение снова. Если проблема не исчезнет, обратитесь в поддержку."
   ],
   "journalWritingIntro": [
     "A few honest words. Start wherever you are.",

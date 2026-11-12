@@ -135,7 +135,7 @@ test("an Orthodox profile gets Pascha's days and both calendars' fixed feasts", 
     "2026-04-10 holyFriday",
     "2026-04-12 pascha",
     "2026-05-21 ascension",
-    "2026-05-31 pentecost",
+    "2026-05-31 trinity",
     "2026-12-25 nativityNew",
   ]);
   assert.deepEqual(listed(orthodox, 2027).slice(0, 6), [

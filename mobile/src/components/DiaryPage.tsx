@@ -198,10 +198,6 @@ export default function Diary() {
           placeholderTextColor={colors.muted}
           style={s.input}
         />
-        <Text style={s.count}>
-          {draft.text.trim() ? draft.text.trim().split(/\s+/).length : 0}{" "}
-          {q(lang, "words")}
-        </Text>
       </View>
       <Notice text={error} />
       <Button
@@ -270,11 +266,5 @@ const s = StyleSheet.create({
     minHeight: 280,
     textAlignVertical: "top",
     padding: 0,
-  },
-  count: {
-    color: colors.muted,
-    fontSize: 11,
-    textAlign: "right",
-    marginTop: 15,
   },
 });
