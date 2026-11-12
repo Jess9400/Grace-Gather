@@ -111,7 +111,10 @@ export function Screen({
     return (
       <SafeAreaView style={s.safe} edges={["left", "right"]}>
         <Backdrop />
-        <ScrollView keyboardShouldPersistTaps="handled">
+        <ScrollView
+          keyboardShouldPersistTaps="handled"
+          automaticallyAdjustKeyboardInsets
+        >
           <ChurchStrip place={place} back={back} />
           <View style={[s.page, s.roomPage]}>
             {children}
@@ -137,6 +140,10 @@ export function Screen({
       >
         <ScrollView
           keyboardShouldPersistTaps="handled"
+          // On iPhone, a focused field scrolls clear of the keyboard (the
+          // number pad for a sign-in code, say). Pages with a footer or
+          // `keyboard` already make room by resizing instead.
+          automaticallyAdjustKeyboardInsets={!avoid}
           contentContainerStyle={[s.page, !!footer && { paddingBottom: 8 }]}
           ref={scroll}
           onContentSizeChange={() => {
