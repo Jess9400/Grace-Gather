@@ -65,6 +65,10 @@ export default function SignInForm({ language }: { language?: Language }) {
             onChangeText={setCode}
             keyboardType="number-pad"
             autoComplete="one-time-code"
+            textContentType="oneTimeCode"
+            // Straight to the code once it is sent; the page scrolls the
+            // field above the number pad.
+            autoFocus
             maxLength={10}
           />
           <Button

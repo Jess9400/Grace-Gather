@@ -8,6 +8,7 @@ import { useInterfaceCopy } from "../../lib/use-interface-copy";
 import {
   useCallback,
   useEffect,
+  useLayoutEffect,
   useState,
   useRef,
   type ComponentRef,
@@ -23,7 +24,13 @@ import {
   Easing,
   useWindowDimensions,
 } from "react-native";
-import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
+import {
+  router,
+  useFocusEffect,
+  useLocalSearchParams,
+  useNavigation,
+} from "expo-router";
+import { homeTabBarStyle } from "../../lib/home-tab-bar";
 import { Ionicons } from "@expo/vector-icons";
 import { Button, Body, colors, serif } from "../../components/quiet-ui";
 import ChurchScene, { type PlaceLabel } from "../../components/ChurchScene";
@@ -123,6 +130,15 @@ export default function Home() {
     profile.churchLighting === "night" ||
     (profile.churchLighting !== "day" && isEvening(now));
   const [entrance, setEntrance] = useState(shouldShowEntrance);
+  // The entrance covers the whole screen, tab bar included.
+  const navigation = useNavigation();
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      tabBarStyle: entrance
+        ? [homeTabBarStyle, { display: "none" }]
+        : homeTabBarStyle,
+    });
+  }, [navigation, entrance]);
   const [aboutAdvent, setAboutAdvent] = useState(false);
   const [sceneFailed, setSceneFailed] = useState(false);
   const [tour, setTour] = useState(false);

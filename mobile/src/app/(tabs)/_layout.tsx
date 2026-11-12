@@ -8,6 +8,7 @@ import { churchCopy } from "../../lib/church-copy";
 import { isProtestant } from "../../lib/church-calendar";
 import { walkFromHome, type RoomPlace } from "../../lib/church-room";
 import { PlatformPressable } from "expo-router/react-navigation";
+import { homeTabBarStyle } from "../../lib/home-tab-bar";
 // From Home, these tabs walk to their place in the church before opening.
 const TAB_PLACE: Partial<Record<string, RoomPlace>> = {
   bible: "bible",
@@ -72,11 +73,7 @@ export default function TabsLayout() {
             }),
             ...(name === "index"
               ? {
-                  tabBarStyle: {
-                    position: "absolute" as const,
-                    backgroundColor: "rgba(33,27,22,0.82)",
-                    borderTopColor: "#FFFFFF20",
-                  },
+                  tabBarStyle: homeTabBarStyle,
                   tabBarActiveTintColor: "#FFF8E9",
                   tabBarInactiveTintColor: "#D7CBB9",
                 }

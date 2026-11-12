@@ -10,7 +10,6 @@ import {
   AccessibilityInfo,
   Animated,
   AppState,
-  Modal,
   Platform,
   Pressable,
   StyleSheet,
@@ -30,6 +29,7 @@ import {
 import { churchCopy } from "../lib/church-copy";
 import type { Language } from "../lib/content";
 import { serif } from "./quiet-ui";
+import EntranceLayer from "./EntranceLayer";
 
 const WEB_GL_OPTIONS = {
   alpha: false,
@@ -37,6 +37,7 @@ const WEB_GL_OPTIONS = {
   preserveDrawingBuffer: true,
 };
 const DUSK = "#151112";
+const SCENE_WAIT_MS = 5000;
 const IVORY = "#FFFCF3";
 
 class SceneBoundary extends Component<
@@ -138,6 +139,14 @@ export default function ChurchEntrance({
     };
   }, [finish, words]);
 
+  // If the 3D doorway is not drawing after a few seconds (a slow or busy
+  // phone), show the greeting over plain dusk instead; a tap still enters.
+  useEffect(() => {
+    if (ready || failed) return;
+    const timer = setTimeout(() => setFailed(true), SCENE_WAIT_MS);
+    return () => clearTimeout(timer);
+  }, [ready, failed]);
+
   // One loop draws the idle doorway (lantern flicker, a breath of movement)
   // and, after the tap, the opening and the walk through the threshold.
   useEffect(() => {
@@ -216,16 +225,8 @@ export default function ChurchEntrance({
   );
 
   return (
-    <Modal
-      visible
-      transparent
-      animationType="none"
-      statusBarTranslucent
-      navigationBarTranslucent
-      presentationStyle="overFullScreen"
-      onRequestClose={enter}
-    >
-      <View style={styles.root} accessibilityViewIsModal>
+    <EntranceLayer color={DUSK} onBack={enter}>
+      <View style={styles.root}>
         <View
           style={StyleSheet.absoluteFill}
           accessible={false}
@@ -311,7 +312,7 @@ export default function ChurchEntrance({
           style={[StyleSheet.absoluteFill, styles.dawn, { opacity: fade }]}
         />
       </View>
-    </Modal>
+    </EntranceLayer>
   );
 }
 

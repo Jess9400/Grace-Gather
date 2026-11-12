@@ -5,7 +5,6 @@ import {
   AppState,
   Easing,
   Image,
-  Modal,
   Pressable,
   StyleSheet,
   Text,
@@ -16,6 +15,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { churchCopy } from "../lib/church-copy";
 import type { Language } from "../lib/content";
 import { serif } from "./quiet-ui";
+import EntranceLayer from "./EntranceLayer";
 
 // The entrance for an Orthodox church: a white church with a golden onion
 // dome at dusk. Tapping it swings the two doors open onto warm light and the
@@ -137,16 +137,8 @@ export default function OrthodoxEntrance({
   };
 
   return (
-    <Modal
-      visible
-      transparent
-      animationType="none"
-      statusBarTranslucent
-      navigationBarTranslucent
-      presentationStyle="overFullScreen"
-      onRequestClose={enter}
-    >
-      <View style={styles.root} accessibilityViewIsModal>
+    <EntranceLayer color={SKY} onBack={enter}>
+      <View style={styles.root}>
         <View
           style={StyleSheet.absoluteFill}
           accessible={false}
@@ -215,7 +207,7 @@ export default function OrthodoxEntrance({
           style={[StyleSheet.absoluteFill, styles.light, { opacity: fade }]}
         />
       </View>
-    </Modal>
+    </EntranceLayer>
   );
 }
 
