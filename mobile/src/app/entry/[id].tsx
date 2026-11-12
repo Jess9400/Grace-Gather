@@ -23,6 +23,7 @@ import {
   Notice,
   colors,
   letter,
+  LetterSurface,
   serif,
 } from "../../components/quiet-ui";
 import { TextAction } from "../../components/CommunityControls";
@@ -38,7 +39,10 @@ import { resolveJournalResponse } from "../../lib/journal-response";
 import { journalAction, journalTheme } from "../../lib/journal-guidance";
 import { gathering } from "../../lib/gatherings";
 import { confessionJournalTarget } from "../../lib/journal-navigation";
-import { hasJournalGatheringTopic, matchingJournalGathering } from "../../lib/journal-gathering";
+import {
+  hasJournalGatheringTopic,
+  matchingJournalGathering,
+} from "../../lib/journal-gathering";
 import {
   jc,
   journalActionCopy,
@@ -67,7 +71,13 @@ function familiarPsalm(
 }
 export default function EntryScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { entries, profile, saveEntry, saveJournalResponse, chooseJournalStep } = useApp();
+  const {
+    entries,
+    profile,
+    saveEntry,
+    saveJournalResponse,
+    chooseJournalStep,
+  } = useApp();
   const { update } = useQuiet();
   const entry = entries.find((e) => e.id === id);
   const [verse, setVerse] = useState<ReadingVerse | null>(null);
@@ -117,7 +127,10 @@ export default function EntryScreen() {
         <Body>{copy(lang, "emptySub")}</Body>
       </Screen>
     );
-  const action = displayResponse?.actionId ?? (entry.response?.actionId === "A25" ? "A08" : entry.response?.actionId) ?? journalAction(entry, profile);
+  const action =
+    displayResponse?.actionId ??
+    (entry.response?.actionId === "A25" ? "A08" : entry.response?.actionId) ??
+    journalAction(entry, profile);
   const actionCopy = journalActionCopy(lang, journalTheme(entry).id, action);
   const actionTitle = displayResponse?.actionTitle ?? actionCopy.title;
   // Long letters open folded so the reply stays in reach.
@@ -133,7 +146,13 @@ export default function EntryScreen() {
     router.push("/(tabs)/diary");
   }
   async function openAction(selectedAction = action) {
-    if (!entry!.sessionOnly && (!entry!.step || entry!.step.id !== selectedAction || entry!.step.checkedAt || entry!.step.status)) {
+    if (
+      !entry!.sessionOnly &&
+      (!entry!.step ||
+        entry!.step.id !== selectedAction ||
+        entry!.step.checkedAt ||
+        entry!.step.status)
+    ) {
       try {
         await chooseJournalStep(entry!.id, selectedAction);
       } catch {
@@ -158,17 +177,46 @@ export default function EntryScreen() {
       router.push(confessionJournalTarget(entry!.id, selectedAction));
       return;
     }
-    if (selectedAction === "A25" && selectedAction === action && hasJournalGatheringTopic(journalTheme(entry!).id)) {
+    if (
+      selectedAction === "A25" &&
+      selectedAction === action &&
+      hasJournalGatheringTopic(journalTheme(entry!).id)
+    ) {
       // Match on the already-selected theme locally; never send journal text to the catalog.
-      void gathering("list").then((items) => {
-        const match = Array.isArray(items) ? matchingJournalGathering(items, journalTheme(entry!).id, profile.language) : undefined;
-        if (match) router.push({ pathname: "/gathering/[id]", params: { id: match.id } });
-        else router.push({ pathname: "/(tabs)/gatherings", params: { journalMatch: "none", returnEntry: entry!.id } });
-      }).catch(() => router.push({ pathname: "/(tabs)/gatherings", params: { returnEntry: entry!.id } }));
+      void gathering("list")
+        .then((items) => {
+          const match = Array.isArray(items)
+            ? matchingJournalGathering(
+                items,
+                journalTheme(entry!).id,
+                profile.language,
+              )
+            : undefined;
+          if (match)
+            router.push({
+              pathname: "/gathering/[id]",
+              params: { id: match.id },
+            });
+          else
+            router.push({
+              pathname: "/(tabs)/gatherings",
+              params: { journalMatch: "none", returnEntry: entry!.id },
+            });
+        })
+        .catch(() =>
+          router.push({
+            pathname: "/(tabs)/gatherings",
+            params: { returnEntry: entry!.id },
+          }),
+        );
       return;
     }
     if (selectedAction === "A19" || selectedAction === "A25") {
-      router.push({ pathname: selectedAction === "A19" ? "/(tabs)/explore" : "/(tabs)/gatherings", params: { returnEntry: entry!.id } });
+      router.push({
+        pathname:
+          selectedAction === "A19" ? "/(tabs)/explore" : "/(tabs)/gatherings",
+        params: { returnEntry: entry!.id },
+      });
       return;
     }
     if (routes[selectedAction]) {
@@ -219,11 +267,7 @@ export default function EntryScreen() {
               hitSlop={8}
               style={({ pressed }) => [s.edit, pressed && { opacity: 0.6 }]}
             >
-              <Ionicons
-                name="create-outline"
-                size={16}
-                color={letter.gold}
-              />
+              <Ionicons name="create-outline" size={16} color={letter.gold} />
               <Text style={s.editText}>{jc(lang, "editLetter")}</Text>
             </Pressable>
           </View>
@@ -289,7 +333,11 @@ export default function EntryScreen() {
                 ))}
             </View>
           )}
-          {entry.audio && <AudioPlayback id={entry.audio} language={lang} />}
+          {entry.audio && (
+            <LetterSurface>
+              <AudioPlayback id={entry.audio} language={lang} />
+            </LetterSurface>
+          )}
         </View>
         {entry.safety ? (
           <Card>
@@ -348,23 +396,30 @@ export default function EntryScreen() {
                 <Body>{copy(lang, "unavailable")}</Body>
               )}
             </View>
-            {!loading && <>
-            <View style={s.divider} />
-            <View style={s.section}>
-              <Text style={s.label}>{jc(lang, "smallStep")}</Text>
-              <Text style={s.invitation}>
-                {displayedJournalInvitation(lang, journalTheme(entry).id, action, displayResponse?.invitation)}
-              </Text>
-              <JournalActionButton
-                primary
-                title={actionTitle}
-                onPress={() => openAction()}
-              />
-            </View>
-            {["hopelessness", "persistent-distress"].includes(
-              journalTheme(entry).id,
-            ) && <HelpLine gentle />}
-            </>}
+            {!loading && (
+              <>
+                <View style={s.divider} />
+                <View style={s.section}>
+                  <Text style={s.label}>{jc(lang, "smallStep")}</Text>
+                  <Text style={s.invitation}>
+                    {displayedJournalInvitation(
+                      lang,
+                      journalTheme(entry).id,
+                      action,
+                      displayResponse?.invitation,
+                    )}
+                  </Text>
+                  <JournalActionButton
+                    primary
+                    title={actionTitle}
+                    onPress={() => openAction()}
+                  />
+                </View>
+                {["hopelessness", "persistent-distress"].includes(
+                  journalTheme(entry).id,
+                ) && <HelpLine gentle />}
+              </>
+            )}
           </View>
         )}
         <Notice text={notice} />

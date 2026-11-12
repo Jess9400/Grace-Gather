@@ -22,6 +22,9 @@ import {
 } from "../lib/holy-day-art";
 // A feast's drawing holds its date: the number is printed in the drawing's
 // calm middle (inside the wreath, on the egg), never over or under it.
+// The date sits on the drawing's pale centre, so it always takes dark ink,
+// whatever the page colour (the candlelit page uses light text).
+const ART_INK = "#302C28";
 const HOLDER_WIDTH = 45,
   DATE_LINE = 20,
   dateTop = (width: number) =>
@@ -64,7 +67,7 @@ function DateHolder({
           lineHeight: DATE_LINE,
           fontSize: 15,
           fontWeight: "700",
-          color: holyDayDateLight[art] ? colors.white : colors.ink,
+          color: holyDayDateLight[art] ? colors.white : ART_INK,
         }}
       >
         {day}
