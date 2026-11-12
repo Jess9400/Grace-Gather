@@ -847,6 +847,7 @@ export default function Home() {
       {entrance && (
         <ChurchEntrance
           language={profile.language}
+          orthodox={eastern}
           onEntered={() => {
             markEntered();
             setEntrance(false);

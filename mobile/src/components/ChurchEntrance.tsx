@@ -60,9 +60,12 @@ class SceneBoundary extends Component<
 export default function ChurchEntrance({
   language,
   onEntered,
+  orthodox = false,
 }: {
   language: Language;
   onEntered: () => void;
+  // An Orthodox church: eight-pointed cross, icon screen behind the doors.
+  orthodox?: boolean;
 }) {
   const t = (key: Parameters<typeof churchCopy>[1]) =>
     churchCopy(language, key);
@@ -205,14 +208,14 @@ export default function ChurchEntrance({
         const timber = await prepareChurchTimber();
         if (!mounted.current) return;
         context.current = gl;
-        renderer.current = createChurchDoorRenderer(gl, timber);
+        renderer.current = createChurchDoorRenderer(gl, timber, orthodox);
         draw(0, 0, 0);
         setReady(true);
       } catch {
         setFailed(true);
       }
     },
-    [draw],
+    [draw, orthodox],
   );
 
   return (
