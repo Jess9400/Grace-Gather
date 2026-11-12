@@ -37,7 +37,7 @@ const words = {
     "Come in and rest a while.",
     "Entre e descanse um pouco.",
     "Entra y descansa un momento.",
-    "Входите и отдохните немного.",
+    "Здесь можно обрести душевный покой.",
   ),
   tapDoors: L(
     "Tap the doors to enter",
