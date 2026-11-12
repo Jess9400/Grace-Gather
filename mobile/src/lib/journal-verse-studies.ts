@@ -10,6 +10,15 @@ export interface JournalVerseStudy {
   theology: string;
   today: string;
   question: string;
+  // Sourced notes add these; every claim in them comes from the listed sources.
+  words?: { term: string; original: string; meaning: string }[];
+  // Related verses, by Hebrew/WEB reference, with the Greek/Latin-numbered
+  // Bibles' own references where they differ. The text comes from the
+  // reader's own Bible.
+  echoes?: { ref: string; dra?: string; brenton?: string; synodal?: string }[];
+  teaching?: { title: string; text: string }[];
+  differences?: { title: string; text: string }[];
+  sources?: { label: string; url?: string }[];
 }
 
 const verses: Record<

@@ -27,6 +27,7 @@ import {
   type Topic,
 } from "../lib/discussion-model";
 import { friendCopy } from "../lib/friends-copy";
+import { replyCount } from "../lib/plural";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
 import { roomTheme } from "../lib/people-theme";
 
@@ -122,7 +123,7 @@ export default function Discussions({
             key={topic.id}
             topic={topic}
             tag={topic.reference || c("Discussion")}
-            detail={replies === 1 ? c("1 reply") : `${replies} ${c("replies")}`}
+            detail={replyCount(lang, replies)}
             onPress={() => onOpen(topic.id)}
           />
         );
@@ -544,7 +545,7 @@ const s = StyleSheet.create({
     minHeight: 26,
     paddingHorizontal: 10,
     borderRadius: 13,
-    backgroundColor: "rgba(255,255,255,0.75)",
+    backgroundColor: "rgba(0,0,0,0.28)",
     flexDirection: "row",
     alignItems: "center",
     gap: 6,
@@ -556,8 +557,8 @@ const s = StyleSheet.create({
     fontWeight: "700",
     color: colors.ink,
   },
-  detail: { fontSize: 12, fontWeight: "600", color: "#5F564D" },
+  detail: { fontSize: 12, fontWeight: "600", color: colors.muted },
   title: { fontFamily: serif, fontSize: 21, lineHeight: 26, color: colors.ink },
-  preview: { fontSize: 14, lineHeight: 20, color: "#4A433C" },
-  by: { fontSize: 12, color: "#5F564D" },
+  preview: { fontSize: 14, lineHeight: 20, color: colors.ink },
+  by: { fontSize: 12, color: colors.muted },
 });

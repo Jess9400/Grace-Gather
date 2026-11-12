@@ -4,7 +4,7 @@ const values: Record<string, string[]> = {
     "Share your testimony",
     "Compartilhe seu testemunho",
     "Comparte tu testimonio",
-    "Поделитесь своей историей",
+    "Поделиться свидетельством",
   ],
   mine: [
     "My testimonies",
@@ -60,7 +60,7 @@ const values: Record<string, string[]> = {
     "Anonymous posts remain linked to your account for moderation. Your wording stays intact.",
     "Posts anônimos continuam ligados à sua conta para moderação. Suas palavras serão preservadas.",
     "Las publicaciones anónimas siguen vinculadas a tu cuenta para moderación. Tus palabras se conservan.",
-    "Анонимные публикации связаны с вашим аккаунтом для модерации. Ваш текст сохраняется без изменений.",
+    "Для модерации анонимные публикации остаются привязанными к вашему аккаунту. Ваш текст сохраняется без изменений.",
   ],
   previewButton: [
     "Preview testimony",
@@ -78,13 +78,13 @@ const values: Record<string, string[]> = {
     "Draft saved privately.",
     "Rascunho salvo em particular.",
     "Borrador guardado en privado.",
-    "Черновик сохранён в личном разделе.",
+    "Черновик сохранён. Его видите только вы.",
   ],
   editNotice: [
     "Saving changes removes the current version from Discover until it is reviewed again.",
     "Salvar alterações remove a versão atual de Descobrir até uma nova revisão.",
     "Al guardar cambios se retira la versión actual de Descubrir hasta una nueva revisión.",
-    "При сохранении изменений текущая версия скрывается из Обзора до повторной проверки.",
+    "После сохранения изменений текущая версия будет скрыта из раздела «Обзор» до повторной проверки.",
   ],
   label: [
     "Community testimony",
@@ -96,13 +96,13 @@ const values: Record<string, string[]> = {
     "Once approved, your testimony is visible to anyone browsing Discover, including visitors. Readers may share its link or copy your words.",
     "Após aprovação, seu testemunho fica visível a todos em Descobrir, incluindo visitantes. Leitores podem compartilhar o link ou copiar suas palavras.",
     "Tras la aprobación, tu testimonio será visible para todos en Descubrir, incluidos visitantes. Pueden compartir el enlace o copiar tus palabras.",
-    "После одобрения свидетельство видно всем в Обзоре, включая гостей. Читатели могут поделиться ссылкой или скопировать ваши слова.",
+    "После одобрения ваше свидетельство будет видно всем в разделе «Обзор», включая гостей. Читатели могут поделиться ссылкой или скопировать ваши слова.",
   ],
   reviewNotice: [
     "Your account stays linked for moderation, even when your name is hidden. Every testimony is reviewed before publication.",
     "Sua conta continua vinculada para moderação, mesmo com o nome oculto. Todo testemunho é revisado antes da publicação.",
     "Tu cuenta sigue vinculada para moderación, aunque tu nombre esté oculto. Cada testimonio se revisa antes de publicarse.",
-    "Аккаунт остаётся связанным для модерации, даже если имя скрыто. Каждое свидетельство проверяется до публикации.",
+    "Даже если имя скрыто, публикация остаётся привязанной к вашему аккаунту — это нужно для модерации. Каждое свидетельство проверяется перед публикацией.",
   ],
   agree: [
     "I reviewed my words and understand this audience",
@@ -127,7 +127,7 @@ const values: Record<string, string[]> = {
     "It will appear in Discover after approval. Check its status and private review notes in My testimonies.",
     "Ela aparecerá em Descobrir após aprovação. Confira o status e as notas privadas em Meus testemunhos.",
     "Aparecerá en Descubrir tras la aprobación. Consulta el estado y las notas privadas en Mis testimonios.",
-    "После одобрения она появится в Обзоре. Статус и личные замечания — в разделе «Мои свидетельства».",
+    "После одобрения она появится в разделе «Обзор». Статус и замечания модератора (их видите только вы) — в разделе «Мои свидетельства».",
   ],
   empty: [
     "Your drafts and published testimonies will appear here.",
@@ -154,7 +154,7 @@ const values: Record<string, string[]> = {
     "Private review note",
     "Nota privada da revisão",
     "Nota privada de revisión",
-    "Личное замечание модератора",
+    "Замечание модератора (видно только вам)",
   ],
   editButton: ["Edit", "Editar", "Editar", "Редактировать"],
   view: ["View testimony", "Ver testemunho", "Ver testimonio", "Посмотреть"],
@@ -163,7 +163,7 @@ const values: Record<string, string[]> = {
     "Delete this testimony and its interactions? This cannot be undone.",
     "Excluir este testemunho e suas interações? Não é possível desfazer.",
     "¿Eliminar este testimonio y sus interacciones? No se puede deshacer.",
-    "Удалить свидетельство и взаимодействия с ним? Это нельзя отменить.",
+    "Удалить свидетельство вместе со всеми откликами на него? Это нельзя отменить.",
   ],
   deleteButton: [
     "Delete my testimony",

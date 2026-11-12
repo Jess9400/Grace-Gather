@@ -30,3 +30,16 @@ export const holyDayDateShape = { ratio: 140 / 120, centre: 82 / 140 };
 export const holyDayDateLight: Partial<Record<HolyDayArt, boolean>> = {
   redegg: true,
 };
+
+// The tall drawings (a star, flame, cross or drop tip above the date) are shown
+// a little smaller, so they do not tower over the row; the date stays in their
+// calm middle and on the same line as every other date.
+export const holyDayArtScale: Partial<Record<HolyDayArt, number>> = {
+  ash: 0.84,
+  candle: 0.84,
+  cloud: 0.84,
+  crosses: 0.84,
+  dovefire: 0.84,
+  dovewater: 0.84,
+  nativity: 0.84,
+};

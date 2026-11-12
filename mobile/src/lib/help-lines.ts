@@ -14,7 +14,7 @@ const words = {
     "In danger or thinking about hurting yourself?",
     "Em perigo ou pensando em se machucar?",
     "¿En peligro o pensando en hacerte daño?",
-    "В опасности или думаете о том, чтобы навредить себе?",
+    "Вам угрожает опасность или вы думаете о том, чтобы причинить себе вред?",
   ),
   brazil: L(
     "Call CVV on 188, free and open 24 hours, or chat at cvv.org.br.",
@@ -38,7 +38,7 @@ const words = {
     "If this heaviness stays with you, you don’t have to carry it alone. Talking with someone can help.",
     "Se esse peso continuar, você não precisa carregá-lo sozinho. Conversar com alguém pode ajudar.",
     "Si este peso sigue contigo, no tienes que cargarlo solo. Hablar con alguien puede ayudar.",
-    "Если эта тяжесть не уходит, не нужно нести её в одиночку. Разговор с кем-то может помочь.",
+    "Если эта тяжесть не уходит, не нужно нести её в одиночку. Может помочь разговор с кем-нибудь.",
   ),
 };
 export function helpCopy(language: Language, key: keyof typeof words) {

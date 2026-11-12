@@ -206,7 +206,7 @@ export default function ChatThread({
                   </Text>
                   {!!m.note && <Text style={s.myNote}>{m.note}</Text>}
                   {!!m.created_at && (
-                    <Text style={[s.time, { color: "#D8CDB9" }]}>
+                    <Text style={[s.time, { color: "#665D54" }]}>
                       {when(m.created_at)}
                     </Text>
                   )}
@@ -329,7 +329,7 @@ const s = StyleSheet.create({
   headPlain: {
     backgroundColor: colors.white,
     borderBottomWidth: 1,
-    borderBottomColor: "#EDE6D8",
+    borderBottomColor: colors.line,
   },
   back: {
     minHeight: 44,
@@ -354,7 +354,7 @@ const s = StyleSheet.create({
     gap: 16,
     paddingHorizontal: 20,
     borderBottomWidth: 1,
-    borderBottomColor: "#EDE6D8",
+    borderBottomColor: colors.line,
     backgroundColor: colors.white,
   },
   stream: {
@@ -388,7 +388,7 @@ const s = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  avatarText: { fontSize: 12, fontWeight: "700", color: colors.ink },
+  avatarText: { fontSize: 12, fontWeight: "700", color: "#302C28" },
   bubble: {
     maxWidth: "78%",
     paddingVertical: 10,
@@ -403,7 +403,7 @@ const s = StyleSheet.create({
   },
   mine: { backgroundColor: colors.ink, borderBottomRightRadius: 6 },
   name: { fontSize: 12, fontWeight: "700", color: colors.goldInk },
-  myName: { fontSize: 12, fontWeight: "700", color: "#E9C98A" },
+  myName: { fontSize: 12, fontWeight: "700", color: "#806122" },
   myNote: {
     fontSize: 12,
     lineHeight: 17,

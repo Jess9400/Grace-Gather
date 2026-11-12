@@ -3,9 +3,6 @@ import draIndex from "../generated/bible-dra/index.json";
 import brentonIndex from "../generated/bible-brenton/index.json";
 import studies from "../generated/quiet-studies.json";
 import { data, Preferences } from "./content";
-import { bookLoaders as webLoaders } from "../generated/bible/loaders";
-import { bookLoaders as draLoaders } from "../generated/bible-dra/loaders";
-import { bookLoaders as brentonLoaders } from "../generated/bible-brenton/loaders";
 import blivreIndex from "../generated/bible-blivre/index.json";
 import rv1909Index from "../generated/bible-rv1909/index.json";
 import synodalIndex from "../generated/bible-synodal/index.json";
@@ -68,25 +65,32 @@ export const collections: Record<
       licenseUrl: "https://ebible.org/engwebp/copyright.htm",
       coverageNote: "The 66-book Protestant collection.",
     },
-    loaders: webLoaders,
+    loaders: {},
   },
-  dra: { index: draIndex, loaders: draLoaders },
-  brenton: { index: brentonIndex, loaders: brentonLoaders },
+  dra: { index: draIndex, loaders: {} },
+  brenton: { index: brentonIndex, loaders: {} },
 };
-// Load each added language only when opened; avoid downloading every Bible at startup.
+// Every Bible's text loads only when it is first needed, so the first visit
+// downloads none of them; book lists (the indexes above) are always present.
 const pendingCollections: Partial<Record<CollectionId, Promise<void>>> = {};
 export function ensureCollection(id: CollectionId): Promise<void> {
   if (Object.keys(collections[id].loaders).length) return Promise.resolve();
   return (pendingCollections[id] ??= (async () => {
     try {
       const loaded =
-        id === "blivre"
-          ? await import("../generated/bible-blivre/loaders")
-          : id === "rv1909"
-            ? await import("../generated/bible-rv1909/loaders")
-            : id === "synodal"
-              ? await import("../generated/bible-synodal/loaders")
-              : null;
+        id === "web"
+          ? await import("../generated/bible/loaders")
+          : id === "dra"
+            ? await import("../generated/bible-dra/loaders")
+            : id === "brenton"
+              ? await import("../generated/bible-brenton/loaders")
+              : id === "blivre"
+                ? await import("../generated/bible-blivre/loaders")
+                : id === "rv1909"
+                  ? await import("../generated/bible-rv1909/loaders")
+                  : id === "synodal"
+                    ? await import("../generated/bible-synodal/loaders")
+                    : null;
       if (!loaded) throw new Error("Bible collection unavailable");
       collections[id].loaders = loaded.bookLoaders;
     } catch (error) {

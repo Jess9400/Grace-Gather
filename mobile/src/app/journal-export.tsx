@@ -10,6 +10,7 @@ import {
   Notice,
   Subheading,
   colors,
+  switchColors,
 } from "../components/quiet-ui";
 import { TextAction } from "../components/CommunityControls";
 import JournalDateField from "../components/JournalDateField";
@@ -160,6 +161,7 @@ export default function JournalExport() {
           <Body>{t("includeChat")}</Body>
         </View>
         <Switch
+          {...switchColors}
           accessibilityLabel={t("includeChat")}
           value={include}
           onValueChange={(value) => {
@@ -217,6 +219,7 @@ export default function JournalExport() {
                 <Body small>{t("savedKey")}</Body>
               </View>
               <Switch
+                {...switchColors}
                 accessibilityLabel={t("savedKey")}
                 value={keySaved}
                 onValueChange={setKeySaved}

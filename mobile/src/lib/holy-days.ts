@@ -17,6 +17,7 @@ export type HolyDayId =
   | "easter"
   | "ascension"
   | "pentecost"
+  | "trinity"
   | "adventSunday"
   | "christmas"
   | "assumption"
@@ -139,7 +140,8 @@ export function holyDaysForCalendar(
     add("holyFriday", addDays(pascha, -2));
     add("pascha", pascha);
     add("ascension", addDays(pascha, 39));
-    add("pentecost", addDays(pascha, 49));
+    // Orthodox Christians call this feast Trinity Sunday («Троица»).
+    add("trinity", addDays(pascha, 49));
     add("nativityNew", civil(year, 12, 25));
   } else if (calendar === "general") {
     add("easter", westernEaster(year));
@@ -188,6 +190,7 @@ export const holyDayArt: Record<HolyDayId, HolyDayArt> = {
   easter: "eggs",
   ascension: "cloud",
   pentecost: "dovefire",
+  trinity: "dovefire",
   adventSunday: "candle",
   christmas: "wreath",
   assumption: "flowers",
@@ -238,6 +241,9 @@ export const holyDayNames: Record<HolyDayId, Record<Language, string>> = {
     "Вознесение Господне",
   ),
   pentecost: L("Pentecost", "Pentecostes", "Pentecostés", "Пятидесятница"),
+  // Russian Orthodox call this feast «Троица»; other languages keep the name
+  // they had before.
+  trinity: L("Pentecost", "Pentecostes", "Pentecostés", "Троица"),
   adventSunday: L(
     "First Sunday of Advent",
     "Primeiro Domingo do Advento",
@@ -249,7 +255,7 @@ export const holyDayNames: Record<HolyDayId, Record<Language, string>> = {
     "Assumption of Mary",
     "Assunção de Nossa Senhora",
     "Asunción de María",
-    "Успение Девы Марии",
+    "Успение Пресвятой Девы Марии",
   ),
   allSaints: L(
     "All Saints’ Day",
@@ -261,7 +267,7 @@ export const holyDayNames: Record<HolyDayId, Record<Language, string>> = {
     "Immaculate Conception",
     "Imaculada Conceição",
     "Inmaculada Concepción",
-    "Непорочное зачатие Девы Марии",
+    "Непорочное зачатие Пресвятой Девы Марии",
   ),
   reformationDay: L(
     "Reformation Day",
@@ -280,25 +286,25 @@ export const holyDayNames: Record<HolyDayId, Record<Language, string>> = {
     "Nativity (new calendar)",
     "Natividade (calendário novo)",
     "Natividad (calendario nuevo)",
-    "Рождество Христово (новоюлианский календарь)",
+    "Рождество Христово (по новому стилю)",
   ),
   nativityOld: L(
     "Nativity (old calendar)",
     "Natividade (calendário antigo)",
     "Natividad (calendario antiguo)",
-    "Рождество Христово (юлианский календарь)",
+    "Рождество Христово (по старому стилю)",
   ),
   theophanyNew: L(
     "Theophany (new calendar)",
     "Teofania (calendário novo)",
     "Teofanía (calendario nuevo)",
-    "Крещение Господне (новоюлианский календарь)",
+    "Крещение Господне (по новому стилю)",
   ),
   theophanyOld: L(
     "Theophany (old calendar)",
     "Teofania (calendário antigo)",
     "Teofanía (calendario antiguo)",
-    "Крещение Господне (юлианский календарь)",
+    "Крещение Господне (по старому стилю)",
   ),
 };
 

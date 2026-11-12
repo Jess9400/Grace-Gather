@@ -28,6 +28,7 @@ import {
 } from "../lib/friends";
 import { friendCopy } from "../lib/friends-copy";
 import { discussionVerseId, getReadingVerse } from "../lib/bible";
+import { useBibleFor } from "../lib/use-bible";
 import {
   clearStudyDiscussionTopic,
   getStudyDiscussionTopic,
@@ -37,7 +38,14 @@ import { avatarVariant } from "../lib/avatar";
 
 // "Your people": discussions anyone can start and join, and 1:1 chats with
 // friends. Every link to discussions in the app leads here.
+// A discussion opened from a verse link waits for that verse's Bible to load,
+// so the verse is there from the first moment.
 export default function Friends() {
+  const { verse } = useLocalSearchParams<{ verse?: string }>();
+  const ready = useBibleFor(verse);
+  return ready ? <FriendsForAccount /> : <Screen back>{null}</Screen>;
+}
+function FriendsForAccount() {
   const { userId, moderator } = useCommunity();
   return (
     <FriendsScreen
@@ -662,7 +670,7 @@ const s = StyleSheet.create({
     gap: 4,
     padding: 4,
     borderRadius: 24,
-    backgroundColor: "#F1EBDD",
+    backgroundColor: colors.pale,
   },
   tab: {
     flex: 1,
@@ -693,7 +701,7 @@ const s = StyleSheet.create({
       "0px 1px 2px rgba(48,44,40,0.05), 0px 8px 22px rgba(48,44,40,0.06)",
   },
   row: { minHeight: 68, flexDirection: "row", alignItems: "center", gap: 12 },
-  rowLine: { borderBottomWidth: 1, borderBottomColor: "#EDE6D8" },
+  rowLine: { borderBottomWidth: 1, borderBottomColor: colors.line },
   avatar: {
     width: 44,
     height: 44,

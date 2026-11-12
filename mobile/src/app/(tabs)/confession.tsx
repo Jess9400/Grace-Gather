@@ -141,7 +141,7 @@ export default function ConfessionRoom() {
       tabBarStyle:
         page === "share"
           ? { backgroundColor: room.background, borderTopColor: room.line }
-          : { backgroundColor: colors.ink, borderTopColor: "#FFFFFF14" },
+          : { backgroundColor: colors.night, borderTopColor: "#FFFFFF14" },
       tabBarActiveTintColor: page === "share" ? room.accent : "#FFF8E9",
       tabBarInactiveTintColor: page === "share" ? room.muted : "#CFC3B1",
     });

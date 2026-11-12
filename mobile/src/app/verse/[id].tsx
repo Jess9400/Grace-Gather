@@ -29,12 +29,19 @@ import {
   readingLocation,
   chapterSource,
   discussionVerseId,
+  collections,
+  type CollectionId,
 } from "../../lib/bible";
+import type { Language } from "../../lib/content";
 import {
   journalScripture,
   journalStudyReference,
+  themeReferenceFor,
 } from "../../lib/journal-verse-reference";
-import { journalVerseStudy } from "../../lib/journal-verse-studies";
+import {
+  journalVerseStudy,
+  type JournalVerseStudy,
+} from "../../lib/journal-verse-studies";
 import { useApp } from "../../lib/state";
 import { fromVerseRoute } from "../../lib/verse-route";
 import { q } from "../../lib/quiet-copy";
@@ -44,11 +51,58 @@ type Layer = "simple" | "deeper" | "theology";
 // them is drawn from the sources they list.
 interface RichStudy {
   words?: { term: string; original: string; meaning: string }[];
-  echoes?: { reference: string; text: string; note: string }[];
+  echoes?: { reference: string; text?: string; note?: string }[];
   teaching?: { title: string; text: string }[];
   differences?: { title: string; text: string }[];
   sources?: { label: string; url?: string }[];
 }
+// A sourced journal note in the shape the screen shows: related verses are
+// read from the reader's own Bible (Greek/Latin Psalm numbers included).
+function journalRich(
+  note: JournalVerseStudy | undefined,
+  collection: CollectionId | undefined,
+  language: Language,
+): RichStudy | undefined {
+  if (!note?.sources?.length) return undefined;
+  const fallbackBook: Partial<Record<Language, CollectionId>> = {
+    en: "web",
+    pt: "blivre",
+    es: "rv1909",
+    ru: "synodal",
+  };
+  const echoes = note.echoes?.map((echo) => {
+    const own =
+      collection === "dra" ||
+      collection === "brenton" ||
+      collection === "synodal"
+        ? (echo[collection] ?? echo.ref)
+        : echo.ref;
+    const found = collection ? getReadingVerse(`${collection}:${own}`) : null;
+    if (found) return { reference: found.reference, text: found.text };
+    // Passage-only Bibles: name the verse in the reader's language.
+    const [code, chapter, number] = echo.ref.split(".");
+    const books = collections[fallbackBook[language] ?? "web"].index.books;
+    const name = books.find((b) => b.code === code)?.name ?? code;
+    return { reference: `${name} ${chapter}:${number}` };
+  });
+  return {
+    words: note.words?.length ? note.words : undefined,
+    echoes: echoes?.length ? echoes : undefined,
+    teaching: note.teaching?.length ? note.teaching : undefined,
+    differences: note.differences?.length ? note.differences : undefined,
+    sources: [
+      ...note.sources,
+      ...(language === "en"
+        ? []
+        : [{ label: translatedNote[language] ?? translatedNote.pt ?? "" }]),
+    ],
+  };
+}
+const translatedNote: Partial<Record<Language, string>> = {
+  pt: "Resumido a partir das edições em inglês listadas acima.",
+  es: "Resumido a partir de las ediciones en inglés indicadas arriba.",
+  ru: "Пересказано по английским изданиям, перечисленным выше.",
+};
 function Paragraph({ children }: { children: React.ReactNode }) {
   return (
     <Text selectable style={s.prose}>
@@ -127,12 +181,16 @@ function Echoes({
         {echoes.map((echo) => (
           <View key={echo.reference} style={s.echo}>
             <Text style={s.label}>{echo.reference}</Text>
-            <Text selectable style={s.echoText}>
-              {echo.text}
-            </Text>
-            <Text selectable style={s.note}>
-              {echo.note}
-            </Text>
+            {!!echo.text && (
+              <Text selectable style={s.echoText}>
+                {echo.text}
+              </Text>
+            )}
+            {!!echo.note && (
+              <Text selectable style={s.note}>
+                {echo.note}
+              </Text>
+            )}
           </View>
         ))}
       </View>
@@ -287,8 +345,16 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
       : null);
   const study = lang === "en" ? studyFor(id) : undefined;
   // Journal verses are explained in every language; other studies are English.
-  const explanation = study ?? journalVerseStudy(journalReference, lang);
-  const rich: RichStudy = study ?? {};
+  // A journal theme verse has a note in every language; once that note is
+  // rebuilt from sources it is preferred, wherever the verse is opened.
+  const journalNote = journalVerseStudy(
+    journalReference ?? themeReferenceFor(id),
+    lang,
+  );
+  const sourced = journalNote?.sources?.length ? journalNote : undefined;
+  const explanation = sourced ?? study ?? journalNote;
+  const rich: RichStudy =
+    (sourced && journalRich(sourced, verse?.collection, lang)) ?? study ?? {};
   if (!verse)
     return (
       <SafeAreaView style={s.safe}>
@@ -781,7 +847,7 @@ const s = StyleSheet.create({
   },
   backdrop: {
     flex: 1,
-    backgroundColor: "#302C2845",
+    backgroundColor: "#000000AA",
     justifyContent: "flex-end",
   },
   sheet: {

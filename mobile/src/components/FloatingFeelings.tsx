@@ -213,7 +213,7 @@ const s = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
-    backgroundColor: "#FFFFFFDA",
+    backgroundColor: "#2A221BDA",
     borderWidth: 1,
     borderColor: "#B28A3E40",
     borderRadius: 60,

@@ -18,19 +18,21 @@ import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useApp } from "../lib/state";
 import { label } from "../lib/labels";
+// The same Candlelight palette as quiet-ui, for the older Confession and
+// gathering components: dark espresso, ivory words, cream fills, gold details.
 export const colors = {
-  paper: "#0D3028",
-  ink: "#FFFDF9",
-  muted: "#B7C68F",
-  inactive: "#FFFDF9B3",
-  green: "#B7C68F",
-  pale: "#FFFDF9",
-  line: "#B7C68F66",
-  white: "#FFFDF9",
-  gold: "#D7BD84",
-  cardInk: "#0D3028",
-  cardMuted: "#52634E",
-  cardLine: "#63704D",
+  paper: "#1B1612",
+  ink: "#F4EBDA",
+  muted: "#B7A993",
+  inactive: "#F4EBDAB3",
+  green: "#F1E4CB",
+  pale: "#2F271F",
+  line: "#F4EBDA2D",
+  white: "#2A221B",
+  gold: "#C9A45C",
+  cardInk: "#F4EBDA",
+  cardMuted: "#B7A993",
+  cardLine: "#F4EBDA33",
 };
 const CardSurface = createContext(false);
 type SurfacePalette = {
@@ -289,7 +291,7 @@ export function Chip({
           s.chipText,
           {
             color: selected
-              ? (theme?.accentInk ?? colors.cardInk)
+              ? (theme?.accentInk ?? colors.paper)
               : surface.ink,
           },
         ]}
@@ -427,7 +429,7 @@ export const s = StyleSheet.create({
     borderColor: colors.line,
   },
   buttonText: {
-    color: colors.cardInk,
+    color: colors.paper,
     fontSize: 15,
     fontWeight: "600",
     textAlign: "center",

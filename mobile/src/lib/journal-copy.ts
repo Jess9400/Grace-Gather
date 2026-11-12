@@ -1,3 +1,4 @@
+import { traditionWording } from "./tradition-wording";
 import type { Language } from "./content";
 import { prayerCopy } from "./journal-prayer-copy";
 const text = {
@@ -19,7 +20,7 @@ const text = {
     "Edit what I wrote",
     "Editar o que escrevi",
     "Editar lo que escribí",
-    "Изменить то, что я написал(а)",
+    "Изменить написанное",
   ],
   readAll: ["Read all", "Ler tudo", "Leer todo", "Читать полностью"],
   showLess: ["Show less", "Mostrar menos", "Mostrar menos", "Свернуть"],
@@ -27,7 +28,7 @@ const text = {
     "When hope feels far away, it may help to notice one small moment of care or relief from the past 24 hours. It doesn’t have to make everything feel better.",
     "Quando a esperança parece distante, talvez ajude lembrar um pequeno momento de cuidado ou alívio nas últimas 24 horas. Isso não precisa resolver tudo.",
     "Cuando la esperanza parece lejana, quizá ayude recordar un pequeño momento de cuidado o alivio en las últimas 24 horas. No tiene que arreglarlo todo.",
-    "Когда надежда кажется далёкой, попробуйте вспомнить небольшой момент заботы или облегчения за последние сутки. Это не обязано сразу всё исправить.",
+    "Когда надежда кажется далёкой, может помочь вспомнить хотя бы один момент заботы или облегчения за последние сутки. Не обязательно, чтобы от этого всё стало лучше.",
   ],
   hopeAction: [
     "Notice one small good thing",
@@ -39,7 +40,7 @@ const text = {
     "Was there a kind word, a meal, or a moment of rest? Write about one thing, however small. If nothing comes to mind, you can simply write what you need today.",
     "Houve uma palavra gentil, uma refeição ou um momento de descanso? Escreva sobre algo, por menor que seja. Se nada vier à mente, escreva o que precisa hoje.",
     "¿Hubo una palabra amable, una comida o un momento de descanso? Escribe sobre algo, por pequeño que sea. Si no recuerdas nada, escribe lo que necesitas hoy.",
-    "Было ли доброе слово, еда или минута отдыха? Напишите об одной мелочи. Если ничего не вспоминается, можно написать о том, что вам нужно сегодня.",
+    "Было ли доброе слово, еда или минута отдыха? Напишите о чём-то одном, пусть даже совсем небольшом. Если ничего не вспоминается, можно просто написать, что вам нужно сегодня.",
   ],
   curated: [
     "Curated guidance · AI not used",
@@ -77,6 +78,13 @@ const text = {
     "Activar orientación con IA",
     "Включить подсказки ИИ",
   ],
+  // Shown on the AI button while AI is on: the button says what tapping does.
+  aiDisable: [
+    "Turn off AI guidance",
+    "Desativar orientação por IA",
+    "Desactivar orientación con IA",
+    "Отключить подсказки ИИ",
+  ],
   aiEnabled: [
     "AI guidance enabled",
     "Orientação por IA ativada",
@@ -100,7 +108,7 @@ const text = {
     "Save privately",
     "Salvar em privado",
     "Guardar en privado",
-    "Сохранить лично",
+    "Сохранить только для себя",
   ],
   saved: [
     "Saved to your journal.",
@@ -137,13 +145,13 @@ const text = {
     "Light a candle in their memory",
     "Acenda uma vela em sua memória",
     "Enciende una vela en su memoria",
-    "Зажгите свечу в память",
+    "Зажечь свечу в память о близком",
   ],
   A02: [
     "Remember them in prayer",
     "Lembre-se dessa pessoa em oração",
     "Recuerda a esa persona en oración",
-    "Вспомните этого человека в молитве",
+    "Помянуть в молитве",
   ],
   A03: [
     "Take a minute with God",
@@ -161,49 +169,49 @@ const text = {
     "Share what is on your heart",
     "Compartilhe o que está no seu coração",
     "Comparte lo que hay en tu corazón",
-    "Поделитесь тем, что на сердце",
+    "Поделиться тем, что на сердце",
   ],
   A05: [
     "Reach out for professional support",
     "Busque apoio profissional",
     "Busca apoyo profesional",
-    "Обратитесь за профессиональной поддержкой",
+    "Обратиться за помощью к специалисту",
   ],
   A07: [
     "Reach out to someone you trust",
     "Fale com alguém de confiança",
     "Habla con alguien de confianza",
-    "Свяжитесь с тем, кому доверяете",
+    "Связаться с тем, кому вы доверяете",
   ],
   A08: [
     "Put one thought into words",
     "Coloque um pensamento em palavras",
     "Pon un pensamiento en palabras",
-    "Выразите одну мысль словами",
+    "Записать одну мысль",
   ],
   A09: [
     "Take a quiet pause",
     "Faça uma pausa tranquila",
     "Haz una pausa tranquila",
-    "Сделайте спокойную паузу",
+    "Побыть в тишине",
   ],
   A10: [
     "Draft an apology privately",
     "Escreva um pedido de desculpas em privado",
     "Escribe una disculpa en privado",
-    "Напишите извинение для себя",
+    "Написать извинение — пока для себя",
   ],
   A11: [
     "Send someone a kind note",
     "Envie uma mensagem gentil",
     "Envía un mensaje amable",
-    "Напишите кому-нибудь добрые слова",
+    "Написать кому-нибудь добрые слова",
   ],
   A12: [
     "Thank someone for their kindness",
     "Agradeça a alguém pela gentileza",
     "Agradece a alguien su bondad",
-    "Поблагодарите за доброту",
+    "Поблагодарить кого-нибудь за доброту",
   ],
   A14: [
     "Offer comfort to someone",
@@ -221,43 +229,43 @@ const text = {
     "Request a prayer",
     "Peça uma oração",
     "Pide una oración",
-    "Попросите помолиться",
+    "Попросить о молитве",
   ],
   A16: [
     "Pray for someone else",
     "Ore por outra pessoa",
     "Ora por otra persona",
-    "Помолитесь за другого",
+    "Помолиться за другого человека",
   ],
   A18: [
     "Find a way to give back",
     "Encontre uma forma de ajudar",
     "Encuentra una forma de ayudar",
-    "Найдите способ помочь",
+    "Найти способ помочь",
   ],
   A19: [
     "Read a story of hope",
     "Leia uma história de esperança",
     "Lee una historia de esperanza",
-    "Прочитайте историю надежды",
+    "Прочитать историю надежды",
   ],
   A20: [
     "Share your testimony",
     "Compartilhe seu testemunho",
     "Comparte tu testimonio",
-    "Поделитесь свидетельством",
+    "Поделиться свидетельством",
   ],
   A21: [
     "Light a candle in prayer",
     "Acenda uma vela em oração",
     "Enciende una vela en oración",
-    "Зажгите свечу с молитвой",
+    "Зажечь свечу с молитвой",
   ],
   A26: [
     "Explore your question in Bible Study",
     "Explore sua pergunta no Estudo Bíblico",
     "Explora tu pregunta en el Estudio Bíblico",
-    "Изучите свой вопрос в Библии",
+    "Разобрать вопрос в разделе «Изучение Библии»",
   ],
   A25: [
     "Explore gatherings",
@@ -275,13 +283,13 @@ const text = {
     "Consider contacting a qualified mental health professional or your doctor. You can note whom you would like to contact here.",
     "Considere falar com um profissional de saúde mental ou seu médico. Anote aqui quem gostaria de procurar.",
     "Considera hablar con un profesional de salud mental o tu médico. Anota aquí a quién te gustaría contactar.",
-    "Подумайте об обращении к специалисту по психическому здоровью или врачу. Здесь можно записать, с кем связаться.",
+    "Возможно, стоит обратиться к специалисту в области психического здоровья или к своему врачу. Здесь можно записать, к кому вы хотели бы обратиться.",
   ],
   private: [
     "This stays in your journal. Nothing is sent to anyone.",
     "Isto fica no seu diário. Nada é enviado a ninguém.",
     "Esto queda en tu diario. No se envía nada a nadie.",
-    "Это останется в дневнике. Ничего не отправляется другим.",
+    "Это останется в вашем дневнике и никому не отправляется.",
   ],
   fallback: [
     "A reflection chosen from our curated collection.",
@@ -291,7 +299,7 @@ const text = {
   ],
 };
 export function jc(lang: Language, key: keyof typeof text) {
-  return text[key][{ en: 0, pt: 1, es: 2, ru: 3 }[lang]];
+  return traditionWording(text[key][{ en: 0, pt: 1, es: 2, ru: 3 }[lang]]);
 }
 export type JournalCopyKey = keyof typeof text;
 
@@ -301,7 +309,7 @@ export function journalActionCopy(
   action: string,
 ) {
   const specific: Record<string, string[]> = {
-    "lonely:A25": ["Being with others might help you feel connected.", "Estar com outras pessoas pode ajudar você a se sentir conectado.", "Estar con otras personas puede ayudarte a sentirte acompañado.", "Встреча с другими может помочь почувствовать связь."],
+    "lonely:A25": ["Being with others might help you feel connected.", "Estar com outras pessoas pode ajudar você a se sentir conectado.", "Estar con otras personas puede ayudarte a sentirte acompañado.", "Встреча с другими людьми может помочь вам почувствовать, что вы не одни."],
     "homesick:A25": ["A gathering may be a gentle way to find connection.", "Um encontro pode ser uma forma acolhedora de encontrar companhia.", "Un encuentro puede ser una manera amable de encontrar compañía.", "Встреча может стать бережным шагом к общению."],
     "listen:A14": ["Your wish to listen could offer someone comfort.", "Sua vontade de escutar pode levar conforto a alguém.", "Tus ganas de escuchar pueden dar consuelo a alguien.", "Ваше желание выслушать может кого-то поддержать."],
     "service:A18": ["If you would like to give back, explore a cause that matters to you.", "Se quiser retribuir, encontre uma causa importante para você.", "Si quieres devolver algo, descubre una causa importante para ti.", "Если хотите помочь, найдите важное для вас дело."],
@@ -313,7 +321,7 @@ export function journalActionCopy(
       "If you’d like someone to listen, the Confession room is a place to share what’s weighing on you. A listener may respond with care.",
       "Se quiser que alguém escute, a sala de Confissão é um espaço para compartilhar o que pesa no seu coração. Uma pessoa pode responder com carinho.",
       "Si te gustaría que alguien te escuche, la sala de Confesión es un lugar para compartir lo que pesa en tu corazón. Una persona puede responder con cariño.",
-      "Если хочется, чтобы вас выслушали, в комнате исповеди можно поделиться тем, что лежит на сердце. Другой человек может ответить с заботой.",
+      "Если хочется, чтобы вас выслушали, в комнате исповеди можно поделиться тем, что лежит на сердце. Слушатель может ответить с заботой.",
     ];
     return { title: jc(lang, "A04"), invitation: invitations[{ en: 0, pt: 1, es: 2, ru: 3 }[lang]], prompt: jc(lang, "note") };
   }
@@ -389,27 +397,27 @@ export function actionInvitation(lang: Language, action: string) {
   // Localized explanations also cover entries created without AI or when a
   // suggested action changes after preference or availability checks.
   const purpose: Record<string, string[]> = {
-    A01: ["A candle can make space to remember someone you love.", "Uma vela pode abrir espaço para lembrar de alguém querido.", "Una vela puede darte un espacio para recordar a alguien querido.", "Свеча может помочь уделить время памяти близкого человека."],
+    A01: ["A candle can make space to remember someone you love.", "Uma vela pode abrir espaço para lembrar de alguém querido.", "Una vela puede darte un espacio para recordar a alguien querido.", "Свеча может помочь вам вспомнить дорогого человека."],
     A02: ["A quiet prayer can be a way to remember someone you love.", "Uma oração tranquila pode ser uma forma de lembrar de alguém querido.", "Una oración tranquila puede ayudarte a recordar a alguien querido.", "Тихая молитва может стать способом вспомнить близкого человека."],
     A03: ["A short prayer can give you a place to bring this to God.", "Uma breve oração pode ajudar a levar isso a Deus.", "Una breve oración puede ayudarte a llevar esto ante Dios.", "Короткая молитва поможет принести это Богу."],
-    A04: ["The Confession room offers a place to share; a listener may respond.", "A sala de Confissão oferece um espaço para compartilhar; alguém pode responder.", "La sala de Confesión ofrece un lugar para compartir; alguien puede responder.", "В комнате исповеди можно поделиться сокровенным; кто-то может ответить."],
+    A04: ["The Confession room offers a place to share; a listener may respond.", "A sala de Confissão oferece um espaço para compartilhar; alguém pode responder.", "La sala de Confesión ofrece un lugar para compartir; alguien puede responder.", "В комнате исповеди можно поделиться сокровенным; слушатель может ответить."],
     A05: ["A qualified professional can offer support for what you are going through.", "Um profissional qualificado pode oferecer apoio para o que você está vivendo.", "Un profesional cualificado puede ofrecerte apoyo en lo que estás viviendo.", "Квалифицированный специалист может поддержать вас в том, через что вы проходите."],
-    A07: ["Talking with someone you trust may help you feel supported.", "Conversar com alguém de confiança pode ajudar você a se sentir apoiado.", "Hablar con alguien de confianza puede ayudarte a sentirte acompañado.", "Разговор с человеком, которому вы доверяете, может принести поддержку."],
-    A08: ["Putting one thought into words can make room to reflect.", "Colocar um pensamento em palavras pode abrir espaço para refletir.", "Poner un pensamiento en palabras puede abrir espacio para reflexionar.", "Запись одной мысли может дать пространство для размышления."],
-    A09: ["A quiet pause can give you a little space to breathe.", "Uma pausa tranquila pode dar um pouco de espaço para respirar.", "Una pausa tranquila puede darte un poco de espacio para respirar.", "Тихая пауза может дать немного пространства, чтобы перевести дыхание."],
+    A07: ["Talking with someone you trust may help you feel supported.", "Conversar com alguém de confiança pode ajudar você a se sentir apoiado.", "Hablar con alguien de confianza puede ayudarte a sentirte acompañado.", "Разговор с человеком, которому вы доверяете, может помочь вам почувствовать поддержку."],
+    A08: ["Putting one thought into words can make room to reflect.", "Colocar um pensamento em palavras pode abrir espaço para refletir.", "Poner un pensamiento en palabras puede abrir espacio para reflexionar.", "Если записать хотя бы одну мысль, её будет легче обдумать."],
+    A09: ["A quiet pause can give you a little space to breathe.", "Uma pausa tranquila pode dar um pouco de espaço para respirar.", "Una pausa tranquila puede darte un poco de espacio para respirar.", "Короткая пауза в тишине поможет перевести дыхание."],
     A10: ["Writing privately can help you find the words before deciding what to say.", "Escrever em particular pode ajudar a encontrar palavras antes de decidir o que dizer.", "Escribir en privado puede ayudarte a encontrar palabras antes de decidir qué decir.", "Личная запись может помочь подобрать слова, прежде чем решить, что сказать."],
     A11: ["A kind note can be a small way to care for someone.", "Uma mensagem gentil pode ser uma pequena forma de cuidar de alguém.", "Un mensaje amable puede ser una pequeña forma de cuidar a alguien.", "Добрые слова могут стать небольшим проявлением заботы."],
     A12: ["You can let someone know what their kindness meant to you.", "Você pode contar a alguém o quanto a gentileza significou para você.", "Puedes contarle a alguien cuánto significó para ti su amabilidad.", "Вы можете рассказать человеку, как много для вас значила его доброта."],
-    A14: ["Listening may be a meaningful way to offer someone comfort.", "Escutar pode ser uma forma significativa de oferecer conforto a alguém.", "Escuchar puede ser una forma significativa de ofrecer consuelo a alguien.", "Выслушать другого — один из способов подарить поддержку."],
+    A14: ["Listening may be a meaningful way to offer someone comfort.", "Escutar pode ser uma forma significativa de oferecer conforto a alguém.", "Escuchar puede ser una forma significativa de ofrecer consuelo a alguien.", "Выслушать другого — один из способов его утешить."],
     A15: ["A prayer request lets you invite others to pray with you.", "Um pedido de oração permite convidar outras pessoas a orar com você.", "Una petición de oración te permite invitar a otros a orar contigo.", "Просьба о молитве позволяет пригласить других помолиться вместе с вами."],
     A16: ["Prayer can be one way to hold another person in your thoughts.", "A oração pode ser uma forma de lembrar de outra pessoa com carinho.", "La oración puede ser una forma de tener presente a otra persona.", "Молитва может стать способом вспомнить другого человека с заботой."],
-    A18: ["Pay it forward offers ways to explore causes and give back.", "Fazer o bem oferece caminhos para conhecer causas e retribuir.", "Compartir el bien ofrece maneras de conocer causas y ayudar.", "В разделе помощи другим можно найти способы поддержать важное дело."],
+    A18: ["Pay it forward offers ways to explore causes and give back.", "Fazer o bem oferece caminhos para conhecer causas e retribuir.", "Compartir el bien ofrece maneras de conocer causas y ayudar.", "В разделе «Передать добро» можно найти важное дело и помочь."],
     A19: ["A story of hope may offer a different perspective.", "Uma história de esperança pode trazer outra perspectiva.", "Una historia de esperanza puede ofrecer otra perspectiva.", "История надежды может помочь взглянуть на ситуацию иначе."],
     A20: ["Sharing your testimony can let others learn from your experience.", "Compartilhar seu testemunho pode permitir que outros conheçam sua experiência.", "Compartir tu testimonio permite que otros conozcan tu experiencia.", "Поделившись свидетельством, вы можете рассказать другим о своём опыте."],
     A21: ["Lighting a candle can mark a quiet moment of prayer.", "Acender uma vela pode marcar um momento tranquilo de oração.", "Encender una vela puede acompañar un momento tranquilo de oración.", "Зажжённая свеча может сопровождать тихую молитву."],
     A25: ["A gathering can offer a chance to connect with others.", "Um encontro pode oferecer uma oportunidade de se conectar com outras pessoas.", "Un encuentro puede ofrecer una oportunidad de conectar con otras personas.", "Встреча может дать возможность пообщаться с другими."],
-    A26: ["Bible Study offers space to explore this question through scripture.", "O Estudo Bíblico oferece espaço para explorar essa pergunta nas Escrituras.", "El Estudio Bíblico ofrece espacio para explorar esta pregunta en las Escrituras.", "Изучение Библии поможет исследовать этот вопрос через Писание."],
-    A27: ["Hosting a gathering can make space for others to connect.", "Criar um encontro pode abrir espaço para outras pessoas se conectarem.", "Crear un encuentro puede abrir un espacio para que otros se conecten.", "Организовав встречу, вы можете создать пространство для общения."],
+    A26: ["Bible Study offers space to explore this question through scripture.", "O Estudo Bíblico oferece espaço para explorar essa pergunta nas Escrituras.", "El Estudio Bíblico ofrece espacio para explorar esta pregunta en las Escrituras.", "В разделе «Изучение Библии» можно поразмышлять над этим вопросом с опорой на Писание."],
+    A27: ["Hosting a gathering can make space for others to connect.", "Criar um encontro pode abrir espaço para outras pessoas se conectarem.", "Crear un encuentro puede abrir un espacio para que otros se conecten.", "Если вы организуете встречу, у других появится возможность пообщаться."],
   };
   if (purpose[action]) return purpose[action][{ en: 0, pt: 1, es: 2, ru: 3 }[lang]];
   const groups: Record<string, string> = {

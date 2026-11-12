@@ -87,7 +87,9 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     paddingHorizontal: 18,
     borderRadius: 22,
-    backgroundColor: colors.ink,
+    backgroundColor: colors.night,
+    borderWidth: 1,
+    borderColor: "#C9A45C66",
   },
   liveDot: {
     width: 12,
@@ -101,7 +103,7 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     color: "#E0BE76",
   },
-  liveTitle: { fontFamily: serif, fontSize: 19, color: colors.paper },
+  liveTitle: { fontFamily: serif, fontSize: 19, color: colors.ink },
   liveDetail: { fontSize: 13, lineHeight: 18, color: "#CDBFA8" },
   livePill: {
     minHeight: 40,

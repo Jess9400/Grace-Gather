@@ -28,6 +28,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { Button, Body, colors, serif } from "../../components/quiet-ui";
 import ChurchScene, { type PlaceLabel } from "../../components/ChurchScene";
 import ChurchEntrance from "../../components/ChurchEntrance";
+import OrthodoxEntrance from "../../components/OrthodoxEntrance";
 import { useApp } from "../../lib/state";
 import { useQuiet } from "../../lib/quiet-state";
 import { q } from "../../lib/quiet-copy";
@@ -65,6 +66,7 @@ const ROUTES: Record<Exclude<ChurchPlace, "wreath">, string> = {
   bible: "/(tabs)/bible",
   gather: "/(tabs)/gatherings",
   pews: "/(tabs)/diary",
+  pray: "/pray",
 };
 const THEMES: ChurchWord[] = ["hope", "peaceWeek", "joy", "love"];
 // Decorative candles do not represent activity by other members.
@@ -107,6 +109,11 @@ export default function Home() {
       ? Math.max(0, Math.min(4, Number(params.advent) || 0))
       : undefined;
   const plain = isProtestant(profile);
+  // The Russian Orthodox church opens straight onto its named places, with one
+  // «Поговорить с Богом» button instead of the invitation card. It is only for
+  // Orthodox people using the app in Russian; Orthodox people in other
+  // languages keep the earlier church, entrance and invitation.
+  const eastern = isOrthodox(profile) && profile.language === "ru";
   const [now, setNow] = useState(() => new Date());
   useEffect(() => {
     const clock = setInterval(() => setNow(new Date()), 30000);
@@ -247,10 +254,10 @@ export default function Home() {
   // Exploration is optional and never runs underneath the welcome invitation.
   const touring = tour && focused && !entrance && !invitation;
   useEffect(() => {
-    if (entrance || !focused || dismissed || tour) return;
+    if (entrance || !focused || dismissed || tour || eastern) return;
     const timer = setTimeout(() => setInvitation(true), reduced ? 0 : 1000);
     return () => clearTimeout(timer);
-  }, [entrance, focused, dismissed, tour, reduced]);
+  }, [entrance, focused, dismissed, tour, reduced, eastern]);
   useEffect(() => {
     const animation = Animated.timing(invitationOpacity, {
       toValue: invitation ? 1 : 0,
@@ -282,7 +289,20 @@ export default function Home() {
 
   const week = adventWeekFor(profile, now, preview);
   const theme = week > 0 && plain ? ` · ${t(THEMES[week - 1])}` : "";
+  // The Orthodox church has three places: the icon to pray before, the candle
+  // stand in front of it, and the analoy for confession. The journal opens from
+  // "Talk to God"; Bible and Gather stay in the tab bar.
   const places: (PlaceLabel & { sub: ChurchWord })[] = [
+    ...(eastern
+      ? [
+          {
+            key: "pray" as const,
+            label: t("pray"),
+            hint: t("praySub"),
+            sub: "praySub" as const,
+          },
+        ]
+      : []),
     ...(!candlesAllowed
       ? []
       : [
@@ -306,15 +326,24 @@ export default function Home() {
           hint: t("confessionSub"),
           sub: "confessionSub",
         },
-    { key: "bible", label: t("bible"), hint: t("bibleSub"), sub: "bibleSub" },
-    {
-      key: "gather",
-      label: t("gather"),
-      hint: t("gatherSub"),
-      sub: "gatherSub",
-      live: true,
-    },
-    { key: "pews", label: t("pews"), hint: t("pewsSub"), sub: "pewsSub" },
+    ...(eastern
+      ? []
+      : ([
+          {
+            key: "bible",
+            label: t("bible"),
+            hint: t("bibleSub"),
+            sub: "bibleSub",
+          },
+          {
+            key: "gather",
+            label: t("gather"),
+            hint: t("gatherSub"),
+            sub: "gatherSub",
+            live: true,
+          },
+          { key: "pews", label: t("pews"), hint: t("pewsSub"), sub: "pewsSub" },
+        ] as (PlaceLabel & { sub: ChurchWord })[])),
   ];
   const scenePlaces: PlaceLabel[] =
     week > 0
@@ -323,6 +352,8 @@ export default function Home() {
           { key: "wreath", label: t("wreath"), hint: t("adventAbout") },
         ]
       : places;
+  // An Orthodox church has its own entrance: a white church with a golden dome.
+  const EntranceView = eastern ? OrthodoxEntrance : ChurchEntrance;
   const open = (place: ChurchPlace, point?: { x: number; y: number }) => {
     if (place === "wreath") return setAboutAdvent((v) => !v);
     const go = () => router.push(ROUTES[place] as never);
@@ -378,9 +409,11 @@ export default function Home() {
               paused={entrance || details || aboutAdvent}
               protestant={plain}
               orthodox={isOrthodox(profile)}
+              russian={eastern}
               candlesAllowed={candlesAllowed}
               tour={touring}
               labelsEnabled={!invitation}
+              labelsAlways={eastern}
               onTourDone={endTour}
               onTourPlace={setTourPlace}
               onFailure={() => setSceneFailed(true)}
@@ -654,14 +687,16 @@ export default function Home() {
               </Pressable>
             </View>
           )}
-          {dismissed && !invitation && !entrance && !touring && (
+          {(dismissed || eastern) && !invitation && !entrance && !touring && (
             <Pressable
               accessibilityRole="button"
               accessibilityLabel={tr("Talk to God")}
-              onPress={() => setInvitation(true)}
-              style={s.reopen}
+              onPress={eastern ? journal : () => setInvitation(true)}
+              style={eastern ? s.talk : s.reopen}
             >
-              <Text style={s.stayText}>{tr("Talk to God")}</Text>
+              <Text style={eastern ? s.talkText : s.stayText}>
+                {tr("Talk to God")}
+              </Text>
             </Pressable>
           )}
         </View>
@@ -813,7 +848,7 @@ export default function Home() {
         </View>
       </Modal>
       {entrance && (
-        <ChurchEntrance
+        <EntranceView
           language={profile.language}
           onEntered={() => {
             markEntered();
@@ -983,6 +1018,19 @@ const s = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "rgba(48,44,40,0.45)",
   },
+  // The one main action in the Orthodox church.
+  talk: {
+    alignSelf: "stretch",
+    minHeight: 56,
+    paddingHorizontal: 22,
+    borderRadius: 28,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#FFF7E8",
+    borderWidth: 1.5,
+    borderColor: colors.gold,
+  },
+  talkText: { fontFamily: serif, fontSize: 20, color: colors.ink },
   fallback: { position: "absolute", left: 20, right: 20 },
   modal: {
     flex: 1,

@@ -13,7 +13,7 @@ const rows: Record<string, string[]> = {
     "Your journal is encrypted on this device. It does not sync automatically; use My Journal to export a backup.",
     "Seu diário é criptografado neste dispositivo. Ele não sincroniza automaticamente; exporte uma cópia em Meu Diário.",
     "Tu diario se cifra en este dispositivo. No se sincroniza automáticamente; exporta una copia en Mi diario.",
-    "Дневник зашифрован на этом устройстве. Он не синхронизируется автоматически; создайте копию в разделе «Мой дневник».",
+    "Дневник хранится на этом устройстве в зашифрованном виде. Автоматической синхронизации нет — резервную копию можно экспортировать в разделе «Мой дневник».",
   ],
   webDemo: [
     "Saved in this browser.",
@@ -25,7 +25,7 @@ const rows: Record<string, string[]> = {
     "Choose a feeling to guide your verses and next steps. AI is not connected yet.",
     "Escolha um sentimento para orientar seus versículos e próximos passos. A IA ainda não está conectada.",
     "Elige un sentimiento para orientar tus versículos y próximos pasos. La IA aún no está conectada.",
-    "Выберите чувство для подбора стихов и шагов. ИИ пока не подключён.",
+    "Выберите чувство, чтобы подобрать стихи и следующие шаги. ИИ пока не подключён.",
   ],
   signIn: ["Sign in", "Entrar", "Entrar", "Войти"],
   signInLanguage: ["Language", "Idioma", "Idioma", "Язык"],
@@ -61,7 +61,7 @@ const rows: Record<string, string[]> = {
     "Send sign-in code",
     "Enviar código de acesso",
     "Enviar código de acceso",
-    "Отправить код входа",
+    "Отправить код для входа",
   ],
   code: ["Email code", "Código do email", "Código del correo", "Код из письма"],
   verify: [
@@ -81,7 +81,7 @@ const rows: Record<string, string[]> = {
     "A free account lets you comment, like stories and join gatherings. Your journal stays separate.",
     "Uma conta gratuita permite comentar, curtir histórias e participar de encontros. Seu diário fica separado.",
     "Una cuenta gratuita permite comentar, dar me gusta y unirte a encuentros. Tu diario queda separado.",
-    "Бесплатный аккаунт позволяет комментировать, ставить отметки и участвовать во встречах. Дневник хранится отдельно.",
+    "С бесплатным аккаунтом можно комментировать, отмечать понравившиеся истории и участвовать во встречах. Дневник хранится отдельно.",
   ],
   requiredAccount: [
     "Your journal stays on this device. Sign in to enter Grace & Gather.",
@@ -112,7 +112,7 @@ const rows: Record<string, string[]> = {
     "Be kind. No harassment, hate, spam, medical diagnoses or sharing another person’s private information. Comments are reviewed before publication.",
     "Seja gentil. Não publique assédio, ódio, spam, diagnósticos ou informações privadas de outras pessoas. Os comentários são revisados antes da publicação.",
     "Sé amable. No publiques acoso, odio, spam, diagnósticos ni información privada ajena. Los comentarios se revisan antes de publicarse.",
-    "Будьте добры. Запрещены травля, ненависть, спам, диагнозы и чужие личные данные. Комментарии проверяются до публикации.",
+    "Будьте доброжелательны. Запрещены травля, разжигание ненависти, спам, медицинские диагнозы и публикация чужих личных данных. Комментарии проверяются перед публикацией.",
   ],
   agree: [
     "I agree to the community guidelines",
@@ -142,7 +142,7 @@ const rows: Record<string, string[]> = {
     "A quiet moment is here when you want it.",
     "Um momento tranquilo está aqui quando quiser.",
     "Un momento tranquilo está aquí cuando quieras.",
-    "Спокойная минута ждёт вас, когда захотите.",
+    "Когда захотите, здесь вас ждёт спокойная минута.",
   ],
   recorded: [
     "Recording saved · up to 5 minutes",
@@ -172,7 +172,7 @@ const rows: Record<string, string[]> = {
     "This permanently removes your account, profile, comments, confessions, comfort replies, uploaded confession audio and reservations. Your private journal can be kept or deleted separately.",
     "Isso remove permanentemente sua conta, perfil, comentários, confissões, respostas de acolhimento, áudios de confissão enviados e reservas. Seu diário privado pode ser mantido ou excluído separadamente.",
     "Esto elimina tu cuenta, perfil, comentarios, confesiones, respuestas de apoyo, audios de confesión subidos y reservas de forma permanente. Tu diario privado puede conservarse o borrarse aparte.",
-    "Это навсегда удалит аккаунт, профиль, комментарии, признания, ответы поддержки, загруженные аудиопризнания и записи на встречи. Личный дневник можно сохранить или удалить отдельно.",
+    "Это навсегда удалит аккаунт, профиль, комментарии, исповеди, слова поддержки, загруженные аудиоисповеди и записи на встречи. Личный дневник можно сохранить или удалить отдельно.",
   ],
   confirmDelete: [
     "Type DELETE to confirm",
@@ -190,7 +190,7 @@ const rows: Record<string, string[]> = {
     "Recovery key — save it separately from your backup. It is required to restore your journal.",
     "Chave de recuperação — guarde separada da cópia. Ela é necessária para restaurar seu diário.",
     "Clave de recuperación: guárdala aparte de la copia. Es necesaria para restaurar tu diario.",
-    "Ключ восстановления — храните отдельно от копии. Он необходим для восстановления дневника.",
+    "Ключ восстановления — храните его отдельно от резервной копии. Без него дневник не восстановить.",
   ],
   shareFile: [
     "Save backup file",
@@ -233,7 +233,7 @@ const rows: Record<string, string[]> = {
     "Email delivery is not active yet. Your preference will be saved.",
     "O envio de emails ainda não está ativo. Sua preferência será salva.",
     "El envío de correos aún no está activo. Se guardará tu preferencia.",
-    "Отправка писем пока не включена. Предпочтение будет сохранено.",
+    "Отправка писем пока не работает, но ваш выбор сохранится.",
   ],
   launch: [
     "Grace & Gather · early access",
