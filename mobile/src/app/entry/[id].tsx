@@ -133,9 +133,11 @@ export default function EntryScreen() {
   }
   function openAction(selectedAction = action) {
     setNoteAction(selectedAction);
+    if (selectedAction === "A01" || selectedAction === "A21") {
+      router.push({ pathname: "/candle", params: { returnEntry: entry!.id } });
+      return;
+    }
     const routes: Record<string, Href> = {
-      A01: "/candle",
-      A21: "/candle",
       A27: "/gathering/create",
       A15: "/prayers?compose=1",
       A16: "/prayers",

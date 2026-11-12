@@ -207,6 +207,9 @@ const words = {
     "Familia, un amigo, alguien enfermo",
     "Семья, друг, кто-то, кто болеет",
   ),
+  memory: L("In memory of someone", "Em memória de alguém", "En memoria de alguien", "В память о близком"),
+  memorySub: L("Remember someone who has died", "Lembrar alguém que faleceu", "Recordar a alguien que falleció", "Вспомнить ушедшего человека"),
+  returnJournal: L("Return to your journal", "Voltar ao seu diário", "Volver a tu diario", "Вернуться в дневник"),
   carry: L(
     "For something I'm carrying",
     "Por algo que carrego",
@@ -280,6 +283,12 @@ const words = {
     "quem eu amo",
     "a quien amo",
     "того, кого я люблю",
+  ),
+  prayerMemory: L(
+    "God, I remember {name} with love. Be close to me in my grief, and hold this memory in your peace.",
+    "Deus, lembro-me de {name} com amor. Fica perto de mim no meu luto e guarda essa lembrança em tua paz.",
+    "Dios, recuerdo a {name} con amor. Acompáñame en mi duelo y guarda este recuerdo en tu paz.",
+    "Боже, я с любовью вспоминаю {name}. Будь рядом со мной в скорби и сохрани эту память в Твоём мире.",
   ),
   prayerCarry: L(
     "God, I'm putting this down before you. Help me carry what I must, and trust you with the rest.",
