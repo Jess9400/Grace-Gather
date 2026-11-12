@@ -18,10 +18,9 @@ confession content as test data.
    content in each launch language, show the original language honestly when
    no translation is available, monitor the daily import, and keep an honest
    empty state. Do not invent posts, people, or engagement.
-3. **Candle.** Offer optional intentions such as remembering someone, without
-   assuming a tradition or exposing journal text. If opened from a journal,
-   return to that entry afterwards. Review tradition-specific wording with
-   representatives before shipping.
+3. **Candle.** The candle screen now offers an optional memorial intention and
+   an explicit return to the journal entry. Only the entry ID is passed, not its
+   text. Review tradition-specific wording and test on devices before shipping.
 4. **Unburden.** Keep its own tab. Clearly explain that it is community comfort,
    not sacramental confession, and does not guarantee an immediate response.
    Review localized urgent-help guidance and the human moderation process;
@@ -29,8 +28,8 @@ confession content as test data.
 5. **Languages.** Keep interface and Bible languages independent, and show
    both choices together so the user can deliberately change either. Eliminate
    conflicting tradition controls and preserve unavailable-edition warnings.
-6. **Journal backup and deletion.** Add localized date selection for exports.
-   Deletion confirmation now uses a word in the selected language. Test readable exports and
+6. **Journal backup and deletion.** Date pickers select export ranges and
+   deletion confirmation uses a word in the selected language. Test readable exports and
    encrypted backup/restore on actual devices and explain that local entries
    are not automatically synchronized. Do not change retention or delete data.
 
@@ -48,12 +47,11 @@ confession content as test data.
   them, but is open to discussing a temporary delay for launch readiness.
 - **Pay it forward:** keep the destination and add real, appropriately vetted
   organizations; do not claim a listing is verified without verification.
-- **Check-in:** Jessica favors an optional next-day check-in following an
-  action. Decide the delivery method and privacy/notification preferences.
-- **Accounts and audience:** Jessica favors sign-in before browsing. Discuss
-  whether visitors may preview discussions and gatherings; prayer requests
-  should not be public by default. Preserve journal access and backups when a
-  member is offline or signed out, and do not widen existing access policies.
+- **Check-in:** an optional in-app check-in appears from the next local day
+  after a member opens an action. It does not send a push notification.
+- **Accounts and audience:** sign-in is required before browsing. Journal
+  entries remain on the device, but a signed-out person cannot open them until
+  they can sign in again. Do not widen existing server access policies.
 - **Bible language:** keep it independent of the phone and interface language.
 - **Timing:** November 29 is acceptable as a target, contingent on safety,
   privacy, device testing, content rights and actual launch readiness.
