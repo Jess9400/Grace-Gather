@@ -90,7 +90,7 @@ const words = {
     "Leer y estudiar",
     "Читать и изучать",
   ),
-  gather: L("Gather", "Encontros", "Encuentros", "Встречи"),
+  gather: L("Gather", "Encontros", "Encuentros", "Общение"),
   gatherSub: L(
     "Circles, calendar, chats and stories",
     "Encontros, calendário, conversas e histórias",
@@ -101,7 +101,7 @@ const words = {
     "Sit quietly · Journal",
     "Sentar em silêncio · Diário",
     "Sentarse en silencio · Diario",
-    "Посидеть в тишине · Дневник",
+    "Поговорить с Богом",
   ),
   pewsSub: L(
     "Your private journal",
