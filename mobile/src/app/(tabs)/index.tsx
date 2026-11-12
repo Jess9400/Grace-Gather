@@ -56,7 +56,7 @@ import {
 } from "../../lib/church-room";
 
 import { placeAt, type ChurchPlace } from "../../lib/church-scene";
-import { weeklyCheckInDue } from "../../generated/journal-selection";
+import { pendingStep } from "../../lib/small-step";
 import { StepCheckIn } from "../../components/SmallStep";
 import { useChurchPresence } from "../../lib/church-presence";
 
@@ -75,10 +75,7 @@ const presentCount = (count: number | null) => count !== null && count >= 1;
 
 export default function Home() {
   const { profile, saveProfile, entries } = useApp();
-  const weeklyDue = weeklyCheckInDue(
-    entries.filter((e) => !e.sessionOnly).map((e) => e.createdAt),
-    profile.weeklyCheckInAt,
-  );
+  const weeklyDue = !!pendingStep(entries, new Date());
   const tr = useInterfaceCopy();
   const insets = useSafeAreaInsets();
   const tabHeight = useBottomTabBarHeight();

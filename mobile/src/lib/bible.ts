@@ -285,7 +285,7 @@ export function studyFor(id: string) {
 }
 export function discussionVerseId(id: string): string | null {
   const direct = id.includes(":") ? id : `web:${id}`;
-  if (/^(web|dra|brenton):[A-Z0-9]{3}\.\d+\.\d+$/.test(direct)) {
+  if (/^(web|dra|brenton|blivre|rv1909|synodal):[A-Z0-9]{3}\.\d+\.\d+[a-z]?$/.test(direct)) {
     return getReadingVerse(direct) ? direct : null;
   }
   const edition = data.editions.find((e) =>

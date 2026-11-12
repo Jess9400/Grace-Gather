@@ -24,6 +24,7 @@ import {
 import SignInForm from "../components/SignInForm";
 import { useQuiet } from "../lib/quiet-state";
 import { useApp } from "../lib/state";
+import { deleteConfirmationWord } from "../lib/delete-confirmation";
 import { copy, editionsFor, languages } from "../lib/content";
 import { label } from "../lib/labels";
 import { backend, requireUser, requireBackend } from "../lib/backend";
@@ -271,12 +272,13 @@ export default function Profile() {
                 onChangeText={setConfirmation}
               />
               <Button
-                disabled={confirmation !== "DELETE" || busy}
+                disabled={confirmation.trim() !== deleteConfirmationWord(profile.language) || busy}
                 title={l(
                   deleting === "account" ? "deleteAccount" : "deleteLocal",
                 )}
                 onPress={() =>
                   void run(async () => {
+                    if (confirmation.trim() !== deleteConfirmationWord(profile.language)) return;
                     if (deleting === "account") {
                       const { client } = await requireUser();
                       const { data, error } = await client.functions.invoke(

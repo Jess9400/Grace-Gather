@@ -31,6 +31,9 @@ test('Community maps curated quotations only through explicit edition-specific v
   assert.equal(reader.discussionVerseId('web:GEN.1.27'),'web:GEN.1.27');
   assert.equal(reader.discussionVerseId('brenton:PSA.22.2'),'brenton:PSA.22.2');
   assert.equal(reader.discussionVerseId('web:PSA.22.2'),'web:PSA.22.2');
+  assert.equal(reader.discussionVerseId('blivre:JHN.3.16'),'blivre:JHN.3.16');
+  assert.equal(reader.discussionVerseId('rv1909:JHN.3.16'),'rv1909:JHN.3.16');
+  assert.equal(reader.discussionVerseId('synodal:JHN.3.16'),'synodal:JHN.3.16');
   assert.equal(reader.discussionVerseId('web:GEN.999.1'),null);
   assert.equal(reader.discussionVerseId('unmapped-curated-verse'),null);
 });

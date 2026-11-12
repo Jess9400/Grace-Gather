@@ -28,6 +28,8 @@ const rows: Record<string, string[]> = {
     "Выберите чувство, чтобы подобрать стихи и следующие шаги. ИИ пока не подключён.",
   ],
   signIn: ["Sign in", "Entrar", "Entrar", "Войти"],
+  signInLanguage: ["Language", "Idioma", "Idioma", "Язык"],
+  languageSaveError: ["Could not save your language. Please try again.", "Não foi possível salvar seu idioma. Tente novamente.", "No se pudo guardar el idioma. Inténtalo de nuevo.", "Не удалось сохранить язык. Попробуйте снова."],
   // The sign-in page.
   signInEmail: ["Email", "Email", "Correo electrónico", "Email"],
   signInIntro: [
@@ -70,16 +72,22 @@ const rows: Record<string, string[]> = {
   ],
   signOut: ["Sign out", "Sair", "Salir", "Выйти"],
   unconnected: [
-    "Accounts are not connected yet. You can keep a private journal on this device.",
-    "As contas ainda não estão conectadas. Você pode manter um diário privado neste dispositivo.",
-    "Las cuentas aún no están conectadas. Puedes mantener un diario privado en este dispositivo.",
-    "Аккаунты пока недоступны. Вы можете вести личный дневник на этом устройстве.",
+    "Sign-in is unavailable right now. Please try again later.",
+    "O acesso está indisponível no momento. Tente novamente mais tarde.",
+    "El inicio de sesión no está disponible ahora. Inténtalo más tarde.",
+    "Сейчас вход недоступен. Попробуйте позже.",
   ],
   optionalAccount: [
     "A free account lets you comment, like stories and join gatherings. Your journal stays separate.",
     "Uma conta gratuita permite comentar, curtir histórias e participar de encontros. Seu diário fica separado.",
     "Una cuenta gratuita permite comentar, dar me gusta y unirte a encuentros. Tu diario queda separado.",
     "С бесплатным аккаунтом можно комментировать, отмечать понравившиеся истории и участвовать во встречах. Дневник хранится отдельно.",
+  ],
+  requiredAccount: [
+    "Your journal stays on this device. Sign in to enter Grace & Gather.",
+    "Seu diário fica neste dispositivo. Entre para acessar o Grace & Gather.",
+    "Tu diario permanece en este dispositivo. Inicia sesión para entrar en Grace & Gather.",
+    "Дневник хранится на этом устройстве. Войдите, чтобы открыть Grace & Gather.",
   ],
   pending: [
     "Submitted for moderation",
@@ -168,9 +176,9 @@ const rows: Record<string, string[]> = {
   ],
   confirmDelete: [
     "Type DELETE to confirm",
-    "Digite DELETE para confirmar",
-    "Escribe DELETE para confirmar",
-    "Введите DELETE для подтверждения",
+    "Digite EXCLUIR para confirmar",
+    "Escribe BORRAR para confirmar",
+    "Введите УДАЛИТЬ для подтверждения",
   ],
   backup: [
     "Export encrypted backup",

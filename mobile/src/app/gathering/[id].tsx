@@ -137,9 +137,8 @@ export default function GatheringPage() {
             <>
               <Body small>
                 {new Date(item.starts_at).toLocaleString(profile.language, {
-                  timeZone: item.timezone,
-                })}{" "}
-                · {item.timezone}
+                  timeZoneName: "short",
+                })}
               </Body>
               <Notice text={c(audio.notice)} />
               <Body>{c("joinNotice")}</Body>

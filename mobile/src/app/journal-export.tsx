@@ -7,13 +7,13 @@ import {
   Body,
   Card,
   Button,
-  Field,
   Notice,
   Subheading,
   colors,
   switchColors,
 } from "../components/quiet-ui";
 import { TextAction } from "../components/CommunityControls";
+import JournalDateField from "../components/JournalDateField";
 import { useApp } from "../lib/state";
 import { journalCopy } from "../lib/journal-library-copy";
 import {
@@ -134,27 +134,25 @@ export default function JournalExport() {
   return (
     <Screen back>
       <Heading>{t("exportTitle")}</Heading>
-      <Field
+      <JournalDateField
         label={t("from")}
         value={from}
-        onChangeText={(value) => {
+        language={profile.language}
+        onChange={(value) => {
           setFrom(value);
           setNotice("");
           setKeySaved(false);
         }}
-        placeholder="2026-01-01"
-        autoCapitalize="none"
       />
-      <Field
+      <JournalDateField
         label={t("to")}
         value={to}
-        onChangeText={(value) => {
+        language={profile.language}
+        onChange={(value) => {
           setTo(value);
           setNotice("");
           setKeySaved(false);
         }}
-        placeholder="2026-12-31"
-        autoCapitalize="none"
       />
       <Body small>{t("allDates")}</Body>
       {!valid && <Notice text={t("badDates")} />}

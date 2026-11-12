@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import { backend } from "./backend";
 
+export function isMemberSession(session: { user: { is_anonymous?: boolean } } | null) {
+  return !!session && !session.user.is_anonymous;
+}
+
 // Whether someone is signed in: null while checking, false with no backend.
 export function useSignedIn() {
   const [signedIn, setSignedIn] = useState<boolean | null>(
@@ -9,12 +13,19 @@ export function useSignedIn() {
   useEffect(() => {
     if (!backend) return;
     let alive = true;
-    void backend.auth.getSession().then(({ data }) => {
-      if (alive) setSignedIn(!!data.session);
+    let receivedEvent = false;
+    void backend.auth
+      .getSession()
+      .then(({ data }) => {
+        if (alive && !receivedEvent) setSignedIn(isMemberSession(data.session));
+      })
+      .catch(() => {
+        if (alive && !receivedEvent) setSignedIn(false);
+      });
+    const subscription = backend.auth.onAuthStateChange((_event, session) => {
+      receivedEvent = true;
+      if (alive) setSignedIn(isMemberSession(session));
     });
-    const subscription = backend.auth.onAuthStateChange((_event, session) =>
-      setSignedIn(!!session),
-    );
     return () => {
       alive = false;
       subscription.data.subscription.unsubscribe();
@@ -26,7 +37,7 @@ export function useSignedIn() {
 export async function isSignedIn() {
   if (!backend) return false;
   const { data } = await backend.auth.getSession();
-  return !!data.session;
+  return isMemberSession(data.session);
 }
 
 // The card that offers a personal reply appears only on someone's first few

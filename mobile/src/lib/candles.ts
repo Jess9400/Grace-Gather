@@ -2,7 +2,7 @@ import { useSyncExternalStore } from "react";
 import * as storage from "./storage";
 import { localDay } from "./church-calendar";
 
-export type CandleIntention = "me" | "love" | "carry" | "thanks";
+export type CandleIntention = "me" | "love" | "memory" | "carry" | "thanks";
 export type Candle = {
   id: string;
   intention: CandleIntention;

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import {
   Body,
   Button,
@@ -17,6 +17,7 @@ import { useApp } from "../lib/state";
 import { data, type Mood } from "../lib/content";
 import { selectQuietPassage } from "../generated/quiet-diary";
 import { churchCopy, type ChurchWord } from "../lib/church-copy";
+import { journalReturnId } from "../lib/journal-navigation";
 import {
   lightCandle,
   loadCandles,
@@ -39,6 +40,7 @@ const INTENTIONS: {
     prayer: "prayerLove",
     mood: "lonely",
   },
+  { id: "memory", title: "memory", sub: "memorySub", prayer: "prayerMemory", mood: "sad" },
   {
     id: "carry",
     title: "carry",
@@ -56,7 +58,9 @@ const INTENTIONS: {
 ];
 
 export default function CandleScreen() {
-  const { profile } = useApp();
+  const { profile, entries } = useApp();
+  const params = useLocalSearchParams<{ returnEntry?: string }>();
+  const returnEntry = journalReturnId(params.returnEntry, entries);
   const t = (key: ChurchWord) => churchCopy(profile.language, key);
   const candles = useCandles();
   const [phase, setPhase] = useState<"idle" | "choosing" | "lit">("idle");
@@ -83,6 +87,9 @@ export default function CandleScreen() {
   return (
     <Screen back place="candles">
       <View style={s.head}>
+        {returnEntry && (
+          <Button secondary title={t("returnJournal")} onPress={() => router.replace({ pathname: "/entry/[id]", params: { id: returnEntry } })} />
+        )}
         <Heading>{phase === "lit" ? t("lit") : t("candleTitle")}</Heading>
         <Body>
           {phase === "lit"
