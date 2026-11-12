@@ -10,8 +10,16 @@ export function safeActionExplanation(value) {
   return text;
 }
 export const MOODS = ['grateful','peaceful','hopeful','anxious','lonely','sad','overwhelmed','hopeless','unsure'];
+// Same list as mobile/src/lib/safety.ts: it errs on the side of asking.
+const DANGER=[
+  /\b(?:kill myself|end my life|take my (?:own )?life|hurt myself|harm myself|self[- ]harm|cut myself|suicid(?:e|al)|want to die|wanna die|wish i (?:was|were) dead|better off dead|(?:don't|do not) want to (?:live|be alive|wake up)|end it all)\b/i,
+  /(?:me matar|tirar (?:a )?minha (?:própria )?vida|acabar com (?:a )?minha vida|dar fim (?:à|a) minha vida|quero morrer|queria morrer|não quero (?:mais )?viver|me machucar|suicídio|me suicidar)/i,
+  /(?:matarme|quitarme la vida|acabar con mi vida|suicidarme|suicidio|quiero morir|quisiera morir|no quiero (?:seguir )?vivir|hacerme daño)/i,
+  /(?:покончить с собой|покончить с жизнью|убить себя|хочу умереть|не хочу жить|самоубийств|навредить себе|причинить себе вред)/i,
+];
 export function needsSupport(text) {
-  return /\b(kill myself|end my life|hurt myself|suicid(?:e|al)|matarme|quitarme la vida|suicidarme|me matar|tirar minha vida|me machucar|suicídio|suicidio)\b|(?:покончить с собой|убить себя|хочу умереть|самоубийств)/iu.test(text);
+  const plain=String(text).replace(/[’‘]/g,"'");
+  return DANGER.some(pattern=>pattern.test(plain));
 }
 export function journeyInput(value) {
   if (!value || value.consentVersion !== AI_CONSENT_VERSION) throw Error('consent_required');

@@ -13,8 +13,10 @@ const compile = (path, require) => {
   return context.exports;
 };
 const aiCopy = compile('../mobile/src/lib/ai-copy.ts');
+const safety = compile('../mobile/src/lib/safety.ts');
 const content = compile('../mobile/src/lib/content.ts', (id) => {
   if (id === './ai-copy') return aiCopy;
+  if (id === './safety') return safety;
   if (id === '../generated/catalog.json') return JSON.parse(readFileSync(new URL('../mobile/src/generated/catalog.json', import.meta.url)));
   throw Error(id);
 });

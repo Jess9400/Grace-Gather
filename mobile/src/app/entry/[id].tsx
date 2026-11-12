@@ -30,12 +30,13 @@ import { useApp } from "../../lib/state";
 import { useQuiet } from "../../lib/quiet-state";
 import { copy, type JournalResponse } from "../../lib/content";
 import { q } from "../../lib/quiet-copy";
+import HelpLine from "../../components/HelpLine";
+import { toVerseRoute } from "../../lib/verse-route";
 import type { ReadingVerse } from "../../lib/bible";
 import { resolveJournalResponse } from "../../lib/journal-response";
 import { journalAction, journalTheme } from "../../lib/journal-guidance";
 import { gathering } from "../../lib/gatherings";
 import { confessionJournalTarget } from "../../lib/journal-navigation";
-import { verseRouteId } from "../../lib/verse-route";
 import { hasJournalGatheringTopic, matchingJournalGathering } from "../../lib/journal-gathering";
 import {
   jc,
@@ -283,6 +284,7 @@ export default function EntryScreen() {
           <Card>
             <Heading>{copy(lang, "supportTitle")}</Heading>
             <Body>{copy(lang, "supportDesc")}</Body>
+            <HelpLine bare />
             <Button
               title={jc(lang, "A07")}
               onPress={() => {
@@ -317,7 +319,7 @@ export default function EntryScreen() {
                         // The theme verse reference finds the explanation
                         // whatever number this edition prints for the verse.
                         params: {
-                          id: verseRouteId(verse.id),
+                          id: toVerseRoute(verse.id),
                           journal: journalTheme(entry).verse,
                         },
                       })
@@ -348,6 +350,9 @@ export default function EntryScreen() {
                 onPress={() => openAction()}
               />
             </View>
+            {["hopelessness", "persistent-distress"].includes(
+              journalTheme(entry).id,
+            ) && <HelpLine gentle />}
             </>}
           </View>
         )}
