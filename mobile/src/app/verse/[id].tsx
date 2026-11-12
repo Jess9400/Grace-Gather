@@ -99,9 +99,9 @@ function journalRich(
   };
 }
 const translatedNote: Partial<Record<Language, string>> = {
-  pt: "As citações foram traduzidas das edições em inglês listadas acima.",
-  es: "Las citas se han traducido de las ediciones en inglés indicadas arriba.",
-  ru: "Цитаты переведены с английских изданий, перечисленных выше.",
+  pt: "Resumido a partir das edições em inglês listadas acima.",
+  es: "Resumido a partir de las ediciones en inglés indicadas arriba.",
+  ru: "Пересказано по английским изданиям, перечисленным выше.",
 };
 function Paragraph({ children }: { children: React.ReactNode }) {
   return (
