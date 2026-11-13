@@ -88,7 +88,8 @@ test("Discover hosts the public feed while personal activity and friend search h
   assert.match(old, /pathname: "\/friends"/);
   assert.doesNotMatch(source("src/app/(tabs)/bible.tsx"), /view: "mine"/);
   assert.match(source("src/app/(tabs)/explore.tsx"), /<PublicDiscussions/);
-  assert.match(source("src/app/(tabs)/explore.tsx"), /view: "find"/);
+  assert.doesNotMatch(source("src/app/(tabs)/explore.tsx"), /Find friends|view: "find"/);
+  assert.match(source("src/components/AccountMenuContent.tsx"), /pathname: "\/friends"/);
   assert.doesNotMatch(
     source("src/app/(tabs)/explore.tsx"),
     /Redirect href="\/friends"/,
