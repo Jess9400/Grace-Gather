@@ -85,6 +85,7 @@ function Routes() {
                 "testimonies/index",
                 "testimonies/review",
                 "staff",
+                "intro",
               ].map((name) => (
                 <Stack.Screen key={name} name={name} />
               ))}
