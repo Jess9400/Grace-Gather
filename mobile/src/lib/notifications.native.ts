@@ -96,3 +96,32 @@ export async function moderatorPushEnabled() {
   return data === true;
 }
 export async function forgetModeratorPush() { await removeItem("moderator-push-token"); }
+
+export async function registerMemberPush(language: Language) {
+  const projectId = Constants.expoConfig?.extra?.eas?.projectId;
+  if (!projectId || !backend) throw new Error("Phone alerts are not configured yet.");
+  const { status } = await Notifications.requestPermissionsAsync();
+  if (status !== "granted") throw new Error("Notification permission was not granted.");
+  const token = (await Notifications.getExpoPushTokenAsync({ projectId })).data;
+  const { error } = await backend.rpc("member_push_device", { p_token: token, p_enable: true, p_language: language });
+  if (error) throw error;
+  await setItem("member-push-token", token);
+}
+
+export async function disableMemberPush() {
+  const token = await getItem("member-push-token");
+  if (token && backend) {
+    const { error } = await backend.rpc("member_push_device", { p_token: token, p_enable: false, p_language: "en" });
+    if (error) throw error;
+  }
+  await removeItem("member-push-token");
+}
+
+export async function memberPushEnabled() {
+  const token = await getItem("member-push-token");
+  if (!token || !backend || (await Notifications.getPermissionsAsync()).status !== "granted") return false;
+  const { data, error } = await backend.rpc("member_push_enabled", { p_token: token });
+  if (error) throw error;
+  return data === true;
+}
+export async function forgetMemberPush() { await removeItem("member-push-token"); }

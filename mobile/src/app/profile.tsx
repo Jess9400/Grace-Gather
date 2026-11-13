@@ -33,6 +33,8 @@ import {
   enableReminder,
   disableGatheringPush,
   disableModeratorPush,
+  disableMemberPush,
+  forgetMemberPush,
   forgetModeratorPush,
   disableReminder,
   remindersEnabled,
@@ -169,6 +171,7 @@ export default function Profile() {
                   void run(async () => {
                     await disableGatheringPush();
                     await disableModeratorPush();
+                    await disableMemberPush();
                     const result = await requireBackend().auth.signOut();
                     if (result.error) throw result.error;
                   })
@@ -294,6 +297,7 @@ export default function Profile() {
                         );
                       await client.auth.signOut({ scope: "local" });
                       await forgetModeratorPush();
+                      await forgetMemberPush();
                       setSignedIn(false);
                       if (data.appleRevokeRequired)
                         setNotice(
@@ -305,6 +309,7 @@ export default function Profile() {
                       await disableReminder();
                       await disableGatheringPush();
                       await disableModeratorPush();
+                      await disableMemberPush();
                       await backend?.auth.signOut({ scope: "local" });
                       await reset();
                       clear();
