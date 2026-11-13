@@ -14,6 +14,9 @@ original publication date.
 
 The Portuguese feed endpoint is deployed, but this change does not add
 publishers, acquire reproduction rights, or schedule a Portuguese import.
+Editors entering a Portuguese story must identify its country of origin; the
+Brazilian feed includes editorial stories marked BR. Editors should verify the
+source and rights before explicitly publishing each story.
 Before enabling a daily publisher feed, verify the source's terms and any
 applicable syndication permissions, content suitability, authorship and dates.
 Do not replace missing original stories with English translations or present
