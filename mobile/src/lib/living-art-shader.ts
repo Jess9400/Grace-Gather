@@ -106,6 +106,7 @@ precision mediump float;
 uniform sampler2D picture;
 uniform vec2 visible;
 uniform float time;
+uniform float night;
 varying vec2 screenUV;
 void main(){
     vec2 uv=vec2(.5)+vec2(screenUV.x-.5,.5-screenUV.y)*visible;
@@ -127,12 +128,12 @@ void main(){
     float daylight=exp(-dot(leftWindow,leftWindow)*2.)*.07*sin(time*.45)
       +exp(-dot(rightWindow,rightWindow)*2.)*.06*sin(time*.43+1.2)
       +exp(-dot(floorLight,floorLight)*2.)*.035*sin(time*.4+.5);
-    warmth+=daylight;
-    float drift=.055*sin(time*.72);
+    warmth+=daylight*(1.-night);
+    float drift=.075*sin(time*.72);
     float fromLeft=uv.x-(.08+(uv.y-.36)*1.20+drift);
     float fromRight=uv.x-(.92-(uv.y-.36)*1.12-drift*.8);
     float vertical=smoothstep(.32,.42,uv.y)*(1.-smoothstep(.66,.74,uv.y));
-    float beam=(exp(-pow(fromLeft/.055,2.))*.30+exp(-pow(fromRight/.06,2.))*.22)*vertical;
+    float beam=(exp(-pow(fromLeft/.055,2.))*.36+exp(-pow(fromRight/.06,2.))*.28)*vertical*(1.-night);
     float litSurface=smoothstep(.23,.68,dot(color.rgb,vec3(.299,.587,.114)));
     flame+=vec3(1.,.76,.48)*beam*litSurface;`
         : ""

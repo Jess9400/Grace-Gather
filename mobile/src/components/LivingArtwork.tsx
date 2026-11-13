@@ -8,14 +8,17 @@ import type { ChurchArt } from "../lib/church-art";
 
 // A single textured quad keeps the sanctuary still while the fragment shader
 // animates its flame shapes or natural window light.
-export default function LivingArtwork({ art, source, running }: { art: ChurchArt; source: number; running: boolean }) {
+export default function LivingArtwork({ art, source, running, night, still }: { art: ChurchArt; source: number; running: boolean; night: boolean; still: boolean }) {
   const context = useRef<ExpoWebGLRenderingContext | null>(null);
   const [ready, setReady] = useState(false);
   const frame = useRef<number | null>(null);
   const runningRef = useRef(running);
+  const nightRef = useRef(night);
+  const stillRef = useRef(still);
   const render = useRef<(() => void) | null>(null);
   const disposed = useRef(false);
   useEffect(() => { runningRef.current = running; if (running) render.current?.(); }, [running]);
+  useEffect(() => { nightRef.current = night; stillRef.current = still; render.current?.(); }, [night, still]);
   useEffect(() => {
     disposed.current = false;
     return () => { disposed.current = true; if (frame.current !== null) cancelAnimationFrame(frame.current); releaseContext(context.current); context.current = null; };
@@ -56,20 +59,20 @@ export default function LivingArtwork({ art, source, running }: { art: ChurchArt
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
       gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
       gl.uniform1i(gl.getUniformLocation(program, "picture"), 0);
-      const visible = gl.getUniformLocation(program, "visible"), time = gl.getUniformLocation(program, "time");
+      const visible = gl.getUniformLocation(program, "visible"), time = gl.getUniformLocation(program, "time"), nightUniform = gl.getUniformLocation(program, "night");
       let previous = 0, displayed = false;
       const tick = (now: number) => {
         frame.current = null;
         if (disposed.current || !runningRef.current) return;
-        if (now - previous >= 40) {
+        if (stillRef.current || now - previous >= 40) {
           previous = now;
           const w = gl.drawingBufferWidth, h = gl.drawingBufferHeight;
           const scale = Math.max(w / 869, h / 1810);
           gl.viewport(0, 0, w, h); gl.uniform2f(visible, w / (869 * scale), h / (1810 * scale));
-          gl.uniform1f(time, now / 1000); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); gl.endFrameEXP();
+          gl.uniform1f(time, stillRef.current ? 0 : now / 1000); gl.uniform1f(nightUniform, nightRef.current ? 1 : 0); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); gl.endFrameEXP();
           if (!displayed) { displayed = true; setReady(true); }
         }
-        frame.current = requestAnimationFrame(tick);
+        if (!stillRef.current) frame.current = requestAnimationFrame(tick);
       };
       render.current = () => { if (frame.current === null && runningRef.current) frame.current = requestAnimationFrame(tick); };
       render.current();

@@ -27,6 +27,7 @@ export type ChurchSnapshot = {
   height: number;
   points: Partial<Record<string, { x: number; y: number }>>;
   night?: boolean;
+  nightArtwork?: boolean;
   artStage?: { left: number; width: number };
 };
 
