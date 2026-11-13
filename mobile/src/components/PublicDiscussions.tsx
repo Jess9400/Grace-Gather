@@ -122,7 +122,7 @@ export default function PublicDiscussions({ query }: { query: string }) {
                     {reply.name}
                   </Text>
                   <Text
-                    style={{ color: colors.ink, fontSize: 15, lineHeight: 22 }}
+                    style={{ color: colors.ink, fontSize: 15, lineHeight: 22, flex: 1, minWidth: 0 }}
                   >
                     {reply.body}
                   </Text>

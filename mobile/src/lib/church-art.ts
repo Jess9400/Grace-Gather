@@ -20,8 +20,8 @@ const BOXES: Record<ChurchArt, Record<ChurchPlace, Box>> = {
   },
   orthodox: {
     candles: [0, 0.5, 0.25, 0.62],
-    confession: [0.79, 0.43, 0.98, 0.61],
-    bible: [0.61, 0.39, 0.77, 0.52],
+    confession: [0.40, 0.43, 0.59, 0.60],
+    bible: [0.79, 0.43, 0.98, 0.61],
     gather: [0.02, 0.64, 0.22, 0.75],
     pews: [0.24, 0.64, 0.77, 0.88],
     pray: [0.19, 0.39, 0.36, 0.54],
@@ -42,7 +42,7 @@ const BOXES: Record<ChurchArt, Record<ChurchPlace, Box>> = {
 // caption remains an accessible action when a place has no pictured object.
 export function artworkHasTourTarget(art: ChurchArt, place: ChurchPlace) {
   if (place === "wreath") return false;
-  if (place === "confession" && art !== "catholic") return false;
+  if (place === "confession" && art === "protestant") return false;
   if (place === "candles" && art === "protestant") return false;
   return true;
 }

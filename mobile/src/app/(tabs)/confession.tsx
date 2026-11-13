@@ -17,7 +17,9 @@ import {
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useApp } from "../../lib/state";
+import { roomCopy } from "../../lib/burden-copy";
 import { copy } from "../../lib/content";
+import { isProtestant } from "../../lib/church-calendar";
 import { backend } from "../../lib/backend";
 import { confessionAPI, Confession } from "../../lib/confession";
 import { removeAudio } from "../../lib/storage";
@@ -68,7 +70,8 @@ export default function ConfessionRoom() {
   const [needsSignIn, setNeedsSignIn] = useState(false);
   const { profile, entries } = useApp(),
     language = profile.language,
-    t = (key: string) => copy(language, key);
+    protestant = isProtestant(profile),
+    t = (key: string) => roomCopy(language, key, protestant);
   const navigation = useNavigation();
   const { view, returnEntry } = useLocalSearchParams<{
     view?: string;
@@ -432,7 +435,7 @@ export default function ConfessionRoom() {
                 </View>
                 <View style={{ marginTop: 12, gap: 4 }}>
                   <Disclosure title={d("aboutSpace")}>
-                    <Body small>{d("peerSupport")}</Body>
+                    {!protestant && <Body small>{d("peerSupport")}</Body>}
                     <Body small>{t("cDisclaimer")}</Body>
                   </Disclosure>
                 </View>
@@ -570,7 +573,7 @@ export default function ConfessionRoom() {
                     <Text style={s.consent}>{t("cConsent")}</Text>
                   </Pressable>
                   <Button
-                    title={tr("Preview confession")}
+                    title={protestant ? t("previewBurden") : tr("Preview confession")}
                     disabled={busy || recording}
                     onPress={() => {
                       if (!theme) {
@@ -603,7 +606,7 @@ export default function ConfessionRoom() {
                       </Body>
                       {btn("cSubmit", () => void run(share))}
                       <TextAction
-                        title={tr("Edit confession")}
+                        title={protestant ? t("editBurden") : tr("Edit confession")}
                         icon="create-outline"
                         disabled={busy}
                         onPress={() => setPreview("")}

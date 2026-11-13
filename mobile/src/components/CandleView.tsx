@@ -7,6 +7,7 @@ import {
   type ReactNode,
 } from "react";
 import {
+  Animated,
   AppState,
   Platform,
   Pressable,
@@ -60,6 +61,7 @@ export default function CandleView({
   const context = useRef<ExpoWebGLRenderingContext | null>(null);
   const frame = useRef<number | null>(null);
   const [glKey, setGlKey] = useState(0);
+  const [glow] = useState(() => new Animated.Value(0.85));
   const recoveries = useRef(0);
   // A lost WebGL context gets a fresh view (a few times) instead of failing.
   const recover = useCallback(() => {
@@ -79,6 +81,23 @@ export default function CandleView({
   useEffect(() => {
     want.current = { lit, reduced };
   }, [lit, reduced]);
+
+  // Keep a visible candle underneath while GL starts, and retain it if a
+  // device never creates its context instead of leaving an empty dark panel.
+  useEffect(() => {
+    if (ready || failed) return;
+    const timeout = setTimeout(() => setFailed(true), 6000);
+    return () => clearTimeout(timeout);
+  }, [failed, glKey, ready]);
+  useEffect(() => {
+    if (!lit || reduced) return;
+    const flicker = Animated.loop(Animated.sequence([
+      Animated.timing(glow, { toValue: 1, duration: 720, useNativeDriver: true }),
+      Animated.timing(glow, { toValue: 0.72, duration: 580, useNativeDriver: true }),
+    ]));
+    flicker.start();
+    return () => flicker.stop();
+  }, [glow, lit, reduced]);
 
   const loop = useCallback(() => {
     if (frame.current !== null) cancelAnimationFrame(frame.current);
@@ -136,6 +155,15 @@ export default function CandleView({
       onPress={onPress}
       style={styles.frame}
     >
+      <View pointerEvents="none" style={styles.fallback}>
+        <View style={styles.alcove} />
+        <View style={styles.ledge} />
+        <View style={styles.dish} />
+        <View style={styles.wax} />
+        <View style={styles.wick} />
+        {lit && <Animated.View style={[styles.flameGlow, { opacity: glow }]} />}
+        {lit && <Animated.View style={[styles.flame, { opacity: glow }]}><View style={styles.flameCore} /></Animated.View>}
+      </View>
       {!failed ? (
         <SceneBoundary onFailure={() => setFailed(true)}>
           <GLView
@@ -149,6 +177,8 @@ export default function CandleView({
             style={[StyleSheet.absoluteFill, { opacity: ready ? 1 : 0 }]}
             onContextCreate={(gl: ExpoWebGLRenderingContext) => {
               try {
+                if (!gl.drawingBufferWidth || !gl.drawingBufferHeight)
+                  throw new Error("Candle drawing surface is unavailable");
                 context.current = gl;
                 renderer.current = createCandleRenderer(gl);
                 renderer.current.draw(level.current, 0);
@@ -160,12 +190,7 @@ export default function CandleView({
             }}
           />
         </SceneBoundary>
-      ) : (
-        <View style={styles.fallback}>
-          <View style={styles.wax} />
-          {lit && <View style={styles.flame} />}
-        </View>
-      )}
+      ) : null}
       {hint ? (
         <View pointerEvents="none" style={styles.hintWrap}>
           <Text style={styles.hint}>{hint}</Text>
@@ -203,14 +228,25 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "rgba(224,190,118,0.6)",
   },
-  fallback: { flex: 1, alignItems: "center", justifyContent: "center" },
-  wax: { width: 54, height: 150, borderRadius: 6, backgroundColor: "#F2EADB" },
+  fallback: { position: "absolute", top: 0, bottom: 0, left: 0, right: 0, alignItems: "center", justifyContent: "center", backgroundColor: "#332820", overflow: "hidden" },
+  alcove: { position: "absolute", top: "8%", bottom: "12%", width: "68%", borderTopLeftRadius: 160, borderTopRightRadius: 160, backgroundColor: "#574435", borderWidth: 12, borderColor: "#6A5542" },
+  ledge: { position: "absolute", top: "73%", width: "100%", height: "9%", backgroundColor: "#766049", borderTopWidth: 5, borderTopColor: "#92775A" },
+  dish: { position: "absolute", top: "70%", width: 110, height: 16, borderRadius: 55, backgroundColor: "#AC824B", borderBottomWidth: 5, borderBottomColor: "#6D4B2C" },
+  wax: { position: "absolute", top: "43%", height: "29%", width: 56, borderRadius: 8, backgroundColor: "#EEDDC0", borderLeftWidth: 6, borderLeftColor: "#FFF2D8", borderRightWidth: 7, borderRightColor: "#C7AD87" },
+  wick: { position: "absolute", top: "40%", width: 3, height: "4%", borderRadius: 2, backgroundColor: "#2E231A" },
+  flameGlow: { position: "absolute", top: "25%", width: 80, height: 80, borderRadius: 40, backgroundColor: "rgba(255,173,58,0.18)" },
   flame: {
     position: "absolute",
-    top: "22%",
+    top: "32%",
     width: 16,
-    height: 34,
-    borderRadius: 10,
+    height: "10%",
+    borderTopLeftRadius: 14,
+    borderTopRightRadius: 3,
+    borderBottomLeftRadius: 12,
+    borderBottomRightRadius: 12,
     backgroundColor: "#FFC35A",
+    alignItems: "center",
+    justifyContent: "flex-end",
   },
+  flameCore: { width: 7, height: "55%", borderRadius: 6, backgroundColor: "#FFF4C4" },
 });

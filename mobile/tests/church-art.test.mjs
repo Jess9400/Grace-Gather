@@ -11,12 +11,18 @@ runInNewContext(ts.transpileModule(source, { compilerOptions: { module: ts.Modul
 const { artworkBox, artworkFrame, artworkPlaceAt, artworkPoints, artworkStage, artworkHasTourTarget } = module.exports;
 
 test('the tour does not point at invented objects in the artwork', () => {
-  assert.equal(artworkHasTourTarget('orthodox', 'confession'), false);
+  assert.equal(artworkHasTourTarget('orthodox', 'confession'), true);
   assert.equal(artworkHasTourTarget('protestant', 'confession'), false);
   assert.equal(artworkHasTourTarget('protestant', 'candles'), false);
   assert.equal(artworkHasTourTarget('catholic', 'confession'), true);
   assert.equal(artworkHasTourTarget('orthodox', 'candles'), true);
   assert.equal(artworkHasTourTarget('protestant', 'bible'), true);
+});
+
+test('Orthodox tour points to the central doors and the lectern', () => {
+  const points = artworkPoints('orthodox', 869, 1810);
+  assert.ok(Math.abs(points.confession.x / 869 - 0.495) < 0.01);
+  assert.ok(points.bible.x / 869 > 0.8);
 });
 
 test('the three sanctuary artworks cover phone and wide screens without empty edges', () => {
