@@ -10,6 +10,7 @@ import { TextAction } from "./CommunityControls";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
 import { CelestialAvatar } from "./MemberAvatar";
 import { avatarVariant } from "../lib/avatar";
+import DiscussionVerse from "./DiscussionVerse";
 
 export default function PublicDiscussions({ query }: { query: string }) {
   const { profile } = useApp();
@@ -100,14 +101,15 @@ export default function PublicDiscussions({ query }: { query: string }) {
               <Text style={{ fontSize: 16, lineHeight: 24, color: colors.ink }}>
                 {topic.body}
               </Text>
+              <DiscussionVerse id={topic.verseId} reference={topic.reference} fallbackTitle={topic.title} compact />
               {replies.slice(-2).map((reply) => (
                 <View
                   key={reply.id}
                   style={{
-                    backgroundColor: colors.pale,
-                    borderRadius: 14,
-                    padding: 12,
-                    gap: 4,
+                    flexDirection: "row",
+                    gap: 8,
+                    paddingLeft: 12,
+                    alignItems: "baseline",
                   }}
                 >
                   <Text

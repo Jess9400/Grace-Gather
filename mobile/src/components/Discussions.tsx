@@ -15,6 +15,7 @@ import {
 } from "./quiet-ui";
 import { TextAction } from "./CommunityControls";
 import ChatThread from "./ChatThread";
+import DiscussionVerse from "./DiscussionVerse";
 import HelpLine from "./HelpLine";
 import { helplineText } from "../lib/help-lines";
 import { useApp } from "../lib/state";
@@ -275,6 +276,7 @@ export function DiscussionRoom({
   return (
     <ChatThread
       title={topic?.title ?? c("Discussion")}
+      context={topic ? <DiscussionVerse id={topic.verseId} reference={topic.reference} fallbackTitle={topic.title} /> : undefined}
       subtitle={
         topic ? (topic.reference ?? `${c("Started by")} ${topic.name}`) : ""
       }

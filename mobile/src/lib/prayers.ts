@@ -43,6 +43,8 @@ export function usePrayerUnread() {
     prayers: 0,
     gatherings: 0,
     messages: 0,
+    activity: 0,
+    moderation: 0,
   });
   useEffect(() => {
     let active = true;
@@ -54,14 +56,15 @@ export function usePrayerUnread() {
         backend.rpc("prayer_unread"),
         backend.rpc("gathering_notifications"),
         backend.rpc("friend_unread"),
+        backend.rpc("activity_snapshot"),
       ])
-        .then(([prayers, gatherings, messages]) => {
+        .then(([prayers, gatherings, messages, activity]) => {
           if (active)
             setCount((previous) => {
               const old =
                 previous.userId === userId
                   ? previous
-                  : { prayers: 0, gatherings: 0, messages: 0 };
+                  : { prayers: 0, gatherings: 0, messages: 0, activity: 0, moderation: 0 };
               return {
                 userId,
                 prayers: prayers.error
@@ -73,6 +76,8 @@ export function usePrayerUnread() {
                 messages: messages.error
                   ? old.messages
                   : Number(messages.data) || 0,
+                activity: activity.error ? old.activity : Number(activity.data?.unread) || 0,
+                moderation: activity.error ? old.moderation : Number(activity.data?.pendingModeration) || 0,
               };
             });
         })
@@ -92,7 +97,7 @@ export function usePrayerUnread() {
     };
   }, [userId]);
   return count.userId === userId
-    ? count.prayers + count.gatherings + count.messages
+    ? count.prayers + count.gatherings + count.messages + count.activity + count.moderation
     : 0;
 }
 export function usePrayers() {
