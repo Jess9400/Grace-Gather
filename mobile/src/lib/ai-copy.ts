@@ -87,4 +87,5 @@ const words = {
 };
 export const aiCopy = (language: Language, key: keyof typeof words) =>
   words[key][["en", "pt", "es", "ru"].indexOf(language)];
-export const AI_CONSENT_VERSION = "qwen-journal-2026-11-03";
+// Earlier versions were enabled by default, so they are not evidence of consent.
+export const AI_CONSENT_VERSION = "qwen-journal-explicit-2026-11-14";

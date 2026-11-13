@@ -1,5 +1,4 @@
 import catalog from "../generated/catalog.json";
-import { AI_CONSENT_VERSION } from "./ai-copy";
 export type Language = "en" | "pt" | "es" | "ru";
 export type Tradition = "protestant" | "catholic" | "orthodox";
 export type Mood =
@@ -139,9 +138,8 @@ export const initialProfile: Profile = {
   intent: "faith",
   email: "",
   emailConsent: false,
-  // Default for a new profile only. Saved profiles (including AI off) are
-  // restored as-is by normalizeProfile, never overlaid with these defaults.
-  journalAIConsentVersion: AI_CONSENT_VERSION,
+  // Consent must be an affirmative choice, never a preselected default.
+  journalAIConsentVersion: undefined,
   onboarded: false,
 };
 export function copy(language: Language, key: string): string {

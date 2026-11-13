@@ -61,10 +61,10 @@ const text = {
     "Разрешите ИИ использовать отправленную запись, чтобы предложить стих и действие. Текст и настройки обрабатывает Alibaba Qwen. Аудио отправляется только при нажатии «Расшифровать».",
   ],
   aiDefaultInfo: [
-    "AI guidance starts on. When you submit, Alibaba Qwen processes your writing and preferences to suggest a verse and an action. You can turn it off here or in Preferences.",
-    "A orientação por IA começa ativada. Ao enviar, o Alibaba Qwen processa seu texto e suas preferências para sugerir um versículo e uma ação. Você pode desativá-la aqui ou nas Preferências.",
-    "La orientación con IA comienza activada. Al enviar, Alibaba Qwen procesa tu texto y tus preferencias para sugerir un versículo y una acción. Puedes desactivarla aquí o en Preferencias.",
-    "Подсказки ИИ включены по умолчанию. При отправке Alibaba Qwen обрабатывает запись и настройки, чтобы предложить стих и действие. Их можно отключить здесь или в настройках.",
+    "With your permission, your writing and language and tradition preferences are sent through Supabase to Alibaba Qwen to suggest a verse and an action. You can change your choice in Preferences.",
+    "Com sua permissão, seu texto e suas preferências de idioma e tradição são enviados pelo Supabase ao Alibaba Qwen para sugerir um versículo e uma ação. Você pode mudar sua escolha em Preferências.",
+    "Con tu permiso, tu texto y tus preferencias de idioma y tradición se envían mediante Supabase a Alibaba Qwen para sugerir un versículo y una acción. Puedes cambiar tu elección en Preferencias.",
+    "С вашего разрешения текст и настройки языка и традиции отправляются через Supabase в Alibaba Qwen для подбора стиха и действия. Вы можете изменить выбор в настройках.",
   ],
   aiPrivacy: [
     "Privacy details",
