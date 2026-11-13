@@ -4,6 +4,7 @@ import { backend } from "../lib/backend";
 import { useApp } from "../lib/state";
 import { refreshPrayerBadges } from "../lib/prayers";
 import { Body, Button, Card, Notice } from "./quiet-ui";
+import { isProtestant } from "../lib/church-calendar";
 
 type Item = { id: string; kind: "confession_reply" | "discussion_reply"; target: string; is_read: boolean };
 const words = {
@@ -15,6 +16,12 @@ const words = {
 export default function ActivityNotices() {
   const { profile } = useApp();
   const t = words[profile.language];
+  const burdenReply = {
+    en: "Someone responded to your burden",
+    pt: "Alguém respondeu ao seu desabafo",
+    es: "Alguien respondió a tu desahogo",
+    ru: "Кто-то ответил на ваше сообщение",
+  }[profile.language];
   const [items, setItems] = useState<Item[]>([]);
   const [pending, setPending] = useState(0);
   const [error, setError] = useState(false);
@@ -36,7 +43,7 @@ export default function ActivityNotices() {
     <Notice text={error ? t.error : ""} />
     {pending > 0 && <Card><Body>{t.moderation} · {pending}</Body><Button secondary title={t.admin} onPress={() => router.push("/admin")} /></Card>}
     {items.map(item => <Card key={item.id}>
-      <Body>{item.kind === "confession_reply" ? t.confession : t.discussion}</Body>
+      <Body>{item.kind === "confession_reply" ? (isProtestant(profile) ? burdenReply : t.confession) : t.discussion}</Body>
       {!item.is_read && <Body small>{t.unread}</Body>}
       <Button secondary title={t.open} onPress={() => {
         if (backend) void Promise.resolve(backend.rpc("activity_mark_read", { p_id: item.id })).then(({ error }) => {

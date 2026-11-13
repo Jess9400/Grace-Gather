@@ -14,6 +14,9 @@ import { Ionicons } from "@expo/vector-icons";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
 import { useReducedMotion } from "../lib/use-reduced-motion";
 import { confessionColors as room } from "../lib/confession-theme";
+import { useApp } from "../lib/state";
+import { isProtestant } from "../lib/church-calendar";
+import { roomCopy } from "../lib/burden-copy";
 export function ConfessionLattice({ height = 180 }: { height?: number }) {
   return (
     <Image
@@ -32,6 +35,8 @@ export default function ConfessionArrival({
   onCancel: () => void;
 }) {
   const tr = useInterfaceCopy();
+  const { profile } = useApp();
+  const protestant = isProtestant(profile);
   const reduced = useReducedMotion();
   const { height } = useWindowDimensions();
   // A pop-up layer on iPhone does not learn where the status bar is, so the
@@ -58,7 +63,7 @@ export default function ConfessionArrival({
               >
                 <Ionicons name="chevron-back" size={26} color={room.ink} />
               </Pressable>
-              <Text style={s.label}>{tr("Confession")}</Text>
+              <Text style={s.label}>{protestant ? roomCopy(profile.language, "confession", true) : tr("Confession")}</Text>
             </View>
           </View>
           <View style={s.body}>
@@ -88,7 +93,7 @@ export default function ConfessionArrival({
               </Pressable>
             )}
             <Text style={s.note}>
-              {tr("Community support. Not sacramental confession.")}
+              {protestant ? roomCopy(profile.language, "roomSupport", true) : tr("Community support. Not sacramental confession.")}
             </Text>
           </View>
         </ScrollView>

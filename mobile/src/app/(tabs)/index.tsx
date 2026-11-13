@@ -294,9 +294,8 @@ export default function Home() {
 
   const week = adventWeekFor(profile, now, preview);
   const theme = week > 0 && plain ? ` · ${t(THEMES[week - 1])}` : "";
-  // The Orthodox church has three places: the icon to pray before, the candle
-  // stand in front of it, and the analoy for confession. The journal opens from
-  // "Talk to God"; Bible and Gather stay in the tab bar.
+  // The journal opens from "Talk to God". The Orthodox artwork also marks
+  // the Bible stand and central doors in the guided tour.
   const places: (PlaceLabel & { sub: ChurchWord })[] = [
     ...(eastern
       ? [
@@ -331,15 +330,15 @@ export default function Home() {
           hint: t("confessionSub"),
           sub: "confessionSub",
         },
+    {
+      key: "bible",
+      label: t("bible"),
+      hint: t("bibleSub"),
+      sub: "bibleSub",
+    },
     ...(eastern
       ? []
       : ([
-          {
-            key: "bible",
-            label: t("bible"),
-            hint: t("bibleSub"),
-            sub: "bibleSub",
-          },
           {
             key: "gather",
             label: t("gather"),
