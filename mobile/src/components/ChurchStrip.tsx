@@ -80,17 +80,18 @@ export default function ChurchStrip({
   const crop = roomCrop(place, insets.top, at, snapshot, width);
   return (
     <View style={[st.strip, { height: crop.height }]}>
-      <Image
-        source={{ uri: snapshot.uri }}
-        accessible={false}
-        style={{
-          position: "absolute",
-          width: crop.width,
-          height: crop.imageHeight,
-          left: crop.left,
-          top: crop.top,
-        }}
-      />
+      <View pointerEvents="none" style={{ position: "absolute", width: crop.width, height: crop.imageHeight, left: crop.left, top: crop.top, overflow: "hidden" }}>
+        {snapshot.artStage && snapshot.artStage.width < snapshot.width ? (
+          <>
+            <Image source={{ uri: snapshot.uri }} accessible={false} resizeMode="cover" blurRadius={24} style={st.fullImage} />
+            <View style={st.wideShade} />
+            <View style={{ position: "absolute", top: 0, bottom: 0, overflow: "hidden", left: (snapshot.artStage.left / snapshot.width) * crop.width, width: (snapshot.artStage.width / snapshot.width) * crop.width }}>
+              <Image source={{ uri: snapshot.uri }} accessible={false} resizeMode="cover" style={st.fullImage} />
+            </View>
+          </>
+        ) : <Image source={{ uri: snapshot.uri }} accessible={false} resizeMode="cover" style={st.fullImage} />}
+      </View>
+      {snapshot.night && <View pointerEvents="none" style={st.evening} />}
       <View pointerEvents="none" style={st.topShade} />
       <View pointerEvents="none" style={st.bottomFade} />
       <View style={[st.row, { paddingTop: insets.top + 6 }]}>
@@ -125,6 +126,9 @@ export default function ChurchStrip({
 
 const st = StyleSheet.create({
   strip: { width: "100%", overflow: "hidden", backgroundColor: "#211B16" },
+  fullImage: { position: "absolute", top: 0, left: 0, width: "100%", height: "100%" },
+  wideShade: { position: "absolute", top: 0, right: 0, bottom: 0, left: 0, backgroundColor: "rgba(25,18,13,0.22)" },
+  evening: { position: "absolute", top: 0, right: 0, bottom: 0, left: 0, backgroundColor: "rgba(17,18,31,0.32)" },
   topShade: {
     position: "absolute",
     top: 0,

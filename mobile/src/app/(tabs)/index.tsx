@@ -24,9 +24,10 @@ import {
   useWindowDimensions,
 } from "react-native";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Button, Body, colors, serif } from "../../components/quiet-ui";
-import ChurchScene, { type PlaceLabel } from "../../components/ChurchScene";
+import type { PlaceLabel } from "../../components/ChurchScene";
+import LivingChurchScene from "../../components/LivingChurchScene";
 import ChurchEntrance from "../../components/ChurchEntrance";
 import OrthodoxEntrance from "../../components/OrthodoxEntrance";
 import { useApp } from "../../lib/state";
@@ -55,7 +56,8 @@ import {
   type RoomPlace,
 } from "../../lib/church-room";
 
-import { placeAt, type ChurchPlace } from "../../lib/church-scene";
+import type { ChurchPlace } from "../../lib/church-scene";
+import { artworkPlaceAt, type ChurchArt } from "../../lib/church-art";
 import { pendingStep } from "../../lib/small-step";
 import { firstChurchVisit } from "../../lib/church-tools";
 import { StepCheckIn } from "../../components/SmallStep";
@@ -70,8 +72,6 @@ const ROUTES: Record<Exclude<ChurchPlace, "wreath">, string> = {
   pray: "/pray",
 };
 const THEMES: ChurchWord[] = ["hope", "peaceWeek", "joy", "love"];
-// Decorative candles do not represent activity by other members.
-const BASE_VOTIVES = 0;
 const presentCount = (count: number | null) => count !== null && count >= 1;
 
 export default function Home() {
@@ -110,6 +110,11 @@ export default function Home() {
       ? Math.max(0, Math.min(4, Number(params.advent) || 0))
       : undefined;
   const plain = isProtestant(profile);
+  const churchArt: ChurchArt = isOrthodox(profile)
+    ? "orthodox"
+    : plain
+      ? "protestant"
+      : "catholic";
   // The Russian Orthodox church opens straight onto its named places, with one
   // «Поговорить с Богом» button instead of the invitation card. It is only for
   // Orthodox people using the app in Russian; Orthodox people in other
@@ -403,19 +408,13 @@ export default function Home() {
               },
             ]}
           >
-            <ChurchScene
-              fullScreen
+            <LivingChurchScene
+              art={churchArt}
               places={scenePlaces}
               night={night}
-              adventWeek={week}
-              litVotives={Math.min(15, BASE_VOTIVES + candles.length)}
               onPlace={open}
               accessibilityLabel={t("church")}
-              paused={entrance || details || aboutAdvent}
-              protestant={plain}
-              orthodox={isOrthodox(profile)}
-              russian={eastern}
-              candlesAllowed={candlesAllowed}
+              paused={entrance || details || aboutAdvent || !focused}
               tour={touring}
               labelsEnabled={!invitation}
               labelsAlways={eastern}
@@ -593,11 +592,12 @@ export default function Home() {
               const { pageX, pageY } = e.nativeEvent;
               const tapped = sceneFailed
                 ? null
-                : placeAt(
-                    screenWidth / screenHeight,
-                    { dx: 0, dy: 0 },
-                    pageX / screenWidth,
-                    pageY / screenHeight,
+                : artworkPlaceAt(
+                    churchArt,
+                    screenWidth,
+                    screenHeight,
+                    pageX,
+                    pageY,
                     scenePlaces.map((place) => place.key),
                   );
               if (tapped) open(tapped);
@@ -623,6 +623,7 @@ export default function Home() {
                   <StepCheckIn dark />
                 ) : (
                   <>
+                    <View accessibilityElementsHidden importantForAccessibility="no" style={s.grabHandle} />
                     <Text accessibilityRole="header" style={s.promptTitle}>
                       {tr("What would you like to tell God today?")}
                     </Text>
@@ -631,6 +632,7 @@ export default function Home() {
                       onPress={journal}
                       style={s.cta}
                     >
+                      <MaterialCommunityIcons name="hands-pray" size={20} color="#613F1F" />
                       <Text style={s.ctaText}>{tr("Talk to God")}</Text>
                     </Pressable>
                     <Pressable
@@ -644,8 +646,9 @@ export default function Home() {
                           }),
                         );
                       }}
-                      style={s.stay}
+                      style={s.prayerAction}
                     >
+                      <Ionicons name="document-text-outline" size={18} color="#FFF1DC" />
                       <Text style={s.stayText}>{tr("Request a prayer")}</Text>
                     </Pressable>
                     {!hasExplored && !sceneFailed && (
@@ -966,37 +969,42 @@ const s = StyleSheet.create({
   },
   promptArea: {
     position: "absolute",
-    left: 16,
-    right: 16,
+    left: 28,
+    right: 28,
     alignItems: "center",
     maxHeight: "48%",
   },
   glass: {
     width: "100%",
-    maxWidth: 420,
+    maxWidth: 360,
     borderRadius: 26,
     borderWidth: 1,
-    borderColor: "#FFF8E945",
-    backgroundColor: "rgba(36,30,24,0.22)",
+    borderColor: "#E8BD8588",
+    backgroundColor: "rgba(50,27,18,0.65)",
     overflow: "hidden",
   },
-  promptContent: { padding: 24, gap: 18 },
+  promptContent: { paddingHorizontal: 20, paddingVertical: 12, gap: 10 },
+  grabHandle: { alignSelf: "center", width: 34, height: 4, borderRadius: 3, backgroundColor: "#DFC2A27A", marginBottom: 2 },
   promptTitle: {
     fontFamily: serif,
-    fontSize: 29,
-    lineHeight: 36,
+    fontSize: 26,
+    lineHeight: 32,
     color: "#FFFCF3",
     textAlign: "center",
   },
   cta: {
-    minHeight: 50,
-    padding: 14,
-    backgroundColor: colors.paper,
-    borderRadius: 14,
+    minHeight: 44,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    backgroundColor: "#F8D6A1",
+    borderRadius: 24,
+    flexDirection: "row",
+    gap: 8,
     alignItems: "center",
     justifyContent: "center",
   },
-  ctaText: { fontSize: 16, fontWeight: "600", color: colors.ink },
+  ctaText: { fontSize: 16, fontWeight: "600", color: "#543515" },
+  prayerAction: { minHeight: 42, flexDirection: "row", gap: 8, justifyContent: "center", alignItems: "center" },
   stay: { minHeight: 44, justifyContent: "center", alignItems: "center" },
   stayText: {
     fontSize: 14,
