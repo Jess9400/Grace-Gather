@@ -76,7 +76,8 @@ test('every journal theme has its verse in each Catholic passage edition, from t
     for (const verse of edition.journalVerses) {
       assert.match(verse.id, new RegExp('^' + id + '-[a-z0-9-]+-\\d+-\\d+$'));
       assert.match(verse.sourceUrl, /^https:\/\/archive\.org\/details\/.+\/page\/n\d+\/mode\/1up$/);
-      assert.ok(verse.text.length > 20 && !/\d/.test(verse.text), verse.id);
+      // John 11:35 is three words in Figueiredo ("Então chorou Jesus.").
+      assert.ok(verse.text.length > 15 && !/\d/.test(verse.text), verse.id);
     }
     const ids = verses.map((v) => v.id);
     assert.equal(new Set(ids).size, ids.length);

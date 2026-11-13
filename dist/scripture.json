@@ -860,6 +860,27 @@
           "reference": "Salmo 61:9 (Figueiredo)",
           "text": "Esperai nelle toda a congregação do povo, derramai ante elle os vossos corações: Deos he o nosso favorecedor eternamente.",
           "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866/page/n592/mode/1up"
+        },
+        {
+          "id": "figueiredo-salmo-22-4",
+          "verse": "PSA.23.4",
+          "reference": "Salmo 22:4 (Figueiredo)",
+          "text": "Pois ainda quando andar no meio da sombra da morte, não temerei males: por quanto tu estás comigo. A tua vara, e o teu baculo, elles me consolárão.",
+          "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866/page/n572/mode/1up"
+        },
+        {
+          "id": "figueiredo-joao-11-35",
+          "verse": "JHN.11.35",
+          "reference": "João 11:35",
+          "text": "Então chorou Jesus.",
+          "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866/page/n1072/mode/1up"
+        },
+        {
+          "id": "figueiredo-apocalypse-21-4",
+          "verse": "REV.21.4",
+          "reference": "Apocalypse 21:4",
+          "text": "E Deos lhes enxugará todas as lagrimas de seus olhos: e não haverá mais morte, nem haverá mais choro, nem mais gritos, nem mais dor, porque as primeiras cousas são passadas.",
+          "sourceUrl": "https://archive.org/details/biblia-sagrada-vulgata-antonio-pereira-de-figueiredo-1866/page/n1244/mode/1up"
         }
       ]
     },
@@ -1140,6 +1161,27 @@
           "reference": "Salmo 61:9 (Torres Amat)",
           "text": "Esperad en él vosotros, pueblos todos aquí congregados: derramad vuestros corazones en su acatamiento: Dios es nuestro protector eternamente.",
           "sourceUrl": "https://archive.org/details/torresamatbiblia/page/n410/mode/1up"
+        },
+        {
+          "id": "torresamat-salmo-22-4",
+          "verse": "PSA.23.4",
+          "reference": "Salmo 22:4 (Torres Amat)",
+          "text": "De esta suerte, aunque caminase yo por medio de la sombra de la muerte, no temeré ningun desastre; porque tú estás conmigo. — Tu vara y tu báculo han sido mi consuelo;",
+          "sourceUrl": "https://archive.org/details/torresamatbiblia/page/n397/mode/1up"
+        },
+        {
+          "id": "torresamat-juan-11-35",
+          "verse": "JHN.11.35",
+          "reference": "Juan 11:35",
+          "text": "Entonces á Jesus se le arrasaron los ojos en lágrimas.",
+          "sourceUrl": "https://archive.org/details/torresamatbiblia/page/n831/mode/1up"
+        },
+        {
+          "id": "torresamat-apocalipsis-21-4",
+          "verse": "REV.21.4",
+          "reference": "Apocalipsis 21:4",
+          "text": "Y Dios enjugará de sus ojos todas las lágrimas: ni habrá ya muerte, ni llanto, ni alarido, ni habrá mas dolor, porque las cosas de antes son pasadas.",
+          "sourceUrl": "https://archive.org/details/torresamatbiblia/page/n965/mode/1up"
         }
       ]
     }

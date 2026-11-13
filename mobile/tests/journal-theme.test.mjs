@@ -75,7 +75,11 @@ test('says() matches from the start of a word', () => {
 });
 
 test('grief walks a path of verses, one per entry', () => {
-  const { journalVerseFor, versePaths } = load(resolve(root, 'mobile/src/lib/journal-verse-path.ts'));
+  const { journalVerseFor: pick, versePaths } = load(resolve(root, 'mobile/src/lib/journal-verse-path.ts'));
+  const journalVerseFor = (entry, journal) => {
+    const theme = journalTheme(entry);
+    return pick(entry, journal, theme, (e) => journalTheme(e).id);
+  };
   const grief = (n, extra = {}) => ({ id: 'g' + n, text: 'My mother died and I miss her', mood: 'sad', themeId: 'grief', createdAt: `2026-11-${String(n).padStart(2, '0')}T10:00:00Z`, ...extra });
   const journal = [1, 2, 3, 4, 5, 6, 7].map((n) => grief(n));
   // Each new grief entry gets the next verse; after the fifth the path starts again.

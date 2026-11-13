@@ -34,7 +34,8 @@ export async function resolveJournalResponse(
   const theme = journalTheme(entry),
     collection = collectionFor(entry.prefs);
   // A path step this edition does not carry falls back to the theme's verse.
-  const references = [...new Set([journalVerseFor(entry, journal, theme), theme.verse])];
+  const step = journalVerseFor(entry, journal, theme, (e) => journalTheme(e).id);
+  const references = [...new Set([step, theme.verse])];
   let verse: ReadingVerse | null = null,
     reference: string | undefined;
   for (const candidate of references) {
