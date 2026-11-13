@@ -48,6 +48,41 @@ export const versePaths: Record<string, string[]> = {
     "ISA.43.2", // When you pass through the waters, I will be with you
     "ROM.15.13", // The God of hope fill you with joy and peace
   ],
+  guilt: [
+    "1JN.1.9", // If we confess, he is faithful to forgive
+    "PSA.51.10", // Create in me a clean heart
+    "ISA.1.18", // Though your sins are as scarlet
+    "LUK.15.20", // The father ran and embraced his son
+    "PSA.103.12", // As far as the east is from the west
+  ],
+  exhaustion: [
+    "MRK.6.31", // Come away and rest awhile
+    "MAT.11.28", // Come to me, and I will give you rest
+    "PSA.23.2", // He makes me lie down in green pastures
+    "ISA.40.29", // He gives power to the weak
+    "ISA.40.31", // Those who wait for the LORD renew their strength
+  ],
+  overwhelm: [
+    "MAT.11.28", // Come to me, all who are heavily burdened
+    "PSA.61.2", // When my heart is overwhelmed, lead me to the rock
+    "PSA.55.22", // Cast your burden on the LORD
+    "PSA.46.10", // Be still, and know that I am God
+    "2CO.4.8", // Pressed on every side, yet not crushed
+  ],
+  sadness: [
+    "PSA.42.11", // Why are you in despair, my soul? Hope in God
+    "PSA.56.8", // You put my tears into your container
+    "JHN.16.22", // Your sorrow will turn to joy
+    "PSA.126.5", // Those who sow in tears will reap in joy
+    "ZEP.3.17", // He will calm you in his love
+  ],
+  doubt: [
+    "PSA.13.1", // How long, LORD?
+    "MRK.9.24", // I believe; help my unbelief
+    "1KI.19.12", // A still small voice
+    "PSA.73.23", // I am continually with you; you hold my hand
+    "ROM.8.39", // Nothing can separate us from God's love
+  ],
 };
 export const pathReferences = [...new Set(Object.values(versePaths).flat())];
 
