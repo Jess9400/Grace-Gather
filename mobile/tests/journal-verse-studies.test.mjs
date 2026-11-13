@@ -120,8 +120,9 @@ test('the accessor returns the reader’s language and nothing for unknown refer
 test('the verse each edition shows for a theme leads back to that theme’s explanation', () => {
   for (const edition of catalog.editions) for (const reference of themeVerses) {
     const verse = shownVerse(edition, reference);
-    // Brenton's Lamentations has no verse numbered 3:22; the journal falls back to a mood passage there.
-    if (!verse) { assert.equal(`${edition.id} ${reference}`, 'brenton LAM.3.22'); continue; }
+    // Every edition shows every theme and path verse (Brenton's Lamentations
+    // 3:22-23 are its 3:21a-21b).
+    assert.ok(verse, `${edition.id} ${reference}`);
     assert.equal(references.journalStudyReference(verse.id, reference), reference, `${edition.id} ${reference}`);
     // What the verse screen does: an existing English study first, otherwise the journal one.
     for (const language of languages) {

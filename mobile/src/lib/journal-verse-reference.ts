@@ -18,6 +18,13 @@ const themeReferences = [
 const psalms: Record<string, Record<"dra" | "brenton" | "synodal", string>> = {
   "PSA.13.1": { dra: "PSA.12.1", brenton: "PSA.12.2", synodal: "PSA.12.2" },
   "PSA.23.4": { dra: "PSA.22.4", brenton: "PSA.22.4", synodal: "PSA.22.4" },
+  "PSA.6.2": { dra: "PSA.6.3", brenton: "PSA.6.3", synodal: "PSA.6.3" },
+  "PSA.25.16": { dra: "PSA.24.16", brenton: "PSA.24.16", synodal: "PSA.24.16" },
+  "PSA.40.1": { dra: "PSA.39.2", brenton: "PSA.39.2", synodal: "PSA.39.2" },
+  "PSA.56.3": { dra: "PSA.55.4", brenton: "PSA.55.4", synodal: "PSA.55.4" },
+  "PSA.73.26": { dra: "PSA.72.26", brenton: "PSA.72.26", synodal: "PSA.72.26" },
+  "PSA.94.19": { dra: "PSA.93.19", brenton: "PSA.93.19", synodal: "PSA.93.19" },
+  "PSA.139.10": { dra: "PSA.138.10", brenton: "PSA.138.10", synodal: "PSA.138.10" },
   "PSA.34.18": { dra: "PSA.33.19", brenton: "PSA.33.19", synodal: "PSA.33.19" },
   "PSA.42.11": { dra: "PSA.41.12", brenton: "PSA.41.12", synodal: "PSA.41.12" },
   "PSA.62.8": { dra: "PSA.61.9", brenton: "PSA.61.9", synodal: "PSA.61.9" },
@@ -32,8 +39,11 @@ const psalms: Record<string, Record<"dra" | "brenton" | "synodal", string>> = {
 
 // The Vulgate places the meek before those who mourn, so Douay-Rheims prints
 // Matthew 5:4 of the theme map as 5:5 (as Figueiredo and Torres Amat do).
+// Brenton numbers Lamentations 3:22 and 3:23 as 3:21a and 3:21b.
 const otherVerses: Record<string, Partial<Record<CollectionId, string>>> = {
   "MAT.5.4": { dra: "MAT.5.5" },
+  "LAM.3.22": { brenton: "LAM.3.21a" },
+  "LAM.3.23": { brenton: "LAM.3.21b" },
 };
 
 export function journalVerseId(collection: CollectionId, reference: string) {
