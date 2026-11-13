@@ -615,8 +615,10 @@ export default function Home() {
                       onPress={journal}
                       style={s.cta}
                     >
-                      <MaterialCommunityIcons name="hands-pray" size={20} color="#613F1F" />
-                      <Text style={s.ctaText}>{tr("Talk to God")}</Text>
+                      <View style={s.invitationAction}>
+                        <View style={s.actionIcon}><MaterialCommunityIcons name="hands-pray" size={20} color="#613F1F" /></View>
+                        <Text style={s.ctaText}>{tr("Talk to God")}</Text>
+                      </View>
                     </Pressable>
                     <Pressable
                       accessibilityRole="button"
@@ -631,8 +633,10 @@ export default function Home() {
                       }}
                       style={s.prayerAction}
                     >
-                      <Ionicons name="document-text-outline" size={18} color="#FFF1DC" />
-                      <Text style={s.stayText}>{tr("Request a prayer")}</Text>
+                      <View style={s.invitationAction}>
+                        <View style={s.actionIcon}><Ionicons name="document-text-outline" size={18} color="#FFF1DC" /></View>
+                        <Text style={s.invitationText}>{tr("Request a prayer")}</Text>
+                      </View>
                     </Pressable>
                     {!hasExplored && !sceneFailed && (
                       <Pressable
@@ -643,7 +647,10 @@ export default function Home() {
                         }}
                         style={s.exploreLink}
                       >
-                        <Text style={s.exploreText}>{t("exploreChurch")}</Text>
+                        <View style={s.invitationAction}>
+                          <Text style={s.exploreText}>{t("exploreChurch")}</Text>
+                          <Ionicons name="arrow-forward" size={16} color="#E6CE99" />
+                        </View>
                       </Pressable>
                     )}
                   </>
@@ -944,7 +951,10 @@ const s = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
   },
-  ctaText: { fontSize: 16, fontWeight: "600", color: "#543515" },
+  invitationAction: { maxWidth: "100%", alignSelf: "center", flexDirection: "row", alignItems: "center", justifyContent: "center", gap: 8 },
+  actionIcon: { width: 24, alignItems: "center", justifyContent: "center" },
+  ctaText: { flexShrink: 1, fontSize: 16, fontWeight: "600", color: "#543515" },
+  invitationText: { flexShrink: 1, fontSize: 14, color: "#FFF8E9", textShadowColor: "#211B16", textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 4 },
   prayerAction: { minHeight: 42, flexDirection: "row", gap: 8, justifyContent: "center", alignItems: "center" },
   stay: { minHeight: 44, justifyContent: "center", alignItems: "center" },
   stayText: {
@@ -962,7 +972,7 @@ const s = StyleSheet.create({
     borderTopWidth: 1,
     borderTopColor: "rgba(255,248,233,0.18)",
   },
-  exploreText: { fontSize: 14, color: "#E6CE99", textAlign: "center" },
+  exploreText: { flexShrink: 1, fontSize: 14, color: "#E6CE99" },
   reopen: {
     minHeight: 44,
     paddingHorizontal: 22,
