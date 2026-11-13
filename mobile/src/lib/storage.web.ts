@@ -25,6 +25,23 @@ export async function protectAudio(_uri: string, _id: string): Promise<string> {
 export async function playableAudio(_id: string): Promise<string> {
   throw new Error("Use the iPhone app for encrypted audio.");
 }
+export async function readJournalAudio(id: string): Promise<Uint8Array> {
+  if (!/^[a-z0-9-]+$/i.test(id)) throw new Error("Invalid recording");
+  const stored = await getItem(`audio:${id}`);
+  if (!stored) throw Error("Recording not found.");
+  return Uint8Array.from(atob(stored), (character) => character.charCodeAt(0));
+}
+export async function writeJournalAudio(id: string, bytes: Uint8Array) {
+  if (!/^[a-z0-9-]+$/i.test(id)) throw new Error("Invalid recording");
+  let binary = "";
+  for (let i = 0; i < bytes.length; i += 8192)
+    binary += String.fromCharCode(...bytes.subarray(i, i + 8192));
+  const encoded = btoa(binary),
+    previous = await getItem(`audio:${id}`);
+  if (previous && previous !== encoded)
+    throw Error("A different recording with this ID already exists.");
+  if (!previous) await setItem(`audio:${id}`, encoded);
+}
 export function clearPlayback() {}
 export async function removeAudio(id: string) {
   await browserVault().removeItem(`audio:${id}`);

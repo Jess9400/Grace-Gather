@@ -106,6 +106,35 @@ export async function playableAudio(id: string) {
   );
   return target.uri;
 }
+// Journal synchronization reads and writes recordings through the encrypted
+// device vault; the temporary playback directory is not used for transfers.
+export async function readJournalAudio(id: string): Promise<Uint8Array> {
+  await initialize();
+  if (!/^[a-z0-9-]+$/i.test(id)) throw new Error("Invalid recording");
+  const source = new File(audioDir(), id + ".bin");
+  return new Uint8Array(
+    await aesDecryptAsync(
+      AESSealedData.fromCombined(await source.bytes()),
+      encryptionKey,
+    ),
+  );
+}
+export async function writeJournalAudio(id: string, bytes: Uint8Array) {
+  await initialize();
+  if (!/^[a-z0-9-]+$/i.test(id)) throw new Error("Invalid recording");
+  const target = new File(audioDir(), id + ".bin");
+  if (target.exists) {
+    const existing = await readJournalAudio(id);
+    if (
+      existing.length !== bytes.length ||
+      existing.some((value, i) => value !== bytes[i])
+    )
+      throw Error("A different recording with this ID already exists.");
+    return;
+  }
+  const sealed = await aesEncryptAsync(bytes, encryptionKey);
+  await target.write(await sealed.combined());
+}
 export function clearPlayback() {
   const dir = playbackDir();
   if (dir.exists) dir.delete();
