@@ -24,7 +24,8 @@ const psalms: Record<string, Record<"dra" | "brenton" | "synodal", string>> = {
   "PSA.55.22": { dra: "PSA.54.23", brenton: "PSA.54.23", synodal: "PSA.54.23" },
   "PSA.56.8": { dra: "PSA.55.9", brenton: "PSA.55.9", synodal: "PSA.55.9" },
   "PSA.61.2": { dra: "PSA.60.3", brenton: "PSA.60.3", synodal: "PSA.60.3" },
-  "PSA.73.23": { dra: "PSA.72.23", brenton: "PSA.72.23", synodal: "PSA.72.23" },
+  // The Vulgate puts "you hold my right hand" in its verse 24.
+  "PSA.73.23": { dra: "PSA.72.24", brenton: "PSA.72.23", synodal: "PSA.72.23" },
   "PSA.103.12": { dra: "PSA.102.12", brenton: "PSA.102.12", synodal: "PSA.102.12" },
   "PSA.126.5": { dra: "PSA.125.5", brenton: "PSA.125.5", synodal: "PSA.125.5" },
   "PSA.6.2": { dra: "PSA.6.3", brenton: "PSA.6.3", synodal: "PSA.6.3" },
@@ -53,6 +54,8 @@ const otherVerses: Record<string, Partial<Record<CollectionId, string>>> = {
   "MAT.5.4": { dra: "MAT.5.5" },
   "LAM.3.22": { brenton: "LAM.3.21a" },
   "LAM.3.23": { brenton: "LAM.3.21b" },
+  // Douay-Rheims numbers "I do believe, Lord: help my unbelief" Mark 9:23.
+  "MRK.9.24": { dra: "MRK.9.23" },
 };
 
 export function journalVerseId(collection: CollectionId, reference: string) {

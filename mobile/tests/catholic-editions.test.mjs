@@ -62,7 +62,7 @@ const versePaths = Function(
 test('every journal theme has its verse in each Catholic passage edition, from the scans', () => {
   const map = JSON.parse(readFileSync(root + 'mobile/src/generated/journal-map.json', 'utf8'));
   // Hebrew-based Psalm and Matthew 5 numbers, as each Vulgate edition prints them.
-  const vulgate = { 'PSA.23.2': '22:2', 'PSA.46.10': '45:11', 'PSA.51.10': '50:12', 'PSA.55.22': '54:23', 'PSA.56.8': '55:9', 'PSA.61.2': '60:3', 'PSA.73.23': '72:23', 'PSA.103.12': '102:12', 'PSA.126.5': '125:5', 'PSA.6.2': '6:3', 'PSA.25.16': '24:16', 'PSA.40.1': '39:2', 'PSA.56.3': '55:4', 'PSA.73.26': '72:26', 'PSA.94.19': '93:19', 'PSA.139.10': '138:10', 'PSA.23.4': '22:4', 'PSA.42.11': '41:12', 'PSA.13.1': '12:1', 'PSA.34.18': '33:19', 'PSA.147.3': '146:3', 'PSA.116.1': '114:1', 'PSA.139.23': '138:23', 'PSA.62.8': '61:9', 'MAT.5.4': '5:5' };
+  const vulgate = { 'PSA.23.2': '22:2', 'PSA.46.10': '45:11', 'PSA.51.10': '50:12', 'PSA.55.22': '54:23', 'PSA.56.8': '55:9', 'PSA.61.2': '60:3', 'PSA.73.23': '72:24', 'PSA.103.12': '102:12', 'PSA.126.5': '125:5', 'PSA.6.2': '6:3', 'PSA.25.16': '24:16', 'PSA.40.1': '39:2', 'PSA.56.3': '55:4', 'PSA.73.26': '72:26', 'PSA.94.19': '93:19', 'PSA.139.10': '138:10', 'PSA.23.4': '22:4', 'PSA.42.11': '41:12', 'PSA.13.1': '12:1', 'PSA.34.18': '33:19', 'PSA.147.3': '146:3', 'PSA.116.1': '114:1', 'PSA.139.23': '138:23', 'PSA.62.8': '61:9', 'MAT.5.4': '5:5' };
   for (const id of Object.keys(editions)) {
     const edition = catalog.editions.find((e) => e.id === id);
     const verses = [...edition.passages, ...edition.journalVerses];
