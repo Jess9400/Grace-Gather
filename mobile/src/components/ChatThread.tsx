@@ -32,6 +32,7 @@ export type ThreadMessage = {
 export default function ChatThread({
   title,
   subtitle,
+  context,
   tint,
   rule,
   backLabel,
@@ -59,6 +60,7 @@ export default function ChatThread({
 }: {
   title: string;
   subtitle: string;
+  context?: ReactNode;
   // The room's colour; friend chats leave it white.
   tint?: string;
   rule: string;
@@ -166,6 +168,7 @@ export default function ChatThread({
             ))}
           </View>
         )}
+        {context && <View style={{ paddingHorizontal: 20, paddingVertical: 12, backgroundColor: colors.paper }}>{context}</View>}
         <ScrollView
           ref={scroll}
           style={{ flex: 1 }}

@@ -81,6 +81,8 @@ export default function PrayerSchedule({
             value={current}
             mode={mode}
             display={Platform.OS === "ios" ? "spinner" : "default"}
+            themeVariant="dark"
+            textColor={colors.ink}
             onChange={(event, value) => {
               if (value && event.type !== "dismissed") update(value, mode);
               if (Platform.OS !== "ios") setMode(null);

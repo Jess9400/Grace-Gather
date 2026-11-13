@@ -1,6 +1,7 @@
 import JournalCleanupNotice from "./JournalCleanupNotice";
 import GatheringReminders from "../components/GatheringReminders";
 import FriendUnreadNotice from "./FriendUnreadNotice";
+import ActivityNotices from "./ActivityNotices";
 import PrayerSchedule from "../components/PrayerSchedule";
 import HelpLine from "./HelpLine";
 import { Pressable } from "react-native";
@@ -274,6 +275,7 @@ function PrayerRoom({
       <Heading>{tr(pageTitle)}</Heading>
       {mode === "notifications" && <JournalCleanupNotice />}
       {mode === "notifications" && <FriendUnreadNotice />}
+      {mode === "notifications" && <ActivityNotices />}
       <Notice text={tr(error || notice)} />
       {!writing && (
         <>

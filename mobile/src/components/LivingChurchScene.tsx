@@ -15,16 +15,17 @@ const ART = {
   protestant: require("../../assets/church/scenes/protestant.jpg"),
 };
 const TOUR_ORDER: ChurchPlace[] = ["pray", "confession", "gather", "bible", "candles", "pews", "wreath"];
-const FLAMES: Record<ChurchArt, { x: number; y: number; size: number }[]> = {
+// Flame positions and dimensions in the source artwork, scaled with the image.
+const FLAMES: Record<ChurchArt, { x: number; y: number; height: number }[]> = {
   catholic: [
-    { x: 0.4, y: 0.405, size: 7 }, { x: 0.6, y: 0.405, size: 7 },
-    { x: 0.06, y: 0.475, size: 4 }, { x: 0.101, y: 0.475, size: 4 },
-    { x: 0.137, y: 0.475, size: 4 }, { x: 0.174, y: 0.475, size: 4 },
+    { x: 348/869, y: 734/1810, height: 16 }, { x: 521/869, y: 734/1810, height: 16 },
+    { x: 53/869, y: 859/1810, height: 9 }, { x: 87/869, y: 859/1810, height: 9 },
+    { x: 119/869, y: 859/1810, height: 9 },
   ],
   orthodox: [
-    { x: 0.368, y: 0.27, size: 4 }, { x: 0.63, y: 0.27, size: 4 },
-    { x: 0.055, y: 0.527, size: 5 }, { x: 0.101, y: 0.528, size: 5 },
-    { x: 0.146, y: 0.54, size: 4 }, { x: 0.191, y: 0.55, size: 4 },
+    { x: 30/869, y: 947/1810, height: 20 }, { x: 38/869, y: 936/1810, height: 18 },
+    { x: 89/869, y: 955/1810, height: 19 }, { x: 130/869, y: 954/1810, height: 18 },
+    { x: 108/869, y: 973/1810, height: 14 }, { x: 150/869, y: 1009/1810, height: 11 },
   ],
   protestant: [],
 };
@@ -61,7 +62,6 @@ export default function LivingChurchScene({
   const points = artworkPoints(art, size.width, size.height);
   const frame = artworkFrame(size.width, size.height);
   const stage = artworkStage(size.width, size.height);
-  const wide = stage.width < size.width;
   const keys = places.map((place) => place.key).join(",");
 
   useFocusEffect(useCallback(() => {
@@ -134,12 +134,9 @@ export default function LivingChurchScene({
   return (
     <View accessibilityLabel={accessibilityLabel} style={styles.scene}
       onLayout={(e) => setSize({ width: e.nativeEvent.layout.width, height: e.nativeEvent.layout.height })}>
-      {wide && <Image source={ART[art]} resizeMode="cover" blurRadius={24} style={styles.artwork} accessible={false} />}
-      {wide && <View pointerEvents="none" style={styles.wideShade} />}
       <View style={[styles.artStage, { left: stage.left, width: stage.width }]} pointerEvents="none">
         <Image key={art} source={ART[art]} resizeMode="cover" style={styles.artwork} accessible={false}
           onLoad={() => setReadyArt(art)} onError={onFailure} />
-        {wide && <><View style={[styles.feather, styles.featherLeft]} /><View style={[styles.feather, styles.featherRight]} /></>}
       </View>
       {night && <View pointerEvents="none" style={styles.evening} />}
       {ready && size.width > 0 && (
@@ -150,13 +147,19 @@ export default function LivingChurchScene({
             top: frame.top + frame.height * (art === "orthodox" ? 0.22 : 0.22),
             width: frame.width * 0.44, height: frame.height * 0.34,
           }]} />
-          {FLAMES[art].map((item, index) => (
-            <Animated.View key={index} pointerEvents="none" style={[styles.flame, {
-              opacity: flame, left: frame.left + frame.width * item.x - item.size / 2,
-              top: frame.top + frame.height * item.y - item.size / 2,
-              width: item.size, height: item.size * 1.35, borderRadius: item.size / 2,
-            }]} />
-          ))}
+          {FLAMES[art].map((item, index) => {
+            const h = item.height * frame.width / 869;
+            const w = h * 0.38;
+            return <Animated.View key={index} pointerEvents="none" style={[styles.flame, {
+              opacity: flame, left: frame.left + frame.width * item.x - w / 2,
+              top: frame.top + frame.height * item.y - h / 2,
+              width: w, height: h, borderTopLeftRadius: w, borderBottomLeftRadius: w,
+              borderBottomRightRadius: w, transform: [
+                { rotate: flame.interpolate({ inputRange: [0.45, 0.95], outputRange: [index % 2 ? "-5deg" : "5deg", index % 2 ? "5deg" : "-5deg"] }) },
+                { scaleY: flame.interpolate({ inputRange: [0.45, 0.95], outputRange: [0.8, 1.12] }) },
+              ],
+            }]} />;
+          })}
           <Pressable accessible={false} importantForAccessibility="no" style={StyleSheet.absoluteFill}
             onPress={(event) => openAt(event.nativeEvent.locationX, event.nativeEvent.locationY)} />
           {places.map((place) => {
@@ -181,10 +184,6 @@ const styles = StyleSheet.create({
   scene: { position: "absolute", top: 0, right: 0, bottom: 0, left: 0, overflow: "hidden", backgroundColor: "#211B16" },
   artwork: { position: "absolute", top: 0, left: 0, width: "100%", height: "100%" },
   artStage: { position: "absolute", top: 0, bottom: 0, overflow: "hidden" },
-  wideShade: { position: "absolute", top: 0, right: 0, bottom: 0, left: 0, backgroundColor: "rgba(25,18,13,0.22)" },
-  feather: { position: "absolute", top: 0, bottom: 0, width: 36 },
-  featherLeft: { left: 0, backgroundImage: "linear-gradient(90deg, rgba(35,26,20,0.35), rgba(35,26,20,0))" },
-  featherRight: { right: 0, backgroundImage: "linear-gradient(270deg, rgba(35,26,20,0.35), rgba(35,26,20,0))" },
   evening: { position: "absolute", top: 0, right: 0, bottom: 0, left: 0, backgroundColor: "rgba(17,18,31,0.32)" },
   ambientLight: { position: "absolute", backgroundImage: "radial-gradient(ellipse, rgba(255,201,112,0.18) 0%, rgba(255,201,112,0) 70%)" },
   flame: { position: "absolute", backgroundColor: "#FFE4A5", shadowColor: "#FFB245", shadowOpacity: 0.9, shadowRadius: 8, shadowOffset: { width: 0, height: 0 }, elevation: 2 },

@@ -500,6 +500,7 @@ export function doorCamera(aspect: number, approach: number, time: number) {
 export function createChurchDoorRenderer(
   gl: WebGLRenderingContext,
   woodImage: TexImageSource,
+  lightweight = false,
 ) {
   const buffers: WebGLBuffer[] = [];
   const programs: WebGLProgram[] = [];
@@ -512,7 +513,10 @@ export function createChurchDoorRenderer(
     shaders.forEach((s) => gl.deleteShader(s));
   };
   try {
-    const main = compile(gl, VERTEX, FRAGMENT);
+    const fragment = lightweight
+      ? FRAGMENT.replace(GLSL_COMMON, GLSL_COMMON.replace("i < 4", "i < 2"))
+      : FRAGMENT;
+    const main = compile(gl, VERTEX, fragment);
     programs.push(main.program);
     shaders.push(...main.shaders);
     const glow = compile(gl, GLOW_VERTEX, GLOW_FRAGMENT);

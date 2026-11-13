@@ -45,11 +45,9 @@ const ROOM_POINTS: Record<ChurchArt, Record<"window" | "altar", Point>> = {
   protestant: { window: { x: 0.13, y: 0.36 }, altar: { x: 0.5, y: 0.5 } },
 };
 
-// On wide screens, keep the portrait art legible rather than cropping away the
-// sanctuary. The remaining space is filled with a blurred version of the art.
-export function artworkStage(width: number, height: number) {
-  const stageWidth = width / height > 0.85 ? Math.min(width, Math.max(520, height * 0.72)) : width;
-  return { left: (width - stageWidth) / 2, width: stageWidth };
+// Cover the entire viewport, including on tablets and desktop previews.
+export function artworkStage(width: number, _height: number) {
+  return { left: 0, width };
 }
 
 export function artworkFrame(width: number, height: number) {
