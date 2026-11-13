@@ -397,6 +397,18 @@ const words: Record<string, string[]> = {
     "Autor o fuente",
     "Автор или издатель",
   ],
+  editorialCountry: [
+    "Story's country of origin (two-letter code)",
+    "País de origem da história (duas letras)",
+    "País de origen de la historia (dos letras)",
+    "Страна происхождения истории (две буквы)",
+  ],
+  editorialCountryHint: [
+    "Use BR for stories originally from Brazil; only those appear in the Brazilian feed.",
+    "Use BR para histórias originalmente do Brasil; apenas elas aparecem no feed brasileiro.",
+    "Usa BR para historias originarias de Brasil; solo ellas aparecen en el feed brasileño.",
+    "Укажите BR для историй из Бразилии; только они появятся в бразильской ленте.",
+  ],
   editorialUrl: [
     "Source link (optional for your own story)",
     "Link da fonte (opcional para história própria)",
@@ -441,7 +453,7 @@ const words: Record<string, string[]> = {
   ],
   editorialInvalid: [
     "Add a title, source and introduction, plus a full story or a secure source link.",
-    "Adicione título, fonte e introdução, além da história completa ou um link seguro.",
+    "Adicione título, fonte, país de origem e introdução, além da história completa ou um link seguro.",
     "Añade título, fuente e introducción, y una historia completa o un enlace seguro.",
     "Добавьте заголовок, источник и вступление, а также полную историю или безопасную ссылку.",
   ],

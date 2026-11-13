@@ -21,6 +21,7 @@ export default function EditorialStories() {
   const c = (key: string) => communityCopy(profile.language, key);
   const [title, setTitle] = useState("");
   const [source, setSource] = useState("");
+  const [sourceCountry, setSourceCountry] = useState("");
   const [url, setUrl] = useState("");
   const [summary, setSummary] = useState("");
   const [body, setBody] = useState("");
@@ -38,6 +39,7 @@ export default function EditorialStories() {
     !!title.trim() &&
     !!source.trim() &&
     !!summary.trim() &&
+    (profile.language !== "pt" || /^[A-Za-z]{2}$/.test(sourceCountry.trim())) &&
     validUrl &&
     (!!body.trim() || !!trimmedUrl);
   async function publish() {
@@ -54,6 +56,7 @@ export default function EditorialStories() {
         type: "stories",
         origin: "editorial",
         source: source.trim(),
+        ...(lang === "pt" ? { sourceCountry: sourceCountry.trim().toUpperCase() } : {}),
         title: { [lang]: title.trim() },
         summary: { [lang]: summary.trim() },
         body: { [lang]: body.trim() || summary.trim() },
@@ -72,6 +75,7 @@ export default function EditorialStories() {
       if (result.error) throw result.error;
       setTitle("");
       setSource("");
+      setSourceCountry("");
       setUrl("");
       setSummary("");
       setBody("");
@@ -102,6 +106,15 @@ export default function EditorialStories() {
             onChangeText={setSource}
             maxLength={100}
           />
+          {profile.language === "pt" && <Field
+            label={c("editorialCountry")}
+            value={sourceCountry}
+            onChangeText={setSourceCountry}
+            autoCapitalize="characters"
+            placeholder="BR"
+            maxLength={2}
+          />}
+          {profile.language === "pt" && <Body small>{c("editorialCountryHint")}</Body>}
           <Field
             label={c("editorialUrl")}
             value={url}
@@ -138,6 +151,7 @@ export default function EditorialStories() {
         <>
           <Card>
             <Body small>{source.trim()}</Body>
+              {profile.language === "pt" && <Body small>{sourceCountry.trim().toUpperCase()}</Body>}
             <Subheading>{title.trim()}</Subheading>
             <Body>{summary.trim()}</Body>
             {!!body.trim() && <Body>{body.trim()}</Body>}

@@ -1,7 +1,7 @@
 import { communityCopy } from "../../lib/community-copy";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
-import { View } from "react-native";
+import { Pressable, Text, View } from "react-native";
 import {
   Screen,
   Heading,
@@ -10,8 +10,9 @@ import {
   Notice,
   Busy,
   Button,
+  colors,
 } from "../../components/community-ui";
-import { FilterStrip, TextAction } from "../../components/CommunityControls";
+import { TextAction } from "../../components/CommunityControls";
 import DiscoverPost from "../../components/DiscoverPost";
 import PublicDiscussions from "../../components/PublicDiscussions";
 import { useApp } from "../../lib/state";
@@ -29,8 +30,11 @@ export default function Explore() {
     category = requested === "discussions" ? "discussions" : "all";
   const [search, setSearch] = useState(""),
     [query, setQuery] = useState("");
-  const feed = useDiscover("all", query),
+  const feed = useDiscover("all", query, profile.language),
     reactions = useInteractions(feed.items.map((x) => x.id));
+  const visibleStories = feed.items.filter(
+    (item) => !item.tradition || item.tradition === profile.tradition,
+  );
   useEffect(() => {
     const timer = setTimeout(() => setQuery(search), 300);
     return () => clearTimeout(timer);
@@ -55,16 +59,49 @@ export default function Explore() {
     }, []),
   );
   const sections = (
-    <FilterStrip
-      options={[
+    <View
+      style={{
+        flexDirection: "row",
+        borderBottomWidth: 1,
+        borderBottomColor: colors.line,
+      }}
+    >
+      {[
         { value: "all", label: tr("Testimonies & stories") },
         { value: "discussions", label: tr("Discussions") },
-      ]}
-      value={category === "discussions" ? "discussions" : "all"}
-      onChange={(value) => {
-        router.setParams({ category: value });
-      }}
-    />
+      ].map((option) => {
+        const selected = category === option.value;
+        return (
+          <Pressable
+            key={option.value}
+            accessibilityRole="tab"
+            accessibilityState={{ selected }}
+            onPress={() => router.setParams({ category: option.value })}
+            style={{
+              flex: 1,
+              minHeight: 48,
+              justifyContent: "center",
+              alignItems: "center",
+              paddingHorizontal: 5,
+              borderBottomWidth: selected ? 2 : 0,
+              borderBottomColor: colors.gold,
+            }}
+          >
+            <Text
+              style={{
+                color: selected ? colors.ink : colors.muted,
+                fontSize: 14,
+                lineHeight: 20,
+                fontWeight: selected ? "600" : "400",
+                textAlign: "center",
+              }}
+            >
+              {option.label}
+            </Text>
+          </Pressable>
+        );
+      })}
+    </View>
   );
   const discoverHeader = (
     <>
@@ -107,19 +144,20 @@ export default function Explore() {
               onPress={() => void feed.load()}
             />
           )}
-          {feed.items
-            .filter((x) => !x.tradition || x.tradition === profile.tradition)
-            .map((item) => (
-              <DiscoverPost
-                key={item.id}
-                item={item}
-                interactions={reactions}
-              />
-            ))}
+          {visibleStories.map((item) => (
+            <DiscoverPost key={item.id} item={item} interactions={reactions} />
+          ))}
           {feed.loading && <Busy />}
-          {!feed.loading && !feed.error && !feed.items.length && (
-            <Body>{c("noStories")}</Body>
-          )}
+          {!feed.loading &&
+            !feed.error &&
+            !visibleStories.length &&
+            !feed.more && (
+              <Body>
+                {profile.language === "pt" && !query
+                  ? "Ainda não há histórias em português. Volte em breve."
+                  : c("noStories")}
+              </Body>
+            )}
           {feed.more && !feed.loading && (
             <Button
               secondary

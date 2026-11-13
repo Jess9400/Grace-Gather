@@ -31,6 +31,10 @@ import { friendCopy } from "../lib/friends-copy";
 import { replyCount } from "../lib/plural";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
 import { roomTheme } from "../lib/people-theme";
+import {
+  translationCopy,
+  useConversationTranslations,
+} from "../lib/conversation-translations";
 
 // Discussions are the app's group conversations: anyone can start one, about a
 // Bible verse or anything else, and every message passes a safety check before
@@ -273,10 +277,42 @@ export function DiscussionRoom({
     : [];
   const byId = new Map(posts.map((post) => [post.id, post]));
   const theme = roomTheme(topicId);
+  const [showOriginalTitle, setShowOriginalTitle] = useState(false);
+  const titleTranslations = useConversationTranslations(
+    topic ? [{ id: topic.id, text: topic.title }] : [],
+    lang,
+  );
+  const translatedTitle = topic
+    ? titleTranslations.translations[topic.id]
+    : undefined;
+  const titleDiffers =
+    !!topic &&
+    !!translatedTitle &&
+    translatedTitle.trim() !== topic.title.trim();
   return (
     <ChatThread
-      title={topic?.title ?? c("Discussion")}
-      context={topic ? <DiscussionVerse id={topic.verseId} reference={topic.reference} fallbackTitle={topic.title} /> : undefined}
+      title={
+        titleDiffers && !showOriginalTitle
+          ? translatedTitle!
+          : (topic?.title ?? c("Discussion"))
+      }
+      context={
+        topic ? (
+          <View>
+            <DiscussionVerse
+              id={topic.verseId}
+              reference={topic.reference}
+              fallbackTitle={topic.title}
+            />
+            {titleDiffers && (
+              <TextAction
+                title={showOriginalTitle ? translationCopy(lang, "translated") : translationCopy(lang, "original")}
+                onPress={() => setShowOriginalTitle(!showOriginalTitle)}
+              />
+            )}
+          </View>
+        ) : undefined
+      }
       subtitle={
         topic ? (topic.reference ?? `${c("Started by")} ${topic.name}`) : ""
       }

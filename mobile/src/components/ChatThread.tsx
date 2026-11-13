@@ -15,6 +15,11 @@ import { Ionicons } from "@expo/vector-icons";
 import { Notice, colors, serif } from "./quiet-ui";
 import { TextAction } from "./CommunityControls";
 import { avatarColor, initial } from "../lib/people-theme";
+import {
+  translationCopy,
+  useConversationTranslations,
+} from "../lib/conversation-translations";
+import type { Language } from "../lib/content";
 
 export type ThreadMessage = {
   id: string;
@@ -43,6 +48,7 @@ export default function ChatThread({
   peerName,
   myName,
   locale,
+  privateTranslation = false,
   empty,
   onOlder,
   olderLabel,
@@ -75,6 +81,7 @@ export default function ChatThread({
   // The public name you write under, shown on your own messages.
   myName?: string;
   locale: string;
+  privateTranslation?: boolean;
   empty: string;
   onOlder?: () => void;
   olderLabel: string;
@@ -98,7 +105,14 @@ export default function ChatThread({
   const lastSeen = useRef<string | undefined>(undefined);
   const [draft, setDraft] = useState(""),
     [menuOpen, setMenuOpen] = useState(false),
-    [selected, setSelected] = useState<string | null>(null);
+    [selected, setSelected] = useState<string | null>(null),
+    [showOriginal, setShowOriginal] = useState<Record<string, boolean>>({});
+  const { translations, unavailable } = useConversationTranslations(
+    messages
+      .filter((message) => !message.mine)
+      .map((message) => ({ id: message.id, text: message.body })),
+    locale as Language,
+  );
   const newest = messages.at(-1)?.id;
   const when = (iso?: string) =>
     iso &&
@@ -168,7 +182,17 @@ export default function ChatThread({
             ))}
           </View>
         )}
-        {context && <View style={{ paddingHorizontal: 20, paddingVertical: 12, backgroundColor: colors.paper }}>{context}</View>}
+        {context && (
+          <View
+            style={{
+              paddingHorizontal: 20,
+              paddingVertical: 12,
+              backgroundColor: colors.paper,
+            }}
+          >
+            {context}
+          </View>
+        )}
         <ScrollView
           ref={scroll}
           style={{ flex: 1 }}
@@ -184,6 +208,15 @@ export default function ChatThread({
           }}
         >
           <Text style={s.rule}>{rule}</Text>
+          <Text style={s.rule}>
+            {translationCopy(
+              locale,
+              privateTranslation ? "privateNotice" : "notice",
+            )}
+          </Text>
+          {unavailable && (
+            <Text style={s.rule}>{translationCopy(locale, "unavailable")}</Text>
+          )}
           {onOlder && (
             <View style={{ alignSelf: "center" }}>
               <TextAction
@@ -196,6 +229,11 @@ export default function ChatThread({
           {messages.length === 0 && <Text style={s.rule}>{empty}</Text>}
           {messages.map((m) => {
             const name = m.name || peerName || "";
+            const translated = translations[m.id];
+            const hasTranslation =
+              !!translated && translated.trim() !== m.body.trim();
+            const shown =
+              hasTranslation && !showOriginal[m.id] ? translated : m.body;
             if (m.mine) {
               const mine = m.name || myName || "";
               const bubble = (
@@ -264,19 +302,35 @@ export default function ChatThread({
                   </View>
                   <Pressable
                     accessibilityRole="button"
-                    accessibilityLabel={`${name}: ${m.body}`}
+                    accessibilityLabel={`${name}: ${shown}`}
                     accessibilityHint={actionsHint}
                     accessibilityState={{ expanded: selected === m.id }}
                     onPress={() => setSelected(selected === m.id ? null : m.id)}
                     style={[s.bubble, s.theirs]}
                   >
                     {!!m.name && <Text style={s.name}>{m.name}</Text>}
-                    <Text style={s.text}>{m.body}</Text>
+                    <Text style={s.text}>{shown}</Text>
                     {!!m.created_at && (
                       <Text style={s.time}>{when(m.created_at)}</Text>
                     )}
                   </Pressable>
                 </View>
+                {hasTranslation && (
+                  <View style={{ alignSelf: "flex-start", marginLeft: 48 }}>
+                    <TextAction
+                      title={translationCopy(
+                        locale,
+                        showOriginal[m.id] ? "translated" : "original",
+                      )}
+                      onPress={() =>
+                        setShowOriginal((current) => ({
+                          ...current,
+                          [m.id]: !current[m.id],
+                        }))
+                      }
+                    />
+                  </View>
+                )}
                 {selected === m.id && (
                   <View style={s.actions}>
                     {renderActions(m, () => setSelected(null))}

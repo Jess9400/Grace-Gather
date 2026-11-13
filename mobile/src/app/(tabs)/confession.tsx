@@ -415,6 +415,7 @@ export default function ConfessionRoom() {
                     description={d("shareHint")}
                     icon="create-outline"
                     variant="row"
+                    emphasis
                     disabled={busy || view === "review" || recording}
                     onPress={startEntrance}
                   />
@@ -466,154 +467,169 @@ export default function ConfessionRoom() {
                     </Body>
                   </Disclosure>
                 </View>
-                <View style={{ gap: 8 }}>
-                  <Field
-                    label={t("cBody")}
-                    hideLabel
-                    value={body}
-                    onChangeText={setBody}
-                    multiline
-                    maxLength={3000}
-                    placeholder={tr("I’ve been carrying…")}
-                    style={{ minHeight: 220, lineHeight: 26 }}
-                  />
-                  {Platform.OS !== "web" && (
-                    <Disclosure
-                      title={tr("Record instead")}
-                      open={audioOpen || recording || !!audio}
-                      onToggle={() => setAudioOpen(!audioOpen)}
-                      disabled={recording || !!audio}
-                    >
-                      <Body small>{t("cAudioNotice")}</Body>
-                      <Recorder
-                        language={language}
-                        value={audio}
-                        onChange={setAudio}
-                        onBusyChange={setRecording}
+                {preview !== fingerprint && (
+                  <>
+                    <View style={{ gap: 8 }}>
+                      <Field
+                        label={t("cBody")}
+                        hideLabel
+                        value={body}
+                        onChangeText={setBody}
+                        multiline
+                        maxLength={3000}
+                        placeholder={tr("I’ve been carrying…")}
+                        style={{
+                          minHeight: 220,
+                          lineHeight: 26,
+                          borderRadius: 18,
+                          borderColor: colors.line,
+                        }}
                       />
-                      {audio && (
-                        <>
-                          <AudioPlayback id={audio} language={language} />
-                          <TextAction
-                            title={t("cTextInstead")}
-                            icon="create-outline"
-                            onPress={() => {
-                              void removeAudio(audio).then(() => {
-                                setAudio(undefined);
-                                setTextInstead(true);
-                              });
-                            }}
+                      {Platform.OS !== "web" && (
+                        <Disclosure
+                          title={tr("Record instead")}
+                          open={audioOpen || recording || !!audio}
+                          onToggle={() => setAudioOpen(!audioOpen)}
+                          disabled={recording || !!audio}
+                        >
+                          <Body small>{t("cAudioNotice")}</Body>
+                          <Recorder
+                            language={language}
+                            value={audio}
+                            onChange={setAudio}
+                            onBusyChange={setRecording}
                           />
-                        </>
+                          {audio && (
+                            <>
+                              <AudioPlayback id={audio} language={language} />
+                              <TextAction
+                                title={t("cTextInstead")}
+                                icon="create-outline"
+                                onPress={() => {
+                                  void removeAudio(audio).then(() => {
+                                    setAudio(undefined);
+                                    setTextInstead(true);
+                                  });
+                                }}
+                              />
+                            </>
+                          )}
+                          {textInstead && <Body small>{t("cTextHelp")}</Body>}
+                        </Disclosure>
                       )}
-                      {textInstead && <Body small>{t("cTextHelp")}</Body>}
-                    </Disclosure>
-                  )}
-                </View>
-                <View>
-                  <Disclosure
-                    title={t("cTheme")}
-                    summary={
-                      theme
-                        ? t("c_" + theme)
-                        : communityCopy(language, "chooseConfessionTheme")
-                    }
-                    open={themeOpen}
-                    onToggle={() => setThemeOpen(!themeOpen)}
-                  >
-                    <Row>
-                      {themes.map((k) => (
-                        <Chip
-                          key={k}
-                          title={t("c_" + k)}
-                          selected={theme === k}
-                          onPress={() => {
-                            setTheme(k);
-                            setThemeOpen(false);
-                          }}
+                    </View>
+                    <View>
+                      <Disclosure
+                        title={t("cTheme")}
+                        summary={
+                          theme
+                            ? t("c_" + theme)
+                            : communityCopy(language, "chooseConfessionTheme")
+                        }
+                        open={themeOpen}
+                        onToggle={() => setThemeOpen(!themeOpen)}
+                      >
+                        <Row>
+                          {themes.map((k) => (
+                            <Chip
+                              key={k}
+                              title={t("c_" + k)}
+                              selected={theme === k}
+                              onPress={() => {
+                                setTheme(k);
+                                setThemeOpen(false);
+                              }}
+                            />
+                          ))}
+                        </Row>
+                      </Disclosure>
+                      <Disclosure
+                        title={t("cResponse")}
+                        summary={t("c_" + responseType)}
+                        open={responseOpen}
+                        onToggle={() => setResponseOpen(!responseOpen)}
+                      >
+                        <Row>
+                          {responses.map((k) => (
+                            <Chip
+                              key={k}
+                              title={t("c_" + k)}
+                              selected={responseType === k}
+                              onPress={() => {
+                                setResponseType(k);
+                                setResponseOpen(false);
+                              }}
+                            />
+                          ))}
+                        </Row>
+                      </Disclosure>
+                    </View>
+                    <View style={{ gap: 8 }}>
+                      <Pressable
+                        accessibilityRole="checkbox"
+                        accessibilityLabel={t("cConsent")}
+                        accessibilityState={{ checked: consent }}
+                        onPress={() => setConsent(!consent)}
+                        style={s.check}
+                      >
+                        <Ionicons
+                          name={consent ? "checkbox" : "square-outline"}
+                          size={25}
+                          color={room.ink}
+                          accessible={false}
                         />
-                      ))}
-                    </Row>
-                  </Disclosure>
-                  <Disclosure
-                    title={t("cResponse")}
-                    summary={t("c_" + responseType)}
-                    open={responseOpen}
-                    onToggle={() => setResponseOpen(!responseOpen)}
-                  >
-                    <Row>
-                      {responses.map((k) => (
-                        <Chip
-                          key={k}
-                          title={t("c_" + k)}
-                          selected={responseType === k}
-                          onPress={() => {
-                            setResponseType(k);
-                            setResponseOpen(false);
-                          }}
-                        />
-                      ))}
-                    </Row>
-                  </Disclosure>
-                </View>
-                <View style={{ gap: 8 }}>
-                  <Pressable
-                    accessibilityRole="checkbox"
-                    accessibilityLabel={t("cConsent")}
-                    accessibilityState={{ checked: consent }}
-                    onPress={() => setConsent(!consent)}
-                    style={s.check}
-                  >
-                    <Ionicons
-                      name={consent ? "checkbox" : "square-outline"}
-                      size={25}
-                      color={room.ink}
-                      accessible={false}
-                    />
-                    <Text style={s.consent}>{t("cConsent")}</Text>
-                  </Pressable>
-                  <Button
-                    title={protestant ? t("previewBurden") : tr("Preview confession")}
-                    disabled={busy || recording}
-                    onPress={() => {
-                      if (!theme) {
-                        setThemeOpen(true);
-                        setError(
-                          communityCopy(language, "needConfessionTheme"),
-                        );
-                        return;
-                      }
-                      if ((!body.trim() && !audio) || !consent) {
-                        setError(t("cNeed"));
-                        return;
-                      }
-                      setError("");
-                      setPreview(fingerprint);
-                    }}
-                  />
-                  {preview === fingerprint && (
-                    <Card>
-                      <Body small>{d("audienceSummary")}</Body>
-                      <Body small>
-                        {communityCopy(language, "responseNotGuaranteed")}
-                      </Body>
-                      {!!body.trim() && <Body>{body.trim()}</Body>}
-                      {!!audio && (
-                        <AudioPlayback id={audio} language={language} />
-                      )}
-                      <Body small>
-                        {t("c_" + theme)} · {t("c_" + responseType)}
-                      </Body>
-                      {btn("cSubmit", () => void run(share))}
-                      <TextAction
-                        title={protestant ? t("editBurden") : tr("Edit confession")}
-                        icon="create-outline"
-                        disabled={busy}
-                        onPress={() => setPreview("")}
+                        <Text style={s.consent}>{t("cConsent")}</Text>
+                      </Pressable>
+                      <Button
+                        title={
+                          protestant
+                            ? t("previewBurden")
+                            : tr("Preview confession")
+                        }
+                        disabled={busy || recording}
+                        onPress={() => {
+                          if (!theme) {
+                            setThemeOpen(true);
+                            setError(
+                              communityCopy(language, "needConfessionTheme"),
+                            );
+                            return;
+                          }
+                          if ((!body.trim() && !audio) || !consent) {
+                            setError(t("cNeed"));
+                            return;
+                          }
+                          setError("");
+                          setPreview(fingerprint);
+                        }}
                       />
-                    </Card>
-                  )}
-                </View>
+                    </View>
+                  </>
+                )}
+                {preview === fingerprint && (
+                  <View style={{ gap: 12, paddingTop: 10 }}>
+                    <Body small>{d("audienceSummary")}</Body>
+                    <Body small>
+                      {communityCopy(language, "responseNotGuaranteed")}
+                    </Body>
+                    {!!body.trim() && <Body>{body.trim()}</Body>}
+                    {!!audio && (
+                      <AudioPlayback id={audio} language={language} />
+                    )}
+                    <Body small>
+                      {t("c_" + theme)} · {t("c_" + responseType)}
+                    </Body>
+                    {btn("cSubmit", () => void run(share))}
+                    <TextAction
+                      title={
+                        protestant ? t("editBurden") : tr("Edit confession")
+                      }
+                      icon="create-outline"
+                      disabled={busy}
+                      onPress={() => setPreview("")}
+                    />
+                  </View>
+                )}
               </>
             )}
             {page === "success" && (
