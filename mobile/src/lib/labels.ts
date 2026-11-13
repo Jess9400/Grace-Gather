@@ -28,6 +28,7 @@ const rows: Record<string, string[]> = {
     "Выберите чувство, чтобы подобрать стихи и следующие шаги. ИИ пока не подключён.",
   ],
   signIn: ["Sign in", "Entrar", "Entrar", "Войти"],
+  signInOrJoin: ["Sign in or create an account", "Entre ou crie sua conta", "Entra o crea una cuenta", "Войти или создать аккаунт"],
   signInLanguage: ["Language", "Idioma", "Idioma", "Язык"],
   languageSaveError: ["Could not save your language. Please try again.", "Não foi possível salvar seu idioma. Tente novamente.", "No se pudo guardar el idioma. Inténtalo de nuevo.", "Не удалось сохранить язык. Попробуйте снова."],
   // The sign-in page.
