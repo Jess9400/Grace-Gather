@@ -9,7 +9,6 @@ import {
   View,
   Text,
   Pressable,
-  TextInput,
   StyleSheet,
   Platform,
   Linking,
@@ -25,6 +24,7 @@ import {
 } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import { FormField } from "./FormField";
 // Candlelight: dark espresso rooms, ivory words and antique gold details.
 // `green` fills primary buttons and selected items (cream, with `white` text);
 // `white` is the card surface. `night` is the darker tab bar under the rooms.
@@ -361,21 +361,8 @@ export function Row({ children }: { children: React.ReactNode }) {
 }
 export function Field({ label, ...props }: TextInputProps & { label: string }) {
   const surface = useSurfaceColors();
-  return (
-    <View style={{ gap: 8, marginVertical: 7 }}>
-      <Text style={[s.fieldLabel, { color: surface.ink }]}>{label}</Text>
-      <TextInput
-        accessibilityLabel={label}
-        placeholderTextColor={colors.cardMuted}
-        {...props}
-        style={[
-          s.field,
-          props.multiline && { minHeight: 130, textAlignVertical: "top" },
-          props.style,
-        ]}
-      />
-    </View>
-  );
+  const isLetter = useContext(CardSurface) === "letter";
+  return <FormField label={label} {...props} palette={{ ink: surface.ink, muted: surface.muted, field: isLetter ? letter.paper : colors.white, line: surface.line, focus: isLetter ? letter.gold : colors.gold }} />;
 }
 export function External({ title, url }: { title: string; url: string }) {
   return (

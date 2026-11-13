@@ -41,7 +41,7 @@ export default function PrayerSchedule({
     <View style={{ gap: 12 }}>
       {(["date", "time"] as const).map((kind) => (
         <View key={kind} style={{ gap: 6 }}>
-          <Text style={{ color: colors.ink, fontSize: 15 }}>
+          <Text style={{ color: colors.ink, fontSize: 13, fontWeight: "600" }}>
             {kind === "date"
               ? (dateLabel ?? tr("Prayer date"))
               : (timeLabel ?? tr("Prayer time"))}
@@ -50,10 +50,10 @@ export default function PrayerSchedule({
             accessibilityRole="button"
             onPress={() => setMode(kind)}
             style={{
-              minHeight: 48,
+              minHeight: 52,
               justifyContent: "center",
               paddingHorizontal: 14,
-              borderRadius: 12,
+              borderRadius: 14,
               borderWidth: 1,
               borderColor: colors.line,
               backgroundColor: colors.white,

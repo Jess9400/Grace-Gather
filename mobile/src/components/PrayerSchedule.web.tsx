@@ -24,13 +24,14 @@ export default function PrayerSchedule({
     color: colors.ink,
     font: "inherit",
     fontSize: 16,
+    fontWeight: 400,
     colorScheme: "dark",
   };
   return (
     <div style={{ display: "grid", gap: 16 }}>
       <label
         htmlFor={`${id}-date`}
-        style={{ display: "grid", gap: 8, color: colors.ink }}
+        style={{ display: "grid", gap: 8, color: colors.ink, fontSize: 13, fontWeight: 600 }}
       >
         {dateLabel ?? tr("Prayer date")}
         <input
@@ -44,7 +45,7 @@ export default function PrayerSchedule({
       </label>
       <label
         htmlFor={`${id}-time`}
-        style={{ display: "grid", gap: 8, color: colors.ink }}
+        style={{ display: "grid", gap: 8, color: colors.ink, fontSize: 13, fontWeight: 600 }}
       >
         {timeLabel ?? tr("Prayer time")}
         <input
