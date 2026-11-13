@@ -316,16 +316,29 @@ export function compile(
   const program = gl.createProgram();
   if (!program) throw Error("Program unavailable");
   shaders.forEach((s) => gl.attachShader(program, s));
+  MESH_ATTRIBUTES.forEach(([name], location) =>
+    gl.bindAttribLocation(program, location, name),
+  );
   gl.linkProgram(program);
   if (!gl.getProgramParameter(program, gl.LINK_STATUS))
     throw Error("Program could not link");
   return { program, shaders };
 }
 
+// These locations are bound before linking so drawing does not make a
+// synchronous native getAttribLocation call while a GL view is being removed.
+const MESH_ATTRIBUTES = [
+  ["aPosition", 3],
+  ["aNormal", 3],
+  ["aColor", 3],
+  ["aKind", 1],
+  ["aPart", 1],
+] as const;
+
 // Uploads a mesh (or rebinds an uploaded one) and points the attributes at it.
 export function bindMesh(
   gl: WebGLRenderingContext,
-  program: WebGLProgram,
+  _program: WebGLProgram,
   mesh: Float32Array,
   existing?: WebGLBuffer,
 ) {
@@ -334,25 +347,16 @@ export function bindMesh(
   gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
   if (!existing) gl.bufferData(gl.ARRAY_BUFFER, mesh, gl.STATIC_DRAW);
   let offset = 0;
-  for (const [name, size] of [
-    ["aPosition", 3],
-    ["aNormal", 3],
-    ["aColor", 3],
-    ["aKind", 1],
-    ["aPart", 1],
-  ] as const) {
-    const location = gl.getAttribLocation(program, name);
-    if (location >= 0) {
-      gl.enableVertexAttribArray(location);
-      gl.vertexAttribPointer(
-        location,
-        size,
-        gl.FLOAT,
-        false,
-        STRIDE * 4,
-        offset * 4,
-      );
-    }
+  for (const [location, [, size]] of MESH_ATTRIBUTES.entries()) {
+    gl.enableVertexAttribArray(location);
+    gl.vertexAttribPointer(
+      location,
+      size,
+      gl.FLOAT,
+      false,
+      STRIDE * 4,
+      offset * 4,
+    );
     offset += size;
   }
   return buffer;
