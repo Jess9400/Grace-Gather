@@ -439,7 +439,7 @@ function PrayerRoom({
           <HelpLine />
           <Body small>
             {tr(
-              "Your theme, reason and display name are screened by Alibaba Qwen. Clear requests are shared with members; others wait for moderator review. Anonymous requests remain linked to your account. Avoid sharing someone else’s private details.",
+              "Prayer requests are screened automatically and reviewed by our team when needed. Anonymous requests remain linked to your account. Please respect others’ privacy.",
             )}
           </Body>
           <Button
