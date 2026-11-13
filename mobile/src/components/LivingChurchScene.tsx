@@ -3,7 +3,7 @@ import { Animated, AppState, Image, Pressable, StyleSheet, Text, View } from "re
 import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect } from "expo-router";
 import { Asset } from "expo-asset";
-import { artworkBox, artworkPlaceAt, artworkPoints, artworkStage, type ChurchArt } from "../lib/church-art";
+import { artworkBox, artworkHasTourTarget, artworkPlaceAt, artworkPoints, artworkStage, type ChurchArt } from "../lib/church-art";
 import type { ChurchPlace } from "../lib/church-scene";
 import { setChurchSnapshot } from "../lib/church-room";
 import { useReducedMotion } from "../lib/use-reduced-motion";
@@ -14,6 +14,11 @@ const ART = {
   catholic: require("../../assets/church/scenes/catholic.jpg"),
   orthodox: require("../../assets/church/scenes/orthodox.jpg"),
   protestant: require("../../assets/church/scenes/protestant.jpg"),
+};
+const NIGHT_ART = {
+  catholic: require("../../assets/church/scenes/catholic-night.jpg"),
+  orthodox: require("../../assets/church/scenes/orthodox-night.jpg"),
+  protestant: require("../../assets/church/scenes/protestant-night.jpg"),
 };
 const TOUR_ORDER: ChurchPlace[] = ["pray", "confession", "gather", "bible", "candles", "pews", "wreath"];
 
@@ -37,13 +42,15 @@ export default function LivingChurchScene({
 }) {
   const reduced = useReducedMotion();
   const [size, setSize] = useState({ width: 0, height: 0 });
-  const [readyArt, setReadyArt] = useState<ChurchArt | null>(null);
+  const [readyArt, setReadyArt] = useState<string | null>(null);
   const [focused, setFocused] = useState(true);
   const [active, setActive] = useState(AppState.currentState === "active");
   const [touring, setTouring] = useState<ChurchPlace | null>(null);
   const [shown] = useState(() => new Animated.Value(0));
   const tourTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const ready = readyArt === art;
+  const artKey = `${art}:${night ? "night" : "day"}`;
+  const source = night ? NIGHT_ART[art] : ART[art];
+  const ready = readyArt === artKey;
   const points = artworkPoints(art, size.width, size.height);
   const stage = artworkStage(size.width, size.height);
   const keys = places.map((place) => place.key).join(",");
@@ -61,13 +68,13 @@ export default function LivingChurchScene({
   useEffect(() => {
     if (!ready || !size.width || !size.height) return;
     try {
-      const asset = Asset.fromModule(ART[art]);
+      const asset = Asset.fromModule(source);
       const uri = asset.localUri ?? asset.uri;
-      if (uri) setChurchSnapshot({ uri, width: size.width, height: size.height, points: artworkPoints(art, size.width, size.height), artStage: artworkStage(size.width, size.height), night });
+      if (uri) setChurchSnapshot({ uri, width: size.width, height: size.height, points: artworkPoints(art, size.width, size.height), artStage: artworkStage(size.width, size.height), night, nightArtwork: night });
     } catch {
       // The church remains usable even if an optional room strip is unavailable.
     }
-  }, [art, night, ready, size]);
+  }, [art, night, ready, size, source]);
 
   useEffect(() => {
     if (!ready || !tour) return;
@@ -95,17 +102,18 @@ export default function LivingChurchScene({
     const place = artworkPlaceAt(art, size.width, size.height, x, y, places.map((p) => p.key));
     if (place) onPlace(place, points[place]);
   };
-  const current = touring ? points[touring] : undefined;
+  const candidate = touring && artworkHasTourTarget(art, touring) ? points[touring] : undefined;
+  // On wide screens, cover-cropping may put a real object off-screen.
+  const current = candidate && candidate.x >= 24 && candidate.x <= size.width - 24 && candidate.y >= 66 && candidate.y <= size.height - 24 ? candidate : undefined;
   const named = labelsAlways && labelsEnabled && !tour;
   return (
     <View accessibilityLabel={accessibilityLabel} style={styles.scene}
       onLayout={(e) => setSize({ width: e.nativeEvent.layout.width, height: e.nativeEvent.layout.height })}>
       <View style={[styles.artStage, { left: stage.left, width: stage.width }]} pointerEvents="none">
-        <Image key={art} source={ART[art]} resizeMode="cover" style={styles.artwork} accessible={false}
-          onLoad={() => setReadyArt(art)} onError={onFailure} />
+        <Image key={artKey} source={source} resizeMode="cover" style={styles.artwork} accessible={false}
+          onLoad={() => setReadyArt(artKey)} onError={onFailure} />
       </View>
-      {ready && !reduced && <LivingArtwork key={art} art={art} source={ART[art]} running={focused && active && !paused} />}
-      {night && <View pointerEvents="none" style={styles.evening} />}
+      {ready && <LivingArtwork key={artKey} art={art} source={source} running={focused && active && !paused} night={night} still={reduced} />}
       {ready && size.width > 0 && (
         <>
           <Pressable accessible={false} importantForAccessibility="no" style={StyleSheet.absoluteFill}
@@ -132,7 +140,6 @@ const styles = StyleSheet.create({
   scene: { position: "absolute", top: 0, right: 0, bottom: 0, left: 0, overflow: "hidden", backgroundColor: "#211B16" },
   artwork: { position: "absolute", top: 0, left: 0, width: "100%", height: "100%" },
   artStage: { position: "absolute", top: 0, bottom: 0, overflow: "hidden" },
-  evening: { position: "absolute", top: 0, right: 0, bottom: 0, left: 0, backgroundColor: "rgba(17,18,31,0.32)" },
   accessiblePlace: { position: "absolute", alignItems: "center", justifyContent: "center" },
   name: { color: "#FFF8E9", backgroundColor: "rgba(48,44,40,0.82)", borderRadius: 15, overflow: "hidden", paddingHorizontal: 12, paddingVertical: 6 },
   pointer: { position: "absolute", width: 48, height: 48, borderRadius: 24, borderWidth: 1, borderColor: "#D6AE6D", backgroundColor: "rgba(80,51,65,0.94)", alignItems: "center", justifyContent: "center" },

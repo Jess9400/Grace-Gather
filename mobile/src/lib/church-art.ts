@@ -13,7 +13,7 @@ const BOXES: Record<ChurchArt, Record<ChurchPlace, Box>> = {
     candles: [0.01, 0.46, 0.22, 0.56],
     confession: [0.68, 0.31, 1, 0.57],
     bible: [0.22, 0.43, 0.34, 0.55],
-    gather: [0.06, 0.35, 0.22, 0.46],
+    gather: [0.02, 0.60, 0.24, 0.72],
     pews: [0.19, 0.58, 0.81, 0.84],
     pray: [0.34, 0.45, 0.67, 0.55],
     wreath: [0.34, 0.55, 0.47, 0.61],
@@ -22,7 +22,7 @@ const BOXES: Record<ChurchArt, Record<ChurchPlace, Box>> = {
     candles: [0, 0.5, 0.25, 0.62],
     confession: [0.79, 0.43, 0.98, 0.61],
     bible: [0.61, 0.39, 0.77, 0.52],
-    gather: [0.39, 0.42, 0.6, 0.61],
+    gather: [0.02, 0.64, 0.22, 0.75],
     pews: [0.24, 0.64, 0.77, 0.88],
     pray: [0.19, 0.39, 0.36, 0.54],
     wreath: [0.35, 0.58, 0.48, 0.64],
@@ -31,12 +31,21 @@ const BOXES: Record<ChurchArt, Record<ChurchPlace, Box>> = {
     candles: [0.8, 0.49, 0.98, 0.58],
     confession: [0.72, 0.56, 0.97, 0.76],
     bible: [0.36, 0.51, 0.64, 0.59],
-    gather: [0.01, 0.49, 0.24, 0.59],
+    gather: [0.02, 0.61, 0.24, 0.72],
     pews: [0.25, 0.64, 0.7, 0.87],
     pray: [0.4, 0.24, 0.6, 0.42],
     wreath: [0.33, 0.58, 0.48, 0.64],
   },
 };
+
+// Only point to objects that actually appear in each sanctuary. The tour
+// caption remains an accessible action when a place has no pictured object.
+export function artworkHasTourTarget(art: ChurchArt, place: ChurchPlace) {
+  if (place === "wreath") return false;
+  if (place === "confession" && art !== "catholic") return false;
+  if (place === "candles" && art === "protestant") return false;
+  return true;
+}
 
 // Also used by room strips and walk-in transitions.
 const ROOM_POINTS: Record<ChurchArt, Record<"window" | "altar", Point>> = {

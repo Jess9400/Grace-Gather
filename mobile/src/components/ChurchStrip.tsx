@@ -91,7 +91,7 @@ export default function ChurchStrip({
           </>
         ) : <Image source={{ uri: snapshot.uri }} accessible={false} resizeMode="cover" style={st.fullImage} />}
       </View>
-      {snapshot.night && <View pointerEvents="none" style={st.evening} />}
+      {snapshot.night && !snapshot.nightArtwork && <View pointerEvents="none" style={st.evening} />}
       <View pointerEvents="none" style={st.topShade} />
       <View pointerEvents="none" style={st.bottomFade} />
       <View style={[st.row, { paddingTop: insets.top + 6 }]}>
