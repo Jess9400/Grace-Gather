@@ -20,6 +20,7 @@ import {
   useConversationTranslations,
 } from "../lib/conversation-translations";
 import type { Language } from "../lib/content";
+import { TranslationToggle } from "./TranslatedText";
 
 export type ThreadMessage = {
   id: string;
@@ -208,12 +209,7 @@ export default function ChatThread({
           }}
         >
           <Text style={s.rule}>{rule}</Text>
-          <Text style={s.rule}>
-            {translationCopy(
-              locale,
-              privateTranslation ? "privateNotice" : "notice",
-            )}
-          </Text>
+          {privateTranslation && <Text style={s.rule}>{translationCopy(locale, "privateNotice")}</Text>}
           {unavailable && (
             <Text style={s.rule}>{translationCopy(locale, "unavailable")}</Text>
           )}
@@ -317,7 +313,7 @@ export default function ChatThread({
                 </View>
                 {hasTranslation && (
                   <View style={{ alignSelf: "flex-start", marginLeft: 48 }}>
-                    <TextAction
+                    <TranslationToggle
                       title={translationCopy(
                         locale,
                         showOriginal[m.id] ? "translated" : "original",

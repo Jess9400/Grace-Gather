@@ -19,6 +19,7 @@ import DiscussionVerse from "./DiscussionVerse";
 import HelpLine from "./HelpLine";
 import { helplineText } from "../lib/help-lines";
 import { useApp } from "../lib/state";
+import { TranslationToggle } from "./TranslatedText";
 import { copy, needsSupport } from "../lib/content";
 import { useCommunity } from "../lib/discussion-state";
 import {
@@ -305,7 +306,7 @@ export function DiscussionRoom({
               fallbackTitle={topic.title}
             />
             {titleDiffers && (
-              <TextAction
+              <TranslationToggle
                 title={showOriginalTitle ? translationCopy(lang, "translated") : translationCopy(lang, "original")}
                 onPress={() => setShowOriginalTitle(!showOriginalTitle)}
               />

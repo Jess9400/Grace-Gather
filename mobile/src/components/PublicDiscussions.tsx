@@ -76,14 +76,7 @@ export default function PublicDiscussions({ query }: { query: string }) {
         }
       />
       <Notice text={error ? tr(error) : ""} />
-      {!!topics.length && (
-        <Body small>
-          {translationCopy(
-            profile.language,
-            unavailable ? "unavailable" : "notice",
-          )}
-        </Body>
-      )}
+      {unavailable && <Body small>{translationCopy(profile.language, "unavailable")}</Body>}
       {loading && <Body small>{c("Loading discussions…")}</Body>}
       {!loading &&
         topics.map((topic) => {

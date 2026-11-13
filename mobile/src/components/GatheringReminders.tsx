@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import { router } from "expo-router";
-import { Body, Card, Button, Heading, Notice } from "./quiet-ui";
+import { Body, Card, Button, Subheading, Notice } from "./quiet-ui";
 import { backend } from "../lib/backend";
 import { useApp } from "../lib/state";
 import { communityCopy } from "../lib/community-copy";
@@ -68,7 +68,7 @@ export default function GatheringReminders() {
   }
   return (
     <>
-      <Heading>{c("gatheringReminders")}</Heading>
+      <Subheading>{c("gatheringReminders")}</Subheading>
       {error && (
         <>
           <Notice text={c("remindersLoadError")} />

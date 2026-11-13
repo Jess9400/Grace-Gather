@@ -485,14 +485,7 @@ export default function Story() {
       </View>
       <Notice text={notice} />
       <Notice text={commentError ? c(commentError) : ""} />
-      {!!comments.length && (
-        <Body small>
-          {translationCopy(
-            profile.language,
-            commentTranslations.unavailable ? "unavailable" : "notice",
-          )}
-        </Body>
-      )}
+      {commentTranslations.unavailable && <Body small>{translationCopy(profile.language, "unavailable")}</Body>}
       {!!commentError && (
         <Button
           secondary
