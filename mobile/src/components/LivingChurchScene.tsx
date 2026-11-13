@@ -3,11 +3,12 @@ import { Animated, AppState, Image, Pressable, StyleSheet, Text, View } from "re
 import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect } from "expo-router";
 import { Asset } from "expo-asset";
-import { artworkBox, artworkFrame, artworkPlaceAt, artworkPoints, artworkStage, type ChurchArt } from "../lib/church-art";
+import { artworkBox, artworkPlaceAt, artworkPoints, artworkStage, type ChurchArt } from "../lib/church-art";
 import type { ChurchPlace } from "../lib/church-scene";
 import { setChurchSnapshot } from "../lib/church-room";
 import { useReducedMotion } from "../lib/use-reduced-motion";
 import type { PlaceLabel } from "./ChurchScene";
+import LivingArtwork from "./LivingArtwork";
 
 const ART = {
   catholic: require("../../assets/church/scenes/catholic.jpg"),
@@ -15,20 +16,6 @@ const ART = {
   protestant: require("../../assets/church/scenes/protestant.jpg"),
 };
 const TOUR_ORDER: ChurchPlace[] = ["pray", "confession", "gather", "bible", "candles", "pews", "wreath"];
-// Flame positions and dimensions in the source artwork, scaled with the image.
-const FLAMES: Record<ChurchArt, { x: number; y: number; height: number }[]> = {
-  catholic: [
-    { x: 348/869, y: 734/1810, height: 16 }, { x: 521/869, y: 734/1810, height: 16 },
-    { x: 53/869, y: 859/1810, height: 9 }, { x: 87/869, y: 859/1810, height: 9 },
-    { x: 119/869, y: 859/1810, height: 9 },
-  ],
-  orthodox: [
-    { x: 30/869, y: 947/1810, height: 20 }, { x: 38/869, y: 936/1810, height: 18 },
-    { x: 89/869, y: 955/1810, height: 19 }, { x: 130/869, y: 954/1810, height: 18 },
-    { x: 108/869, y: 973/1810, height: 14 }, { x: 150/869, y: 1009/1810, height: 11 },
-  ],
-  protestant: [],
-};
 
 /** The approved sanctuary artwork, with the existing places and tour on top. */
 export default function LivingChurchScene({
@@ -54,13 +41,10 @@ export default function LivingChurchScene({
   const [focused, setFocused] = useState(true);
   const [active, setActive] = useState(AppState.currentState === "active");
   const [touring, setTouring] = useState<ChurchPlace | null>(null);
-  const [glow] = useState(() => new Animated.Value(0.5));
-  const [flame] = useState(() => new Animated.Value(0.7));
   const [shown] = useState(() => new Animated.Value(0));
   const tourTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const ready = readyArt === art;
   const points = artworkPoints(art, size.width, size.height);
-  const frame = artworkFrame(size.width, size.height);
   const stage = artworkStage(size.width, size.height);
   const keys = places.map((place) => place.key).join(",");
 
@@ -72,24 +56,6 @@ export default function LivingChurchScene({
     const sub = AppState.addEventListener("change", (state) => setActive(state === "active"));
     return () => sub.remove();
   }, []);
-  useEffect(() => {
-    if (reduced || paused || !focused || !active) {
-      glow.setValue(0.5);
-      flame.setValue(0.7);
-      return;
-    }
-    const flicker = Animated.loop(Animated.sequence([
-      Animated.timing(flame, { toValue: 0.95, duration: 720, useNativeDriver: true }),
-      Animated.timing(flame, { toValue: 0.45, duration: 930, useNativeDriver: true }),
-    ]));
-    const breathing = Animated.loop(Animated.sequence([
-      Animated.timing(glow, { toValue: 0.72, duration: 2800, useNativeDriver: true }),
-      Animated.timing(glow, { toValue: 0.3, duration: 3300, useNativeDriver: true }),
-    ]));
-    flicker.start();
-    breathing.start();
-    return () => { flicker.stop(); breathing.stop(); };
-  }, [active, flame, focused, glow, paused, reduced]);
 
   // The room strips and walk-in transitions use this same covered image.
   useEffect(() => {
@@ -138,28 +104,10 @@ export default function LivingChurchScene({
         <Image key={art} source={ART[art]} resizeMode="cover" style={styles.artwork} accessible={false}
           onLoad={() => setReadyArt(art)} onError={onFailure} />
       </View>
+      {ready && !reduced && <LivingArtwork key={art} art={art} source={ART[art]} running={focused && active && !paused} />}
       {night && <View pointerEvents="none" style={styles.evening} />}
       {ready && size.width > 0 && (
         <>
-          <Animated.View pointerEvents="none" style={[styles.ambientLight, {
-            opacity: glow,
-            left: frame.left + frame.width * (art === "protestant" ? 0.33 : 0.27),
-            top: frame.top + frame.height * (art === "orthodox" ? 0.22 : 0.22),
-            width: frame.width * 0.44, height: frame.height * 0.34,
-          }]} />
-          {FLAMES[art].map((item, index) => {
-            const h = item.height * frame.width / 869;
-            const w = h * 0.38;
-            return <Animated.View key={index} pointerEvents="none" style={[styles.flame, {
-              opacity: flame, left: frame.left + frame.width * item.x - w / 2,
-              top: frame.top + frame.height * item.y - h / 2,
-              width: w, height: h, borderTopLeftRadius: w, borderBottomLeftRadius: w,
-              borderBottomRightRadius: w, transform: [
-                { rotate: flame.interpolate({ inputRange: [0.45, 0.95], outputRange: [index % 2 ? "-5deg" : "5deg", index % 2 ? "5deg" : "-5deg"] }) },
-                { scaleY: flame.interpolate({ inputRange: [0.45, 0.95], outputRange: [0.8, 1.12] }) },
-              ],
-            }]} />;
-          })}
           <Pressable accessible={false} importantForAccessibility="no" style={StyleSheet.absoluteFill}
             onPress={(event) => openAt(event.nativeEvent.locationX, event.nativeEvent.locationY)} />
           {places.map((place) => {
@@ -185,8 +133,6 @@ const styles = StyleSheet.create({
   artwork: { position: "absolute", top: 0, left: 0, width: "100%", height: "100%" },
   artStage: { position: "absolute", top: 0, bottom: 0, overflow: "hidden" },
   evening: { position: "absolute", top: 0, right: 0, bottom: 0, left: 0, backgroundColor: "rgba(17,18,31,0.32)" },
-  ambientLight: { position: "absolute", backgroundImage: "radial-gradient(ellipse, rgba(255,201,112,0.18) 0%, rgba(255,201,112,0) 70%)" },
-  flame: { position: "absolute", backgroundColor: "#FFE4A5", shadowColor: "#FFB245", shadowOpacity: 0.9, shadowRadius: 8, shadowOffset: { width: 0, height: 0 }, elevation: 2 },
   accessiblePlace: { position: "absolute", alignItems: "center", justifyContent: "center" },
   name: { color: "#FFF8E9", backgroundColor: "rgba(48,44,40,0.82)", borderRadius: 15, overflow: "hidden", paddingHorizontal: 12, paddingVertical: 6 },
   pointer: { position: "absolute", width: 48, height: 48, borderRadius: 24, borderWidth: 1, borderColor: "#D6AE6D", backgroundColor: "rgba(80,51,65,0.94)", alignItems: "center", justifyContent: "center" },

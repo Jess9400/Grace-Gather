@@ -67,3 +67,32 @@ export async function disableGatheringPush() {
   }
   await removeItem("gathering-push-token");
 }
+
+export async function registerModeratorPush() {
+  const projectId = Constants.expoConfig?.extra?.eas?.projectId;
+  if (!projectId || !backend) throw new Error("Push notifications are not configured yet.");
+  const { status } = await Notifications.requestPermissionsAsync();
+  if (status !== "granted") throw new Error("Notification permission was not granted.");
+  const token = (await Notifications.getExpoPushTokenAsync({ projectId })).data;
+  const { error } = await backend.rpc("moderator_push_device", { p_token: token, p_enable: true });
+  if (error) throw error;
+  await setItem("moderator-push-token", token);
+}
+
+export async function disableModeratorPush() {
+  const token = await getItem("moderator-push-token");
+  if (token && backend) {
+    const { error } = await backend.rpc("moderator_push_device", { p_token: token, p_enable: false });
+    if (error) throw error;
+  }
+  await removeItem("moderator-push-token");
+}
+
+export async function moderatorPushEnabled() {
+  const token = await getItem("moderator-push-token");
+  if (!token || !backend || (await Notifications.getPermissionsAsync()).status !== "granted") return false;
+  const { data, error } = await backend.rpc("moderator_push_enabled", { p_token: token });
+  if (error) throw error;
+  return data === true;
+}
+export async function forgetModeratorPush() { await removeItem("moderator-push-token"); }

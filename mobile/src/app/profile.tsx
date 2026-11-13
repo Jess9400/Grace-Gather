@@ -32,6 +32,8 @@ import * as storage from "../lib/storage";
 import {
   enableReminder,
   disableGatheringPush,
+  disableModeratorPush,
+  forgetModeratorPush,
   disableReminder,
   remindersEnabled,
   registerGatheringPush,
@@ -166,6 +168,7 @@ export default function Profile() {
                 onPress={() =>
                   void run(async () => {
                     await disableGatheringPush();
+                    await disableModeratorPush();
                     const result = await requireBackend().auth.signOut();
                     if (result.error) throw result.error;
                   })
@@ -290,6 +293,7 @@ export default function Profile() {
                           "Account deletion did not complete. Please retry or contact support.",
                         );
                       await client.auth.signOut({ scope: "local" });
+                      await forgetModeratorPush();
                       setSignedIn(false);
                       if (data.appleRevokeRequired)
                         setNotice(
@@ -300,6 +304,7 @@ export default function Profile() {
                     } else {
                       await disableReminder();
                       await disableGatheringPush();
+                      await disableModeratorPush();
                       await backend?.auth.signOut({ scope: "local" });
                       await reset();
                       clear();

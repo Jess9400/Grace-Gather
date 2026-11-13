@@ -11,3 +11,7 @@ export async function registerGatheringPush() {
 }
 
 export async function disableGatheringPush() {}
+export async function registerModeratorPush() { throw new Error("Phone alerts are available in the iPhone app."); }
+export async function disableModeratorPush() {}
+export async function moderatorPushEnabled() { return false; }
+export async function forgetModeratorPush() {}
