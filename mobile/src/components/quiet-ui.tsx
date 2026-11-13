@@ -19,7 +19,10 @@ import {
 } from "react-native";
 import { useKeyboardReveal } from "../lib/keyboard-reveal";
 import { BlurView } from "expo-blur";
-import { SafeAreaView } from "react-native-safe-area-context";
+import {
+  SafeAreaView,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 // Candlelight: dark espresso rooms, ivory words and antique gold details.
@@ -105,6 +108,7 @@ export function Screen({
   footer,
   scrollToEndKey,
   keyboard = false,
+  compact = false,
 }: {
   children: React.ReactNode;
   back?: boolean;
@@ -113,29 +117,50 @@ export function Screen({
   scrollToEndKey?: string;
   // Keep a text field inside the page clear of the keyboard (no footer).
   keyboard?: boolean;
+  // A room hides its church picture (e.g. while someone is writing), giving
+  // the page the whole screen above the keyboard.
+  compact?: boolean;
 }) {
   const scroll = useRef<ScrollViewInstance>(null);
   const onScroll = useKeyboardReveal(scroll);
   const lastScrolled = useRef<string | undefined>(undefined);
   const tr = useInterfaceCopy();
+  const insets = useSafeAreaInsets();
   const strip = useRoomStrip(place ?? "bible") && !!place;
   if (strip && place)
     return (
       <SafeAreaView style={s.safe} edges={["left", "right"]}>
         <Backdrop />
-        <ScrollView
-          ref={scroll}
-          keyboardShouldPersistTaps="handled"
-          automaticallyAdjustKeyboardInsets
-          onScroll={onScroll}
-          scrollEventThrottle={32}
+        {/* A room's footer (its main button) stays in view, resting on the
+            keyboard while someone types. */}
+        <KeyboardAvoidingView
+          style={{ flex: 1 }}
+          behavior={
+            footer ? (Platform.OS === "ios" ? "padding" : "height") : undefined
+          }
         >
-          <ChurchStrip place={place} back={back} />
-          <View style={[s.page, s.roomPage]}>
-            {children}
-            <View style={{ height: 26 }} />
-          </View>
-        </ScrollView>
+          <ScrollView
+            ref={scroll}
+            keyboardShouldPersistTaps="handled"
+            automaticallyAdjustKeyboardInsets={!footer}
+            // A downward swipe puts the keyboard away.
+            keyboardDismissMode={footer ? "interactive" : "none"}
+            onScroll={onScroll}
+            scrollEventThrottle={32}
+          >
+            {!compact && <ChurchStrip place={place} back={back} />}
+            <View
+              style={[
+                s.page,
+                compact ? { paddingTop: insets.top + 12 } : s.roomPage,
+              ]}
+            >
+              {children}
+              <View style={{ height: footer ? 8 : 26 }} />
+            </View>
+          </ScrollView>
+          {footer}
+        </KeyboardAvoidingView>
       </SafeAreaView>
     );
   const avoid = !!footer || keyboard;

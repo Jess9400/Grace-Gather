@@ -14,6 +14,18 @@ const words: Record<string, string[]> = {
     "{count} encuentros",
     "Встреч: {count}",
   ],
+  nothingThisDay: [
+    "Nothing planned on this day.",
+    "Nada marcado para este dia.",
+    "Nada previsto para este día.",
+    "На этот день ничего не запланировано.",
+  ],
+  holyDaysThisMonth: [
+    "Holy days this month ({count})",
+    "Dias santos deste mês ({count})",
+    "Días santos de este mes ({count})",
+    "Праздники в этом месяце: {count}",
+  ],
   calendarLegend: [
     "Dot: gathering · Illustration: church observance",
     "Ponto: encontro · Ilustração: celebração cristã",

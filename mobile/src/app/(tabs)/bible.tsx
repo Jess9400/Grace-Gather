@@ -381,7 +381,14 @@ function BibleReader({ collection }: { collection: CollectionId | null }) {
         animationType="slide"
         onRequestClose={() => setPicker(false)}
       >
-        <SafeAreaView style={s.safe}>
+        {/* A pop-up layer on iPhone does not learn where the status bar is,
+            so the screen's own insets keep Close clear of the clock. */}
+        <View
+          style={[
+            s.safe,
+            { paddingTop: insets.top, paddingBottom: insets.bottom },
+          ]}
+        >
           <ScrollView
             contentContainerStyle={{
               padding: 24,
@@ -436,7 +443,7 @@ function BibleReader({ collection }: { collection: CollectionId | null }) {
               </View>
             )}
           </ScrollView>
-        </SafeAreaView>
+        </View>
       </Modal>
     </SafeAreaView>
   );

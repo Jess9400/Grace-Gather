@@ -21,6 +21,9 @@ export default function Diary() {
   // failed partway) keeps its id, so trying again cannot make a duplicate.
   const saving = useRef<string | undefined>(undefined);
   const [busy, setBusy] = useState(false),
+    // While someone is typing, the page gives the letter the whole screen
+    // above the keyboard.
+    [writing, setWriting] = useState(false),
     [recording, setRecording] = useState(false),
     [error, setError] = useState("");
   const useAI = profile.journalAIConsentVersion === AI_CONSENT_VERSION;
@@ -123,11 +126,32 @@ export default function Diary() {
     }
   }
   return (
-    <Screen back place="pews">
-      <Text accessibilityRole="header" style={s.title}>
-        {q(lang, editing ? "editingTitle" : "land")}
-      </Text>
-      {editing && (
+    <Screen
+      back
+      place="pews"
+      compact={writing}
+      // "I'm done writing" never needs a scroll to find: it rests at the
+      // bottom of the screen, and on the keyboard while typing.
+      footer={
+        <View style={s.footer}>
+          <Button
+            title={
+              busy
+                ? aiCopy(lang, "working")
+                : q(lang, editing ? "saveChanges" : "done")
+            }
+            onPress={() => void submit()}
+            disabled={busy || recording}
+          />
+        </View>
+      }
+    >
+      {!writing && (
+        <Text accessibilityRole="header" style={s.title}>
+          {q(lang, editing ? "editingTitle" : "land")}
+        </Text>
+      )}
+      {!writing && editing && (
         <Text style={s.editing}>
           {q(lang, "editingFrom").replace(
             "{date}",
@@ -141,7 +165,7 @@ export default function Diary() {
           )}
         </Text>
       )}
-      {Platform.OS !== "web" && (
+      {Platform.OS !== "web" && !writing && (
         <View style={{ gap: 10 }}>
           <Text
             accessibilityRole="header"
@@ -196,20 +220,13 @@ export default function Diary() {
           onChangeText={(text) => update({ text })}
           placeholder={copy(lang, "prompt")}
           placeholderTextColor={letter.muted}
-          style={s.input}
+          onFocus={() => setWriting(true)}
+          onBlur={() => setWriting(false)}
+          style={[s.input, writing && s.inputWriting]}
         />
       </View>
       <Notice text={error} />
-      <Button
-        title={
-          busy
-            ? aiCopy(lang, "working")
-            : q(lang, editing ? "saveChanges" : "done")
-        }
-        onPress={() => void submit()}
-        disabled={busy || recording}
-      />
-      {editing && (
+      {editing && !writing && (
         <Button
           secondary
           title={q(lang, "cancelEdit")}
@@ -267,5 +284,15 @@ const s = StyleSheet.create({
     minHeight: 280,
     textAlignVertical: "top",
     padding: 0,
+  },
+  // While typing there is less room above the keyboard.
+  inputWriting: { minHeight: 160 },
+  footer: {
+    paddingHorizontal: 22,
+    paddingTop: 10,
+    paddingBottom: 12,
+    width: "100%",
+    maxWidth: 620,
+    alignSelf: "center",
   },
 });

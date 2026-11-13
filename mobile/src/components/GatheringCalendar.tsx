@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { View, Text, Pressable, Image } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { TextAction } from "./CommunityControls";
 import { Subheading, colors, useSurfaceColors } from "./community-ui";
 import { useApp } from "../lib/state";
@@ -7,6 +8,7 @@ import { copy } from "../lib/content";
 import { Gathering } from "../lib/gatherings";
 import { gatheringTheme } from "../lib/gathering-theme";
 import { communityCopy } from "../lib/community-copy";
+import { storyText } from "../lib/discover";
 import {
   type HolyDayId,
   holyDayArt,
@@ -97,10 +99,13 @@ export default function GatheringCalendar({
   gatherings,
   selected,
   onSelect,
+  onOpen,
 }: {
   gatherings: Gathering[];
   selected: string;
   onSelect: (key: string) => void;
+  // Opens a gathering from the chosen day's panel.
+  onOpen?: (id: string) => void;
 }) {
   const { profile } = useApp(),
     t = (k: string) => copy(profile.language, k),
@@ -125,6 +130,26 @@ export default function GatheringCalendar({
     holyDayCalendar(profile),
     month.getFullYear(),
   ).filter((h) => h.month === month.getMonth() + 1);
+  // The month's holy days fold into one line, so the calendar stays short.
+  const [listOpen, setListOpen] = useState(false);
+  // The chosen day, shown right under the grid: its holy days and gatherings.
+  const [sy, sm, sd] = selected.split("-").map(Number);
+  const chosen =
+    selected && sm === month.getMonth() && sy === month.getFullYear()
+      ? new Date(sy, sm, sd)
+      : null;
+  const chosenFeasts = chosen
+    ? holyDays.filter((h) => h.day === chosen.getDate())
+    : [];
+  const chosenGatherings = chosen
+    ? gatherings
+        .filter(
+          (g) =>
+            g.status === "published" &&
+            key(new Date(g.starts_at)) === selected,
+        )
+        .sort((a, b) => Date.parse(a.starts_at) - Date.parse(b.starts_at))
+    : [];
   return (
     <View style={{ gap: 8 }}>
       <View
@@ -277,18 +302,132 @@ export default function GatheringCalendar({
           );
         })}
       </View>
+      {chosen && (
+        <View
+          accessibilityLiveRegion="polite"
+          style={{
+            gap: 10,
+            padding: 14,
+            borderRadius: 16,
+            borderWidth: 1,
+            borderColor: "#C9A45C66",
+            backgroundColor: "rgba(201,164,92,0.08)",
+          }}
+        >
+          <Text
+            accessibilityRole="header"
+            style={{ fontSize: 15, fontWeight: "700", color: surface.ink }}
+          >
+            {chosen.toLocaleDateString(profile.language, {
+              weekday: "long",
+              day: "numeric",
+              month: "long",
+            })}
+          </Text>
+          {chosenFeasts.map((h) => (
+            <View
+              key={h.id}
+              style={{ flexDirection: "row", alignItems: "center", gap: 12 }}
+            >
+              <ScaledDateHolder id={h.id} day={h.day} />
+              <Text
+                style={{
+                  flex: 1,
+                  fontSize: 15,
+                  lineHeight: 21,
+                  color: surface.ink,
+                }}
+              >
+                {holyDayName(h.id, profile.language)}
+              </Text>
+            </View>
+          ))}
+          {chosenGatherings.map((g) => (
+            <Pressable
+              key={g.id}
+              accessibilityRole={onOpen ? "button" : undefined}
+              disabled={!onOpen}
+              onPress={() => onOpen?.(g.id)}
+              style={({ pressed }) => ({
+                flexDirection: "row",
+                alignItems: "center",
+                gap: 12,
+                minHeight: 44,
+                opacity: pressed ? 0.7 : 1,
+              })}
+            >
+              <Text
+                style={{
+                  width: 58,
+                  fontSize: 14,
+                  fontWeight: "700",
+                  color: colors.gold,
+                }}
+              >
+                {new Date(g.starts_at).toLocaleTimeString(profile.language, {
+                  hour: "numeric",
+                  minute: "2-digit",
+                })}
+              </Text>
+              <Text
+                style={{
+                  flex: 1,
+                  fontSize: 15,
+                  lineHeight: 21,
+                  color: surface.ink,
+                }}
+              >
+                {storyText(g.title, profile.language)}
+              </Text>
+              {onOpen && (
+                <Ionicons
+                  name="chevron-forward"
+                  size={18}
+                  color={surface.muted}
+                />
+              )}
+            </Pressable>
+          ))}
+          {!chosenFeasts.length && !chosenGatherings.length && (
+            <Text style={{ fontSize: 14, color: surface.muted }}>
+              {communityCopy(profile.language, "nothingThisDay")}
+            </Text>
+          )}
+        </View>
+      )}
       <Text style={{ fontSize: 12, color: surface.muted }}>
         {communityCopy(profile.language, "calendarLegend")}
       </Text>
       {!!holyDays.length && (
-        <View
+        <Pressable
+          accessibilityRole="button"
+          accessibilityState={{ expanded: listOpen }}
+          onPress={() => setListOpen(!listOpen)}
           style={{
-            gap: 6,
-            paddingTop: 12,
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            minHeight: 44,
+            paddingTop: 10,
             borderTopWidth: 1,
             borderTopColor: surface.line,
           }}
         >
+          <Text style={{ fontSize: 15, fontWeight: "600", color: surface.ink }}>
+            {communityCopy(profile.language, "holyDaysThisMonth").replace(
+              "{count}",
+              String(holyDays.length),
+            )}
+          </Text>
+          <Ionicons
+            name={listOpen ? "chevron-up" : "chevron-down"}
+            size={18}
+            color={surface.muted}
+          />
+        </Pressable>
+      )}
+      {!!holyDays.length && listOpen && (
+        <View style={{ gap: 6 }}>
           {holyDays.map((h) => {
             const name = holyDayName(h.id, profile.language);
             return (
