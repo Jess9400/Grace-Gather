@@ -51,16 +51,16 @@ import {
 } from "../../lib/journal-copy";
 
 // One saved verse and one invitation, with replies inline beneath them.
-// English Catholic and Orthodox Bibles number most Psalms one lower than the
-// Bibles most people know; show the familiar number beside theirs.
-function familiarPsalm(
+// English Catholic and Orthodox Bibles number some verses differently from
+// the Bibles most people know (most Psalms one lower, Mark 9:24 as 9:23,
+// Lamentations 3:22 as 3:21a); show the familiar number beside theirs.
+function familiarNumber(
   verse: ReadingVerse,
   themeReference: string,
   lang: string,
 ) {
   if (
     lang !== "en" ||
-    !themeReference.startsWith("PSA.") ||
     (verse.collection !== "dra" && verse.collection !== "brenton")
   )
     return "";
@@ -365,7 +365,11 @@ export default function EntryScreen() {
                   </Text>
                   <Text style={s.reference}>
                     {verse.reference}
-                    {familiarPsalm(verse, journalTheme(entry).verse, lang)}
+                    {familiarNumber(
+                      verse,
+                      displayResponse?.reference ?? journalTheme(entry).verse,
+                      lang,
+                    )}
                     <Text style={s.edition}> · {verse.editionName}</Text>
                   </Text>
                   <Pressable
