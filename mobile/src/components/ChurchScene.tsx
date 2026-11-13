@@ -243,8 +243,7 @@ export default function ChurchScene({
     });
   }, [positions]);
 
-  // Draws the church into the frame without presenting it.
-  const draw = useCallback(() => {
+  const render = useCallback(() => {
     const {
       adventWeek: week,
       litVotives: lit,
@@ -263,12 +262,9 @@ export default function ChurchScene({
       orthodox: eastern,
       russian: russianStyle,
     });
-  }, []);
-  const render = useCallback(() => {
-    draw();
     context.current?.endFrameEXP();
     place();
-  }, [draw, place]);
+  }, [place]);
 
   // Where every place sits on the stage, in points.
   const placePoints = useCallback(() => {
@@ -292,15 +288,10 @@ export default function ChurchScene({
     // ready, and the points must match the picture.
     const points = placePoints();
     try {
-      // On iPhone a frame that has already been shown is cleared, so a picture
-      // taken then comes out blank. Draw a fresh frame and take it before it
-      // is shown.
-      draw();
       const shot = await GLView.takeSnapshotAsync(gl, {
         format: "jpeg",
         compress: 0.86,
       });
-      gl.endFrameEXP();
       const raw = shot.uri as unknown;
       const uri =
         typeof raw === "string"
@@ -312,7 +303,7 @@ export default function ChurchScene({
     } catch {
       // The screens keep their usual header without a picture.
     }
-  }, [placePoints, draw]);
+  }, [placePoints]);
 
   const loop = useCallback(() => {
     if (frame.current !== null) cancelAnimationFrame(frame.current);
