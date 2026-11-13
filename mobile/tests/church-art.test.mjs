@@ -8,7 +8,16 @@ const ts = require('typescript');
 const source = readFileSync(new URL('../src/lib/church-art.ts', import.meta.url), 'utf8');
 const module = { exports: {} };
 runInNewContext(ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.CommonJS } }).outputText, { module, exports: module.exports });
-const { artworkBox, artworkFrame, artworkPlaceAt, artworkPoints, artworkStage } = module.exports;
+const { artworkBox, artworkFrame, artworkPlaceAt, artworkPoints, artworkStage, artworkHasTourTarget } = module.exports;
+
+test('the tour does not point at invented objects in the artwork', () => {
+  assert.equal(artworkHasTourTarget('orthodox', 'confession'), false);
+  assert.equal(artworkHasTourTarget('protestant', 'confession'), false);
+  assert.equal(artworkHasTourTarget('protestant', 'candles'), false);
+  assert.equal(artworkHasTourTarget('catholic', 'confession'), true);
+  assert.equal(artworkHasTourTarget('orthodox', 'candles'), true);
+  assert.equal(artworkHasTourTarget('protestant', 'bible'), true);
+});
 
 test('the three sanctuary artworks cover phone and wide screens without empty edges', () => {
   for (const [width, height] of [[390, 844], [430, 932], [900, 700]]) {

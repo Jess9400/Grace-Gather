@@ -6,8 +6,8 @@ import { fragmentShader, vertexShader } from "../lib/living-art-shader";
 import { releaseContext } from "../lib/gl-recovery";
 import type { ChurchArt } from "../lib/church-art";
 
-// A single textured quad keeps the original artwork intact; the fragment shader
-// moves the image's flame pixels, rather than drawing artificial dots on top.
+// A single textured quad keeps the sanctuary still while the fragment shader
+// animates its flame shapes or natural window light.
 export default function LivingArtwork({ art, source, running }: { art: ChurchArt; source: number; running: boolean }) {
   const context = useRef<ExpoWebGLRenderingContext | null>(null);
   const [ready, setReady] = useState(false);

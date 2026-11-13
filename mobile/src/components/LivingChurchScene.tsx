@@ -3,7 +3,7 @@ import { Animated, AppState, Image, Pressable, StyleSheet, Text, View } from "re
 import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect } from "expo-router";
 import { Asset } from "expo-asset";
-import { artworkBox, artworkPlaceAt, artworkPoints, artworkStage, type ChurchArt } from "../lib/church-art";
+import { artworkBox, artworkHasTourTarget, artworkPlaceAt, artworkPoints, artworkStage, type ChurchArt } from "../lib/church-art";
 import type { ChurchPlace } from "../lib/church-scene";
 import { setChurchSnapshot } from "../lib/church-room";
 import { useReducedMotion } from "../lib/use-reduced-motion";
@@ -95,7 +95,9 @@ export default function LivingChurchScene({
     const place = artworkPlaceAt(art, size.width, size.height, x, y, places.map((p) => p.key));
     if (place) onPlace(place, points[place]);
   };
-  const current = touring ? points[touring] : undefined;
+  const candidate = touring && artworkHasTourTarget(art, touring) ? points[touring] : undefined;
+  // On wide screens, cover-cropping may put a real object off-screen.
+  const current = candidate && candidate.x >= 24 && candidate.x <= size.width - 24 && candidate.y >= 66 && candidate.y <= size.height - 24 ? candidate : undefined;
   const named = labelsAlways && labelsEnabled && !tour;
   return (
     <View accessibilityLabel={accessibilityLabel} style={styles.scene}
