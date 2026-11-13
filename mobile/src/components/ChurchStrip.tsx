@@ -3,7 +3,6 @@ import {
   Image,
   Pressable,
   StyleSheet,
-  Text,
   View,
   useWindowDimensions,
 } from "react-native";
@@ -12,8 +11,6 @@ import { setStatusBarStyle } from "expo-status-bar";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import MemberAvatar from "./MemberAvatar";
-import { useApp } from "../lib/state";
-import { churchCopy, type ChurchWord } from "../lib/church-copy";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
 import { holdAmbience, loadSoundOn } from "../lib/church-audio";
 import {
@@ -25,16 +22,6 @@ import {
 
 // The strip melts into the top of the candlelit room.
 const PAPER = "#211A14";
-const LABEL: Record<RoomPlace, ChurchWord> = {
-  bible: "atLectern",
-  pews: "inPews",
-  gather: "sideDoor",
-  candles: "candles",
-  confession: "quietCorner",
-  window: "beneathWindow",
-  altar: "atAltar",
-  chats: "sideDoor",
-};
 
 // True once there is a picture of the church to show for this place.
 export function useRoomStrip(place: RoomPlace) {
@@ -57,7 +44,6 @@ export default function ChurchStrip({
   const snapshot = useChurchSnapshot();
   const insets = useSafeAreaInsets();
   const { width } = useWindowDimensions();
-  const { profile } = useApp();
   const tr = useInterfaceCopy();
   const at = snapshot?.points[roomSpot(place)];
   const shown = !!at;
@@ -107,9 +93,7 @@ export default function ChurchStrip({
             <Ionicons name="chevron-back" size={22} color="#302C28" />
           </Pressable>
         )}
-        <Text style={st.label} numberOfLines={1}>
-          {churchCopy(profile.language, LABEL[place]).toUpperCase()}
-        </Text>
+        <View style={{ flex: 1 }} />
         {action && <View style={st.action}>{action}</View>}
         <Pressable
           accessibilityLabel={tr("Account and settings")}
@@ -159,16 +143,6 @@ const st = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "rgba(255,252,243,0.93)",
-  },
-  label: {
-    flex: 1,
-    color: "#FFF8E9",
-    fontSize: 12,
-    fontWeight: "700",
-    letterSpacing: 2.2,
-    textShadowColor: "rgba(0,0,0,0.5)",
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 6,
   },
   avatar: { padding: 4, marginLeft: "auto" },
   action: {

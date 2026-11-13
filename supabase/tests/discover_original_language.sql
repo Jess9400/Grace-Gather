@@ -28,5 +28,13 @@ begin
   if ids is distinct from array['br-publisher'] then
     raise exception 'Wrong search result: %', ids;
   end if;
+  select array_agg(id) into ids from public.discover_page_portuguese(p_search => 'esperanca');
+  if ids is distinct from array['br-publisher'] then
+    raise exception 'Accent-insensitive search failed: %', ids;
+  end if;
+  select array_agg(id) into ids from public.discover_page_portuguese(p_search => 'completa');
+  if ids is distinct from array['br-publisher'] then
+    raise exception 'Full-story search failed: %', ids;
+  end if;
 end $$;
 rollback;

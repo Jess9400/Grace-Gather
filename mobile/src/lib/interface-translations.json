@@ -1819,10 +1819,10 @@
     "es": "Tu petición necesita revisión de un moderador.",
     "ru": "Вашу просьбу должен проверить модератор."
   },
-  "Your theme, reason and display name are screened by Alibaba Qwen. Clear requests are shared with members; others wait for moderator review. Anonymous requests remain linked to your account. Avoid sharing someone else’s private details.": {
-    "pt": "Seu tema, motivo e nome de exibição são analisados pelo Alibaba Qwen. Pedidos aprovados são compartilhados; os demais aguardam revisão. Pedidos anônimos permanecem vinculados à sua conta. Evite divulgar dados privados de outras pessoas.",
-    "es": "Alibaba Qwen revisa tu tema, motivo y nombre visible. Las peticiones aprobadas se comparten; las demás esperan revisión. Las peticiones anónimas siguen vinculadas a tu cuenta. Evita compartir datos privados de otras personas.",
-    "ru": "Alibaba Qwen проверяет тему, причину и отображаемое имя. Просьбы без замечаний видны участникам, остальные ожидают проверки модератора. Анонимные просьбы остаются связаны с вашим аккаунтом. Не раскрывайте чужие личные данные."
+  "Prayer requests are screened automatically and reviewed by our team when needed. Anonymous requests remain linked to your account. Please respect others’ privacy.": {
+    "pt": "Os pedidos passam por análise automática e, quando necessário, pela nossa equipe. Pedidos anônimos continuam vinculados à sua conta. Respeite a privacidade das outras pessoas.",
+    "es": "Las peticiones se revisan automáticamente y, cuando es necesario, por nuestro equipo. Las peticiones anónimas siguen vinculadas a tu cuenta. Respeta la privacidad de los demás.",
+    "ru": "Просьбы проверяются автоматически и при необходимости нашей командой. Анонимные просьбы остаются связаны с вашим аккаунтом. Пожалуйста, уважайте частную жизнь других людей."
   },
   "No verified Bible for this tradition in this language yet. You can choose another Bible language later in your profile.": {
     "pt": "Ainda não há uma Bíblia verificada desta tradição neste idioma. Você pode escolher outro idioma da Bíblia depois, no seu perfil.",
