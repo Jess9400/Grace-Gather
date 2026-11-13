@@ -39,7 +39,7 @@ serve(async(req)=>{
   }else{
    const enabled=body.enabled===true;
    await server.updateParticipant(g.room_name,body.participant,{permission:{canSubscribe:true,canPublish:enabled,canPublishSources:[TrackSource.MICROPHONE],canPublishData:false}});
-   const r=await service.from('memberships').update({can_speak:enabled,hand_raised:false}).eq('gathering_id',g.id).eq('user_id',body.participant);if(r.error)throw r.error;
+   const r=await service.from('memberships').update({can_speak:enabled,speech_revoked:!enabled,hand_raised:false}).eq('gathering_id',g.id).eq('user_id',body.participant);if(r.error)throw r.error;
   }
   return json({updated:true});
  }
@@ -47,10 +47,12 @@ serve(async(req)=>{
  if(Date.now()<Date.parse(g.starts_at))return json({error:'not_started'},409);
  const reserved=await client.rpc('gathering_command',{p_action:'reserve',p_data:{id:g.id,invite:body.invite??''}});
  if(reserved.error)return json({error:['full','invite_required','not_allowed','unavailable'].find(x=>reserved.error!.message===x)??'join_failed'},409);
- const membership=await service.from('memberships').select('can_speak').eq('gathering_id',g.id).eq('user_id',user.id).single();if(membership.error)throw membership.error;
+ const membership=await service.from('memberships').select('speech_revoked').eq('gathering_id',g.id).eq('user_id',user.id).single();if(membership.error)throw membership.error;
  await server.createRoom({name:g.room_name,maxParticipants:g.capacity,emptyTimeout:120,departureTimeout:30});
  const profile=await service.from('profiles').select('name').eq('id',user.id).maybeSingle();const name=host?g.host_name:profile.data?.name?.trim()||'Community member';
- const canSpeak=host||membership.data.can_speak===true;
+ // Every admitted participant may choose to unmute. The host retains the
+ // ability to remove people or change their speaking permission during a room.
+ const canSpeak=host||!membership.data.speech_revoked;
  const token=new AccessToken(env('LIVEKIT_API_KEY'),env('LIVEKIT_API_SECRET'),{identity:user.id,name:name.slice(0,60),ttl:Math.min(300,Math.max(1,Math.floor((Date.parse(g.ends_at)-Date.now())/1000))),metadata:JSON.stringify({role:host?'host':canSpeak?'speaker':'listener'})});
  token.addGrant({roomJoin:true,room:g.room_name,canSubscribe:true,canPublish:canSpeak,canPublishSources:[TrackSource.MICROPHONE],canPublishData:false});
  return json({token:await token.toJwt(),url:env('LIVEKIT_URL'),endsAt:g.ends_at,host,hostId:g.host_id,canSpeak,title:g.title});

@@ -283,32 +283,6 @@ function BibleReader({ collection }: { collection: CollectionId | null }) {
               : (edition?.name ?? tr("Unavailable"))}
           </Text>
         </View>
-        <Pressable
-          accessibilityRole="button"
-          onPress={() =>
-            router.push({ pathname: "/friends", params: { view: "mine" } })
-          }
-          style={({ pressed }) => ({
-            minHeight: 44,
-            alignSelf: "flex-start",
-            flexDirection: "row",
-            alignItems: "center",
-            gap: 12,
-            opacity: pressed ? 0.7 : 1,
-          })}
-        >
-          <Ionicons name="chatbubbles-outline" size={18} color={colors.ink} />
-          <Text
-            style={{
-              fontSize: 15,
-              fontWeight: "600",
-              color: colors.ink,
-            }}
-          >
-            {tr("My discussions")}
-          </Text>
-          <Ionicons name="chevron-forward" size={19} color={colors.muted} />
-        </Pressable>
         <Body small>{q(lang, "tap")}</Body>
         {!full && <Body small>{q(lang, "limited")}</Body>}
         {collection === "synodal" && (

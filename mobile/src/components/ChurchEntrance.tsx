@@ -78,13 +78,16 @@ export default function ChurchEntrance({
   );
   const context = useRef<ExpoWebGLRenderingContext | null>(null);
   const frame = useRef<number | null>(null);
-  // Entrance progress in ms. It advances by at most one smooth step per
-  // frame, so a slow device still sees the whole opening instead of a jump.
+  // Use elapsed time rather than frame count so a slow phone cannot get stuck
+  // spending many extra seconds in the middle of the entrance.
   const started = useRef<number | null>(null);
-  const lastFrame = useRef(0);
+  const progress = useRef(0);
+  const lastDraw = useRef(0);
+  const entranceTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
   const born = useRef(0);
   const mounted = useRef(true);
   const finished = useRef(false);
+  const abandoned = useRef(false);
   const latest = useRef({ open: 0, approach: 0 });
   // Held in a ref so a parent re-render (a clock tick, say) never restarts
   // the scene or the greeting mid-entrance.
@@ -96,6 +99,8 @@ export default function ChurchEntrance({
   const finish = useCallback(() => {
     if (finished.current) return;
     finished.current = true;
+    if (entranceTimeout.current) clearTimeout(entranceTimeout.current);
+    entranceTimeout.current = null;
     if (frame.current !== null) cancelAnimationFrame(frame.current);
     frame.current = null;
     entered.current();
@@ -128,6 +133,8 @@ export default function ChurchEntrance({
     }).start();
     return () => {
       mounted.current = false;
+      if (entranceTimeout.current) clearTimeout(entranceTimeout.current);
+      entranceTimeout.current = null;
       if (frame.current !== null) cancelAnimationFrame(frame.current);
       preference.remove();
       appState.remove();
@@ -138,13 +145,28 @@ export default function ChurchEntrance({
     };
   }, [finish, words]);
 
+  useEffect(() => {
+    if (ready || failed) return;
+    const timeout = setTimeout(() => {
+      abandoned.current = true;
+      setFailed(true);
+    }, 8000);
+    return () => clearTimeout(timeout);
+  }, [ready, failed]);
+
   // One loop draws the idle doorway (lantern flicker, a breath of movement)
   // and, after the tap, the opening and the walk through the threshold.
   useEffect(() => {
-    if (!ready || failed) return;
+    if (!ready || failed || (!entering && Platform.OS !== "web")) return;
     const tick = () => {
       if (!mounted.current || finished.current) return;
       const now = Date.now();
+      // Avoid queueing graphics frames faster than the device can show them.
+      if (Platform.OS !== "web" && now - lastDraw.current < 50) {
+        frame.current = requestAnimationFrame(tick);
+        return;
+      }
+      lastDraw.current = now;
       const time = reduced ? 0 : (now - born.current) / 1000;
       if (started.current === null) {
         try {
@@ -154,9 +176,12 @@ export default function ChurchEntrance({
           return;
         }
       } else {
-        started.current += Math.min(now - lastFrame.current, 34);
-        lastFrame.current = now;
-        const elapsed = started.current;
+        const realElapsed = Math.max(0, now - started.current);
+        const elapsed =
+          Platform.OS === "web"
+            ? realElapsed
+            : Math.min(realElapsed, progress.current + 160);
+        progress.current = elapsed;
         const next = entranceFrame(elapsed);
         try {
           draw(next.open, next.approach, time);
@@ -177,17 +202,15 @@ export default function ChurchEntrance({
       if (frame.current !== null) cancelAnimationFrame(frame.current);
       frame.current = null;
     };
-  }, [draw, failed, fade, finish, ready, reduced]);
+  }, [draw, entering, failed, fade, finish, ready, reduced]);
 
   const enter = useCallback(() => {
     if (entering || finished.current) return;
     setEntering(true);
-    Animated.timing(words, {
-      toValue: 0,
-      duration: 450,
-      useNativeDriver: true,
-    }).start();
-    if (reduced || failed || !ready) {
+    if (reduced) {
+      // A native animation completion callback is not guaranteed to arrive
+      // after a graphics failure. Do not leave the opaque fade on screen.
+      entranceTimeout.current = setTimeout(finish, 1200);
       Animated.timing(fade, {
         toValue: 1,
         duration: 450,
@@ -195,17 +218,43 @@ export default function ChurchEntrance({
       }).start(() => finish());
       return;
     }
-    started.current = 0;
-    lastFrame.current = Date.now();
-  }, [entering, fade, failed, finish, ready, reduced, words]);
+    // If graphics are still loading, keep the entrance visible and start the
+    // opening as soon as it is ready rather than silently skipping it.
+  }, [entering, fade, finish, reduced]);
+
+  useEffect(() => {
+    if (!entering || reduced || failed || !ready || started.current !== null)
+      return;
+    started.current = Date.now();
+    Animated.timing(words, {
+      toValue: 0,
+      duration: 450,
+      useNativeDriver: true,
+    }).start();
+    entranceTimeout.current = setTimeout(finish, ENTRANCE_MS + 2500);
+  }, [entering, failed, finish, ready, reduced, words]);
+
+  useEffect(() => {
+    if (!entering || reduced || !failed || started.current !== null) return;
+    entranceTimeout.current = setTimeout(finish, 1200);
+    Animated.timing(fade, {
+      toValue: 1,
+      duration: 450,
+      useNativeDriver: true,
+    }).start(() => finish());
+  }, [entering, failed, fade, finish, reduced]);
 
   const onContextCreate = useCallback(
     async (gl: ExpoWebGLRenderingContext) => {
       try {
         const timber = await prepareChurchTimber();
-        if (!mounted.current) return;
+        if (!mounted.current || finished.current || abandoned.current) return;
         context.current = gl;
-        renderer.current = createChurchDoorRenderer(gl, timber);
+        renderer.current = createChurchDoorRenderer(
+          gl,
+          timber,
+          Platform.OS !== "web",
+        );
         draw(0, 0, 0);
         setReady(true);
       } catch {
@@ -235,13 +284,18 @@ export default function ChurchEntrance({
           {!failed && (
             <SceneBoundary onFailure={() => setFailed(true)}>
               <GLView
+                msaaSamples={0}
                 {...(Platform.OS === "web"
                   ? {
                       webglContextAttributes: WEB_GL_OPTIONS,
                       onContextLost: () => setFailed(true),
                     }
                   : {})}
-                style={[StyleSheet.absoluteFill, { opacity: ready ? 1 : 0 }]}
+                style={
+                  Platform.OS === "web"
+                    ? StyleSheet.absoluteFill
+                    : styles.nativeStage
+                }
                 onContextCreate={onContextCreate}
                 onLayout={() => {
                   if (renderer.current) {
@@ -317,6 +371,14 @@ export default function ChurchEntrance({
 
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: DUSK },
+  nativeStage: {
+    position: "absolute",
+    top: "33.3333%",
+    left: "33.3333%",
+    width: "33.3333%",
+    height: "33.3333%",
+    transform: [{ scale: 3 }],
+  },
   shade: {
     position: "absolute",
     top: 0,

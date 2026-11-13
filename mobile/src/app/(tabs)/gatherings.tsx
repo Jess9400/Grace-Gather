@@ -22,6 +22,7 @@ import { useApp } from "../../lib/state";
 import { communityCopy } from "../../lib/community-copy";
 import { backend } from "../../lib/backend";
 import { gathering, audioCommand, Gathering } from "../../lib/gatherings";
+import { nextSessionPerSeries } from "../../lib/gathering-list";
 import { storyText } from "../../lib/discover";
 import { journalReturnId } from "../../lib/journal-navigation";
 export default function Gatherings() {
@@ -83,20 +84,20 @@ export default function Gatherings() {
   const visible = items.filter(
     (g) =>
       (tab === "mine"
-        ? g.reserved || g.hosting
+        ? (g.reserved || g.hosting) && g.status === "published" && Date.parse(g.ends_at) > now
         : g.status === "published" &&
           Date.parse(g.ends_at) > now &&
           (tab === "live"
             ? Date.parse(g.starts_at) <= now
-            : Date.parse(g.starts_at) > now)) &&
+            : Date.parse(g.starts_at) > now && !g.hosting && !g.reserved)) &&
       (!selected || key(new Date(g.starts_at)) === selected) &&
       `${storyText(g.title, profile.language)} ${storyText(g.description, profile.language)} ${g.topic} ${g.host_name}`
         .toLocaleLowerCase()
         .includes(search.trim().toLocaleLowerCase()),
   );
-  const sorted = [...visible].sort(
-    (a, b) => Date.parse(a.starts_at) - Date.parse(b.starts_at),
-  );
+  // A weekly series is one listing, leading to its next matching session.
+  // The calendar still marks every occurrence, and choosing a date selects it.
+  const sorted = nextSessionPerSeries(visible);
   const pages = Math.max(1, Math.ceil(sorted.length / 6));
   const activePage = Math.min(page, pages - 1);
   // The gathering happening right now, if any; same rule as the Live filter.

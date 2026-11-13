@@ -20,11 +20,11 @@ export default function PrayerSchedule({
     borderRadius: 14,
     border: `1px solid ${colors.line}`,
     padding: "12px 14px",
-    background: "white",
+    background: colors.white,
     color: colors.ink,
     font: "inherit",
     fontSize: 16,
-    colorScheme: "light",
+    colorScheme: "dark",
   };
   return (
     <div style={{ display: "grid", gap: 16 }}>

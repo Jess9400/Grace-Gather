@@ -220,6 +220,13 @@ export default function ConfessionRoom() {
     // Triggered by the explicit journal action; normal room navigation is unchanged.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [view]);
+  useEffect(() => {
+    if (view !== "mine") return;
+    router.setParams({ view: "" });
+    void Promise.resolve().then(() => run(() => load("mine")));
+    // Load only in response to the explicit notification link.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [view]);
   async function open(id: string, claim = false) {
     const r = await confessionAPI(claim ? "open" : "read", { id });
     if (detail?.id !== id) setDraft("");
