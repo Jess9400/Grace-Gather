@@ -75,6 +75,13 @@ test("the intro stays a web preview: the phone app sends /intro home", () => {
   assert.match(page, /Platform\.OS !== "web"\) return <Redirect/);
   const phone = readFileSync(root + "src/components/IntroWalk.tsx", "utf8");
   assert.match(phone, /return null;/);
+  // The preview opens without signing in: its page sits outside the
+  // signed-in part of the app.
+  const layout = readFileSync(root + "src/app/_layout.tsx", "utf8");
+  assert.ok(
+    layout.indexOf('<Stack.Screen name="intro" />') <
+      layout.indexOf("<Stack.Protected"),
+  );
   // Nothing else in the app leads to it yet.
   const onboarding = readFileSync(root + "src/app/onboarding.tsx", "utf8");
   assert.doesNotMatch(onboarding, /\/intro/);

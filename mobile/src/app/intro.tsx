@@ -13,7 +13,9 @@ const churches: IntroChurch[] = ["catholic", "orthodox", "protestant"];
 
 // A preview of the first-visit intro, for the web only. Nothing in the app
 // links here and it is not part of anyone's first visit yet: open /intro to
-// watch it. ?church=orthodox and ?lang=ru show the other versions.
+// watch it, signed in or not. ?church=orthodox and ?lang=ru show the other
+// versions. Opening the door goes to the church, which asks a signed-out
+// visitor to sign in.
 export default function Intro() {
   const { profile } = useApp();
   const asked = useLocalSearchParams<{ church?: string; lang?: string }>();
