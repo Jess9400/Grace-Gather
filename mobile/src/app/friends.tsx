@@ -287,8 +287,9 @@ function FriendsScreen({
   if (active)
     return (
       <ChatThread
+        privateTranslation
         title={active.name}
-        subtitle={c("Private · only the two of you")}
+        subtitle={c("Private conversation")}
         rule={c(
           "Messages are shared with your friend. Reported messages can be reviewed by moderators.",
         )}

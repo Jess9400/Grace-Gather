@@ -41,6 +41,11 @@ import {
   isPortugueseDiscoverStory,
   isReadableBrazilianPublisher,
 } from "../../lib/discover-language";
+import {
+  translationCopy,
+  useConversationTranslations,
+} from "../../lib/conversation-translations";
+import { TranslatedText } from "../../components/TranslatedText";
 interface Comment {
   id: string;
   user_id: string;
@@ -82,6 +87,12 @@ export default function Story() {
     jumpTimer = useRef<ReturnType<typeof setTimeout> | null>(null),
     commentsY = useRef(0),
     jumped = useRef(false);
+  const commentTranslations = useConversationTranslations(
+    comments
+      .filter((comment) => comment.user_id !== uid)
+      .map((comment) => ({ id: comment.id, text: comment.body })),
+    profile.language,
+  );
   useEffect(() => {
     jumped.current = false;
   }, [id, jump]);
@@ -203,13 +214,7 @@ export default function Story() {
     return () => {
       active = false;
     };
-  }, [
-    id,
-    item?.id,
-    item?.origin,
-    inlinePublisher,
-    publisherRetry,
-  ]);
+  }, [id, item?.id, item?.origin, inlinePublisher, publisherRetry]);
   async function act(fn: () => Promise<void>, isStoryReport = false) {
     setBusy(true);
     setNotice("");
@@ -480,6 +485,14 @@ export default function Story() {
       </View>
       <Notice text={notice} />
       <Notice text={commentError ? c(commentError) : ""} />
+      {!!comments.length && (
+        <Body small>
+          {translationCopy(
+            profile.language,
+            commentTranslations.unavailable ? "unavailable" : "notice",
+          )}
+        </Body>
+      )}
       {!!commentError && (
         <Button
           secondary
@@ -653,9 +666,12 @@ export default function Story() {
                   />
                 </Pressable>
               </View>
-              <Text style={{ fontSize: 15, lineHeight: 22, color: colors.ink }}>
-                {comment.body}
-              </Text>
+              <TranslatedText
+                original={comment.body}
+                translation={commentTranslations.translations[comment.id]}
+                language={profile.language}
+                style={{ fontSize: 15, lineHeight: 22, color: colors.ink }}
+              />
             </View>
             <Body small>
               {new Date(comment.created_at).toLocaleDateString(

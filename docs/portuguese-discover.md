@@ -24,5 +24,10 @@ Potential publishers to approach and evaluate:
 - Canção Nova: https://formacao.cancaonova.com/testemunhos/
 - Editora Ultimato: https://www.ultimato.com.br/
 
-The public discussion feed has no reliable source-language metadata yet.
-It remains multilingual until translation is implemented separately.
+Discussions and chats remain multilingual. Their text is automatically
+translated to the reader's interface language, with an option to see the
+original. The app discloses that Alibaba Qwen processes the text, including in
+private chats. Translations are held in the open screen's memory only; the
+original messages remain unchanged. The separate translation service and
+database guard must be deployed and verified before enabling this feature.
+Confessions continue to be matched by language and are not translated here.
