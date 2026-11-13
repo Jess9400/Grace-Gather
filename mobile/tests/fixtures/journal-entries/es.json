@@ -1,0 +1,750 @@
+[
+ {
+  "id": "es-001",
+  "lang": "es",
+  "text": "Todavía pongo dos tazas en la mesa cada mañana. Se me olvida que mi viejo ya no está.",
+  "expect": "grief",
+  "also": [],
+  "tricky": false,
+  "why": "padre fallecido, sin decir 'murió'"
+ },
+ {
+  "id": "es-002",
+  "lang": "es",
+  "text": "Señor, enterramos a mi abuela el sábado. La casa huele a ella todavía y no sé qué hacer con sus cosas.",
+  "expect": "grief",
+  "also": [
+   "sadness"
+  ],
+  "tricky": false,
+  "why": "duelo reciente por la abuela"
+ },
+ {
+  "id": "es-003",
+  "lang": "es",
+  "text": "Diosito, cuida a mi hermanito allá contigo. Lo extraño.",
+  "expect": "grief",
+  "also": [],
+  "tricky": false,
+  "why": "hermano fallecido, voz infantil/popular"
+ },
+ {
+  "id": "es-004",
+  "lang": "es",
+  "text": "Hoy hace tres años que se fue mi mamá. Pensé que con el tiempo dolería menos.",
+  "expect": "anniversary",
+  "also": [
+   "grief"
+  ],
+  "tricky": false,
+  "why": "aniversario de la muerte de la madre"
+ },
+ {
+  "id": "es-005",
+  "lang": "es",
+  "text": "Cinco años ya, Señor. Cinco años sin mi esposo, y hoy fui al cementerio con las flores amarillas que le gustaban.",
+  "expect": "anniversary",
+  "also": [
+   "grief"
+  ],
+  "tricky": false,
+  "why": "aniversario, visita al cementerio"
+ },
+ {
+  "id": "es-006",
+  "lang": "es",
+  "text": "Estoy triste y no sé por qué.",
+  "expect": "sadness",
+  "also": [],
+  "tricky": false,
+  "why": "tristeza sin causa"
+ },
+ {
+  "id": "es-007",
+  "lang": "es",
+  "text": "Ando bajoneada, Señor. Llovió todo el día y yo igual.",
+  "expect": "sadness",
+  "also": [],
+  "tricky": false,
+  "why": "tristeza leve, rioplatense"
+ },
+ {
+  "id": "es-008",
+  "lang": "es",
+  "text": "Necesito desahogarme y no tengo a quién contarle, así que te lo cuento a Ti: estoy harta de que en mi casa nadie me escuche. Hago todo, nadie lo ve, y cuando hablo me cambian de tema.",
+  "expect": "venting",
+  "also": [
+   "lonely",
+   "sadness"
+  ],
+  "tricky": false,
+  "why": "pide desahogarse"
+ },
+ {
+  "id": "es-009",
+  "lang": "es",
+  "text": "solo quiero que alguien me escuche sin darme consejos. eso es todo.",
+  "expect": "venting",
+  "also": [
+   "lonely"
+  ],
+  "tricky": false,
+  "why": "quiere ser escuchada"
+ },
+ {
+  "id": "es-010",
+  "lang": "es",
+  "text": "Llevo semanas sin ganas de nada. Me cuesta hasta bañarme.",
+  "expect": "persistent-distress",
+  "also": [
+   "sadness"
+  ],
+  "tricky": false,
+  "why": "ánimo bajo prolongado"
+ },
+ {
+  "id": "es-011",
+  "lang": "es",
+  "text": "El psiquiatra dice que es depresión. Yo solo sé que hace meses que todo me pesa y ya no disfruto ni lo que antes me gustaba.",
+  "expect": "persistent-distress",
+  "also": [],
+  "tricky": false,
+  "why": "depresión diagnosticada"
+ },
+ {
+  "id": "es-012",
+  "lang": "es",
+  "text": "Llegué a Madrid hace cuatro meses y echo de menos mi tierra, la sazón de mi mamá, mi iglesia en Guayaquil. Aquí no conozco a nadie.",
+  "expect": "homesick",
+  "also": [
+   "lonely"
+  ],
+  "tricky": false,
+  "why": "migrante, extraña su país e iglesia"
+ },
+ {
+  "id": "es-013",
+  "lang": "es",
+  "text": "Extraño Venezuela. Extraño hasta el calor.",
+  "expect": "homesick",
+  "also": [],
+  "tricky": false,
+  "why": "nostalgia del país"
+ },
+ {
+  "id": "es-014",
+  "lang": "es",
+  "text": "Desde que enviudé paso los domingos sola. Me haría tanto bien que alguien me llamara, aunque fuera para preguntar cómo estoy.",
+  "expect": "lonely",
+  "also": [
+   "grief"
+  ],
+  "tricky": false,
+  "why": "soledad, desea contacto"
+ },
+ {
+  "id": "es-015",
+  "lang": "es",
+  "text": "me siento solo. eso.",
+  "expect": "lonely",
+  "also": [],
+  "tricky": false,
+  "why": "soledad, muy breve"
+ },
+ {
+  "id": "es-016",
+  "lang": "es",
+  "text": "No puedo dejar de pensar en el examen de mañana. Tengo el estómago revuelto.",
+  "expect": "anxiety",
+  "also": [],
+  "tricky": false,
+  "why": "preocupación por examen"
+ },
+ {
+  "id": "es-017",
+  "lang": "es",
+  "text": "Me da pánico que me vuelvan a llamar de la escuela por lo de mi hijo. Cada vez que suena el teléfono me pongo a temblar.",
+  "expect": "anxiety",
+  "also": [],
+  "tricky": false,
+  "why": "miedo anticipatorio"
+ },
+ {
+  "id": "es-018",
+  "lang": "es",
+  "text": "Tengo mil cosas pendientes: la tesis, el trabajo, la casa... y no sé por dónde empezar.",
+  "expect": "overwhelm",
+  "also": [
+   "anxiety"
+  ],
+  "tricky": false,
+  "why": "demasiadas tareas"
+ },
+ {
+  "id": "es-019",
+  "lang": "es",
+  "text": "Demasiado. Todo es demasiado hoy.",
+  "expect": "overwhelm",
+  "also": [],
+  "tricky": false,
+  "why": "agobio, breve"
+ },
+ {
+  "id": "es-020",
+  "lang": "es",
+  "text": "Estoy reventada.",
+  "expect": "exhaustion",
+  "also": [],
+  "tricky": false,
+  "why": "agotamiento coloquial"
+ },
+ {
+  "id": "es-021",
+  "lang": "es",
+  "text": "Llevo meses diciendo que sí a todo en la parroquia: el coro, la catequesis, el bazar. Ya no me queda nada por dentro.",
+  "expect": "exhaustion",
+  "also": [
+   "overwhelm"
+  ],
+  "tricky": false,
+  "why": "quemada por servir sin descanso"
+ },
+ {
+  "id": "es-022",
+  "lang": "es",
+  "text": "Le grité a mi hija por una tontería y vi su carita. Me arrepiento tanto.",
+  "expect": "guilt",
+  "also": [
+   "conflict"
+  ],
+  "tricky": false,
+  "why": "arrepentimiento, quiere reparar"
+ },
+ {
+  "id": "es-023",
+  "lang": "es",
+  "text": "Perdóname, Señor. Hablé mal de una hermana de la iglesia a sus espaldas.",
+  "expect": "guilt",
+  "also": [],
+  "tricky": false,
+  "why": "confesión de murmuración"
+ },
+ {
+  "id": "es-024",
+  "lang": "es",
+  "text": "Estoy que echo chispas. Mi cuñado volvió a burlarse de mí delante de todos y casi le contesto feo.",
+  "expect": "anger",
+  "also": [
+   "conflict"
+  ],
+  "tricky": false,
+  "why": "ira tras humillación"
+ },
+ {
+  "id": "es-025",
+  "lang": "es",
+  "text": "Me hierve la sangre. El jefe se llevó el crédito de mi proyecto en la reunión como si nada.",
+  "expect": "anger",
+  "also": [],
+  "tricky": false,
+  "why": "enojo sin la palabra 'enojo'"
+ },
+ {
+  "id": "es-026",
+  "lang": "es",
+  "text": "No sé si aceptar el trabajo en Monterrey o quedarme cerca de mis papás.",
+  "expect": "decision",
+  "also": [],
+  "tricky": false,
+  "why": "decisión laboral/familiar"
+ },
+ {
+  "id": "es-027",
+  "lang": "es",
+  "text": "¿Me caso o espero? Necesito sabiduría.",
+  "expect": "decision",
+  "also": [],
+  "tricky": false,
+  "why": "decisión, breve"
+ },
+ {
+  "id": "es-028",
+  "lang": "es",
+  "text": "Rezo y siento q hablo con el techo.",
+  "expect": "doubt",
+  "also": [],
+  "tricky": false,
+  "why": "Dios lejano, con abreviatura"
+ },
+ {
+  "id": "es-029",
+  "lang": "es",
+  "text": "Ya no sé si creo como antes. Voy a misa por costumbre y no siento nada.",
+  "expect": "doubt",
+  "also": [],
+  "tricky": false,
+  "why": "fe apagada"
+ },
+ {
+  "id": "es-030",
+  "lang": "es",
+  "text": "¡¡Me dieron la residencia!! ¡Estoy felizzz!",
+  "expect": "joy",
+  "also": [
+   "answered-prayer",
+   "gratitude"
+  ],
+  "tricky": false,
+  "why": "noticia alegre"
+ },
+ {
+  "id": "es-031",
+  "lang": "es",
+  "text": "Hoy nació mi nieta Valentina. Tiene las manos de su abuelo. Qué alegría tan grande, Señor.",
+  "expect": "joy",
+  "also": [
+   "gratitude"
+  ],
+  "tricky": false,
+  "why": "nacimiento de nieta"
+ },
+ {
+  "id": "es-032",
+  "lang": "es",
+  "text": "Gracias, Señor.",
+  "expect": "gratitude",
+  "also": [],
+  "tricky": false,
+  "why": "agradecimiento breve"
+ },
+ {
+  "id": "es-033",
+  "lang": "es",
+  "text": "Gracias por mi familia, por el techo y por la comida de hoy. No me falta nada.",
+  "expect": "gratitude",
+  "also": [
+   "peace"
+  ],
+  "tricky": false,
+  "why": "gratitud cotidiana"
+ },
+ {
+  "id": "es-034",
+  "lang": "es",
+  "text": "Me has bendecido tanto este año que quiero devolver algo. ¿Dónde me necesitas?",
+  "expect": "service",
+  "also": [
+   "gratitude"
+  ],
+  "tricky": false,
+  "why": "bendecido, quiere dar"
+ },
+ {
+  "id": "es-035",
+  "lang": "es",
+  "text": "Estoy pensando apuntarme de voluntaria en el comedor de Cáritas los sábados. Tengo tanto y otros tan poco.",
+  "expect": "service",
+  "also": [
+   "gratitude"
+  ],
+  "tricky": false,
+  "why": "quiere servir"
+ },
+ {
+  "id": "es-036",
+  "lang": "es",
+  "text": "Cuando estuve mal, la hermana Lupe me escuchó horas sin juzgarme. Quiero ser eso para alguien.",
+  "expect": "listen",
+  "also": [
+   "service"
+  ],
+  "tricky": false,
+  "why": "quiere escuchar a otros"
+ },
+ {
+  "id": "es-037",
+  "lang": "es",
+  "text": "Mi compañero de trabajo anda apagado desde que se divorció. Quisiera acercarme y simplemente escucharlo, sin sermones.",
+  "expect": "listen",
+  "also": [],
+  "tricky": false,
+  "why": "quiere escuchar a un amigo"
+ },
+ {
+  "id": "es-038",
+  "lang": "es",
+  "text": "Llegó una familia venezolana nueva a la parroquia. Me acuerdo de lo que fue llegar yo sin conocer a nadie, y quiero recibirlos bien.",
+  "expect": "welcome",
+  "also": [
+   "service"
+  ],
+  "tricky": false,
+  "why": "acoger a recién llegados"
+ },
+ {
+  "id": "es-039",
+  "lang": "es",
+  "text": "Hay una chica nueva en la facu que siempre almuerza sola. Mañana la invito a mi mesa.",
+  "expect": "welcome",
+  "also": [
+   "listen"
+  ],
+  "tricky": false,
+  "why": "incluir a alguien nuevo"
+ },
+ {
+  "id": "es-040",
+  "lang": "es",
+  "text": "hoy x primera vez en mucho tiempo senti esperanza",
+  "expect": "hope",
+  "also": [],
+  "tricky": false,
+  "why": "esperanza, sin tildes"
+ },
+ {
+  "id": "es-041",
+  "lang": "es",
+  "text": "Después de un año horrible empiezo a ver luz. Todavía no está todo bien, pero algo cambió.",
+  "expect": "hope",
+  "also": [],
+  "tricky": false,
+  "why": "esperanza tras temporada dura"
+ },
+ {
+  "id": "es-042",
+  "lang": "es",
+  "text": "Volví a caer. Llevaba 40 días sin entrar a esas páginas y hoy recaí. Me doy asco.",
+  "expect": "habit",
+  "also": [
+   "guilt"
+  ],
+  "tricky": false,
+  "why": "recaída en pornografía, sin nombrarla"
+ },
+ {
+  "id": "es-043",
+  "lang": "es",
+  "text": "Señor, la botella me llama todas las noches. Ayúdame a no abrirla hoy.",
+  "expect": "habit",
+  "also": [],
+  "tricky": false,
+  "why": "tentación con el alcohol"
+ },
+ {
+  "id": "es-044",
+  "lang": "es",
+  "text": "A mi mamá la internaron anoche y estamos esperando los resultados.",
+  "expect": "illness",
+  "also": [
+   "anxiety"
+  ],
+  "tricky": false,
+  "why": "familiar hospitalizada"
+ },
+ {
+  "id": "es-045",
+  "lang": "es",
+  "text": "Mi esposo empieza la quimio el lunes. Sana su cuerpo, Señor.",
+  "expect": "illness",
+  "also": [],
+  "tricky": false,
+  "why": "cáncer del esposo"
+ },
+ {
+  "id": "es-046",
+  "lang": "es",
+  "text": "Me despidieron y no se como vamos a pagar el alquiler",
+  "expect": "money",
+  "also": [
+   "anxiety"
+  ],
+  "tricky": false,
+  "why": "despido, alquiler"
+ },
+ {
+  "id": "es-047",
+  "lang": "es",
+  "text": "No me alcanza la quincena. Ya le pedí prestado a mi hermana y me da vergüenza pedirle otra vez.",
+  "expect": "money",
+  "also": [
+   "anxiety"
+  ],
+  "tricky": false,
+  "why": "apuro económico sin decir 'dinero'"
+ },
+ {
+  "id": "es-048",
+  "lang": "es",
+  "text": "Discutimos otra vez y mi hijo no me habla desde el domingo.",
+  "expect": "conflict",
+  "also": [
+   "sadness"
+  ],
+  "tricky": false,
+  "why": "conflicto con hijo"
+ },
+ {
+  "id": "es-049",
+  "lang": "es",
+  "text": "Mi suegra y yo no nos soportamos y mi marido queda en medio. La Navidad va a ser un infierno.",
+  "expect": "conflict",
+  "also": [
+   "anger"
+  ],
+  "tricky": false,
+  "why": "conflicto familiar"
+ },
+ {
+  "id": "es-050",
+  "lang": "es",
+  "text": "Me enteré de que mi mejor amiga le contó a todos lo que le confié. Me siento traicionada.",
+  "expect": "betrayal",
+  "also": [],
+  "tricky": false,
+  "why": "confianza rota"
+ },
+ {
+  "id": "es-051",
+  "lang": "es",
+  "text": "Leí los mensajes. Me engaña desde hace meses.",
+  "expect": "betrayal",
+  "also": [],
+  "tricky": false,
+  "why": "infidelidad, sin la palabra 'traición'"
+ },
+ {
+  "id": "es-052",
+  "lang": "es",
+  "text": "Nada va a cambiar. ¿Para qué intentarlo?",
+  "expect": "hopelessness",
+  "also": [],
+  "tricky": false,
+  "why": "desesperanza"
+ },
+ {
+  "id": "es-053",
+  "lang": "es",
+  "text": "Doce años esperando que mi matrimonio mejore y sigue igual. Ya no le veo salida.",
+  "expect": "hopelessness",
+  "also": [
+   "conflict"
+  ],
+  "tricky": false,
+  "why": "sin salida en el matrimonio"
+ },
+ {
+  "id": "es-054",
+  "lang": "es",
+  "text": "¡Respondiste, Señor! Le aprobaron la visa a mi hijo después de dos rechazos.",
+  "expect": "answered-prayer",
+  "also": [
+   "joy",
+   "gratitude"
+  ],
+  "tricky": false,
+  "why": "oración respondida"
+ },
+ {
+  "id": "es-055",
+  "lang": "es",
+  "text": "Llevaba meses pidiéndote por el trabajo de Jorge y hoy lo llamaron. Tú nunca fallas.",
+  "expect": "answered-prayer",
+  "also": [
+   "gratitude",
+   "joy"
+  ],
+  "tricky": false,
+  "why": "petición cumplida"
+ },
+ {
+  "id": "es-056",
+  "lang": "es",
+  "text": "Un día tranquilo. Estoy en paz.",
+  "expect": "peace",
+  "also": [],
+  "tricky": false,
+  "why": "calma"
+ },
+ {
+  "id": "es-057",
+  "lang": "es",
+  "text": "Tarde de mate en el patio, los pájaros, el silencio. Qué paz, Señor.",
+  "expect": "peace",
+  "also": [
+   "gratitude"
+  ],
+  "tricky": false,
+  "why": "calma, rioplatense"
+ },
+ {
+  "id": "es-058",
+  "lang": "es",
+  "text": "No sé ni qué escribir.",
+  "expect": "unclear",
+  "also": [],
+  "tricky": false,
+  "why": "sin tema claro"
+ },
+ {
+  "id": "es-059",
+  "lang": "es",
+  "text": "Hoy fue un día raro. Bien y mal a la vez, no sé.",
+  "expect": "unclear",
+  "also": [],
+  "tricky": false,
+  "why": "mixto, vago"
+ },
+ {
+  "id": "es-060",
+  "lang": "es",
+  "text": "No estoy enojado con mi hermano, Señor, de verdad que no. Solo me dolió que no viniera a mi boda.",
+  "expect": "sadness",
+  "also": [
+   "conflict"
+  ],
+  "tricky": true,
+  "why": "negación: 'no estoy enojado'; es tristeza"
+ },
+ {
+  "id": "es-061",
+  "lang": "es",
+  "text": "Mira, Señor, hoy no te pido nada. Solo respiro y admiro el atardecer.",
+  "expect": "peace",
+  "also": [
+   "gratitude"
+  ],
+  "tricky": true,
+  "why": "'ira' escondida en mira/respiro/admiro"
+ },
+ {
+  "id": "es-062",
+  "lang": "es",
+  "text": "Estoy en deuda contigo, Señor, por todo lo que hiciste este año.",
+  "expect": "gratitude",
+  "also": [
+   "service"
+  ],
+  "tricky": true,
+  "why": "'deuda' no es dinero"
+ },
+ {
+  "id": "es-063",
+  "lang": "es",
+  "text": "¡Me muero de ganas de ver a mis nietos en Navidad! Ya falta poquito.",
+  "expect": "joy",
+  "also": [],
+  "tricky": true,
+  "why": "'me muero' es modismo, no muerte"
+ },
+ {
+  "id": "es-064",
+  "lang": "es",
+  "text": "Mi hija entró a estudiar enfermería. ¡Estamos orgullosísimos!",
+  "expect": "joy",
+  "also": [
+   "gratitude",
+   "answered-prayer"
+  ],
+  "tricky": true,
+  "why": "'enferm' dentro de 'enfermería'"
+ },
+ {
+  "id": "es-065",
+  "lang": "es",
+  "text": "No soy capaz de decidir entre las dos ofertas. Las dos me gustan y las dos me dan miedo.",
+  "expect": "decision",
+  "also": [
+   "anxiety"
+  ],
+  "tricky": true,
+  "why": "'paz' escondida en 'capaz'"
+ },
+ {
+  "id": "es-066",
+  "lang": "es",
+  "text": "Mañana se casa mi hija y estoy feliz, pero su papá no va a estar para llevarla al altar. Lo extraño tanto hoy.",
+  "expect": "grief",
+  "also": [
+   "anniversary",
+   "joy"
+  ],
+  "tricky": true,
+  "why": "alegría y duelo; pesa el duelo"
+ },
+ {
+  "id": "es-067",
+  "lang": "es",
+  "text": "Qué maravilla, otra vez me cortaron la luz por no pagar. Justo lo que necesitaba esta semana.",
+  "expect": "money",
+  "also": [
+   "anger"
+  ],
+  "tricky": true,
+  "why": "sarcasmo; problema de dinero"
+ },
+ {
+  "id": "es-068",
+  "lang": "es",
+  "text": "Te pido por mi vecina Rosa, que le acaban de diagnosticar alzhéimer. Su hija está desbordada y yo no sé cómo ayudar.",
+  "expect": "illness",
+  "also": [
+   "listen"
+  ],
+  "tricky": true,
+  "why": "problema de otra persona"
+ },
+ {
+  "id": "es-069",
+  "lang": "es",
+  "text": "Padre, te siento tan lejos últimamente.",
+  "expect": "doubt",
+  "also": [],
+  "tricky": true,
+  "why": "'Padre' es Dios, no un padre fallecido"
+ },
+ {
+  "id": "es-070",
+  "lang": "es",
+  "text": "Hoy lavé la ropa, hice la compra y vi una serie. Nada especial.",
+  "expect": "unclear",
+  "also": [
+   "peace"
+  ],
+  "tricky": true,
+  "why": "vida cotidiana sin emoción"
+ },
+ {
+  "id": "es-071",
+  "lang": "es",
+  "text": "No es que me falte plata, gracias a Dios. Es que me siento vacío y no sé de qué.",
+  "expect": "sadness",
+  "also": [
+   "persistent-distress",
+   "doubt"
+  ],
+  "tricky": true,
+  "why": "negación de dinero; 'gracias a Dios' no es gratitud"
+ },
+ {
+  "id": "es-072",
+  "lang": "es",
+  "text": "Me duele la cabeza de tanto pensar si dejo la carrera o no.",
+  "expect": "decision",
+  "also": [
+   "anxiety"
+  ],
+  "tricky": true,
+  "why": "'me duele' no es duelo ni enfermedad"
+ },
+ {
+  "id": "es-073",
+  "lang": "es",
+  "text": "Perdona la hora, Señor, pero no puedo dormir pensando en la operación de mi papá mañana.",
+  "expect": "illness",
+  "also": [
+   "anxiety"
+  ],
+  "tricky": true,
+  "why": "'perdona' no es culpa; 'papá' vivo"
+ }
+]

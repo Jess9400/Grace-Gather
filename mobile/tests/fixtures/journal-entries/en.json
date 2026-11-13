@@ -1,0 +1,807 @@
+[
+ {
+  "id": "en-001",
+  "lang": "en",
+  "text": "Dear God, I set two mugs out this morning without thinking. Then I remembered Tom won't be coming down the stairs.",
+  "expect": "grief",
+  "also": [
+   "lonely"
+  ],
+  "tricky": false,
+  "why": "recent loss of spouse, no 'died'"
+ },
+ {
+  "id": "en-002",
+  "lang": "en",
+  "text": "Lord, the funeral was Saturday. Everyone has gone home and the house is so quiet. I don't know how to do this without Mum.",
+  "expect": "grief",
+  "also": [
+   "lonely",
+   "sadness"
+  ],
+  "tricky": false,
+  "why": "fresh bereavement after funeral"
+ },
+ {
+  "id": "en-003",
+  "lang": "en",
+  "text": "miss my grandpa",
+  "expect": "grief",
+  "also": [
+   "sadness"
+  ],
+  "tricky": false,
+  "why": "short; missing someone who has passed"
+ },
+ {
+  "id": "en-004",
+  "lang": "en",
+  "text": "Five years today since we lost Ellie. The world kept going but I always stop on this date. Hold her for me, Lord.",
+  "expect": "anniversary",
+  "also": [
+   "grief"
+  ],
+  "tricky": false,
+  "why": "explicit date-marked loss"
+ },
+ {
+  "id": "en-005",
+  "lang": "en",
+  "text": "Dad's birthday today. First one without him. I bought a card out of habit and just sat in the car with it.",
+  "expect": "anniversary",
+  "also": [
+   "grief"
+  ],
+  "tricky": false,
+  "why": "first birthday after death"
+ },
+ {
+  "id": "en-006",
+  "lang": "en",
+  "text": "Lord, I cried in the shower again this morning. Nothing's wrong exactly, I just feel heavy.",
+  "expect": "sadness",
+  "also": [
+   "persistent-distress"
+  ],
+  "tricky": false,
+  "why": "tearful, not stated as long-term"
+ },
+ {
+  "id": "en-007",
+  "lang": "en",
+  "text": "Sad.",
+  "expect": "sadness",
+  "also": [],
+  "tricky": false,
+  "why": "one word"
+ },
+ {
+  "id": "en-008",
+  "lang": "en",
+  "text": "Ok God I just need to get this out. Work was a nightmare, the bus was late, my roommate ate my leftoversss and nobody even asked how I was. I just need someone to hear me rant for once.",
+  "expect": "venting",
+  "also": [
+   "anger",
+   "overwhelm"
+  ],
+  "tricky": false,
+  "why": "explicit need to unload"
+ },
+ {
+  "id": "en-009",
+  "lang": "en",
+  "text": "I don't need advice. I just need to say it to Someone. Today hurt and I'm tired of pretending it didn't.",
+  "expect": "venting",
+  "also": [
+   "sadness"
+  ],
+  "tricky": false,
+  "why": "wants to be heard, not fixed"
+ },
+ {
+  "id": "en-010",
+  "lang": "en",
+  "text": "It's been months of this grey fog. I go to work, come home, lie on the couch. I told my doctor I think it might be depression.",
+  "expect": "persistent-distress",
+  "also": [
+   "sadness"
+  ],
+  "tricky": false,
+  "why": "self-reported depression over months"
+ },
+ {
+  "id": "en-011",
+  "lang": "en",
+  "text": "Lord I havent showered in 4 days and the dishes are piled up. Every morning feels like lifting concrete. its been like this since summer.",
+  "expect": "persistent-distress",
+  "also": [
+   "exhaustion"
+  ],
+  "tricky": false,
+  "why": "long-running low mood, no keyword"
+ },
+ {
+  "id": "en-012",
+  "lang": "en",
+  "text": "Dear God, it's my first Christmas in Canada and I miss my mother's cooking and our little parish back in Manila. Nobody here knows the hymns I grew up with.",
+  "expect": "homesick",
+  "also": [
+   "lonely"
+  ],
+  "tricky": false,
+  "why": "away from home country and church"
+ },
+ {
+  "id": "en-013",
+  "lang": "en",
+  "text": "Moved for uni three weeks ago. Everyone seems to already have their friends. I miss my home church so much.",
+  "expect": "homesick",
+  "also": [
+   "lonely"
+  ],
+  "tricky": false,
+  "why": "new city, missing home church"
+ },
+ {
+  "id": "en-014",
+  "lang": "en",
+  "text": "Lord, I'm 82 and the phone hasn't rung all week. I'd just like someone to ask how I'm doing.",
+  "expect": "lonely",
+  "also": [],
+  "tricky": false,
+  "why": "isolated, wants contact"
+ },
+ {
+  "id": "en-015",
+  "lang": "en",
+  "text": "God, everyone at small group has someone. I go home to an empty flat and talk to the cat. I'd love one real friend.",
+  "expect": "lonely",
+  "also": [
+   "sadness"
+  ],
+  "tricky": false,
+  "why": "desire for friendship"
+ },
+ {
+  "id": "en-016",
+  "lang": "en",
+  "text": "My biopsy results come back Thursday and I can't stop running through every possibility. Help me breathe, Lord.",
+  "expect": "anxiety",
+  "also": [
+   "illness"
+  ],
+  "tricky": false,
+  "why": "worry about pending results"
+ },
+ {
+  "id": "en-017",
+  "lang": "en",
+  "text": "cant sleep. keep thinking about the presentation tmrw and everyone staring at me",
+  "expect": "anxiety",
+  "also": [],
+  "tricky": false,
+  "why": "anticipatory worry, casual"
+ },
+ {
+  "id": "en-018",
+  "lang": "en",
+  "text": "Three kids, a full-time job, Mom's appointments, the church bake sale... I'm drowning and the list keeps growing.",
+  "expect": "overwhelm",
+  "also": [
+   "exhaustion"
+  ],
+  "tricky": false,
+  "why": "too much at once"
+ },
+ {
+  "id": "en-019",
+  "lang": "en",
+  "text": "Lord it's all too much today.",
+  "expect": "overwhelm",
+  "also": [
+   "exhaustion"
+  ],
+  "tricky": false,
+  "why": "short, too much"
+ },
+ {
+  "id": "en-020",
+  "lang": "en",
+  "text": "tired.",
+  "expect": "exhaustion",
+  "also": [
+   "persistent-distress"
+  ],
+  "tricky": false,
+  "why": "one word"
+ },
+ {
+  "id": "en-021",
+  "lang": "en",
+  "text": "I've said yes to every rota at church and now I'm running on fumes. I love serving, but I'm empty.",
+  "expect": "exhaustion",
+  "also": [
+   "overwhelm"
+  ],
+  "tricky": false,
+  "why": "burned out from overcommitting"
+ },
+ {
+  "id": "en-022",
+  "lang": "en",
+  "text": "I lied to my wife about where I was last night. It was small but it's eating at me. Please forgive me and help me tell her.",
+  "expect": "guilt",
+  "also": [
+   "conflict"
+  ],
+  "tricky": false,
+  "why": "regret, wants to repair"
+ },
+ {
+  "id": "en-023",
+  "lang": "en",
+  "text": "I was short with my mum on the phone and she sounded hurt. I should ring her back and apologise.",
+  "expect": "guilt",
+  "also": [
+   "conflict"
+  ],
+  "tricky": false,
+  "why": "regret over harsh words"
+ },
+ {
+  "id": "en-024",
+  "lang": "en",
+  "text": "I am FURIOUS. My brother took the inheritance paperwork and signed it without telling any of us. Keep me from saying something I'll regret.",
+  "expect": "anger",
+  "also": [
+   "conflict",
+   "betrayal"
+  ],
+  "tricky": false,
+  "why": "hot anger after conflict"
+ },
+ {
+  "id": "en-025",
+  "lang": "en",
+  "text": "My manager took credit for my work in front of everyone. I'm shaking I'm so mad.",
+  "expect": "anger",
+  "also": [
+   "betrayal",
+   "money"
+  ],
+  "tricky": false,
+  "why": "anger at injustice"
+ },
+ {
+  "id": "en-026",
+  "lang": "en",
+  "text": "Do I take the job in Denver or stay near my parents? I've prayed and made lists and I still don't know. Give me wisdom.",
+  "expect": "decision",
+  "also": [
+   "anxiety"
+  ],
+  "tricky": false,
+  "why": "choice between options"
+ },
+ {
+  "id": "en-027",
+  "lang": "en",
+  "text": "Lord, we've been offered a place for Sophie at two schools and we have to choose by Friday.",
+  "expect": "decision",
+  "also": [
+   "anxiety"
+  ],
+  "tricky": false,
+  "why": "deadline-bound choice"
+ },
+ {
+  "id": "en-028",
+  "lang": "en",
+  "text": "Lord, You feel so far away lately. I say the words but it's like talking to a ceiling.",
+  "expect": "doubt",
+  "also": [
+   "sadness"
+  ],
+  "tricky": false,
+  "why": "prayer feels empty"
+ },
+ {
+  "id": "en-029",
+  "lang": "en",
+  "text": "Honestly I'm not sure I believe any of this anymore. But I'm still writing to You, so maybe that means something.",
+  "expect": "doubt",
+  "also": [],
+  "tricky": false,
+  "why": "questioning faith"
+ },
+ {
+  "id": "en-030",
+  "lang": "en",
+  "text": "WE'RE PREGNANT!!! Thank you thank you thank you!",
+  "expect": "joy",
+  "also": [
+   "gratitude",
+   "answered-prayer"
+  ],
+  "tricky": false,
+  "why": "exuberant happiness"
+ },
+ {
+  "id": "en-031",
+  "lang": "en",
+  "text": "Got into nursing school!! I literally screamed in the car park.",
+  "expect": "joy",
+  "also": [
+   "answered-prayer",
+   "gratitude"
+  ],
+  "tricky": false,
+  "why": "happy news"
+ },
+ {
+  "id": "en-032",
+  "lang": "en",
+  "text": "Thank you for the friends who brought dinner every night this week. I didn't have to ask once.",
+  "expect": "gratitude",
+  "also": [],
+  "tricky": false,
+  "why": "thankful for people"
+ },
+ {
+  "id": "en-033",
+  "lang": "en",
+  "text": "ty God",
+  "expect": "gratitude",
+  "also": [],
+  "tricky": false,
+  "why": "very short thanks"
+ },
+ {
+  "id": "en-034",
+  "lang": "en",
+  "text": "I've been so blessed this year. Show me where I can give some of it back, Lord, maybe the food bank?",
+  "expect": "service",
+  "also": [
+   "gratitude"
+  ],
+  "tricky": false,
+  "why": "blessed and wants to give"
+ },
+ {
+  "id": "en-035",
+  "lang": "en",
+  "text": "We finally paid off the house. I'd like to sponsor a kid's school fees or something. Point me somewhere.",
+  "expect": "service",
+  "also": [
+   "gratitude",
+   "joy"
+  ],
+  "tricky": false,
+  "why": "wanting to share abundance"
+ },
+ {
+  "id": "en-036",
+  "lang": "en",
+  "text": "Someone sat with me last year when I was falling apart. I want to be that for someone else now. Show me who needs an ear.",
+  "expect": "listen",
+  "also": [
+   "service"
+  ],
+  "tricky": false,
+  "why": "wants to listen to others"
+ },
+ {
+  "id": "en-037",
+  "lang": "en",
+  "text": "Lord, I think Jenny from work is struggling. Help me be someone she can talk to, and help me just listen instead of fixing.",
+  "expect": "listen",
+  "also": [
+   "service"
+  ],
+  "tricky": false,
+  "why": "ready to listen to a friend"
+ },
+ {
+  "id": "en-038",
+  "lang": "en",
+  "text": "There's a new family at church who just arrived from Ukraine. I remember being new and nobody talking to me. I want to invite them for lunch.",
+  "expect": "welcome",
+  "also": [
+   "service"
+  ],
+  "tricky": false,
+  "why": "wants to welcome newcomers"
+ },
+ {
+  "id": "en-039",
+  "lang": "en",
+  "text": "A new guy started on our team today and ate alone. Tomorrow I'm going to ask him to join us. Give me courage.",
+  "expect": "welcome",
+  "also": [
+   "listen"
+  ],
+  "tricky": false,
+  "why": "including someone new"
+ },
+ {
+  "id": "en-040",
+  "lang": "en",
+  "text": "For the first time since the divorce I woke up and wanted to make breakfast. Small, but it felt like light.",
+  "expect": "hope",
+  "also": [
+   "peace"
+  ],
+  "tricky": false,
+  "why": "first hopeful sign after hard season"
+ },
+ {
+  "id": "en-041",
+  "lang": "en",
+  "text": "The chemo's done. Long road still, but I can see a little further than before.",
+  "expect": "hope",
+  "also": [
+   "illness",
+   "gratitude"
+  ],
+  "tricky": false,
+  "why": "hope after illness season"
+ },
+ {
+  "id": "en-042",
+  "lang": "en",
+  "text": "Day 3 sober and it's taking everything I have. Please keep me from going to the shop tonight.",
+  "expect": "habit",
+  "also": [],
+  "tricky": false,
+  "why": "addiction struggle"
+ },
+ {
+  "id": "en-043",
+  "lang": "en",
+  "text": "I keep losing my temper with the kids no matter how many times I promise myself I won't. Help me change.",
+  "expect": "habit",
+  "also": [
+   "guilt",
+   "anger"
+  ],
+  "tricky": false,
+  "why": "recurring pattern she wants to break"
+ },
+ {
+  "id": "en-044",
+  "lang": "en",
+  "text": "My dad's in the ICU after a stroke. Please be with the doctors and with him.",
+  "expect": "illness",
+  "also": [
+   "anxiety"
+  ],
+  "tricky": false,
+  "why": "family member hospitalised"
+ },
+ {
+  "id": "en-045",
+  "lang": "en",
+  "text": "The flare-up is back and I can barely get out of bed. Lord, I'm so tired of being sick.",
+  "expect": "illness",
+  "also": [
+   "exhaustion"
+  ],
+  "tricky": false,
+  "why": "own chronic illness"
+ },
+ {
+  "id": "en-046",
+  "lang": "en",
+  "text": "Rent is due Monday and we're $400 short. I don't know where it's coming from.",
+  "expect": "money",
+  "also": [
+   "anxiety"
+  ],
+  "tricky": false,
+  "why": "can't make rent"
+ },
+ {
+  "id": "en-047",
+  "lang": "en",
+  "text": "Got laid off today. Twelve years at that company. How do I tell the kids?",
+  "expect": "money",
+  "also": [
+   "anxiety",
+   "sadness"
+  ],
+  "tricky": false,
+  "why": "job loss"
+ },
+ {
+  "id": "en-048",
+  "lang": "en",
+  "text": "The fridge is almost empty and payday is ten days away. Provide, Lord.",
+  "expect": "money",
+  "also": [
+   "anxiety"
+  ],
+  "tricky": false,
+  "why": "financial strain without 'money'"
+ },
+ {
+  "id": "en-049",
+  "lang": "en",
+  "text": "My husband and I had another fight about his mother. We went to bed without speaking.",
+  "expect": "conflict",
+  "also": [
+   "anger"
+  ],
+  "tricky": false,
+  "why": "marital conflict"
+ },
+ {
+  "id": "en-050",
+  "lang": "en",
+  "text": "My daughter hasn't spoken to me since Easter. I miss her and I don't know how to fix it.",
+  "expect": "conflict",
+  "also": [
+   "sadness",
+   "guilt"
+  ],
+  "tricky": false,
+  "why": "family estrangement"
+ },
+ {
+  "id": "en-051",
+  "lang": "en",
+  "text": "I found the messages on his phone. Eight years and he's been lying to me the whole time.",
+  "expect": "betrayal",
+  "also": [
+   "anger",
+   "conflict"
+  ],
+  "tricky": false,
+  "why": "discovered infidelity"
+ },
+ {
+  "id": "en-052",
+  "lang": "en",
+  "text": "My best friend told everyone what I told her in confidence. I feel so stupid for trusting her.",
+  "expect": "betrayal",
+  "also": [
+   "anger"
+  ],
+  "tricky": false,
+  "why": "broken confidence"
+ },
+ {
+  "id": "en-053",
+  "lang": "en",
+  "text": "I keep trying and nothing changes. Same job, same debts, same fights. I don't see it ever getting better.",
+  "expect": "hopelessness",
+  "also": [
+   "money",
+   "persistent-distress"
+  ],
+  "tricky": false,
+  "why": "no expectation of change"
+ },
+ {
+  "id": "en-054",
+  "lang": "en",
+  "text": "What's even the point of praying anymore. Nothing ever moves.",
+  "expect": "hopelessness",
+  "also": [
+   "doubt"
+  ],
+  "tricky": false,
+  "why": "despair about change, not danger"
+ },
+ {
+  "id": "en-055",
+  "lang": "en",
+  "text": "The scan came back clear! We prayed for months for this. Thank You, Lord.",
+  "expect": "answered-prayer",
+  "also": [
+   "joy",
+   "gratitude",
+   "illness"
+  ],
+  "tricky": false,
+  "why": "specific prayer answered"
+ },
+ {
+  "id": "en-056",
+  "lang": "en",
+  "text": "You did it. The adoption went through.",
+  "expect": "answered-prayer",
+  "also": [
+   "joy",
+   "gratitude"
+  ],
+  "tricky": false,
+  "why": "good turn after waiting"
+ },
+ {
+  "id": "en-057",
+  "lang": "en",
+  "text": "Sat on the porch with my coffee and watched the rain. Everything felt still. Thank You for this quiet.",
+  "expect": "peace",
+  "also": [
+   "gratitude"
+  ],
+  "tricky": false,
+  "why": "calm moment"
+ },
+ {
+  "id": "en-058",
+  "lang": "en",
+  "text": "For once my mind is quiet. I just feel safe in You tonight.",
+  "expect": "peace",
+  "also": [],
+  "tricky": false,
+  "why": "settled, calm"
+ },
+ {
+  "id": "en-059",
+  "lang": "en",
+  "text": "Hi God. Not sure what to say today.",
+  "expect": "unclear",
+  "also": [],
+  "tricky": false,
+  "why": "no theme"
+ },
+ {
+  "id": "en-060",
+  "lang": "en",
+  "text": "Mixed day. Some good, some not. Anyway.",
+  "expect": "unclear",
+  "also": [
+   "peace"
+  ],
+  "tricky": false,
+  "why": "mixed, no clear need"
+ },
+ {
+  "id": "en-061",
+  "lang": "en",
+  "text": "My parents are coming for Sunday lunch, I made a roast and we're watching the match after. Just an ordinary day. Amen.",
+  "expect": "peace",
+  "also": [
+   "gratitude",
+   "unclear"
+  ],
+  "tricky": true,
+  "why": "'parents' hides 'rent'; everyday, no strong feeling"
+ },
+ {
+  "id": "en-062",
+  "lang": "en",
+  "text": "I studied all weekend for the exam and it went fine. Hospitality shift tonight then bed.",
+  "expect": "unclear",
+  "also": [
+   "peace"
+  ],
+  "tricky": true,
+  "why": "'studied'/'hospitality'; plain life update"
+ },
+ {
+  "id": "en-063",
+  "lang": "en",
+  "text": "I'm not angry with him, just really sad that we're not close anymore.",
+  "expect": "conflict",
+  "also": [
+   "sadness"
+  ],
+  "tricky": true,
+  "why": "negation of anger; relational rift"
+ },
+ {
+  "id": "en-064",
+  "lang": "en",
+  "text": "Oh great, the boiler's broken again. Perfect timing, Lord, really. Love that for me.",
+  "expect": "venting",
+  "also": [
+   "money",
+   "anger"
+  ],
+  "tricky": true,
+  "why": "sarcasm; mild frustration to vent"
+ },
+ {
+  "id": "en-065",
+  "lang": "en",
+  "text": "Emily's wedding is next week and she's radiant. But Dad won't be there to walk her down the aisle, and I can't stop thinking about the empty chair.",
+  "expect": "grief",
+  "also": [
+   "joy",
+   "anniversary"
+  ],
+  "tricky": true,
+  "why": "joy and grief; grief more pressing"
+ },
+ {
+  "id": "en-066",
+  "lang": "en",
+  "text": "My friend Sarah's husband just lost his job and she's terrified about their mortgage. Please look after them.",
+  "expect": "money",
+  "also": [
+   "anxiety"
+  ],
+  "tricky": true,
+  "why": "someone else's money problem"
+ },
+ {
+  "id": "en-067",
+  "lang": "en",
+  "text": "Lord, You feel so far away tonight. Are You even listening?",
+  "expect": "doubt",
+  "also": [
+   "lonely"
+  ],
+  "tricky": true,
+  "why": "prayer language about distance"
+ },
+ {
+  "id": "en-068",
+  "lang": "en",
+  "text": "Not lonely exactly. I have people. I just miss the version of me that lived in Glasgow.",
+  "expect": "homesick",
+  "also": [
+   "sadness"
+  ],
+  "tricky": true,
+  "why": "negation of 'lonely'; longing for home place"
+ },
+ {
+  "id": "en-069",
+  "lang": "en",
+  "text": "Different day, same struggle. Bought the cigarettes again.",
+  "expect": "habit",
+  "also": [
+   "guilt"
+  ],
+  "tricky": true,
+  "why": "'different' contains nothing; relapse unstated keyword"
+ },
+ {
+  "id": "en-070",
+  "lang": "en",
+  "text": "Bit of a rough week. Mum's back in hospital, but she's in good hands. I'm fine. Really.",
+  "expect": "illness",
+  "also": [
+   "anxiety",
+   "exhaustion"
+  ],
+  "tricky": true,
+  "why": "understatement; illness of family"
+ },
+ {
+  "id": "en-071",
+  "lang": "en",
+  "text": "Got the promotion. Funny how I don't feel anything about it. Everything's just grey lately.",
+  "expect": "persistent-distress",
+  "also": [
+   "sadness"
+  ],
+  "tricky": true,
+  "why": "good news masking ongoing low mood"
+ },
+ {
+  "id": "en-072",
+  "lang": "en",
+  "text": "The film tonight had so much danger and drama, loved it. Thankful for a night out with the girls.",
+  "expect": "gratitude",
+  "also": [
+   "joy"
+  ],
+  "tricky": true,
+  "why": "'danger' in a happy context"
+ },
+ {
+  "id": "en-073",
+  "lang": "en",
+  "text": "I'm not worried about the money anymore. It's my son I'm worried about. He's stopped answering my calls.",
+  "expect": "conflict",
+  "also": [
+   "anxiety"
+  ],
+  "tricky": true,
+  "why": "negated money; worry about estranged son"
+ }
+]
