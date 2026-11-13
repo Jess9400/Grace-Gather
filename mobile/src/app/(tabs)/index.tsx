@@ -31,8 +31,6 @@ import LivingChurchScene from "../../components/LivingChurchScene";
 import ChurchEntrance from "../../components/ChurchEntrance";
 import OrthodoxEntrance from "../../components/OrthodoxEntrance";
 import { useApp } from "../../lib/state";
-import { useQuiet } from "../../lib/quiet-state";
-import { q } from "../../lib/quiet-copy";
 import { churchCopy, type ChurchWord } from "../../lib/church-copy";
 import {
   adventWeekFor,
@@ -41,7 +39,7 @@ import {
   isOrthodox,
   welcomesCandles,
 } from "../../lib/church-calendar";
-import { loadCandles, useCandles } from "../../lib/candles";
+import { loadCandles } from "../../lib/candles";
 import {
   markEntered,
   shouldShowEntrance,
@@ -99,10 +97,8 @@ export default function Home() {
   const [invitation, setInvitation] = useState(false);
   const [dismissed, setDismissed] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
-  const [details, setDetails] = useState(false);
   const [invitationOpacity] = useState(() => new Animated.Value(0));
   const candlesAllowed = welcomesCandles(profile);
-  const { draft, clear } = useQuiet();
   const t = (key: ChurchWord) => churchCopy(profile.language, key);
   const params = useLocalSearchParams<{ advent?: string; present?: string }>();
   const preview =
@@ -137,7 +133,6 @@ export default function Home() {
   const [tourPlace, setTourPlace] = useState<ChurchPlace | null>(null);
   const [soundOn, setSoundOn] = useState<boolean | null>(null);
   const [focused, setFocused] = useState(true);
-  const candles = useCandles();
   const live = useChurchPresence(focused && !entrance);
   const [presenceOpacity] = useState(() => new Animated.Value(0));
   const hasPresence = presentCount(live);
@@ -414,7 +409,7 @@ export default function Home() {
               night={night}
               onPlace={open}
               accessibilityLabel={t("church")}
-              paused={entrance || details || aboutAdvent || !focused}
+              paused={entrance || aboutAdvent || !focused}
               tour={touring}
               labelsEnabled={!invitation}
               labelsAlways={eastern}
@@ -523,18 +518,6 @@ export default function Home() {
                     />
                   </Pressable>
                 )}
-                <Pressable
-                  accessibilityRole="button"
-                  accessibilityLabel={tr("Your next step")}
-                  onPress={() => setDetails(true)}
-                  style={s.tool}
-                >
-                  <Ionicons
-                    name="checkmark-circle-outline"
-                    size={20}
-                    color="#FFF8E9"
-                  />
-                </Pressable>
               </>
             )}
             <Pressable
@@ -786,13 +769,10 @@ export default function Home() {
         </View>
       </Modal>
       <Modal
-        visible={details || aboutAdvent}
+        visible={aboutAdvent}
         transparent
         animationType={reduced ? "none" : "fade"}
-        onRequestClose={() => {
-          setDetails(false);
-          setAboutAdvent(false);
-        }}
+        onRequestClose={() => setAboutAdvent(false)}
       >
         <View
           style={[
@@ -805,52 +785,13 @@ export default function Home() {
               <Button
                 secondary
                 title={tr("Close")}
-                onPress={() => {
-                  setDetails(false);
-                  setAboutAdvent(false);
-                }}
+                onPress={() => setAboutAdvent(false)}
               />
-              {aboutAdvent ? (
-                <>
-                  <Text style={s.detailTitle}>
-                    {t("advent")} {week}
-                    {theme}
-                  </Text>
-                  <Body>{t("adventAbout")}</Body>
-                </>
-              ) : (
-                <>
-                  <StepCheckIn />
-                  <Button
-                    title={tr("Talk to God")}
-                    onPress={() => {
-                      setDetails(false);
-                      journal();
-                    }}
-                  />
-                  {draft.entryId && (
-                    <Button
-                      secondary
-                      title={q(profile.language, "newPage")}
-                      onPress={() => {
-                        setDetails(false);
-                        clear();
-                        journal();
-                      }}
-                    />
-                  )}
-                  {candlesAllowed && candles.length > 0 && (
-                    <Button
-                      secondary
-                      title={`${t("youLit")} · ${candles.length}`}
-                      onPress={() => {
-                        setDetails(false);
-                        enter("candles", () => router.push("/candle"));
-                      }}
-                    />
-                  )}
-                </>
-              )}
+              <Text style={s.detailTitle}>
+                {t("advent")} {week}
+                {theme}
+              </Text>
+              <Body>{t("adventAbout")}</Body>
             </ScrollView>
           </View>
         </View>
