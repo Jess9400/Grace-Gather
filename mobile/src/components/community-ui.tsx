@@ -6,7 +6,6 @@ import {
   View,
   Text,
   Pressable,
-  TextInput,
   StyleSheet,
   Platform,
   Linking,
@@ -22,6 +21,7 @@ import { useKeyboardReveal } from "../lib/keyboard-reveal";
 import { colors } from "./quiet-ui";
 import ChurchStrip, { useRoomStrip } from "./ChurchStrip";
 import type { RoomPlace } from "../lib/church-room";
+import { FormField } from "./FormField";
 export { colors };
 const CardSurface = createContext(false);
 type SurfacePalette = {
@@ -323,28 +323,7 @@ export function Field({
 }: TextInputProps & { label: string; hideLabel?: boolean }) {
   const surface = useSurfaceColors();
   const theme = useContext(SurfaceContext);
-  return (
-    <View style={{ gap: 8, marginVertical: 7 }}>
-      {!hideLabel && (
-        <Text style={[s.fieldLabel, { color: surface.ink }]}>{label}</Text>
-      )}
-      <TextInput
-        accessibilityLabel={label}
-        placeholderTextColor={theme?.muted ?? colors.cardMuted}
-        {...props}
-        style={[
-          s.field,
-          theme && {
-            backgroundColor: theme.field,
-            color: theme.ink,
-            borderColor: theme.line,
-          },
-          props.multiline && { minHeight: 130, textAlignVertical: "top" },
-          props.style,
-        ]}
-      />
-    </View>
-  );
+  return <FormField label={label} hideLabel={hideLabel} {...props} palette={{ ink: surface.ink, muted: theme?.muted ?? colors.cardMuted, field: theme?.field ?? colors.white, line: theme?.line ?? colors.cardLine, focus: theme?.accent ?? colors.gold }} />;
 }
 export function External({ title, url }: { title: string; url: string }) {
   return (

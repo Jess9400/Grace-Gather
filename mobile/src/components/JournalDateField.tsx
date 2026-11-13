@@ -23,7 +23,7 @@ export default function JournalDateField({ label, value, language, onChange }: {
       <Pressable accessibilityRole="button" accessibilityLabel={`${label}: ${display}`} onPress={() => {
         setDraft(value ? new Date(`${value}T12:00:00`) : new Date());
         setOpen(true);
-      }} style={{ borderWidth: 1, borderColor: colors.cardLine, borderRadius: 16, padding: 18, backgroundColor: colors.white }}>
+      }} style={{ borderWidth: 1, borderColor: colors.cardLine, borderRadius: 14, padding: 15, minHeight: 52, backgroundColor: colors.white }}>
         <Text style={{ color: colors.ink, fontSize: 16 }}>{display}</Text>
       </Pressable>
       {!!value && <Pressable accessibilityRole="button" onPress={() => onChange("")}><Text style={{ color: colors.goldInk }}>{words.clear[language]}</Text></Pressable>}
