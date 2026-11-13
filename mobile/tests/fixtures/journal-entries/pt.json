@@ -1,0 +1,824 @@
+[
+ {
+  "id": "pt-001",
+  "lang": "pt",
+  "text": "Hoje fui pôr a mesa e coloquei quatro pratos. Faz três semanas que a vó se foi e eu ainda esqueço, Senhor.",
+  "expect": "grief",
+  "also": [],
+  "tricky": false,
+  "why": "recent death, no 'morreu'"
+ },
+ {
+  "id": "pt-002",
+  "lang": "pt",
+  "text": "Pai do céu, enterramos o Toninho ontem. Ele tinha só 19 anos. Não sei nem o que dizer pra mãe dele.",
+  "expect": "grief",
+  "also": [],
+  "tricky": false,
+  "why": "funeral yesterday"
+ },
+ {
+  "id": "pt-003",
+  "lang": "pt",
+  "text": "o celular do meu marido ainda ta ligado na gaveta. nao tive coragem de desligar desde o velório",
+  "expect": "grief",
+  "also": [],
+  "tricky": false,
+  "why": "widow, no death keyword"
+ },
+ {
+  "id": "pt-004",
+  "lang": "pt",
+  "text": "Hoje faz cinco anos que a mãe partiu. Acendi uma vela na missa e chorei igual criança.",
+  "expect": "anniversary",
+  "also": [
+   "grief"
+  ],
+  "tricky": false,
+  "why": "fifth anniversary of mother's death"
+ },
+ {
+  "id": "pt-005",
+  "lang": "pt",
+  "text": "Seria o aniversário de 80 anos do meu pai hoje. Fiz o bolo de fubá que ele gostava mesmo assim.",
+  "expect": "anniversary",
+  "also": [
+   "grief"
+  ],
+  "tricky": false,
+  "why": "late father's birthday"
+ },
+ {
+  "id": "pt-006",
+  "lang": "pt",
+  "text": "triste hj. sem motivo.",
+  "expect": "sadness",
+  "also": [],
+  "tricky": false,
+  "why": "plain sadness, no cause"
+ },
+ {
+  "id": "pt-007",
+  "lang": "pt",
+  "text": "Dia cinzento por dentro e por fora. Fiquei olhando a chuva da janela com uma vontade de chorar que não passa, e nem sei por quê.",
+  "expect": "sadness",
+  "also": [],
+  "tricky": false,
+  "why": "diffuse sadness today"
+ },
+ {
+  "id": "pt-008",
+  "lang": "pt",
+  "text": "Deus, eu só preciso desabafar, tá? Ninguém lá em casa me escuta, então vou falar com o Senhor mesmo.",
+  "expect": "venting",
+  "also": [
+   "lonely"
+  ],
+  "tricky": false,
+  "why": "explicit need to vent"
+ },
+ {
+  "id": "pt-009",
+  "lang": "pt",
+  "text": "Preciso falar e não tenho com quem. Então lá vai: to de saco cheio de fingir que tá tudo bem o tempo todo.",
+  "expect": "venting",
+  "also": [
+   "sadness"
+  ],
+  "tricky": false,
+  "why": "unloading, wants to be heard"
+ },
+ {
+  "id": "pt-010",
+  "lang": "pt",
+  "text": "Faz meses que tudo perdeu a cor. Levanto, trabalho no automático, volto e deito. A médica falou em depressão e eu nem discuti.",
+  "expect": "persistent-distress",
+  "also": [
+   "sadness"
+  ],
+  "tricky": false,
+  "why": "months-long low mood, diagnosis"
+ },
+ {
+  "id": "pt-011",
+  "lang": "pt",
+  "text": "Senhor, mais uma semana sem conseguir sair da cama direito. Não é preguiça, eu juro.",
+  "expect": "persistent-distress",
+  "also": [],
+  "tricky": false,
+  "why": "weeks unable to get up"
+ },
+ {
+  "id": "pt-012",
+  "lang": "pt",
+  "text": "Primeiro Natal longe do Brasil. Aqui em Dublin ninguém faz rabanada e a missa em português é só uma vez por mês.",
+  "expect": "homesick",
+  "also": [
+   "lonely"
+  ],
+  "tricky": false,
+  "why": "abroad, missing home and church"
+ },
+ {
+  "id": "pt-013",
+  "lang": "pt",
+  "text": "Vim pra São Paulo fazer facul e até agora não achei uma igreja. Todo domingo fico no quarto ouvindo louvor sozinho.",
+  "expect": "homesick",
+  "also": [
+   "lonely"
+  ],
+  "tricky": false,
+  "why": "moved away, no church community"
+ },
+ {
+  "id": "pt-014",
+  "lang": "pt",
+  "text": "Ninguém me mandou mensagem hoje. Nem uma.",
+  "expect": "lonely",
+  "also": [],
+  "tricky": false,
+  "why": "wants contact"
+ },
+ {
+  "id": "pt-015",
+  "lang": "pt",
+  "text": "Senhor, eu queria tanto que alguém me ligasse só pra perguntar como eu tô. Desde que me aposentei a casa ficou silenciosa demais.",
+  "expect": "lonely",
+  "also": [],
+  "tricky": false,
+  "why": "retired, longs for a call"
+ },
+ {
+  "id": "pt-016",
+  "lang": "pt",
+  "text": "Amanhã é a prova da OAB e eu não consigo parar de pensar nisso. Meu coração tá disparado.",
+  "expect": "anxiety",
+  "also": [],
+  "tricky": false,
+  "why": "exam worry"
+ },
+ {
+  "id": "pt-017",
+  "lang": "pt",
+  "text": "e se der errado? e se ele não gostar? e se eu travar na hora?",
+  "expect": "anxiety",
+  "also": [],
+  "tricky": false,
+  "why": "spiral of what-ifs"
+ },
+ {
+  "id": "pt-018",
+  "lang": "pt",
+  "text": "Não consigo dormir pensando na reunião com o diretor. Fico ensaiando na cabeça o que vou falar.",
+  "expect": "anxiety",
+  "also": [],
+  "tricky": false,
+  "why": "worry keeping awake"
+ },
+ {
+  "id": "pt-019",
+  "lang": "pt",
+  "text": "Mudança de casa, bebê de 4 meses, relatório pra entregar e minha sogra chegando sábado. Não sei por onde começar, Senhor.",
+  "expect": "overwhelm",
+  "also": [
+   "exhaustion"
+  ],
+  "tricky": false,
+  "why": "too many demands at once"
+ },
+ {
+  "id": "pt-020",
+  "lang": "pt",
+  "text": "É coisa demais. Demais.",
+  "expect": "overwhelm",
+  "also": [],
+  "tricky": false,
+  "why": "short, too much"
+ },
+ {
+  "id": "pt-021",
+  "lang": "pt",
+  "text": "cansada.",
+  "expect": "exhaustion",
+  "also": [],
+  "tricky": false,
+  "why": "one word, tired"
+ },
+ {
+  "id": "pt-022",
+  "lang": "pt",
+  "text": "Senhor, eu não aguento mais dizer sim pra tudo. Coordeno o ministério infantil, o coral, a cantina... tô no limite.",
+  "expect": "exhaustion",
+  "also": [
+   "overwhelm"
+  ],
+  "tricky": false,
+  "why": "overcommitted, running on empty"
+ },
+ {
+  "id": "pt-023",
+  "lang": "pt",
+  "text": "Plantão de 24h de novo. Cheguei em casa e dormi de roupa e tudo. Meu corpo tá pedindo arrego.",
+  "expect": "exhaustion",
+  "also": [],
+  "tricky": false,
+  "why": "physical depletion"
+ },
+ {
+  "id": "pt-024",
+  "lang": "pt",
+  "text": "Gritei com meu filho hoje por uma bobagem e ele ficou me olhando assustado. Me perdoa, Senhor. Amanhã converso com ele.",
+  "expect": "guilt",
+  "also": [
+   "conflict"
+  ],
+  "tricky": false,
+  "why": "regret, wants to repair"
+ },
+ {
+  "id": "pt-025",
+  "lang": "pt",
+  "text": "Menti pra minha esposa sobre onde eu tava. Não foi nada grave mas tá me corroendo por dentro.",
+  "expect": "guilt",
+  "also": [],
+  "tricky": false,
+  "why": "lie weighing on conscience"
+ },
+ {
+  "id": "pt-026",
+  "lang": "pt",
+  "text": "Que ódio!!! Ele me humilhou na frente de todo mundo na reunião e eu fiquei calada. Quero responder aquele e-mail AGORA.",
+  "expect": "anger",
+  "also": [],
+  "tricky": false,
+  "why": "hot anger, urge to react"
+ },
+ {
+  "id": "pt-027",
+  "lang": "pt",
+  "text": "Senhor, segura minha língua porque se eu abrir a boca agora vou falar o que não devo pro meu cunhado.",
+  "expect": "anger",
+  "also": [
+   "conflict"
+  ],
+  "tricky": false,
+  "why": "restraining anger"
+ },
+ {
+  "id": "pt-028",
+  "lang": "pt",
+  "text": "Recebi proposta pra trabalhar em Curitiba. Ganho mais, mas teria que deixar meus pais aqui sozinhos. Me mostra o caminho, Pai.",
+  "expect": "decision",
+  "also": [],
+  "tricky": false,
+  "why": "job move dilemma"
+ },
+ {
+  "id": "pt-029",
+  "lang": "pt",
+  "text": "Medicina ou música? Tenho até março pra decidir e cada dia penso uma coisa diferente.",
+  "expect": "decision",
+  "also": [],
+  "tricky": false,
+  "why": "career choice"
+ },
+ {
+  "id": "pt-030",
+  "lang": "pt",
+  "text": "Às vezes me pergunto se tudo isso é verdade. Cresci na igreja, mas hoje rezo o terço e não sinto mais nada.",
+  "expect": "doubt",
+  "also": [],
+  "tricky": false,
+  "why": "faith feels empty"
+ },
+ {
+  "id": "pt-031",
+  "lang": "pt",
+  "text": "Deus, vc tá me ouvindo? Faz tempo que não sinto Tua presença.",
+  "expect": "doubt",
+  "also": [],
+  "tricky": false,
+  "why": "God feels absent"
+ },
+ {
+  "id": "pt-032",
+  "lang": "pt",
+  "text": "PASSEI NO VESTIBULAR!!! Senhor, que alegriaaa!!",
+  "expect": "joy",
+  "also": [
+   "gratitude",
+   "answered-prayer"
+  ],
+  "tricky": false,
+  "why": "exuberant good news"
+ },
+ {
+  "id": "pt-033",
+  "lang": "pt",
+  "text": "Hoje minha netinha deu os primeiros passos aqui na minha sala. Ri tanto que chorei.",
+  "expect": "joy",
+  "also": [
+   "gratitude"
+  ],
+  "tricky": false,
+  "why": "happy family moment"
+ },
+ {
+  "id": "pt-034",
+  "lang": "pt",
+  "text": "Obrigada, Senhor.",
+  "expect": "gratitude",
+  "also": [],
+  "tricky": false,
+  "why": "short thanks"
+ },
+ {
+  "id": "pt-035",
+  "lang": "pt",
+  "text": "Quero agradecer pelos irmãos da célula que trouxeram marmita a semana inteira quando operei o joelho.",
+  "expect": "gratitude",
+  "also": [],
+  "tricky": false,
+  "why": "thankful for people who helped"
+ },
+ {
+  "id": "pt-036",
+  "lang": "pt",
+  "text": "Deus tem sido tão bom comigo esse ano. Quero retribuir de algum jeito, talvez servindo na pastoral do sopão.",
+  "expect": "service",
+  "also": [
+   "gratitude"
+  ],
+  "tricky": false,
+  "why": "blessed, wants to give back"
+ },
+ {
+  "id": "pt-037",
+  "lang": "pt",
+  "text": "Sobrou um dinheirinho esse mês, pela primeira vez em muito tempo. Quero ajudar alguém que esteja passando aperto como eu passei.",
+  "expect": "service",
+  "also": [
+   "gratitude"
+  ],
+  "tricky": false,
+  "why": "give back; money word but no stress"
+ },
+ {
+  "id": "pt-038",
+  "lang": "pt",
+  "text": "Senhor, me usa pra escutar quem precisa. Tenho tempo e ouvidos sobrando.",
+  "expect": "listen",
+  "also": [],
+  "tricky": false,
+  "why": "offers to listen"
+ },
+ {
+  "id": "pt-039",
+  "lang": "pt",
+  "text": "Percebi que a colega nova anda calada pelos cantos. Quero chamar ela pra um café e só ouvir.",
+  "expect": "listen",
+  "also": [
+   "welcome"
+  ],
+  "tricky": false,
+  "why": "wants to listen to a colleague"
+ },
+ {
+  "id": "pt-040",
+  "lang": "pt",
+  "text": "Chegou uma família venezuelana aqui na rua. Lembro como foi difícil quando eu cheguei do Nordeste sem conhecer ninguém. Quero acolher eles.",
+  "expect": "welcome",
+  "also": [],
+  "tricky": false,
+  "why": "remembers being new, wants to welcome"
+ },
+ {
+  "id": "pt-041",
+  "lang": "pt",
+  "text": "Domingo vou ficar na porta da igreja recebendo os visitantes. Quero que ninguém se sinta deslocado como eu me senti.",
+  "expect": "welcome",
+  "also": [
+   "service"
+  ],
+  "tricky": false,
+  "why": "greeting newcomers"
+ },
+ {
+  "id": "pt-042",
+  "lang": "pt",
+  "text": "Depois do divórcio achei que nunca mais ia sorrir. Hoje sorri. Acho que vai ficar tudo bem.",
+  "expect": "hope",
+  "also": [],
+  "tricky": false,
+  "why": "first hope after hard season"
+ },
+ {
+  "id": "pt-043",
+  "lang": "pt",
+  "text": "Primeira manhã em meses que acordei com vontade de levantar e fazer as coisas. Sinto que algo tá mudando.",
+  "expect": "hope",
+  "also": [],
+  "tricky": false,
+  "why": "turning point after long low"
+ },
+ {
+  "id": "pt-044",
+  "lang": "pt",
+  "text": "Voltei a fumar. Três meses sem e joguei tudo fora numa noite.",
+  "expect": "habit",
+  "also": [
+   "guilt"
+  ],
+  "tricky": false,
+  "why": "relapse"
+ },
+ {
+  "id": "pt-045",
+  "lang": "pt",
+  "text": "Fiquei no celular até as 4 da manhã de novo, rolando a tela sem parar. Não consigo largar isso.",
+  "expect": "habit",
+  "also": [],
+  "tricky": false,
+  "why": "compulsive habit"
+ },
+ {
+  "id": "pt-046",
+  "lang": "pt",
+  "text": "Pai, a biópsia da minha mãe sai na sexta. Até lá a gente só espera e reza.",
+  "expect": "illness",
+  "also": [
+   "anxiety"
+  ],
+  "tricky": false,
+  "why": "waiting for a parent's results"
+ },
+ {
+  "id": "pt-047",
+  "lang": "pt",
+  "text": "Meu marido teve um AVC e tá na UTI. Cuida dele, Senhor.",
+  "expect": "illness",
+  "also": [],
+  "tricky": false,
+  "why": "husband in ICU"
+ },
+ {
+  "id": "pt-048",
+  "lang": "pt",
+  "text": "A quimio tá me derrubando. Perdi cabelo, perdi peso, mas não quero perder a fé.",
+  "expect": "illness",
+  "also": [
+   "exhaustion"
+  ],
+  "tricky": false,
+  "why": "own cancer treatment"
+ },
+ {
+  "id": "pt-049",
+  "lang": "pt",
+  "text": "Fui mandado embora hoje. O aluguel vence dia 10 e não sei como vou contar pra minha mulher.",
+  "expect": "money",
+  "also": [
+   "anxiety"
+  ],
+  "tricky": false,
+  "why": "job loss, rent"
+ },
+ {
+  "id": "pt-050",
+  "lang": "pt",
+  "text": "O cartão estourou de novo e o salário só cai daqui a duas semanas.",
+  "expect": "money",
+  "also": [],
+  "tricky": false,
+  "why": "no 'dinheiro', debt stress"
+ },
+ {
+  "id": "pt-051",
+  "lang": "pt",
+  "text": "Meu negócio tá afundando. Os clientes sumiram e os boletos não param de chegar.",
+  "expect": "money",
+  "also": [
+   "anxiety"
+  ],
+  "tricky": false,
+  "why": "business failing"
+ },
+ {
+  "id": "pt-052",
+  "lang": "pt",
+  "text": "Brigamos de novo no jantar e agora meu filho trancou a porta do quarto e não fala comigo.",
+  "expect": "conflict",
+  "also": [],
+  "tricky": false,
+  "why": "family argument"
+ },
+ {
+  "id": "pt-053",
+  "lang": "pt",
+  "text": "Eu e minha irmã não nos falamos desde a partilha da herança. A família toda tá dividida.",
+  "expect": "conflict",
+  "also": [],
+  "tricky": false,
+  "why": "sibling rift; 'herança' not grief"
+ },
+ {
+  "id": "pt-054",
+  "lang": "pt",
+  "text": "Descobri que ele tava com outra há um ano. Um ano, Senhor.",
+  "expect": "betrayal",
+  "also": [],
+  "tricky": false,
+  "why": "infidelity"
+ },
+ {
+  "id": "pt-055",
+  "lang": "pt",
+  "text": "Contei um segredo pra minha melhor amiga e ela espalhou pro grupo todo.",
+  "expect": "betrayal",
+  "also": [],
+  "tricky": false,
+  "why": "broken confidence"
+ },
+ {
+  "id": "pt-056",
+  "lang": "pt",
+  "text": "Pra que orar se nada muda? Tá tudo igual há anos.",
+  "expect": "hopelessness",
+  "also": [
+   "doubt"
+  ],
+  "tricky": false,
+  "why": "nothing will change"
+ },
+ {
+  "id": "pt-057",
+  "lang": "pt",
+  "text": "Cinco anos procurando emprego na minha área. Já desisti de acreditar que um dia vai dar certo.",
+  "expect": "hopelessness",
+  "also": [
+   "money"
+  ],
+  "tricky": false,
+  "why": "given up expecting change"
+ },
+ {
+  "id": "pt-058",
+  "lang": "pt",
+  "text": "Lembra que eu pedi pelo emprego do meu filho? Ele foi chamado hoje. Obrigada, Pai!",
+  "expect": "answered-prayer",
+  "also": [
+   "gratitude",
+   "joy"
+  ],
+  "tricky": false,
+  "why": "specific prayer answered"
+ },
+ {
+  "id": "pt-059",
+  "lang": "pt",
+  "text": "Orei tanto pela reconciliação com minha mãe, e hoje ela me ligou do nada.",
+  "expect": "answered-prayer",
+  "also": [
+   "joy",
+   "gratitude"
+  ],
+  "tricky": false,
+  "why": "prayed-for turn happened"
+ },
+ {
+  "id": "pt-060",
+  "lang": "pt",
+  "text": "Dia tranquilo. Paz.",
+  "expect": "peace",
+  "also": [],
+  "tricky": false,
+  "why": "short calm"
+ },
+ {
+  "id": "pt-061",
+  "lang": "pt",
+  "text": "Tomei meu café na varanda vendo o sol nascer. Silêncio, passarinho cantando, e uma paz que não sei explicar.",
+  "expect": "peace",
+  "also": [],
+  "tricky": false,
+  "why": "calm morning"
+ },
+ {
+  "id": "pt-062",
+  "lang": "pt",
+  "text": "não sei nem o que escrever",
+  "expect": "unclear",
+  "also": [],
+  "tricky": false,
+  "why": "no content"
+ },
+ {
+  "id": "pt-063",
+  "lang": "pt",
+  "text": "Hoje foi um dia. Sei lá.",
+  "expect": "unclear",
+  "also": [],
+  "tricky": false,
+  "why": "vague"
+ },
+ {
+  "id": "pt-064",
+  "lang": "pt",
+  "text": "Desculpa a demora pra escrever, Senhor, a semana voou. Mas hoje foi dia bom: terminei a reforma da cozinha e ficou linda!",
+  "expect": "joy",
+  "also": [
+   "gratitude"
+  ],
+  "tricky": true,
+  "why": "'desculpa' contains 'culpa'; actually happy"
+ },
+ {
+  "id": "pt-065",
+  "lang": "pt",
+  "text": "Não estou com raiva dele, Pai. Só tô triste. Achei que ele vinha no meu aniversário e não veio.",
+  "expect": "sadness",
+  "also": [
+   "lonely"
+  ],
+  "tricky": true,
+  "why": "negated anger"
+ },
+ {
+  "id": "pt-066",
+  "lang": "pt",
+  "text": "Minha filha casa sábado e eu tô tão feliz por ela... mas o pai dela não vai estar lá pra levar ela ao altar. Ele faleceu em março.",
+  "expect": "grief",
+  "also": [
+   "joy"
+  ],
+  "tricky": true,
+  "why": "joy plus fresh grief; grief more pressing"
+ },
+ {
+  "id": "pt-067",
+  "lang": "pt",
+  "text": "Ótimo. Mais um dia maravilhoso: o carro quebrou, choveu dentro de casa e perdi o ônibus. Obrigado mesmo, hein.",
+  "expect": "venting",
+  "also": [
+   "overwhelm"
+  ],
+  "tricky": true,
+  "why": "sarcastic thanks, not gratitude"
+ },
+ {
+  "id": "pt-068",
+  "lang": "pt",
+  "text": "Morri de rir hoje no almoço de domingo com o tio Zé contando as mesmas histórias de sempre. Que família boa o Senhor me deu.",
+  "expect": "gratitude",
+  "also": [
+   "joy"
+  ],
+  "tricky": true,
+  "why": "'morri' is laughter, not death"
+ },
+ {
+  "id": "pt-069",
+  "lang": "pt",
+  "text": "Tô morta de cansaço, mas foi o melhor acampamento de jovens da minha vida!",
+  "expect": "joy",
+  "also": [
+   "gratitude"
+  ],
+  "tricky": true,
+  "why": "'morta de cansaço' idiom; joyful"
+ },
+ {
+  "id": "pt-070",
+  "lang": "pt",
+  "text": "Senhor, minha amiga Ju perdeu o bebê com 12 semanas. Não sei como ajudar, só peço que o Senhor abrace ela.",
+  "expect": "grief",
+  "also": [],
+  "tricky": true,
+  "why": "someone else's loss"
+ },
+ {
+  "id": "pt-071",
+  "lang": "pt",
+  "text": "Meus pais vieram de Recife passar o fim de semana. Fizemos churrasco e fomos à missa juntos. Dia comum, gostoso.",
+  "expect": "peace",
+  "also": [
+   "gratitude",
+   "joy"
+  ],
+  "tricky": true,
+  "why": "'pais' not 'país'; content everyday"
+ },
+ {
+  "id": "pt-072",
+  "lang": "pt",
+  "text": "Senhor, por que Te escondes de mim? Clamo de dia e de noite e o céu parece de bronze.",
+  "expect": "doubt",
+  "also": [],
+  "tricky": true,
+  "why": "psalm-like prayer language"
+ },
+ {
+  "id": "pt-073",
+  "lang": "pt",
+  "text": "Bom, o médico disse que \"não é nada bom\". Vamos ver o que vem por aí.",
+  "expect": "illness",
+  "also": [
+   "anxiety"
+  ],
+  "tricky": true,
+  "why": "understatement about diagnosis"
+ },
+ {
+  "id": "pt-074",
+  "lang": "pt",
+  "text": "Fui ao mercado, paguei a conta de luz, levei o cachorro no veterinário. Amanhã tem reunião às 9.",
+  "expect": "unclear",
+  "also": [],
+  "tricky": true,
+  "why": "everyday log; 'conta'/'reunião' traps"
+ },
+ {
+  "id": "pt-075",
+  "lang": "pt",
+  "text": "Não tô ansioso com a entrevista não, tô é empolgado! Ansioso no bom sentido, sabe? Não vejo a hora.",
+  "expect": "joy",
+  "also": [
+   "hope"
+  ],
+  "tricky": true,
+  "why": "positive 'ansioso'"
+ },
+ {
+  "id": "pt-076",
+  "lang": "pt",
+  "text": "Ando meio desanimado com tudo, sabe? Nada me empolga ultimamente.",
+  "expect": "sadness",
+  "also": [
+   "persistent-distress"
+  ],
+  "tricky": true,
+  "why": "'desanimado' contains 'animado'"
+ },
+ {
+  "id": "pt-077",
+  "lang": "pt",
+  "text": "Me sinto infeliz nesse trabalho e não sei se peço as contas ou se aguento mais um ano.",
+  "expect": "decision",
+  "also": [
+   "sadness"
+  ],
+  "tricky": true,
+  "why": "'infeliz' contains 'feliz'; 'contas' = resign"
+ },
+ {
+  "id": "pt-078",
+  "lang": "pt",
+  "text": "Hoje passei o dia despreocupada, sem olhar o celular. Que paz, Senhor.",
+  "expect": "peace",
+  "also": [],
+  "tricky": true,
+  "why": "'despreocupada' contains 'preocupada'"
+ },
+ {
+  "id": "pt-079",
+  "lang": "pt",
+  "text": "A hospitalidade daquela família no interior me tocou. Me receberam como se eu fosse da casa.",
+  "expect": "gratitude",
+  "also": [],
+  "tricky": true,
+  "why": "'hospitalidade' contains 'hospital'"
+ },
+ {
+  "id": "pt-080",
+  "lang": "pt",
+  "text": "Meu filho foi morar no Canadá. A casa ficou tão quieta. Sei que é bom pra ele, mas sinto falta da bagunça.",
+  "expect": "lonely",
+  "also": [
+   "sadness"
+  ],
+  "tricky": true,
+  "why": "parent left behind, not homesick"
+ },
+ {
+  "id": "pt-081",
+  "lang": "pt",
+  "text": "Graças a Deus essa semana acabou. Que semana, viu. Só quero deitar e não pensar em nada.",
+  "expect": "exhaustion",
+  "also": [
+   "venting"
+  ],
+  "tricky": true,
+  "why": "'graças a Deus' filler, not gratitude"
+ },
+ {
+  "id": "pt-082",
+  "lang": "pt",
+  "text": "Não sinto culpa nenhuma por ter saído daquele emprego. Pela primeira vez em anos tô dormindo bem.",
+  "expect": "peace",
+  "also": [
+   "hope"
+  ],
+  "tricky": true,
+  "why": "negated guilt"
+ }
+]
