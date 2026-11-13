@@ -45,7 +45,7 @@ function shownVerse(edition, reference) {
 }
 
 test('every verse the journal can offer has an explanation, and nothing else is keyed', () => {
-  assert.equal(themeVerses.length, 30);
+  assert.equal(themeVerses.length, 46);
   assert.deepEqual(Object.keys(studies).sort(), [...themeVerses].sort());
 });
 
