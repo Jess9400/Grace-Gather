@@ -116,6 +116,7 @@ export function ActionCard({
   icon,
   onPress,
   primary = false,
+  emphasis = false,
   variant = "card",
   disabled = false,
 }: {
@@ -124,6 +125,7 @@ export function ActionCard({
   icon: Icon;
   onPress: () => void;
   primary?: boolean;
+  emphasis?: boolean;
   variant?: "card" | "row";
   disabled?: boolean;
 }) {
@@ -152,7 +154,9 @@ export function ActionCard({
         size={variant === "row" ? 22 : 25}
         color={
           variant === "row"
-            ? colors.ink
+            ? emphasis
+              ? colors.goldInk
+              : colors.ink
             : primary
               ? colors.cardInk
               : colors.gold

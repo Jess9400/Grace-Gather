@@ -1,5 +1,6 @@
 import { label } from "../../lib/labels";
-import { ScrollView } from "react-native";
+import { Pressable, ScrollView, Text } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { testimonyCopy } from "../../lib/testimony-copy";
 import { backend } from "../../lib/backend";
 import { useEffect, useState, useRef } from "react";
@@ -14,7 +15,9 @@ import {
   Notice,
   Chip,
   Subheading,
+  colors,
 } from "../../components/community-ui";
+import { TextAction } from "../../components/CommunityControls";
 import { testimony, Testimony } from "../../lib/discover";
 import { useApp } from "../../lib/state";
 export default function EditTestimony() {
@@ -121,18 +124,40 @@ export default function EditTestimony() {
           </Card>
           <Body>{t("audience")}</Body>
           <Body small>{t("reviewNotice")}</Body>
-          <Chip
-            title={t("agree")}
-            selected={agree}
+          <Pressable
+            accessibilityRole="checkbox"
+            accessibilityState={{ checked: agree }}
             onPress={() => setAgree(!agree)}
-          />
+            style={{
+              minHeight: 48,
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 10,
+            }}
+          >
+            <Ionicons
+              name={agree ? "checkbox" : "square-outline"}
+              size={22}
+              color={colors.ink}
+              accessible={false}
+            />
+            <Text
+              style={{
+                flex: 1,
+                color: colors.ink,
+                fontSize: 15,
+                lineHeight: 22,
+              }}
+            >
+              {t("agree")}
+            </Text>
+          </Pressable>
           <Button
             title={t("publish")}
             disabled={!agree || busy}
             onPress={() => void save(true)}
           />
-          <Button
-            secondary
+          <TextAction
             title={t("keepEditing")}
             disabled={busy}
             onPress={() => {
@@ -192,8 +217,7 @@ export default function EditTestimony() {
               );
             }}
           />
-          <Button
-            secondary
+          <TextAction
             title={t("draftButton")}
             disabled={!valid || busy}
             onPress={() => void save(false)}

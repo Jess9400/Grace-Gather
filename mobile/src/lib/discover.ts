@@ -3,6 +3,7 @@ import { useFocusEffect } from "expo-router";
 import { backend, requireUser } from "./backend";
 import { Resource, Language, localized } from "./content";
 import { mergeDiscoverPage } from "./discover-page";
+import { discoverEndpointFor } from "./discover-language";
 export interface Story extends Resource {
   anonymous?: boolean;
   origin?: "community" | "news" | "historical" | "editorial" | "publisher";
@@ -13,6 +14,8 @@ export interface Story extends Resource {
   summaryKind?: string;
   license?: string;
   licenseUrl?: string;
+  rightsStatus?: "licensed" | "public_domain";
+  sourceCountry?: string;
   author?: string;
   reflection?: string;
   sort_at?: string;
@@ -41,8 +44,13 @@ export function excerpt(text: string) {
     words.slice(65, 140).join(" ") + (words.length > 140 ? "…" : ""),
   ];
 }
-export function useDiscover(filter: string, search: string) {
+export function useDiscover(
+  filter: string,
+  search: string,
+  language: Language,
+) {
   const [items, setItems] = useState<Story[]>([]),
+    [loadedLanguage, setLoadedLanguage] = useState<Language | null>(null),
     [loading, setLoading] = useState(true),
     [more, setMore] = useState(false),
     [error, setError] = useState("");
@@ -58,13 +66,18 @@ export function useDiscover(filter: string, search: string) {
       try {
         if (!backend) throw Error("Account services are unavailable.");
         const last = append ? items.at(-1) : undefined;
-        const { data, error } = await backend.rpc("discover_page", {
-          p_filter: filter,
-          p_search: search,
-          p_before: last?.sort_at ?? null,
-          p_after_id: last?.id ?? "",
-          p_limit: 15,
-        });
+        // Portuguese is an original-language feed, not an English fallback.
+        // Keep the existing endpoint for older clients and other languages.
+        const { data, error } = await backend.rpc(
+          discoverEndpointFor(language),
+          {
+            p_filter: filter,
+            p_search: search,
+            p_before: last?.sort_at ?? null,
+            p_after_id: last?.id ?? "",
+            p_limit: 15,
+          },
+        );
         if (error) throw error;
         if (version !== generation.current) return;
         const rows = (data ?? []).map(
@@ -73,7 +86,15 @@ export function useDiscover(filter: string, search: string) {
             sort_at: r.sort_at,
           }),
         );
-        setItems((old) => mergeDiscoverPage(old, rows, append, preserveOlder));
+        setItems((old) =>
+          mergeDiscoverPage(
+            loadedLanguage === language ? old : [],
+            rows,
+            append && loadedLanguage === language,
+            preserveOlder && loadedLanguage === language,
+          ),
+        );
+        setLoadedLanguage(language);
         if (!preserveOlder || items.length <= 15 || rows.length < 15)
           setMore(rows.length === 15);
       } catch (e) {
@@ -90,7 +111,7 @@ export function useDiscover(filter: string, search: string) {
         }
       }
     },
-    [filter, search, items],
+    [filter, search, language, loadedLanguage, items],
   );
   const loader = useRef(load);
   useEffect(() => {
@@ -103,8 +124,15 @@ export function useDiscover(filter: string, search: string) {
       generation.current++;
       busy.current = false;
     };
-  }, [filter, search]);
-  return { items, loading, error, more, load };
+  }, [filter, search, language]);
+  // Never show the previous language while its replacement is loading.
+  return {
+    items: loadedLanguage === language ? items : [],
+    loading,
+    error,
+    more: loadedLanguage === language && more,
+    load,
+  };
 }
 type Interaction = {
   id: string;

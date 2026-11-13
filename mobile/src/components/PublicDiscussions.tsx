@@ -82,9 +82,10 @@ export default function PublicDiscussions({ query }: { query: string }) {
                   variant={avatarVariant(topic.author)}
                   size={34}
                 />
-                <Text style={{ fontSize: 13, color: colors.muted }}>
+                <Text
+                  style={{ fontSize: 13, color: colors.muted, flexShrink: 1 }}
+                >
                   {topic.name}
-                  {topic.reference ? ` · ${topic.reference}` : ""}
                 </Text>
               </View>
               <Text
@@ -101,7 +102,12 @@ export default function PublicDiscussions({ query }: { query: string }) {
               <Text style={{ fontSize: 16, lineHeight: 24, color: colors.ink }}>
                 {topic.body}
               </Text>
-              <DiscussionVerse id={topic.verseId} reference={topic.reference} fallbackTitle={topic.title} compact />
+              <DiscussionVerse
+                id={topic.verseId}
+                reference={topic.reference}
+                fallbackTitle={topic.title}
+                compact
+              />
               {replies.slice(-2).map((reply) => (
                 <View
                   key={reply.id}
@@ -122,7 +128,14 @@ export default function PublicDiscussions({ query }: { query: string }) {
                     {reply.name}
                   </Text>
                   <Text
-                    style={{ color: colors.ink, fontSize: 15, lineHeight: 22, flex: 1, minWidth: 0 }}
+                    numberOfLines={2}
+                    style={{
+                      color: colors.ink,
+                      fontSize: 15,
+                      lineHeight: 22,
+                      flex: 1,
+                      minWidth: 0,
+                    }}
                   >
                     {reply.body}
                   </Text>

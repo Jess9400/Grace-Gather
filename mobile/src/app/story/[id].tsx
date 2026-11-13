@@ -37,6 +37,10 @@ import {
   useInteractions,
 } from "../../lib/discover";
 import { communityCopy } from "../../lib/community-copy";
+import {
+  isPortugueseDiscoverStory,
+  isReadableBrazilianPublisher,
+} from "../../lib/discover-language";
 interface Comment {
   id: string;
   user_id: string;
@@ -162,9 +166,11 @@ export default function Story() {
     });
     return () => s?.data.subscription.unsubscribe();
   }, [loadStory, reloadComments]);
+  const inlinePublisher = item ? isReadableBrazilianPublisher(item) : false;
   useEffect(() => {
     let active = true;
     if (!backend || item?.origin !== "publisher" || item.id !== id) return;
+    if (inlinePublisher) return;
     const client = backend;
     void Promise.resolve()
       .then(() => {
@@ -197,7 +203,13 @@ export default function Story() {
     return () => {
       active = false;
     };
-  }, [id, item?.id, item?.origin, publisherRetry]);
+  }, [
+    id,
+    item?.id,
+    item?.origin,
+    inlinePublisher,
+    publisherRetry,
+  ]);
   async function act(fn: () => Promise<void>, isStoryReport = false) {
     setBusy(true);
     setNotice("");
@@ -319,7 +331,25 @@ export default function Story() {
       {item.origin === "community" && (
         <Body small>{c("personalExperience")}</Body>
       )}
-      {item.origin === "publisher" ? (
+      {inlinePublisher && item.body?.pt ? (
+        <>
+          <Card>
+            {item.body.pt
+              .split(/\n\s*\n/)
+              .filter(Boolean)
+              .map((paragraph, index) => (
+                <Body key={index}>{paragraph}</Body>
+              ))}
+          </Card>
+          {!!item.url && /^https:\/\//.test(item.url) && (
+            <TextAction
+              title={c("openOriginal")}
+              icon="open-outline"
+              onPress={() => void Linking.openURL(item.url!)}
+            />
+          )}
+        </>
+      ) : item.origin === "publisher" ? (
         <>
           {publisherLoading && <Busy />}
           {publisherError && (
@@ -687,10 +717,17 @@ export default function Story() {
           </View>
         </View>
       ))}
-      {!!related.length && (
+      {related.some(
+        (x) =>
+          (profile.language !== "pt" || isPortugueseDiscoverStory(x)) &&
+          (!x.tradition || x.tradition === profile.tradition),
+      ) && (
         <>
           <Subheading>{c("related")}</Subheading>
           {related
+            .filter(
+              (x) => profile.language !== "pt" || isPortugueseDiscoverStory(x),
+            )
             .filter((x) => !x.tradition || x.tradition === profile.tradition)
             .map((story) => (
               <TextAction
