@@ -11,7 +11,9 @@ export default function AppleSignIn({
   useEffect(() => {
     void Apple.isAvailableAsync().then(setAvailable);
   }, []);
-  if (!available || process.env.EXPO_PUBLIC_APPLE_SIGN_IN_ENABLED !== "true")
+  // Apple sign-in is configured for the app. A build can still explicitly
+  // disable the option if its backend is not ready.
+  if (!available || process.env.EXPO_PUBLIC_APPLE_SIGN_IN_ENABLED === "false")
     return null;
   async function signIn() {
     try {
