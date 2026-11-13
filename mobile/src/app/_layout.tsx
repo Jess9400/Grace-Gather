@@ -10,6 +10,7 @@ import { Busy, Screen, Body, External, colors } from "../components/ui";
 import { hasAnsweredTraditionQuestion } from "../lib/onboarding";
 import { CommunityProvider } from "../lib/discussion-state";
 import { useSignedIn } from "../lib/account";
+import ModeratorPushListener from "../components/ModeratorPushListener";
 function Routes() {
   const { ready, error, profile } = useApp();
   const signedIn = useSignedIn();
@@ -93,6 +94,7 @@ function Routes() {
       </View>
       <JournalCleanupNotice compact />
       <ActiveRoomBar />
+      <ModeratorPushListener />
     </>
   );
 }

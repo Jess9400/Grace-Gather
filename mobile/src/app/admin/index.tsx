@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
+import { Platform } from "react-native";
 import { router } from "expo-router";
-import { Screen, Heading, Body, Notice } from "../../components/quiet-ui";
+import { Screen, Heading, Body, Notice, Button } from "../../components/quiet-ui";
 import { TextAction } from "../../components/CommunityControls";
 import { requireUser, backend } from "../../lib/backend";
 import { useInterfaceCopy } from "../../lib/use-interface-copy";
@@ -12,6 +13,7 @@ import Confession from "../(tabs)/confession";
 import EditorialStories from "../../components/EditorialStories";
 import { useApp } from "../../lib/state";
 import { communityCopy } from "../../lib/community-copy";
+import { disableModeratorPush, moderatorPushEnabled, registerModeratorPush } from "../../lib/notifications";
 export default function AdminDashboard() {
   const tr = useInterfaceCopy();
   const { profile } = useApp();
@@ -19,6 +21,15 @@ export default function AdminDashboard() {
   const [notice, setNotice] = useState("");
   const [checking, setChecking] = useState(true);
   const [queue, setQueue] = useState("");
+  const [pushEnabled, setPushEnabled] = useState(false);
+  const [pushBusy, setPushBusy] = useState(false);
+  const pushCopy = {
+    en: { on: "Turn on moderator phone alerts", off: "Turn off moderator phone alerts", saved: "Moderator phone alerts are on.", disabled: "Moderator phone alerts are off.", failed: "Could not update phone alerts. Check your notification settings and try again." },
+    pt: { on: "Ativar alertas de moderação", off: "Desativar alertas de moderação", saved: "Alertas de moderação ativados.", disabled: "Alertas de moderação desativados.", failed: "Não foi possível atualizar os alertas. Verifique as notificações e tente novamente." },
+    es: { on: "Activar alertas de moderación", off: "Desactivar alertas de moderación", saved: "Alertas de moderación activadas.", disabled: "Alertas de moderación desactivadas.", failed: "No se pudieron actualizar las alertas. Revisa las notificaciones e inténtalo de nuevo." },
+    ru: { on: "Включить уведомления модератора", off: "Выключить уведомления модератора", saved: "Уведомления модератора включены.", disabled: "Уведомления модератора выключены.", failed: "Не удалось обновить уведомления. Проверьте настройки и повторите попытку." },
+  }[profile.language];
+  useEffect(() => { if (allowed && Platform.OS !== "web") void moderatorPushEnabled().then(setPushEnabled).catch(() => setPushEnabled(false)); }, [allowed]);
   useEffect(() => {
     let active = true;
     void requireUser()
@@ -80,6 +91,12 @@ export default function AdminDashboard() {
           <Body small>
             {tr("Review submissions and reports across the community.")}
           </Body>
+          {Platform.OS !== "web" && <Button secondary disabled={pushBusy} title={pushEnabled ? pushCopy.off : pushCopy.on} onPress={() => {
+            setPushBusy(true); setNotice("");
+            void (pushEnabled ? disableModeratorPush() : registerModeratorPush()).then(() => {
+              setPushEnabled(!pushEnabled); setNotice(pushEnabled ? pushCopy.disabled : pushCopy.saved);
+            }).catch(() => setNotice(pushCopy.failed)).finally(() => setPushBusy(false));
+          }} />}
           <TextAction
             title={communityCopy(profile.language, "editorialStories")}
             icon="chevron-forward"
