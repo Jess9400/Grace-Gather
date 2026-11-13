@@ -67,7 +67,7 @@ export function useDiscover(
         if (!backend) throw Error("Account services are unavailable.");
         const last = append ? items.at(-1) : undefined;
         // Portuguese is an original-language feed, not an English fallback.
-        // Keep the existing endpoint for older clients and other languages.
+        // Filter by language on the server, before pagination.
         const { data, error } = await backend.rpc(
           discoverEndpointFor(language),
           {

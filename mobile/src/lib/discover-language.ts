@@ -1,6 +1,6 @@
 /** Feed language follows the app's language, independently of Bible settings. */
 export function discoverEndpointFor(language: string) {
-  return language === "pt" ? "discover_page_portuguese" : "discover_page";
+  return language === "pt" ? "discover_page_portuguese" : "discover_page_non_portuguese";
 }
 
 type StoryLanguage = {

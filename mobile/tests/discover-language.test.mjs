@@ -12,7 +12,7 @@ test("Portuguese onboarding selects the Portuguese feed, independent of Bible la
     discoverEndpointFor(profile.language),
     "discover_page_portuguese",
   );
-  assert.equal(discoverEndpointFor("en"), "discover_page");
+  assert.equal(discoverEndpointFor("en"), "discover_page_non_portuguese");
 });
 
 test("Portuguese recommendations require original language and a Brazilian publisher with reading rights", () => {

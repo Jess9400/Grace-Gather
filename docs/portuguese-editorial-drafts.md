@@ -10,7 +10,7 @@ usuários. Confira fatos, tom e adequação às tradições antes de publicar.
 **Introdução:** Em Salvador, a história de uma religiosa lembra como o cuidado
 pode começar com um lugar para acolher quem precisa.
 
-Maria Rita de Sousa Brito Lopes Pontes, conhecida como Irmã Dulce, dedicou sua
+Maria Rita de Souza Brito Lopes Pontes, conhecida como Irmã Dulce, dedicou sua
 vida ao cuidado de pessoas pobres e doentes na Bahia. Ainda jovem, ao visitar
 com uma tia áreas marcadas pela pobreza, sentiu crescer o desejo de seguir a
 vida religiosa.
