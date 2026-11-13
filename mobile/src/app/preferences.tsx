@@ -5,6 +5,7 @@ import { aiCopy, AI_CONSENT_VERSION } from "../lib/ai-copy";
 import { jc } from "../lib/journal-copy";
 import { Disclosure } from "../components/CommunityControls";
 import { useState } from "react";
+import { router } from "expo-router";
 import {
   Screen,
   Heading,
@@ -71,6 +72,10 @@ export default function Preferences() {
       await saveProfile(next);
       setP(normalizeProfile(next));
       setSaved(true);
+      // Saved: go back to the Profile, which shows the new choices. A failed
+      // save stays here with its message, so nothing typed is lost.
+      if (router.canGoBack()) router.back();
+      else router.replace("/profile");
     } catch {
       setError(tr("Could not save. Please try again."));
     } finally {
