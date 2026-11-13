@@ -45,7 +45,7 @@ export default function JournalGuidanceStatus({ entry }: { entry: Entry }) {
         suggestedAction: result.suggestedAction,
         suggestedActionExplanation: result.actionExplanation,
       };
-      const response = await resolveJournalResponse(next, settings);
+      const response = await resolveJournalResponse(next, settings, entries);
       await saveRetriedGuidance(entry.id, entry.text, { ...next, response });
     } catch {
       setNotice(c("retryGuidanceFailed"));

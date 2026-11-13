@@ -47,6 +47,9 @@ export interface JournalMessage {
 }
 export interface JournalResponse {
   verse: import("./bible").ReadingVerse | null;
+  // The theme verse (Hebrew/WEB numbering) the verse stands for; on a verse
+  // path this is the step shown, which finds its explanation.
+  reference?: string;
   actionId: string;
   actionTitle: string;
   invitation: string;

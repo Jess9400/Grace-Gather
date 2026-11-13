@@ -73,3 +73,20 @@ test('says() matches from the start of a word', () => {
   assert.equal(says('я не виноват', 'винов', true), false);
   assert.equal(says('я виновата', 'винов', true), true);
 });
+
+test('grief walks a path of verses, one per entry', () => {
+  const { journalVerseFor: pick, versePaths } = load(resolve(root, 'mobile/src/lib/journal-verse-path.ts'));
+  const journalVerseFor = (entry, journal) => {
+    const theme = journalTheme(entry);
+    return pick(entry, journal, theme, (e) => journalTheme(e).id);
+  };
+  const grief = (n, extra = {}) => ({ id: 'g' + n, text: 'My mother died and I miss her', mood: 'sad', themeId: 'grief', createdAt: `2026-11-${String(n).padStart(2, '0')}T10:00:00Z`, ...extra });
+  const journal = [1, 2, 3, 4, 5, 6, 7].map((n) => grief(n));
+  // Each new grief entry gets the next verse; after the fifth the path starts again.
+  assert.deepEqual(journal.map((e) => journalVerseFor(e, journal)), [...versePaths.grief, ...versePaths.grief.slice(0, 2)]);
+  // Other themes in between do not move the path; deleted entries do not count.
+  const mixed = [grief(1), { ...grief(2), themeId: 'joy', text: 'A happy day' }, grief(3, { deletedAt: '2026-11-04T00:00:00Z' }), grief(4)];
+  assert.equal(journalVerseFor(mixed[3], mixed), 'JHN.11.35');
+  // A theme without a path keeps its one verse.
+  assert.equal(journalVerseFor({ id: 'j', text: 'joy', mood: 'grateful', themeId: 'joy', createdAt: '2026-11-09T00:00:00Z' }, journal), 'JAS.5.13');
+});

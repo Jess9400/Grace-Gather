@@ -54,22 +54,30 @@ test('original spelling is kept, not modernised', () => {
   assert.match(text('torresamat'), /corazon/);
 });
 
+// The verse paths, read from the app's source (a plain list of references).
+const versePaths = Function(
+  'return ' + readFileSync(root + 'mobile/src/lib/journal-verse-path.ts', 'utf8').match(/versePaths[^=]*=\s*(\{[\s\S]*?\n\});/)[1].replace(/\/\/.*$/gm, ''),
+)();
+
 test('every journal theme has its verse in each Catholic passage edition, from the scans', () => {
   const map = JSON.parse(readFileSync(root + 'mobile/src/generated/journal-map.json', 'utf8'));
   // Hebrew-based Psalm and Matthew 5 numbers, as each Vulgate edition prints them.
-  const vulgate = { 'PSA.42.11': '41:12', 'PSA.13.1': '12:1', 'PSA.34.18': '33:19', 'PSA.147.3': '146:3', 'PSA.116.1': '114:1', 'PSA.139.23': '138:23', 'PSA.62.8': '61:9', 'MAT.5.4': '5:5' };
+  const vulgate = { 'PSA.23.4': '22:4', 'PSA.42.11': '41:12', 'PSA.13.1': '12:1', 'PSA.34.18': '33:19', 'PSA.147.3': '146:3', 'PSA.116.1': '114:1', 'PSA.139.23': '138:23', 'PSA.62.8': '61:9', 'MAT.5.4': '5:5' };
   for (const id of Object.keys(editions)) {
     const edition = catalog.editions.find((e) => e.id === id);
     const verses = [...edition.passages, ...edition.journalVerses];
-    for (const theme of map) {
-      const verse = verses.find((v) => v.verse === theme.verse);
-      assert.ok(verse, `${id} ${theme.verse}`);
-      if (vulgate[theme.verse]) assert.ok(verse.reference.includes(vulgate[theme.verse]), verse.reference);
+    // Each theme's verse and every step on a verse path (e.g. grief).
+    const references = [...new Set([...map.map((t) => t.verse), ...Object.values(versePaths).flat()])];
+    for (const reference of references) {
+      const verse = verses.find((v) => v.verse === reference);
+      assert.ok(verse, `${id} ${reference}`);
+      if (vulgate[reference]) assert.ok(verse.reference.includes(vulgate[reference]), verse.reference);
     }
     for (const verse of edition.journalVerses) {
       assert.match(verse.id, new RegExp('^' + id + '-[a-z0-9-]+-\\d+-\\d+$'));
       assert.match(verse.sourceUrl, /^https:\/\/archive\.org\/details\/.+\/page\/n\d+\/mode\/1up$/);
-      assert.ok(verse.text.length > 20 && !/\d/.test(verse.text), verse.id);
+      // John 11:35 is three words in Figueiredo ("Então chorou Jesus.").
+      assert.ok(verse.text.length > 15 && !/\d/.test(verse.text), verse.id);
     }
     const ids = verses.map((v) => v.id);
     assert.equal(new Set(ids).size, ids.length);

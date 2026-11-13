@@ -12,6 +12,7 @@ import {
   type ReadingVerse,
 } from "./bible";
 import { journalAction, journalTheme } from "./journal-guidance";
+import { journalVerseFor } from "./journal-verse-path";
 import { journalActionCopy } from "./journal-copy";
 import { journalScripture } from "./journal-verse-reference";
 import { availableJournalAction } from "./journal-gathering";
@@ -20,6 +21,7 @@ import { gathering } from "./gatherings";
 export async function resolveJournalResponse(
   entry: Entry,
   profile: Profile,
+  journal: Entry[] = [],
 ): Promise<JournalResponse> {
   if (entry.response) {
     if (entry.response.actionId !== "A25") return entry.response;
@@ -31,16 +33,24 @@ export async function resolveJournalResponse(
   }
   const theme = journalTheme(entry),
     collection = collectionFor(entry.prefs);
-  let verse: ReadingVerse | null = null;
-  if (!entry.safety && collection) {
-    try {
-      await ensureCollection(collection);
-      verse = journalScripture(collection, theme.verse);
-    } catch {
-      /* Use the licensed, bundled fallback if a collection cannot load. */
+  // A path step this edition does not carry falls back to the theme's verse.
+  const step = journalVerseFor(entry, journal, theme, (e) => journalTheme(e).id);
+  const references = [...new Set([step, theme.verse])];
+  let verse: ReadingVerse | null = null,
+    reference: string | undefined;
+  for (const candidate of references) {
+    if (entry.safety || verse) break;
+    if (collection) {
+      try {
+        await ensureCollection(collection);
+        verse = journalScripture(collection, candidate);
+      } catch {
+        /* Use the licensed, bundled fallback if a collection cannot load. */
+      }
     }
+    if (!verse) verse = themeVerse(entry.prefs, candidate);
+    if (verse) reference = candidate;
   }
-  if (!entry.safety && !verse) verse = themeVerse(entry.prefs, theme.verse);
   if (!entry.safety && !verse) {
     const candidates = passagesFor(entry.prefs, entry.mood);
     const fallback =
@@ -55,6 +65,7 @@ export async function resolveJournalResponse(
   const action = journalActionCopy(lang, theme.id, actionId);
   return {
     verse,
+    reference,
     actionId,
     actionTitle: action.title,
     invitation: entry.suggestedAction === actionId && typeof entry.suggestedActionExplanation === "string" && entry.suggestedActionExplanation.trim() && entry.suggestedActionExplanation.length <= 240 ? entry.suggestedActionExplanation : action.invitation,
