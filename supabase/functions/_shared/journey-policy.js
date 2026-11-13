@@ -1,6 +1,6 @@
 import map from './journal-map.json' with { type: 'json' };
 import { chooseJournalAction } from './journal-selection.js';
-export const AI_CONSENT_VERSION = 'qwen-journal-2026-11-03';
+export const AI_CONSENT_VERSION = 'qwen-journal-explicit-2026-11-14';
 // These definitions are presented to the model in both journal and chat modes.
 export const ACTION_GUIDE = 'A01 light a memorial candle; A02 remember someone in prayer; A03 pray briefly; A04 share in Confession, where a listener may respond; A05 consider professional mental health support; A07 contact a trusted person; A08 write a private reflection; A09 take a quiet pause; A10 draft an apology privately; A11 send a kind note; A12 thank someone; A14 offer comfort to a confession; A15 request prayer; A16 pray for someone; A18 explore Pay it forward; A19 browse stories of hope; A20 share a testimony; A21 light a candle in prayer; A25 explore a gathering, subject to availability; A26 explore Bible Study; A27 create a gathering.';
 export function safeActionExplanation(value) {
