@@ -109,6 +109,8 @@ export function Screen({
   scrollToEndKey,
   keyboard = false,
   compact = false,
+  header = true,
+  centered = false,
 }: {
   children: React.ReactNode;
   back?: boolean;
@@ -120,6 +122,8 @@ export function Screen({
   // A room hides its church picture (e.g. while someone is writing), giving
   // the page the whole screen above the keyboard.
   compact?: boolean;
+  header?: boolean;
+  centered?: boolean;
 }) {
   const scroll = useRef<ScrollViewInstance>(null);
   const onScroll = useKeyboardReveal(scroll);
@@ -186,7 +190,11 @@ export function Screen({
           automaticallyAdjustKeyboardInsets={!avoid}
           onScroll={onScroll}
           scrollEventThrottle={32}
-          contentContainerStyle={[s.page, !!footer && { paddingBottom: 8 }]}
+          contentContainerStyle={[
+            s.page,
+            !!footer && { paddingBottom: 8 },
+            centered && { flexGrow: 1, justifyContent: "center" },
+          ]}
           ref={scroll}
           onContentSizeChange={() => {
             if (scrollToEndKey && lastScrolled.current !== scrollToEndKey) {
@@ -195,34 +203,38 @@ export function Screen({
             }
           }}
         >
-          <View style={s.brand}>
-            {back ? (
+          {header && (
+            <View style={s.brand}>
+              {back ? (
+                <Pressable
+                  accessibilityRole="button"
+                  accessibilityLabel={tr("Back")}
+                  onPress={() =>
+                    router.canGoBack()
+                      ? router.back()
+                      : router.replace("/(tabs)")
+                  }
+                  style={({ pressed }) => [
+                    s.backControl,
+                    pressed && s.backPressed,
+                  ]}
+                >
+                  <Ionicons name="chevron-back" size={24} color={colors.ink} />
+                </Pressable>
+              ) : (
+                <Ionicons name="leaf-outline" size={23} color={colors.gold} />
+              )}
+              <Text style={s.brandText}>GRACE & GATHER</Text>
               <Pressable
+                accessibilityLabel={tr("Account and settings")}
                 accessibilityRole="button"
-                accessibilityLabel={tr("Back")}
-                onPress={() =>
-                  router.canGoBack() ? router.back() : router.replace("/(tabs)")
-                }
-                style={({ pressed }) => [
-                  s.backControl,
-                  pressed && s.backPressed,
-                ]}
+                onPress={() => router.push("/account")}
+                style={{ marginLeft: "auto", padding: 8 }}
               >
-                <Ionicons name="chevron-back" size={24} color={colors.ink} />
+                <MemberAvatar />
               </Pressable>
-            ) : (
-              <Ionicons name="leaf-outline" size={23} color={colors.gold} />
-            )}
-            <Text style={s.brandText}>GRACE & GATHER</Text>
-            <Pressable
-              accessibilityLabel={tr("Account and settings")}
-              accessibilityRole="button"
-              onPress={() => router.push("/account")}
-              style={{ marginLeft: "auto", padding: 8 }}
-            >
-              <MemberAvatar />
-            </Pressable>
-          </View>
+            </View>
+          )}
           {children}
           {!footer && <View style={{ height: 26 }} />}
         </ScrollView>
