@@ -46,6 +46,8 @@ function Routes() {
           <Stack.Screen name="sign-in" />
           <Stack.Screen name="privacy" />
           <Stack.Screen name="restore" />
+          {/* A preview page with nothing private on it: it opens without signing in. */}
+          <Stack.Screen name="intro" />
           <Stack.Protected guard={signedIn} redirectTo="/sign-in">
             <Stack.Screen name="onboarding" />
             <Stack.Screen name="account" />
@@ -85,7 +87,6 @@ function Routes() {
                 "testimonies/index",
                 "testimonies/review",
                 "staff",
-                "intro",
               ].map((name) => (
                 <Stack.Screen key={name} name={name} />
               ))}
