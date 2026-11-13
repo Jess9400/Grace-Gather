@@ -32,6 +32,7 @@ const rows: Record<string, string[]> = {
   languageSaveError: ["Could not save your language. Please try again.", "Não foi possível salvar seu idioma. Tente novamente.", "No se pudo guardar el idioma. Inténtalo de nuevo.", "Не удалось сохранить язык. Попробуйте снова."],
   // The sign-in page.
   signInEmail: ["Email", "Email", "Correo electrónico", "Email"],
+  continueEmail: ["Continue with email", "Continuar com email", "Continuar con correo", "Продолжить с email"],
   signInIntro: [
     "Enter your email and we will send you a code. There is no password to remember.",
     "Digite seu email e enviaremos um código. Não há senha para lembrar.",

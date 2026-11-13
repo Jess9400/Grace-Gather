@@ -17,6 +17,7 @@ import {
   Button,
   Field,
   Notice,
+  Subheading,
 } from "../components/quiet-ui";
 import { FilterStrip } from "../components/CommunityControls";
 import { usePrayers, type Prayer } from "../lib/prayers";
@@ -44,6 +45,13 @@ function PrayerRoom({
   }, []);
   const { profile } = useApp(),
     tr = useInterfaceCopy();
+  const notificationLabels = {
+    en: ["All", "Activity", "Prayers", "Gatherings", "Settings"],
+    pt: ["Todas", "Atividade", "Orações", "Encontros", "Configurações"],
+    es: ["Todas", "Actividad", "Oraciones", "Encuentros", "Ajustes"],
+    ru: ["Все", "Активность", "Молитвы", "Встречи", "Настройки"],
+  }[profile.language];
+  const [noticeFilter, setNoticeFilter] = useState("all");
   const { compose, tab: initial } = useLocalSearchParams<{
     compose?: string;
     tab?: string;
@@ -274,10 +282,7 @@ function PrayerRoom({
   return (
     <Screen back place={mode === "requests" ? "altar" : undefined}>
       <Heading>{tr(pageTitle)}</Heading>
-      {mode === "notifications" && <MemberPhoneAlerts />}
       {mode === "notifications" && <JournalCleanupNotice />}
-      {mode === "notifications" && <FriendUnreadNotice />}
-      {mode === "notifications" && <ActivityNotices />}
       <Notice text={tr(error || notice)} />
       {!writing && (
         <>
@@ -292,6 +297,12 @@ function PrayerRoom({
             />
           )}
           {mode === "notifications" && (
+            <FilterStrip value={noticeFilter} onChange={setNoticeFilter} options={
+              ["all", "activity", "prayers", "gatherings", "settings"].map((value, index) => ({ value, label: notificationLabels[index] }))
+            } />
+          )}
+          {mode === "notifications" && noticeFilter === "settings" && <>
+            <MemberPhoneAlerts />
             <Check
               label={tr("Receive prayer notifications in the app")}
               value={data?.enabled ?? false}
@@ -299,7 +310,7 @@ function PrayerRoom({
                 if (!busy) void act("preferences", null, { enabled: v });
               }}
             />
-          )}
+          </>}
           {mode === "requests" && (
             <FilterStrip
               value={tab}
@@ -312,7 +323,14 @@ function PrayerRoom({
           )}
           {tab === "notifications" && (
             <>
-              <GatheringReminders />
+              {(noticeFilter === "all" || noticeFilter === "activity") && <>
+                <Subheading>{notificationLabels[1]}</Subheading>
+                <FriendUnreadNotice />
+                <ActivityNotices />
+              </>}
+              {(noticeFilter === "all" || noticeFilter === "gatherings") && <GatheringReminders />}
+              {(noticeFilter === "all" || noticeFilter === "prayers") && <>
+              <Subheading>{notificationLabels[2]}</Subheading>
               {!!data?.notices.length && (
                 <Button
                   secondary
@@ -342,9 +360,10 @@ function PrayerRoom({
                   )}
                 </Card>
               ))}
-              {!data?.notices.length && (
+              {data && !data.notices.length && (
                 <Body>{tr("No prayer notifications yet.")}</Body>
               )}
+              </>}
             </>
           )}
           {tab !== "notifications" &&

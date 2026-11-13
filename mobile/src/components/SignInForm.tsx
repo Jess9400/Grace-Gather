@@ -5,10 +5,11 @@ import { useApp } from "../lib/state";
 import { copy, type Language } from "../lib/content";
 import { label } from "../lib/labels";
 import { requireBackend } from "../lib/backend";
+import { Platform } from "react-native";
 
 // Signing in: an emailed code, or Apple where it is available. Used by the
 // sign-in page, the Account section of Profile, onboarding and the journal.
-export default function SignInForm({ language }: { language?: Language }) {
+export default function SignInForm({ language, chooseMethod = false }: { language?: Language; chooseMethod?: boolean }) {
   const { profile } = useApp(),
     lang = language ?? profile.language,
     l = (k: string) => label(lang, k);
@@ -17,7 +18,8 @@ export default function SignInForm({ language }: { language?: Language }) {
     [sent, setSent] = useState(false),
     [nextSend, setNextSend] = useState(0),
     [notice, setNotice] = useState(""),
-    [busy, setBusy] = useState(false);
+    [busy, setBusy] = useState(false),
+    [emailOpen, setEmailOpen] = useState(!chooseMethod || Platform.OS !== "ios" || process.env.EXPO_PUBLIC_APPLE_SIGN_IN_ENABLED === "false");
   async function run(fn: () => Promise<void>) {
     setBusy(true);
     setNotice("");
@@ -32,6 +34,9 @@ export default function SignInForm({ language }: { language?: Language }) {
   return (
     <>
       <Notice text={notice} />
+      {chooseMethod && <AppleSignIn onError={setNotice} />}
+      {chooseMethod && !emailOpen && <Button secondary title={l("continueEmail")} onPress={() => setEmailOpen(true)} />}
+      {emailOpen && <>
       <Field
         label={l("signInEmail")}
         value={email}
@@ -88,7 +93,8 @@ export default function SignInForm({ language }: { language?: Language }) {
           />
         </>
       )}
-      <AppleSignIn onError={setNotice} />
+      </>}
+      {!chooseMethod && <AppleSignIn onError={setNotice} />}
     </>
   );
 }

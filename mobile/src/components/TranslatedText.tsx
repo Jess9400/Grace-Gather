@@ -1,7 +1,14 @@
 import { useState } from "react";
-import { Text, View, type StyleProp, type TextStyle } from "react-native";
-import { TextAction } from "./CommunityControls";
+import { Pressable, Text, View, type StyleProp, type TextStyle } from "react-native";
+import { colors } from "./quiet-ui";
 import { translationCopy } from "../lib/conversation-translations";
+
+export function TranslationToggle({ title, onPress }: { title: string; onPress: () => void }) {
+  return <Pressable accessibilityRole="button" onPress={onPress} hitSlop={10}
+    style={{ alignSelf: "flex-start", paddingVertical: 4 }}>
+    <Text style={{ color: colors.muted, fontSize: 12, fontWeight: "400" }}>{title}</Text>
+  </Pressable>;
+}
 
 export function TranslatedText({
   original,
@@ -32,13 +39,8 @@ export function TranslatedText({
         {different && !showOriginal ? translation : original}
       </Text>
       {different && (
-        <TextAction
-          title={translationCopy(
-            language,
-            showOriginal ? "translated" : "original",
-          )}
-          onPress={() => setShowOriginal(!showOriginal)}
-        />
+        <TranslationToggle title={translationCopy(language, showOriginal ? "translated" : "original")}
+          onPress={() => setShowOriginal(!showOriginal)} />
       )}
     </View>
   );
