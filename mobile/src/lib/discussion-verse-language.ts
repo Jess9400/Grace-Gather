@@ -10,6 +10,8 @@ export function discussionVerseForLanguage(
   // cross-edition mapping, retain the original rather than guess.
   const newTestament = /^(MAT|MRK|LUK|JHN|ACT|ROM|1CO|2CO|GAL|EPH|PHP|COL|1TH|2TH|1TI|2TI|TIT|PHM|HEB|JAS|1PE|2PE|1JN|2JN|3JN|JUD|REV)\./;
   if (!code || !editionId || !newTestament.test(code)) return null;
+  // The Beatitudes are numbered differently in some Catholic editions.
+  if (/^MAT\.5\.(?:3|4|5|6|7|8|9|10|11|12)$/.test(code)) return null;
   const curated = passages.find((passage) => passage.verse === code);
   if (curated) return curated.id;
   return hasCompleteReader ? `${editionId}:${code}` : null;
