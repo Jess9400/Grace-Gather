@@ -34,7 +34,7 @@ export default function SignIn() {
   }, []);
   return (
     <Screen back={!!signedIn}>
-      <Heading>{l("signIn")}</Heading>
+      <Heading>{l("signInOrJoin")}</Heading>
       {!backend ? (
         <Notice text={l("unconnected")} />
       ) : signedIn ? (

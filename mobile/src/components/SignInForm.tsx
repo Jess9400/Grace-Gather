@@ -1,11 +1,11 @@
 import { useState } from "react";
-import { Body, Button, Field, Notice } from "./quiet-ui";
+import { Body, Button, Field, Notice, colors } from "./quiet-ui";
 import AppleSignIn from "./AppleSignIn";
 import { useApp } from "../lib/state";
 import { copy, type Language } from "../lib/content";
 import { label } from "../lib/labels";
 import { requireBackend } from "../lib/backend";
-import { Platform } from "react-native";
+import { Platform, Pressable, Text, View } from "react-native";
 
 // Signing in: an emailed code, or Apple where it is available. Used by the
 // sign-in page, the Account section of Profile, onboarding and the journal.
@@ -19,7 +19,10 @@ export default function SignInForm({ language, chooseMethod = false }: { languag
     [nextSend, setNextSend] = useState(0),
     [notice, setNotice] = useState(""),
     [busy, setBusy] = useState(false),
-    [emailOpen, setEmailOpen] = useState(!chooseMethod || Platform.OS !== "ios" || process.env.EXPO_PUBLIC_APPLE_SIGN_IN_ENABLED === "false");
+    [method, setMethod] = useState<"apple" | "email">(
+      chooseMethod && Platform.OS === "ios" && process.env.EXPO_PUBLIC_APPLE_SIGN_IN_ENABLED !== "false" ? "apple" : "email",
+    );
+  const appleAvailable = Platform.OS === "ios" && process.env.EXPO_PUBLIC_APPLE_SIGN_IN_ENABLED !== "false";
   async function run(fn: () => Promise<void>) {
     setBusy(true);
     setNotice("");
@@ -34,9 +37,16 @@ export default function SignInForm({ language, chooseMethod = false }: { languag
   return (
     <>
       <Notice text={notice} />
-      {chooseMethod && <AppleSignIn onError={setNotice} />}
-      {chooseMethod && !emailOpen && <Button secondary title={l("continueEmail")} onPress={() => setEmailOpen(true)} />}
-      {emailOpen && <>
+      {chooseMethod && appleAvailable && <View accessibilityRole="tablist" style={{ flexDirection: "row", backgroundColor: colors.white, borderRadius: 14, padding: 4, gap: 4 }}>
+        {([ ["apple", "Apple"], ["email", l("signInEmail")] ] as const).map(([value, title]) => <Pressable
+          key={value} accessibilityRole="tab" accessibilityState={{ selected: method === value }}
+          onPress={() => setMethod(value)}
+          style={{ flex: 1, minHeight: 44, alignItems: "center", justifyContent: "center", borderRadius: 11, backgroundColor: method === value ? colors.green : "transparent" }}>
+          <Text style={{ color: method === value ? colors.paper : colors.ink, fontSize: 15, fontWeight: "600" }}>{title}</Text>
+        </Pressable>)}
+      </View>}
+      {chooseMethod && method === "apple" && <AppleSignIn onError={setNotice} />}
+      {method === "email" && <>
       <Field
         label={l("signInEmail")}
         value={email}
