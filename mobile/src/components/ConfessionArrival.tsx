@@ -9,7 +9,7 @@ import {
   View,
   useWindowDimensions,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
 import { useReducedMotion } from "../lib/use-reduced-motion";
@@ -34,19 +34,22 @@ export default function ConfessionArrival({
   const tr = useInterfaceCopy();
   const reduced = useReducedMotion();
   const { height } = useWindowDimensions();
+  // A pop-up layer on iPhone does not learn where the status bar is, so the
+  // screen's own insets keep the back button clear of the clock.
+  const insets = useSafeAreaInsets();
   return (
     <Modal
       visible
       animationType={reduced ? "none" : "fade"}
       onRequestClose={onCancel}
     >
-      <SafeAreaView style={s.safe}>
+      <View style={[s.safe, { paddingBottom: insets.bottom }]}>
         <ScrollView contentContainerStyle={s.content}>
           <View>
             <ConfessionLattice
               height={Math.min(420, Math.max(180, height * 0.43))}
             />
-            <View style={s.top}>
+            <View style={[s.top, { top: insets.top + 8 }]}>
               <Pressable
                 accessibilityRole="button"
                 accessibilityLabel={tr("Back")}
@@ -89,7 +92,7 @@ export default function ConfessionArrival({
             </Text>
           </View>
         </ScrollView>
-      </SafeAreaView>
+      </View>
     </Modal>
   );
 }
@@ -105,11 +108,14 @@ const s = StyleSheet.create({
     alignItems: "center",
     gap: 12,
   },
+  // A soft dark circle keeps the arrow visible against the lattice.
   back: {
     width: 48,
     height: 48,
+    borderRadius: 24,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "rgba(20,14,10,0.62)",
   },
   label: {
     color: room.ink,

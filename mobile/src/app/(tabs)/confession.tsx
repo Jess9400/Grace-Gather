@@ -775,17 +775,9 @@ export default function ConfessionRoom() {
                           }),
                       )}
                     </Card>
+                    {/* Offering comfort keeps Report; Block stays only under a
+                        reply to your own confession. */}
                     {btn("cReport", () => setReport(detail.id), true)}
-                    {btn(
-                      "cBlock",
-                      () =>
-                        void run(async () => {
-                          await confessionAPI("block", { id: detail.id });
-                          await load("list");
-                          setError(t("cBlocked"));
-                        }),
-                      true,
-                    )}
                   </>
                 ) : null}
               </>

@@ -158,6 +158,7 @@ export default function Gatherings() {
             setSelected(value);
             setPage(0);
           }}
+          onOpen={openGathering}
         />
       </Card>
       <Field

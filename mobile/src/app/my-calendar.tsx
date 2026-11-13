@@ -104,6 +104,9 @@ export default function MyCalendar() {
             gatherings={upcoming}
             selected={selected}
             onSelect={setSelected}
+            onOpen={(id) =>
+              router.push({ pathname: "/gathering/[id]", params: { id } })
+            }
           />
           {!!selected && (
             <Button
