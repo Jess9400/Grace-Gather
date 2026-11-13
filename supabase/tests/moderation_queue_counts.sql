@@ -17,7 +17,7 @@ create table private.prayer_reports(request_id uuid);
 create table public.pay_forward_submissions(status text);
 create table public.comments(status text);
 create table public.reports(status text);
-\ir ../migrations/20261113173155_moderation_queue_counts.sql
+\ir ../migrations/20261113174754_moderation_queue_counts.sql
 insert into public.community_posts values ('pending'), ('approved');
 insert into public.community_reports values (false), (true);
 insert into public.confessions values ('reported'), ('pending'), ('approved');
