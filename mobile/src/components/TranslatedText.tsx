@@ -10,6 +10,7 @@ export function TranslatedText({
   style,
   lines,
   heading = false,
+  fill = false,
 }: {
   original: string;
   translation?: string;
@@ -17,11 +18,12 @@ export function TranslatedText({
   style?: StyleProp<TextStyle>;
   lines?: number;
   heading?: boolean;
+  fill?: boolean;
 }) {
   const [showOriginal, setShowOriginal] = useState(false);
   const different = !!translation && translation.trim() !== original.trim();
   return (
-    <View style={{ flex: 1, minWidth: 0 }}>
+    <View style={[{ minWidth: 0 }, fill && { flex: 1 }]}>
       <Text
         accessibilityRole={heading ? "header" : undefined}
         numberOfLines={lines}

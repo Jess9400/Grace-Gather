@@ -157,6 +157,7 @@ export default function PublicDiscussions({ query }: { query: string }) {
                     {reply.name}
                   </Text>
                   <TranslatedText
+                    fill
                     lines={2}
                     language={profile.language}
                     original={reply.body}
