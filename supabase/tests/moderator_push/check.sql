@@ -2,6 +2,8 @@
 select set_config('request.jwt.claim.sub','00000000-0000-0000-0000-000000000001',false);
 set role authenticated;
 do $$begin
+ if has_table_privilege('authenticated','private.moderator_devices','select') or has_table_privilege('authenticated','private.moderator_push_queue','select') then raise exception 'device data is exposed';end if;
+ if has_function_privilege('authenticated','private.dispatch_moderator_pushes()','execute') then raise exception 'dispatcher is callable by members';end if;
  begin perform public.moderator_push_device('ExpoPushToken[not_staff]',true); raise exception 'ordinary member registered';
  exception when raise_exception then if sqlerrm<>'not_allowed' then raise; end if; end;
 end$$;
