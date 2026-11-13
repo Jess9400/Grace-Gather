@@ -128,19 +128,21 @@ export function chapterSource(
   const sourceChapter = chapter + (metadata?.sourceChapterOffset ?? 0);
   return `${metadata?.sourceBaseUrl ?? "https://ebible.org/engwebp/"}${metadata?.sourceBookCode ?? code}${String(sourceChapter).padStart(metadata?.sourceChapterDigits ?? (code === "PSA" ? 3 : 2), "0")}.htm`;
 }
-// Douay-Rheims prints the Hebrew letter of each acrostic stanza (Lamentations,
-// Psalm 118) as the first word of the verse, e.g. "Heth. The mercies of the
-// Lord…". It is a heading, not Scripture, so it is not shown in the verse.
+// Douay-Rheims (Lamentations, Psalm 118) and Brenton (Lamentations) print the
+// Hebrew letter of each acrostic stanza as the first word of the verse, e.g.
+// "Heth. The mercies of the Lord…". It is a heading, not Scripture, so it is
+// not shown in the verse. Brenton spells some letters its own way.
 const acrostic =
-  /^(?:Aleph|Beth|Ghimel|Gimel|Daleth|He|Vau|Zain|Heth|Teth|Jod|Caph|Lamed|Mem|Nun|Samech|Ain|Phe|Sade|Coph|Res|Sin|Thau|Tau)\.\s+/i;
+  /^(?:Aleph|Beth|Ghimel|Gimel|Daleth|He|Vau|Zain|Heth|Teth|Jod|Caph|Chaph|Lamed|Mem|Nun|Samech|Ain|Phe|Sade|Tsade|Coph|Koph|Res|Rechs|Rhechs|Sin|Chsen|Thau|Tau)\.\s+/i;
 function verseText(
   text: string,
   collection: CollectionId,
   code: string,
   chapter: number,
 ) {
-  return collection === "dra" &&
-    (code === "LAM" || (code === "PSA" && chapter === 118))
+  return (collection === "dra" &&
+    (code === "LAM" || (code === "PSA" && chapter === 118))) ||
+    (collection === "brenton" && code === "LAM")
     ? text.replace(acrostic, "")
     : text;
 }
