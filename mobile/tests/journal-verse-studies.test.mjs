@@ -31,7 +31,9 @@ await Promise.all(['web', 'dra', 'brenton', 'blivre', 'rv1909', 'synodal'].map(i
 const map = JSON.parse(readFileSync(root + 'mobile/src/generated/journal-map.json', 'utf8'));
 const studies = JSON.parse(readFileSync(root + 'mobile/src/generated/journal-verse-studies.json', 'utf8')).verses;
 const catalog = JSON.parse(readFileSync(root + 'mobile/src/generated/catalog.json', 'utf8'));
-const themeVerses = [...new Set(map.map(t => t.verse))];
+// Every verse the journal can show: each theme's verse and every step on a verse path.
+const { pathReferences } = load(resolve(root, 'mobile/src/lib/journal-verse-path.ts'));
+const themeVerses = [...new Set([...map.map(t => t.verse), ...pathReferences])];
 const languages = ['en', 'pt', 'es', 'ru'];
 const fields = ['simple', 'context', 'meaning', 'theology', 'today', 'question'];
 
@@ -43,7 +45,7 @@ function shownVerse(edition, reference) {
 }
 
 test('every verse the journal can offer has an explanation, and nothing else is keyed', () => {
-  assert.equal(themeVerses.length, 27);
+  assert.equal(themeVerses.length, 30);
   assert.deepEqual(Object.keys(studies).sort(), [...themeVerses].sort());
 });
 

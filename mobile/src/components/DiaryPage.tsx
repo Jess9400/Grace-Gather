@@ -111,7 +111,7 @@ export default function Diary() {
         }
         await saveEntry(entry, true);
       }
-      const response = await resolveJournalResponse(entry, profile);
+      const response = await resolveJournalResponse(entry, profile, entries);
       if (response.verse || entry.safety)
         await saveEntry({ ...entry, response }, true);
       router.push({ pathname: "/entry/[id]", params: { id: entry.id } });

@@ -1,4 +1,5 @@
 import themeMap from "../generated/journal-map.json";
+import { pathReferences } from "./journal-verse-path";
 import {
   collections,
   getReadingVerse,
@@ -8,12 +9,15 @@ import {
   type ReadingVerse,
 } from "./bible";
 
-const themeReferences = [...new Set(themeMap.map((theme) => theme.verse))];
+const themeReferences = [
+  ...new Set([...themeMap.map((theme) => theme.verse), ...pathReferences]),
+];
 
 // The theme map uses Hebrew/WEB numbering. These are explicit correspondences
-// for its seven Psalms, checked against each bundled edition, not chapter offsets.
+// for its Psalms, checked against each bundled edition, not chapter offsets.
 const psalms: Record<string, Record<"dra" | "brenton" | "synodal", string>> = {
   "PSA.13.1": { dra: "PSA.12.1", brenton: "PSA.12.2", synodal: "PSA.12.2" },
+  "PSA.23.4": { dra: "PSA.22.4", brenton: "PSA.22.4", synodal: "PSA.22.4" },
   "PSA.34.18": { dra: "PSA.33.19", brenton: "PSA.33.19", synodal: "PSA.33.19" },
   "PSA.42.11": { dra: "PSA.41.12", brenton: "PSA.41.12", synodal: "PSA.41.12" },
   "PSA.62.8": { dra: "PSA.61.9", brenton: "PSA.61.9", synodal: "PSA.61.9" },

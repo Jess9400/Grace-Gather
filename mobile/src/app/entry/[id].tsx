@@ -100,7 +100,7 @@ export default function EntryScreen() {
       if (!active) return;
       setLoading(true);
       setVerse(null);
-      const response = await resolveJournalResponse(e, profile);
+      const response = await resolveJournalResponse(e, profile, entries);
       if (!e.response && (response.verse || e.safety)) {
         try {
           await saveJournalResponse(e.id, response);
@@ -379,7 +379,9 @@ export default function EntryScreen() {
                         // whatever number this edition prints for the verse.
                         params: {
                           id: toVerseRoute(verse.id),
-                          journal: journalTheme(entry).verse,
+                          journal:
+                            displayResponse?.reference ??
+                            journalTheme(entry).verse,
                         },
                       })
                     }
