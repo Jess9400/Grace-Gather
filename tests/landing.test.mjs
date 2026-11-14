@@ -12,11 +12,14 @@ test('the landing page has every picture and file it points to', () => {
   assert.ok(existsSync(root + 'share-card.png'));
 });
 
-test('the landing page leads to the app and gives the right contact address', () => {
+test('the landing page shows the app is coming soon and gives the right contact address', () => {
   const app = [...page.matchAll(/href="(https:\/\/[^"]+)"/g)].map((m) => m[1]).filter((url) => !url.includes('fonts.g'));
-  assert.ok(app.length >= 3);
+  assert.ok(app.length >= 2);
   for (const url of app) assert.match(url, /^https:\/\/(grace-gather\.findflockie\.workers\.dev|www\.graceandgather\.online)\//, url);
   assert.match(page, /hello@graceandgather\.online/);
+  assert.equal((page.match(/Coming soon to the App Store/g) || []).length, 2);
+  assert.doesNotMatch(page, /href="https:\/\/grace-gather\.findflockie\.workers\.dev\/"/);
+  assert.doesNotMatch(page, /href="https:\/\/apps\.apple\.com\/app\/id6833897169"/);
   assert.doesNotMatch(page, /graceandgather\.com/);
 });
 
