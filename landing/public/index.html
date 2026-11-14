@@ -1,0 +1,527 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#05060C">
+    <link rel="canonical" href="https://graceandgather.online/">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <!-- What a shared link shows (WhatsApp, iMessage, social apps). -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Grace &amp; Gather">
+    <meta property="og:title" content="Grace &amp; Gather · A church away from church">
+    <meta property="og:description" content="A place to pray, read and be among people who will not judge you, open day and night, wherever you are.">
+    <meta property="og:url" content="https://graceandgather.online/">
+    <meta property="og:image" content="https://graceandgather.online/share-card.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta name="twitter:card" content="summary_large_image">
+    <title>Grace &amp; Gather · A church away from church</title>
+    <meta name="description" content="A church away from church. A place to pray, read and be among people who will not judge you, open day and night, wherever you are.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Mulish:wght@400;600;700&display=swap">
+    <style>
+    body { margin: 0; }
+    img { max-width: 100%; }
+    /* Layout: one pinned night scene you walk through by scrolling, then a single
+       quiet column of rooms inside the church, alternating picture and words. */
+    :root {
+      color-scheme: dark;
+      --night: #05060C;
+      --espresso: #1B1612;
+      --espresso-deep: #120E0B;
+      --card: #2A221B;
+      --ivory: #F4EBDA;
+      --muted: #B7A993;
+      --cream: #F1E4CB;
+      --gold: #C9A45C;
+      --gold-ink: #D9B974;
+      --line: rgba(244, 235, 218, 0.16);
+      --display: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+      --body: "Mulish", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      --gutter-l: max(20px, env(safe-area-inset-left, 0px));
+      --gutter-r: max(20px, env(safe-area-inset-right, 0px));
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--espresso);
+      color: var(--ivory);
+      font-family: var(--body);
+      font-size: 17px;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    h1, h2, h3, p { margin: 0; }
+    h1, h2, h3 { font-family: var(--display); font-weight: 500; text-wrap: balance; letter-spacing: -0.01em; }
+    a { color: inherit; }
+    img { display: block; }
+    :focus-visible { outline: 2px solid var(--gold-ink); outline-offset: 3px; border-radius: 6px; }
+    .wrap { width: 100%; max-width: 1080px; margin-inline: auto; padding-left: var(--gutter-l); padding-right: var(--gutter-r); }
+    .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold-ink); }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      min-height: 52px; padding: 0 28px; border-radius: 26px;
+      background: var(--cream); color: var(--espresso);
+      font-family: var(--body); font-size: 16px; font-weight: 700; text-decoration: none;
+      transition: transform 0.25s ease, background 0.25s ease;
+    }
+    .btn:hover { background: #FFF4DC; transform: translateY(-1px); }
+    .btn.small { min-height: 44px; padding: 0 20px; font-size: 14px; }
+    .quiet-link { color: var(--ivory); font-weight: 600; text-decoration: underline; text-decoration-color: var(--gold); text-underline-offset: 5px; }
+    .quiet-link:hover { color: #fff; }
+
+    /* ---- Top bar ---- */
+    body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--night); }
+    .top {
+      position: fixed; z-index: 9; left: 0; right: 0; top: env(safe-area-inset-top, 0px);
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding-block: 14px; padding-left: var(--gutter-l); padding-right: var(--gutter-r);
+      background: linear-gradient(180deg, rgba(5, 6, 12, 0.82), rgba(5, 6, 12, 0));
+    }
+    .brand { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; min-height: 44px; }
+    .brand svg { width: 34px; height: 34px; flex: none; }
+    .brand span { font-size: 12px; font-weight: 700; letter-spacing: 0.26em; white-space: nowrap; }
+
+    /* ---- The walk ---- */
+    .walk { position: relative; background: var(--night); }
+    .scene { position: relative; height: 72svh; min-height: 420px; overflow: hidden; --horizon: 60%; }
+    .sky { position: absolute; left: 0; top: 0; width: 100%; height: calc(var(--horizon) + 2px); background: linear-gradient(180deg, #05060C 0%, #0B0C17 40%, #1A1521 70%, #33231B 100%); }
+    .stars { position: absolute; left: 0; top: 0; width: 100%; height: var(--horizon); }
+    .stars i { position: absolute; border-radius: 50%; background: #FFF5DE; }
+    .moon { position: absolute; left: 62%; top: max(calc(var(--horizon) * 0.2), 92px); width: 38px; height: 38px; border-radius: 50%; background: radial-gradient(circle at 36% 34%, #FFF8E2, #E6D4A8); box-shadow: 0 0 44px 14px rgba(255, 240, 200, 0.16); }
+    .hills { position: absolute; left: 0; width: 100%; height: 60px; top: calc(var(--horizon) - 48px); }
+    .ground { position: absolute; left: 0; right: 0; top: var(--horizon); bottom: 0; background: linear-gradient(180deg, #15110E 0%, #0C0907 45%, #070504 100%); }
+    .world { position: absolute; left: 50%; top: var(--horizon); width: 0; height: 0; transform-origin: 0 0; }
+    .world > * { position: absolute; left: 0; top: 0; }
+    .spot { width: 0; height: 0; transform-origin: 0 0; will-change: transform, opacity; }
+    .beacon { left: -210px; top: -210px; width: 420px; height: 420px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 196, 110, 0.6) 0%, rgba(255, 170, 80, 0.2) 28%, rgba(255, 170, 80, 0) 64%); will-change: transform, opacity; }
+    .road { left: -1100px; top: 0; width: 2200px; height: 700px; background: linear-gradient(180deg, rgba(168, 124, 74, 0.62) 0, rgba(92, 70, 48, 0.6) 120px, rgba(44, 33, 24, 0.55) 374px); clip-path: polygon(1100px 0, 2245px 700px, -45px 700px); }
+    .fan { left: -1100px; top: 0; width: 2200px; height: 440px; background: linear-gradient(180deg, rgba(255, 214, 150, 0) 44px, rgba(255, 214, 150, 0.46) 46px, rgba(255, 200, 130, 0.12) 250px, rgba(255, 200, 130, 0.03) 440px); clip-path: polygon(1043px 44px, 1157px 44px, 1380px 440px, 820px 440px); opacity: 0; }
+    .church svg { position: absolute; left: -150px; top: -400px; overflow: visible; }
+    .tree svg { position: absolute; left: -35px; top: -150px; }
+    .lantern svg { position: absolute; left: -12px; top: -72px; overflow: visible; }
+    .lantern .halo { position: absolute; left: -36px; top: -94px; width: 72px; height: 72px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 200, 112, 0.6), rgba(255, 200, 112, 0) 68%); opacity: 0; transition: opacity 0.9s ease; }
+    .lantern .flame { position: absolute; left: -3.5px; top: -63px; width: 7px; height: 9px; border-radius: 2px; background: #FFE2A6; opacity: 0.1; transition: opacity 0.9s ease; }
+    .lantern.lit .halo, .lantern.lit .flame { opacity: 1; }
+    .shade { position: absolute; left: 0; right: 0; top: calc(var(--horizon) + 20px); bottom: 0; background: linear-gradient(180deg, rgba(8, 6, 5, 0) 0%, rgba(8, 6, 5, 0.55) 40%, rgba(8, 6, 5, 0.86) 100%); pointer-events: none; }
+    @keyframes twinkle { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
+
+    .moments { padding-block: 40px 56px; padding-left: var(--gutter-l); padding-right: var(--gutter-r); background: #070504; }
+    .moments .pin { display: flex; flex-direction: column; gap: 44px; align-items: center; }
+    .moment { width: 100%; max-width: 640px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 14px; }
+    .moment:first-child { max-width: 860px; }
+    .moment h1 { font-size: clamp(38px, 6.4vw, 64px); line-height: 1.04; }
+    .moment h2 { font-size: clamp(32px, 5.4vw, 48px); line-height: 1.1; }
+    .moment p { max-width: 34em; color: #E3D7C2; font-size: clamp(16px, 2.2vw, 19px); text-wrap: balance; }
+    .moment .lede { font-family: var(--display); font-style: italic; font-size: clamp(21px, 3.2vw, 27px); line-height: 1.3; color: var(--ivory); }
+    .moment .lines { display: flex; flex-direction: column; gap: 2px; font-family: var(--display); font-style: italic; font-size: clamp(22px, 3.4vw, 30px); line-height: 1.3; color: var(--ivory); }
+    .actions { display: flex; flex-wrap: wrap; gap: 14px 22px; align-items: center; justify-content: center; padding-top: 8px; }
+    .hint { display: none; }
+
+    /* With scripting, the scene is pinned and the words change as you walk. */
+    .js .walk { height: 320svh; }
+    .js .scene { position: sticky; top: 0; height: 100svh; min-height: 0; }
+    .js .moments { position: absolute; inset: 0; padding: 0; background: none; pointer-events: none; }
+    .js .moments .pin { display: block; position: sticky; top: 0; height: 100svh; }
+    .js .moment { position: absolute; left: 50%; bottom: max(6svh, 28px); transform: translateX(-50%); width: calc(100% - var(--gutter-l) - var(--gutter-r)); opacity: 0; will-change: opacity, transform; text-shadow: 0 1px 14px rgba(0, 0, 0, 0.75); }
+    .js .moment.on { pointer-events: auto; }
+    .js .moment .btn { text-shadow: none; }
+    .js .hint { display: flex; align-items: center; gap: 8px; padding-top: 6px; font-size: 13px; color: var(--muted); letter-spacing: 0.04em; }
+    .js .hint::after { content: ""; width: 1px; height: 22px; background: linear-gradient(180deg, var(--gold), transparent); animation: drop 2.2s ease-in-out infinite; }
+    @keyframes drop { 0%, 100% { transform: translateY(-3px); opacity: 0.4; } 50% { transform: translateY(4px); opacity: 1; } }
+
+    /* ---- Inside ---- */
+    .inside { position: relative; background: radial-gradient(90% 420px at 50% 0%, #3A2A1C 0%, rgba(58, 42, 28, 0) 100%), var(--espresso); padding-block: clamp(72px, 11vw, 132px) clamp(48px, 8vw, 96px); }
+    .intro { display: flex; flex-direction: column; gap: 18px; max-width: 720px; }
+    .intro h2 { font-size: clamp(40px, 6.4vw, 68px); line-height: 1.04; }
+    .intro p { color: #E3D7C2; font-size: clamp(17px, 2.1vw, 20px); max-width: 34em; }
+    .rooms { display: flex; flex-direction: column; gap: clamp(64px, 10vw, 128px); padding-top: clamp(56px, 9vw, 112px); }
+    .room { display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); gap: clamp(28px, 7vw, 96px); align-items: center; }
+    .room:nth-child(even) { grid-template-columns: minmax(0, 1fr) minmax(0, 300px); }
+    .room:nth-child(even) .phone { order: 2; }
+    .phone { width: 100%; max-width: 300px; aspect-ratio: 540 / 1169; border-radius: 38px; overflow: hidden; border: 1px solid rgba(201, 164, 92, 0.45); background: var(--espresso-deep); box-shadow: 0 0 0 7px rgba(18, 14, 11, 0.9), 0 40px 80px -30px rgba(0, 0, 0, 0.9), 0 0 90px -20px rgba(201, 164, 92, 0.22); justify-self: center; }
+    .phone img { width: 100%; height: 100%; object-fit: cover; }
+    .room-words { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+    .room-words h3 { font-size: clamp(32px, 4.6vw, 48px); line-height: 1.08; }
+    .room-words p { color: #E3D7C2; max-width: 30em; }
+    .room-words .rule { width: 44px; height: 2px; background: var(--gold); border-radius: 1px; }
+
+    /* ---- Traditions ---- */
+    .traditions { background: var(--espresso-deep); padding-block: clamp(72px, 11vw, 128px); }
+    .traditions .head { display: flex; flex-direction: column; gap: 16px; align-items: center; text-align: center; }
+    .traditions h2 { font-size: clamp(36px, 5.6vw, 58px); line-height: 1.06; max-width: 14em; }
+    .traditions .head p { color: #E3D7C2; max-width: 36em; }
+    .arches { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(14px, 3vw, 36px); padding-top: clamp(40px, 6vw, 72px); }
+    .arch { display: flex; flex-direction: column; gap: 16px; align-items: center; margin: 0; }
+    .arch .window { width: 100%; aspect-ratio: 560 / 868; border-radius: 999px 999px 10px 10px; overflow: hidden; border: 1px solid rgba(201, 164, 92, 0.55); box-shadow: 0 0 0 6px var(--espresso-deep), 0 0 0 7px rgba(201, 164, 92, 0.25), 0 30px 70px -30px rgba(0, 0, 0, 0.9); }
+    .arch img { width: 100%; height: 100%; object-fit: cover; }
+    .arch figcaption { font-family: var(--display); font-size: clamp(20px, 2.8vw, 28px); }
+    .tongues { padding-top: clamp(36px, 5vw, 56px); display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 26px; font-family: var(--display); font-style: italic; font-size: clamp(20px, 2.6vw, 26px); color: var(--gold-ink); }
+
+    /* ---- Promises ---- */
+    .promises { background: var(--espresso); padding-block: clamp(64px, 9vw, 112px); }
+    .promise-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(28px, 5vw, 64px); }
+    .promise { display: flex; flex-direction: column; gap: 12px; padding-top: 20px; border-top: 1px solid var(--line); }
+    .promise h3 { font-size: clamp(26px, 3.2vw, 32px); line-height: 1.12; }
+    .promise p { color: var(--muted); font-size: 16px; }
+
+    /* ---- Closing ---- */
+    .closing { background: radial-gradient(70% 60% at 50% 100%, #3A2A1C 0%, rgba(58, 42, 28, 0) 100%), var(--espresso-deep); padding-block: clamp(80px, 12vw, 140px); text-align: center; }
+    .closing .wrap { display: flex; flex-direction: column; align-items: center; gap: 22px; }
+    .closing svg { width: 128px; height: 128px; }
+    .closing h2 { font-size: clamp(42px, 7vw, 76px); line-height: 1.02; }
+    .closing p { color: #E3D7C2; max-width: 30em; }
+    .closing .note { font-size: 14px; color: var(--muted); }
+    footer { background: var(--espresso-deep); border-top: 1px solid var(--line); padding-block: 28px; font-size: 14px; color: var(--muted); }
+    footer .wrap { display: flex; flex-wrap: wrap; gap: 10px 28px; align-items: center; justify-content: space-between; }
+    footer .mail { user-select: all; color: var(--ivory); }
+
+    @media (max-width: 720px) {
+      .room, .room:nth-child(even) { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+      /* On a phone the words introduce each picture. */
+      .room .phone, .room:nth-child(even) .phone { order: 2; }
+      .phone { max-width: 250px; }
+      .promise-row { grid-template-columns: minmax(0, 1fr); }
+      .brand span { letter-spacing: 0.18em; font-size: 11px; }
+      .moment { gap: 10px; }
+      .actions { gap: 10px 20px; padding-top: 4px; }
+    }
+    @media (max-width: 350px) { .brand span { display: none; } }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .stars i, .hint::after { animation: none !important; }
+      .btn { transition: none; }
+    }
+    </style>
+  </head>
+  <body>
+    <svg width="0" height="0" aria-hidden="true" style="position: absolute">
+      <symbol id="emblem" viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="47" fill="none" stroke="#C9A45C" stroke-width="1.6"></circle>
+        <circle cx="50" cy="50" r="43.5" fill="none" stroke="#C9A45C" stroke-width="0.7"></circle>
+        <path d="M9 63.5c13-5 27-7 41-7s28 2 41 7" fill="none" stroke="#C9A45C" stroke-width="0.9"></path>
+        <path d="M46 66h8l9 21q-13 4-26 0z" fill="#F1E4CB"></path>
+        <path d="M36 66V49l14-11 14 11v17z" fill="#C9A45C"></path>
+        <path d="M46.5 41V29h7v12z" fill="#C9A45C"></path>
+        <path d="M45.5 29.5L50 17l4.5 12.5z" fill="#C9A45C"></path>
+        <path d="M50 9.5v7.5M47.3 12h5.4" stroke="#C9A45C" stroke-width="1.3" fill="none"></path>
+        <path d="M46 66v-8a4 4 0 0 1 8 0v8z" fill="#F1E4CB"></path>
+        <circle cx="50" cy="48" r="2.6" fill="#F1E4CB"></circle>
+        <path d="M39.8 60v-5a1.6 1.6 0 0 1 3.2 0v5zM57 60v-5a1.6 1.6 0 0 1 3.2 0v5z" fill="#F1E4CB"></path>
+        <circle cx="24" cy="36" r="1.1" fill="#F1E4CB"></circle>
+        <circle cx="73" cy="27" r="1.3" fill="#F1E4CB"></circle>
+        <circle cx="80" cy="45" r="0.9" fill="#F1E4CB"></circle>
+        <circle cx="31" cy="23" r="0.9" fill="#F1E4CB"></circle>
+      </symbol>
+    </svg>
+
+    <header class="top">
+      <a class="brand" href="#top" aria-label="Grace &amp; Gather, back to the top">
+        <svg aria-hidden="true"><use href="#emblem"></use></svg>
+        <span>GRACE &amp; GATHER</span>
+      </a>
+      <a class="btn small" href="https://grace-gather.findflockie.workers.dev/" target="_blank" rel="noopener">Open the app</a>
+    </header>
+
+    <main id="top">
+      <section class="walk" aria-label="A walk at night toward a lit church">
+        <div class="scene" aria-hidden="true">
+          <div class="sky"></div>
+          <div class="stars"></div>
+          <div class="moon"></div>
+          <svg class="hills" viewBox="0 0 390 60" preserveAspectRatio="none"><path d="M0 40C40 26 84 20 132 31c40 9 70-12 120-6 50 6 90-14 138 2v33H0z" fill="#100E14"></path><path d="M0 50c50-10 96-8 150-3 60 6 110-8 160-6 34 1 58 4 80 8v11H0z" fill="#0B0A0C"></path></svg>
+          <div class="ground"></div>
+          <div class="world">
+            <div class="beacon"></div>
+            <div class="road"></div>
+            <div class="fan"></div>
+            <div class="spot church">
+              <svg width="300" height="400" viewBox="0 0 300 400">
+                <defs>
+                  <linearGradient id="wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0D0B0C"></stop><stop offset=".7" stop-color="#17110E"></stop><stop offset="1" stop-color="#241A13"></stop></linearGradient>
+                  <radialGradient id="win" cx=".5" cy=".65" r=".75"><stop offset="0" stop-color="#FFE9B5"></stop><stop offset="1" stop-color="#D88F3D"></stop></radialGradient>
+                  <radialGradient id="halo"><stop offset="0" stop-color="#FFC670" stop-opacity=".5"></stop><stop offset="1" stop-color="#FFC670" stop-opacity="0"></stop></radialGradient>
+                  <radialGradient id="doorwash"><stop offset="0" stop-color="#FFB45A" stop-opacity=".22"></stop><stop offset="1" stop-color="#FFB45A" stop-opacity="0"></stop></radialGradient>
+                </defs>
+                <g fill="url(#wall)" stroke="#C9A45C" stroke-opacity=".3" stroke-width="1">
+                  <path vector-effect="non-scaling-stroke" d="M24 400v-74l46-22v96z"></path>
+                  <path vector-effect="non-scaling-stroke" d="M276 400v-74l-46-22v96z"></path>
+                  <path vector-effect="non-scaling-stroke" d="M131 200v-82h38v82z"></path>
+                  <path vector-effect="non-scaling-stroke" d="M126 120h48l-5-8h-38z"></path>
+                  <path vector-effect="non-scaling-stroke" d="M131 112l19-70 19 70z"></path>
+                  <path vector-effect="non-scaling-stroke" d="M70 400V250l80-70 80 70v150z"></path>
+                </g>
+                <path vector-effect="non-scaling-stroke" d="M150 14v28M141 23h18" stroke="#D9B974" stroke-width="1.8" fill="none"></path>
+                <path vector-effect="non-scaling-stroke" d="M70 270h160M70 290h160M70 310h160M70 330h160M70 350h160M70 370h160M70 386h160M24 350h46M230 350h46M24 370h46M230 370h46" stroke="#F4EBDA" stroke-opacity=".045" stroke-width="1" fill="none"></path>
+                <circle cx="150" cy="256" r="28" fill="url(#halo)"></circle>
+                <circle cx="90" cy="326" r="32" fill="url(#halo)"></circle>
+                <circle cx="210" cy="326" r="32" fill="url(#halo)"></circle>
+                <g fill="url(#win)">
+                  <path d="M143 166v-22a7 7 0 0 1 14 0v22z" opacity=".55"></path>
+                  <circle cx="150" cy="256" r="12"></circle>
+                  <path d="M82 358v-62a8 8 0 0 1 16 0v62z"></path>
+                  <path d="M202 358v-62a8 8 0 0 1 16 0v62z"></path>
+                  <path d="M42 372v-26h12v26zM246 372v-26h12v26z"></path>
+                </g>
+                <path d="M150 244v24M138 256h24M90 289v69M210 289v69M82 322h16M202 322h16M48 346v26M252 346v26" stroke="#3A2414" stroke-width="1.1" fill="none"></path>
+                <ellipse cx="150" cy="352" rx="78" ry="70" fill="url(#doorwash)"></ellipse>
+                <path d="M104 400v-4h92v4z" fill="#2B2119"></path>
+                <path d="M110 396v-4h80v4z" fill="#3A2D22"></path>
+                <path vector-effect="non-scaling-stroke" d="M116 392v-60a34 34 0 0 1 68 0v60z" fill="#0A0706" stroke="#C9A45C" stroke-opacity=".6" stroke-width="1"></path>
+                <path d="M123 335a27 27 0 0 1 54 0z" fill="url(#win)"></path>
+                <path d="M150 308v27M131 316l19 19M169 316l-19 19" stroke="#2A1A10" stroke-width="1.2" fill="none"></path>
+                <path d="M123 337h26v55h-26zM151 337h26v55h-26z" fill="#412A18"></path>
+                <path d="M127 342h18v20h-18zM127 366h18v22h-18zM155 342h18v20h-18zM155 366h18v22h-18z" fill="none" stroke="#63432A" stroke-width=".8"></path>
+                <path d="M149 337h2v55h-2z" fill="#FFE7B0"></path>
+                <path d="M123 390.8h54v1.2h-54z" fill="#FFE7B0" opacity=".9"></path>
+                <circle cx="146.5" cy="365" r="1.2" fill="#D9B974"></circle>
+                <circle cx="153.5" cy="365" r="1.2" fill="#D9B974"></circle>
+                <circle cx="104" cy="346" r="16" fill="url(#halo)"></circle>
+                <circle cx="196" cy="346" r="16" fill="url(#halo)"></circle>
+                <path d="M102 343h4v7h-4zM194 343h4v7h-4z" fill="#FFDFA0"></path>
+                <path d="M100 343l4-4 4 4zM192 343l4-4 4 4z" fill="#0A0706"></path>
+              </svg>
+            </div>
+          </div>
+          <div class="shade"></div>
+        </div>
+        <div class="moments">
+          <div class="pin">
+            <div class="moment">
+              <p class="eyebrow">Grace &amp; Gather</p>
+              <h1>A church away from church</h1>
+              <p class="lede">Wherever you are tonight, there is a light left on for you.</p>
+              <p>A church you carry with you, for the days you can&rsquo;t get to your own.</p>
+              <div class="actions">
+                <a class="btn" href="https://grace-gather.findflockie.workers.dev/" target="_blank" rel="noopener">Open Grace &amp; Gather</a>
+                <a class="quiet-link" href="#inside">See what is inside</a>
+              </div>
+              <p class="hint">Scroll to walk closer</p>
+            </div>
+            <div class="moment">
+              <p class="eyebrow">Whoever you are</p>
+              <div class="lines">
+                <span>If you are far from a church.</span>
+                <span>If you want to come back.</span>
+                <span>If you are looking for answers.</span>
+              </div>
+              <h2>There is a place for you here</h2>
+            </div>
+            <div class="moment">
+              <h2>Come as you are</h2>
+              <p>Inside, people pray for one another, without judgement.</p>
+              <div class="actions">
+                <a class="btn" href="#inside">Step inside</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="inside" id="inside">
+        <div class="wrap">
+          <div class="intro">
+            <p class="eyebrow">Inside</p>
+            <h2>Everything a church gives you, in your pocket</h2>
+            <p>A place to speak to God, a Bible that explains itself, people who pray for you, and a calendar that keeps the year holy.</p>
+          </div>
+          <div class="rooms">
+            <article class="room">
+              <div class="phone"><img src="img/app-diary.jpg" width="540" height="1169" loading="lazy" alt="The journal in the app: a cream page that begins &ldquo;Dear God&rdquo;"></div>
+              <div class="room-words">
+                <p class="eyebrow">Talk to God</p>
+                <h3>Write to God. A verse answers.</h3>
+                <div class="rule"></div>
+                <p>Begin with &ldquo;Dear God&rdquo; and write whatever is on your heart. When you finish, you are given one verse chosen for what you wrote, with a few words on why.</p>
+                <p>If the same weight comes back tomorrow, the verse changes and walks on with you.</p>
+              </div>
+            </article>
+            <article class="room">
+              <div class="phone"><img src="img/app-verse.jpg" width="540" height="1169" loading="lazy" alt="A verse in the app, John 14:27, with three ways to study it: Simple, Deeper and Theology"></div>
+              <div class="room-words">
+                <p class="eyebrow">Bible study</p>
+                <h3>The Bible, gently explained</h3>
+                <div class="rule"></div>
+                <p>Open any verse three ways: simply, in depth, and through the questions of faith. The notes draw on centuries of Christian teaching and show their sources.</p>
+                <p>Six Bibles in four languages, chosen to suit your tradition.</p>
+              </div>
+            </article>
+            <article class="room">
+              <div class="phone"><img src="img/app-home.jpg" width="540" height="1169" loading="lazy" alt="The church in the app, with the choices Talk to God, Request a prayer and Light a candle"></div>
+              <div class="room-words">
+                <p class="eyebrow">Prayer</p>
+                <h3>Pray, and be prayed for</h3>
+                <div class="rule"></div>
+                <p>Ask for a prayer and others will pray it with you. Light a candle for someone you love.</p>
+                <p>In the quiet room you can share what is heavy, under your own name or none, and receive comfort instead of judgement.</p>
+              </div>
+            </article>
+            <article class="room">
+              <div class="phone"><img src="img/app-gather.jpg" width="540" height="1169" loading="lazy" alt="The gatherings calendar in the app, with holy days marked"></div>
+              <div class="room-words">
+                <p class="eyebrow">Gather</p>
+                <h3>Gather when you can</h3>
+                <div class="rule"></div>
+                <p>Join small gatherings by voice, talk with others who feel what you feel, and follow the holy days of your church&rsquo;s year.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="traditions">
+        <div class="wrap">
+          <div class="head">
+            <p class="eyebrow">Your tradition</p>
+            <h2>The church you walk into is your own</h2>
+            <p>Catholic, Orthodox or Protestant: the church, its prayers and its Bible follow the tradition you choose.</p>
+          </div>
+          <div class="arches">
+            <figure class="arch"><div class="window"><img src="img/church-catholic.jpg" width="560" height="868" loading="lazy" alt="The Catholic church in the app: a stone nave with a stained-glass window and an altar"></div><figcaption>Catholic</figcaption></figure>
+            <figure class="arch"><div class="window"><img src="img/church-orthodox.jpg" width="560" height="868" loading="lazy" alt="The Orthodox church in the app: a painted dome, a golden iconostasis and candle stands"></div><figcaption>Orthodox</figcaption></figure>
+            <figure class="arch"><div class="window"><img src="img/church-protestant.jpg" width="560" height="868" loading="lazy" alt="The Protestant church in the app: a bright timber hall with a plain cross"></div><figcaption>Protestant</figcaption></figure>
+          </div>
+          <div class="tongues" aria-label="Available in four languages"><span lang="en">English</span><span lang="pt">Portugu&ecirc;s</span><span lang="es">Espa&ntilde;ol</span><span lang="ru">Русский</span></div>
+        </div>
+      </section>
+
+      <section class="promises">
+        <div class="wrap promise-row">
+          <div class="promise"><h3>Open day and night</h3><p>There are no service times. Come at three in the morning if that is when you need it.</p></div>
+          <div class="promise"><h3>No one keeps score</h3><p>Nobody counts how often you come or asks why you stayed away.</p></div>
+          <div class="promise"><h3>What you write is yours</h3><p>Your journal is private to you. Guidance from AI is optional and you can leave it off.</p></div>
+        </div>
+      </section>
+
+      <section class="closing">
+        <div class="wrap">
+          <svg role="img" aria-label="The Grace &amp; Gather emblem: a small chapel at night with a lit door"><use href="#emblem"></use></svg>
+          <h2>The door is open</h2>
+          <p>Come in and rest a while.</p>
+          <a class="btn" href="https://grace-gather.findflockie.workers.dev/" target="_blank" rel="noopener">Open Grace &amp; Gather</a>
+          <p class="note">Opens in your browser. The iPhone app is on its way.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap">
+        <span>&copy; 2026 Grace &amp; Gather</span>
+        <span>Write to us: <span class="mail">hello@graceandgather.online</span></span>
+        <span style="display: inline-flex; gap: 22px"><a class="quiet-link" href="https://grace-gather.findflockie.workers.dev/support.html" target="_blank" rel="noopener">Support</a><a class="quiet-link" href="https://grace-gather.findflockie.workers.dev/privacy.html" target="_blank" rel="noopener">Privacy</a></span>
+      </div>
+    </footer>
+
+    <script>
+    (function () {
+      var root = document.documentElement;
+      var walk = document.querySelector('.walk');
+      var scene = document.querySelector('.scene');
+      var world = document.querySelector('.world');
+      var starBox = document.querySelector('.stars');
+      var moon = document.querySelector('.moon');
+      var hills = document.querySelector('.hills');
+      var beacon = document.querySelector('.beacon');
+      var fan = document.querySelector('.fan');
+      var church = document.querySelector('.church');
+      var shade = document.querySelector('.shade');
+      var moments = Array.prototype.slice.call(document.querySelectorAll('.moment'));
+      if (!walk || !scene || !world) return;
+
+      // The road: the church stands at 10; each of the four steps roughly halves
+      // the distance, so its size goes 0.1, 0.2, 0.4, 0.8 and then up to the door.
+      var SIZE = [0.1, 0.2, 0.4, 0.8, 2.1];
+      var DROP = 22, CHURCH_AT = 10, PASSED = 0.22;
+      var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      var seed = 11;
+      function rnd() { seed = (seed * 16807) % 2147483647; return seed / 2147483647; }
+      for (var i = 0; i < 90; i++) {
+        var star = document.createElement('i');
+        var size = 1 + rnd() * 1.7;
+        star.style.cssText = 'left:' + (rnd() * 100).toFixed(1) + '%;top:' + (Math.pow(rnd(), 1.3) * 92).toFixed(1) + '%;width:' + size.toFixed(1) + 'px;height:' + size.toFixed(1) + 'px;opacity:' + (0.35 + rnd() * 0.55).toFixed(2) + (calm ? '' : ';animation:twinkle ' + (2.6 + rnd() * 3.6).toFixed(1) + 's ease-in-out ' + (rnd() * 4).toFixed(1) + 's infinite');
+        starBox.appendChild(star);
+      }
+      var things = [];
+      function add(kind, side, along, html) {
+        var el = document.createElement('div');
+        el.className = 'spot ' + kind;
+        el.innerHTML = html;
+        world.appendChild(el);
+        things.push({ el: el, side: side, along: along, lantern: kind === 'lantern' });
+      }
+      var TREE = '<svg width="70" height="150" viewBox="0 0 70 150"><path d="M33 150v-26C8 122 14 62 35 4c21 58 27 118 2 120v26z" fill="#070606"></path></svg>';
+      var LANTERN = '<div class="halo"></div><svg width="24" height="72" viewBox="0 0 24 72"><path d="M11 72V22h2v50zM6 22h12l-2-3H8zM6 8l6-6 6 6zM9 72h6v-2H9z" fill="#0A0807"></path><path d="M7.5 8h9v11h-9z" fill="#1A130E" stroke="#0A0807" stroke-width="1"></path></svg><div class="flame"></div>';
+      [[150, 9.3], [-170, 9.1], [190, 8.2], [-140, 7.8], [140, 6.4], [-200, 5.6], [170, 3.6], [-150, 2.6], [-260, 8.7], [250, 7.2], [-290, 4.4], [300, 5.0]].forEach(function (t) { add('tree', t[0], t[1], TREE); });
+      [9.3, 9.0, 8.5, 8.0, 6.9, 5.9, 3.4, 1.7].forEach(function (z) { add('lantern', -58, z, LANTERN); add('lantern', 58, z, LANTERN); });
+
+      var W = 0, H = 0;
+      function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+      function sizeAt(p) {
+        p = clamp(p, 0, 4);
+        var i = Math.min(3, Math.floor(p)), t = p - i;
+        return SIZE[i] * Math.pow(SIZE[i + 1] / SIZE[i], t);
+      }
+      function layout() {
+        W = scene.clientWidth; H = scene.clientHeight;
+        // The opening words sit under the horizon, so the far light stays in view.
+        var words = pinned && moments[0] ? moments[0].offsetHeight + Math.max(H * 0.06, 28) + 34 : 0;
+        var below = pinned ? clamp(Math.max(H * 0.44, words), 330, H * 0.66) : H * 0.34;
+        var horizon = Math.round(H - below);
+        var scale = Math.min(W / 390, horizon / 470, 1.6);
+        scene.style.setProperty('--horizon', horizon + 'px');
+        world.style.transform = 'scale(' + scale.toFixed(4) + ')';
+        draw();
+      }
+      function progress() {
+        if (!pinned) return 2.2;
+        var span = walk.offsetHeight - H;
+        if (span <= 0) return 0;
+        return clamp(-walk.getBoundingClientRect().top / span, 0, 1) * 4;
+      }
+      function draw() {
+        var p = progress();
+        var k = sizeAt(p);
+        var walker = CHURCH_AT - 1 / k;
+        church.style.transform = 'translate(0px,' + (DROP * k).toFixed(2) + 'px) scale(' + k.toFixed(4) + ')';
+        for (var i = 0; i < things.length; i++) {
+          var t = things[i], away = t.along - walker;
+          if (away <= PASSED) { t.el.style.opacity = 0; continue; }
+          var s = 1 / away;
+          t.el.style.opacity = clamp((away - PASSED) / 0.16, 0, 1);
+          t.el.style.transform = 'translate(' + (t.side * s).toFixed(2) + 'px,' + (DROP * s).toFixed(2) + 'px) scale(' + s.toFixed(4) + ')';
+          if (t.lantern) t.el.classList.toggle('lit', (p > 0.12 || !pinned) && away <= 3.6);
+        }
+        beacon.style.transform = 'translateY(' + (-55 * k).toFixed(1) + 'px) scale(' + (0.2 + 0.7 * k).toFixed(3) + ')';
+        beacon.style.opacity = clamp(1 - 0.33 * k, 0.3, 1);
+        starBox.style.opacity = clamp(1 - (k - 0.4) / 1.5, 0, 1);
+        moon.style.opacity = clamp(1 - (k - 0.9) / 0.8, 0, 1);
+        moon.style.transform = 'translateY(' + (-8 * p).toFixed(1) + 'px)';
+        hills.style.transform = 'scale(' + (1 + 0.09 * p).toFixed(3) + ')';
+        fan.style.opacity = clamp((p - 3.45) / 0.5, 0, 1);
+        if (!pinned) return;
+        for (var m = 0; m < moments.length; m++) {
+          // The words are spread evenly along the walk: far away, half way, at the door.
+          var step = 4 / (moments.length - 1), at = m * step;
+          var d = Math.abs(p - at);
+          var o = clamp(1 - (d - 0.3 * step) / (0.2 * step), 0, 1);
+          moments[m].style.opacity = o;
+          moments[m].style.transform = 'translateX(-50%) translateY(' + ((at - p) * 14).toFixed(1) + 'px)';
+          moments[m].classList.toggle('on', o > 0.6);
+        }
+      }
+      // People who ask for less motion get a still scene and the words set out
+      // plainly below it.
+      var pinned = !calm;
+      if (pinned) root.classList.add('js');
+      hills.style.transformOrigin = '50% 80%';
+      var queued = false;
+      function onScroll() { if (queued) return; queued = true; requestAnimationFrame(function () { queued = false; draw(); }); }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', function () { requestAnimationFrame(layout); });
+      layout();
+    })();
+    </script>
+  </body>
+</html>
