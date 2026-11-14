@@ -2,7 +2,8 @@ import { ExpoConfig, ConfigContext } from "expo/config";
 export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   name: "Grace & Gather",
-  slug: "away-church",
+  slug: process.env.EXPO_PROJECT_SLUG || "away-church",
+  owner: process.env.EXPO_PROJECT_OWNER || config.owner,
   plugins: [
     ...(config.plugins ?? []),
     "@react-native-community/datetimepicker",
