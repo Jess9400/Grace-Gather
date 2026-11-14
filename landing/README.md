@@ -32,9 +32,11 @@ the current Namecheap email forwarding depends on Namecheap DNS.
 
 ## Changing it
 
-- **Where the buttons lead:** search `index.html` for
-  `grace-gather.findflockie.workers.dev`. When the app has its own address, or
-  an App Store page, change those links.
+- **App Store launch:** the download invitations currently say the app is coming
+  soon. Once the App Store listing is publicly available, replace those labels
+  with links to `https://apps.apple.com/app/id6833897169` and verify the listing
+  opens in the countries where the app is released. The support and privacy
+  links currently lead to the app's public pages.
 - **Wording:** edit the text in `index.html` directly.
 - **App screens:** replace the files in `public/img/` with new captures of the
   same size (540 by 1169).
