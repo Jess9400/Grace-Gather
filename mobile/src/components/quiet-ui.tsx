@@ -25,6 +25,7 @@ import {
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { FormField } from "./FormField";
+import BrandMark from "./BrandMark";
 // Candlelight: dark espresso rooms, ivory words and antique gold details.
 // `green` fills primary buttons and selected items (cream, with `white` text);
 // `white` is the card surface. `night` is the darker tab bar under the rooms.
@@ -222,7 +223,7 @@ export function Screen({
                   <Ionicons name="chevron-back" size={24} color={colors.ink} />
                 </Pressable>
               ) : (
-                <Ionicons name="leaf-outline" size={23} color={colors.gold} />
+                <BrandMark />
               )}
               <Text style={s.brandText}>GRACE & GATHER</Text>
               <Pressable
@@ -505,7 +506,7 @@ export function Brand() {
   const tr = useInterfaceCopy();
   return (
     <View style={s.brand}>
-      <Ionicons name="leaf-outline" size={24} color={colors.gold} />
+      <BrandMark />
       <Text style={s.brandText}>GRACE & GATHER</Text>
       <Pressable
         accessibilityRole="button"

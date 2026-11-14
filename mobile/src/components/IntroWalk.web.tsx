@@ -8,6 +8,7 @@ import {
 import { useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors, serif } from "./quiet-ui";
+import BrandMark from "./BrandMark";
 import {
   CHURCH_SIZE,
   GROUND_DROP,
@@ -498,16 +499,19 @@ export default function IntroWalk({
             gap: 12,
           }}
         >
-          <span
-            style={{
-              fontSize: 11,
-              fontWeight: 700,
-              letterSpacing: 3,
-              color: colors.ink,
-            }}
-          >
-            GRACE &amp; GATHER
-          </span>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <BrandMark size={26} />
+            <span
+              style={{
+                fontSize: 11,
+                fontWeight: 700,
+                letterSpacing: 3,
+                color: colors.ink,
+              }}
+            >
+              GRACE &amp; GATHER
+            </span>
+          </div>
           {!last && (
             <button
               type="button"

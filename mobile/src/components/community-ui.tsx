@@ -22,6 +22,7 @@ import { colors } from "./quiet-ui";
 import ChurchStrip, { useRoomStrip } from "./ChurchStrip";
 import type { RoomPlace } from "../lib/church-room";
 import { FormField } from "./FormField";
+import BrandMark from "./BrandMark";
 export { colors };
 const CardSurface = createContext(false);
 type SurfacePalette = {
@@ -140,7 +141,7 @@ export function Screen({
               )}
               {!quiet && !strip && (
                 <View style={s.brand}>
-                  <Ionicons name="leaf-outline" size={23} color={colors.gold} />
+                  <BrandMark />
                   <Text style={s.brandText}>GRACE & GATHER</Text>
                   <View style={{ marginLeft: "auto" }}>{headerAction}</View>
                   <Pressable

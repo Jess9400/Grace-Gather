@@ -37,6 +37,7 @@ import {
 } from "../lib/discussion-model";
 import { getReadingVerse, discussionVerseId } from "../lib/bible";
 import { useBibleFor } from "../lib/use-bible";
+import BrandMark from "./BrandMark";
 
 type ViewMode = "list" | "thread" | "compose" | "review";
 type CommunityProps = {
@@ -394,7 +395,7 @@ function CommunityScreen({
             <Text style={s.backText}>{tr("Back")}</Text>
           </Pressable>
           <Text style={s.brand}>GRACE & GATHER</Text>
-          <Ionicons name="leaf-outline" size={21} color={colors.gold} />
+          <BrandMark size={26} />
         </View>
       )}
       <ScrollView

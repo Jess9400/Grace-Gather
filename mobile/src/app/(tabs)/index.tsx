@@ -60,6 +60,7 @@ import { pendingStep } from "../../lib/small-step";
 import { firstChurchVisit } from "../../lib/church-tools";
 import { StepCheckIn } from "../../components/SmallStep";
 import { useChurchPresence } from "../../lib/church-presence";
+import BrandMark from "../../components/BrandMark";
 
 const ROUTES: Record<Exclude<ChurchPlace, "wreath">, string> = {
   candles: "/candle",
@@ -475,7 +476,7 @@ export default function Home() {
           style={[s.header, { paddingTop: insets.top + 16 }]}
         >
           <View style={s.brandRow}>
-            <Ionicons name="leaf-outline" size={24} color="#E6CE99" />
+            <BrandMark size={30} />
             <Text style={s.brand}>GRACE &amp; GATHER</Text>
             <Pressable
               accessibilityRole="button"
