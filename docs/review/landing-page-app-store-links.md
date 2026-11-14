@@ -7,16 +7,17 @@ Store Connect.
 
 ## Support URL
 
-- [ ] Publish a page on `graceandgather.online` that explains how to contact
+- [x] Publish a page on `graceandgather.online` that explains how to contact
   support. The landing page itself can serve this purpose if the contact
   information is easy to find.
-- [ ] Display `hello@graceandgather.online` and verify that a message sent from
-  another account arrives in the support inbox. Forwarding was tested on
-  14 November 2026; check again when the site is live.
+- [x] Display `hello@graceandgather.online`. A message sent from another
+  account arrived in the support inbox on 14 November 2026. The website setup
+  retained Namecheap DNS and its existing forwarding settings.
 - [ ] Open the page without signing in and check that the contact information is
   readable on a phone.
-- [ ] Enter the verified page address in **App Store Connect → Grace & Gather →
-  Distribution → iOS App Version → Support URL**, and save.
+- [x] Enter the verified `https://www.graceandgather.online/` address in
+  **App Store Connect → Grace & Gather → Distribution → iOS App Version →
+  Support URL**, and save.
 
 ## Privacy Policy URL
 
