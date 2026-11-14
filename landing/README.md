@@ -17,15 +17,18 @@ npx serve landing/public
 
 ## Putting it on the domain
 
-This folder is not published by the app's own deploy. It needs its own
-Cloudflare project, set up once:
+This folder is published separately from the app by the Cloudflare Pages project
+`grace-and-gather-home`, connected to this repository's `main` branch. Its build
+output directory is `landing/public`; no build command is needed. It is also
+available at `grace-and-gather-home.pages.dev`.
 
-1. In Cloudflare, create a new Worker from this repository with **root
-   directory** `landing` and **deploy command** `npx wrangler deploy`. After
-   that, every merge to `main` republishes the page.
-2. Add `graceandgather.online` (and `www`) to that Worker as a custom domain.
-   The domain is registered at Namecheap, so Cloudflare will ask for a DNS
-   change there; follow the steps its dashboard gives.
+The intended public address is `www.graceandgather.online`. In Namecheap
+BasicDNS, its `www` CNAME points to `grace-and-gather-home.pages.dev`. Cloudflare
+Pages must also have that hostname configured as a custom domain; DNS and
+certificate activation may take time. The existing apex URL redirect points to
+the HTTPS `www` address, but HTTPS access to the apex itself must be verified
+separately. Do not change nameservers without first migrating and testing email:
+the current Namecheap email forwarding depends on Namecheap DNS.
 
 ## Changing it
 

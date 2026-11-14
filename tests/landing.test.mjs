@@ -15,7 +15,7 @@ test('the landing page has every picture and file it points to', () => {
 test('the landing page leads to the app and gives the right contact address', () => {
   const app = [...page.matchAll(/href="(https:\/\/[^"]+)"/g)].map((m) => m[1]).filter((url) => !url.includes('fonts.g'));
   assert.ok(app.length >= 3);
-  for (const url of app) assert.match(url, /^https:\/\/(grace-gather\.findflockie\.workers\.dev|graceandgather\.online)\//, url);
+  for (const url of app) assert.match(url, /^https:\/\/(grace-gather\.findflockie\.workers\.dev|www\.graceandgather\.online)\//, url);
   assert.match(page, /hello@graceandgather\.online/);
   assert.doesNotMatch(page, /graceandgather\.com/);
 });
