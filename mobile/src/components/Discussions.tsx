@@ -280,7 +280,7 @@ export function DiscussionRoom({
   const theme = roomTheme(topicId);
   const [showOriginalTitle, setShowOriginalTitle] = useState(false);
   const titleTranslations = useConversationTranslations(
-    topic ? [{ id: topic.id, text: topic.title }] : [],
+    topic ? [{ id: topic.id, text: topic.title, source: "community_title" }] : [],
     lang,
   );
   const translatedTitle = topic

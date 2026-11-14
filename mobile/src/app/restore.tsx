@@ -10,9 +10,8 @@ import {
 } from "../components/quiet-ui";
 import { useApp } from "../lib/state";
 import { journalCopy } from "../lib/journal-library-copy";
-import { restoreEncrypted } from "../lib/storage";
 export default function Restore() {
-  const { profile, reloadJournal } = useApp();
+  const { profile, reloadJournal, restoreJournalBackup } = useApp();
   const [key, setKey] = useState(""),
     [notice, setNotice] = useState(""),
     [busy, setBusy] = useState(false);
@@ -27,7 +26,7 @@ export default function Restore() {
         copyToCacheDirectory: true,
       });
       if (picked.canceled) return;
-      await restoreEncrypted(picked.assets[0].uri, key.trim());
+      await restoreJournalBackup(picked.assets[0].uri, key.trim());
       await reloadJournal();
       setKey("");
       setNotice(t("restored"));

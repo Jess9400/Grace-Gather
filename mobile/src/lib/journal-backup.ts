@@ -7,6 +7,7 @@ export interface BackupPayload {
 }
 export interface BackupOptions {
   entries: Entry[];
+  audioOwner?: string;
 }
 const validId = (s: unknown): s is string =>
   typeof s === "string" && /^[a-z0-9-]+$/i.test(s);
@@ -25,7 +26,9 @@ function validMessages(messages: unknown): messages is JournalMessage[] {
         typeof m.content === "string" &&
         m.content.length <= 30000 &&
         (m.actionId === undefined || /^A\d{2}$/.test(m.actionId)) &&
-        (m.actionExplanation === undefined || (typeof m.actionExplanation === "string" && m.actionExplanation.length <= 240)) &&
+        (m.actionExplanation === undefined ||
+          (typeof m.actionExplanation === "string" &&
+            m.actionExplanation.length <= 240)) &&
         (m.createdAt === undefined || validDate(m.createdAt)),
     )
   );
@@ -63,7 +66,12 @@ export function validateJournalEntries(
       )
         return true;
       if (e.audio !== undefined && !validId(e.audio)) return true;
-      if (e.suggestedActionExplanation !== undefined && (typeof e.suggestedActionExplanation !== "string" || e.suggestedActionExplanation.length > 240)) return true;
+      if (
+        e.suggestedActionExplanation !== undefined &&
+        (typeof e.suggestedActionExplanation !== "string" ||
+          e.suggestedActionExplanation.length > 240)
+      )
+        return true;
       if (e.conversation !== undefined && !validMessages(e.conversation))
         return true;
       if (e.deletedAt !== undefined && !validDate(e.deletedAt)) return true;

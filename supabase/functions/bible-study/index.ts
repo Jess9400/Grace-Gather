@@ -5,8 +5,10 @@ import { qwen, aiError, reserveAI } from '../_shared/qwen.ts';
 import catalog from '../_shared/journey-catalog.json' with { type:'json' };
 serve(async req=>{
   if(req.method!=='POST') return json({error:'method_not_allowed'},405);
-  const {user,service}=await identity(req);
+  const {user,service,client}=await identity(req);
   try {
+    const permission=await client.rpc('ai_journal_permission');
+    if(permission.error || permission.data!==true) throw Error('consent_required');
     const {messages,preferences:p}=studyInput(JSON.parse(await (await readBounded(req,60000)).text()));
     const edition=catalog.editions.find(e=>e.id===p.edition && e.language===p.scriptureLanguage && e.traditions.includes(p.tradition));
     if(!edition) throw Error('invalid_preferences');

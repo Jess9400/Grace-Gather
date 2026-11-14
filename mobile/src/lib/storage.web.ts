@@ -60,7 +60,10 @@ export async function exportEncrypted(
   const audio: Record<string, string> = {};
   for (const entry of source)
     if (entry.audio) {
-      const value = await getItem(`audio:${entry.audio}`);
+      const id = options?.audioOwner
+        ? `journal-${options.audioOwner}-${entry.audio}`
+        : entry.audio;
+      const value = await getItem(`audio:${id}`);
       if (!value)
         throw Error("A recording is missing. Your journal has not changed.");
       audio[`${entry.audio}.bin`] = value;
@@ -79,7 +82,11 @@ export async function exportEncrypted(
 export function releaseBackup(uri: string) {
   URL.revokeObjectURL(uri);
 }
-export async function restoreEncrypted(uri: string, key: string) {
+export async function restoreEncrypted(
+  uri: string,
+  key: string,
+  entriesKey = "entries",
+) {
   return withJournalLock(async () => {
     const response = await fetch(uri);
     const blob = await response.blob();
@@ -89,9 +96,11 @@ export async function restoreEncrypted(uri: string, key: string) {
       key,
       globalThis.crypto,
     );
-    const current = JSON.parse((await getItem("entries")) ?? "[]");
+    const current = JSON.parse((await getItem(entriesKey)) ?? "[]");
     const profile = JSON.parse((await getItem("profile")) ?? "null");
     const merged = mergeBackup(backup, current, profile);
+    for (const row of merged.rows)
+      if (row.key === "entries") row.key = entriesKey;
     for (const row of backup.rows)
       if (row.key.startsWith("course:") && (await getItem(row.key)) === null)
         merged.rows.push(row);

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Pressable, Text, View, StyleSheet } from "react-native";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
@@ -8,6 +8,7 @@ import {
   Body,
   Field,
   Notice,
+  Busy,
   colors,
 } from "../components/quiet-ui";
 import { FilterStrip, TextAction } from "../components/CommunityControls";
@@ -16,6 +17,7 @@ import { useQuiet } from "../lib/quiet-state";
 import { useApp } from "../lib/state";
 import { isArchived, recoveryEnds } from "../lib/journal-retention";
 import { journalCopy } from "../lib/journal-library-copy";
+import { backend } from "../lib/backend";
 const PAGE_SIZE = 10;
 export default function History() {
   const {
@@ -25,6 +27,11 @@ export default function History() {
     restoreEntry,
     removeConversation,
     recoverConversation,
+    journalLoading,
+    journalUnavailable,
+    legacyJournalAvailable,
+    importLegacyJournal,
+    reloadJournal,
   } = useApp();
   const { clear } = useQuiet();
   const [tab, setTab] = useState("recent"),
@@ -33,6 +40,17 @@ export default function History() {
     [confirm, setConfirm] = useState<{ id: string; chat?: boolean }>(),
     [error, setError] = useState(""),
     [busy, setBusy] = useState(false);
+  const [accountEmail, setAccountEmail] = useState("");
+  useEffect(() => {
+    let mounted = true;
+    void backend?.auth.getSession().then(({ data }) => {
+      if (mounted) setAccountEmail(data.session?.user.email ?? "");
+    });
+    const listener = backend?.auth.onAuthStateChange((_event, session) => {
+      if (mounted) setAccountEmail(session?.user.email ?? "");
+    });
+    return () => { mounted = false; listener?.data.subscription.unsubscribe(); };
+  }, []);
   const t = (key: Parameters<typeof journalCopy>[1]) =>
     journalCopy(profile.language, key);
   const saved = journalItems.filter((e) => !e.sessionOnly);
@@ -85,6 +103,30 @@ export default function History() {
   return (
     <Screen back>
       <Heading>{t("journal")}</Heading>
+      {legacyJournalAvailable && (
+        <View style={{ gap: 8, marginBottom: 16 }}>
+          <Body small>{t("deviceImportInfo")}</Body>
+          {!!accountEmail && <Body small>{accountEmail}</Body>}
+          <TextAction
+            title={t("deviceImport")}
+            icon="cloud-upload-outline"
+            disabled={busy}
+            onPress={() => void run(importLegacyJournal)}
+          />
+        </View>
+      )}
+      {journalUnavailable && (
+        <View style={{ gap: 8, marginBottom: 16 }}>
+          <Body small>{t("cloudUnavailable")}</Body>
+          <TextAction
+            title={t("retry")}
+            icon="refresh-outline"
+            disabled={busy}
+            onPress={() => void run(reloadJournal)}
+          />
+        </View>
+      )}
+      {journalLoading && <Busy />}
       <View style={s.toolbar}>
         <TextAction
           title={t("newEntry")}
@@ -125,7 +167,7 @@ export default function History() {
       {tab === "archive" && <Body small>{t("archivedInfo")}</Body>}
       {tab === "trash" && <Body small>{t("trashInfo")}</Body>}
       <Notice text={error} />
-      {!total && (
+      {!total && !journalLoading && !journalUnavailable && (
         <Body>
           {query ? t("noResults") : t(tab === "trash" ? "emptyTrash" : "empty")}
         </Body>

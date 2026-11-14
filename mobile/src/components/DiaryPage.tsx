@@ -14,6 +14,7 @@ import { suggestJourney } from "../lib/ai";
 import { isSignedIn } from "../lib/account";
 import { transcribeRecording } from "../lib/ai-audio";
 import { aiCopy, AI_CONSENT_VERSION } from "../lib/ai-copy";
+import { journalCopy } from "../lib/journal-library-copy";
 export default function Diary() {
   const { profile, saveEntry, entries } = useApp(),
     { draft, update, clear } = useQuiet();
@@ -120,7 +121,7 @@ export default function Diary() {
       saving.current = undefined;
       clear();
     } catch {
-      setError(copy(lang, "storageError"));
+      setError(journalCopy(lang, "cloudSaveFailed"));
     } finally {
       setBusy(false);
     }

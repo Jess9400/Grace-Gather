@@ -1,13 +1,13 @@
 const languages = new Set(['en', 'pt', 'es', 'ru']);
 export function translationInput(value) {
-  if (!value || !languages.has(value.language) || !Array.isArray(value.texts) || !value.texts.length || value.texts.length > 12)
+  if (!value || !languages.has(value.language) || !Array.isArray(value.items) || !value.items.length || value.items.length > 12)
     throw Error('invalid_entry');
-  const texts = value.texts.map(text => {
-    if (typeof text !== 'string' || !text.trim() || text.length > 2000) throw Error('invalid_entry');
-    return text;
+  const sources = new Set(['comment','community_title','community_body','friend_message']);
+  const items = value.items.map(item => {
+    if (!item || !sources.has(item.source) || typeof item.id !== 'string' || !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(item.id)) throw Error('invalid_entry');
+    return {source:item.source,id:item.id};
   });
-  if (texts.reduce((n, text) => n + text.length, 0) > 12000) throw Error('too_large');
-  return { language: value.language, texts };
+  return { language: value.language, items };
 }
 export function translationOutput(raw, input) {
   let parsed;

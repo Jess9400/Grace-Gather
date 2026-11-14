@@ -18,6 +18,9 @@ async function audioClient(owner: string, id: string) {
 /** Upload immutable recordings before saving the entry that refers to them. */
 export async function uploadJournalAudio(owner: string, id: string) {
   const { client, path } = await audioClient(owner, id);
+  const previousOwner = await storage.getItem(`journal-audio-owner:${id}`);
+  if (previousOwner && previousOwner !== owner)
+    throw Error("journal_audio_owner_conflict");
   const bytes = await storage.readJournalAudio(id);
   const { error } = await client.storage
     .from("account-journal-audio")
@@ -25,7 +28,10 @@ export async function uploadJournalAudio(owner: string, id: string) {
       contentType: "application/octet-stream",
       upsert: false,
     });
-  if (!error) return;
+  if (!error) {
+    await storage.setItem(`journal-audio-owner:${id}`, owner);
+    return;
+  }
   // An interrupted upload can be retried only if the existing object matches.
   const existing = await client.storage
     .from("account-journal-audio")
@@ -37,6 +43,7 @@ export async function uploadJournalAudio(owner: string, id: string) {
     received.some((value, i) => value !== bytes[i])
   )
     throw Error("journal_audio_conflict");
+  await storage.setItem(`journal-audio-owner:${id}`, owner);
 }
 
 /** Download on demand into the encrypted device vault for playback/export. */
@@ -47,5 +54,38 @@ export async function restoreJournalAudio(owner: string, id: string) {
     .download(path);
   if (error || !data) throw error ?? Error("journal_audio_unavailable");
   await audioClient(owner, id); // Do not attach the result after account switching.
-  await storage.writeJournalAudio(id, new Uint8Array(await data.arrayBuffer()));
+  await storage.writeJournalAudio(
+    journalAudioCacheId(owner, id),
+    new Uint8Array(await data.arrayBuffer()),
+  );
+}
+
+export const journalAudioCacheId = (owner: string, id: string) =>
+  `journal-${owner}-${id}`;
+
+/** Never play another account's cached recording after an account switch. */
+export async function ensureJournalAudio(owner: string, id: string) {
+  await audioClient(owner, id);
+  const cacheId = journalAudioCacheId(owner, id);
+  try {
+    await storage.readJournalAudio(cacheId);
+  } catch {
+    await restoreJournalAudio(owner, id);
+  }
+  await audioClient(owner, id);
+  return cacheId;
+}
+
+export async function deleteJournalAudio(owner: string, id: string) {
+  const { client, path } = await audioClient(owner, id);
+  const { error } = await client.storage
+    .from("account-journal-audio")
+    .remove([path]);
+  if (error) throw error;
+  await audioClient(owner, id);
+  await storage.removeAudio(journalAudioCacheId(owner, id));
+  if ((await storage.getItem(`journal-audio-owner:${id}`)) === owner) {
+    await storage.removeAudio(id);
+    await storage.removeItem(`journal-audio-owner:${id}`);
+  }
 }

@@ -111,7 +111,7 @@ export default function ChatThread({
   const { translations, unavailable } = useConversationTranslations(
     messages
       .filter((message) => !message.mine)
-      .map((message) => ({ id: message.id, text: message.body })),
+      .map((message) => ({ id: message.id, text: message.body, source: privateTranslation ? "friend_message" as const : "community_body" as const })),
     locale as Language,
   );
   const newest = messages.at(-1)?.id;

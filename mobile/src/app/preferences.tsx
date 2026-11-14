@@ -32,6 +32,7 @@ import {
 import { label } from "../lib/labels";
 import { q } from "../lib/quiet-copy";
 import { interfaceCopy } from "../lib/interface-copy";
+import CommunityAIPermission from "../components/CommunityAIPermission";
 
 const TRADITIONS: Tradition[] = ["catholic", "protestant", "orthodox"];
 const validEmail = (email: string) =>
@@ -233,6 +234,7 @@ export default function Preferences() {
           }
         />
       </Card>
+      <CommunityAIPermission language={p.language} />
       <Card>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 16 }}>
           <View style={{ flex: 1 }}>

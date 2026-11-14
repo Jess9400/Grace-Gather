@@ -111,10 +111,10 @@ import {createContext,runInContext} from 'node:vm';
 import * as chatPolicy from '../supabase/functions/_shared/journal-chat-policy.js';
 import * as journeyPolicy from '../supabase/functions/_shared/journey-policy.js';
 test('conversation handler authenticates, reserves quota and sends context to the provider',async()=>{
- let handler,providerBody,calls=0,quota=0,providerReply=answer;
+ let handler,providerBody,calls=0,quota=0,providerReply=answer,allowAI=true;
  const map=JSON.parse(readFileSync(new URL('../supabase/functions/_shared/journal-map.json',import.meta.url)));
  const ctx=createContext({exports:{},JSON,Deno:{env:{get:()=>undefined}},require:(id)=>{
-  if(id.endsWith('http.ts'))return {serve:fn=>handler=fn,identity:async req=>{if(!req.headers.get('authorization'))throw Error('unauthorized');return {user:{id:'test-user'},service:{}};},json:(body,status=200)=>new Response(JSON.stringify(body),{status})};
+  if(id.endsWith('http.ts'))return {serve:fn=>handler=fn,identity:async req=>{if(!req.headers.get('authorization'))throw Error('unauthorized');return {user:{id:'test-user'},service:{},client:{rpc:async()=>({data:allowAI,error:null})}};},json:(body,status=200)=>new Response(JSON.stringify(body),{status})};
   if(id.endsWith('journal-chat-policy.js'))return chatPolicy;
   if(id.endsWith('journey-policy.js'))return journeyPolicy;
   if(id.endsWith('journal-map.json'))return map;
@@ -127,6 +127,10 @@ test('conversation handler authenticates, reserves quota and sends context to th
  const req=(value,auth=true)=>new Request('https://example.test',{method:'POST',headers:auth?{authorization:'Bearer test'}:{},body:JSON.stringify(value)});
  await assert.rejects(handler(req({...request,mode:'conversation'},false)),/unauthorized/);
  assert.equal(calls,0);
+ allowAI=false;
+ const noConsent=await handler(req({...request,mode:'conversation'}));
+ assert.notEqual(noConsent.status,200);assert.equal(calls,0);assert.equal(quota,0);
+ allowAI=true;
  const response=await handler(req({...request,mode:'conversation'}));
  assert.equal(response.status,200);assert.equal((await response.json()).reply,answer.reply);
  assert.equal(calls,1);assert.equal(quota,1);

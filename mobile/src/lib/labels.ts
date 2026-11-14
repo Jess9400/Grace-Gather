@@ -10,10 +10,10 @@ const rows: Record<string, string[]> = {
     "Конфиденциальность и помощь",
   ],
   device: [
-    "Your journal is encrypted on this device. It does not sync automatically; use My Journal to export a backup.",
-    "Seu diário é criptografado neste dispositivo. Ele não sincroniza automaticamente; exporte uma cópia em Meu Diário.",
-    "Tu diario se cifra en este dispositivo. No se sincroniza automáticamente; exporta una copia en Mi diario.",
-    "Дневник хранится на этом устройстве в зашифрованном виде. Автоматической синхронизации нет — резервную копию можно экспортировать в разделе «Мой дневник».",
+    "Your journal is saved privately to your account and synced across devices. It is not end-to-end encrypted.",
+    "Seu diário é salvo de forma privada na sua conta e sincronizado entre aparelhos. Ele não possui criptografia de ponta a ponta.",
+    "Tu diario se guarda de forma privada en tu cuenta y se sincroniza entre dispositivos. No está cifrado de extremo a extremo.",
+    "Дневник сохраняется в вашей учётной записи и синхронизируется между устройствами. Сквозное шифрование не используется.",
   ],
   webDemo: [
     "Saved in this browser.",
@@ -28,12 +28,27 @@ const rows: Record<string, string[]> = {
     "Выберите чувство, чтобы подобрать стихи и следующие шаги. ИИ пока не подключён.",
   ],
   signIn: ["Sign in", "Entrar", "Entrar", "Войти"],
-  signInOrJoin: ["Sign in or create an account", "Entre ou crie sua conta", "Entra o crea una cuenta", "Войти или создать аккаунт"],
+  signInOrJoin: [
+    "Sign in or create an account",
+    "Entre ou crie sua conta",
+    "Entra o crea una cuenta",
+    "Войти или создать аккаунт",
+  ],
   signInLanguage: ["Language", "Idioma", "Idioma", "Язык"],
-  languageSaveError: ["Could not save your language. Please try again.", "Não foi possível salvar seu idioma. Tente novamente.", "No se pudo guardar el idioma. Inténtalo de nuevo.", "Не удалось сохранить язык. Попробуйте снова."],
+  languageSaveError: [
+    "Could not save your language. Please try again.",
+    "Não foi possível salvar seu idioma. Tente novamente.",
+    "No se pudo guardar el idioma. Inténtalo de nuevo.",
+    "Не удалось сохранить язык. Попробуйте снова.",
+  ],
   // The sign-in page.
   signInEmail: ["Email", "Email", "Correo electrónico", "Email"],
-  continueEmail: ["Continue with email", "Continuar com email", "Continuar con correo", "Продолжить с email"],
+  continueEmail: [
+    "Continue with email",
+    "Continuar com email",
+    "Continuar con correo",
+    "Продолжить с email",
+  ],
   signInIntro: [
     "Enter your email and we will send you a code. There is no password to remember.",
     "Digite seu email e enviaremos um código. Não há senha para lembrar.",
@@ -86,10 +101,10 @@ const rows: Record<string, string[]> = {
     "С бесплатным аккаунтом можно комментировать, отмечать понравившиеся истории и участвовать во встречах. Дневник хранится отдельно.",
   ],
   requiredAccount: [
-    "Your journal stays on this device. Sign in to enter Grace & Gather.",
-    "Seu diário fica neste dispositivo. Entre para acessar o Grace & Gather.",
-    "Tu diario permanece en este dispositivo. Inicia sesión para entrar en Grace & Gather.",
-    "Дневник хранится на этом устройстве. Войдите, чтобы открыть Grace & Gather.",
+    "Sign in to access Grace & Gather and your private journal.",
+    "Entre para acessar o Grace & Gather e seu diário privado.",
+    "Inicia sesión para entrar en Grace & Gather y acceder a tu diario privado.",
+    "Войдите, чтобы открыть Grace & Gather и личный дневник.",
   ],
   pending: [
     "Submitted for moderation",
@@ -171,10 +186,10 @@ const rows: Record<string, string[]> = {
     "Удалить все данные на устройстве",
   ],
   deleteWarning: [
-    "This permanently removes your account, profile, comments, confessions, comfort replies, uploaded confession audio and reservations. Your private journal can be kept or deleted separately.",
-    "Isso remove permanentemente sua conta, perfil, comentários, confissões, respostas de acolhimento, áudios de confissão enviados e reservas. Seu diário privado pode ser mantido ou excluído separadamente.",
-    "Esto elimina tu cuenta, perfil, comentarios, confesiones, respuestas de apoyo, audios de confesión subidos y reservas de forma permanente. Tu diario privado puede conservarse o borrarse aparte.",
-    "Это навсегда удалит аккаунт, профиль, комментарии, исповеди, слова поддержки, загруженные аудиоисповеди и записи на встречи. Личный дневник можно сохранить или удалить отдельно.",
+    "This permanently deletes your account and its synced journal, profile and community activity. Export your journal first if you want a copy. Separate copies on a device are removed in device settings.",
+    "Isso exclui permanentemente sua conta, diário sincronizado, perfil e atividades na comunidade. Exporte seu diário antes se quiser uma cópia. Cópias separadas no aparelho podem ser apagadas nas configurações do dispositivo.",
+    "Esto elimina permanentemente tu cuenta, diario sincronizado, perfil y actividad comunitaria. Exporta tu diario primero si deseas una copia. Las copias del dispositivo se eliminan en sus ajustes.",
+    "Это навсегда удалит аккаунт, синхронизированный дневник, профиль и действия в сообществе. Сначала экспортируйте дневник, если хотите сохранить копию. Копии на устройстве удаляются отдельно.",
   ],
   confirmDelete: [
     "Type DELETE to confirm",

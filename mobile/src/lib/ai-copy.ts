@@ -7,10 +7,10 @@ const words = {
     "Подсказки ИИ — по желанию",
   ],
   consent: [
-    "When AI guidance is on, this entry and your language/Christian tradition preferences go through Supabase to Alibaba Qwen. Your recording is sent only when you tap Transcribe. Processing may occur outside your country. AI can misunderstand you; it is not a diagnosis or emergency service. You can continue without AI.",
-    "Quando a orientação por IA está ativada, esta entrada e suas preferências de idioma e tradição cristã passam pelo Supabase para o Alibaba Qwen. O áudio só é enviado ao tocar em Transcrever. O processamento pode ocorrer fora do seu país. A IA pode interpretar errado; não oferece diagnóstico nem atendimento de emergência. Você pode continuar sem IA.",
-    "Cuando la orientación con IA está activada, esta entrada y tus preferencias de idioma y tradición cristiana pasan por Supabase a Alibaba Qwen. Tu grabación solo se envía al tocar Transcribir. El procesamiento puede ocurrir fuera de tu país. La IA puede equivocarse; no ofrece diagnósticos ni atención de emergencia. Puedes continuar sin IA.",
-    "Когда подсказки ИИ включены, эта запись и выбранные язык и христианская традиция будут отправлены через Supabase в Alibaba Qwen. Аудиозапись отправляется, только когда вы нажимаете «Расшифровать». Данные могут обрабатываться за пределами вашей страны. ИИ может понять вас неправильно; это не диагностика и не экстренная помощь. Можно продолжить без ИИ.",
+    "With your permission, your journal writing, Bible study questions and language and tradition preferences are sent to an external AI service. Recordings are sent only when you choose Transcribe. Processing may occur outside your country. AI is not emergency care. See Privacy & support for provider details.",
+    "Com sua permissão, seu diário, perguntas sobre a Bíblia e preferências de idioma e tradição são enviados a um serviço externo de IA. Áudios só são enviados ao escolher Transcrever. O processamento pode ocorrer fora do seu país. A IA não é atendimento de emergência. Veja os detalhes do provedor em Privacidade e suporte.",
+    "Con tu permiso, tu diario, preguntas bíblicas y preferencias de idioma y tradición se envían a un servicio externo de IA. Los audios solo se envían al elegir Transcribir. El procesamiento puede ocurrir fuera de tu país. La IA no es atención de emergencia. Consulta los detalles del proveedor en Privacidad y ayuda.",
+    "С вашего разрешения дневник, вопросы о Библии и настройки языка и традиции отправляются внешней службе ИИ. Аудио отправляется только при выборе расшифровки. Обработка может проходить за пределами вашей страны. ИИ не является экстренной помощью. Сведения о провайдере — в разделе конфиденциальности.",
   ],
   agree: [
     "I agree: use AI for this entry",
@@ -79,10 +79,10 @@ const words = {
     "Изменить тему",
   ],
   local: [
-    "Your journal is encrypted on this device. AI processing is optional.",
-    "Seu diário é criptografado neste dispositivo. A IA é opcional.",
-    "Tu diario está cifrado en este dispositivo. La IA es opcional.",
-    "Дневник зашифрован на этом устройстве. Использовать ИИ необязательно.",
+    "Your journal is saved privately to your account. AI guidance is optional.",
+    "Seu diário é salvo de forma privada na sua conta. A orientação por IA é opcional.",
+    "Tu diario se guarda de forma privada en tu cuenta. La orientación con IA es opcional.",
+    "Дневник сохраняется в вашей учётной записи. Подсказки ИИ необязательны.",
   ],
 };
 export const aiCopy = (language: Language, key: keyof typeof words) =>

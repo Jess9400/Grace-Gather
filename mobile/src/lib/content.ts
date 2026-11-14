@@ -67,6 +67,7 @@ export interface Entry {
   chatCleanup?: { deleteAt: string; seenAt?: string };
   deletedConversations?: DeletedConversation[];
   deletedAt?: string;
+  purgeRequestedAt?: string;
   id: string;
   createdAt: string;
   mood: Mood;

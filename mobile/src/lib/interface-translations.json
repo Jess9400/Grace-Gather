@@ -694,10 +694,10 @@
     "es": "Compartido como Tú. Tu diario nunca se adjunta. En esta vista previa, todo espera revisión manual.",
     "ru": "Публикация от имени «Вы». Дневник никогда не прикрепляется. В предпросмотре всё ожидает ручной проверки."
   },
-  "Your public name and words are checked automatically using Alibaba Cloud Qwen. Posts that pass appear to members; uncertain posts stay private. AI can make mistakes. Your diary and profile are never attached.": {
-    "pt": "Seu nome público e texto são verificados pelo Alibaba Cloud Qwen. Publicações aprovadas aparecem aos membros; em caso de dúvida, ficam privadas. A IA pode errar. Seu diário e perfil nunca são anexados.",
-    "es": "Tu nombre público y texto se revisan con Alibaba Cloud Qwen. Las publicaciones aprobadas aparecen a los miembros; si hay dudas, quedan privadas. La IA puede equivocarse. Tu diario y perfil nunca se adjuntan.",
-    "ru": "Ваше публичное имя и текст проверяет Alibaba Cloud Qwen. Одобренные публикации видны участникам, сомнительные остаются приватными. ИИ может ошибаться. Дневник и профиль никогда не прикрепляются."
+  "Your post is checked before it appears. With your permission, AI may help; otherwise, our team reviews it.": {
+    "pt": "Sua publicação é analisada antes de aparecer. Com sua permissão, a IA pode ajudar; caso contrário, nossa equipe faz a revisão.",
+    "es": "Tu publicación se revisa antes de aparecer. Con tu permiso, la IA puede ayudar; de lo contrario, nuestro equipo la revisa.",
+    "ru": "Публикация проходит проверку. С вашего разрешения может помочь ИИ; в противном случае её проверит наша команда."
   },
   "Automatic moderation is not active. This submission stays private. Your diary and profile are never attached.": {
     "pt": "A moderação automática não está ativa. Esta publicação fica privada. Seu diário e perfil nunca são anexados.",
@@ -2069,10 +2069,10 @@
     "es": "Una respuesta escrita para ti",
     "ru": "Ответ, написанный для вас"
   },
-  "When you write to God, we can send back a reflection written for what you shared. Add your email to turn this on. Your journal stays on this phone.": {
-    "pt": "Quando você escrever a Deus, podemos responder com uma reflexão escrita para o que você partilhou. Adicione seu e-mail para ativar. Seu diário continua neste telefone.",
-    "es": "Cuando escribas a Dios, podemos responder con una reflexión escrita para lo que compartiste. Añade tu correo para activarlo. Tu diario sigue en este teléfono.",
-    "ru": "Когда вы пишете Богу, мы можем ответить размышлением о том, чем вы поделились. Укажите email, чтобы включить это. Дневник остаётся на этом телефоне."
+  "When you write to God, you can receive a reflection based on what you shared. Sign in to continue.": {
+    "pt": "Quando você escrever a Deus, poderá receber uma reflexão sobre o que partilhou. Entre na sua conta para continuar.",
+    "es": "Cuando escribas a Dios, puedes recibir una reflexión sobre lo que compartiste. Inicia sesión para continuar.",
+    "ru": "Когда вы пишете Богу, вы можете получить размышление об этом. Войдите, чтобы продолжить."
   },
   "Skip for now": {
     "pt": "Pular por agora",

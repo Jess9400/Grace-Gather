@@ -1,6 +1,31 @@
 import type { Language } from "./content";
 const words = {
   journal: ["My Journal", "Meu diário", "Mi diario", "Мой дневник"],
+  cloudUnavailable: [
+    "Couldn’t connect to your journal. Saved device copies may be shown; try again before saving.",
+    "Não foi possível conectar ao diário. Cópias salvas neste aparelho podem aparecer; tente novamente antes de salvar.",
+    "No se pudo conectar con tu diario. Pueden mostrarse copias guardadas en este dispositivo; inténtalo de nuevo antes de guardar.",
+    "Не удалось подключиться к дневнику. Могут отображаться сохранённые на устройстве копии. Повторите попытку перед сохранением.",
+  ],
+  deviceImportInfo: [
+    "Previous entries are still on this device. Add them to the account you’re signed into?",
+    "Entradas anteriores ainda estão neste aparelho. Adicionar à conta em que você entrou?",
+    "Hay entradas anteriores en este dispositivo. ¿Añadirlas a tu cuenta actual?",
+    "На этом устройстве есть предыдущие записи. Добавить их в текущую учётную запись?",
+  ],
+  deviceImport: [
+    "Add previous entries",
+    "Adicionar entradas anteriores",
+    "Añadir entradas anteriores",
+    "Добавить предыдущие записи",
+  ],
+  cloudSaveFailed: [
+    "Couldn’t save to your account. Keep this page open and try again, or copy your writing before leaving.",
+    "Não foi possível salvar na sua conta. Mantenha esta página aberta e tente novamente, ou copie seu texto antes de sair.",
+    "No se pudo guardar en tu cuenta. Mantén esta página abierta e inténtalo de nuevo, o copia tu texto antes de salir.",
+    "Не удалось сохранить запись в аккаунте. Не закрывайте страницу и повторите попытку или скопируйте текст перед выходом.",
+  ],
+  retry: ["Try again", "Tentar novamente", "Intentar de nuevo", "Повторить"],
   conversation: [
     "Our conversation",
     "Nossa conversa",
@@ -162,7 +187,12 @@ const words = {
     "Incluir nuestras conversaciones",
     "Добавить наши разговоры",
   ],
-  pdf: ["Save as PDF", "Salvar como PDF", "Guardar como PDF", "Сохранить в PDF"],
+  pdf: [
+    "Save as PDF",
+    "Salvar como PDF",
+    "Guardar como PDF",
+    "Сохранить в PDF",
+  ],
   pdfInfo: [
     "A readable copy of the selected entries. Audio stays in the encrypted backup.",
     "Uma cópia legível das entradas selecionadas. O áudio fica no backup criptografado.",
@@ -206,10 +236,10 @@ const words = {
     "Восстановить резервную копию",
   ],
   restoreInfo: [
-    "Adds missing entries. Entries already on this device are kept unchanged.",
-    "Adiciona entradas ausentes. Entradas já neste dispositivo não são alteradas.",
-    "Añade las entradas que faltan. Las entradas de este dispositivo no se modifican.",
-    "Добавляются только недостающие записи. Записи, которые уже есть на этом устройстве, не изменятся.",
+    "Adds missing entries to your signed-in account. Existing entries are kept unchanged.",
+    "Adiciona entradas ausentes à sua conta. As entradas existentes não são alteradas.",
+    "Añade las entradas que faltan a tu cuenta. Las existentes no se modifican.",
+    "Недостающие записи добавляются в вашу учётную запись. Существующие записи не изменяются.",
   ],
   restored: [
     "Your journal has been restored.",

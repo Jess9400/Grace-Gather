@@ -25,8 +25,6 @@ import {
   normalizeProfile,
   editionsFor,
 } from "../lib/content";
-import { label } from "../lib/labels";
-import { persistent } from "../lib/storage";
 import { q } from "../lib/quiet-copy";
 import { interfaceCopy } from "../lib/interface-copy";
 import { TRADITION_QUESTION_VERSION } from "../lib/onboarding";
@@ -35,6 +33,8 @@ import { jc } from "../lib/journal-copy";
 import { backend } from "../lib/backend";
 import { useSignedIn } from "../lib/account";
 import SignInForm from "../components/SignInForm";
+import CommunityAIPermission from "../components/CommunityAIPermission";
+import OnboardingNotifications from "../components/OnboardingNotifications";
 
 const TRADITIONS: Tradition[] = ["catholic", "protestant", "orthodox"];
 const chosen = (p: Profile) =>
@@ -156,11 +156,6 @@ export default function Onboarding() {
               </View>
             </View>
           )}
-          <Card tint>
-            <Body small>
-              {label(p.language, persistent ? "device" : "webDemo")}
-            </Body>
-          </Card>
           <Button
             title={t("pContinue")}
             disabled={!chosen(p)}
@@ -172,7 +167,7 @@ export default function Onboarding() {
           <Heading>{tr("A reply written for you")}</Heading>
           <Body>
             {tr(
-              "When you write to God, we can send back a reflection written for what you shared. Add your email to turn this on. Your journal stays on this phone.",
+              "When you write to God, you can receive a reflection based on what you shared. Sign in to continue.",
             )}
           </Body>
           <SignInForm language={p.language} />
@@ -253,6 +248,8 @@ export default function Onboarding() {
               />
             </Row>
           </Card>
+          <CommunityAIPermission language={p.language} />
+          <OnboardingNotifications language={p.language} />
           <Notice text={error} />
           <Button
             title={askEmail ? t("pContinue") : tr("Enter the church")}

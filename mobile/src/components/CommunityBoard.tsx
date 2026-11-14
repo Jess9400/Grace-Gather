@@ -934,7 +934,7 @@ function CommunityScreen({
                   )
                 : automatic
                   ? tr(
-                      "Your public name and words are checked automatically using Alibaba Cloud Qwen. Posts that pass appear to members; uncertain posts stay private. AI can make mistakes. Your diary and profile are never attached.",
+                      "Your post is checked before it appears. With your permission, AI may help; otherwise, our team reviews it.",
                     )
                   : tr(
                       "Automatic moderation is not active. This submission stays private. Your diary and profile are never attached.",
