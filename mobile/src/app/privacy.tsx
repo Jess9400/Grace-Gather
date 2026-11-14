@@ -13,6 +13,10 @@ import { label } from "../lib/labels";
 const policy = {
   en: [
     [
+      "Retention and deletion",
+      "Journal entries and conversations stay in your account until you delete them. Deleted items can be recovered for 30 days; cleanup runs when the app is open, so removal may take longer. If you enable automatic conversation cleanup, its timing and advance notice are shown in the app. Separate device copies and exports remain until you remove them. When you choose AI guidance, the AI provider normally retains requests and responses for up to 30 days; legal or security requirements may require longer retention. Deleting content in the app does not immediately remove requests already sent to the AI provider. Backup copies, if created, follow their own retention schedule.",
+    ],
+    [
       "Services we use",
       "Grace & Gather is operated by Jessica Nascimento, an individual. Depending on the features you use, Apple supports sign-in and notifications, Expo helps deliver push notifications, Resend may send emails, LiveKit provides audio gatherings, Cloudflare hosts web content, and Supabase stores account and app data. With your permission, AI requests are handled by Alibaba Cloud as described below.",
     ],
@@ -46,6 +50,10 @@ const policy = {
     ],
   ],
   pt: [
+    [
+      "Retenção e exclusão",
+      "As entradas e conversas do diário permanecem na sua conta até você excluí-las. Os itens excluídos podem ser recuperados por 30 dias; a limpeza acontece quando o aplicativo está aberto, portanto a remoção pode demorar mais. Se você ativar a limpeza automática de conversas, o prazo e o aviso prévio aparecem no aplicativo. Cópias separadas no aparelho e arquivos exportados permanecem até você removê-los. Ao escolher a orientação por IA, o provedor de IA normalmente retém solicitações e respostas por até 30 dias; exigências legais ou de segurança podem exigir retenção maior. Excluir conteúdo no aplicativo não remove imediatamente solicitações já enviadas ao provedor de IA. Cópias de segurança, caso sejam criadas, seguem seus próprios prazos de retenção.",
+    ],
     [
       "Serviços que usamos",
       "Grace & Gather é operado por Jessica Nascimento, pessoa física. Conforme os recursos utilizados, a Apple oferece acesso à conta e notificações, a Expo ajuda a enviar notificações, a Resend pode enviar emails, a LiveKit oferece encontros de áudio, a Cloudflare hospeda conteúdo web e o Supabase armazena dados da conta e do aplicativo. Com sua permissão, solicitações de IA são processadas pela Alibaba Cloud, conforme explicado abaixo.",
@@ -81,6 +89,10 @@ const policy = {
   ],
   es: [
     [
+      "Conservación y eliminación",
+      "Las entradas y conversaciones del diario permanecen en tu cuenta hasta que las elimines. Los elementos eliminados se pueden recuperar durante 30 días; la limpieza se realiza con la aplicación abierta, por lo que la eliminación puede tardar más. Si activas la limpieza automática de conversaciones, el plazo y el aviso previo se muestran en la aplicación. Las copias separadas del dispositivo y los archivos exportados permanecen hasta que los elimines. Si eliges la orientación con IA, el proveedor normalmente conserva las solicitudes y respuestas hasta 30 días; los requisitos legales o de seguridad pueden exigir una conservación mayor. Eliminar contenido de la aplicación no borra inmediatamente las solicitudes ya enviadas al proveedor de IA. Las copias de seguridad, si se crean, siguen sus propios plazos de conservación.",
+    ],
+    [
       "Servicios que utilizamos",
       "Grace & Gather está gestionado por Jessica Nascimento, persona física. Según las funciones que uses, Apple ofrece inicio de sesión y notificaciones, Expo ayuda a entregar notificaciones, Resend puede enviar correos, LiveKit ofrece reuniones de audio, Cloudflare aloja contenido web y Supabase almacena datos de la cuenta y la aplicación. Con tu permiso, Alibaba Cloud procesa las solicitudes de IA como se explica a continuación.",
     ],
@@ -114,6 +126,10 @@ const policy = {
     ],
   ],
   ru: [
+    [
+      "Хранение и удаление",
+      "Записи дневника и разговоры хранятся в вашей учётной записи, пока вы их не удалите. Удалённые материалы можно восстановить в течение 30 дней; очистка выполняется, когда приложение открыто, поэтому удаление может занять больше времени. Если включена автоматическая очистка разговоров, сроки и предварительное уведомление показываются в приложении. Отдельные копии на устройстве и экспортированные файлы сохраняются, пока вы их не удалите. Если вы выбираете подсказки ИИ, провайдер ИИ обычно хранит запросы и ответы до 30 дней; требования закона или безопасности могут продлить этот срок. Удаление в приложении не удаляет немедленно запросы, уже отправленные провайдеру ИИ. Резервные копии, если они создаются, хранятся в соответствии с отдельными сроками.",
+    ],
     [
       "Используемые сервисы",
       "Grace & Gather управляется Jessica Nascimento как физическим лицом. В зависимости от используемых функций Apple обеспечивает вход и уведомления, Expo помогает доставлять уведомления, Resend может отправлять письма, LiveKit предоставляет аудиовстречи, Cloudflare размещает веб-контент, а Supabase хранит данные аккаунта и приложения. С вашего разрешения запросы к ИИ обрабатывает Alibaba Cloud, как описано ниже.",

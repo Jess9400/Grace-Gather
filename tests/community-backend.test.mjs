@@ -89,6 +89,22 @@ async function submit(
 }
 const review = (id, approve = true, user = staff) =>
   as(user, "select public.community_review($1,$2)", [id, approve]);
+test("deleting a test account cascades its journal without exposing or removing another account's journal", async () => {
+  const owner = "55555555-5555-4555-8555-555555555555";
+  const other = "66666666-6666-4666-8666-666666666666";
+  try {
+    await db.query("insert into auth.users(id,email,email_confirmed_at) values($1,'journal-owner@example.invalid',now()),($2,'journal-other@example.invalid',now())", [owner, other]);
+    await as(owner, "insert into public.account_journals(user_id,entries) values($1,$2::jsonb)", [owner, JSON.stringify([{id:"owner-entry"}])]);
+    await as(other, "insert into public.account_journals(user_id,entries) values($1,$2::jsonb)", [other, JSON.stringify([{id:"other-entry"}])]);
+    const inaccessible = await as(other, "delete from public.account_journals where user_id=$1 returning user_id", [owner]);
+    assert.equal(inaccessible.rows.length, 0);
+    await db.query("delete from auth.users where id=$1", [owner]);
+    assert.equal((await db.query("select count(*)::int n from public.account_journals where user_id=$1", [owner])).rows[0].n, 0);
+    assert.equal((await as(other, "select count(*)::int n from public.account_journals where user_id=$1", [other])).rows[0].n, 1);
+  } finally {
+    await db.query("delete from auth.users where id in ($1,$2)", [owner, other]);
+  }
+});
 test("AI permissions default off and can only be changed by the account holder", async () => {
   assert.equal((await as(alice, "select public.ai_journal_permission() value")).rows[0].value, false);
   assert.equal((await as(alice, "select public.ai_community_permission() value")).rows[0].value, false);
