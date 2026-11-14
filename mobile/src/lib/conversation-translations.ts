@@ -2,7 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import { backend } from "./backend";
 import type { Language } from "./content";
 
-export type TranslationItem = { id: string; text: string };
+export type TranslationItem = {
+  id: string;
+  text: string;
+  source: "comment" | "community_title" | "community_body" | "friend_message";
+  reference?: string;
+};
 
 // Kept only in the mounted screen's memory; translations are never persisted.
 export function useConversationTranslations(
@@ -24,13 +29,13 @@ export function useConversationTranslations(
       (item) => item.text.trim() && item.text.length <= 2000,
     );
     const missing = wanted.filter(
-      (item) => !cache.current.has(JSON.stringify([language, item.text])),
+      (item) => !cache.current.has(JSON.stringify([language, item.source, item.id, item.text])),
     );
     const render = () => {
       if (!active) return;
       const next: Record<string, string> = {};
       for (const item of wanted) {
-        const value = cache.current.get(JSON.stringify([language, item.text]));
+        const value = cache.current.get(JSON.stringify([language, item.source, item.id, item.text]));
         if (value !== undefined) next[item.id] = value;
       }
       setResult({ scope, translations: next });
@@ -55,7 +60,7 @@ export function useConversationTranslations(
           const responses = await Promise.all(
             chunks.map((chunk) =>
               client.functions.invoke("translate-conversation", {
-                body: { language, texts: chunk.map((item) => item.text) },
+                body: { language, items: chunk.map((item) => ({source:item.source,id:item.reference ?? item.id})) },
               }),
             ),
           );
@@ -64,16 +69,15 @@ export function useConversationTranslations(
             if (
               response.error ||
               !Array.isArray(response.data?.translations) ||
-              response.data.translations.length !== chunks[batch].length ||
               !response.data.translations.every(
-                (value: unknown) => typeof value === "string",
+                (value: {id?:unknown;source?:unknown;text?:unknown}) => typeof value?.id === "string" && typeof value?.source === "string" && typeof value?.text === "string",
               )
             )
               throw Error("unavailable");
-            chunks[batch].forEach((item, i) =>
+            chunks[batch].forEach((item) =>
               cache.current.set(
-                JSON.stringify([language, item.text]),
-                response.data.translations[i],
+                JSON.stringify([language, item.source, item.id, item.text]),
+                response.data.translations.find((value:{id:string;source:string}) => value.id === (item.reference ?? item.id) && value.source === item.source)?.text ?? item.text,
               ),
             );
           });
@@ -101,35 +105,35 @@ export function translationCopy(
 ) {
   const copy = {
     en: {
-      notice: "Content is sent to Alibaba Qwen for automatic translation.",
+      notice: "Translations use an external AI service when people have agreed.",
       privateNotice:
-        "Messages are automatically sent to Alibaba Qwen for translation.",
+        "Messages are translated when both people allow AI translation.",
       original: "See original",
       translated: "See translation",
       unavailable: "Translation unavailable. Original shown.",
     },
     pt: {
-      notice: "O conteúdo é enviado ao Alibaba Qwen para tradução automática.",
+      notice: "As traduções usam um serviço externo de IA com a concordância das pessoas.",
       privateNotice:
-        "As mensagens são enviadas automaticamente ao Alibaba Qwen para tradução.",
+        "As mensagens são traduzidas quando as duas pessoas permitem a tradução por IA.",
       original: "Ver original",
       translated: "Ver tradução",
       unavailable: "Tradução indisponível. Texto original exibido.",
     },
     es: {
       notice:
-        "El contenido se envía a Alibaba Qwen para su traducción automática.",
+        "Las traducciones usan un servicio externo de IA con el consentimiento de las personas.",
       privateNotice:
-        "Los mensajes se envían automáticamente a Alibaba Qwen para su traducción.",
+        "Los mensajes se traducen cuando ambas personas permiten la traducción con IA.",
       original: "Ver original",
       translated: "Ver traducción",
       unavailable: "Traducción no disponible. Se muestra el original.",
     },
     ru: {
       notice:
-        "Тексты отправляются в Alibaba Qwen для автоматического перевода.",
+        "Перевод с помощью внешнего ИИ используется с согласия участников.",
       privateNotice:
-        "Сообщения автоматически отправляются в Alibaba Qwen для перевода.",
+        "Сообщения переводятся, когда оба участника разрешили перевод с ИИ.",
       original: "Показать оригинал",
       translated: "Показать перевод",
       unavailable: "Перевод недоступен. Показан оригинал.",

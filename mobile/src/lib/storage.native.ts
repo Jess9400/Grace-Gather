@@ -106,6 +106,35 @@ export async function playableAudio(id: string) {
   );
   return target.uri;
 }
+// Journal synchronization reads and writes recordings through the encrypted
+// device vault; the temporary playback directory is not used for transfers.
+export async function readJournalAudio(id: string): Promise<Uint8Array> {
+  await initialize();
+  if (!/^[a-z0-9-]+$/i.test(id)) throw new Error("Invalid recording");
+  const source = new File(audioDir(), id + ".bin");
+  return new Uint8Array(
+    await aesDecryptAsync(
+      AESSealedData.fromCombined(await source.bytes()),
+      encryptionKey,
+    ),
+  );
+}
+export async function writeJournalAudio(id: string, bytes: Uint8Array) {
+  await initialize();
+  if (!/^[a-z0-9-]+$/i.test(id)) throw new Error("Invalid recording");
+  const target = new File(audioDir(), id + ".bin");
+  if (target.exists) {
+    const existing = await readJournalAudio(id);
+    if (
+      existing.length !== bytes.length ||
+      existing.some((value, i) => value !== bytes[i])
+    )
+      throw Error("A different recording with this ID already exists.");
+    return;
+  }
+  const sealed = await aesEncryptAsync(bytes, encryptionKey);
+  await target.write(await sealed.combined());
+}
 export function clearPlayback() {
   const dir = playbackDir();
   if (dir.exists) dir.delete();
@@ -150,10 +179,13 @@ export async function exportEncrypted(options?: BackupOptions) {
       JSON.parse(rows.find((r) => r.key === "entries")?.value ?? "[]"),
     ),
   );
-  for (const f of audioDir().list()) {
-    if (!included.has(f.name)) continue;
-    if (f instanceof File)
-      audio[f.name] = base64(
+  for (const name of included) {
+    const cacheName = options?.audioOwner
+      ? `journal-${options.audioOwner}-${name}`
+      : name;
+    const f = new File(audioDir(), cacheName);
+    if (f.exists)
+      audio[name] = base64(
         new Uint8Array(
           await aesDecryptAsync(
             AESSealedData.fromCombined(await f.bytes()),
@@ -182,7 +214,11 @@ export function releaseBackup(uri: string) {
   const file = new File(uri);
   if (file.exists) file.delete();
 }
-export async function restoreEncrypted(uri: string, key: string) {
+export async function restoreEncrypted(
+  uri: string,
+  key: string,
+  entriesKey = "entries",
+) {
   return withJournalLock(async () => {
     await initialize();
     if (!/^[a-f0-9]{64}$/i.test(key))
@@ -199,9 +235,11 @@ export async function restoreEncrypted(uri: string, key: string) {
     );
     const merged = mergeBackup(
       restored,
-      JSON.parse((await getItem("entries")) ?? "[]"),
+      JSON.parse((await getItem(entriesKey)) ?? "[]"),
       JSON.parse((await getItem("profile")) ?? "null"),
     );
+    for (const row of merged.rows)
+      if (row.key === "entries") row.key = entriesKey;
     for (const row of restored.rows)
       if (row.key.startsWith("course:") && (await getItem(row.key)) === null)
         merged.rows.push(row);
@@ -209,8 +247,16 @@ export async function restoreEncrypted(uri: string, key: string) {
     try {
       for (const [name, value] of Object.entries(merged.audio)) {
         const target = new File(audioDir(), name);
-        if (target.exists)
-          throw Error("A recording with this ID already exists.");
+        if (target.exists) {
+          const existing = await readJournalAudio(name.slice(0, -4));
+          const restored = Uint8Array.from(atob(value), (c) => c.charCodeAt(0));
+          if (
+            existing.length !== restored.length ||
+            existing.some((byte, index) => byte !== restored[index])
+          )
+            throw Error("A different recording with this ID already exists.");
+          continue;
+        }
         const sealed = await aesEncryptAsync(
           Uint8Array.from(atob(value), (c) => c.charCodeAt(0)),
           encryptionKey,

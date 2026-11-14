@@ -3,8 +3,10 @@ import { AI_CONSENT_VERSION, readBounded } from '../_shared/journey-policy.js';
 import { qwen, aiError, reserveAI } from '../_shared/qwen.ts';
 serve(async req=>{
   if(req.method!=='POST')return json({error:'method_not_allowed'},405);
-  const {user,service}=await identity(req);
+  const {user,service,client}=await identity(req);
   try{
+    const permission=await client.rpc('ai_journal_permission');
+    if(permission.error || permission.data!==true)throw Error('consent_required');
     const blob=await readBounded(req,6*1024*1024);
     const form=await new Response(blob,{headers:{'Content-Type':req.headers.get('content-type')||''}}).formData();
     if(form.get('consentVersion')!==AI_CONSENT_VERSION)throw Error('consent_required');

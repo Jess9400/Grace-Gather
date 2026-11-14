@@ -19,16 +19,18 @@ serve(async (req) => {
     }
   }
   // Remove owned objects through the Storage API before deleting the auth user.
-  while (true) {
-    const { data, error } = await service.storage
-      .from("journal-backups")
-      .list(user.id, { limit: 100 });
-    if (error) throw error;
-    if (!data?.length) break;
-    const removed = await service.storage
-      .from("journal-backups")
-      .remove(data.map((x) => user.id + "/" + x.name));
-    if (removed.error) throw removed.error;
+  for (const bucket of ["journal-backups", "account-journal-audio"]) {
+    while (true) {
+      const { data, error } = await service.storage
+        .from(bucket)
+        .list(user.id, { limit: 100 });
+      if (error) throw error;
+      if (!data?.length) break;
+      const removed = await service.storage
+        .from(bucket)
+        .remove(data.map((x) => user.id + "/" + x.name));
+      if (removed.error) throw removed.error;
+    }
   }
   // Confession media uses opaque IDs; remove owned recordings before cascading account rows.
   const confessions = await service.from("confessions").select("id").eq("author",user.id).not("audio_type","is",null);

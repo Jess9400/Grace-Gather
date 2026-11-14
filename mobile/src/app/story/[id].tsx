@@ -90,7 +90,7 @@ export default function Story() {
   const commentTranslations = useConversationTranslations(
     comments
       .filter((comment) => comment.user_id !== uid)
-      .map((comment) => ({ id: comment.id, text: comment.body })),
+      .map((comment) => ({ id: comment.id, text: comment.body, source: "comment" as const })),
     profile.language,
   );
   useEffect(() => {

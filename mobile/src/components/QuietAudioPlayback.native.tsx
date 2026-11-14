@@ -8,6 +8,9 @@ import { playableAudio, clearPlayback } from "../lib/storage";
 import { Button, Notice } from "./quiet-ui";
 import { Language, copy } from "../lib/content";
 import { label } from "../lib/labels";
+import { backend } from "../lib/backend";
+import { isMemberSession } from "../lib/account";
+import { ensureJournalAudio } from "../lib/account-journal-audio";
 export default function AudioPlayback({
   id,
   language,
@@ -34,7 +37,14 @@ export default function AudioPlayback({
         allowsRecording: false,
         playsInSilentMode: true,
       });
-      player.replace({ uri: await playableAudio(id) });
+      const session = await backend?.auth.getSession();
+      if (!session || !isMemberSession(session.data.session))
+        throw Error("journal_account_unavailable");
+      const audioId = await ensureJournalAudio(
+        session.data.session!.user.id,
+        id,
+      );
+      player.replace({ uri: await playableAudio(audioId) });
       if (status.didJustFinish) await player.seekTo(0);
       player.play();
     } catch {

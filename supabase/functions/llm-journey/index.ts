@@ -6,9 +6,11 @@ import map from '../_shared/journal-map.json' with { type:'json' };
 import catalog from '../_shared/journey-catalog.json' with { type:'json' };
 serve(async req=>{
   if(req.method!=='POST') return json({error:'method_not_allowed'},405);
-  const {user,service}=await identity(req);
+  const {user,service,client}=await identity(req);
   let chatStage='';
   try {
+    const permission=await client.rpc('ai_journal_permission');
+    if(permission.error || permission.data!==true) throw Error('consent_required');
     const payload=JSON.parse(await (await readBounded(req,150000)).text());
     if(payload.mode==='conversation') {
       chatStage='input';

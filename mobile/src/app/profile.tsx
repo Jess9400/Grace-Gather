@@ -7,7 +7,6 @@ import { useInterfaceCopy } from "../lib/use-interface-copy";
 import { useEffect, useState } from "react";
 import { Platform, StyleSheet, Text, View } from "react-native";
 import { router } from "expo-router";
-import * as Sharing from "expo-sharing";
 import {
   Screen,
   Heading,
@@ -28,7 +27,6 @@ import { deleteConfirmationWord } from "../lib/delete-confirmation";
 import { copy, editionsFor, languages } from "../lib/content";
 import { label } from "../lib/labels";
 import { backend, requireUser, requireBackend } from "../lib/backend";
-import * as storage from "../lib/storage";
 import {
   enableReminder,
   disableGatheringPush,
@@ -53,8 +51,7 @@ export default function Profile() {
     [busy, setBusy] = useState(false),
     [reminder, setReminder] = useState(false),
     [confirmation, setConfirmation] = useState(""),
-    [deleting, setDeleting] = useState<"account" | "local" | null>(null),
-    [backup, setBackup] = useState<{ key: string; uri: string } | null>(null);
+    [deleting, setDeleting] = useState<"account" | "local" | null>(null);
   useEffect(() => {
     void remindersEnabled().then(setReminder);
     void backend?.auth.getSession().then(({ data }) => {
@@ -219,27 +216,8 @@ export default function Profile() {
             secondary
             disabled={busy}
             title={l("backup")}
-            onPress={() =>
-              void run(async () => setBackup(await storage.exportEncrypted()))
-            }
+            onPress={() => router.push("/journal-export")}
           />
-          {backup && (
-            <>
-              <Body>{l("recovery")}</Body>
-              <Body>{backup.key}</Body>
-              <Button
-                title={l("shareFile")}
-                onPress={() =>
-                  void run(async () => {
-                    await Sharing.shareAsync(backup.uri, {
-                      mimeType: "application/octet-stream",
-                      dialogTitle: "Grace & Gather encrypted backup",
-                    });
-                  })
-                }
-              />
-            </>
-          )}
           <Button
             secondary
             title={l("restore")}
@@ -278,13 +256,20 @@ export default function Profile() {
                 onChangeText={setConfirmation}
               />
               <Button
-                disabled={confirmation.trim() !== deleteConfirmationWord(profile.language) || busy}
+                disabled={
+                  confirmation.trim() !==
+                    deleteConfirmationWord(profile.language) || busy
+                }
                 title={l(
                   deleting === "account" ? "deleteAccount" : "deleteLocal",
                 )}
                 onPress={() =>
                   void run(async () => {
-                    if (confirmation.trim() !== deleteConfirmationWord(profile.language)) return;
+                    if (
+                      confirmation.trim() !==
+                      deleteConfirmationWord(profile.language)
+                    )
+                      return;
                     if (deleting === "account") {
                       const { client } = await requireUser();
                       const { data, error } = await client.functions.invoke(

@@ -25,6 +25,23 @@ export async function protectAudio(_uri: string, _id: string): Promise<string> {
 export async function playableAudio(_id: string): Promise<string> {
   throw new Error("Use the iPhone app for encrypted audio.");
 }
+export async function readJournalAudio(id: string): Promise<Uint8Array> {
+  if (!/^[a-z0-9-]+$/i.test(id)) throw new Error("Invalid recording");
+  const stored = await getItem(`audio:${id}`);
+  if (!stored) throw Error("Recording not found.");
+  return Uint8Array.from(atob(stored), (character) => character.charCodeAt(0));
+}
+export async function writeJournalAudio(id: string, bytes: Uint8Array) {
+  if (!/^[a-z0-9-]+$/i.test(id)) throw new Error("Invalid recording");
+  let binary = "";
+  for (let i = 0; i < bytes.length; i += 8192)
+    binary += String.fromCharCode(...bytes.subarray(i, i + 8192));
+  const encoded = btoa(binary),
+    previous = await getItem(`audio:${id}`);
+  if (previous && previous !== encoded)
+    throw Error("A different recording with this ID already exists.");
+  if (!previous) await setItem(`audio:${id}`, encoded);
+}
 export function clearPlayback() {}
 export async function removeAudio(id: string) {
   await browserVault().removeItem(`audio:${id}`);
@@ -43,7 +60,10 @@ export async function exportEncrypted(
   const audio: Record<string, string> = {};
   for (const entry of source)
     if (entry.audio) {
-      const value = await getItem(`audio:${entry.audio}`);
+      const id = options?.audioOwner
+        ? `journal-${options.audioOwner}-${entry.audio}`
+        : entry.audio;
+      const value = await getItem(`audio:${id}`);
       if (!value)
         throw Error("A recording is missing. Your journal has not changed.");
       audio[`${entry.audio}.bin`] = value;
@@ -62,7 +82,11 @@ export async function exportEncrypted(
 export function releaseBackup(uri: string) {
   URL.revokeObjectURL(uri);
 }
-export async function restoreEncrypted(uri: string, key: string) {
+export async function restoreEncrypted(
+  uri: string,
+  key: string,
+  entriesKey = "entries",
+) {
   return withJournalLock(async () => {
     const response = await fetch(uri);
     const blob = await response.blob();
@@ -72,9 +96,11 @@ export async function restoreEncrypted(uri: string, key: string) {
       key,
       globalThis.crypto,
     );
-    const current = JSON.parse((await getItem("entries")) ?? "[]");
+    const current = JSON.parse((await getItem(entriesKey)) ?? "[]");
     const profile = JSON.parse((await getItem("profile")) ?? "null");
     const merged = mergeBackup(backup, current, profile);
+    for (const row of merged.rows)
+      if (row.key === "entries") row.key = entriesKey;
     for (const row of backup.rows)
       if (row.key.startsWith("course:") && (await getItem(row.key)) === null)
         merged.rows.push(row);

@@ -11,6 +11,9 @@ serve(async (req) => {
   if (permission.error || permission.data !== true)
     return json({ error: "not_allowed" }, 403);
   const { postId } = await readCommunityScreenRequest(req);
+  const consent = await service.rpc("ai_community_permission_for", {p_user:user.id});
+  if (consent.error || consent.data !== true)
+    return json({publication:"pending",reason:"manual_review"});
   if (Deno.env.get("PRAYER_AUTO_MODERATION_ENABLED") === "false")
     return json({ publication: "pending", reason: "moderation_unavailable" });
   const { data: post, error } = await service.rpc("prayer_auto_candidate", {

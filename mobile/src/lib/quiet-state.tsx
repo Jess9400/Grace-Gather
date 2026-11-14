@@ -1,4 +1,11 @@
-import React, { createContext, useContext, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useRef,
+} from "react";
+import { backend } from "./backend";
 interface Draft {
   text: string;
   createdAt: string;
@@ -18,6 +25,17 @@ const Context = createContext<{
 } | null>(null);
 export function QuietProvider({ children }: { children: React.ReactNode }) {
   const [draft, setDraft] = useState(fresh);
+  const owner = useRef<string | null | undefined>(undefined);
+  useEffect(() => {
+    if (!backend) return;
+    const listener = backend.auth.onAuthStateChange((_event, session) => {
+      const next = session?.user.id ?? null;
+      if (owner.current !== undefined && owner.current !== next)
+        setDraft(fresh());
+      owner.current = next;
+    });
+    return () => listener.data.subscription.unsubscribe();
+  }, []);
   return (
     <Context.Provider
       value={{

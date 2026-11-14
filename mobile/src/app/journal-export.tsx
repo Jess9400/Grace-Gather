@@ -25,6 +25,9 @@ import { resolveJournalResponse } from "../lib/journal-response";
 import { exportEncrypted, releaseBackup } from "../lib/storage";
 import { printJournal, shareJournalBackup } from "../lib/journal-files";
 import type { Entry, Profile } from "../lib/content";
+import { backend } from "../lib/backend";
+import { isMemberSession } from "../lib/account";
+import { ensureJournalAudio } from "../lib/account-journal-audio";
 export default function JournalExport() {
   const { profile, journalItems } = useApp();
   const params = useLocalSearchParams<{
@@ -118,7 +121,16 @@ export default function JournalExport() {
     setNotice("");
     try {
       if (backupRef.current) releaseBackup(backupRef.current.uri);
-      const result = await exportEncrypted({ entries: prepared! });
+      const session = await backend?.auth.getSession();
+      if (!session || !isMemberSession(session.data.session))
+        throw Error("journal_account_unavailable");
+      const owner = session.data.session!.user.id;
+      for (const entry of prepared!)
+        if (entry.audio) await ensureJournalAudio(owner, entry.audio);
+      const result = await exportEncrypted({
+        entries: prepared!,
+        audioOwner: owner,
+      });
       backupRef.current = result;
       setBackup({ ...result, source: selected, profile });
       setKeySaved(false);

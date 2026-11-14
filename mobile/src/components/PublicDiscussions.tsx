@@ -31,12 +31,12 @@ export default function PublicDiscussions({ query }: { query: string }) {
   const term = query.trim();
   const topics = visibleTopics(state);
   const translatedItems = topics.flatMap((topic) => [
-    { id: `title:${topic.id}`, text: topic.title },
-    { id: `body:${topic.id}`, text: topic.body },
+    { id: `title:${topic.id}`, reference: topic.id, text: topic.title, source: "community_title" as const },
+    { id: `body:${topic.id}`, reference: topic.id, text: topic.body, source: "community_body" as const },
     ...topic.replies
       .filter((reply) => canReadPost(state, reply))
       .slice(-2)
-      .map((reply) => ({ id: `reply:${reply.id}`, text: reply.body })),
+      .map((reply) => ({ id: `reply:${reply.id}`, reference: reply.id, text: reply.body, source: "community_body" as const })),
   ]);
   const { translations, unavailable } = useConversationTranslations(
     translatedItems,
