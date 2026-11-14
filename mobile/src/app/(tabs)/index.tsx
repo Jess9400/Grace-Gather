@@ -619,7 +619,14 @@ export default function Home() {
               />
               <ScrollView contentContainerStyle={s.promptContent}>
                 {weeklyDue ? (
-                  <StepCheckIn dark />
+                  <StepCheckIn styles={{
+                    grabHandle: s.grabHandle,
+                    title: s.promptTitle,
+                    primary: s.cta,
+                    primaryText: s.ctaText,
+                    secondary: s.prayerAction,
+                    secondaryText: s.invitationText,
+                  }} />
                 ) : (
                   <>
                     <View accessibilityElementsHidden importantForAccessibility="no" style={s.grabHandle} />

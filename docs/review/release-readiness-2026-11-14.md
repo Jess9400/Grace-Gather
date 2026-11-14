@@ -8,6 +8,7 @@ This is a working checklist, not a declaration that Apple will approve the app.
 - The live Grace & Gather database lists the account-journal and AI-consent migrations as applied. Journal table policies restrict reads and writes to the signed-in owner; journal audio has separate storage policies. These metadata checks do not replace a cross-account device test.
 - The live discussion review and report-resolution functions require the moderator check. The automated community backend tests exercise access denial and moderation. Real notification delivery and staff workflows still require end-to-end tests.
 - The logo and icon are included in merged PR #152. An installed iPhone app needs a new build to receive its icon.
+- App Store Connect is in Prepare for Submission and is set to manually release after approval. No build is selected for the App Store version. The privacy questionnaire, privacy-policy URL, age-rating questionnaire and content-rights information have not been set up. A primary category, description, keywords, support URL and review contact also remain to be provided.
 
 ## Before submission
 
@@ -18,4 +19,4 @@ This is a working checklist, not a declaration that Apple will approve the app.
 5. Complete and verify App Store Connect metadata: screenshots, description, privacy answers, support and privacy URLs, age rating, review contact and reliable reviewer sign-in. Review rights for images, music, Bible texts and publisher content.
 6. Supabase Security Advisor reports authenticated security-definer functions that must each be assessed for intentional access and authorization. Its RLS-without-policy informational findings can be intentional for tables accessed only through authorized server functions; do not add permissive policies merely to silence them. See https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable.
 
-The marketing landing page and social accounts are deferred until after Apple approval. PR #88 and the subscription plan remain undecided; this checklist does not enable them.
+Jessica is working on the landing page now; social accounts are planned for after Apple approval. PR #88 and the subscription plan remain undecided; this checklist does not enable them.

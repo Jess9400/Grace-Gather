@@ -117,10 +117,10 @@ const text = {
     "Сохранено в дневнике.",
   ],
   weekly: [
-    "How are things going today?",
-    "Como você está hoje?",
-    "¿Cómo te encuentras hoy?",
-    "Как вы сегодня?",
+    "A moment to reflect",
+    "Um momento para refletir",
+    "Un momento para reflexionar",
+    "Момент для размышления",
   ],
   weeklyIntro: [
     "Would you like a moment to reflect on the step you chose?",
