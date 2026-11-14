@@ -8,6 +8,8 @@ import { churchCopy } from "../../lib/church-copy";
 import { isProtestant } from "../../lib/church-calendar";
 import { walkFromHome, type RoomPlace } from "../../lib/church-room";
 import { PlatformPressable } from "expo-router/react-navigation";
+import { Text, useWindowDimensions } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 // From Home, these tabs walk to their place in the church before opening.
 const TAB_PLACE: Partial<Record<string, RoomPlace>> = {
   bible: "bible",
@@ -18,6 +20,10 @@ const TAB_PLACE: Partial<Record<string, RoomPlace>> = {
 export default function TabsLayout() {
   const { profile } = useApp();
   const palette = colors;
+  const { fontScale } = useWindowDimensions();
+  const insets = useSafeAreaInsets();
+  const labelLines = fontScale >= 1.4 ? 3 : 2;
+  const tabHeight = 40 + 12 * labelLines * fontScale + insets.bottom;
   return (
     <Tabs
       screenOptions={{
@@ -29,6 +35,8 @@ export default function TabsLayout() {
         tabBarStyle: {
           backgroundColor: palette.night,
           borderTopColor: "#FFFFFF14",
+          height: tabHeight,
+          paddingBottom: Math.max(insets.bottom, 4),
         },
         tabBarLabelStyle: { fontSize: 11 },
         sceneStyle: { backgroundColor: palette.paper },
@@ -58,6 +66,9 @@ export default function TabsLayout() {
           name={name}
           options={{
             title,
+            tabBarAccessibilityLabel: title,
+            tabBarLabel: ({ color }) => <Text numberOfLines={labelLines}
+              style={{ color, fontSize: 10.5, lineHeight: 12, textAlign: "center", width: "100%" }}>{title}</Text>,
             // Walk to the tab's place in the church first when leaving Home.
             ...(TAB_PLACE[name] && {
               tabBarButton: (props) => (
@@ -76,6 +87,8 @@ export default function TabsLayout() {
                     position: "absolute" as const,
                     backgroundColor: "rgba(33,27,22,0.82)",
                     borderTopColor: "#FFFFFF20",
+                    height: tabHeight,
+                    paddingBottom: Math.max(insets.bottom, 4),
                   },
                   tabBarActiveTintColor: "#FFF8E9",
                   tabBarInactiveTintColor: "#D7CBB9",

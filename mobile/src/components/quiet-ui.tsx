@@ -26,6 +26,7 @@ import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { FormField } from "./FormField";
 import BrandMark from "./BrandMark";
+import ScreenNav from "./ScreenNav";
 // Candlelight: dark espresso rooms, ivory words and antique gold details.
 // `green` fills primary buttons and selected items (cream, with `white` text);
 // `white` is the card surface. `night` is the darker tab bar under the rooms.
@@ -112,6 +113,7 @@ export function Screen({
   compact = false,
   header = true,
   centered = false,
+  home = false,
 }: {
   children: React.ReactNode;
   back?: boolean;
@@ -125,6 +127,7 @@ export function Screen({
   compact?: boolean;
   header?: boolean;
   centered?: boolean;
+  home?: boolean;
 }) {
   const scroll = useRef<ScrollViewInstance>(null);
   const onScroll = useKeyboardReveal(scroll);
@@ -144,6 +147,7 @@ export function Screen({
             footer ? (Platform.OS === "ios" ? "padding" : "height") : undefined
           }
         >
+          {back && <View style={{ paddingTop: insets.top }}><ScreenNav home={home} /></View>}
           <ScrollView
             ref={scroll}
             keyboardShouldPersistTaps="handled"
@@ -153,7 +157,7 @@ export function Screen({
             onScroll={onScroll}
             scrollEventThrottle={32}
           >
-            {!compact && <ChurchStrip place={place} back={back} />}
+            {!compact && <ChurchStrip place={place} back={false} hideControls={back} />}
             <View
               style={[
                 s.page,
@@ -183,6 +187,7 @@ export function Screen({
           avoid ? (Platform.OS === "ios" ? "padding" : "height") : undefined
         }
       >
+        {header && back && <ScreenNav home={home} />}
         <ScrollView
           keyboardShouldPersistTaps="handled"
           // On iPhone, a focused field scrolls clear of the keyboard (the
@@ -204,7 +209,7 @@ export function Screen({
             }
           }}
         >
-          {header && (
+          {header && !back && (
             <View style={s.brand}>
               {back ? (
                 <Pressable

@@ -779,6 +779,7 @@ const words: Record<string, string[]> = {
     "Время (24 ч, ЧЧ:ММ)",
   ],
   timezone: ["Timezone", "Fuso horário", "Zona horaria", "Часовой пояс"],
+  timezoneDetails: ["Time zone details", "Sobre o fuso horário", "Sobre la zona horaria", "О часовом поясе"],
   timezoneNote: [
     "Date and time use this timezone. Repeated clock-change hours use the later, standard-time occurrence.",
     "A data e hora usam este fuso. Horas repetidas usam a ocorrência posterior, no horário padrão.",

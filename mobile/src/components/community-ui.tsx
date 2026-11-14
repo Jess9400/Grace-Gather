@@ -12,9 +12,8 @@ import {
   ActivityIndicator,
   TextInputProps,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { router } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
 import { useApp } from "../lib/state";
 import { label } from "../lib/labels";
 import { useKeyboardReveal } from "../lib/keyboard-reveal";
@@ -23,6 +22,7 @@ import ChurchStrip, { useRoomStrip } from "./ChurchStrip";
 import type { RoomPlace } from "../lib/church-room";
 import { FormField } from "./FormField";
 import BrandMark from "./BrandMark";
+import ScreenNav from "./ScreenNav";
 export { colors };
 const CardSurface = createContext(false);
 type SurfacePalette = {
@@ -69,6 +69,8 @@ export function Screen({
   scrollRef,
   place,
   background,
+  home = false,
+  dirty = false,
 }: {
   children: React.ReactNode;
   back?: boolean;
@@ -80,8 +82,11 @@ export function Screen({
   place?: RoomPlace;
   /** Optional full-screen room artwork, behind the content and controls. */
   background?: React.ReactNode;
+  home?: boolean;
+  dirty?: boolean;
 }) {
   const { profile } = useApp();
+  const insets = useSafeAreaInsets();
   const theme = useContext(SurfaceContext);
   const ownScroll = useRef<React.ComponentRef<typeof ScrollView>>(null);
   const scroll = scrollRef ?? ownScroll;
@@ -100,6 +105,7 @@ export function Screen({
         enabled={keyboardAware && Platform.OS === "android"}
         behavior="height"
       >
+        {back && <View style={strip ? { paddingTop: insets.top } : undefined}><ScreenNav home={home} dirty={dirty} /></View>}
         <ScrollView
           ref={scroll}
           // On iPhone, typing scrolls the page so the field and the button
@@ -112,34 +118,11 @@ export function Screen({
           contentContainerStyle={strip ? undefined : s.page}
         >
           {strip && place && (
-            <ChurchStrip place={place} back={back} action={headerAction} />
+            <ChurchStrip place={place} back={false} action={headerAction} hideControls={back} />
           )}
           {wrapRoom(
             <>
-              {!strip && back && (
-                <Pressable
-                  accessibilityRole="button"
-                  accessibilityLabel={label(profile.language, "back")}
-                  style={{
-                    minWidth: 44,
-                    minHeight: 44,
-                    alignSelf: "flex-start",
-                    justifyContent: "center",
-                  }}
-                  onPress={() =>
-                    router.canGoBack()
-                      ? router.back()
-                      : router.replace("/(tabs)")
-                  }
-                >
-                  <Ionicons
-                    name="arrow-back"
-                    size={23}
-                    color={theme?.ink ?? colors.ink}
-                  />
-                </Pressable>
-              )}
-              {!quiet && !strip && (
+              {!quiet && !strip && !back && (
                 <View style={s.brand}>
                   <BrandMark />
                   <Text style={s.brandText}>GRACE & GATHER</Text>

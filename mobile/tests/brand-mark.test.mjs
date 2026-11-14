@@ -31,8 +31,12 @@ test("the written name is always accompanied by the emblem, never the old leaf",
           ? [join(dir, entry.name)]
           : [],
     );
-  const branded = walk("src").filter((file) =>
-    /GRACE (&|&amp;) GATHER/.test(read(file)),
+  // On pages opened over the tabs, the Back button takes the emblem's place
+  // beside the name (ScreenNav), as the leaf's did before.
+  const branded = walk("src").filter(
+    (file) =>
+      /GRACE (&|&amp;) GATHER/.test(read(file)) &&
+      !file.endsWith("ScreenNav.tsx"),
   );
   assert.ok(branded.length >= 5);
   for (const file of branded) {
