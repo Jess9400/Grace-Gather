@@ -54,7 +54,7 @@ export default function DiscussionVerse({ id, reference, fallbackTitle, compact 
   if (!verse) return null;
   return <View style={{ borderLeftWidth: 2, borderLeftColor: colors.gold, paddingLeft: 12, gap: 4 }}>
     <Text style={{ color: colors.ink, fontFamily: serif, fontSize: compact ? 16 : 17, lineHeight: compact ? 23 : 25 }}>
-      “{verse.text}”
+      {verse.text}
     </Text>
     <Text style={{ color: colors.muted, fontSize: 12 }}>{verse.reference} · {verse.editionName}</Text>
     {!!translated && !!original && translated.id !== original.id && <TranslationToggle

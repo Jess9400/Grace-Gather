@@ -306,7 +306,7 @@ export default function VerseStudy() {
   if (collection && loaded !== collection)
     return (
       <SafeAreaView style={s.safe}>
-        <Button title={tr("Back")} onPress={() => router.back()} />
+        <Button title={tr("Back")} onPress={() => router.canGoBack() ? router.back() : router.replace("/(tabs)/bible")} />
         <Body>
           {tr(
             failedCollection === collection
@@ -414,8 +414,7 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
   ];
   return (
     <SafeAreaView style={s.safe} edges={["top", "left", "right", "bottom"]}>
-      <ScrollView contentContainerStyle={s.page}>
-        <View style={s.topbar}>
+      <View style={s.topbar}>
           <Pressable
             accessibilityRole="button"
             accessibilityLabel={tr("Back")}
@@ -430,7 +429,12 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
             <Text style={s.backText}>{tr("Back")}</Text>
           </Pressable>
           <Text style={s.eyebrow}>{tr("BIBLE STUDY")}</Text>
-        </View>
+          <Pressable accessibilityRole="button" accessibilityLabel={tr("Home")}
+            onPress={() => router.dismissTo("/(tabs)")} style={s.home}>
+            <Ionicons name="home-outline" size={22} color={colors.ink} />
+          </Pressable>
+      </View>
+      <ScrollView contentContainerStyle={s.page}>
         <View style={s.headingGroup}>
           <Text accessibilityRole="header" style={s.reference}>
             {verse.reference}
@@ -774,8 +778,12 @@ const s = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    marginBottom: 28,
+    width: "100%",
+    maxWidth: 640,
+    alignSelf: "center",
+    paddingHorizontal: 22,
   },
+  home: { width: 44, height: 44, alignItems: "center", justifyContent: "center" },
   back: {
     flexDirection: "row",
     alignItems: "center",

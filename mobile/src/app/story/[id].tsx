@@ -46,6 +46,7 @@ import {
   useConversationTranslations,
 } from "../../lib/conversation-translations";
 import { TranslatedText } from "../../components/TranslatedText";
+import { commentsReadyForJump } from "../../lib/story-comment-navigation";
 interface Comment {
   id: string;
   user_id: string;
@@ -70,7 +71,8 @@ export default function Story() {
     [publisherPages, setPublisherPages] = useState<string[]>([]),
     [publisherLoading, setPublisherLoading] = useState(false),
     [publisherError, setPublisherError] = useState(false),
-    [publisherRetry, setPublisherRetry] = useState(0);
+    [publisherRetry, setPublisherRetry] = useState(0),
+    [publisherFinished, setPublisherFinished] = useState("");
   const [comments, setComments] = useState<Comment[]>([]),
     [uid, setUid] = useState(""),
     [commentError, setCommentError] = useState(""),
@@ -84,8 +86,7 @@ export default function Story() {
     [busy, setBusy] = useState(false);
   const interactions = useInteractions([id]),
     scroll = useRef<React.ComponentRef<typeof ScrollView>>(null),
-    jumpTimer = useRef<ReturnType<typeof setTimeout> | null>(null),
-    commentsY = useRef(0),
+    commentsY = useRef<number | null>(null),
     jumped = useRef(false);
   const commentTranslations = useConversationTranslations(
     comments
@@ -95,26 +96,8 @@ export default function Story() {
   );
   useEffect(() => {
     jumped.current = false;
+    commentsY.current = null;
   }, [id, jump]);
-  useEffect(() => {
-    if (loading || !item || jump !== "1" || jumped.current) return;
-    jumpTimer.current = setTimeout(() => {
-      if (Platform.OS === "web") {
-        document
-          .getElementById("story-comments")
-          ?.scrollIntoView({ block: "start" });
-      } else {
-        scroll.current?.scrollTo({ y: commentsY.current, animated: false });
-      }
-      jumped.current = true;
-    }, 600);
-  }, [loading, item, jump]);
-  useEffect(
-    () => () => {
-      if (jumpTimer.current) clearTimeout(jumpTimer.current);
-    },
-    [],
-  );
   const loadStory = useCallback(async () => {
     setLoading(true);
     setReadError("");
@@ -209,12 +192,32 @@ export default function Story() {
         if (active) setPublisherError(true);
       })
       .finally(() => {
-        if (active) setPublisherLoading(false);
+        if (active) {
+          setPublisherLoading(false);
+          setPublisherFinished(`${id}:${publisherRetry}`);
+        }
       });
     return () => {
       active = false;
     };
   }, [id, item?.id, item?.origin, inlinePublisher, publisherRetry]);
+  const commentsReady = commentsReadyForJump({ item, id, loading, inlinePublisher, publisherFinished, publisherRetry });
+  const jumpToComments = useCallback(() => {
+    if (!commentsReady || jump !== "1" || jumped.current || commentsY.current === null) return;
+    if (Platform.OS === "web") {
+      const target = document.getElementById("story-comments");
+      if (!target) return;
+      target.scrollIntoView({ block: "start" });
+    } else {
+      if (!scroll.current) return;
+      scroll.current.scrollTo({ y: commentsY.current, animated: false });
+    }
+    jumped.current = true;
+  }, [commentsReady, jump]);
+  useEffect(() => {
+    const frame = requestAnimationFrame(jumpToComments);
+    return () => cancelAnimationFrame(frame);
+  }, [jumpToComments]);
   async function act(fn: () => Promise<void>, isStoryReport = false) {
     setBusy(true);
     setNotice("");
@@ -286,7 +289,7 @@ export default function Story() {
       ? data.PSALM23[profile.edition as keyof typeof data.PSALM23]
       : null;
   return (
-    <Screen back keyboardAware scrollRef={scroll}>
+    <Screen back home dirty={!!body.trim() || !!report} keyboardAware scrollRef={scroll}>
       <Body small>
         {item.origin === "community"
           ? c("communityTestimony")
@@ -486,6 +489,7 @@ export default function Story() {
         nativeID="story-comments"
         onLayout={(e) => {
           commentsY.current = e.nativeEvent.layout.y;
+          requestAnimationFrame(jumpToComments);
         }}
       >
         <Subheading>{c("commentsHeading")}</Subheading>

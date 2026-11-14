@@ -1819,11 +1819,6 @@
     "es": "Tu petición necesita revisión de un moderador.",
     "ru": "Вашу просьбу должен проверить модератор."
   },
-  "Prayer requests are screened automatically and reviewed by our team when needed. Anonymous requests remain linked to your account. Please respect others’ privacy.": {
-    "pt": "Os pedidos passam por análise automática e, quando necessário, pela nossa equipe. Pedidos anônimos continuam vinculados à sua conta. Respeite a privacidade das outras pessoas.",
-    "es": "Las peticiones se revisan automáticamente y, cuando es necesario, por nuestro equipo. Las peticiones anónimas siguen vinculadas a tu cuenta. Respeta la privacidad de los demás.",
-    "ru": "Просьбы проверяются автоматически и при необходимости нашей командой. Анонимные просьбы остаются связаны с вашим аккаунтом. Пожалуйста, уважайте частную жизнь других людей."
-  },
   "No verified Bible for this tradition in this language yet. You can choose another Bible language later in your profile.": {
     "pt": "Ainda não há uma Bíblia verificada desta tradição neste idioma. Você pode escolher outro idioma da Bíblia depois, no seu perfil.",
     "es": "Todavía no hay una Biblia verificada de esta tradición en este idioma. Puedes elegir otro idioma de la Biblia más tarde en tu perfil.",
@@ -2078,5 +2073,35 @@
     "pt": "Pular por agora",
     "es": "Omitir por ahora",
     "ru": "Пропустить"
+  },
+  "Prayer requests are reviewed before sharing. Anonymous requests remain linked to your account. Please respect others’ privacy.": {
+    "pt": "Os pedidos são analisados antes de serem compartilhados. Pedidos anônimos continuam vinculados à sua conta. Respeite a privacidade das outras pessoas.",
+    "es": "Las peticiones se revisan antes de compartirse. Las peticiones anónimas siguen vinculadas a tu cuenta. Respeta la privacidad de los demás.",
+    "ru": "Молитвенные просьбы проверяются до публикации. Анонимные просьбы остаются связаны с вашим аккаунтом. Пожалуйста, уважайте частную жизнь других людей."
+  },
+  "Home": {
+    "pt": "Início",
+    "es": "Inicio",
+    "ru": "Главная"
+  },
+  "Leave without saving your draft?": {
+    "pt": "Sair sem salvar seu rascunho?",
+    "es": "¿Salir sin guardar el borrador?",
+    "ru": "Выйти, не сохранив черновик?"
+  },
+  "Keep editing": {
+    "pt": "Continuar editando",
+    "es": "Seguir editando",
+    "ru": "Продолжить редактирование"
+  },
+  "Discard": {
+    "pt": "Descartar",
+    "es": "Descartar",
+    "ru": "Удалить"
+  },
+  "Block this person? You will no longer be matched in this room.": {
+    "pt": "Bloquear esta pessoa? Vocês não serão conectados novamente nesta sala.",
+    "es": "¿Bloquear a esta persona? No volverán a coincidir en esta sala.",
+    "ru": "Заблокировать этого человека? Вы больше не встретитесь в этой комнате."
   }
 }

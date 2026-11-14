@@ -315,7 +315,7 @@ export function DiscussionRoom({
         ) : undefined
       }
       subtitle={
-        topic ? (topic.reference ?? `${c("Started by")} ${topic.name}`) : ""
+        topic ? (topic.reference && topic.reference.trim() !== topic.title.trim() ? topic.reference : `${c("Started by")} ${topic.name}`) : ""
       }
       tint={theme.tint}
       rule={c(

@@ -16,6 +16,7 @@ import { gathering } from "../../lib/gatherings";
 import { backend } from "../../lib/backend";
 import { communityCopy } from "../../lib/community-copy";
 import PrayerSchedule from "../../components/PrayerSchedule";
+import { Disclosure } from "../../components/CommunityControls";
 export default function CreateGathering() {
   const { profile } = useApp(),
     c = (k: string) => communityCopy(profile.language, k);
@@ -173,7 +174,9 @@ export default function CreateGathering() {
         autoCapitalize="none"
         placeholder="America/Sao_Paulo"
       />
-      <Body small>{c("timezoneNote")}</Body>
+      <Disclosure title={c("timezoneDetails")}>
+        <Body small>{c("timezoneNote")}</Body>
+      </Disclosure>
       <Row>
         <Chip
           title={c("public")}
