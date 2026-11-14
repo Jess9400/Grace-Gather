@@ -33,15 +33,15 @@ export async function confessionAPI(
   audio?: string,
 ): Promise<ConfessionResult> {
   const client = requireBackend();
-  const { data: auth, error: authError } = await client.auth.getUser();
-  if (!auth.user || authError) throw Error("sign_in_required");
-  if (audio) {
-    const {
-      data: { session },
-    } = await client.auth.getSession();
-    if (!session) throw Error("sign_in_required");
+  // The sign-in kept on this device says whether to ask at all; the server
+  // checks it on every request, so asking it first only added a wait.
+  const {
+    data: { session },
+    error: authError,
+  } = await client.auth.getSession();
+  if (!session || authError) throw Error("sign_in_required");
+  if (audio)
     return uploadConfession({ action, ...values }, audio, session.access_token);
-  }
   const body = { action, ...values };
   const { data, error } = await client.functions.invoke("confessions", {
     body,
