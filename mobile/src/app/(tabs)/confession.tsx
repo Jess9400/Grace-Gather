@@ -215,10 +215,28 @@ export default function ConfessionRoom() {
     setPage(next);
     setReport(null);
   }
+  // "Offer comfort" opens its page at once and fills it when the list
+  // arrives, so the tap is answered straight away. If the list cannot be
+  // fetched, the room comes back with the reason.
+  function offerComfort() {
+    if (busy || recording || view === "review") return;
+    setItems([]);
+    setReserved([]);
+    setReport(null);
+    setPage("list");
+    void run(async () => {
+      try {
+        await load("list");
+      } catch (e) {
+        setPage("room");
+        throw e;
+      }
+    });
+  }
   useEffect(() => {
     if (view !== "comfort") return;
     router.setParams({ view: "" });
-    void Promise.resolve().then(() => run(() => load("list")));
+    void Promise.resolve().then(offerComfort);
     // Triggered by the explicit journal action; normal room navigation is unchanged.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [view]);
@@ -422,7 +440,7 @@ export default function ConfessionRoom() {
                     variant="row"
                     icon="ear-outline"
                     disabled={busy || view === "review" || recording}
-                    onPress={() => void run(() => load("list"))}
+                    onPress={offerComfort}
                   />
                   <TextAction
                     title={t("cMine")}
@@ -673,7 +691,7 @@ export default function ConfessionRoom() {
                       </Card>
                     </Pressable>
                   ))
-                ) : (
+                ) : busy ? null : (
                   <Text style={s.note}>{t("cEmpty")}</Text>
                 )}
                 {btn("cRefresh", () => void run(() => load("list")), true)}

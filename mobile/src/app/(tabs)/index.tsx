@@ -423,6 +423,33 @@ export default function Home() {
         pointerEvents="box-none"
         style={[StyleSheet.absoluteFill, { opacity: chrome }]}
       >
+        {/* Tapping outside the welcome card closes it. This layer sits under
+          the header, so the avatar and the church controls answer the first
+          tap even while the card is showing. */}
+        {invitation && !entrance && (
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={t("dismissWelcome")}
+            onPress={(e) => {
+              dismissInvitation();
+              // A tap on a place in the church also walks into it, so the
+              // welcome card never costs an extra tap.
+              const { pageX, pageY } = e.nativeEvent;
+              const tapped = sceneFailed
+                ? null
+                : artworkPlaceAt(
+                    churchArt,
+                    screenWidth,
+                    screenHeight,
+                    pageX,
+                    pageY,
+                    scenePlaces.map((place) => place.key),
+                  );
+              if (tapped) open(tapped);
+            }}
+            style={StyleSheet.absoluteFill}
+          />
+        )}
         {/* A soft fade behind the name and date so they stay readable over
           the lighter rooms; it has no edge of its own. */}
         <View
@@ -562,30 +589,6 @@ export default function Home() {
               />
             ))}
           </ScrollView>
-        )}
-        {invitation && !entrance && (
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel={t("dismissWelcome")}
-            onPress={(e) => {
-              dismissInvitation();
-              // A tap on a place in the church also walks into it, so the
-              // welcome card never costs an extra tap.
-              const { pageX, pageY } = e.nativeEvent;
-              const tapped = sceneFailed
-                ? null
-                : artworkPlaceAt(
-                    churchArt,
-                    screenWidth,
-                    screenHeight,
-                    pageX,
-                    pageY,
-                    scenePlaces.map((place) => place.key),
-                  );
-              if (tapped) open(tapped);
-            }}
-            style={StyleSheet.absoluteFill}
-          />
         )}
         <View
           pointerEvents="box-none"

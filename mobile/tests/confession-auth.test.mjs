@@ -11,13 +11,13 @@ function api(client) {
 }
 test('Offer comfort identifies missing sign-in without requesting confession data',async()=>{
  let calls=0;
- const request=api({auth:{getUser:async()=>({data:{user:null},error:null})},functions:{invoke:async()=>{calls++;}}});
+ const request=api({auth:{getSession:async()=>({data:{session:null},error:null})},functions:{invoke:async()=>{calls++;}}});
  await assert.rejects(request('list',{language:'en'}),/sign_in_required/);
  assert.equal(calls,0);
 });
 test('signed-in listeners receive the server list and server failures stay failures',async()=>{
  const result={items:[],reserved:[]};
- const client={auth:{getUser:async()=>({data:{user:{id:'listener'}},error:null})},functions:{invoke:async()=>({data:result,error:null})}};
+ const client={auth:{getSession:async()=>({data:{session:{access_token:'token'}},error:null})},functions:{invoke:async()=>({data:result,error:null})}};
  assert.equal(await api(client)('list'),result);
  client.functions.invoke=async()=>({error:{context:{status:401,json:async()=>{throw Error('no body');}}}});
  await assert.rejects(api(client)('list'),/sign_in_required/);
