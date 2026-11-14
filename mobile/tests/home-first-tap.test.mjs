@@ -29,3 +29,34 @@ test("Offer comfort opens its page before the list arrives", () => {
   assert.match(body, /catch \(e\) \{\s*setPage\("room"\);\s*throw e;/);
   assert.match(room, /onPress=\{offerComfort\}/);
 });
+
+test("the picture of the church does not lead anywhere when tapped", () => {
+  const scene = read("src/components/LivingChurchScene.tsx");
+  // No tap targets on the artwork: places are reached from tabs and buttons.
+  assert.doesNotMatch(scene, /Pressable|onPress|onPlace/);
+  const home = read("src/app/(tabs)/index.tsx");
+  assert.doesNotMatch(home, /artworkPlaceAt|tapAnywhere|onPlace=/);
+  // Tapping outside the welcome card only closes it.
+  assert.match(
+    home,
+    /accessibilityLabel=\{t\("dismissWelcome"\)\}\s*onPress=\{dismissInvitation\}/,
+  );
+});
+
+test("candles and the Orthodox prayer screen keep a button on Home", () => {
+  const home = read("src/app/(tabs)/index.tsx");
+  assert.match(
+    home,
+    /eastern \? \[placeButton\("pray", "image-frame", onCard\)\] : \[\]/,
+  );
+  assert.match(
+    home,
+    /candlesAllowed \? \[placeButton\("candles", "candle", onCard\)\] : \[\]/,
+  );
+  // On the welcome card, and beside "Talk to God" in the Orthodox church.
+  assert.match(home, /\{placeButtons\(true\)\}/);
+  assert.match(
+    home,
+    /eastern && !invitation && !entrance && !touring[\s\S]{0,120}placeButtons\(false\)/,
+  );
+});

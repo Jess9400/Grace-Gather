@@ -55,7 +55,7 @@ import {
 } from "../../lib/church-room";
 
 import type { ChurchPlace } from "../../lib/church-scene";
-import { artworkPlaceAt, type ChurchArt } from "../../lib/church-art";
+import type { ChurchArt } from "../../lib/church-art";
 import { pendingStep } from "../../lib/small-step";
 import { firstChurchVisit } from "../../lib/church-tools";
 import { StepCheckIn } from "../../components/SmallStep";
@@ -364,6 +364,38 @@ export default function Home() {
     if (isRoomPlace(place)) enter(place, go, point);
     else go();
   };
+  // Lighting a candle and praying before the icon have no tab of their own,
+  // so each has a button: on the welcome card, and beside "Talk to God" in
+  // the Orthodox church.
+  const placeButton = (
+    place: "candles" | "pray",
+    icon: "candle" | "image-frame",
+    onCard: boolean,
+  ) => (
+    <Pressable
+      key={place}
+      accessibilityRole="button"
+      accessibilityHint={t(place === "candles" ? "candlesSub" : "praySub")}
+      onPress={() => {
+        setInvitation(false);
+        open(place);
+      }}
+      style={onCard ? s.prayerAction : s.placeAction}
+    >
+      <View style={s.invitationAction}>
+        <View style={s.actionIcon}>
+          <MaterialCommunityIcons name={icon} size={18} color="#FFF1DC" />
+        </View>
+        <Text style={s.invitationText}>{t(place)}</Text>
+      </View>
+    </Pressable>
+  );
+  // On the card they read like "Request a prayer"; standing on the picture
+  // they are outlined so they stay readable.
+  const placeButtons = (onCard: boolean) => [
+    ...(eastern ? [placeButton("pray", "image-frame", onCard)] : []),
+    ...(candlesAllowed ? [placeButton("candles", "candle", onCard)] : []),
+  ];
   const toggleSound = () => {
     const next = !(soundOn ?? false);
     setSoundOn(next);
@@ -406,12 +438,9 @@ export default function Home() {
               art={churchArt}
               places={scenePlaces}
               night={night}
-              onPlace={open}
               accessibilityLabel={t("church")}
               paused={entrance || aboutAdvent || !focused}
               tour={touring}
-              labelsEnabled={!invitation}
-              labelsAlways={eastern}
               onTourDone={endTour}
               onTourPlace={setTourPlace}
               onFailure={() => setSceneFailed(true)}
@@ -423,30 +452,15 @@ export default function Home() {
         pointerEvents="box-none"
         style={[StyleSheet.absoluteFill, { opacity: chrome }]}
       >
-        {/* Tapping outside the welcome card closes it. This layer sits under
+        {/* Tapping outside the welcome card only closes it; the picture of the
+          church does not lead anywhere when tapped. This layer sits under
           the header, so the avatar and the church controls answer the first
           tap even while the card is showing. */}
         {invitation && !entrance && (
           <Pressable
             accessibilityRole="button"
             accessibilityLabel={t("dismissWelcome")}
-            onPress={(e) => {
-              dismissInvitation();
-              // A tap on a place in the church also walks into it, so the
-              // welcome card never costs an extra tap.
-              const { pageX, pageY } = e.nativeEvent;
-              const tapped = sceneFailed
-                ? null
-                : artworkPlaceAt(
-                    churchArt,
-                    screenWidth,
-                    screenHeight,
-                    pageX,
-                    pageY,
-                    scenePlaces.map((place) => place.key),
-                  );
-              if (tapped) open(tapped);
-            }}
+            onPress={dismissInvitation}
             style={StyleSheet.absoluteFill}
           />
         )}
@@ -490,7 +504,6 @@ export default function Home() {
               })}
             </Text>
           </View>
-          {!sceneFailed && <Text style={s.hint}>{t("tapAnywhere")}</Text>}
           <View style={s.tools}>
             {toolsOpen && (
               <>
@@ -640,6 +653,7 @@ export default function Home() {
                         <Text style={s.invitationText}>{tr("Request a prayer")}</Text>
                       </View>
                     </Pressable>
+                    {placeButtons(true)}
                     {!hasExplored && !sceneFailed && (
                       <Pressable
                         accessibilityRole="button"
@@ -686,6 +700,11 @@ export default function Home() {
                 <Text style={s.stayText}>{t("finishExploring")}</Text>
               </Pressable>
             </View>
+          )}
+          {/* The Orthodox church shows no welcome card, so its candle and
+            prayer buttons sit above its one main action. */}
+          {eastern && !invitation && !entrance && !touring && (
+            <View style={s.moreActions}>{placeButtons(false)}</View>
           )}
           {(dismissed || eastern) && !invitation && !entrance && !touring && (
             <Pressable
@@ -868,15 +887,6 @@ const s = StyleSheet.create({
     textShadowOffset: { width: 0, height: 1 },
     textShadowRadius: 6,
   },
-  hint: {
-    fontSize: 13,
-    lineHeight: 18,
-    color: "#FFF8E9",
-    marginTop: -6,
-    textShadowColor: "rgba(0,0,0,0.45)",
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 6,
-  },
   tools: { flexDirection: "row", justifyContent: "flex-end", gap: 6 },
   tool: {
     width: 44,
@@ -958,6 +968,19 @@ const s = StyleSheet.create({
   ctaText: { flexShrink: 1, fontSize: 16, fontWeight: "600", color: "#543515" },
   invitationText: { flexShrink: 1, fontSize: 14, color: "#FFF8E9", textShadowColor: "#211B16", textShadowOffset: { width: 0, height: 1 }, textShadowRadius: 4 },
   prayerAction: { minHeight: 42, flexDirection: "row", gap: 8, justifyContent: "center", alignItems: "center" },
+  moreActions: { alignSelf: "stretch", flexDirection: "row", gap: 10 },
+  placeAction: {
+    flex: 1,
+    minHeight: 44,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 22,
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 1,
+    borderColor: "rgba(255,248,233,0.32)",
+    backgroundColor: "rgba(48,44,40,0.5)",
+  },
   stay: { minHeight: 44, justifyContent: "center", alignItems: "center" },
   stayText: {
     fontSize: 14,
@@ -996,7 +1019,8 @@ const s = StyleSheet.create({
     borderWidth: 1.5,
     borderColor: colors.gold,
   },
-  talkText: { fontFamily: serif, fontSize: 20, color: colors.ink },
+  // Dark words on the cream button (the ivory text colour vanished on it).
+  talkText: { fontFamily: serif, fontSize: 20, color: colors.paper },
   fallback: { position: "absolute", left: 20, right: 20 },
   modal: {
     flex: 1,

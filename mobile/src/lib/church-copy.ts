@@ -419,12 +419,6 @@ const words = {
     "Desahogar el corazón",
     "Облегчить душу",
   ),
-  tapAnywhere: L(
-    "Tap anywhere in the church to choose where to begin.",
-    "Toque em qualquer lugar da igreja para escolher por onde começar.",
-    "Toca cualquier lugar de la iglesia para elegir por dónde empezar.",
-    "Коснитесь любого места в церкви, чтобы выбрать, с чего начать.",
-  ),
   present: L(
     "{n} connections in church right now",
     "{n} conexões na igreja agora",
