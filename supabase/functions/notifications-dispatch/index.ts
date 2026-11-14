@@ -64,7 +64,7 @@ serve(async (req) => {
             subject: job.subject,
             text:
               job.body +
-              "\n\nTo stop email updates, turn off email consent in Grace & Gather → Profile. Support: hello@graceandgather.com",
+              "\n\nTo stop email updates, turn off email consent in Grace & Gather → Profile. Support: hello@graceandgather.online",
           }),
           signal: AbortSignal.timeout(15000),
         });

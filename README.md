@@ -1,6 +1,6 @@
 # Grace & Gather: native app and retained web preview
 
-Grace & Gather is the current working name. Public support contact: **hello@graceandgather.com** (mailbox verification is still outstanding). The original Still web preview and its browser journals are retained. The new `mobile/` app is a separate Expo / React Native application for iPhone, with optional Supabase accounts. The two account stores are not automatically merged. Existing storage keys, URL schemes and bundle identifiers retain their earlier technical names so the branding change does not reset device data or existing configuration.
+Grace & Gather is the current working name. Public support contact: **hello@graceandgather.online** (forwarding to the support inbox was verified). The original Still web preview and its browser journals are retained. The new `mobile/` app is a separate Expo / React Native application for iPhone. The two account stores are not automatically merged. Existing storage keys, URL schemes and bundle identifiers retain their earlier technical names so the branding change does not reset device data or existing configuration.
 
 ## What is implemented
 
@@ -14,7 +14,7 @@ Grace & Gather is the current working name. Public support contact: **hello@grac
 - Charity suggestions match city **and** state/country, with Brazil as the initial directory. Visits and donations use the organizations’ official channels; no booking or payment API is claimed.
 - Email-code authentication, optional Sign in with Apple, optional profile synchronization, local reminders, gathering notification infrastructure, in-app account deletion and device-data deletion.
 - `/staff` is the internal moderation/editorial screen, protected by a server-assigned staff role. Staff can review comments/reports, suspend abusive authors, edit curated content and publish confirmed gatherings. Staff have no journal-reading API.
-- Privacy/support pages use Grace & Gather and hello@graceandgather.com. The Apple release preflight blocks production builds while configuration and review items are unfinished.
+- Privacy/support pages use Grace & Gather and hello@graceandgather.online. The Apple release preflight blocks production builds while configuration and review items are unfinished.
 
 ## Run the mobile app
 
@@ -59,7 +59,7 @@ The Alibaba key remains in Supabase as `alibaba_api_key`. `QWEN_BASE_URL` must m
 
 The first live provider check is blocked: Alibaba returns HTTP 403 `AccessDenied.Unpurchased`, and its console reports `RISK.RISK_CONTROL_REJECTION`. The workspace-specific `QWEN_BASE_URL` is configured. Resolve the account restriction with Alibaba before considering AI live; no successful model output or transcription is claimed. The temporary synthetic diagnostic handler was replaced by the authenticated production function.
 
-Google Workspace SMTP uses `hello@findflockie.com` as sender with display name Grace & Gather; the public support address remains `hello@graceandgather.com`. Signup and returning-user email templates show `{{ .Token }}`. Inbox delivery and a full user sign-in must still be tested before marking the release gate complete.
+Configure an approved, verified sender for authentication and notification email. The public support address is `hello@graceandgather.online`; forwarding to its inbox has been tested but this does not establish that it can send mail. Signup and returning-user email templates show `{{ .Token }}`. Inbox delivery and a full user sign-in must still be tested before marking the release gate complete.
 
 ## Scripture and content coverage
 

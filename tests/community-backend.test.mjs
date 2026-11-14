@@ -42,7 +42,7 @@ before(async () => {
 });
 beforeEach(async () => {
   await db.exec(
-    "delete from private.community_audit;delete from public.community_posts;delete from private.community_activity;delete from public.blocks;delete from private.suspensions;",
+    "delete from private.community_audit;delete from public.community_posts;delete from private.community_activity;delete from public.blocks;delete from private.suspensions;delete from private.ai_community_permission;",
   );
 });
 after(async () => {
@@ -89,6 +89,29 @@ async function submit(
 }
 const review = (id, approve = true, user = staff) =>
   as(user, "select public.community_review($1,$2)", [id, approve]);
+test("AI permissions default off and can only be changed by the account holder", async () => {
+  assert.equal((await as(alice, "select public.ai_journal_permission() value")).rows[0].value, false);
+  assert.equal((await as(alice, "select public.ai_community_permission() value")).rows[0].value, false);
+  await assert.rejects(as(alice, "select public.set_ai_journal_permission(true,$1)", [bob]), /not_allowed/);
+  await assert.rejects(as(alice, "select public.ai_community_permission_for($1)", [bob]));
+  await as(alice, "select public.set_ai_journal_permission(true,$1)", [alice]);
+  assert.equal((await as(alice, "select public.ai_journal_permission() value")).rows[0].value, true);
+  await as(alice, "select public.set_ai_journal_permission(false,$1)", [alice]);
+  assert.equal((await as(alice, "select public.ai_journal_permission() value")).rows[0].value, false);
+});
+test("discussion translation requires consent from both author and reader and stops after withdrawal", async () => {
+  const id = await submit(alice);
+  await review(id);
+  const items = JSON.stringify([{source: "community_body", id}]);
+  const sources = async () => (await as(bob, "select public.ai_translation_sources($1::jsonb) value", [items])).rows[0].value;
+  assert.deepEqual(await sources(), []);
+  await as(bob, "select public.set_ai_community_permission(true,$1)", [bob]);
+  assert.deepEqual(await sources(), []);
+  await as(alice, "select public.set_ai_community_permission(true,$1)", [alice]);
+  assert.equal((await sources())[0].text, "What does this passage mean?");
+  await as(alice, "select public.set_ai_community_permission(false,$1)", [alice]);
+  assert.deepEqual(await sources(), []);
+});
 test("discussion search only returns approved readable results and paginates", async () => {
   const visible = await submit(alice, { title: "Finding hope", body: "What does hope mean?" });
   const pending = await submit(alice, { title: "Hope pending" });
