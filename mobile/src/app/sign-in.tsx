@@ -9,6 +9,7 @@ import { isMemberSession } from "../lib/account";
 import { Pressable, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
+import BrandMark from "../components/BrandMark";
 
 // One clear place to sign in. Every "Sign in" button leads here, and signing
 // in returns the person to the screen they came from.
@@ -52,7 +53,7 @@ export default function SignIn() {
           </Pressable>
         )}
         <View style={{ alignItems: "center", gap: 12, marginBottom: 10 }}>
-          <Ionicons name="leaf-outline" size={40} color={colors.gold} />
+          <BrandMark size={96} />
           <Text
             accessibilityRole="header"
             style={{

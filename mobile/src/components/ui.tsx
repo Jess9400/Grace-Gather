@@ -18,6 +18,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useApp } from "../lib/state";
 import { label } from "../lib/labels";
 import { FormField } from "./FormField";
+import BrandMark from "./BrandMark";
 // The same Candlelight palette as quiet-ui, for the older Confession and
 // gathering components: dark espresso, ivory words, cream fills, gold details.
 export const colors = {
@@ -127,7 +128,7 @@ export function Screen({
           )}
           {!quiet && (
             <View style={s.brand}>
-              <Ionicons name="leaf-outline" size={23} color={colors.gold} />
+              <BrandMark />
               <Text style={s.brandText}>GRACE & GATHER</Text>
               <View style={{ marginLeft: "auto" }}>{headerAction}</View>
               <Pressable

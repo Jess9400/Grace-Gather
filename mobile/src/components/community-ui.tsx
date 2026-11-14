@@ -14,7 +14,6 @@ import {
 } from "react-native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { router } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
 import { useApp } from "../lib/state";
 import { label } from "../lib/labels";
 import { useKeyboardReveal } from "../lib/keyboard-reveal";
@@ -22,6 +21,7 @@ import { colors } from "./quiet-ui";
 import ChurchStrip, { useRoomStrip } from "./ChurchStrip";
 import type { RoomPlace } from "../lib/church-room";
 import { FormField } from "./FormField";
+import BrandMark from "./BrandMark";
 import ScreenNav from "./ScreenNav";
 export { colors };
 const CardSurface = createContext(false);
@@ -124,7 +124,7 @@ export function Screen({
             <>
               {!quiet && !strip && !back && (
                 <View style={s.brand}>
-                  <Ionicons name="leaf-outline" size={23} color={colors.gold} />
+                  <BrandMark />
                   <Text style={s.brandText}>GRACE & GATHER</Text>
                   <View style={{ marginLeft: "auto" }}>{headerAction}</View>
                   <Pressable
