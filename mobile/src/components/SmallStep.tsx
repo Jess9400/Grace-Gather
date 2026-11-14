@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { View, Text } from "react-native";
+import { View, Text, Pressable, type StyleProp, type TextStyle, type ViewStyle } from "react-native";
 import { router } from "expo-router";
-import { Button, Notice, colors } from "./quiet-ui";
+import { Notice } from "./quiet-ui";
 import { useApp } from "../lib/state";
 import { useQuiet } from "../lib/quiet-state";
 import { pendingStep } from "../lib/small-step";
@@ -9,7 +9,16 @@ import { jc } from "../lib/journal-copy";
 import { copy } from "../lib/content";
 
 // A private invitation after a chosen action, without a completion requirement.
-export function StepCheckIn({ dark = false }: { dark?: boolean }) {
+type InvitationStyles = {
+  grabHandle: StyleProp<ViewStyle>;
+  title: StyleProp<TextStyle>;
+  primary: StyleProp<ViewStyle>;
+  primaryText: StyleProp<TextStyle>;
+  secondary: StyleProp<ViewStyle>;
+  secondaryText: StyleProp<TextStyle>;
+};
+
+export function StepCheckIn({ styles }: { styles: InvitationStyles }) {
   const { entries, profile, acknowledgeJournalStep } = useApp();
   const { clear } = useQuiet();
   const [busy, setBusy] = useState(false),
@@ -31,36 +40,30 @@ export function StepCheckIn({ dark = false }: { dark?: boolean }) {
     }
   }
   return (
-    <View style={{ gap: 12 }}>
-      <Text
-        style={{
-          fontSize: 24,
-          lineHeight: 32,
-          color: dark ? "#FFFCF3" : colors.ink,
-        }}
-      >
+    <View style={{ gap: 10 }}>
+      <View accessibilityElementsHidden importantForAccessibility="no" style={styles.grabHandle} />
+      <Text accessibilityRole="header" style={styles.title}>
         {jc(profile.language, "weekly")}
       </Text>
-      <Text
-        style={{
-          fontSize: 16,
-          lineHeight: 24,
-          color: dark ? "#FFFCF3" : colors.muted,
-        }}
-      >
+      <Text style={[styles.secondaryText, { textAlign: "center", lineHeight: 21 }]}>
         {jc(profile.language, "weeklyIntro")}
       </Text>
-      <Button
-        title={jc(profile.language, "reflect")}
+      <Pressable
+        accessibilityRole="button"
         disabled={busy}
         onPress={() => void respond(true)}
-      />
-      <Button
-        title={jc(profile.language, "later")}
-        secondary
+        style={[styles.primary, busy && { opacity: 0.6 }]}
+      >
+        <Text style={styles.primaryText}>{jc(profile.language, "reflect")}</Text>
+      </Pressable>
+      <Pressable
+        accessibilityRole="button"
         disabled={busy}
         onPress={() => void respond(false)}
-      />
+        style={[styles.secondary, busy && { opacity: 0.6 }]}
+      >
+        <Text style={styles.secondaryText}>{jc(profile.language, "later")}</Text>
+      </Pressable>
       <Notice text={error} />
     </View>
   );

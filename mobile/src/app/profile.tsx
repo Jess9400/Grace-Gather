@@ -320,8 +320,8 @@ export default function Profile() {
           onPress={() => router.push("/privacy")}
         />
         <External
-          title="hello@graceandgather.com"
-          url="mailto:hello@graceandgather.com"
+          title="hello@graceandgather.online"
+          url="mailto:hello@graceandgather.online"
         />
       </Disclosure>
     </Screen>

@@ -28,13 +28,14 @@ import {
 import { q } from "../lib/quiet-copy";
 import { interfaceCopy } from "../lib/interface-copy";
 import { TRADITION_QUESTION_VERSION } from "../lib/onboarding";
-import { AI_CONSENT_VERSION } from "../lib/ai-copy";
+import { aiCopy, AI_CONSENT_VERSION } from "../lib/ai-copy";
 import { jc } from "../lib/journal-copy";
 import { backend } from "../lib/backend";
 import { useSignedIn } from "../lib/account";
 import SignInForm from "../components/SignInForm";
 import CommunityAIPermission from "../components/CommunityAIPermission";
 import OnboardingNotifications from "../components/OnboardingNotifications";
+import { Disclosure } from "../components/QuietControls";
 
 const TRADITIONS: Tradition[] = ["catholic", "protestant", "orthodox"];
 const chosen = (p: Profile) =>
@@ -228,6 +229,9 @@ export default function Onboarding() {
           <Card>
             <Subheading>{jc(p.language, "aiSetting")}</Subheading>
             <Body small>{jc(p.language, "aiDefaultInfo")}</Body>
+            <Disclosure title={jc(p.language, "aiPrivacy")}>
+              <Body small>{aiCopy(p.language, "consent")}</Body>
+            </Disclosure>
             <Row>
               <Chip
                 title={jc(
