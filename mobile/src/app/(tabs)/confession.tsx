@@ -102,6 +102,7 @@ export default function ConfessionRoom() {
     [reply, setReply] = useState<Confession | null>(null),
     [draft, setDraft] = useState(""),
     [report, setReport] = useState<string | null>(null),
+    [blockTarget, setBlockTarget] = useState<string | null>(null),
     [notes, setNotes] = useState<Record<string, string>>({}),
     [success, setSuccess] = useState("share"),
     [support, setSupport] = useState(false);
@@ -214,6 +215,7 @@ export default function ConfessionRoom() {
     setReserved(r.reserved || []);
     setPage(next);
     setReport(null);
+    setBlockTarget(null);
   }
   useEffect(() => {
     if (view !== "comfort") return;
@@ -236,6 +238,7 @@ export default function ConfessionRoom() {
     setReply(r.reply);
     setPage("detail");
     setReport(null);
+    setBlockTarget(null);
   }
   const fingerprint = JSON.stringify([
     body,
@@ -743,13 +746,7 @@ export default function ConfessionRoom() {
                             {btn("cReport", () => setReport(reply.id), true)}
                             {btn(
                               "cBlock",
-                              () =>
-                                void run(async () => {
-                                  await confessionAPI("block", {
-                                    id: reply.id,
-                                  });
-                                  setError(t("cBlocked"));
-                                }),
+                              () => setBlockTarget(reply.id),
                               true,
                             )}
                           </>
@@ -798,12 +795,27 @@ export default function ConfessionRoom() {
                           }),
                       )}
                     </Card>
-                    {/* Offering comfort keeps Report; Block stays only under a
-                        reply to your own confession. */}
                     {btn("cReport", () => setReport(detail.id), true)}
+                    {btn("cBlock", () => setBlockTarget(detail.id), true)}
                   </>
                 ) : null}
               </>
+            )}
+            {blockTarget && (
+              <Card>
+                <Body>{tr("Block this person? You will no longer be matched in this room.")}</Body>
+                <Button title={tr("Block")} disabled={busy} onPress={() => void run(async () => {
+                  const target = blockTarget;
+                  await confessionAPI("block", { id: target });
+                  setBlockTarget(null);
+                  if (!detail?.mine) {
+                    setDraft("");
+                    await load("list");
+                  }
+                  setError(t("cBlocked"));
+                })} />
+                <Button secondary title={tr("Cancel")} disabled={busy} onPress={() => setBlockTarget(null)} />
+              </Card>
             )}
             {report && (
               <Card>

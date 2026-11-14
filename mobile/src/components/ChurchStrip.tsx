@@ -35,11 +35,13 @@ export default function ChurchStrip({
   place,
   back = false,
   action,
+  hideControls = false,
 }: {
   place: RoomPlace;
   back?: boolean;
   // A small control kept from the screen's usual header (e.g. Refresh).
   action?: ReactNode;
+  hideControls?: boolean;
 }) {
   const snapshot = useChurchSnapshot();
   const insets = useSafeAreaInsets();
@@ -80,7 +82,7 @@ export default function ChurchStrip({
       {snapshot.night && !snapshot.nightArtwork && <View pointerEvents="none" style={st.evening} />}
       <View pointerEvents="none" style={st.topShade} />
       <View pointerEvents="none" style={st.bottomFade} />
-      <View style={[st.row, { paddingTop: insets.top + 6 }]}>
+      {!hideControls && <View style={[st.row, { paddingTop: insets.top + 6 }]}>
         {back && (
           <Pressable
             accessibilityRole="button"
@@ -103,7 +105,7 @@ export default function ChurchStrip({
         >
           <MemberAvatar />
         </Pressable>
-      </View>
+      </View>}
     </View>
   );
 }

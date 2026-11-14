@@ -98,6 +98,10 @@ export default function DiscoverPost({
     router.push({ pathname: "/story/[id]", params: { id: item.id } });
   const read = open;
   const body = storyText(item.summary, profile.language);
+  // Some publisher imports contain only an identical attribution sentence,
+  // not an actual summary. Show the credited author in the byline instead.
+  const attributionOnly = item.origin === "publisher" &&
+    /^A devotional story by .+, shared by .+\.$/i.test(body.trim());
   return (
     <View
       style={{
@@ -157,6 +161,7 @@ export default function DiscoverPost({
               ? " · " +
                 new Date(item.publishedAt).toLocaleDateString(profile.language)
               : ""}
+            {attributionOnly && item.author ? ` · ${item.author}` : ""}
           </Text>
         </View>
       </View>
@@ -176,7 +181,7 @@ export default function DiscoverPost({
           {storyText(item.title, profile.language)}
         </Text>
       </Pressable>
-      {excerpt(body).map((p, i) => (
+      {!attributionOnly && excerpt(body).map((p, i) => (
         <Text
           key={i}
           style={{ color: colors.ink, fontSize: 16, lineHeight: 25 }}

@@ -439,7 +439,7 @@ function PrayerRoom({
           <HelpLine />
           <Body small>
             {tr(
-              "Prayer requests are screened automatically and reviewed by our team when needed. Anonymous requests remain linked to your account. Please respect others’ privacy.",
+              "Prayer requests are reviewed before sharing. Anonymous requests remain linked to your account. Please respect others’ privacy.",
             )}
           </Body>
           <Button
