@@ -8,7 +8,7 @@ serve(async()=>{
  await Promise.all(sources.map(async(source:{id:string;name:string;url:string;license:string;license_url:string})=>{
   const lease=await store('claim',{id:source.id});if(!lease?.id)return;
   try{
-   const response=await fetch(source.url,{headers:{Accept:'application/rss+xml','User-Agent':'GraceAndGather/1.0 (+https://graceandgather.com)'},signal:AbortSignal.timeout(12000),redirect:'error'});
+   const response=await fetch(source.url,{headers:{Accept:'application/rss+xml','User-Agent':'GraceAndGather/1.0 (+https://www.graceandgather.online)'},signal:AbortSignal.timeout(12000),redirect:'error'});
    if(!response.ok)throw Error('publisher_http_'+response.status);
    const reader=response.body?.getReader();if(!reader)throw Error('empty_feed');const chunks:Uint8Array[]=[];let size=0;
    while(true){const {done,value}=await reader.read();if(done)break;size+=value.length;if(size>2_000_000){await reader.cancel();throw Error('feed_too_large');}chunks.push(value);}

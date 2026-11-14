@@ -13,6 +13,10 @@ import { label } from "../lib/labels";
 const policy = {
   en: [
     [
+      "Services we use",
+      "Grace & Gather is operated by Jessica Nascimento, an individual. Depending on the features you use, Apple supports sign-in and notifications, Expo helps deliver push notifications, Resend may send emails, LiveKit provides audio gatherings, Cloudflare hosts web content, and Supabase stores account and app data. With your permission, AI requests are handled by Alibaba Cloud as described below.",
+    ],
+    [
       "Community discussions",
       "Community posts and comments are visible to other members after review. If you agree to community AI, your posts, prayer requests and messages, including earlier ones, may be sent through Supabase to our external AI provider, Alibaba Cloud, for safety screening and translation. Translations are requested only when both the author and the viewer have agreed. Without permission, content remains in its original language and posts go to human review. You can change your choice in Preferences. AI can make mistakes; uncertain cases go to moderators.",
     ],
@@ -42,6 +46,10 @@ const policy = {
     ],
   ],
   pt: [
+    [
+      "Serviços que usamos",
+      "Grace & Gather é operado por Jessica Nascimento, pessoa física. Conforme os recursos utilizados, a Apple oferece acesso à conta e notificações, a Expo ajuda a enviar notificações, a Resend pode enviar emails, a LiveKit oferece encontros de áudio, a Cloudflare hospeda conteúdo web e o Supabase armazena dados da conta e do aplicativo. Com sua permissão, solicitações de IA são processadas pela Alibaba Cloud, conforme explicado abaixo.",
+    ],
     [
       "Discussões da comunidade",
       "Publicações e comentários ficam visíveis aos membros após revisão. Se você permitir a IA da comunidade, suas publicações, pedidos de oração e mensagens, inclusive os anteriores, podem ser enviados pelo Supabase ao nosso provedor externo de IA, Alibaba Cloud, para análise de segurança e tradução. As traduções são solicitadas apenas quando autor e leitor concordam. Sem permissão, o conteúdo fica no idioma original e as publicações vão para revisão humana. Você pode mudar sua escolha em Preferências. A IA pode errar; casos incertos vão aos moderadores.",
@@ -73,6 +81,10 @@ const policy = {
   ],
   es: [
     [
+      "Servicios que utilizamos",
+      "Grace & Gather está gestionado por Jessica Nascimento, persona física. Según las funciones que uses, Apple ofrece inicio de sesión y notificaciones, Expo ayuda a entregar notificaciones, Resend puede enviar correos, LiveKit ofrece reuniones de audio, Cloudflare aloja contenido web y Supabase almacena datos de la cuenta y la aplicación. Con tu permiso, Alibaba Cloud procesa las solicitudes de IA como se explica a continuación.",
+    ],
+    [
       "Conversaciones de la comunidad",
       "Las publicaciones y comentarios son visibles para los miembros tras su revisión. Si aceptas la IA de la comunidad, tus publicaciones, peticiones de oración y mensajes, incluidos los anteriores, pueden enviarse mediante Supabase a nuestro proveedor externo de IA, Alibaba Cloud, para revisión de seguridad y traducción. Las traducciones solo se solicitan si autor y lector han dado su permiso. Sin permiso, el contenido queda en su idioma original y las publicaciones pasan a revisión humana. Puedes cambiar tu elección en Preferencias. La IA puede equivocarse; los casos dudosos pasan a moderadores.",
     ],
@@ -102,6 +114,10 @@ const policy = {
     ],
   ],
   ru: [
+    [
+      "Используемые сервисы",
+      "Grace & Gather управляется Jessica Nascimento как физическим лицом. В зависимости от используемых функций Apple обеспечивает вход и уведомления, Expo помогает доставлять уведомления, Resend может отправлять письма, LiveKit предоставляет аудиовстречи, Cloudflare размещает веб-контент, а Supabase хранит данные аккаунта и приложения. С вашего разрешения запросы к ИИ обрабатывает Alibaba Cloud, как описано ниже.",
+    ],
     [
       "Обсуждения сообщества",
       "Публикации и комментарии видны участникам после проверки. Если вы разрешите ИИ сообщества, ваши публикации, молитвенные просьбы и сообщения, включая предыдущие, могут отправляться через Supabase внешнему провайдеру ИИ Alibaba Cloud для проверки безопасности и перевода. Перевод запрашивается только с согласия автора и читателя. Без согласия текст остаётся на исходном языке, а публикации проверяются модераторами. Вы можете изменить выбор в настройках. ИИ может ошибаться; сомнительные случаи рассматривают модераторы.",
