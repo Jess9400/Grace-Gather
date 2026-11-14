@@ -343,7 +343,7 @@ export default function Story() {
               .split(/\n\s*\n/)
               .filter(Boolean)
               .map((paragraph, index) => (
-                <Body key={index}>{paragraph}</Body>
+                <Body key={index} small={!!item.license && paragraph.startsWith(item.license)}>{paragraph}</Body>
               ))}
           </Card>
           {!!item.url && /^https:\/\//.test(item.url) && (
@@ -353,6 +353,13 @@ export default function Story() {
               onPress={() => void Linking.openURL(item.url!)}
             />
           )}
+          {!!item.license && !item.body.pt.includes(item.license) && <Body small>{item.license}</Body>}
+          {!!item.licenseUrl && /^https:\/\//.test(item.licenseUrl) && (
+            <External title={c("reuseTerms")} url={item.licenseUrl} />
+          )}
+          {item.resources?.filter(([, , url]) => /^https:\/\//.test(url)).map(([, title, url]) => (
+            <External key={url} title={title} url={url} />
+          ))}
         </>
       ) : item.origin === "publisher" ? (
         <>
