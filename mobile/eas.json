@@ -13,6 +13,20 @@
       "distribution": "internal",
       "node": "24.22.2"
     },
+    "testflight": {
+      "distribution": "store",
+      "environment": "preview",
+      "autoIncrement": true,
+      "node": "24.22.2",
+      "env": {
+        "TESTFLIGHT_BUILD": "true",
+        "EXPO_PROJECT_SLUG": "graceandgather",
+        "EXPO_PROJECT_OWNER": "jess1994s-team",
+        "EXPO_PUBLIC_EAS_PROJECT_ID": "84bb1fb4-945a-4071-b317-83f2bdd56382",
+        "APPLE_BUNDLE_ID": "com.graceandgather.ios",
+        "EXPO_PUBLIC_APPLE_SIGN_IN_ENABLED": "true"
+      }
+    },
     "production": {
       "autoIncrement": true,
       "node": "24.22.2",
@@ -22,6 +36,12 @@
     }
   },
   "submit": {
+    "testflight": {
+      "ios": {
+        "ascAppId": "6833897169",
+        "appleTeamId": "G33RFPTNBA"
+      }
+    },
     "production": {}
   }
 }
