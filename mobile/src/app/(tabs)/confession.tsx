@@ -48,11 +48,11 @@ import Recorder from "../../components/Recorder";
 import AudioPlayback from "../../components/AudioPlayback";
 import ConfessionAudio from "../../components/ConfessionAudio";
 import ConfessionArrival, {
+  ConfessionBackground,
   ConfessionLattice,
 } from "../../components/ConfessionArrival";
 import { confessionColors as room } from "../../lib/confession-theme";
 import { communityCopy } from "../../lib/community-copy";
-import { useRoomStrip } from "../../components/ChurchStrip";
 type Page =
   "room" | "share" | "list" | "mine" | "detail" | "success" | "review";
 const themes = [
@@ -106,7 +106,6 @@ export default function ConfessionRoom() {
     [success, setSuccess] = useState("share"),
     [support, setSupport] = useState(false);
   // The first page opens with its corner of the church across the top.
-  const strip = useRoomStrip("confession");
   const enterRoom = useCallback(
     (record = false) => {
       setAudioOpen(record);
@@ -335,9 +334,7 @@ export default function ConfessionRoom() {
   return (
     <>
       <StatusBar
-        style={
-          page === "share" || (page === "room" && strip) ? "light" : "dark"
-        }
+        style="light"
       />
       <View
         style={{ flex: 1 }}
@@ -349,7 +346,7 @@ export default function ConfessionRoom() {
           <Screen
             quiet={page === "share"}
             keyboardAware={page === "share"}
-            place={page === "room" ? "confession" : undefined}
+            background={page === "room" ? <ConfessionBackground /> : undefined}
           >
             {page !== "room" && (
               <TextAction
