@@ -67,6 +67,7 @@ export function Screen({
   headerAction,
   scrollRef,
   place,
+  background,
 }: {
   children: React.ReactNode;
   back?: boolean;
@@ -76,6 +77,8 @@ export function Screen({
   scrollRef?: React.RefObject<React.ComponentRef<typeof ScrollView> | null>;
   // Makes the screen one of the church's rooms, with its strip on top.
   place?: RoomPlace;
+  /** Optional full-screen room artwork, behind the content and controls. */
+  background?: React.ReactNode;
 }) {
   const { profile } = useApp();
   const theme = useContext(SurfaceContext);
@@ -90,6 +93,7 @@ export function Screen({
       style={[s.safe, theme && { backgroundColor: theme.background }]}
       edges={strip ? ["left", "right"] : ["top", "left", "right"]}
     >
+      {background}
       <KeyboardAvoidingView
         style={{ flex: 1 }}
         enabled={keyboardAware && Platform.OS === "android"}
