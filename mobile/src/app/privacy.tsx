@@ -30,7 +30,7 @@ const policy = {
     ],
     [
       "Your choices",
-      "Microphone access is requested when you record. Local reminders and gathering push notifications require permission. Email updates require consent and a verified address; email delivery is not active in this preview. No precise location, advertising identifier or contact list is requested. External publishers and charities apply their own privacy policies. Audio gatherings, when configured, use LiveKit; other participants can hear anything you choose to say.",
+      "Microphone access is requested when you record. Local reminders and gathering push notifications require permission. Optional email updates require consent and a verified address. No precise location, advertising identifier or contact list is requested. External publishers and charities apply their own privacy policies. Audio gatherings, when configured, use LiveKit; other participants can hear anything you choose to say.",
     ],
     [
       "Care and moderation",
@@ -38,7 +38,7 @@ const policy = {
     ],
     [
       "Questions and rights",
-      "Contact Grace & Gather at hello@graceandgather.com to request help, access, correction or deletion of account data. You can export an encrypted local journal, delete entries and remove all device data in Account. This early-access policy must be reviewed against the final production providers and retention settings before public launch.",
+      "Contact Grace & Gather at hello@graceandgather.online to request help, access, correction or deletion of account data. You can export an encrypted local journal, delete entries and remove all device data in Account. This early-access policy must be reviewed against the final production providers and retention settings before public launch.",
     ],
   ],
   pt: [
@@ -60,7 +60,7 @@ const policy = {
     ],
     [
       "Suas escolhas",
-      "Pedimos acesso ao microfone ao gravar. Lembretes e notificações exigem permissão. Emails exigem consentimento e endereço verificado; o envio não está ativo nesta prévia. Não solicitamos localização precisa, identificador de publicidade ou contatos. Sites externos têm suas próprias políticas. Encontros de áudio, quando configurados, usam LiveKit; outros participantes ouvem o que você decidir compartilhar.",
+      "Pedimos acesso ao microfone ao gravar. Lembretes e notificações exigem permissão. Atualizações opcionais por email exigem consentimento e endereço verificado. Não solicitamos localização precisa, identificador de publicidade ou contatos. Sites externos têm suas próprias políticas. Encontros de áudio, quando configurados, usam LiveKit; outros participantes ouvem o que você decidir compartilhar.",
     ],
     [
       "Cuidado e moderação",
@@ -68,7 +68,7 @@ const policy = {
     ],
     [
       "Dúvidas e direitos",
-      "Contate Grace & Gather em hello@graceandgather.com para solicitar ajuda, acesso, correção ou exclusão de dados. Em Conta, você pode exportar uma cópia criptografada ou excluir dados locais. Esta política inicial precisa ser revisada conforme os provedores e prazos de retenção finais antes do lançamento público.",
+      "Contate Grace & Gather em hello@graceandgather.online para solicitar ajuda, acesso, correção ou exclusão de dados. Em Conta, você pode exportar uma cópia criptografada ou excluir dados locais. Esta política inicial precisa ser revisada conforme os provedores e prazos de retenção finais antes do lançamento público.",
     ],
   ],
   es: [
@@ -90,7 +90,7 @@ const policy = {
     ],
     [
       "Tus decisiones",
-      "Pedimos permiso de micrófono al grabar. Recordatorios y notificaciones requieren permiso. Los correos requieren consentimiento y dirección verificada; no están activos en esta vista previa. No pedimos ubicación precisa, identificador publicitario ni contactos. Los sitios externos tienen sus propias políticas. Las reuniones de audio usan LiveKit cuando está configurado; los participantes oyen lo que decidas compartir.",
+      "Pedimos permiso de micrófono al grabar. Recordatorios y notificaciones requieren permiso. Las novedades opcionales por correo requieren consentimiento y una dirección verificada. No pedimos ubicación precisa, identificador publicitario ni contactos. Los sitios externos tienen sus propias políticas. Las reuniones de audio usan LiveKit cuando está configurado; los participantes oyen lo que decidas compartir.",
     ],
     [
       "Cuidado y moderación",
@@ -98,7 +98,7 @@ const policy = {
     ],
     [
       "Preguntas y derechos",
-      "Contacta con Grace & Gather en hello@graceandgather.com para pedir ayuda, acceso, corrección o eliminación de datos. En Cuenta puedes exportar una copia cifrada o borrar datos locales. Esta política inicial debe revisarse según proveedores y retención finales antes del lanzamiento público.",
+      "Contacta con Grace & Gather en hello@graceandgather.online para pedir ayuda, acceso, corrección o eliminación de datos. En Cuenta puedes exportar una copia cifrada o borrar datos locales. Esta política inicial debe revisarse según proveedores y retención finales antes del lanzamiento público.",
     ],
   ],
   ru: [
@@ -120,7 +120,7 @@ const policy = {
     ],
     [
       "Ваш выбор",
-      "Доступ к микрофону запрашивается, когда вы начинаете запись. Для напоминаний и уведомлений нужно ваше разрешение. Для писем нужны согласие и подтверждённый адрес; в этой версии письма не отправляются. Точная геолокация, рекламный идентификатор и контакты не запрашиваются. У внешних сайтов свои политики конфиденциальности. Аудиовстречи, если они подключены, проходят через LiveKit; другие участники слышат всё, что вы решите сказать.",
+      "Доступ к микрофону запрашивается, когда вы начинаете запись. Для напоминаний и уведомлений нужно ваше разрешение. Для необязательных писем нужны согласие и подтверждённый адрес. Точная геолокация, рекламный идентификатор и контакты не запрашиваются. У внешних сайтов свои политики конфиденциальности. Аудиовстречи, если они подключены, проходят через LiveKit; другие участники слышат всё, что вы решите сказать.",
     ],
     [
       "Забота и модерация",
@@ -128,7 +128,7 @@ const policy = {
     ],
     [
       "Вопросы и ваши права",
-      "Чтобы получить помощь, доступ к данным, исправить или удалить их, напишите в Grace & Gather по адресу hello@graceandgather.com. В разделе «Аккаунт» можно экспортировать зашифрованную копию или удалить данные с устройства. Это предварительная версия политики: перед публичным запуском её нужно сверить с окончательным выбором провайдеров и сроками хранения.",
+      "Чтобы получить помощь, доступ к данным, исправить или удалить их, напишите в Grace & Gather по адресу hello@graceandgather.online. В разделе «Аккаунт» можно экспортировать зашифрованную копию или удалить данные с устройства. Это предварительная версия политики: перед публичным запуском её нужно сверить с окончательным выбором провайдеров и сроками хранения.",
     ],
   ],
 };
@@ -154,8 +154,8 @@ export default function Privacy() {
       ))}
       <Body>{copy(profile.language, "supportBoundary")}</Body>
       <External
-        title="hello@graceandgather.com"
-        url="mailto:hello@graceandgather.com"
+        title="hello@graceandgather.online"
+        url="mailto:hello@graceandgather.online"
       />
     </Screen>
   );

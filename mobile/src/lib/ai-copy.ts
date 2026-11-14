@@ -7,10 +7,10 @@ const words = {
     "Подсказки ИИ — по желанию",
   ],
   consent: [
-    "With your permission, your journal writing, Bible study questions and language and tradition preferences are sent to an external AI service. Recordings are sent only when you choose Transcribe. Processing may occur outside your country. AI is not emergency care. See Privacy & support for provider details.",
-    "Com sua permissão, seu diário, perguntas sobre a Bíblia e preferências de idioma e tradição são enviados a um serviço externo de IA. Áudios só são enviados ao escolher Transcrever. O processamento pode ocorrer fora do seu país. A IA não é atendimento de emergência. Veja os detalhes do provedor em Privacidade e suporte.",
-    "Con tu permiso, tu diario, preguntas bíblicas y preferencias de idioma y tradición se envían a un servicio externo de IA. Los audios solo se envían al elegir Transcribir. El procesamiento puede ocurrir fuera de tu país. La IA no es atención de emergencia. Consulta los detalles del proveedor en Privacidad y ayuda.",
-    "С вашего разрешения дневник, вопросы о Библии и настройки языка и традиции отправляются внешней службе ИИ. Аудио отправляется только при выборе расшифровки. Обработка может проходить за пределами вашей страны. ИИ не является экстренной помощью. Сведения о провайдере — в разделе конфиденциальности.",
+    "With your permission, your journal writing, Bible study questions and language and tradition preferences are sent through Supabase to our AI provider, Alibaba Cloud. Recordings are sent only when you choose Transcribe. Processing may occur outside your country. AI is not emergency care. You can withdraw permission in Preferences.",
+    "Com sua permissão, seu diário, perguntas sobre a Bíblia e preferências de idioma e tradição são enviados pelo Supabase ao nosso provedor de IA, Alibaba Cloud. Áudios só são enviados ao escolher Transcrever. O processamento pode ocorrer fora do seu país. A IA não é atendimento de emergência. Você pode retirar a permissão em Preferências.",
+    "Con tu permiso, tu diario, preguntas bíblicas y preferencias de idioma y tradición se envían mediante Supabase a nuestro proveedor de IA, Alibaba Cloud. Los audios solo se envían al elegir Transcribir. El procesamiento puede ocurrir fuera de tu país. La IA no es atención de emergencia. Puedes retirar tu permiso en Preferencias.",
+    "С вашего разрешения дневник, вопросы о Библии и настройки языка и традиции отправляются через Supabase нашему провайдеру ИИ Alibaba Cloud. Аудио отправляется только при выборе расшифровки. Обработка может проходить за пределами вашей страны. ИИ не является экстренной помощью. Разрешение можно отозвать в настройках.",
   ],
   agree: [
     "I agree: use AI for this entry",

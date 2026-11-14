@@ -21,7 +21,7 @@ function Routes() {
         <Body>{error}</Body>
         <External
           title="Contact Grace & Gather"
-          url="mailto:hello@graceandgather.com"
+          url="mailto:hello@graceandgather.online"
         />
       </Screen>
     );
