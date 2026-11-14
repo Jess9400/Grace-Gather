@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Animated, AppState, Image, Pressable, StyleSheet, Text, View } from "react-native";
+import { Animated, AppState, Image, StyleSheet, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect } from "expo-router";
 import { Asset } from "expo-asset";
-import { artworkBox, artworkHasTourTarget, artworkPlaceAt, artworkPoints, artworkStage, type ChurchArt } from "../lib/church-art";
+import { artworkHasTourTarget, artworkPoints, artworkStage, type ChurchArt } from "../lib/church-art";
 import type { ChurchPlace } from "../lib/church-scene";
 import { setChurchSnapshot } from "../lib/church-room";
 import { useReducedMotion } from "../lib/use-reduced-motion";
@@ -22,9 +22,10 @@ const NIGHT_ART = {
 };
 const TOUR_ORDER: ChurchPlace[] = ["pray", "confession", "gather", "bible", "candles", "pews", "wreath"];
 
-/** The approved sanctuary artwork, with the existing places and tour on top. */
+/** The approved sanctuary artwork, with the guided tour on top. The picture
+ * itself does not answer taps: places are reached from the tabs and buttons. */
 export default function LivingChurchScene({
-  art, places, night, paused, tour, labelsEnabled, labelsAlways, onPlace,
+  art, places, night, paused, tour,
   onTourDone, onTourPlace, onFailure, accessibilityLabel,
 }: {
   art: ChurchArt;
@@ -32,9 +33,6 @@ export default function LivingChurchScene({
   night: boolean;
   paused: boolean;
   tour: boolean;
-  labelsEnabled: boolean;
-  labelsAlways: boolean;
-  onPlace: (place: ChurchPlace, point?: { x: number; y: number }) => void;
   onTourDone: () => void;
   onTourPlace: (place: ChurchPlace | null) => void;
   onFailure: () => void;
@@ -98,14 +96,9 @@ export default function LivingChurchScene({
     return () => { cancelled = true; if (tourTimer.current) clearTimeout(tourTimer.current); shown.stopAnimation(); setTouring(null); };
   }, [keys, onTourDone, onTourPlace, ready, reduced, shown, tour]);
 
-  const openAt = (x: number, y: number) => {
-    const place = artworkPlaceAt(art, size.width, size.height, x, y, places.map((p) => p.key));
-    if (place) onPlace(place, points[place]);
-  };
   const candidate = touring && artworkHasTourTarget(art, touring) ? points[touring] : undefined;
   // On wide screens, cover-cropping may put a real object off-screen.
   const current = candidate && candidate.x >= 24 && candidate.x <= size.width - 24 && candidate.y >= 66 && candidate.y <= size.height - 24 ? candidate : undefined;
-  const named = labelsAlways && labelsEnabled && !tour;
   return (
     <View accessibilityLabel={accessibilityLabel} style={styles.scene}
       onLayout={(e) => setSize({ width: e.nativeEvent.layout.width, height: e.nativeEvent.layout.height })}>
@@ -116,17 +109,6 @@ export default function LivingChurchScene({
       {ready && <LivingArtwork key={artKey} art={art} source={source} running={focused && active && !paused} night={night} still={reduced} />}
       {ready && size.width > 0 && (
         <>
-          <Pressable accessible={false} importantForAccessibility="no" style={StyleSheet.absoluteFill}
-            onPress={(event) => openAt(event.nativeEvent.locationX, event.nativeEvent.locationY)} />
-          {places.map((place) => {
-            const box = artworkBox(art, place.key, size.width, size.height);
-            return <Pressable key={place.key} accessibilityRole="button" accessibilityLabel={place.label}
-              accessibilityHint={place.hint} onPress={() => onPlace(place.key, points[place.key])}
-              style={[styles.accessiblePlace, { left: box.left, top: box.top, width: box.width, height: box.height }]}
-              pointerEvents={named ? "auto" : "box-none"}>
-              {named && <Text numberOfLines={1} style={styles.name}>{place.label}</Text>}
-            </Pressable>;
-          })}
           {tour && current && <Animated.View pointerEvents="none" style={[styles.pointer, { left: current.x - 24, top: current.y - 66, opacity: shown }]}>
             <Ionicons name="arrow-down" size={28} color="#F3D39D" />
           </Animated.View>}
@@ -140,7 +122,5 @@ const styles = StyleSheet.create({
   scene: { position: "absolute", top: 0, right: 0, bottom: 0, left: 0, overflow: "hidden", backgroundColor: "#211B16" },
   artwork: { position: "absolute", top: 0, left: 0, width: "100%", height: "100%" },
   artStage: { position: "absolute", top: 0, bottom: 0, overflow: "hidden" },
-  accessiblePlace: { position: "absolute", alignItems: "center", justifyContent: "center" },
-  name: { color: "#FFF8E9", backgroundColor: "rgba(48,44,40,0.82)", borderRadius: 15, overflow: "hidden", paddingHorizontal: 12, paddingVertical: 6 },
   pointer: { position: "absolute", width: 48, height: 48, borderRadius: 24, borderWidth: 1, borderColor: "#D6AE6D", backgroundColor: "rgba(80,51,65,0.94)", alignItems: "center", justifyContent: "center" },
 });
