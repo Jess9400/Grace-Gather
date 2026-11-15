@@ -21,7 +21,7 @@ const NIGHT_ART = {
   orthodox: require("../../assets/church/scenes/orthodox-night.jpg"),
   protestant: require("../../assets/church/scenes/protestant-night.jpg"),
 };
-const TOUR_ORDER: ChurchPlace[] = ["pray", "confession", "gather", "bible", "candles", "pews", "journal", "wreath"];
+const TOUR_ORDER: ChurchPlace[] = ["pray", "confession", "gather", "bible", "candles", "pews", "wreath"];
 
 /** The approved sanctuary artwork, with the guided tour on top. The picture
  * itself does not answer taps: places are reached from the tabs and buttons. */

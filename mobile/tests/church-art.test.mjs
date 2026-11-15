@@ -19,18 +19,23 @@ test('the tour does not point at invented objects in the artwork', () => {
   assert.equal(artworkHasTourTarget('protestant', 'bible'), true);
 });
 
-test('tour targets the piano and separates the left and right pews', () => {
+test('the single journal and quiet stop points to the right bench in every church', () => {
   const protestant = artworkPoints('protestant', 869, 1810);
   assert.ok(protestant.confession.x / 869 < 0.2);
-  assert.ok(protestant.pews.x / 869 < 0.3);
-  assert.ok(protestant.journal.x / 869 > 0.7);
-  assert.ok(artworkPoints('catholic', 869, 1810).pews.x / 869 > 0.65);
+  for (const art of ['catholic', 'orthodox', 'protestant']) {
+    assert.ok(artworkPoints(art, 869, 1810).pews.x / 869 > 0.65, art);
+    for (const [width, height] of [[320, 568], [375, 812], [390, 844], [430, 932]]) {
+      const point = artworkPoints(art, width, height).pews;
+      assert.ok(point.x >= 24 && point.x <= width - 24 && point.y >= 66 && point.y <= height - 24, `${art}: ${width}x${height}`);
+    }
+  }
 });
 
 test('Orthodox tour points to the central doors and the lectern', () => {
   const points = artworkPoints('orthodox', 869, 1810);
   assert.ok(Math.abs(points.confession.x / 869 - 0.495) < 0.01);
   assert.ok(points.bible.x / 869 > 0.8);
+  assert.ok(points.gather.x / 869 < 0.3);
 });
 
 test('the three sanctuary artworks cover phone and wide screens without empty edges', () => {

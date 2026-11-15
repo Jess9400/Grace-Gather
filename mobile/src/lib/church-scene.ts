@@ -41,15 +41,14 @@ const SUN_DIR: Vec3 = (() => {
 })();
 
 export type ChurchPlace =
-  "candles" | "confession" | "bible" | "gather" | "pews" | "journal" | "wreath" | "pray";
+  "candles" | "confession" | "bible" | "gather" | "pews" | "wreath" | "pray";
 // The top of each object: a label with a small arrow points down at it.
 const ANCHORS: Record<ChurchPlace, Vec3> = {
   candles: [-1.2, -0.45, -3.0],
   confession: [1.28, 0.42, -3.66],
   bible: [-0.72, -0.32, -4.3],
   gather: [-1.75, -0.08, -6.2],
-  pews: [-0.6, -0.52, -0.5],
-  journal: [0.6, -0.52, -0.5],
+  pews: [0.6, -0.52, -0.5],
   wreath: [0.55, -0.42, -3.75],
   pray: [-1.16, 0.3, -3.7],
 };
@@ -983,10 +982,6 @@ export const PLACE_BOXES: Record<ChurchPlace, [Vec3, Vec3]> = {
   ],
   pews: [
     [-1.62, FLOOR, -1.6],
-    [1.62, -0.48, 2.5],
-  ],
-  journal: [
-    [0.2, FLOOR, -1.6],
     [1.62, -0.48, 2.5],
   ],
   wreath: [
