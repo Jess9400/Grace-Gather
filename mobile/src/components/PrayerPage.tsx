@@ -4,6 +4,7 @@ import FriendUnreadNotice from "./FriendUnreadNotice";
 import ActivityNotices from "./ActivityNotices";
 import MemberPhoneAlerts from "./MemberPhoneAlerts";
 import PrayerSchedule from "../components/PrayerSchedule";
+import PreviewDialog from "./PreviewDialog";
 import HelpLine from "./HelpLine";
 import { Ionicons } from "@expo/vector-icons";
 import { Pressable } from "react-native";
@@ -557,8 +558,9 @@ function PrayerRoom({
               onPress={() => router.push("/profile")}
             />
           )}
-          {preview === fingerprint && (
-            <Card>
+          <PreviewDialog visible={preview === fingerprint} busy={busy} onClose={() => setPreview("")} closeLabel={tr("Close preview")}>
+              <Heading>{tr("Preview request")}</Heading>
+              <Notice text={tr(error || scheduleError)} />
               <Body small>
                 {anonymous ? tr("Anonymous member") : profile.name}
               </Body>
@@ -566,12 +568,13 @@ function PrayerRoom({
               <Body>{reason.trim()}</Body>
               <Body>{when ? format(when) : tr("Pray whenever you can")}</Body>
               <Button
-                title={tr("Share my prayer request")}
+                title={tr(busy ? "Sharing…" : "Share my prayer request")}
                 disabled={busy}
+                loading={busy}
                 onPress={() => void publish()}
               />
-            </Card>
-          )}
+              <Button secondary title={tr("Edit")} disabled={busy} onPress={() => setPreview("")} />
+          </PreviewDialog>
           <Button
             secondary
             title={tr("Cancel")}

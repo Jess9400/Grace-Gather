@@ -20,7 +20,11 @@ import {
 import { TextAction } from "../../components/CommunityControls";
 import { testimony, Testimony } from "../../lib/discover";
 import { useApp } from "../../lib/state";
+import { useInterfaceCopy } from "../../lib/use-interface-copy";
+import PreviewDialog from "../../components/PreviewDialog";
 export default function EditTestimony() {
+  const submitting = useRef(false);
+  const tr = useInterfaceCopy();
   const { id } = useLocalSearchParams<{ id?: string }>(),
     { profile } = useApp(),
     t = (k: string) => testimonyCopy(profile.language, k);
@@ -63,6 +67,8 @@ export default function EditTestimony() {
     (anonymous || name.trim().length > 0) &&
     tags.split(",").filter((x) => x.trim()).length <= 5;
   async function save(publish: boolean) {
+    if (submitting.current) return;
+    submitting.current = true;
     setBusy(true);
     setError("");
     try {
@@ -87,6 +93,7 @@ export default function EditTestimony() {
     } catch (e) {
       setError((e as Error).message);
     } finally {
+      submitting.current = false;
       setBusy(false);
     }
   }
@@ -103,7 +110,7 @@ export default function EditTestimony() {
     );
   return (
     <Screen back keyboardAware scrollRef={scroll}>
-      <Heading>{t(preview ? "preview" : draft ? "edit" : "share")}</Heading>
+      <Heading>{t(draft ? "edit" : "share")}</Heading>
       <Notice text={error} />
       {!signedIn && (
         <Button
@@ -112,8 +119,9 @@ export default function EditTestimony() {
           onPress={() => router.push("/sign-in")}
         />
       )}
-      {preview ? (
-        <>
+      <PreviewDialog visible={preview} busy={busy} onClose={() => { setPreview(false); setAgree(false); }} closeLabel={tr("Close preview")}>
+          <Heading>{t("preview")}</Heading>
+          <Notice text={error} />
           <Card>
             <Body small>
               {t("label")} · {anonymous ? t("anonymousName") : name}
@@ -153,7 +161,8 @@ export default function EditTestimony() {
             </Text>
           </Pressable>
           <Button
-            title={t("publish")}
+            title={busy ? tr("Sharing…") : t("publish")}
+            loading={busy}
             disabled={!agree || busy}
             onPress={() => void save(true)}
           />
@@ -165,8 +174,7 @@ export default function EditTestimony() {
               setAgree(false);
             }}
           />
-        </>
-      ) : (
+      </PreviewDialog>
         <>
           <Body small>{t("intro")}</Body>
           {draft?.status === "published" && (
@@ -212,9 +220,6 @@ export default function EditTestimony() {
             onPress={() => {
               setError("");
               setPreview(true);
-              requestAnimationFrame(() =>
-                scroll.current?.scrollTo({ y: 0, animated: false }),
-              );
             }}
           />
           <TextAction
@@ -222,8 +227,8 @@ export default function EditTestimony() {
             disabled={!valid || busy}
             onPress={() => void save(false)}
           />
+          {busy && <Body small>{tr("Saving…")}</Body>}
         </>
-      )}
     </Screen>
   );
 }

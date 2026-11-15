@@ -143,6 +143,7 @@ export default function Diary() {
             }
             onPress={() => void submit()}
             disabled={busy || recording}
+            loading={busy}
           />
         </View>
       }

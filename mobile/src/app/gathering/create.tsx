@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { router } from "expo-router";
 import {
   Screen,
@@ -17,7 +17,10 @@ import { backend } from "../../lib/backend";
 import { communityCopy } from "../../lib/community-copy";
 import PrayerSchedule from "../../components/PrayerSchedule";
 import { Disclosure } from "../../components/CommunityControls";
+import { useInterfaceCopy } from "../../lib/use-interface-copy";
 export default function CreateGathering() {
+  const submitting = useRef(false);
+  const tr = useInterfaceCopy();
   const { profile } = useApp(),
     c = (k: string) => communityCopy(profile.language, k);
   const [title, setTitle] = useState(""),
@@ -45,6 +48,8 @@ export default function CreateGathering() {
       .then((r) => setConfigured(r.data?.configured === true));
   }, []);
   async function create() {
+    if (submitting.current) return;
+    submitting.current = true;
     setBusy(true);
     setError("");
     try {
@@ -70,6 +75,7 @@ export default function CreateGathering() {
     } catch (e) {
       setError((e as Error).message);
     } finally {
+      submitting.current = false;
       setBusy(false);
     }
   }
@@ -212,7 +218,8 @@ export default function CreateGathering() {
       />
       <Body small>{c("gatheringReminderNote")}</Body>
       <Button
-        title={c("createGathering")}
+        title={busy ? tr("Saving…") : c("createGathering")}
+        loading={busy}
         disabled={
           busy ||
           title.trim().length < 3 ||

@@ -227,12 +227,14 @@ export function Button({
   onPress,
   secondary = false,
   disabled = false,
+  loading = false,
   accessibilityLabel,
 }: {
   title: string;
   onPress: () => void;
   secondary?: boolean;
   disabled?: boolean;
+  loading?: boolean;
   accessibilityLabel?: string;
 }) {
   const surface = useSurfaceColors();
@@ -241,8 +243,8 @@ export function Button({
     <Pressable
       accessibilityRole="button"
       accessibilityLabel={accessibilityLabel ?? title}
-      accessibilityState={{ disabled }}
-      disabled={disabled}
+      accessibilityState={{ disabled: disabled || loading, busy: loading }}
+      disabled={disabled || loading}
       onPress={onPress}
       style={({ pressed }) => [
         s.button,
@@ -251,6 +253,7 @@ export function Button({
         { opacity: disabled ? 0.45 : pressed ? 0.75 : 1 },
       ]}
     >
+      {loading && <ActivityIndicator size="small" color={secondary ? surface.ink : theme?.accentInk ?? colors.white} style={{ marginBottom: 6 }} />}
       <Text
         style={[
           s.buttonText,

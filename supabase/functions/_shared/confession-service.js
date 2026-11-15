@@ -19,7 +19,7 @@ export async function confessionService({store,user,moderator=false},action,b={}
   return r.kind==='confession'&&r.status==='approved'&&!r.closed&&!reply&&r.claimed_by===user&&r.claimed_until>Date.now()&&!await store.blocked(user,r.author);
  }
  if(action==='status')return {moderator,reviewRequired:true};
- if(action==='list'){if(!['en','pt','es','ru'].includes(b.language))fail('invalid');const rows=await store.list(user,b.language);return {reserved:(await store.reserved(user)).map(expose),items:rows.map(({id,theme,response_type,language,audio_type})=>({id,theme,responseType:response_type,language,hasAudio:!!audio_type}))};}
+ if(action==='list'){if(!['en','pt','es','ru'].includes(b.language))fail('invalid');const [rows,reserved]=await Promise.all([store.list(user,b.language),store.reserved(user)]);return {reserved:reserved.map(expose),items:rows.map(({id,theme,response_type,language,audio_type})=>({id,theme,responseType:response_type,language,hasAudio:!!audio_type}))};}
  if(action==='mine')return {items:(await store.mine(user)).map(expose)};
  if(action==='queue') {if(!moderator)fail('forbidden',403);await store.audit(user,'queue_view',null,'');return {items:(await store.queue()).map(expose),reports:await store.reports()};}
  if(action==='open'){

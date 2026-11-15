@@ -2,6 +2,22 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { confessionService } from '../../supabase/functions/_shared/confession-service.js';
 
+test('comfort list fetches available and reserved items together without exposing authors', { timeout: 2000 }, async () => {
+  let signalReserved;
+  const reservedStarted = new Promise(resolve => { signalReserved = resolve; });
+  const store = {
+    list: async (user, language) => {
+      assert.equal(user, 'listener');
+      assert.equal(language, 'pt');
+      await reservedStarted;
+      return [{ id: 'case-1', author: 'private', body: 'private', theme: 'grief', response_type: 'listen', language: 'pt', audio_type: null }];
+    },
+    reserved: async user => { assert.equal(user, 'listener'); signalReserved(); return []; },
+  };
+  const result = await confessionService({ store, user: 'listener' }, 'list', { language: 'pt' });
+  assert.deepEqual(result, { reserved: [], items: [{ id: 'case-1', theme: 'grief', responseType: 'listen', language: 'pt', hasAudio: false }] });
+});
+
 test('a listener can block an anonymous confession author without exposing identity', async () => {
   const row = { id:'case-1', kind:'confession', author:'writer', status:'approved', closed:false, claimed_by:'listener', claimed_until:Date.now()+60000 };
   const blocks = [];
