@@ -360,10 +360,7 @@ function CommunityScreen({
             "Sign in to start your discussion. Your topic will wait here until you return.",
           )}
         </Body>
-        <Button
-          title={tr("Sign in")}
-          onPress={() => router.push("/sign-in")}
-        />
+        <Button title={tr("Sign in")} onPress={() => router.push("/sign-in")} />
       </Screen>
     );
   }
@@ -935,10 +932,10 @@ function CommunityScreen({
                   )
                 : automatic
                   ? tr(
-                      "Your post is checked before it appears. With your permission, AI may help; otherwise, our team reviews it.",
+                      "Members can read and share approved discussions. Posts are reviewed before sharing; with your permission, AI may help. Your journal is not attached.",
                     )
                   : tr(
-                      "Automatic moderation is not active. This submission stays private. Your diary and profile are never attached.",
+                      "Members can read and share approved discussions. Your submission stays private until review; your journal is not attached.",
                     )}
             </Body>
             <Button
@@ -959,11 +956,6 @@ function CommunityScreen({
                 )}
                 <Body>{title.trim()}</Body>
                 <Body>{body.trim()}</Body>
-                <Body small>
-                  {tr(
-                    "Members can read and share an approved discussion. Your journal is not attached. Publication may require moderation.",
-                  )}
-                </Body>
               </Card>
             )}
             <Button

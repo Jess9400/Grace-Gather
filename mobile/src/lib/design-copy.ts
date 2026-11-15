@@ -45,10 +45,10 @@ const words = {
     "Ответьте по-доброму.",
   ],
   audienceSummary: [
-    "Anonymous to community listeners · One response",
-    "Anônimo para ouvintes da comunidade · Uma resposta",
-    "Anónimo para oyentes de la comunidad · Una respuesta",
-    "Анонимно для слушателей сообщества · Один ответ",
+    "Anonymous to listeners · Linked to your account for moderation · One response",
+    "Anônimo para ouvintes · Vinculado à conta para moderação · Uma resposta",
+    "Anónimo para oyentes · Vinculado a tu cuenta para moderación · Una respuesta",
+    "Анонимно для слушателей · Связано с аккаунтом для модерации · Один ответ",
   ],
   communityTools: [
     "Community tools",

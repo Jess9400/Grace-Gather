@@ -7,6 +7,7 @@ import { communityCopy } from "../lib/community-copy";
 import { storyText } from "../lib/discover";
 import { refreshPrayerBadges } from "../lib/prayers";
 import type { Localized } from "../lib/content";
+import { Ionicons } from "@expo/vector-icons";
 type Reminder = {
   id: string;
   gathering_id: string;
@@ -15,12 +16,23 @@ type Reminder = {
   is_read: boolean;
   host_name: string;
 };
-export default function GatheringReminders() {
+export default function GatheringReminders({
+  compact = false,
+  onLoadError,
+  retry = 0,
+}: {
+  compact?: boolean;
+  onLoadError?: (failed: boolean) => void;
+  retry?: number;
+}) {
   const { profile } = useApp();
   const c = (key: string) => communityCopy(profile.language, key);
   const [items, setItems] = useState<Reminder[]>([]);
   const [error, setError] = useState(false);
   const [busy, setBusy] = useState(false);
+  useEffect(() => {
+    onLoadError?.(error);
+  }, [error, onLoadError]);
   const load = useCallback(async () => {
     const result = await backend?.rpc("gathering_notifications");
     if (!result || result.error) {
@@ -33,14 +45,18 @@ export default function GatheringReminders() {
   useEffect(() => {
     let active = true;
     const update = async () => {
-      const result = await backend?.rpc("gathering_notifications");
-      if (!active) return;
-      if (!result || result.error) {
-        setError(true);
-        return;
+      try {
+        const result = await backend?.rpc("gathering_notifications");
+        if (!active) return;
+        if (!result || result.error) {
+          setError(true);
+          return;
+        }
+        setItems(result.data?.items ?? []);
+        setError(false);
+      } catch {
+        if (active) setError(true);
       }
-      setItems(result.data?.items ?? []);
-      setError(false);
     };
     void update();
     const timer = setInterval(() => void update(), 30000);
@@ -48,7 +64,7 @@ export default function GatheringReminders() {
       active = false;
       clearInterval(timer);
     };
-  }, []);
+  }, [retry]);
   async function read(id: string) {
     setBusy(true);
     try {
@@ -68,8 +84,8 @@ export default function GatheringReminders() {
   }
   return (
     <>
-      <Subheading>{c("gatheringReminders")}</Subheading>
-      {error && (
+      {!compact && <Subheading>{c("gatheringReminders")}</Subheading>}
+      {error && !onLoadError && (
         <>
           <Notice text={c("remindersLoadError")} />
           <Button secondary title={c("retry")} onPress={() => void load()} />
@@ -77,7 +93,11 @@ export default function GatheringReminders() {
       )}
       {items.map((item) => (
         <Card key={item.id}>
-          <Body small>{c("sessionSoon")}</Body>
+          <Body small>
+            <Ionicons name="calendar-outline" size={15} accessible={false} />
+            {"  "}
+            {c("sessionSoon")}
+          </Body>
           <Body>{storyText(item.title, profile.language)}</Body>
           <Body small>
             {new Date(item.starts_at).toLocaleString(profile.language, {
@@ -105,7 +125,7 @@ export default function GatheringReminders() {
           )}
         </Card>
       ))}
-      {!error && !items.length && (
+      {!compact && !error && !items.length && (
         <Body small>{c("noGatheringReminders")}</Body>
       )}
     </>

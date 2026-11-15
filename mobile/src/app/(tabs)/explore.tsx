@@ -136,7 +136,13 @@ export default function Explore() {
               onPress={() => router.push("/testimonies/edit")}
             />
           </View>
-          <Notice text={feed.error || reactions.error} />
+          <Notice
+            text={
+              feed.error && visibleStories.length
+                ? tr("Could not refresh. Showing earlier stories.")
+                : feed.error || reactions.error
+            }
+          />
           {!!feed.error && (
             <Button
               secondary

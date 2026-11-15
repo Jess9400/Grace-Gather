@@ -5,9 +5,10 @@ import ActivityNotices from "./ActivityNotices";
 import MemberPhoneAlerts from "./MemberPhoneAlerts";
 import PrayerSchedule from "../components/PrayerSchedule";
 import HelpLine from "./HelpLine";
+import { Ionicons } from "@expo/vector-icons";
 import { Pressable } from "react-native";
 import { useCommunity } from "../lib/discussion-state";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import {
   Screen,
@@ -17,7 +18,6 @@ import {
   Button,
   Field,
   Notice,
-  Subheading,
 } from "../components/quiet-ui";
 import { FilterStrip } from "../components/CommunityControls";
 import { usePrayers, type Prayer } from "../lib/prayers";
@@ -37,7 +37,7 @@ function PrayerRoom({
 }: {
   mode: "requests" | "notifications" | "review";
 }) {
-  const { data, error, busy, userId, act } = usePrayers();
+  const { data, error, busy, userId, load, act } = usePrayers();
   const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
     const timer = setInterval(() => setNow(Date.now()), 10000);
@@ -52,6 +52,48 @@ function PrayerRoom({
     ru: ["Все", "Активность", "Молитвы", "Встречи", "Настройки"],
   }[profile.language];
   const [noticeFilter, setNoticeFilter] = useState("all");
+  const [retry, setRetry] = useState(0);
+  const [notificationErrors, setNotificationErrors] = useState({
+    activity: false,
+    messages: false,
+    gatherings: false,
+  });
+  const activityError = useCallback(
+    (failed: boolean) =>
+      setNotificationErrors((old) =>
+        old.activity === failed ? old : { ...old, activity: failed },
+      ),
+    [],
+  );
+  const messagesError = useCallback(
+    (failed: boolean) =>
+      setNotificationErrors((old) =>
+        old.messages === failed ? old : { ...old, messages: failed },
+      ),
+    [],
+  );
+  const gatheringsError = useCallback(
+    (failed: boolean) =>
+      setNotificationErrors((old) =>
+        old.gatherings === failed ? old : { ...old, gatherings: failed },
+      ),
+    [],
+  );
+  const noticesFailed =
+    ((noticeFilter === "all" ||
+      noticeFilter === "prayers" ||
+      noticeFilter === "settings") &&
+      !!error) ||
+    ((noticeFilter === "all" || noticeFilter === "activity") &&
+      (notificationErrors.activity || notificationErrors.messages)) ||
+    ((noticeFilter === "all" || noticeFilter === "gatherings") &&
+      notificationErrors.gatherings);
+  const notificationsError = {
+    en: "Some notifications could not load. Please try again.",
+    pt: "Não foi possível carregar algumas notificações. Tente novamente.",
+    es: "No se pudieron cargar algunas notificaciones. Inténtalo de nuevo.",
+    ru: "Не удалось загрузить некоторые уведомления. Попробуйте ещё раз.",
+  }[profile.language];
   const { compose, tab: initial } = useLocalSearchParams<{
     compose?: string;
     tab?: string;
@@ -283,7 +325,7 @@ function PrayerRoom({
     <Screen back place={mode === "requests" ? "altar" : undefined}>
       <Heading>{tr(pageTitle)}</Heading>
       {mode === "notifications" && <JournalCleanupNotice />}
-      <Notice text={tr(error || notice)} />
+      {mode !== "notifications" && <Notice text={tr(error || notice)} />}
       {!writing && (
         <>
           {mode === "requests" && (
@@ -297,20 +339,46 @@ function PrayerRoom({
             />
           )}
           {mode === "notifications" && (
-            <FilterStrip value={noticeFilter} onChange={setNoticeFilter} options={
-              ["all", "activity", "prayers", "gatherings", "settings"].map((value, index) => ({ value, label: notificationLabels[index] }))
-            } />
-          )}
-          {mode === "notifications" && noticeFilter === "settings" && <>
-            <MemberPhoneAlerts />
-            <Check
-              label={tr("Receive prayer notifications in the app")}
-              value={data?.enabled ?? false}
-              onChange={(v) => {
-                if (!busy) void act("preferences", null, { enabled: v });
-              }}
+            <FilterStrip
+              value={noticeFilter}
+              onChange={setNoticeFilter}
+              options={[
+                "all",
+                "activity",
+                "prayers",
+                "gatherings",
+                "settings",
+              ].map((value, index) => ({
+                value,
+                label: notificationLabels[index],
+              }))}
             />
-          </>}
+          )}
+          {mode === "notifications" && noticesFailed && (
+            <>
+              <Notice text={notificationsError} />
+              <Button
+                secondary
+                title={tr("Try again")}
+                onPress={() => {
+                  void load();
+                  setRetry((value) => value + 1);
+                }}
+              />
+            </>
+          )}
+          {mode === "notifications" && noticeFilter === "settings" && (
+            <>
+              <MemberPhoneAlerts />
+              <Check
+                label={tr("Receive prayer notifications in the app")}
+                value={data?.enabled ?? false}
+                onChange={(v) => {
+                  if (!busy) void act("preferences", null, { enabled: v });
+                }}
+              />
+            </>
+          )}
           {mode === "requests" && (
             <FilterStrip
               value={tab}
@@ -323,47 +391,70 @@ function PrayerRoom({
           )}
           {tab === "notifications" && (
             <>
-              {(noticeFilter === "all" || noticeFilter === "activity") && <>
-                <Subheading>{notificationLabels[1]}</Subheading>
-                <FriendUnreadNotice />
-                <ActivityNotices />
-              </>}
-              {(noticeFilter === "all" || noticeFilter === "gatherings") && <GatheringReminders />}
-              {(noticeFilter === "all" || noticeFilter === "prayers") && <>
-              <Subheading>{notificationLabels[2]}</Subheading>
-              {!!data?.notices.length && (
-                <Button
-                  secondary
-                  title={tr("Mark prayer notifications read")}
-                  onPress={() => void act("read")}
+              {(noticeFilter === "all" || noticeFilter === "activity") && (
+                <>
+                  <FriendUnreadNotice
+                    onLoadError={messagesError}
+                    retry={retry}
+                  />
+                  <ActivityNotices onLoadError={activityError} retry={retry} />
+                </>
+              )}
+              {(noticeFilter === "all" || noticeFilter === "gatherings") && (
+                <GatheringReminders
+                  compact
+                  onLoadError={gatheringsError}
+                  retry={retry}
                 />
-              )}{" "}
-              {data?.notices.map((n) => (
-                <Card key={n.id}>
-                  <Body>
-                    {tr(
-                      n.kind === "time"
-                        ? "It is time to pray together"
-                        : n.kind === "prayed"
-                          ? "Someone prayed for you"
-                          : "A prayer invitation",
-                    )}
-                  </Body>
-                  {!n.is_read && <Body small>{tr("Unread")}</Body>}
-                  {card(n.request)}
-                  {!n.is_read && (
+              )}
+              {(noticeFilter === "all" || noticeFilter === "prayers") && (
+                <>
+                  {!!data?.notices.length && (
                     <Button
                       secondary
-                      title={tr("Mark read")}
-                      onPress={() => void act("read", n.id)}
+                      title={tr("Mark prayer notifications read")}
+                      onPress={() => void act("read")}
                     />
-                  )}
-                </Card>
-              ))}
-              {data && !data.notices.length && (
-                <Body>{tr("No prayer notifications yet.")}</Body>
+                  )}{" "}
+                  {data?.notices.map((n) => (
+                    <Card key={n.id}>
+                      <Body small>
+                        <Ionicons
+                          name="heart-outline"
+                          size={15}
+                          accessible={false}
+                        />
+                        {"  "}
+                        {notificationLabels[2]}
+                      </Body>
+                      <Body>
+                        {tr(
+                          n.kind === "time"
+                            ? "It is time to pray together"
+                            : n.kind === "prayed"
+                              ? "Someone prayed for you"
+                              : "A prayer invitation",
+                        )}
+                      </Body>
+                      {!n.is_read && <Body small>{tr("Unread")}</Body>}
+                      {card(n.request)}
+                      {!n.is_read && (
+                        <Button
+                          secondary
+                          title={tr("Mark read")}
+                          onPress={() => void act("read", n.id)}
+                        />
+                      )}
+                    </Card>
+                  ))}
+                  {noticeFilter === "prayers" &&
+                    data &&
+                    !error &&
+                    !data.notices.length && (
+                      <Body>{tr("No prayer notifications yet.")}</Body>
+                    )}
+                </>
               )}
-              </>}
             </>
           )}
           {tab !== "notifications" &&
@@ -404,6 +495,13 @@ function PrayerRoom({
             value={anonymous}
             onChange={setAnonymous}
           />
+          {anonymous && (
+            <Body small>
+              {tr(
+                "Anonymous to other members; linked to your account for moderation.",
+              )}
+            </Body>
+          )}
           <Check
             label={tr("Choose a shared prayer time")}
             value={scheduled}
@@ -439,7 +537,7 @@ function PrayerRoom({
           <HelpLine />
           <Body small>
             {tr(
-              "Prayer requests are reviewed before sharing. Anonymous requests remain linked to your account. Please respect others’ privacy.",
+              "Prayer requests are reviewed before sharing. Please respect others’ privacy.",
             )}
           </Body>
           <Button

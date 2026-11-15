@@ -100,7 +100,8 @@ export default function DiscoverPost({
   const body = storyText(item.summary, profile.language);
   // Some publisher imports contain only an identical attribution sentence,
   // not an actual summary. Show the credited author in the byline instead.
-  const attributionOnly = item.origin === "publisher" &&
+  const attributionOnly =
+    item.origin === "publisher" &&
     /^A devotional story by .+, shared by .+\.$/i.test(body.trim());
   return (
     <View
@@ -181,26 +182,19 @@ export default function DiscoverPost({
           {storyText(item.title, profile.language)}
         </Text>
       </Pressable>
-      {!attributionOnly && excerpt(body).map((p, i) => (
-        <Text
-          key={i}
-          style={{ color: colors.ink, fontSize: 16, lineHeight: 25 }}
-        >
-          {p}
-        </Text>
-      ))}
+      {!attributionOnly &&
+        excerpt(body).map((p, i) => (
+          <Text
+            key={i}
+            style={{ color: colors.ink, fontSize: 16, lineHeight: 25 }}
+          >
+            {p}
+          </Text>
+        ))}
       {!!item.tags?.length && (
         <Body small>{item.tags.slice(0, 2).join(" · ")}</Body>
       )}
-      <TextAction
-        title={
-          item.origin === "publisher"
-            ? interfaceCopy(profile.language, "Read the full story")
-            : c("readDeeper")
-        }
-        icon="arrow-forward"
-        onPress={read}
-      />
+      <TextAction title={c("readDeeper")} icon="arrow-forward" onPress={read} />
       <StoryActions item={item} interactions={interactions} />
     </View>
   );

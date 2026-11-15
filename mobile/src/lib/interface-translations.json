@@ -1,4 +1,29 @@
 {
+  "Members can read and share approved discussions. Posts are reviewed before sharing; with your permission, AI may help. Your journal is not attached.": {
+    "pt": "Discussões aprovadas podem ser lidas e compartilhadas por membros. As publicações são revisadas antes de serem compartilhadas; com sua permissão, a IA pode ajudar. Seu diário não é incluído.",
+    "es": "Los miembros pueden leer y compartir los debates aprobados. Las publicaciones se revisan antes de compartirse; con tu permiso, la IA puede ayudar. Tu diario no se incluye.",
+    "ru": "Участники могут читать одобренные обсуждения и делиться ими. Публикации проверяются; с вашего разрешения может использоваться ИИ. Ваш дневник не прикрепляется."
+  },
+  "Members can read and share approved discussions. Your submission stays private until review; your journal is not attached.": {
+    "pt": "Discussões aprovadas podem ser lidas e compartilhadas por membros. Seu envio fica privado até a revisão; seu diário não é incluído.",
+    "es": "Los miembros pueden leer y compartir los debates aprobados. Tu envío permanecerá privado hasta su revisión; tu diario no se incluye.",
+    "ru": "Участники могут читать одобренные обсуждения и делиться ими. До проверки публикация остаётся закрытой; ваш дневник не прикрепляется."
+  },
+  "Anonymous to other members; linked to your account for moderation.": {
+    "pt": "Anônimo para outros membros; vinculado à sua conta para moderação.",
+    "es": "Anónimo para otros miembros; vinculado a tu cuenta para moderación.",
+    "ru": "Анонимно для участников; связано с вашим аккаунтом для модерации."
+  },
+  "Prayer requests are reviewed before sharing. Please respect others’ privacy.": {
+    "pt": "Os pedidos são revisados antes de serem compartilhados. Respeite a privacidade das outras pessoas.",
+    "es": "Las peticiones se revisan antes de compartirse. Respeta la privacidad de los demás.",
+    "ru": "Молитвенные просьбы проверяются перед публикацией. Пожалуйста, уважайте частную жизнь других людей."
+  },
+  "Could not refresh. Showing earlier stories.": {
+    "pt": "Não foi possível atualizar. Mostrando histórias anteriores.",
+    "es": "No se pudo actualizar. Mostrando historias anteriores.",
+    "ru": "Не удалось обновить. Показаны прежние истории."
+  },
   "Back": {
     "pt": "Voltar",
     "es": "Volver",

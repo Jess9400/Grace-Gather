@@ -3,7 +3,7 @@ import { copy, type Language } from "./content";
 // The room is shared across traditions; only its presentation changes.
 const words: Record<string, Record<Language, string>> = {
   confession: { en: "Share a burden", pt: "Compartilhe o que pesa", es: "Comparte lo que te pesa", ru: "Поделиться тем, что на сердце" },
-  cShare: { en: "Share a burden", pt: "Compartilhar o que pesa", es: "Compartir lo que te pesa", ru: "Поделиться тем, что на сердце" },
+  cShare: { en: "Share what’s on your heart", pt: "Compartilhar o que sinto", es: "Compartir lo que siento", ru: "Поделиться переживаниями" },
   cSubmit: { en: "Share my burden", pt: "Compartilhar o que sinto", es: "Compartir lo que siento", ru: "Поделиться переживаниями" },
   cMine: { en: "My burdens & comfort", pt: "Meus desabafos e acolhimento", es: "Mis desahogos y apoyo", ru: "Мои переживания и поддержка" },
   cDisclaimer: { en: "A space for peer support. Responses come from community members, not necessarily clergy.", pt: "Um espaço de apoio entre pessoas. As respostas vêm da comunidade, não necessariamente de membros do clero.", es: "Un espacio de apoyo entre personas. Las respuestas vienen de la comunidad, no necesariamente del clero.", ru: "Пространство взаимной поддержки. Отвечают участники сообщества, не обязательно священнослужители." },
