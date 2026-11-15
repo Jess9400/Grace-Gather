@@ -3,7 +3,7 @@ import { Animated, AppState, Image, StyleSheet, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect } from "expo-router";
 import { Asset } from "expo-asset";
-import { artworkHasTourTarget, artworkPoints, artworkStage, type ChurchArt } from "../lib/church-art";
+import { artworkPoints, artworkStage, visibleArtworkTourPoint, type ChurchArt } from "../lib/church-art";
 import type { ChurchPlace } from "../lib/church-scene";
 import { setChurchSnapshot } from "../lib/church-room";
 import { useReducedMotion } from "../lib/use-reduced-motion";
@@ -26,7 +26,7 @@ const TOUR_ORDER: ChurchPlace[] = ["pray", "confession", "gather", "bible", "can
 /** The approved sanctuary artwork, with the guided tour on top. The picture
  * itself does not answer taps: places are reached from the tabs and buttons. */
 export default function LivingChurchScene({
-  art, places, night, paused, tour,
+  art, places, night, paused, tour, bottomInset,
   onTourDone, onTourPlace, onFailure, accessibilityLabel,
 }: {
   art: ChurchArt;
@@ -34,6 +34,7 @@ export default function LivingChurchScene({
   night: boolean;
   paused: boolean;
   tour: boolean;
+  bottomInset: number;
   onTourDone: () => void;
   onTourPlace: (place: ChurchPlace | null) => void;
   onFailure: () => void;
@@ -49,7 +50,6 @@ export default function LivingChurchScene({
   const artKey = `${art}:${night ? "night" : "day"}`;
   const source = night ? NIGHT_ART[art] : ART[art];
   const ready = readyArt === artKey;
-  const points = artworkPoints(art, size.width, size.height);
   const stage = artworkStage(size.width, size.height);
   const keys = places.map((place) => place.key).join(",");
 
@@ -90,9 +90,7 @@ export default function LivingChurchScene({
     return () => { stop(); shown.stopAnimation(); setTouring(null); };
   }, [keys, onTourDone, onTourPlace, ready, reduced, shown, tour]);
 
-  const candidate = touring && artworkHasTourTarget(art, touring) ? points[touring] : undefined;
-  // On wide screens, cover-cropping may put a real object off-screen.
-  const current = candidate && candidate.x >= 24 && candidate.x <= size.width - 24 && candidate.y >= 66 && candidate.y <= size.height - 24 ? candidate : undefined;
+  const current = touring ? visibleArtworkTourPoint(art, touring, size.width, size.height, bottomInset) : null;
   return (
     <View accessibilityLabel={accessibilityLabel} style={styles.scene}
       onLayout={(e) => setSize({ width: e.nativeEvent.layout.width, height: e.nativeEvent.layout.height })}>

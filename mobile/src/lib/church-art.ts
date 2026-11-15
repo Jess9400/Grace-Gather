@@ -14,7 +14,7 @@ const BOXES: Record<ChurchArt, Record<ChurchPlace, Box>> = {
     confession: [0.68, 0.31, 1, 0.57],
     bible: [0.22, 0.43, 0.34, 0.55],
     gather: [0.02, 0.60, 0.24, 0.72],
-    pews: [0.67, 0.64, 0.86, 0.76],
+    pews: [0.76, 0.57, 0.96, 0.75],
     pray: [0.34, 0.45, 0.67, 0.55],
     wreath: [0.34, 0.55, 0.47, 0.61],
   },
@@ -22,8 +22,8 @@ const BOXES: Record<ChurchArt, Record<ChurchPlace, Box>> = {
     candles: [0, 0.5, 0.25, 0.62],
     confession: [0.40, 0.43, 0.59, 0.60],
     bible: [0.79, 0.43, 0.98, 0.61],
-    gather: [0.13, 0.68, 0.30, 0.78],
-    pews: [0.70, 0.68, 0.87, 0.78],
+    gather: [0.05, 0.61, 0.27, 0.77],
+    pews: [0.75, 0.61, 0.96, 0.79],
     pray: [0.19, 0.39, 0.36, 0.54],
     wreath: [0.35, 0.58, 0.48, 0.64],
   },
@@ -32,7 +32,7 @@ const BOXES: Record<ChurchArt, Record<ChurchPlace, Box>> = {
     confession: [0.02, 0.46, 0.18, 0.56],
     bible: [0.36, 0.51, 0.64, 0.59],
     gather: [0.02, 0.60, 0.16, 0.65],
-    pews: [0.70, 0.65, 0.88, 0.77],
+    pews: [0.75, 0.59, 0.96, 0.77],
     pray: [0.4, 0.24, 0.6, 0.42],
     wreath: [0.33, 0.58, 0.48, 0.64],
   },
@@ -75,6 +75,28 @@ export function artworkBox(art: ChurchArt, place: ChurchPlace, width: number, he
   const f = artworkFrame(width, height);
   const [x1, y1, x2, y2] = BOXES[art][place];
   return { left: f.left + x1 * f.width, top: f.top + y1 * f.height, width: (x2 - x1) * f.width, height: (y2 - y1) * f.height };
+}
+
+// The centre of a target can be cropped by `cover` even though part of the
+// object is visible. Point at its visible portion, above the bottom tab bar.
+export function visibleArtworkTourPoint(art: ChurchArt, place: ChurchPlace, width: number, height: number, bottomInset = 0): Point | null {
+  if (!width || !height || !artworkHasTourTarget(art, place)) return null;
+  const box = artworkBox(art, place, width, height);
+  const left = Math.max(24, box.left);
+  const right = Math.min(width - 24, box.left + box.width);
+  const top = Math.max(66, box.top);
+  const bottom = Math.min(height - bottomInset - 12, box.top + box.height);
+  if (left > right || top > bottom) return null;
+  // Keep the arrow as close to the centre of the visible object as possible,
+  // while leaving room for the centred, narrower tour card on bench stops.
+  const middle = (left + right) / 2;
+  const captionWidth = Math.min(420, (width - 56) * 0.62);
+  const x = place === "pews"
+    ? Math.min(right, Math.max(middle, (width + captionWidth) / 2 + 25))
+    : place === "gather"
+      ? Math.max(left, Math.min(middle, (width - captionWidth) / 2 - 25))
+      : middle;
+  return { x, y: (top + bottom) / 2 };
 }
 
 export function artworkPoints(art: ChurchArt, width: number, height: number) {
