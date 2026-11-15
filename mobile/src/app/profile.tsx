@@ -23,6 +23,7 @@ import {
 import SignInForm from "../components/SignInForm";
 import { useQuiet } from "../lib/quiet-state";
 import { useApp } from "../lib/state";
+import { canUseRemotePush } from "../lib/push-availability";
 import { deleteConfirmationWord } from "../lib/delete-confirmation";
 import { copy, editionsFor, languages } from "../lib/content";
 import { label } from "../lib/labels";
@@ -194,7 +195,7 @@ export default function Profile() {
               })
             }
           />
-          {signedIn && (
+          {signedIn && canUseRemotePush(Platform.OS, process.env.EXPO_PUBLIC_ANDROID_REMOTE_PUSH_ENABLED) && (
             <Button
               secondary
               title={t("gather")}

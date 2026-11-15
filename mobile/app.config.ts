@@ -12,6 +12,15 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     ...config.ios,
     bundleIdentifier: process.env.APPLE_BUNDLE_ID || "com.awaychurch.preview",
   },
+  android: {
+    ...config.android,
+    ...(process.env.ANDROID_PACKAGE_ID
+      ? { package: process.env.ANDROID_PACKAGE_ID }
+      : {}),
+    ...(process.env.ANDROID_PREVIEW_BUILD === "true"
+      ? { blockedPermissions: [...(config.android?.blockedPermissions ?? []), "android.permission.CAMERA"] }
+      : {}),
+  },
   extra: {
     ...config.extra,
     ...(process.env.EXPO_PUBLIC_EAS_PROJECT_ID

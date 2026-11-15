@@ -5,6 +5,7 @@ import { useApp } from "../lib/state";
 import { backend } from "../lib/backend";
 import { disableMemberPush, memberPushEnabled, registerMemberPush } from "../lib/notifications";
 import { Body, Button, Card, Notice } from "./quiet-ui";
+import { canUseRemotePush } from "../lib/push-availability";
 
 const words = {
   en: { title: "Phone alerts", detail: "Get discreet alerts for replies, messages, friends, prayers and your gatherings.", moderator: "Moderator alerts are managed in the moderation dashboard.", on: "Turn on phone alerts", off: "Turn off phone alerts", error: "Could not update phone alerts. Check your iPhone notification settings and try again." },
@@ -20,8 +21,9 @@ export default function MemberPhoneAlerts() {
   const [error, setError] = useState(false);
   const [staff, setStaff] = useState(false);
   const t = words[profile.language];
+  const remoteAvailable = canUseRemotePush(Platform.OS, process.env.EXPO_PUBLIC_ANDROID_REMOTE_PUSH_ENABLED);
   useFocusEffect(useCallback(() => {
-    if (Platform.OS === "web") return;
+    if (Platform.OS === "web" || !remoteAvailable) return;
     let active = true;
     setBusy(true);
     if (backend) void Promise.resolve(backend.rpc("staff_role")).then(({ data, error }) => {
@@ -31,8 +33,9 @@ export default function MemberPhoneAlerts() {
       .catch(() => { if (active) setError(true); })
       .finally(() => { if (active) setBusy(false); });
     return () => { active = false; };
-  }, []));
+  }, [remoteAvailable]));
   if (Platform.OS === "web") return null;
+  if (!remoteAvailable) return <Card><Body>{t.title}</Body><Body small>{{ en: "Phone alerts aren't available in this test build. In-app notifications remain available.", pt: "Alertas no celular não estão disponíveis nesta versão de teste. As notificações no aplicativo continuam disponíveis.", es: "Las alertas del teléfono no están disponibles en esta versión de prueba. Las notificaciones en la aplicación siguen disponibles.", ru: "Уведомления на телефон недоступны в этой тестовой версии. Уведомления в приложении доступны." }[profile.language]}</Body></Card>;
   return <Card>
     <Body>{t.title}</Body>
     <Body small>{t.detail}</Body>

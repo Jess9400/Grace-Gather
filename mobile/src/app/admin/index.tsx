@@ -17,6 +17,7 @@ import Staff from "../staff";
 import { useApp } from "../../lib/state";
 import { communityCopy } from "../../lib/community-copy";
 import { disableModeratorPush, moderatorPushEnabled, registerModeratorPush } from "../../lib/notifications";
+import { canUseRemotePush } from "../../lib/push-availability";
 export default function AdminDashboard() {
   const tr = useInterfaceCopy();
   const { profile } = useApp();
@@ -121,7 +122,7 @@ export default function AdminDashboard() {
           <Body small>
             {tr("Review submissions and reports across the community.")}
           </Body>
-          {Platform.OS !== "web" && <Button secondary disabled={pushBusy} title={pushEnabled ? pushCopy.off : pushCopy.on} onPress={() => {
+          {Platform.OS !== "web" && canUseRemotePush(Platform.OS, process.env.EXPO_PUBLIC_ANDROID_REMOTE_PUSH_ENABLED) && <Button secondary disabled={pushBusy} title={pushEnabled ? pushCopy.off : pushCopy.on} onPress={() => {
             setPushBusy(true); setNotice("");
             void (pushEnabled ? disableModeratorPush() : registerModeratorPush()).then(() => {
               setPushEnabled(!pushEnabled); setNotice(pushEnabled ? pushCopy.disabled : pushCopy.saved);
