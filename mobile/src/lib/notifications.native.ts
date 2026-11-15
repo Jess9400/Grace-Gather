@@ -4,6 +4,12 @@ import { Language } from "./content";
 import { label } from "./labels";
 import { backend } from "./backend";
 import { getItem, setItem, removeItem } from "./storage";
+import { Platform } from "react-native";
+import { canUseRemotePush } from "./push-availability";
+function requireRemotePush() {
+  if (!canUseRemotePush(Platform.OS, process.env.EXPO_PUBLIC_ANDROID_REMOTE_PUSH_ENABLED))
+    throw new Error("Phone alerts are not available in this test build.");
+}
 export async function enableReminder(language: Language) {
   const { status } = await Notifications.requestPermissionsAsync();
   if (status !== "granted")
@@ -32,6 +38,7 @@ export async function remindersEnabled() {
   );
 }
 export async function registerGatheringPush() {
+  requireRemotePush();
   const projectId = Constants.expoConfig?.extra?.eas?.projectId;
   if (!projectId || !backend)
     throw new Error("Push notifications are not configured yet.");
@@ -69,6 +76,7 @@ export async function disableGatheringPush() {
 }
 
 export async function registerModeratorPush() {
+  requireRemotePush();
   const projectId = Constants.expoConfig?.extra?.eas?.projectId;
   if (!projectId || !backend) throw new Error("Push notifications are not configured yet.");
   const { status } = await Notifications.requestPermissionsAsync();
@@ -98,6 +106,7 @@ export async function moderatorPushEnabled() {
 export async function forgetModeratorPush() { await removeItem("moderator-push-token"); }
 
 export async function registerMemberPush(language: Language) {
+  requireRemotePush();
   const projectId = Constants.expoConfig?.extra?.eas?.projectId;
   if (!projectId || !backend) throw new Error("Phone alerts are not configured yet.");
   const { status } = await Notifications.requestPermissionsAsync();

@@ -13,6 +13,21 @@
       "distribution": "internal",
       "node": "24.22.2"
     },
+    "android-preview": {
+      "distribution": "internal",
+      "environment": "preview",
+      "node": "24.22.2",
+      "android": { "buildType": "apk" },
+      "env": {
+        "ANDROID_PREVIEW_BUILD": "true",
+        "ANDROID_PACKAGE_ID": "com.graceandgather.preview",
+        "EXPO_PROJECT_SLUG": "graceandgather",
+        "EXPO_PROJECT_OWNER": "jess1994s-team",
+        "EXPO_PUBLIC_EAS_PROJECT_ID": "84bb1fb4-945a-4071-b317-83f2bdd56382",
+        "EXPO_PUBLIC_APPLE_SIGN_IN_ENABLED": "false",
+        "EXPO_PUBLIC_ANDROID_REMOTE_PUSH_ENABLED": "false"
+      }
+    },
     "testflight": {
       "distribution": "store",
       "environment": "preview",

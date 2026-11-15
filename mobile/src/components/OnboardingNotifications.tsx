@@ -4,6 +4,7 @@ import { backend } from "../lib/backend";
 import type { Language } from "../lib/content";
 import { registerGatheringPush, registerMemberPush, registerModeratorPush } from "../lib/notifications";
 import { Body, Button, Card, Notice, Subheading } from "./quiet-ui";
+import { canUseRemotePush } from "../lib/push-availability";
 
 const words = {
   en:{title:"Phone notifications",info:"Get updates about replies, messages and gatherings. You can change this later.",allow:"Allow notifications",enabled:"Notifications enabled",failed:"Notifications couldn’t be enabled. You can try again in Preferences."},
@@ -13,7 +14,7 @@ const words = {
 };
 export default function OnboardingNotifications({language}:{language:Language}) {
   const t=words[language], [busy,setBusy]=useState(false), [enabled,setEnabled]=useState(false), [error,setError]=useState("");
-  if (Platform.OS === "web") return null;
+  if (Platform.OS === "web" || !canUseRemotePush(Platform.OS, process.env.EXPO_PUBLIC_ANDROID_REMOTE_PUSH_ENABLED)) return null;
   async function allow() {
     if (busy) return;
     setBusy(true); setError("");
