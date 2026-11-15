@@ -33,6 +33,7 @@ import { label } from "../lib/labels";
 import { q } from "../lib/quiet-copy";
 import { interfaceCopy } from "../lib/interface-copy";
 import CommunityAIPermission from "../components/CommunityAIPermission";
+import CountryPicker from "../components/CountryPicker";
 
 const TRADITIONS: Tradition[] = ["catholic", "protestant", "orthodox"];
 const validEmail = (email: string) =>
@@ -165,18 +166,7 @@ export default function Preferences() {
 
       <Card>
         <Subheading>{tr("Location")}</Subheading>
-        <Row>
-          <Chip
-            title={t("pBrazil")}
-            selected={p.country === "BR"}
-            onPress={() => update({ country: "BR" })}
-          />
-          <Chip
-            title={t("pOther")}
-            selected={p.country !== "BR"}
-            onPress={() => update({ country: "OTHER" })}
-          />
-        </Row>
+        <CountryPicker language={p.language} value={p.country} onChange={(country) => update({ country })} />
         <Field
           label={t("pCity")}
           value={p.city}

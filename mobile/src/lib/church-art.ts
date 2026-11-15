@@ -14,7 +14,8 @@ const BOXES: Record<ChurchArt, Record<ChurchPlace, Box>> = {
     confession: [0.68, 0.31, 1, 0.57],
     bible: [0.22, 0.43, 0.34, 0.55],
     gather: [0.02, 0.60, 0.24, 0.72],
-    pews: [0.19, 0.58, 0.81, 0.84],
+    pews: [0.67, 0.64, 0.86, 0.76],
+    journal: [0.15, 0.70, 0.30, 0.80],
     pray: [0.34, 0.45, 0.67, 0.55],
     wreath: [0.34, 0.55, 0.47, 0.61],
   },
@@ -23,16 +24,18 @@ const BOXES: Record<ChurchArt, Record<ChurchPlace, Box>> = {
     confession: [0.40, 0.43, 0.59, 0.60],
     bible: [0.79, 0.43, 0.98, 0.61],
     gather: [0.02, 0.64, 0.22, 0.75],
-    pews: [0.24, 0.64, 0.77, 0.88],
+    pews: [0.13, 0.68, 0.30, 0.78],
+    journal: [0.70, 0.68, 0.87, 0.78],
     pray: [0.19, 0.39, 0.36, 0.54],
     wreath: [0.35, 0.58, 0.48, 0.64],
   },
   protestant: {
     candles: [0.8, 0.49, 0.98, 0.58],
-    confession: [0.72, 0.56, 0.97, 0.76],
+    confession: [0.02, 0.46, 0.18, 0.56],
     bible: [0.36, 0.51, 0.64, 0.59],
-    gather: [0.02, 0.61, 0.24, 0.72],
-    pews: [0.25, 0.64, 0.7, 0.87],
+    gather: [0.02, 0.60, 0.16, 0.65],
+    pews: [0.12, 0.68, 0.30, 0.78],
+    journal: [0.70, 0.65, 0.88, 0.77],
     pray: [0.4, 0.24, 0.6, 0.42],
     wreath: [0.33, 0.58, 0.48, 0.64],
   },
@@ -42,7 +45,6 @@ const BOXES: Record<ChurchArt, Record<ChurchPlace, Box>> = {
 // caption remains an accessible action when a place has no pictured object.
 export function artworkHasTourTarget(art: ChurchArt, place: ChurchPlace) {
   if (place === "wreath") return false;
-  if (place === "confession" && art === "protestant") return false;
   if (place === "candles" && art === "protestant") return false;
   return true;
 }

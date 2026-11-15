@@ -61,6 +61,7 @@ const TOUR_ORDER: ChurchPlace[] = [
   "bible",
   "candles",
   "pews",
+  "journal",
   "wreath",
 ];
 const TOUR_FADE_MS = 400;
@@ -192,6 +193,7 @@ export default function ChurchScene({
         "bible",
         "gather",
         "pews",
+        "journal",
         "wreath",
         "pray",
       ] as ChurchPlace[]
@@ -209,6 +211,7 @@ export default function ChurchScene({
         "bible",
         "gather",
         "pews",
+        "journal",
         "wreath",
         "pray",
       ] as ChurchPlace[]

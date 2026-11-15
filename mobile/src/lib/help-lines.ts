@@ -45,8 +45,7 @@ export function helpCopy(language: Language, key: keyof typeof words) {
   return words[key][language];
 }
 
-// Brazil is assumed only for Portuguese speakers who chose Brazil, since the
-// country starts as Brazil for everyone during sign-up.
+// Show Brazilian services only when Brazil was explicitly selected.
 export function inBrazil(profile: Pick<Profile, "language" | "country">) {
   return profile.language === "pt" && profile.country === "BR";
 }

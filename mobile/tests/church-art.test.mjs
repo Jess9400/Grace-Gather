@@ -12,11 +12,19 @@ const { artworkBox, artworkFrame, artworkPlaceAt, artworkPoints, artworkStage, a
 
 test('the tour does not point at invented objects in the artwork', () => {
   assert.equal(artworkHasTourTarget('orthodox', 'confession'), true);
-  assert.equal(artworkHasTourTarget('protestant', 'confession'), false);
+  assert.equal(artworkHasTourTarget('protestant', 'confession'), true);
   assert.equal(artworkHasTourTarget('protestant', 'candles'), false);
   assert.equal(artworkHasTourTarget('catholic', 'confession'), true);
   assert.equal(artworkHasTourTarget('orthodox', 'candles'), true);
   assert.equal(artworkHasTourTarget('protestant', 'bible'), true);
+});
+
+test('tour targets the piano and separates the left and right pews', () => {
+  const protestant = artworkPoints('protestant', 869, 1810);
+  assert.ok(protestant.confession.x / 869 < 0.2);
+  assert.ok(protestant.pews.x / 869 < 0.3);
+  assert.ok(protestant.journal.x / 869 > 0.7);
+  assert.ok(artworkPoints('catholic', 869, 1810).pews.x / 869 > 0.65);
 });
 
 test('Orthodox tour points to the central doors and the lectern', () => {

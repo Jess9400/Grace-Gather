@@ -135,7 +135,7 @@ export const initialProfile: Profile = {
   name: "",
   city: "",
   region: "",
-  country: "BR",
+  country: "",
   intent: "faith",
   email: "",
   emailConsent: false,
