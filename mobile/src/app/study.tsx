@@ -15,7 +15,7 @@ import {
 } from "../components/quiet-ui";
 import { useApp } from "../lib/state";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
-import { collectionFor, ensureCollection, getReadingVerse } from "../lib/bible";
+import { studyCollectionFor, ensureCollection, getReadingVerse } from "../lib/bible";
 import { searchBible } from "../lib/bible-search";
 import type { ReadingVerse } from "../lib/bible";
 import { communityCopy } from "../lib/community-copy";
@@ -32,7 +32,7 @@ export default function Study({
       .normalize("NFD")
       .replace(/[\u0300-\u036f]/g, "");
   const needle = normalize(query.trim());
-  const collection = collectionFor(profile);
+  const collection = studyCollectionFor(profile);
   const [loaded, setLoaded] = useState("");
   const [searchResult, setSearchResult] = useState<{
     key: string;
