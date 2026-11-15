@@ -8,7 +8,28 @@ const ts = require('typescript');
 const source = readFileSync(new URL('../src/lib/church-art.ts', import.meta.url), 'utf8');
 const module = { exports: {} };
 runInNewContext(ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.CommonJS } }).outputText, { module, exports: module.exports });
-const { artworkBox, artworkFrame, artworkPlaceAt, artworkPoints, artworkStage, artworkHasTourTarget } = module.exports;
+const { artworkBox, artworkFrame, artworkPlaceAt, artworkPoints, artworkStage, artworkHasTourTarget, visibleArtworkTourPoint } = module.exports;
+
+test('important tour arrows stay on the visible part of the right objects', () => {
+  const targets = [
+    ['catholic', 'pews'], ['protestant', 'pews'], ['protestant', 'confession'],
+    ['orthodox', 'pews'], ['orthodox', 'gather'], ['orthodox', 'confession'], ['orthodox', 'bible'],
+  ];
+  for (const [width, height] of [[320, 568], [375, 812], [390, 844], [430, 932], [825, 675], [1024, 768]]) {
+    for (const [art, place] of targets) {
+      const point = visibleArtworkTourPoint(art, place, width, height, 64);
+      const box = artworkBox(art, place, width, height);
+      assert.ok(point, `${art} ${place} at ${width}x${height}`);
+      assert.ok(point.x >= box.left && point.x <= box.left + box.width);
+      assert.ok(point.y >= box.top && point.y <= box.top + box.height);
+      assert.ok(point.x >= 24 && point.x <= width - 24 && point.y >= 66 && point.y <= height - 76);
+      const captionWidth = Math.min(420, (width - 56) * .62);
+      if (place === 'pews') assert.ok(point.x - 24 > (width + captionWidth) / 2, 'right-bench arrow clears the centered caption');
+      if (art === 'orthodox' && place === 'gather') assert.ok(point.x + 24 < (width - captionWidth) / 2, 'left-bench arrow clears the centered caption');
+    }
+  }
+  assert.equal(visibleArtworkTourPoint('protestant', 'candles', 390, 844, 64), null);
+});
 
 test('the tour does not point at invented objects in the artwork', () => {
   assert.equal(artworkHasTourTarget('orthodox', 'confession'), true);

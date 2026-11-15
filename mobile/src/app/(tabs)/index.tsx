@@ -440,6 +440,7 @@ export default function Home() {
               accessibilityLabel={t("church")}
               paused={entrance || aboutAdvent || !focused}
               tour={touring}
+              bottomInset={tabHeight}
               onTourDone={endTour}
               onTourPlace={setTourPlace}
               onFailure={() => setSceneFailed(true)}
@@ -604,9 +605,7 @@ export default function Home() {
         )}
         <View
           pointerEvents="box-none"
-          style={[s.promptArea, touring && (tourPlace === "pews" || tourPlace === "gather")
-            ? { top: insets.top + 125 }
-            : { bottom: tabHeight + 18 }]}
+          style={[s.promptArea, { bottom: tabHeight + 18 }]}
         >
           {invitation && !entrance && (
             <Animated.View style={[s.glass, { opacity: invitationOpacity }]}>
@@ -683,7 +682,9 @@ export default function Home() {
             </Animated.View>
           )}
           {touring && (
-            <View style={s.tourCaption}>
+            <View style={[s.tourCaption,
+              (tourPlace === "pews" || tourPlace === "gather") && s.tourCaptionNarrow,
+            ]}>
               {tourPlace && (
                 <Pressable
                   accessibilityRole="button"
@@ -922,6 +923,7 @@ const s = StyleSheet.create({
     backgroundColor: "rgba(48,44,40,0.94)",
     gap: 8,
   },
+  tourCaptionNarrow: { width: "62%" },
   tourTitle: {
     fontFamily: serif,
     fontSize: 24,
