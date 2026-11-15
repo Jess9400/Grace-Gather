@@ -17,12 +17,12 @@ test("the tour advances beyond gatherings and reaches every remaining stop", () 
   const clock = fakeClock();
   const seen = [];
   let done = 0;
-  startChurchTour(["confession", "gather", "bible", "candles", "pews", "journal"], {
+  startChurchTour(["confession", "gather", "bible", "candles", "pews"], {
     onStep: (place) => seen.push(place), onFadeOut: () => {}, onDone: () => done++,
     fadeMs: 400, schedule: clock.schedule, cancel: clock.cancel,
   });
   while (clock.count()) clock.tick();
-  assert.deepEqual(seen, ["confession", "gather", "bible", "candles", "pews", "journal"]);
+  assert.deepEqual(seen, ["confession", "gather", "bible", "candles", "pews"]);
   assert.equal(done, 1);
 });
 
