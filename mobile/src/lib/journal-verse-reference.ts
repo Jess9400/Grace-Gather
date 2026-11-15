@@ -59,6 +59,9 @@ const otherVerses: Record<string, Partial<Record<CollectionId, string>>> = {
 };
 
 export function journalVerseId(collection: CollectionId, reference: string) {
+  // Matos is used for study, not journal replies; its Vulgate references
+  // must never be treated as Hebrew-numbered theme references by default.
+  if (collection === "matos") return null;
   const other = otherVerses[reference]?.[collection];
   if (other) return `${collection}:${other}`;
   if (

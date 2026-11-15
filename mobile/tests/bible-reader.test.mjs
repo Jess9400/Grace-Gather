@@ -24,7 +24,46 @@ function load(path) {
   return module.exports;
 }
 const reader = load(resolve(root, 'mobile/src/lib/bible.ts'));
-await Promise.all(['web','dra','brenton','blivre','rv1909','synodal'].map(id => reader.ensureCollection(id)));
+await Promise.all(['web','dra','brenton','blivre','rv1909','synodal','matos'].map(id => reader.ensureCollection(id)));
+
+test('Matos Soares provides the complete Portuguese Catholic reader with its own verses', () => {
+  const profile = {scriptureLanguage:'pt', tradition:'catholic', edition:'figueiredo'};
+  assert.equal(reader.studyCollectionFor(profile), 'matos');
+  assert.equal(reader.collectionFor(profile), null);
+  assert.equal(reader.studyCollectionFor({...profile, tradition:'protestant'}), null);
+  assert.equal(reader.themeVerse(profile, '1JN.1.9').editionName, 'Figueiredo · 1866');
+  assert.equal(reader.collections.matos.index.books.length, 73);
+  let chapters = 0, verses = 0;
+  for (const metadata of reader.collections.matos.index.books) {
+    const book = reader.getBook(metadata.code, 'matos');
+    assert.ok(book, metadata.code);
+    assert.equal(Object.keys(book.chapters).length, metadata.chapters);
+    for (const rows of Object.values(book.chapters)) {
+      chapters++;
+      assert.ok(rows.length);
+      for (const [i, verse] of rows.entries()) {
+        assert.equal(verse.number, String(i + 1));
+        assert.ok(verse.text.trim());
+        verses++;
+      }
+    }
+  }
+  assert.equal(chapters, 1334);
+  assert.equal(verses, 35816);
+  assert.ok(reader.getBook('TOB', 'matos').chapters['1'].length);
+  assert.ok(reader.getBook('DAN', 'matos').chapters['14'].length);
+  assert.match(reader.getReadingVerse('matos:MAT.11.28').text, /Vinde a mim/);
+  assert.equal(reader.getReadingVerse('matos:MAT.11.28').editionName, 'Matos Soares');
+});
+
+test('Matos study verses are not mistaken for the journal edition or Hebrew-numbered references', () => {
+  const refs = load(resolve(root, 'mobile/src/lib/journal-verse-reference.ts'));
+  assert.equal(refs.journalVerseId('matos', 'PSA.23.4'), null);
+  assert.equal(refs.journalVerseId('matos', 'MAT.5.4'), null);
+  assert.equal(refs.journalVerseId('matos', 'PSA.999.1'), null);
+  assert.equal(refs.journalStudyReference('matos:PSA.22.4', 'PSA.23.4'), undefined);
+  assert.equal(refs.journalStudyReference('matos:PSA.23.4', 'PSA.23.4'), undefined);
+});
 
 test('Community maps curated quotations only through explicit edition-specific verse aliases', () => {
   assert.equal(reader.discussionVerseId('brenton-psalm-22-2'),'brenton:PSA.22.2');

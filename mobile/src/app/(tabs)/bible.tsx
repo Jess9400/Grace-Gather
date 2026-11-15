@@ -30,7 +30,7 @@ import { data } from "../../lib/content";
 import {
   collections,
   ensureCollection,
-  collectionFor,
+  studyCollectionFor,
   CollectionId,
   chapterRows,
   readReaderLocation,
@@ -40,7 +40,7 @@ import {
 } from "../../lib/bible";
 export default function BibleReading() {
   const { profile } = useApp();
-  const collection = collectionFor(profile);
+  const collection = studyCollectionFor(profile);
   const tr = useInterfaceCopy();
   const [loaded, setLoaded] = useState<string | null>(null),
     [failedCollection, setFailed] = useState<string | null>(null),

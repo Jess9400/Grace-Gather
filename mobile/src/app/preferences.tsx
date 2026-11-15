@@ -24,6 +24,7 @@ import {
   copy,
   languages,
   editionsFor,
+  bibleEditionNote,
   normalizeProfile,
   type Language,
   type Profile,
@@ -160,7 +161,7 @@ export default function Preferences() {
             ))}
           </Row>
         )}
-        {editions.length === 1 && <Body small>{editions[0].name}</Body>}
+        {editions.length === 1 && <Body small>{bibleEditionNote(p) ?? editions[0].name}</Body>}
         {!editions.length && <Notice text={t("unavailable")} />}
       </Card>
 
