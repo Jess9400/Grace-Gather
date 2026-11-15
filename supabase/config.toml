@@ -35,3 +35,11 @@ verify_jwt = false
 # identity() validates the user with auth.getUser before any privileged RPC.
 [functions.prayer-moderate]
 verify_jwt = false
+
+# identity() validates the user before resolving their own pending content.
+[functions.content-moderate]
+verify_jwt = false
+
+# A dedicated secret authenticates scheduled requests inside the handler.
+[functions.moderation-recheck]
+verify_jwt = false

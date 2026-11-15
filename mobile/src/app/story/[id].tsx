@@ -591,6 +591,7 @@ export default function Story() {
                         p_body: body,
                       });
                       if (r.error) throw r.error;
+                      if (typeof r.data === "string") void client.functions.invoke("content-moderate", { body: { kind: "comment", postId: r.data } }).catch(() => undefined);
                       setBody("");
                       setNotice(l("pending"));
                     }).finally(() => setSendingComment(false));

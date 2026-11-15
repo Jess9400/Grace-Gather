@@ -74,6 +74,12 @@ const reviewMessages = {
   es: { self: "Otro moderador debe revisar tu propio envío.", forbidden: "Esta cuenta no puede moderar. Inicia sesión con una cuenta de moderador autorizada.", note: "Añade una nota de revisión de al menos cinco caracteres.", noteLabel: "Nota de revisión (opcional al aprobar)" },
   ru: { self: "Ваше сообщение должен проверить другой модератор.", forbidden: "У этого аккаунта нет доступа к модерации. Войдите как модератор.", note: "Добавьте заметку о проверке не короче пяти символов.", noteLabel: "Заметка о проверке (при одобрении необязательна)" },
 };
+const confessionAIConsentCopy = {
+  en: "With Community AI enabled, I agree to send my words and any recording to Alibaba Cloud for safety checks, including a later recheck. Recordings will be transcribed. Otherwise, a moderator will review them.",
+  pt: "Com a IA da comunidade ativada, concordo em enviar minhas palavras e gravações à Alibaba Cloud para análise de segurança, inclusive uma nova verificação depois. As gravações serão transcritas. Caso contrário, um moderador fará a revisão.",
+  es: "Con la IA de la comunidad activada, acepto enviar mis palabras y grabaciones a Alibaba Cloud para revisiones de seguridad, incluida una revisión posterior. Las grabaciones se transcribirán. De lo contrario, las revisará un moderador.",
+  ru: "Если ИИ сообщества включён, я согласен отправить мои слова и записи в Alibaba Cloud для проверки безопасности, включая повторную. Записи будут расшифрованы. Иначе их проверит модератор.",
+};
 export default function ConfessionRoom() {
   const tr = useInterfaceCopy();
   const [needsSignIn, setNeedsSignIn] = useState(false);
@@ -101,6 +107,8 @@ export default function ConfessionRoom() {
     [consent, setConsent] = useState(false),
     [audienceDetailsOpen, setAudienceDetailsOpen] = useState(false),
     [audio, setAudio] = useState<string>(),
+    [aiModerationConsent, setAIModerationConsent] = useState(false),
+    [replyAIConsent, setReplyAIConsent] = useState(false),
     [recording, setRecording] = useState(false),
     [textInstead, setTextInstead] = useState(false),
     [busy, setBusy] = useState(false),
@@ -264,7 +272,7 @@ export default function ConfessionRoom() {
   }, [view]);
   async function open(id: string, claim = false) {
     const r = await confessionAPI(claim ? "open" : "read", { id });
-    if (detail?.id !== id) setDraft("");
+    if (detail?.id !== id) { setDraft(""); setReplyAIConsent(false); }
     setDetail(r.item);
     setReply(r.reply);
     setPage("detail");
@@ -274,6 +282,7 @@ export default function ConfessionRoom() {
   const fingerprint = JSON.stringify([
     body,
     audio,
+    aiModerationConsent,
     theme,
     responseType,
     consent,
@@ -290,11 +299,12 @@ export default function ConfessionRoom() {
     }
     const r = await confessionAPI(
       "share",
-      { body, theme, responseType, language, consent },
+      { body, theme, responseType, language, consent, aiModerationConsent: aiModerationConsent ? "confession-ai-2026-11-16" : null, audioModerationConsent: audio && aiModerationConsent ? "confession-audio-ai-2026-11-16" : null },
       audio,
     );
     if (audio) await removeAudio(audio);
     setAudio(undefined);
+    setAIModerationConsent(false);
     setBody("");
     setTheme("");
     setConsent(false);
@@ -525,7 +535,7 @@ export default function ConfessionRoom() {
                           <Recorder
                             language={language}
                             value={audio}
-                            onChange={setAudio}
+                            onChange={(value) => { setAudio(value); setAIModerationConsent(false); }}
                             onBusyChange={setRecording}
                           />
                           {audio && (
@@ -537,6 +547,7 @@ export default function ConfessionRoom() {
                                 onPress={() => {
                                   void removeAudio(audio).then(() => {
                                     setAudio(undefined);
+                                    setAIModerationConsent(false);
                                     setTextInstead(true);
                                   });
                                 }}
@@ -608,6 +619,10 @@ export default function ConfessionRoom() {
                           accessible={false}
                         />
                         <Text style={s.consent}>{t("cConsent")}</Text>
+                      </Pressable>
+                      <Pressable accessibilityRole="checkbox" accessibilityLabel={confessionAIConsentCopy[language]} accessibilityState={{ checked: aiModerationConsent }} onPress={() => setAIModerationConsent(!aiModerationConsent)} style={s.check}>
+                        <Ionicons name={aiModerationConsent ? "checkbox" : "square-outline"} size={25} color={room.ink} accessible={false} />
+                        <Text style={s.consent}>{confessionAIConsentCopy[language]}</Text>
                       </Pressable>
                       <Button
                         title={
@@ -801,6 +816,10 @@ export default function ConfessionRoom() {
                         multiline
                         maxLength={3000}
                       />
+                      <Pressable accessibilityRole="checkbox" accessibilityLabel={confessionAIConsentCopy[language]} accessibilityState={{ checked: replyAIConsent }} onPress={() => setReplyAIConsent(!replyAIConsent)} style={s.check}>
+                        <Ionicons name={replyAIConsent ? "checkbox" : "square-outline"} size={25} color={room.ink} accessible={false} />
+                        <Text style={s.consent}>{confessionAIConsentCopy[language]}</Text>
+                      </Pressable>
                       {btn(
                         "cOffer",
                         () =>
@@ -816,8 +835,10 @@ export default function ConfessionRoom() {
                               responseType: detail.responseType,
                               language: detail.language,
                               consent: true,
+                              aiModerationConsent: replyAIConsent ? "confession-ai-2026-11-16" : null,
                             });
                             setDraft("");
+                            setReplyAIConsent(false);
                             setSuccess("reply");
                             setSupport(r.supportSuggested);
                             setPage("success");

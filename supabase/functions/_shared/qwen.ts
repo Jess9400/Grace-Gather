@@ -5,7 +5,7 @@ export async function qwen(body: Record<string, unknown>) {
   const base = Deno.env.get('QWEN_BASE_URL') || 'https://dashscope-intl.aliyuncs.com/compatible-mode/v1';
   const url = new URL(base.replace(/\/$/,'')+'/chat/completions');
   if(url.protocol!=='https:' || !(url.hostname==='dashscope-intl.aliyuncs.com' || url.hostname.endsWith('.maas.aliyuncs.com'))) throw Error('service_not_configured');
-  const response=await fetch(url,{method:'POST',headers:{Authorization:'Bearer '+key,'Content-Type':'application/json'},body:JSON.stringify(body),signal:AbortSignal.timeout(45000)});
+  const response=await fetch(url,{method:'POST',headers:{Authorization:'Bearer '+key,'Content-Type':'application/json'},body:JSON.stringify(body),signal:AbortSignal.timeout(45000),redirect:'error'});
   // Never log provider response bodies: they may echo a private journal or audio.
   if(!response.ok) throw Error(response.status===429?'provider_busy':'provider_unavailable');
   const result=await response.json();
