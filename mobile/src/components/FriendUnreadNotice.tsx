@@ -4,6 +4,7 @@ import { backend } from "../lib/backend";
 import { useApp } from "../lib/state";
 import { communityCopy } from "../lib/community-copy";
 import { Body, Button, Card } from "./quiet-ui";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function FriendUnreadNotice({
   onLoadError,
@@ -50,6 +51,8 @@ export default function FriendUnreadNotice({
       {items.map((item) => (
         <Card key={item.link_id}>
           <Body small>
+            <Ionicons name="chatbubble-outline" size={15} accessible={false} />
+            {"  "}
             {
               { en: "Message", pt: "Mensagem", es: "Mensaje", ru: "Сообщение" }[
                 profile.language

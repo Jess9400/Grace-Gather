@@ -5,6 +5,7 @@ import ActivityNotices from "./ActivityNotices";
 import MemberPhoneAlerts from "./MemberPhoneAlerts";
 import PrayerSchedule from "../components/PrayerSchedule";
 import HelpLine from "./HelpLine";
+import { Ionicons } from "@expo/vector-icons";
 import { Pressable } from "react-native";
 import { useCommunity } from "../lib/discussion-state";
 import { useCallback, useEffect, useState } from "react";
@@ -417,7 +418,15 @@ function PrayerRoom({
                   )}{" "}
                   {data?.notices.map((n) => (
                     <Card key={n.id}>
-                      <Body small>{notificationLabels[2]}</Body>
+                      <Body small>
+                        <Ionicons
+                          name="heart-outline"
+                          size={15}
+                          accessible={false}
+                        />
+                        {"  "}
+                        {notificationLabels[2]}
+                      </Body>
                       <Body>
                         {tr(
                           n.kind === "time"

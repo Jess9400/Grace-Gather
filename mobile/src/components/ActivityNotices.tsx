@@ -5,6 +5,7 @@ import { useApp } from "../lib/state";
 import { refreshPrayerBadges } from "../lib/prayers";
 import { Body, Button, Card, Notice } from "./quiet-ui";
 import { isProtestant } from "../lib/church-calendar";
+import { Ionicons } from "@expo/vector-icons";
 
 type Item = {
   id: string;
@@ -116,6 +117,12 @@ export default function ActivityNotices({
       {(staff || pending > 0) && (
         <Card>
           <Body small>
+            <Ionicons
+              name="shield-checkmark-outline"
+              size={15}
+              accessible={false}
+            />
+            {"  "}
             {
               {
                 en: "Moderation",
@@ -140,6 +147,16 @@ export default function ActivityNotices({
       {items.map((item) => (
         <Card key={item.id}>
           <Body small>
+            <Ionicons
+              name={
+                item.kind === "confession_reply"
+                  ? "heart-outline"
+                  : "chatbubbles-outline"
+              }
+              size={15}
+              accessible={false}
+            />
+            {"  "}
             {item.kind === "confession_reply"
               ? isProtestant(profile)
                 ? {

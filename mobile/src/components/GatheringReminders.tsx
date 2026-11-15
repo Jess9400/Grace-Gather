@@ -7,6 +7,7 @@ import { communityCopy } from "../lib/community-copy";
 import { storyText } from "../lib/discover";
 import { refreshPrayerBadges } from "../lib/prayers";
 import type { Localized } from "../lib/content";
+import { Ionicons } from "@expo/vector-icons";
 type Reminder = {
   id: string;
   gathering_id: string;
@@ -92,7 +93,11 @@ export default function GatheringReminders({
       )}
       {items.map((item) => (
         <Card key={item.id}>
-          <Body small>{c("sessionSoon")}</Body>
+          <Body small>
+            <Ionicons name="calendar-outline" size={15} accessible={false} />
+            {"  "}
+            {c("sessionSoon")}
+          </Body>
           <Body>{storyText(item.title, profile.language)}</Body>
           <Body small>
             {new Date(item.starts_at).toLocaleString(profile.language, {
