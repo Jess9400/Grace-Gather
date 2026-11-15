@@ -9,6 +9,7 @@ import {
   Pressable,
   Platform,
   Linking,
+  ActivityIndicator,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { CelestialAvatar } from "../../components/MemberAvatar";
@@ -83,7 +84,8 @@ export default function Story() {
     [commentMenu, setCommentMenu] = useState<string | null>(null),
     [storyReportNotice, setStoryReportNotice] = useState(""),
     [report, setReport] = useState<{ comment: string | null } | null>(null),
-    [busy, setBusy] = useState(false);
+    [busy, setBusy] = useState(false),
+    [sendingComment, setSendingComment] = useState(false);
   const interactions = useInteractions([id]),
     scroll = useRef<React.ComponentRef<typeof ScrollView>>(null),
     commentsY = useRef<number | null>(null),
@@ -569,7 +571,8 @@ export default function Story() {
                 />
                 <Pressable
                   accessibilityRole="button"
-                  accessibilityLabel={t("postComment")}
+                  accessibilityLabel={sendingComment ? interfaceCopy(profile.language, "Sending…") : t("postComment")}
+                  accessibilityState={{ busy: sendingComment }}
                   disabled={busy || !body.trim() || !alias.trim()}
                   style={{
                     width: 44,
@@ -578,7 +581,8 @@ export default function Story() {
                     justifyContent: "center",
                     opacity: busy || !body.trim() || !alias.trim() ? 0.35 : 1,
                   }}
-                  onPress={() =>
+                  onPress={() => {
+                    setSendingComment(true);
                     void act(async () => {
                       const { client } = await requireUser();
                       const r = await client.rpc("post_comment", {
@@ -589,16 +593,17 @@ export default function Story() {
                       if (r.error) throw r.error;
                       setBody("");
                       setNotice(l("pending"));
-                    })
-                  }
+                    }).finally(() => setSendingComment(false));
+                  }}
                 >
-                  <Ionicons
+                  {sendingComment ? <ActivityIndicator size="small" color={colors.ink} /> : <Ionicons
                     name="arrow-up-circle"
                     size={28}
                     color={colors.ink}
-                  />
+                  />}
                 </Pressable>
               </View>
+              {sendingComment && <Body small>{interfaceCopy(profile.language, "Sending…")}</Body>}
               {!!body.trim() && !editAlias && !!alias.trim() && (
                 <Pressable
                   accessibilityRole="button"

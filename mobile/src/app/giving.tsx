@@ -11,6 +11,7 @@ import {
   Notice,
 } from "../components/quiet-ui";
 import { TextAction } from "../components/CommunityControls";
+import PreviewDialog from "../components/PreviewDialog";
 import { requireUser } from "../lib/backend";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
 import { useApp } from "../lib/state";
@@ -33,6 +34,7 @@ const organizations = [
   ["UN Volunteers", "https://www.unv.org/become-volunteer"],
 ];
 export default function Giving({ review = false }: { review?: boolean }) {
+  const submitting = useRef(false);
   const tr = useInterfaceCopy();
   const { profile } = useApp();
   const [items, setItems] = useState<Item[]>([]),
@@ -95,7 +97,10 @@ export default function Giving({ review = false }: { review?: boolean }) {
     return () => clearInterval(timer);
   }, []);
   async function submit() {
+    if (submitting.current) return;
+    submitting.current = true;
     setBusy(true);
+    setNotice("");
     try {
       const { client } = await requireUser();
       const { error } = await client.rpc("pay_forward_submit", {
@@ -112,6 +117,7 @@ export default function Giving({ review = false }: { review?: boolean }) {
       setLocation("");
       setWebsite("");
       await load();
+      setNotice(tr("Your recommendation was submitted for review."));
     } catch {
       setNotice(
         tr(
@@ -119,6 +125,7 @@ export default function Giving({ review = false }: { review?: boolean }) {
         ),
       );
     } finally {
+      submitting.current = false;
       setBusy(false);
     }
   }
@@ -198,9 +205,9 @@ export default function Giving({ review = false }: { review?: boolean }) {
           />
           {compose && (
             <Card>
-              {preview ? (
-                <>
+              <PreviewDialog visible={preview} busy={busy} onClose={() => setPreview(false)} closeLabel={tr("Close preview")}>
                   <Subheading>{tr("Preview")}</Subheading>
+                  <Notice text={notice} />
                   {content({ id: "preview", title, body, location, website })}
                   <Body small>
                     {tr(
@@ -208,16 +215,17 @@ export default function Giving({ review = false }: { review?: boolean }) {
                     )}
                   </Body>
                   <Button
-                    title={tr("Submit for review")}
+                    title={tr(busy ? "Sending…" : "Submit for review")}
                     disabled={busy}
+                    loading={busy}
                     onPress={() => void submit()}
                   />
                   <TextAction
                     title={tr("Edit")}
+                    disabled={busy}
                     onPress={() => setPreview(false)}
                   />
-                </>
-              ) : (
+              </PreviewDialog>
                 <>
                   <Field
                     label={tr("Title")}
@@ -251,10 +259,9 @@ export default function Giving({ review = false }: { review?: boolean }) {
                       body.trim().length < 20 ||
                       (!!website && !/^https:\/\/[^\s]+$/.test(website))
                     }
-                    onPress={() => setPreview(true)}
+                    onPress={() => { setNotice(""); setPreview(true); }}
                   />
                 </>
-              )}
               <TextAction
                 title={tr("Cancel")}
                 onPress={() => setCompose(false)}

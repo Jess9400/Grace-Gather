@@ -14,6 +14,7 @@ import {
   StyleSheet,
   Platform,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useApp } from "../../lib/state";
@@ -53,6 +54,7 @@ import ConfessionArrival, {
 } from "../../components/ConfessionArrival";
 import { confessionColors as room } from "../../lib/confession-theme";
 import { communityCopy } from "../../lib/community-copy";
+import PreviewDialog from "../../components/PreviewDialog";
 type Page =
   "room" | "share" | "list" | "mine" | "detail" | "success" | "review";
 const themes = [
@@ -411,13 +413,11 @@ export default function ConfessionRoom() {
                 onPress={() => router.push("/sign-in")}
               />
             )}
-            {(busy || view === "review") && (
-              <Text
-                accessibilityLiveRegion="polite"
-                style={[s.note, page === "share" && { color: room.muted }]}
-              >
-                {t("cLoading")}
-              </Text>
+            {(busy || view === "review") && page !== "share" && (
+              <View accessibilityLiveRegion="polite" style={{ flexDirection: "row", gap: 10, alignItems: "center" }}>
+                <ActivityIndicator size="small" color={colors.gold} />
+                <Text style={s.note}>{page === "list" ? tr("Loading the list…") : t("cLoading")}</Text>
+              </View>
             )}
             {page === "room" && (
               <>
@@ -624,8 +624,9 @@ export default function ConfessionRoom() {
                     </View>
                   </>
                 )}
-                {preview === fingerprint && (
-                  <View style={{ gap: 12, paddingTop: 10 }}>
+                <PreviewDialog visible={preview === fingerprint} busy={busy} onClose={() => setPreview("")} closeLabel={tr("Close preview")}>
+                    <Text accessibilityRole="header" style={s.title}>{protestant ? t("previewBurden") : tr("Preview confession")}</Text>
+                    <Notice text={error} />
                     <Body small>{d("audienceSummary")}</Body>
                     <Body small>
                       {communityCopy(language, "responseNotGuaranteed")}
@@ -637,7 +638,7 @@ export default function ConfessionRoom() {
                     <Body small>
                       {t("c_" + theme)} · {t("c_" + responseType)}
                     </Body>
-                    {btn("cSubmit", () => void run(share))}
+                    <Button title={busy ? tr("Sending…") : t("cSubmit")} disabled={busy} loading={busy} onPress={() => void run(share)} />
                     <TextAction
                       title={
                         protestant ? t("editBurden") : tr("Edit confession")
@@ -646,8 +647,7 @@ export default function ConfessionRoom() {
                       disabled={busy}
                       onPress={() => setPreview("")}
                     />
-                  </View>
-                )}
+                </PreviewDialog>
               </>
             )}
             {page === "success" && (

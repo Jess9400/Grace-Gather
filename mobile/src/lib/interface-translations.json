@@ -1,4 +1,10 @@
 {
+  "Close preview": { "pt": "Fechar prévia", "es": "Cerrar vista previa", "ru": "Закрыть предпросмотр" },
+  "Sharing…": { "pt": "Compartilhando…", "es": "Compartiendo…", "ru": "Публикация…" },
+  "Sending…": { "pt": "Enviando…", "es": "Enviando…", "ru": "Отправка…" },
+  "Saving…": { "pt": "Salvando…", "es": "Guardando…", "ru": "Сохранение…" },
+  "Your recommendation was submitted for review.": { "pt": "Sua indicação foi enviada para revisão.", "es": "Tu recomendación se envió para revisión.", "ru": "Ваша рекомендация отправлена на проверку." },
+  "Loading the list…": { "pt": "Carregando a lista…", "es": "Cargando la lista…", "ru": "Загружаем список…" },
   "Members can read and share approved discussions. Posts are reviewed before sharing; with your permission, AI may help. Your journal is not attached.": {
     "pt": "Discussões aprovadas podem ser lidas e compartilhadas por membros. As publicações são revisadas antes de serem compartilhadas; com sua permissão, a IA pode ajudar. Seu diário não é incluído.",
     "es": "Los miembros pueden leer y compartir los debates aprobados. Las publicaciones se revisan antes de compartirse; con tu permiso, la IA puede ayudar. Tu diario no se incluye.",

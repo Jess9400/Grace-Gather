@@ -38,6 +38,7 @@ import {
 import { getReadingVerse, discussionVerseId } from "../lib/bible";
 import { useBibleFor } from "../lib/use-bible";
 import BrandMark from "./BrandMark";
+import PreviewDialog from "./PreviewDialog";
 
 type ViewMode = "list" | "thread" | "compose" | "review";
 type CommunityProps = {
@@ -833,6 +834,7 @@ function CommunityScreen({
                             : tr("Save for review")
                     }
                     disabled={!reply.trim() || !canPost}
+                    loading={busy}
                     onPress={() =>
                       void act(
                         {
@@ -944,7 +946,9 @@ function CommunityScreen({
               disabled={!title.trim() || !body.trim() || !canPost}
               onPress={() => setPreviewKey(currentPreviewKey)}
             />
-            {previewKey === currentPreviewKey && (
+            <PreviewDialog visible={previewKey === currentPreviewKey} busy={busy} onClose={() => setPreviewKey(null)} closeLabel={tr("Close preview")}>
+              <Heading>{tr("Preview discussion")}</Heading>
+              <Notice text={error} />
               <Card>
                 <Body>{demo ? tr("You") : alias.trim()}</Body>
                 <Body small>{tr(perspective)}</Body>
@@ -957,7 +961,6 @@ function CommunityScreen({
                 <Body>{title.trim()}</Body>
                 <Body>{body.trim()}</Body>
               </Card>
-            )}
             <Button
               title={
                 busy
@@ -974,6 +977,7 @@ function CommunityScreen({
                 !canPost ||
                 previewKey !== currentPreviewKey
               }
+              loading={busy}
               onPress={() =>
                 void act(
                   {
@@ -986,6 +990,7 @@ function CommunityScreen({
                       filter === "verse" ? verse?.reference : undefined,
                   },
                   () => {
+                    setPreviewKey(null);
                     setMode("list");
                     setFilter(feed ? "all" : "mine");
                     clearStudyDiscussionTopic();
@@ -998,6 +1003,8 @@ function CommunityScreen({
                 )
               }
             />
+            <Button secondary title={tr("Edit")} disabled={busy} onPress={() => setPreviewKey(null)} />
+            </PreviewDialog>
           </>
         )}
         {mode === "review" && moderator && (
