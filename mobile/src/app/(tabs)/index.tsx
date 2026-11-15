@@ -68,6 +68,7 @@ const ROUTES: Record<Exclude<ChurchPlace, "wreath">, string> = {
   bible: "/(tabs)/bible",
   gather: "/(tabs)/gatherings",
   pews: "/(tabs)/diary",
+  journal: "/(tabs)/diary",
   pray: "/pray",
 };
 const THEMES: ChurchWord[] = ["hope", "peaceWeek", "joy", "love"];
@@ -337,9 +338,7 @@ export default function Home() {
       hint: t("bibleSub"),
       sub: "bibleSub",
     },
-    ...(eastern
-      ? []
-      : ([
+    ...([
           {
             key: "gather",
             label: t("gather"),
@@ -348,7 +347,8 @@ export default function Home() {
             live: true,
           },
           { key: "pews", label: t("pews"), hint: t("pewsSub"), sub: "pewsSub" },
-        ] as (PlaceLabel & { sub: ChurchWord })[])),
+          { key: "journal", label: t("journal"), hint: t("journalSub"), sub: "journalSub" },
+        ] as (PlaceLabel & { sub: ChurchWord })[]),
   ];
   const scenePlaces: PlaceLabel[] =
     week > 0
@@ -361,6 +361,7 @@ export default function Home() {
   const EntranceView = eastern ? OrthodoxEntrance : ChurchEntrance;
   const open = (place: ChurchPlace, point?: { x: number; y: number }) => {
     if (place === "wreath") return setAboutAdvent((v) => !v);
+    if (place === "pews") { setTour(false); setHasExplored(true); setInvitation(false); setDismissed(true); return; }
     const go = () => router.push(ROUTES[place] as never);
     if (isRoomPlace(place)) enter(place, go, point);
     else go();

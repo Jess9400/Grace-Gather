@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Animated, AppState, Image, StyleSheet, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect } from "expo-router";
@@ -9,6 +9,7 @@ import { setChurchSnapshot } from "../lib/church-room";
 import { useReducedMotion } from "../lib/use-reduced-motion";
 import type { PlaceLabel } from "./ChurchScene";
 import LivingArtwork from "./LivingArtwork";
+import { startChurchTour } from "../lib/church-tour";
 
 const ART = {
   catholic: require("../../assets/church/scenes/catholic.jpg"),
@@ -20,7 +21,7 @@ const NIGHT_ART = {
   orthodox: require("../../assets/church/scenes/orthodox-night.jpg"),
   protestant: require("../../assets/church/scenes/protestant-night.jpg"),
 };
-const TOUR_ORDER: ChurchPlace[] = ["pray", "confession", "gather", "bible", "candles", "pews", "wreath"];
+const TOUR_ORDER: ChurchPlace[] = ["pray", "confession", "gather", "bible", "candles", "pews", "journal", "wreath"];
 
 /** The approved sanctuary artwork, with the guided tour on top. The picture
  * itself does not answer taps: places are reached from the tabs and buttons. */
@@ -45,7 +46,6 @@ export default function LivingChurchScene({
   const [active, setActive] = useState(AppState.currentState === "active");
   const [touring, setTouring] = useState<ChurchPlace | null>(null);
   const [shown] = useState(() => new Animated.Value(0));
-  const tourTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const artKey = `${art}:${night ? "night" : "day"}`;
   const source = night ? NIGHT_ART[art] : ART[art];
   const ready = readyArt === artKey;
@@ -77,23 +77,17 @@ export default function LivingChurchScene({
   useEffect(() => {
     if (!ready || !tour) return;
     const order = (keys.split(",") as ChurchPlace[]).filter(Boolean).sort((a, b) => TOUR_ORDER.indexOf(a) - TOUR_ORDER.indexOf(b));
-    let index = 0;
-    let cancelled = false;
-    const step = () => {
-      if (cancelled) return;
-      if (index >= order.length) { setTouring(null); onTourDone(); return; }
-      const next = order[index++];
-      setTouring(next);
-      onTourPlace(next);
-      shown.setValue(0);
-      Animated.sequence([
-        Animated.timing(shown, { toValue: 1, duration: reduced ? 0 : 400, useNativeDriver: true }),
-        Animated.delay(2800),
-        Animated.timing(shown, { toValue: 0, duration: reduced ? 0 : 400, useNativeDriver: true }),
-      ]).start(({ finished }) => { if (finished && !cancelled) tourTimer.current = setTimeout(step, 80); });
-    };
-    tourTimer.current = setTimeout(step, 150);
-    return () => { cancelled = true; if (tourTimer.current) clearTimeout(tourTimer.current); shown.stopAnimation(); setTouring(null); };
+    const fade = reduced ? 0 : 400;
+    const stop = startChurchTour(order, {
+      fadeMs: fade,
+      onStep: (next) => {
+        setTouring(next); onTourPlace(next); shown.setValue(0);
+        Animated.timing(shown, { toValue: 1, duration: fade, useNativeDriver: true }).start();
+      },
+      onFadeOut: () => Animated.timing(shown, { toValue: 0, duration: fade, useNativeDriver: true }).start(),
+      onDone: () => { setTouring(null); onTourDone(); },
+    });
+    return () => { stop(); shown.stopAnimation(); setTouring(null); };
   }, [keys, onTourDone, onTourPlace, ready, reduced, shown, tour]);
 
   const candidate = touring && artworkHasTourTarget(art, touring) ? points[touring] : undefined;

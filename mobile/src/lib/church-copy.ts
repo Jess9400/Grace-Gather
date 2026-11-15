@@ -105,12 +105,18 @@ const words = {
     "Перед иконой, молитвами Церкви",
   ),
   pews: L(
-    "Sit quietly · Journal",
-    "Sentar em silêncio · Diário",
-    "Sentarse en silencio · Diario",
-    "Поговорить с Богом",
+    "Sit quietly",
+    "Sentar em silêncio",
+    "Sentarse en silencio",
+    "Побыть в тишине",
   ),
   pewsSub: L(
+    "Take a quiet moment here",
+    "Fique aqui em silêncio por um momento",
+    "Tómate un momento de silencio aquí",
+    "Побудьте здесь в тишине",
+  ),
+  journalSub: L(
     "Your private journal",
     "Seu diário particular",
     "Tu diario privado",

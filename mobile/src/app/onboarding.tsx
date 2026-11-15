@@ -35,6 +35,7 @@ import { useSignedIn } from "../lib/account";
 import SignInForm from "../components/SignInForm";
 import CommunityAIPermission from "../components/CommunityAIPermission";
 import OnboardingNotifications from "../components/OnboardingNotifications";
+import CountryPicker from "../components/CountryPicker";
 import { Disclosure } from "../components/QuietControls";
 
 const TRADITIONS: Tradition[] = ["catholic", "protestant", "orthodox"];
@@ -201,18 +202,7 @@ export default function Onboarding() {
             autoComplete="given-name"
             onChangeText={(name) => update({ name })}
           />
-          <Row>
-            <Chip
-              title={t("pBrazil")}
-              selected={p.country === "BR"}
-              onPress={() => update({ country: "BR" })}
-            />
-            <Chip
-              title={t("pOther")}
-              selected={p.country !== "BR"}
-              onPress={() => update({ country: "OTHER" })}
-            />
-          </Row>
+          <CountryPicker language={p.language} value={p.country} onChange={(country) => update({ country })} />
           <Field
             label={t("pCity")}
             value={p.city}
