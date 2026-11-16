@@ -42,6 +42,7 @@ import {
   journalVerseStudy,
   type JournalVerseStudy,
 } from "../../lib/journal-verse-studies";
+import { translatedStudy } from "../../lib/bible-study-translations";
 import { useApp } from "../../lib/state";
 import { fromVerseRoute } from "../../lib/verse-route";
 import { q } from "../../lib/quiet-copy";
@@ -436,10 +437,10 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
   // Journal verses are explained in every language; other studies are English.
   // A journal theme verse has a note in every language; once that note is
   // rebuilt from sources it is preferred, wherever the verse is opened.
-  const journalNote = journalVerseStudy(
-    journalReference ?? themeReferenceFor(id),
-    lang,
-  );
+  // Studies written in English only have their own translations.
+  const journalNote =
+    journalVerseStudy(journalReference ?? themeReferenceFor(id), lang) ??
+    translatedStudy(id, lang);
   const sourced = journalNote?.sources?.length ? journalNote : undefined;
   const explanation = sourced ?? study ?? journalNote;
   const openHeading = {
