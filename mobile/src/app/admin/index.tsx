@@ -18,6 +18,8 @@ import { useApp } from "../../lib/state";
 import { communityCopy } from "../../lib/community-copy";
 import { disableModeratorPush, moderatorPushEnabled, registerModeratorPush } from "../../lib/notifications";
 import { canUseRemotePush } from "../../lib/push-availability";
+import { confessionAPI } from "../../lib/confession";
+import { priorityReviewCount } from "../../lib/urgent-review";
 export default function AdminDashboard() {
   const tr = useInterfaceCopy();
   const { profile } = useApp();
@@ -30,6 +32,14 @@ export default function AdminDashboard() {
   const [countsFailed, setCountsFailed] = useState(false);
   const [pushEnabled, setPushEnabled] = useState(false);
   const [pushBusy, setPushBusy] = useState(false);
+  const [priority, setPriority] = useState<number | null>(null);
+  const [priorityFailed, setPriorityFailed] = useState(false);
+  const priorityCopy = {
+    en: { title: "Possible urgent safety concern", detail: "Review these confessions first. A flag needs human judgment and may be incorrect.", unavailable: "Couldn’t check safety flags. Open Confessions to review the queue.", action: "Review confessions", guide: "This highlights some confession flags and reports; it does not detect every concern or cover every section. Phone alerts are general, require a registered device and may be delayed." },
+    pt: { title: "Possível situação de segurança urgente", detail: "Revise estas confissões primeiro. Um alerta precisa de avaliação humana e pode estar errado.", unavailable: "Não foi possível verificar os alertas. Abra Confissões para revisar a fila.", action: "Revisar confissões", guide: "Isto destaca alguns alertas e denúncias de confissões; não detecta todos os casos nem cobre todas as seções. Alertas no celular são gerais, exigem aparelho cadastrado e podem atrasar." },
+    es: { title: "Posible situación urgente de seguridad", detail: "Revisa estas confesiones primero. Un aviso requiere valoración humana y puede ser incorrecto.", unavailable: "No se pudieron comprobar los avisos. Abre Confesiones para revisar la lista.", action: "Revisar confesiones", guide: "Esto destaca algunos avisos y denuncias de confesiones; no detecta todos los casos ni cubre todas las secciones. Las alertas al móvil son generales, requieren un dispositivo registrado y pueden demorarse." },
+    ru: { title: "Возможная срочная ситуация", detail: "Сначала проверьте эти исповеди. Сигнал требует оценки человеком и может быть ошибочным.", unavailable: "Не удалось проверить сигналы. Откройте исповеди для проверки.", action: "Проверить исповеди", guide: "Здесь выделены некоторые сигналы и жалобы на исповеди; другие случаи и разделы могут быть не охвачены. Уведомления общие, требуют зарегистрированного телефона и могут задерживаться." },
+  }[profile.language];
   const pushCopy = {
     en: { on: "Turn on moderator phone alerts", off: "Turn off moderator phone alerts", saved: "Moderator phone alerts are on.", disabled: "Moderator phone alerts are off.", failed: "Could not update phone alerts. Check your notification settings and try again." },
     pt: { on: "Ativar alertas de moderação", off: "Desativar alertas de moderação", saved: "Alertas de moderação ativados.", disabled: "Alertas de moderação desativados.", failed: "Não foi possível atualizar os alertas. Verifique as notificações e tente novamente." },
@@ -55,7 +65,16 @@ export default function AdminDashboard() {
     }
   }, []);
   useFocusEffect(useCallback(() => {
-    if (allowed && !queue) void loadCounts();
+    let active = true;
+    if (allowed && !queue) {
+      void loadCounts();
+      // The server checks staff access. Keep only a count here, never the text.
+      void confessionAPI("queue").then((result) => {
+        if (!Array.isArray(result.items) || !Array.isArray(result.reports)) throw new Error("invalid_queue");
+        if (active) { setPriority(priorityReviewCount(result.items, result.reports)); setPriorityFailed(false); }
+      }).catch(() => { if (active) { setPriority(null); setPriorityFailed(true); } });
+    }
+    return () => { active = false; };
   }, [allowed, queue, loadCounts]));
   useEffect(() => { if (allowed && Platform.OS !== "web") void moderatorPushEnabled().then(setPushEnabled).catch(() => setPushEnabled(false)); }, [allowed]);
   useEffect(() => {
@@ -76,6 +95,7 @@ export default function AdminDashboard() {
       if (event !== "SIGNED_OUT" && event !== "SIGNED_IN") return;
       setAllowed(false);
       setCounts(null);
+      setPriority(null);
       setQueue("");
       setNotice("Reopen the dashboard to verify your staff access.");
     });
@@ -122,6 +142,12 @@ export default function AdminDashboard() {
           <Body small>
             {tr("Review submissions and reports across the community.")}
           </Body>
+          {(priorityFailed || (priority !== null && priority > 0)) && <View style={{ gap: 8, padding: 14, borderWidth: 1, borderColor: surface.line, borderRadius: 14 }}>
+            {!priorityFailed && <Text accessibilityRole="header" style={{ color: surface.ink, fontSize: 16, fontWeight: "700" }}>{priorityCopy.title}{priority ? ` · ${priority}` : ""}</Text>}
+            <Text style={{ color: surface.muted, fontSize: 14, lineHeight: 20 }}>{priorityFailed ? priorityCopy.unavailable : priorityCopy.detail}</Text>
+            <TextAction title={priorityCopy.action} icon="arrow-forward" onPress={() => { router.setParams({ view: "review" }); setQueue("confessions"); }} />
+          </View>}
+          <Body small>{priorityCopy.guide}</Body>
           {Platform.OS !== "web" && canUseRemotePush(Platform.OS, process.env.EXPO_PUBLIC_ANDROID_REMOTE_PUSH_ENABLED) && <Button secondary disabled={pushBusy} title={pushEnabled ? pushCopy.off : pushCopy.on} onPress={() => {
             setPushBusy(true); setNotice("");
             void (pushEnabled ? disableModeratorPush() : registerModeratorPush()).then(() => {

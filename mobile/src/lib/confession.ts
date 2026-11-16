@@ -22,6 +22,7 @@ export interface ConfessionResult {
   item: Confession;
   reply: Confession | null;
   items: Confession[];
+  reports?: { id: string; target: string; reason: string; created: number }[];
   reserved: Confession[];
   moderator: boolean;
   supportSuggested: boolean;

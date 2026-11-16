@@ -45,6 +45,7 @@ function Routes() {
         >
           <Stack.Screen name="sign-in" />
           <Stack.Screen name="privacy" />
+          <Stack.Screen name="help" />
           <Stack.Screen name="restore" />
           {/* A preview page with nothing private on it: it opens without signing in. */}
           <Stack.Screen name="intro" />

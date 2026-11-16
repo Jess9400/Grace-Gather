@@ -17,6 +17,7 @@ import { aiCopy, AI_CONSENT_VERSION } from "../lib/ai-copy";
 import { journalCopy } from "../lib/journal-library-copy";
 import { backend } from "../lib/backend";
 import JournalAIPermissionDialog from "./JournalAIPermissionDialog";
+import SafetyFooter from "./SafetyFooter";
 export default function Diary() {
   const { profile, saveEntry, entries } = useApp(),
     { draft, update, clear } = useQuiet();
@@ -260,6 +261,7 @@ export default function Diary() {
           }}
         />
       )}
+      {!writing && <SafetyFooter />}
     </Screen>
   );
 }
