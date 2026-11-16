@@ -26,6 +26,7 @@ export interface Profile extends Preferences {
   churchLighting?: "auto" | "day" | "night";
   faithChoice?: Tradition | "exploring" | "unspecified";
   traditionQuestionVersion?: number;
+  termsVersion?: number;
   name: string;
   city: string;
   region: string;

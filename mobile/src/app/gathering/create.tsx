@@ -41,7 +41,7 @@ export default function CreateGathering() {
     [minutes, setMinutes] = useState("60"),
     [busy, setBusy] = useState(false),
     [error, setError] = useState(""),
-    [configured, setConfigured] = useState(false);
+    [configured, setConfigured] = useState<boolean | null>(null);
   useEffect(() => {
     void backend?.functions
       .invoke("gathering-token", { method: "GET" })
@@ -73,7 +73,8 @@ export default function CreateGathering() {
         params: { id: result.id },
       });
     } catch (e) {
-      setError((e as Error).message);
+      const message = (e as Error).message;
+      setError(message === "hosts_only" ? c("hosts_only") : message);
     } finally {
       submitting.current = false;
       setBusy(false);
@@ -135,7 +136,8 @@ export default function CreateGathering() {
           }}
         />
       </Row>
-      {!configured && <Body small>{c("audioSetupNote")}</Body>}
+      {/* Only once the server has answered that audio is unavailable. */}
+      {configured === false && <Body small>{c("audioSetupNote")}</Body>}
       {!now && (
         <>
           <Body small>{c("repeat")}</Body>

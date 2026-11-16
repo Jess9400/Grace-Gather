@@ -44,10 +44,11 @@ export default function AppleSignIn({
         const result = await client.functions.invoke("apple-credential", {
           body: { code: credential.authorizationCode },
         });
-        if (result.error)
-          onError(
-            "Signed in. Apple token revocation setup is incomplete; contact support before release.",
-          );
+        // Sign-in has already succeeded. If storing the token for later
+        // revocation fails, account deletion falls back to asking the person
+        // to remove the app in their Apple Account settings, so nothing is
+        // shown here.
+        if (result.error) console.warn("apple-credential failed");
       }
     } catch (e) {
       if ((e as { code?: string }).code !== "ERR_REQUEST_CANCELED")

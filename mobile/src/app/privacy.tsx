@@ -46,7 +46,7 @@ const policy = {
     ],
     [
       "Questions and rights",
-      "Contact Grace & Gather at hello@graceandgather.online to request help, access, correction or deletion of account data. You can export an encrypted local journal, delete entries and remove all device data in Account. This early-access policy must be reviewed against the final production providers and retention settings before public launch.",
+      "Contact Grace & Gather at hello@graceandgather.online to request help, access, correction or deletion of account data. You can export an encrypted local journal, delete entries and remove all device data in Account.",
     ],
   ],
   pt: [
@@ -84,7 +84,7 @@ const policy = {
     ],
     [
       "Dúvidas e direitos",
-      "Contate Grace & Gather em hello@graceandgather.online para solicitar ajuda, acesso, correção ou exclusão de dados. Em Conta, você pode exportar uma cópia criptografada ou excluir dados locais. Esta política inicial precisa ser revisada conforme os provedores e prazos de retenção finais antes do lançamento público.",
+      "Contate Grace & Gather em hello@graceandgather.online para solicitar ajuda, acesso, correção ou exclusão de dados. Em Conta, você pode exportar uma cópia criptografada ou excluir dados locais.",
     ],
   ],
   es: [
@@ -122,7 +122,7 @@ const policy = {
     ],
     [
       "Preguntas y derechos",
-      "Contacta con Grace & Gather en hello@graceandgather.online para pedir ayuda, acceso, corrección o eliminación de datos. En Cuenta puedes exportar una copia cifrada o borrar datos locales. Esta política inicial debe revisarse según proveedores y retención finales antes del lanzamiento público.",
+      "Contacta con Grace & Gather en hello@graceandgather.online para pedir ayuda, acceso, corrección o eliminación de datos. En Cuenta puedes exportar una copia cifrada o borrar datos locales.",
     ],
   ],
   ru: [
@@ -160,7 +160,7 @@ const policy = {
     ],
     [
       "Вопросы и ваши права",
-      "Чтобы получить помощь, доступ к данным, исправить или удалить их, напишите в Grace & Gather по адресу hello@graceandgather.online. В разделе «Аккаунт» можно экспортировать зашифрованную копию или удалить данные с устройства. Это предварительная версия политики: перед публичным запуском её нужно сверить с окончательным выбором провайдеров и сроками хранения.",
+      "Чтобы получить помощь, доступ к данным, исправить или удалить их, напишите в Grace & Gather по адресу hello@graceandgather.online. В разделе «Аккаунт» можно экспортировать зашифрованную копию или удалить данные с устройства.",
     ],
   ],
 };

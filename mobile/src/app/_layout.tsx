@@ -7,7 +7,7 @@ import { QuietProvider } from "../lib/quiet-state";
 import { StatusBar } from "expo-status-bar";
 import { AppProvider, useApp } from "../lib/state";
 import { Busy, Screen, Body, External, colors } from "../components/ui";
-import { hasAnsweredTraditionQuestion } from "../lib/onboarding";
+import { hasCompletedOnboarding } from "../lib/onboarding";
 import { CommunityProvider } from "../lib/discussion-state";
 import { useSignedIn } from "../lib/account";
 import ModeratorPushListener from "../components/ModeratorPushListener";
@@ -45,6 +45,7 @@ function Routes() {
         >
           <Stack.Screen name="sign-in" />
           <Stack.Screen name="privacy" />
+          <Stack.Screen name="terms" />
           <Stack.Screen name="help" />
           <Stack.Screen name="restore" />
           {/* A preview page with nothing private on it: it opens without signing in. */}
@@ -53,7 +54,7 @@ function Routes() {
             <Stack.Screen name="onboarding" />
             <Stack.Screen name="account" />
             <Stack.Protected
-              guard={hasAnsweredTraditionQuestion(profile)}
+              guard={hasCompletedOnboarding(profile)}
               redirectTo="/onboarding"
             >
               {[

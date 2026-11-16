@@ -30,7 +30,6 @@ import {
   type Profile,
   type Tradition,
 } from "../lib/content";
-import { label } from "../lib/labels";
 import { q } from "../lib/quiet-copy";
 import { interfaceCopy } from "../lib/interface-copy";
 import CommunityAIPermission from "../components/CommunityAIPermission";
@@ -181,24 +180,6 @@ export default function Preferences() {
           maxLength={80}
           onChangeText={(region) => update({ region: region.toUpperCase() })}
         />
-      </Card>
-
-      <Card>
-        <Subheading>{tr("Email reminders")}</Subheading>
-        <Field
-          label={t("pEmail")}
-          keyboardType="email-address"
-          autoCapitalize="none"
-          value={p.email}
-          maxLength={254}
-          onChangeText={(email) => update({ email })}
-        />
-        <Chip
-          title={(p.emailConsent ? "✓ " : "") + t("pConsent")}
-          selected={p.emailConsent}
-          onPress={() => update({ emailConsent: !p.emailConsent })}
-        />
-        <Body small>{label(p.language, "emailNotLive")}</Body>
       </Card>
 
       <Card>

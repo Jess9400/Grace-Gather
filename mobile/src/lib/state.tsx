@@ -302,7 +302,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       })
       .catch(() =>
         setError(
-          "Your private storage could not open. Your files have been preserved. Use a development build with encrypted storage, or contact hello@graceandgather.online.",
+          "Your private storage could not open. Your files have been preserved. Please close Grace & Gather and open it again. If this keeps happening, write to hello@graceandgather.online.",
         ),
       );
     return () => {
