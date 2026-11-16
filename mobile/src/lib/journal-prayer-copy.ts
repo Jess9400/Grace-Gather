@@ -36,7 +36,7 @@ const words: Record<string, Record<Language, PrayerWords>> = {
     ],
     pt: [
       "Levar esta preocupação à oração",
-      "Você não precisa colocar todas as preocupações em palavras de uma vez. Talvez comece pela que mais pesa.",
+      "Você não precisa falar de todas as preocupações de uma vez. Pode começar pela que mais incomoda hoje.",
       "Dê nome a uma preocupação em uma oração breve. Pode escrever aqui ou orar em silêncio.",
     ],
     es: [
@@ -57,7 +57,7 @@ const words: Record<string, Record<Language, PrayerWords>> = {
       "Take one minute to tell God what feels hardest today. Write a few words here, or pray quietly.",
     ],
     pt: [
-      "Orar sobre o que mais pesa",
+      "Orar sobre o que está difícil",
       "Há espaço para a tristeza na oração. Você pode contar a Deus o que está mais difícil hoje, sem tentar parecer esperançoso.",
       "Reserve um minuto para contar a Deus o que está mais difícil hoje. Escreva algumas palavras aqui ou ore em silêncio.",
     ],
@@ -123,9 +123,9 @@ const words: Record<string, Record<Language, PrayerWords>> = {
       "Take one minute to tell God how heavy this feels. You can write a few words or remain quietly in prayer.",
     ],
     pt: [
-      "Orar sobre o peso de hoje",
-      "Você não precisa encontrar uma resposta esperançosa antes de orar. Pode simplesmente dizer o quanto hoje está pesado.",
-      "Reserve um minuto para contar a Deus o peso que sente. Pode escrever algumas palavras ou ficar em oração silenciosa.",
+      "Conversar com Deus sobre hoje",
+      "Você pode conversar com Deus com sinceridade, sem precisar encontrar as palavras certas.",
+      "Conte a Deus como você está hoje. Pode escrever algumas palavras ou orar em silêncio.",
     ],
     es: [
       "Orar sobre el peso de hoy",
@@ -143,4 +143,16 @@ const words: Record<string, Record<Language, PrayerWords>> = {
 export function prayerCopy(lang: Language, theme: string) {
   const row = words[theme === "venting" ? "sadness" : theme]?.[lang];
   return row ? { title: row[0], invitation: row[1], prompt: row[2] } : null;
+}
+
+// Older entries keep a snapshot. Refresh only our exact former Portuguese
+// defaults for display, without changing the person's words or stored entry.
+export function refreshPortuguesePrayerCopy<T extends { actionId: string; actionTitle: string; actionPrompt?: string }>(response: T, lang: Language): T {
+  if (lang !== "pt" || response.actionId !== "A03") return response;
+  const prayer = words.hopelessness.pt;
+  return {
+    ...response,
+    actionTitle: response.actionTitle === "Orar sobre o peso de hoje" ? prayer[0] : response.actionTitle,
+    actionPrompt: response.actionPrompt === "Reserve um minuto para contar a Deus o peso que sente. Pode escrever algumas palavras ou ficar em oração silenciosa." ? prayer[2] : response.actionPrompt,
+  };
 }

@@ -36,7 +36,7 @@ const words = {
   ),
   gentle: L(
     "If this heaviness stays with you, you don’t have to carry it alone. Talking with someone can help.",
-    "Se esse peso continuar, você não precisa carregá-lo sozinho. Conversar com alguém pode ajudar.",
+    "Se você continua passando por um momento difícil, conversar com alguém pode ajudar.",
     "Si este peso sigue contigo, no tienes que cargarlo solo. Hablar con alguien puede ayudar.",
     "Если эта тяжесть не уходит, не нужно нести её в одиночку. Может помочь разговор с кем-нибудь.",
   ),

@@ -16,3 +16,14 @@ export function needsSupport(text: string) {
   const plain = text.replace(/[’‘]/g, "'");
   return danger.some((pattern) => pattern.test(plain));
 }
+
+// A model's broad mood classification alone is not evidence of an ongoing
+// mental-health concern. Offer the optional support card only when the person
+// actually writes about it; the separate urgent check above is unchanged.
+export function offersOngoingSupport(text: string, theme: string) {
+  if (theme !== "persistent-distress") return false;
+  const named = /\b(?:depression|depressed|depressive)\b|depress[aã]o|deprimid[oa]|depresi[oó]n|депресси/i.test(text);
+  const sustained = /(?:for weeks|for months|every day|há semanas|ha semanas|há meses|ha meses|todos os dias|por semanas|por meses|cada d[ií]a|недел[июь]|месяц|каждый день)/i.test(text);
+  const distress = /\b(?:sad|hopeless|cannot cope|can't cope|crying|despair)\b|sem esperan[cç]a|ang[uú]stia|triste|n[aã]o aguento|choro|desespero|sin esperanza|angustia|llorando|невыносим|безнад[её]ж|груст/i.test(text);
+  return named || (sustained && distress);
+}

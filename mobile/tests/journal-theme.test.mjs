@@ -23,6 +23,17 @@ function load(path) {
   return module.exports;
 }
 const { journalTheme, says } = load(resolve(root, 'mobile/src/lib/journal-guidance.ts'));
+const { refreshPortuguesePrayerCopy } = load(resolve(root, 'mobile/src/lib/journal-prayer-copy.ts'));
+
+test('older saved prayer wording is updated for display without changing other responses', () => {
+  const old = { actionId: 'A03', actionTitle: 'Orar sobre o peso de hoje', actionPrompt: 'Reserve um minuto para contar a Deus o peso que sente. Pode escrever algumas palavras ou ficar em oração silenciosa.' };
+  const updated = refreshPortuguesePrayerCopy(old, 'pt');
+  assert.equal(updated.actionTitle, 'Conversar com Deus sobre hoje');
+  assert.equal(updated.actionPrompt, 'Conte a Deus como você está hoje. Pode escrever algumas palavras ou orar em silêncio.');
+  assert.equal(old.actionTitle, 'Orar sobre o peso de hoje');
+  assert.equal(refreshPortuguesePrayerCopy(old, 'en'), old);
+  assert.equal(refreshPortuguesePrayerCopy({...old, actionId: 'A04'}, 'pt').actionTitle, old.actionTitle);
+});
 // The backup reader, used when the AI is off or unavailable; the entry's
 // own feeling (mood) only decides when no words match.
 const theme = (text, mood = 'unsure') => journalTheme({ text, mood }).id;

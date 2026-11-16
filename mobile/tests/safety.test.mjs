@@ -11,7 +11,7 @@ const ts = require('../node_modules/typescript');
 const source = readFileSync(root + 'src/lib/safety.ts', 'utf8');
 const module = { exports: {} };
 runInNewContext(ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 } }).outputText, { module, exports: module.exports });
-const { needsSupport } = module.exports;
+const { needsSupport, offersOngoingSupport } = module.exports;
 
 test('the journal recognises common ways of saying someone may be in danger, in four languages', () => {
   for (const text of [
@@ -20,6 +20,19 @@ test('the journal recognises common ways of saying someone may be in danger, in 
     'Quiero morir', 'quiero acabar con mi vida', 'no quiero seguir vivir así', 'pienso en suicidarme',
     'Не хочу жить', 'хочу покончить с жизнью', 'думаю о самоубийстве',
   ]) assert.equal(needsSupport(text), true, text);
+});
+
+test('ongoing support is based on the actual words, not a guessed theme', () => {
+  for (const text of ['God, help me keep my faith.', 'Deus, me ajuda a manter minha fé.', 'Help me find hope again.']) {
+    assert.equal(offersOngoingSupport(text, 'persistent-distress'), false, text);
+    assert.equal(offersOngoingSupport(text, 'hopelessness'), false, text);
+    assert.equal(needsSupport(text), false, text);
+  }
+  assert.equal(offersOngoingSupport('Estou com depressão há meses.', 'persistent-distress'), true);
+  assert.equal(offersOngoingSupport('I feel depressed most days.', 'persistent-distress'), true);
+  assert.equal(offersOngoingSupport('Estou triste todos os dias há semanas.', 'persistent-distress'), true);
+  assert.equal(offersOngoingSupport('Quero fortalecer minha fé todos os dias.', 'persistent-distress'), false);
+  assert.equal(needsSupport('Não quero mais viver'), true);
 });
 
 test('ordinary hard days do not trigger the danger card', () => {
