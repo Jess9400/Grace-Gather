@@ -1,0 +1,16 @@
+import { router } from "expo-router";
+import { Body } from "./quiet-ui";
+import { Disclosure, TextAction } from "./CommunityControls";
+import { useApp } from "../lib/state";
+
+const words = {
+  en: { title: "How to review a safety concern", steps: "Read or listen to the full submission. A flag can be wrong, and a report is not necessarily an emergency.\n\nIf there may be immediate danger and an appropriate contact channel is available, encourage the person to contact local emergency services or someone they trust. If you have a credible reason to believe someone is in immediate danger, contact the appropriate local emergency service and share only relevant information already available.\n\nBriefly record the decision without copying private details. Do not contact authorities automatically based only on AI. Alerts can be delayed; journals are not monitored.", help: "Find local support" },
+  pt: { title: "Como revisar uma situação de segurança", steps: "Leia ou ouça todo o envio. Um alerta pode estar errado, e uma denúncia não é necessariamente uma emergência.\n\nSe houver possível perigo imediato e uma forma adequada de contato, incentive a pessoa a procurar a emergência local ou alguém de confiança. Se houver motivo confiável para acreditar que alguém corre perigo imediato, contate o serviço de emergência apropriado e compartilhe apenas informações relevantes já disponíveis.\n\nRegistre a decisão brevemente, sem copiar detalhes privados. Não contate autoridades automaticamente com base apenas na IA. Alertas podem atrasar; diários não são monitorados.", help: "Encontrar apoio local" },
+  es: { title: "Cómo revisar una situación de seguridad", steps: "Lee o escucha todo el envío. Un aviso puede ser incorrecto y una denuncia no siempre es una emergencia.\n\nSi puede haber peligro inmediato y existe un canal apropiado, anima a la persona a contactar con emergencias locales o alguien de confianza. Si hay motivos creíbles de peligro inmediato, contacta con el servicio de emergencias apropiado y comparte solo la información relevante disponible.\n\nRegistra la decisión brevemente sin copiar detalles privados. No contactes automáticamente a las autoridades basándote solo en IA. Las alertas pueden demorarse; los diarios no se supervisan.", help: "Buscar apoyo local" },
+  ru: { title: "Как проверить ситуацию безопасности", steps: "Прочитайте или прослушайте сообщение целиком. Сигнал может быть ошибочным, а жалоба не всегда означает чрезвычайную ситуацию.\n\nПри возможной непосредственной опасности, если есть подходящий способ связи, предложите человеку обратиться в местную экстренную службу или к тому, кому он доверяет. Если есть веские основания считать опасность непосредственной, обратитесь в соответствующую службу и сообщите только необходимые сведения, которые у вас уже есть.\n\nКратко запишите решение без личных подробностей. Не обращайтесь к властям автоматически только из-за сигнала ИИ. Уведомления могут задерживаться; дневники не отслеживаются.", help: "Найти местную помощь" },
+};
+export default function SafetyReviewGuide() {
+  const { profile } = useApp();
+  const t = words[profile.language];
+  return <Disclosure title={t.title}><Body small>{t.steps}</Body><TextAction icon="arrow-forward" title={t.help} onPress={() => router.push("/help")} /></Disclosure>;
+}

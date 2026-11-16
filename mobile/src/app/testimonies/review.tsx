@@ -12,8 +12,10 @@ import {
   Busy,
 } from "../../components/community-ui";
 import { testimony, Testimony } from "../../lib/discover";
+import SafetyReviewBadge, { SafetyReviewUnavailable, useSafetyReviewIds } from "../../components/SafetyReviewBadge";
 export default function Review() {
   const { id } = useLocalSearchParams<{ id?: string }>();
+  const { ids: priorityIds, failed: priorityFailed } = useSafetyReviewIds("testimonies", true);
   const [items, setItems] = useState<Testimony[]>([]),
     [reasons, setReasons] = useState<Record<string, string>>({}),
     [error, setError] = useState(""),
@@ -60,12 +62,14 @@ export default function Review() {
         author and moderators.
       </Body>
       <Notice text={error} />
+      {priorityFailed && <SafetyReviewUnavailable />}
       {busy && <Busy />}
       {!busy && !error && !items.length && (
         <Body>No testimonies await review.</Body>
       )}
-      {items.filter(Boolean).map((item) => (
+      {items.filter(Boolean).sort((a, b) => Number(priorityIds.includes(b.id)) - Number(priorityIds.includes(a.id))).map((item) => (
         <Card key={item.id}>
+          {priorityIds.includes(item.id) && <SafetyReviewBadge />}
           <Body small>
             {item.status} · revision {item.revision} ·{" "}
             {item.anonymous ? "Anonymous to readers" : item.display_name}

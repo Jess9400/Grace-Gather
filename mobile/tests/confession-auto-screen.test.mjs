@@ -30,3 +30,15 @@ test('concerning words and a changed database state cannot be auto-published', a
   const risky=deps(); assert.equal(await autoScreenConfession({...input,body:'My email is me@example.com'},risky),'pending'); assert.deepEqual(risky.calls,[]);
   const changed=deps({approve:async()=>false}); assert.equal(await autoScreenConfession(input,changed),'unchanged');
 });
+test('a safety signal found in consented audio is held and marked without passing its transcript to the marker', async () => {
+  let marked;
+  const d=deps({transcribe:async()=> 'I want to hurt myself', flag:async value=>{marked=value;}});
+  assert.equal(await autoScreenConfession({...input,body:'',audio:{},audioConsent:true},d),'pending');
+  assert.equal(marked.id,input.id); assert.equal(marked.body,''); assert.ok(!JSON.stringify(marked).includes('hurt myself'));
+  assert.ok(!d.calls.includes('approve'));
+});
+test('a flagged model decision is held and marked for review', async () => {
+  let marked=false;
+  const d=deps({screen:async()=>JSON.stringify({publish:false,uncertain:false,flags:['self_harm'],summary:'Needs human review'}),flag:async()=>{marked=true;}});
+  assert.equal(await autoScreenConfession(input,d),'pending'); assert.equal(marked,true); assert.ok(!d.calls.includes('approve'));
+});

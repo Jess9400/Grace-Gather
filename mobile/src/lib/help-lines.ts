@@ -47,7 +47,7 @@ export function helpCopy(language: Language, key: keyof typeof words) {
 
 // Show Brazilian services only when Brazil was explicitly selected.
 export function inBrazil(profile: Pick<Profile, "language" | "country">) {
-  return profile.language === "pt" && profile.country === "BR";
+  return profile.country === "BR";
 }
 
 export function helplineText(profile: Pick<Profile, "language" | "country">) {

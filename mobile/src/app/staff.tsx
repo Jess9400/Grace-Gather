@@ -1,4 +1,5 @@
 import { router } from "expo-router";
+import SafetyReviewBadge, { SafetyReviewUnavailable, useSafetyReviewIds } from "../components/SafetyReviewBadge";
 import { useCallback, useEffect, useState } from "react";
 import {
   Screen,
@@ -25,6 +26,7 @@ interface Report {
   item_id: string | null;
 }
 export default function Staff() {
+  const { ids: priorityIds, failed: priorityFailed } = useSafetyReviewIds("stories", true);
   const [allowed, setAllowed] = useState(false),
     [comments, setComments] = useState<Comment[]>([]),
     [reports, setReports] = useState<Report[]>([]),
@@ -93,8 +95,10 @@ export default function Staff() {
             onPress={() => router.push("/testimonies/review")}
           />
           <Subheading>Pending comments</Subheading>
-          {comments.map((c) => (
+          {priorityFailed && <SafetyReviewUnavailable />}
+          {[...comments].sort((a, b) => Number(priorityIds.includes(b.id)) - Number(priorityIds.includes(a.id))).map((c) => (
             <Card key={c.id}>
+              {priorityIds.includes(c.id) && <SafetyReviewBadge />}
               <Body>
                 {c.alias}: {c.body}
               </Body>
@@ -135,6 +139,7 @@ export default function Staff() {
           <Subheading>Open reports</Subheading>
           {reports.map((r) => (
             <Card key={r.id}>
+              <SafetyReviewBadge />
               <Body>
                 {r.reason}: {r.detail}
               </Body>

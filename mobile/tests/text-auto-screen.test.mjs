@@ -16,3 +16,13 @@ test('links, uncertainty, risky content, failures and stale data stay pending',a
   assert.equal(await autoScreenText('comment',{body:'Thank you'},{screen:async()=>safe,approve:async()=>false}),'pending');
   assert.equal(await autoScreenText('bad',{body:'Thank you'},deps),'pending');
 });
+test('text screening marks safety concerns for review without publishing',async()=>{
+  let marked;
+  const candidate={id:'private',body:'I want to hurt myself'};
+  assert.equal(await autoScreenText('testimony',candidate,{flag:async c=>{marked=c;},screen:async()=>safe,approve:async()=>true}),'pending');
+  assert.equal(marked,candidate);
+  marked=null;
+  const decision=JSON.stringify({publish:false,uncertain:false,flags:['threat'],summary:'Needs human review'});
+  assert.equal(await autoScreenText('comment',{id:'x',body:'ordinary text'},{flag:async c=>{marked=c;},screen:async()=>decision,approve:async()=>true}),'pending');
+  assert.equal(marked.id,'x');
+});

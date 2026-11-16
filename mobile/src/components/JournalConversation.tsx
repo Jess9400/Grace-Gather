@@ -31,6 +31,7 @@ import { journalCopy } from "../lib/journal-library-copy";
 import { useSignedIn } from "../lib/account";
 import JournalActionButton from "./JournalActionButton";
 import JournalAIPermissionDialog from "./JournalAIPermissionDialog";
+import SafetyFooter from "./SafetyFooter";
 export default function JournalConversation({
   entry,
   initialAction,
@@ -349,6 +350,7 @@ export default function JournalConversation({
       {/* The reply box is part of the page, so the whole page scrolls and
           the suggested step is never hidden behind it. */}
       {composer}
+      {!focused && <SafetyFooter />}
     </Screen>
   );
 }

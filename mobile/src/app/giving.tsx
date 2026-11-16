@@ -16,6 +16,7 @@ import { requireUser } from "../lib/backend";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
 import { useApp } from "../lib/state";
 import { jc } from "../lib/journal-copy";
+import SafetyReviewBadge, { SafetyReviewUnavailable, useSafetyReviewIds } from "../components/SafetyReviewBadge";
 type Item = {
   id: string;
   title: string;
@@ -34,6 +35,7 @@ const organizations = [
   ["UN Volunteers", "https://www.unv.org/become-volunteer"],
 ];
 export default function Giving({ review = false }: { review?: boolean }) {
+  const { ids: priorityIds, failed: priorityFailed } = useSafetyReviewIds("giving", review);
   const submitting = useRef(false);
   const tr = useInterfaceCopy();
   const { profile } = useApp();
@@ -184,6 +186,7 @@ export default function Giving({ review = false }: { review?: boolean }) {
     <Screen back>
       <Heading>{jc(profile.language, "pay")}</Heading>
       <Notice text={notice} />
+      {review && priorityFailed && <SafetyReviewUnavailable />}
       {!review && (
         <>
           <Body>
@@ -309,8 +312,9 @@ export default function Giving({ review = false }: { review?: boolean }) {
           maxLength={1000}
         />
       )}
-      {items.map((item) => (
+      {[...items].sort((a, b) => Number(priorityIds.includes(b.id)) - Number(priorityIds.includes(a.id))).map((item) => (
         <Card key={item.id}>
+          {review && priorityIds.includes(item.id) && <SafetyReviewBadge />}
           {content(item)}
           {review && (
             <>
