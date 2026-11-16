@@ -1,8 +1,7 @@
 import {readFile,writeFile} from 'node:fs/promises';
 import vm from 'node:vm';
 import ts from '../mobile/node_modules/typescript/lib/typescript.js';
-// Each page's sections live in its screen as one constant: `policy` in the
-// privacy screen and `terms` in the Terms of Use screen.
+// Policy and terms share their sections with the in-app pages.
 async function sectionsOf(file,name){
   const source=await readFile(file,'utf8');
   const parsed=ts.createSourceFile(file,source,ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX);
@@ -12,7 +11,7 @@ async function sectionsOf(file,name){
   return vm.runInNewContext('('+object+')',Object.create(null),{timeout:1000});
 }
 const policy=await sectionsOf('mobile/src/app/privacy.tsx','policy');
-const terms=await sectionsOf('mobile/src/app/terms.tsx','terms');
+const terms=await sectionsOf('mobile/src/lib/terms-content.ts','terms');
 const escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const style='body{margin:0;background:#1b1612;color:#f4ebda;font:17px/1.65 system-ui}main{max-width:720px;margin:auto;padding:28px 24px 70px}h1,h2{font-family:Georgia,serif;line-height:1.2}h1{font-size:38px}h2{font-size:25px}a{color:#f0d6a2}a:focus-visible{outline:2px solid #f0d6a2;outline-offset:4px}nav{display:flex;gap:18px;flex-wrap:wrap}section{padding:20px 0;border-bottom:1px solid #f4ebda40}small{color:#c8bbaa}';
 const shell=(title,body)=>`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${title} · Grace &amp; Gather</title><link rel="stylesheet" href="./support.css"></head><body><main><a href="./">← Grace &amp; Gather</a><h1>${title}</h1>${body}</main></body></html>`;
