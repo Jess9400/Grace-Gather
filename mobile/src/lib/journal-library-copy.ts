@@ -8,10 +8,10 @@ const words = {
     "Не удалось подключиться к дневнику. Могут отображаться сохранённые на устройстве копии. Повторите попытку перед сохранением.",
   ],
   deviceImportInfo: [
-    "Previous entries are still on this device. Add them to the account you’re signed into?",
-    "Entradas anteriores ainda estão neste aparelho. Adicionar à conta em que você entrou?",
-    "Hay entradas anteriores en este dispositivo. ¿Añadirlas a tu cuenta actual?",
-    "На этом устройстве есть предыдущие записи. Добавить их в текущую учётную запись?",
+    "Earlier entries are on this device. Add them to your account?",
+    "Há entradas anteriores neste aparelho. Adicionar à sua conta?",
+    "Hay entradas anteriores en este dispositivo. ¿Añadirlas a tu cuenta?",
+    "На этом устройстве есть прежние записи. Добавить их в ваш аккаунт?",
   ],
   deviceImport: [
     "Add previous entries",
@@ -151,7 +151,7 @@ const words = {
   ],
   saved: ["Saved.", "Salvo.", "Guardado.", "Сохранено."],
   failed: [
-    "Could not save. Your journal is unchanged. Please try again.",
+    "Could not save. Your journal is unchanged. Try again.",
     "Não foi possível salvar. Seu diário não mudou. Tente novamente.",
     "No se pudo guardar. Tu diario no ha cambiado. Inténtalo de nuevo.",
     "Не удалось сохранить. Дневник не изменён. Попробуйте ещё раз.",
@@ -236,10 +236,10 @@ const words = {
     "Восстановить резервную копию",
   ],
   restoreInfo: [
-    "Adds missing entries to your signed-in account. Existing entries are kept unchanged.",
-    "Adiciona entradas ausentes à sua conta. As entradas existentes não são alteradas.",
-    "Añade las entradas que faltan a tu cuenta. Las existentes no se modifican.",
-    "Недостающие записи добавляются в вашу учётную запись. Существующие записи не изменяются.",
+    "Adds missing entries to your account. Existing entries stay unchanged.",
+    "Adiciona as entradas que faltam à sua conta. As existentes não mudam.",
+    "Añade las entradas que faltan a tu cuenta. Las existentes no cambian.",
+    "Добавит недостающие записи в ваш аккаунт. Остальные останутся без изменений.",
   ],
   restored: [
     "Your journal has been restored.",
@@ -254,7 +254,7 @@ const words = {
     "Не удалось восстановить. Проверьте файл и ключ. Существующие записи сохранены.",
   ],
   exportFailed: [
-    "Could not export. Your journal is unchanged. Please try again.",
+    "Could not export. Your journal is unchanged. Try again.",
     "Não foi possível exportar. Seu diário não mudou. Tente novamente.",
     "No se pudo exportar. Tu diario no ha cambiado. Inténtalo de nuevo.",
     "Не удалось экспортировать. Дневник не изменён. Попробуйте ещё раз.",

@@ -37,10 +37,10 @@ const text = {
     "Вспомнить что-то доброе",
   ],
   hopeNote: [
-    "Was there a kind word, a meal, or a moment of rest? Write about one thing, however small. If nothing comes to mind, you can simply write what you need today.",
+    "Was there a kind word, a meal, or a moment of rest? Write about one thing, however small. If nothing comes to mind, write what you need today.",
     "Houve uma palavra gentil, uma refeição ou um momento de descanso? Escreva sobre algo, por menor que seja. Se nada vier à mente, escreva o que precisa hoje.",
     "¿Hubo una palabra amable, una comida o un momento de descanso? Escribe sobre algo, por pequeño que sea. Si no recuerdas nada, escribe lo que necesitas hoy.",
-    "Было ли доброе слово, еда или минута отдыха? Напишите о чём-то одном, пусть даже совсем небольшом. Если ничего не вспоминается, можно просто написать, что вам нужно сегодня.",
+    "Было ли доброе слово, еда или минута отдыха? Напишите о чём-то одном, пусть даже совсем небольшом. Если ничего не вспоминается, напишите, что вам нужно сегодня.",
   ],
   curated: [
     "Curated guidance · AI not used",
@@ -129,10 +129,10 @@ const text = {
     "Момент для размышления",
   ],
   weeklyIntro: [
-    "Would you like a moment to reflect on the step you chose?",
-    "Gostaria de refletir um momento sobre o passo que escolheu?",
+    "Would you like to reflect on the step you chose?",
+    "Gostaria de refletir sobre o passo que escolheu?",
     "¿Te gustaría reflexionar sobre el paso que elegiste?",
-    "Хотите немного подумать о выбранном вами шаге?",
+    "Хотите подумать о выбранном шаге?",
   ],
   reflect: [
     "Talk to God",
@@ -275,10 +275,10 @@ const text = {
     "Посмотреть встречи",
   ],
   note: [
-    "You can write a few words here, or simply sit with this quietly.",
+    "You can write a few words, or sit with this quietly.",
     "Você pode escrever algumas palavras ou ficar em silêncio.",
     "Puedes escribir unas palabras o quedarte en silencio.",
-    "Можно написать несколько слов или просто побыть в тишине.",
+    "Можно написать несколько слов или побыть в тишине.",
   ],
   professional: [
     "Consider contacting a qualified mental health professional or your doctor. You can note whom you would like to contact here.",
@@ -287,10 +287,10 @@ const text = {
     "Возможно, стоит обратиться к специалисту в области психического здоровья или к своему врачу. Здесь можно записать, к кому вы хотели бы обратиться.",
   ],
   private: [
-    "This stays in your journal. Nothing is sent to anyone.",
-    "Isto fica no seu diário. Nada é enviado a ninguém.",
-    "Esto queda en tu diario. No se envía nada a nadie.",
-    "Это останется в вашем дневнике и никому не отправляется.",
+    "Stays in your journal. Not sent to anyone.",
+    "Fica no seu diário. Não é enviado a ninguém.",
+    "Queda en tu diario. No se envía a nadie.",
+    "Останется в дневнике. Никому не отправляется.",
   ],
   fallback: [
     "A reflection chosen from our curated collection.",
@@ -440,7 +440,7 @@ export function actionInvitation(lang: Language, action: string) {
       "Тихая молитва может стать способом вспомнить близкого человека.",
     ],
     A03: [
-      "A short prayer can give you a place to bring this to God.",
+      "A short prayer can help you bring this to God.",
       "Uma breve oração pode ajudar a levar isso a Deus.",
       "Una breve oración puede ayudarte a llevar esto ante Dios.",
       "Короткая молитва поможет принести это Богу.",
@@ -461,7 +461,7 @@ export function actionInvitation(lang: Language, action: string) {
       "Talking with someone you trust may help you feel supported.",
       "Conversar com alguém de confiança pode ajudar você a se sentir apoiado.",
       "Hablar con alguien de confianza puede ayudarte a sentirte acompañado.",
-      "Разговор с человеком, которому вы доверяете, может помочь вам почувствовать поддержку.",
+      "Разговор с тем, кому вы доверяете, может вас поддержать.",
     ],
     A08: [
       "Putting one thought into words can make room to reflect.",
@@ -494,9 +494,9 @@ export function actionInvitation(lang: Language, action: string) {
       "Вы можете рассказать человеку, как много для вас значила его доброта.",
     ],
     A14: [
-      "Listening may be a meaningful way to offer someone comfort.",
-      "Escutar pode ser uma forma significativa de oferecer conforto a alguém.",
-      "Escuchar puede ser una forma significativa de ofrecer consuelo a alguien.",
+      "Listening can be a way to comfort someone.",
+      "Escutar pode ser uma forma de confortar alguém.",
+      "Escuchar puede ser una forma de consolar a alguien.",
       "Выслушать другого — один из способов его утешить.",
     ],
     A15: [
