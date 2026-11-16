@@ -191,6 +191,16 @@ function BibleReader({ collection }: { collection: CollectionId | null }) {
         />
       </SafeAreaView>
     );
+  const editionHeading = full
+    ? collection === "web"
+      ? "WEB"
+      : collection === "dra"
+        ? "DRA"
+        : collection === "brenton"
+          ? "LXX + WEB NT"
+          : bibleIndex.edition
+    : edition.name;
+  const sourceDetail = full ? bibleIndex.edition : edition.scope;
   return (
     <SafeAreaView
       style={s.safe}
@@ -271,17 +281,7 @@ function BibleReader({ collection }: { collection: CollectionId | null }) {
                 : q(lang, "selections")}
             </Text>
           </Pressable>
-          <Text style={s.edition}>
-            {full
-              ? collection === "web"
-                ? "WEB"
-                : collection === "dra"
-                  ? "DRA"
-                  : collection === "brenton"
-                    ? "LXX + WEB NT"
-                    : bibleIndex.edition
-              : (edition?.name ?? tr("Unavailable"))}
-          </Text>
+          <Text style={s.edition}>{editionHeading}</Text>
         </View>
         <Body small>{q(lang, "tap")}</Body>
         {!full && <Body small>{q(lang, "limited")}</Body>}
@@ -292,9 +292,9 @@ function BibleReader({ collection }: { collection: CollectionId | null }) {
             )}
           </Body>
         )}
-        <Text style={s.source}>
-          {full ? bibleIndex.edition : edition?.scope}
-        </Text>
+        {!!sourceDetail && sourceDetail.trim() !== editionHeading.trim() && (
+          <Text style={s.source}>{sourceDetail}</Text>
+        )}
       </Animated.View>
       <Animated.FlatList
         ref={list}
