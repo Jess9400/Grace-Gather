@@ -25,3 +25,9 @@ test('audio requires a usable transcript and failures are retried, never approve
 test('deleted or no-longer-eligible content is skipped',async()=>{
   assert.equal((await decideRecheck(job,dependencies({candidate:async()=>null}))).outcome,'skip');
 });
+test('a safety flag on a recheck is carried to human review',async()=>{
+ const flagged=JSON.stringify({publish:false,uncertain:false,flags:['self_harm'],summary:'Needs review'});
+ const result=await decideRecheck(job,dependencies({screen:async()=>flagged}));
+ assert.equal(result.outcome,'hold'); assert.equal(result.priority,true);
+ assert.equal((await decideRecheck(job,dependencies({screen:async()=>hold}))).priority,false);
+});

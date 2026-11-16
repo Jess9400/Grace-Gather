@@ -1,4 +1,5 @@
 import { communityCopy } from "../../lib/community-copy";
+import SafetyFooter from "../../components/SafetyFooter";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { Pressable, Text, View } from "react-native";
@@ -173,6 +174,7 @@ export default function Explore() {
           )}
         </>
       )}
+      <SafetyFooter />
     </Screen>
   );
 }

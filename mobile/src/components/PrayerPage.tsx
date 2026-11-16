@@ -1,4 +1,6 @@
 import JournalCleanupNotice from "./JournalCleanupNotice";
+import SafetyFooter from "./SafetyFooter";
+import SafetyReviewBadge, { SafetyReviewUnavailable, useSafetyReviewIds } from "./SafetyReviewBadge";
 import GatheringReminders from "../components/GatheringReminders";
 import FriendUnreadNotice from "./FriendUnreadNotice";
 import ActivityNotices from "./ActivityNotices";
@@ -39,6 +41,7 @@ function PrayerRoom({
   mode: "requests" | "notifications" | "review";
 }) {
   const { data, error, busy, userId, load, act } = usePrayers();
+  const { ids: priorityIds, failed: priorityFailed } = useSafetyReviewIds("prayers", mode === "review");
   const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
     const timer = setInterval(() => setNow(Date.now()), 10000);
@@ -177,6 +180,7 @@ function PrayerRoom({
   function card(p: Prayer, review = false) {
     return (
       <Card key={p.id}>
+        {review && priorityIds.includes(p.id) && <SafetyReviewBadge />}
         <Body small>{p.alias || tr("Anonymous member")}</Body>
         <Heading>{p.theme}</Heading>
         <Body>{p.reason}</Body>
@@ -458,13 +462,14 @@ function PrayerRoom({
               )}
             </>
           )}
+          {tab === "review" && priorityFailed && <SafetyReviewUnavailable />}
           {tab !== "notifications" &&
             (tab === "mine"
               ? data?.mine
               : tab === "review"
                 ? data?.review
                 : data?.requests
-            )?.map((p) => card(p, tab === "review"))}
+            )?.slice().sort((a, b) => tab === "review" ? Number(priorityIds.includes(b.id)) - Number(priorityIds.includes(a.id)) : 0).map((p) => card(p, tab === "review"))}
           {data &&
             tab !== "notifications" &&
             !(
@@ -582,6 +587,7 @@ function PrayerRoom({
           />
         </>
       )}
+      {mode === "requests" && !writing && <SafetyFooter />}
     </Screen>
   );
 }

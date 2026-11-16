@@ -1,4 +1,5 @@
 import { toVerseRoute } from "../lib/verse-route";
+import SafetyReviewBadge, { SafetyReviewUnavailable, useSafetyReviewIds } from "./SafetyReviewBadge";
 import { TextAction } from "./CommunityControls";
 import {
   getStudyDiscussionTopic,
@@ -103,6 +104,7 @@ function CommunityScreen({
       review ? "review" : !feed && params.compose === "1" ? "compose" : "list",
     ),
     [selected, setSelected] = useState<string | null>(null);
+  const { ids: priorityIds, failed: priorityFailed } = useSafetyReviewIds("discussions", mode === "review" && moderator);
   // The Chats list opens with its strip of the church (behind the side door);
   // a conversation or the composer keeps the plain header for space.
   const chatsStrip = useRoomStrip("chats") && mode === "list" && feed;
@@ -1009,6 +1011,7 @@ function CommunityScreen({
         )}
         {mode === "review" && moderator && (
           <>
+            {priorityFailed && <SafetyReviewUnavailable />}
             <Text accessibilityRole="header" style={s.heading}>
               {demo ? tr("Demo review") : tr("Moderation")}
             </Text>
@@ -1030,8 +1033,9 @@ function CommunityScreen({
             {!pending.length && (
               <Body small>{tr("No submissions waiting.")}</Body>
             )}
-            {pending.map((p) => (
+            {[...pending].sort((a, b) => Number(priorityIds.includes(b.id)) - Number(priorityIds.includes(a.id))).map((p) => (
               <Card key={p.id}>
+                {priorityIds.includes(p.id) && <SafetyReviewBadge />}
                 <Text style={s.topicTitle}>{postContext(p)}</Text>
                 <Text style={s.author}>
                   {p.name} · {p.perspective}
@@ -1081,6 +1085,7 @@ function CommunityScreen({
             {!reports.length && <Body small>{tr("No reports waiting.")}</Body>}
             {reports.map((r) => (
               <Card key={r.id}>
+                <SafetyReviewBadge />
                 <Text style={s.tag}>
                   {tr("Reason:")}
                   {r.reason}

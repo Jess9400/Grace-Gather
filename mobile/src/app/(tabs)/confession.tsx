@@ -60,6 +60,7 @@ import CommunityAIPermission from "../../components/CommunityAIPermission";
 import SafetyFooter from "../../components/SafetyFooter";
 import { needsPriorityReview } from "../../lib/urgent-review";
 import { safetyCopy } from "../../lib/safety-copy";
+import { SafetyReviewUnavailable, useSafetyReviewIds } from "../../components/SafetyReviewBadge";
 type Page =
   "room" | "share" | "list" | "mine" | "detail" | "success" | "review";
 const themes = [
@@ -79,10 +80,10 @@ const reviewMessages = {
   ru: { self: "Ваше сообщение должен проверить другой модератор.", forbidden: "У этого аккаунта нет доступа к модерации. Войдите как модератор.", note: "Добавьте заметку о проверке не короче пяти символов.", noteLabel: "Заметка о проверке (при одобрении необязательна)" },
 };
 const safetyReviewCopy = {
-  en: { priority: "Possible urgent safety concern · review first", guide: "How to review a safety concern", steps: "1. Read or listen to the whole submission. A flag can be wrong.\n2. If an appropriate way to contact the person is available, encourage them to contact local emergency services or someone they trust.\n3. If you have a credible reason to think someone is in immediate danger, contact the appropriate local emergency service and share only relevant information already available to you.\n4. Record your decision briefly without copying private details. Never promise immediate help or automatically contact authorities based on an AI flag.", limits: "Private journals are not monitored. Alerts can be missed or delayed. Ask another moderator to review your own submission." },
-  pt: { priority: "Possível situação urgente · revise primeiro", guide: "Como revisar uma situação de segurança", steps: "1. Leia ou ouça todo o envio. Um alerta pode estar errado.\n2. Se houver uma forma adequada de falar com a pessoa, incentive-a a procurar a emergência local ou alguém de confiança.\n3. Se houver motivo confiável para acreditar que alguém corre perigo imediato, contate o serviço de emergência local apropriado e compartilhe apenas informações relevantes já disponíveis.\n4. Registre a decisão brevemente sem copiar detalhes privados. Não prometa ajuda imediata nem contate autoridades automaticamente por causa de um alerta de IA.", limits: "Diários privados não são monitorados. Alertas podem falhar ou atrasar. Peça a outro moderador para revisar seu próprio envio." },
-  es: { priority: "Posible situación urgente · revisar primero", guide: "Cómo revisar una situación de seguridad", steps: "1. Lee o escucha todo el envío. Un aviso puede ser incorrecto.\n2. Si existe una forma adecuada de contactar a la persona, anímala a contactar con emergencias locales o alguien de confianza.\n3. Si existe una razón creíble para creer que hay peligro inmediato, contacta con el servicio de emergencias apropiado y comparte solo la información relevante que ya tengas.\n4. Registra tu decisión brevemente sin copiar detalles privados. No prometas ayuda inmediata ni contactes automáticamente a las autoridades por un aviso de IA.", limits: "Los diarios privados no se supervisan. Las alertas pueden fallar o retrasarse. Pide a otro moderador que revise tu propio envío." },
-  ru: { priority: "Возможная срочная ситуация · проверьте в первую очередь", guide: "Как проверить ситуацию безопасности", steps: "1. Прочитайте или прослушайте сообщение целиком. Сигнал может быть ошибочным.\n2. Если есть подходящий способ связаться с человеком, предложите ему обратиться в местную экстренную службу или к тому, кому он доверяет.\n3. Если есть веские основания полагать, что человеку угрожает непосредственная опасность, свяжитесь с соответствующей местной экстренной службой и сообщите только уже имеющиеся необходимые сведения.\n4. Кратко запишите решение, не копируя личные сведения. Не обещайте немедленную помощь и не обращайтесь к властям автоматически из-за сигнала ИИ.", limits: "Личные дневники не отслеживаются. Уведомления могут не прийти или задержаться. Попросите другого модератора проверить ваше сообщение." },
+  en: { priority: "Safety flag or report · review first", guide: "How to review a safety concern", steps: "1. Read or listen to the whole submission. A flag can be wrong.\n2. If an appropriate way to contact the person is available, encourage them to contact local emergency services or someone they trust.\n3. If you have a credible reason to think someone is in immediate danger, contact the appropriate local emergency service and share only relevant information already available to you.\n4. Record your decision briefly without copying private details. Never promise immediate help or automatically contact authorities based on an AI flag.", limits: "Private journals are not monitored. Alerts can be missed or delayed. Ask another moderator to review your own submission." },
+  pt: { priority: "Alerta ou denúncia de segurança · revise primeiro", guide: "Como revisar uma situação de segurança", steps: "1. Leia ou ouça todo o envio. Um alerta pode estar errado.\n2. Se houver uma forma adequada de falar com a pessoa, incentive-a a procurar a emergência local ou alguém de confiança.\n3. Se houver motivo confiável para acreditar que alguém corre perigo imediato, contate o serviço de emergência local apropriado e compartilhe apenas informações relevantes já disponíveis.\n4. Registre a decisão brevemente sem copiar detalhes privados. Não prometa ajuda imediata nem contate autoridades automaticamente por causa de um alerta de IA.", limits: "Diários privados não são monitorados. Alertas podem falhar ou atrasar. Peça a outro moderador para revisar seu próprio envio." },
+  es: { priority: "Aviso o denuncia de seguridad · revisar primero", guide: "Cómo revisar una situación de seguridad", steps: "1. Lee o escucha todo el envío. Un aviso puede ser incorrecto.\n2. Si existe una forma adecuada de contactar a la persona, anímala a contactar con emergencias locales o alguien de confianza.\n3. Si existe una razón creíble para creer que hay peligro inmediato, contacta con el servicio de emergencias apropiado y comparte solo la información relevante que ya tengas.\n4. Registra tu decisión brevemente sin copiar detalles privados. No prometas ayuda inmediata ni contactes automáticamente a las autoridades por un aviso de IA.", limits: "Los diarios privados no se supervisan. Las alertas pueden fallar o retrasarse. Pide a otro moderador que revise tu propio envío." },
+  ru: { priority: "Сигнал или жалоба · проверьте в первую очередь", guide: "Как проверить ситуацию безопасности", steps: "1. Прочитайте или прослушайте сообщение целиком. Сигнал может быть ошибочным.\n2. Если есть подходящий способ связаться с человеком, предложите ему обратиться в местную экстренную службу или к тому, кому он доверяет.\n3. Если есть веские основания полагать, что человеку угрожает непосредственная опасность, свяжитесь с соответствующей местной экстренной службой и сообщите только уже имеющиеся необходимые сведения.\n4. Кратко запишите решение, не копируя личные сведения. Не обещайте немедленную помощь и не обращайтесь к властям автоматически из-за сигнала ИИ.", limits: "Личные дневники не отслеживаются. Уведомления могут не прийти или задержаться. Попросите другого модератора проверить ваше сообщение." },
 };
 const confessionAICopy = {
   en: {
@@ -193,6 +194,7 @@ export default function ConfessionRoom() {
     [successItem, setSuccessItem] = useState<Confession | null>(null),
     [support, setSupport] = useState(false);
   const successId = successItem?.id;
+  const { ids: priorityIds, failed: priorityFailed } = useSafetyReviewIds("confessions", page === "review");
   const successStatus = successItem?.status;
   useEffect(() => {
     if (page !== "success" || !successId || successStatus !== "pending") return;
@@ -470,7 +472,7 @@ export default function ConfessionRoom() {
       {x.hasAudio && <ConfessionAudio id={x.id} language={language} />}
       <View>{status(x)}</View>
       {page === "review" && (
-        <Body small>{needsPriorityReview(x, reviewReports) ? safetyReviewCopy[language].priority : (x.signals?.join(" · ") || "Routine review")}</Body>
+        <Body small>{priorityIds.includes(x.id) || needsPriorityReview(x, reviewReports) ? safetyReviewCopy[language].priority : (x.signals?.join(" · ") || "Routine review")}</Body>
       )}
     </Card>
   );
@@ -1011,12 +1013,13 @@ export default function ConfessionRoom() {
                 <Text style={s.title}>{t("cReview")}</Text>
                 <Text style={s.intro}>{t("cReviewIntro")}</Text>
                 <Text style={s.note}>{t("cSupport")}</Text>
+                {priorityFailed && <SafetyReviewUnavailable />}
                 <Disclosure title={safetyReviewCopy[language].guide}>
                   <Body small>{safetyReviewCopy[language].steps}</Body>
                   <Body small>{safetyReviewCopy[language].limits}</Body>
                   <TextAction title={safetyCopy(language).link} icon="arrow-forward" onPress={() => router.push("/help")} />
                 </Disclosure>
-                {[...items].sort((a, b) => Number(needsPriorityReview(b, reviewReports)) - Number(needsPriorityReview(a, reviewReports))).map((x) => (
+                {[...items].sort((a, b) => Number(priorityIds.includes(b.id) || needsPriorityReview(b, reviewReports)) - Number(priorityIds.includes(a.id) || needsPriorityReview(a, reviewReports))).map((x) => (
                   <View key={x.id}>
                     {card(x)}
                     <Card>

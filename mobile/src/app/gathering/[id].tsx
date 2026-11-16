@@ -10,6 +10,8 @@ import {
   Busy,
 } from "../../components/community-ui";
 import RoomControls from "../../components/RoomControls";
+import GatheringSafetyReport from "../../components/GatheringSafetyReport";
+import SafetyFooter from "../../components/SafetyFooter";
 import { useAudioRoom } from "../../lib/audio-room";
 import { gathering, Gathering } from "../../lib/gatherings";
 import { storyText } from "../../lib/discover";
@@ -160,8 +162,10 @@ export default function GatheringPage() {
               )}
             </>
           )}
+          <GatheringSafetyReport id={id} invite={invite} />
         </>
       )}
+      <SafetyFooter />
     </Screen>
   );
 }

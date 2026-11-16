@@ -1,4 +1,5 @@
 import { useClock } from "../../lib/use-clock";
+import SafetyFooter from "../../components/SafetyFooter";
 import { useCallback, useState, useEffect } from "react";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { Text, View } from "react-native";
@@ -363,6 +364,7 @@ export default function Gatherings() {
           />
         </View>
       )}
+      <SafetyFooter />
     </Screen>
   );
 }

@@ -9,6 +9,7 @@ test('only pending safety signals get priority, without treating routine or reso
   assert.equal(needsPriorityReview({status:'approved', signals:['threat']}), false);
   assert.equal(priorityReviewCount([{status:'pending',signals:['threat']}, {status:'pending',signals:[]}]), 1);
   assert.equal(needsPriorityReview({id:'a',status:'reported',signals:[]}, [{target:'a',reason:'danger'}]), true);
+  assert.equal(needsPriorityReview({id:'a',status:'reported',signals:[]}, [{target:'a',reason:'other'}]), true);
   assert.equal(needsPriorityReview({id:'b',status:'reported',signals:[]}, [{target:'a',reason:'danger'}]), false);
   assert.equal(priorityReviewCount([{id:'a',status:'reported',signals:['threat']}], [{target:'a',reason:'danger'}]), 1);
 });

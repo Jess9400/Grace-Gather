@@ -18,6 +18,7 @@ export async function decideRecheck(job, deps) {
     const body=[snapshot.body,transcript].filter(Boolean).join('\n');
     if(!body.trim()) throw Error('empty_content');
     const raw=await deps.screen({kind:job.kind,title:snapshot.title,body,displayName:snapshot.displayName,language:snapshot.language,perspective:snapshot.perspective},snapshot.author);
-    return {snapshot,outcome:parseCommunityDecision(raw).publish?'safe':'hold'};
+    const decision=parseCommunityDecision(raw);
+    return {snapshot,outcome:decision.publish?'safe':'hold',priority:decision.flags.some(flag=>['self_harm','threat','sexual_exploitation','harmful_advice'].includes(flag))};
   } catch { return {snapshot,outcome:'retry'}; }
 }

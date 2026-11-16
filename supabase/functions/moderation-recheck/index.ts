@@ -19,7 +19,7 @@ serve(async request=>{
   const {data:jobs,error}=await service.rpc('moderation_recheck_claim');
   if(error || !Array.isArray(jobs)) return json({error:'unavailable'},503);
   const results=await Promise.all(jobs.map(async(job:{id:string,kind:string,source_id:string,lease_id:string})=>{
-    const {snapshot,outcome}=await decideRecheck(job,{
+    const {snapshot,outcome,priority}=await decideRecheck(job,{
       candidate:async(kind:string,id:string)=>{
       const candidate=await service.rpc('moderation_recheck_candidate',{p_kind:kind,p_id:id});
       if(candidate.error) throw Error('unavailable');
@@ -40,7 +40,7 @@ serve(async request=>{
               {role:'user',content:JSON.stringify(payload)},
             ]});},
     });
-    const finished=await service.rpc('moderation_recheck_finish',{p_job:job.id,p_lease:job.lease_id,p_snapshot:snapshot,p_result:outcome});
+    const finished=await service.rpc('moderation_recheck_finish_priority',{p_job:job.id,p_lease:job.lease_id,p_snapshot:snapshot,p_result:outcome,p_priority:priority===true});
     return !finished.error && finished.data===true;
   }));
   return json({processed:results.filter(Boolean).length});
