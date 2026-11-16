@@ -16,7 +16,7 @@ const words = {
     "Recordings are encrypted on this device. Unsaved recordings are excluded from journal backups.",
     "As gravações são criptografadas neste dispositivo. Gravações não salvas não entram nos backups do diário.",
     "Las grabaciones se cifran en este dispositivo. Las no guardadas se excluyen de las copias de seguridad del diario.",
-    "Записи зашифрованы на этом устройстве. Несохранённые записи не входят в резервные копии дневника.",
+    "Аудиозаписи шифруются на этом устройстве. Несохранённые аудиозаписи не попадают в резервные копии дневника.",
   ),
   yourTradition: L(
     "Your tradition",
@@ -28,7 +28,7 @@ const words = {
     "All perspectives",
     "Todas as perspectivas",
     "Todas las perspectivas",
-    "Все направления",
+    "Все традиции",
   ),
   faithReading: L(
     "Christian reading",
@@ -40,7 +40,7 @@ const words = {
     "General wellbeing",
     "Bem-estar geral",
     "Bienestar general",
-    "Общее благополучие",
+    "Жизнь и душевное равновесие",
   ),
   generalReadingNote: L(
     "Optional reading about everyday life, separate from faith-specific study.",
@@ -146,13 +146,13 @@ const words = {
     "Editing your prayer",
     "Editando sua oração",
     "Editando tu oración",
-    "Редактирование молитвы",
+    "Вы редактируете свою молитву",
   ),
   editingFrom: L(
     "Written {date}. The earlier version is kept.",
     "Escrita em {date}. A versão anterior fica guardada.",
     "Escrita el {date}. La versión anterior se guarda.",
-    "Написано {date}. Прежний вариант сохранится.",
+    "Написано: {date}. Прежний текст сохранится.",
   ),
   saveChanges: L(
     "Save changes",
@@ -214,7 +214,7 @@ const words = {
     "Just for this visit",
     "Só nesta visita",
     "Solo durante esta visita",
-    "Только в этом сеансе",
+    "Только на этот раз",
   ),
   saved: L(
     "Saved on this device",
@@ -232,7 +232,7 @@ const words = {
     "Curated reflection · This visit only",
     "Reflexão selecionada · Só nesta visita",
     "Reflexión seleccionada · Solo esta visita",
-    "Подобранное размышление · Только этот сеанс",
+    "Размышление из нашей подборки · Только на этот раз",
   ),
   understand: L(
     "Understand this verse",
@@ -323,7 +323,7 @@ const words = {
     "About this choice",
     "Sobre esta escolha",
     "Sobre esta elección",
-    "Об этом выборе",
+    "О выборе Библии",
   ),
   aboutText: L(
     "Your Bible choice controls the verses in your journal. Available full readers: English, Portuguese (B\u00edblia Livre), Spanish (Reina-Valera 1909), and Russian (Synodal, 66 books). Availability depends on tradition; the Russian source omits additional Orthodox books.",

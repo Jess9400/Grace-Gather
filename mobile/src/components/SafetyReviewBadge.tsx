@@ -26,7 +26,7 @@ export function SafetyReviewUnavailable() {
     en: "Safety markers could not load. Review the whole queue.",
     pt: "Não foi possível carregar os alertas. Revise toda a fila.",
     es: "No se pudieron cargar los avisos. Revisa toda la lista.",
-    ru: "Не удалось загрузить сигналы. Проверьте всю очередь.",
+    ru: "Не удалось загрузить тревожные сигналы. Проверьте всю очередь.",
   }[profile.language];
   return <Body small>{text}</Body>;
 }

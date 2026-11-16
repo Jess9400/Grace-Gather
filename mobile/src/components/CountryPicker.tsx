@@ -8,7 +8,7 @@ const text = {
   en: { label: "Country (optional)", hint: "Start typing a country", empty: "No matching countries" },
   pt: { label: "País (opcional)", hint: "Digite o nome de um país", empty: "Nenhum país encontrado" },
   es: { label: "País (opcional)", hint: "Escribe el nombre de un país", empty: "No se encontraron países" },
-  ru: { label: "Страна (необязательно)", hint: "Начните вводить название страны", empty: "Страны не найдены" },
+  ru: { label: "Страна (необязательно)", hint: "Начните вводить название страны", empty: "Такая страна не найдена" },
 };
 const fold = (value: string) => value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase().trim();
 

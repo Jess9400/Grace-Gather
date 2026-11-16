@@ -10,13 +10,13 @@ const words = {
     "AI can help find a more relevant verse and a small step for what you share, and lets you continue the conversation. You can still journal without it.",
     "A IA pode ajudar a encontrar um versículo e um pequeno passo mais relevantes para o que você compartilha, além de permitir que você continue a conversa. Você pode escrever sem ela.",
     "La IA puede ayudar a encontrar un versículo y un pequeño paso más relevantes para lo que compartes, y te permite continuar la conversación. Puedes escribir sin ella.",
-    "ИИ может помочь подобрать подходящий стих и небольшой шаг с учётом ваших слов и продолжить разговор. Вы можете вести дневник и без него.",
+    "ИИ может подобрать стих и маленький шаг, которые лучше подойдут к вашим словам, а ещё с ним можно продолжить разговор. Вести дневник можно и без ИИ.",
   ],
   permissionSummary: [
     "If you agree, your writing, recent conversation, Bible questions and relevant preferences go through Supabase to our AI provider, Alibaba Cloud. Audio is sent only if you choose transcription. You can turn this off in Preferences.",
     "Se concordar, seu texto, conversa recente, perguntas bíblicas e preferências relevantes serão enviados pelo Supabase ao nosso provedor de IA, Alibaba Cloud. O áudio só é enviado se você escolher transcrever. Você pode desativar em Preferências.",
     "Si aceptas, tu texto, conversación reciente, preguntas bíblicas y preferencias relevantes se envían mediante Supabase a nuestro proveedor de IA, Alibaba Cloud. El audio solo se envía si eliges transcribirlo. Puedes desactivarlo en Preferencias.",
-    "Если вы согласитесь, ваши записи, недавний разговор, вопросы о Библии и соответствующие настройки будут отправлены через Supabase нашему провайдеру ИИ Alibaba Cloud. Аудио отправляется только по вашему запросу на расшифровку. Это можно отключить в настройках.",
+    "Если вы согласитесь, ваши записи, последние сообщения разговора, вопросы о Библии и нужные для этого настройки будут отправляться через Supabase нашему провайдеру ИИ Alibaba Cloud. Аудио отправляется, только если вы выберете расшифровку. Это можно отключить в настройках.",
   ],
   allowGuidance: ["Allow AI guidance", "Permitir orientação por IA", "Permitir orientación con IA", "Разрешить подсказки ИИ"],
   continueWithout: ["Continue without AI", "Continuar sem IA", "Continuar sin IA", "Продолжить без ИИ"],
@@ -26,7 +26,7 @@ const words = {
     "With your permission, your journal writing, recent conversation, Bible study questions and language and tradition preferences are sent through Supabase to our AI provider, Alibaba Cloud. Recordings are sent only when you choose Transcribe. Processing may occur outside your country. AI is not emergency care. You can withdraw permission in Preferences.",
     "Com sua permissão, seu diário, conversa recente, perguntas sobre a Bíblia e preferências de idioma e tradição são enviados pelo Supabase ao nosso provedor de IA, Alibaba Cloud. Áudios só são enviados ao escolher Transcrever. O processamento pode ocorrer fora do seu país. A IA não é atendimento de emergência. Você pode retirar a permissão em Preferências.",
     "Con tu permiso, tu diario, conversación reciente, preguntas bíblicas y preferencias de idioma y tradición se envían mediante Supabase a nuestro proveedor de IA, Alibaba Cloud. Los audios solo se envían al elegir Transcribir. El procesamiento puede ocurrir fuera de tu país. La IA no es atención de emergencia. Puedes retirar tu permiso en Preferencias.",
-    "С вашего разрешения дневник, недавний разговор, вопросы о Библии и настройки языка и традиции отправляются через Supabase нашему провайдеру ИИ Alibaba Cloud. Аудио отправляется только при выборе расшифровки. Обработка может проходить за пределами вашей страны. ИИ не является экстренной помощью. Разрешение можно отозвать в настройках.",
+    "С вашего разрешения записи из дневника, последние сообщения разговора, вопросы о Библии и настройки языка и традиции отправляются через Supabase нашему провайдеру ИИ Alibaba Cloud. Аудио отправляется, только если вы выберете расшифровку. Данные могут обрабатываться за пределами вашей страны. ИИ — не экстренная помощь. Разрешение можно отозвать в настройках.",
   ],
   agree: [
     "I agree: use AI for this entry",
@@ -98,7 +98,7 @@ const words = {
     "Your journal is saved privately to your account. AI guidance is optional.",
     "Seu diário é salvo de forma privada na sua conta. A orientação por IA é opcional.",
     "Tu diario se guarda de forma privada en tu cuenta. La orientación con IA es opcional.",
-    "Дневник сохраняется в вашей учётной записи. Подсказки ИИ необязательны.",
+    "Ваш дневник личный, он сохраняется в вашем аккаунте. Подсказки ИИ — по желанию.",
   ],
 };
 export const aiCopy = (language: Language, key: keyof typeof words) =>

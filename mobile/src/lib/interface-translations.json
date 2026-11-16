@@ -8,22 +8,22 @@
   "Members can read and share approved discussions. Posts are reviewed before sharing; with your permission, AI may help. Your journal is not attached.": {
     "pt": "Discussões aprovadas podem ser lidas e compartilhadas por membros. As publicações são revisadas antes de serem compartilhadas; com sua permissão, a IA pode ajudar. Seu diário não é incluído.",
     "es": "Los miembros pueden leer y compartir los debates aprobados. Las publicaciones se revisan antes de compartirse; con tu permiso, la IA puede ayudar. Tu diario no se incluye.",
-    "ru": "Участники могут читать одобренные обсуждения и делиться ими. Публикации проверяются; с вашего разрешения может использоваться ИИ. Ваш дневник не прикрепляется."
+    "ru": "Участники могут читать одобренные обсуждения и делиться ими. Всё, что вы публикуете, сначала проверяется; с вашего разрешения в этом может помогать ИИ. Дневник к публикации не прикрепляется."
   },
   "Members can read and share approved discussions. Your submission stays private until review; your journal is not attached.": {
     "pt": "Discussões aprovadas podem ser lidas e compartilhadas por membros. Seu envio fica privado até a revisão; seu diário não é incluído.",
     "es": "Los miembros pueden leer y compartir los debates aprobados. Tu envío permanecerá privado hasta su revisión; tu diario no se incluye.",
-    "ru": "Участники могут читать одобренные обсуждения и делиться ими. До проверки публикация остаётся закрытой; ваш дневник не прикрепляется."
+    "ru": "Участники могут читать одобренные обсуждения и делиться ими. До проверки вашу публикацию видите только вы; дневник к ней не прикрепляется."
   },
   "Anonymous to other members; linked to your account for moderation.": {
     "pt": "Anônimo para outros membros; vinculado à sua conta para moderação.",
     "es": "Anónimo para otros miembros; vinculado a tu cuenta para moderación.",
-    "ru": "Анонимно для участников; связано с вашим аккаунтом для модерации."
+    "ru": "Другие участники не увидят вашего имени; для модерации запись остаётся связана с вашим аккаунтом."
   },
   "Prayer requests are reviewed before sharing. Please respect others’ privacy.": {
     "pt": "Os pedidos são revisados antes de serem compartilhados. Respeite a privacidade das outras pessoas.",
     "es": "Las peticiones se revisan antes de compartirse. Respeta la privacidad de los demás.",
-    "ru": "Молитвенные просьбы проверяются перед публикацией. Пожалуйста, уважайте частную жизнь других людей."
+    "ru": "Просьбы о молитве проверяются перед публикацией. Пожалуйста, уважайте частную жизнь других людей."
   },
   "Could not refresh. Showing earlier stories.": {
     "pt": "Não foi possível atualizar. Mostrando histórias anteriores.",
@@ -135,7 +135,7 @@
   "Read the whole chapter": {
     "pt": "Leia o capítulo completo",
     "es": "Lee el capítulo completo",
-    "ru": "Читать всю главу"
+    "ru": "Читать главу целиком"
   },
   "Chapter source": {
     "pt": "Fonte do capítulo",
@@ -165,7 +165,7 @@
   "Write in my diary": {
     "pt": "Escrever no meu diário",
     "es": "Escribir en mi diario",
-    "ru": "Написать в дневник"
+    "ru": "Записать в дневник"
   },
   "Explore Bible study courses": {
     "pt": "Explore cursos bíblicos",
@@ -175,7 +175,7 @@
   "Browse book suggestions": {
     "pt": "Ver sugestões de livros",
     "es": "Ver recomendaciones de libros",
-    "ru": "Рекомендации книг"
+    "ru": "Что почитать"
   },
   "Translation notes": {
     "pt": "Notas da tradução",
@@ -187,8 +187,8 @@
     "es": "Fuentes y notas de estudio",
     "ru": "Источники и примечания"
   },
-"Editorial reflections, separate from Scripture, in English and awaiting theological review. They cover only the passages named and are not endorsed by a church.": { "pt": "Reflexões editoriais, separadas das Escrituras, em inglês e aguardando revisão teológica. Tratam só das passagens indicadas e não têm aprovação de uma igreja.", "es": "Reflexiones editoriales, separadas de las Escrituras, en inglés y pendientes de revisión teológica. Tratan solo los pasajes indicados y no cuentan con la aprobación de una iglesia.", "ru": "Это редакционные размышления на английском, а не текст Писания. Они ещё не прошли богословскую проверку, относятся только к указанным отрывкам и не одобрены церковью." },
-"Editorial reflections for this verse, separate from Scripture. They await theological review and are not endorsed by a church.": { "pt": "Reflexões editoriais para este versículo, separadas das Escrituras. Aguardam revisão teológica e não têm aprovação de uma igreja.", "es": "Reflexiones editoriales para este versículo, separadas de las Escrituras. Pendientes de revisión teológica y sin aprobación de una iglesia.", "ru": "Это редакционные размышления к стиху, а не текст Писания. Они ещё не прошли богословскую проверку и не одобрены церковью." },
+"Editorial reflections, separate from Scripture, in English and awaiting theological review. They cover only the passages named and are not endorsed by a church.": { "pt": "Reflexões editoriais, separadas das Escrituras, em inglês e aguardando revisão teológica. Tratam só das passagens indicadas e não têm aprovação de uma igreja.", "es": "Reflexiones editoriales, separadas de las Escrituras, en inglés y pendientes de revisión teológica. Tratan solo los pasajes indicados y no cuentan con la aprobación de una iglesia.", "ru": "Это редакционные размышления на английском, а не текст Писания. Они ещё не прошли богословскую проверку, относятся только к указанным отрывкам и не одобрены какой-либо церковью." },
+"Editorial reflections for this verse, separate from Scripture. They await theological review and are not endorsed by a church.": { "pt": "Reflexões editoriais para este versículo, separadas das Escrituras. Aguardam revisão teológica e não têm aprovação de uma igreja.", "es": "Reflexiones editoriales para este versículo, separadas de las Escrituras. Pendientes de revisión teológica y sin aprobación de una iglesia.", "ru": "Это редакционные размышления к стиху, а не текст Писания. Они ещё не прошли богословскую проверку и не одобрены какой-либо церковью." },
   "Read the source passage": {
     "pt": "Ler a passagem na fonte",
     "es": "Leer el pasaje en la fuente",
@@ -237,7 +237,7 @@
     "es": "Qué significa",
     "ru": "Что это значит"
   },
-"Look for repeated words, contrasts and changes of speaker. Read a hard line in light of the whole passage. These are reading prompts, not a commentary.": { "pt": "Procure palavras repetidas, contrastes e mudanças de quem fala. Leia uma frase difícil à luz de toda a passagem. São pistas de leitura, não um comentário.", "es": "Busca palabras repetidas, contrastes y cambios de hablante. Lee una frase difícil a la luz de todo el pasaje. Son pistas de lectura, no un comentario.", "ru": "Ищите повторы, противопоставления и смену говорящего. Трудную строку читайте в свете всего отрывка. Это подсказки для чтения, а не комментарий." },
+"Look for repeated words, contrasts and changes of speaker. Read a hard line in light of the whole passage. These are reading prompts, not a commentary.": { "pt": "Procure palavras repetidas, contrastes e mudanças de quem fala. Leia uma frase difícil à luz de toda a passagem. São pistas de leitura, não um comentário.", "es": "Busca palabras repetidas, contrastes y cambios de hablante. Lee una frase difícil a la luz de todo el pasaje. Son pistas de lectura, no un comentario.", "ru": "Обращайте внимание на повторы, противопоставления и на то, где меняется говорящий. Трудную строку читайте в свете всего отрывка. Это подсказки для чтения, а не комментарий." },
   "In everyday life": {
     "pt": "Na vida cotidiana",
     "es": "En la vida cotidiana",
@@ -282,7 +282,7 @@
   "Replies use curated passages and limited local matching. They are not a live conversation with a person or AI.": {
     "pt": "As respostas usam passagens selecionadas e uma correspondência local limitada. Não são uma conversa ao vivo com uma pessoa ou IA.",
     "es": "Las respuestas usan pasajes seleccionados y coincidencias locales limitadas. No son una conversación en vivo con una persona o IA.",
-    "ru": "Ответы строятся на подобранных отрывках и ограниченном сопоставлении на устройстве. Это не живой разговор с человеком или ИИ."
+    "ru": "Ответы подбираются прямо на устройстве из заранее отобранных отрывков, по простому совпадению слов. Это не живой разговор с человеком или ИИ."
   },
   "Your message": {
     "pt": "Sua mensagem",
@@ -292,7 +292,7 @@
   "Nothing is sent automatically. Edit this draft and choose whether to share it.": {
     "pt": "Nada é enviado automaticamente. Edite este rascunho e escolha se deseja compartilhá-lo.",
     "es": "Nada se envía automáticamente. Edita este borrador y decide si quieres compartirlo.",
-    "ru": "Ничего не отправляется автоматически. Отредактируйте черновик и решите, делиться ли им."
+    "ru": "Ничего не отправляется автоматически. Поправьте черновик и решите, хотите ли вы им поделиться."
   },
   "Share draft": {
     "pt": "Compartilhar rascunho",
@@ -312,7 +312,7 @@
   "Offer help with one small, practical task.": {
     "pt": "Ofereça ajuda com uma pequena tarefa prática.",
     "es": "Ofrece ayuda con una pequeña tarea práctica.",
-    "ru": "Предложите помощь с небольшим практическим делом."
+    "ru": "Предложите кому-нибудь помощь в каком-нибудь небольшом деле."
   },
   "Give yourself a quiet minute. Rest counts, too.": {
     "pt": "Reserve um minuto de calma para você. Descansar também conta.",
@@ -338,7 +338,7 @@
   "Awaiting a safety check or held": {
     "pt": "Aguardando verificação ou retido",
     "es": "Pendiente de revisión o retenido",
-    "ru": "Ожидает проверки или задержано"
+    "ru": "Ожидает проверки или отложено"
   },
   "Not published": {
     "pt": "Não publicado",
@@ -438,7 +438,7 @@
   "Community is not connected on this build yet.": {
     "pt": "A comunidade ainda não está conectada nesta versão.",
     "es": "La comunidad aún no está conectada en esta versión.",
-    "ru": "Сообщество ещё не подключено в этой версии."
+    "ru": "В этой версии сообщество пока не подключено."
   },
   "Your private diary stays separate. Only the words you choose to post are shared.": {
     "pt": "Seu diário privado fica separado. Apenas as palavras que você decide publicar são compartilhadas.",
@@ -458,7 +458,7 @@
   "A little space": {
     "pt": "Um pequeno espaço",
     "es": "Un pequeño espacio",
-    "ru": "Немного пространства,"
+    "ru": "Немного тишины,"
   },
   "to listen.": {
     "pt": "para ouvir.",
@@ -468,7 +468,7 @@
   "Questions, reflections and faith, shared gently.": {
     "pt": "Perguntas, reflexões e fé, compartilhadas com cuidado.",
     "es": "Preguntas, reflexiones y fe, compartidas con cuidado.",
-    "ru": "Вопросы, размышления и вера, которыми делятся бережно."
+    "ru": "Здесь бережно делятся вопросами, размышлениями и верой."
   },
   "New submissions stay private while moderation is being prepared.": {
     "pt": "Novas publicações ficam privadas enquanto a moderação é preparada.",
@@ -483,7 +483,7 @@
   "Posts that pass safety checks are published automatically. Anything uncertain stays private.": {
     "pt": "Publicações aprovadas na verificação de segurança são publicadas automaticamente. Em caso de dúvida, ficam privadas.",
     "es": "Las publicaciones que pasan la revisión de seguridad se publican automáticamente. Si hay dudas, permanecen privadas.",
-    "ru": "Сообщения, прошедшие проверку безопасности, публикуются автоматически. Всё сомнительное остаётся приватным."
+    "ru": "Публикации, прошедшие проверку безопасности, появляются автоматически. Всё, что вызывает сомнения, остаётся видно только вам."
   },
   "You have not shared anything yet.": {
     "pt": "Você ainda não publicou nada.",
@@ -518,7 +518,7 @@
   "Be the first to start a conversation about this verse.": {
     "pt": "Inicie uma conversa sobre este versículo.",
     "es": "Inicia una conversación sobre este versículo.",
-    "ru": "Начните первую беседу об этом стихе."
+    "ru": "Об этом стихе пока никто не писал. Начните беседу."
   },
   "Start with a question or a reflection.": {
     "pt": "Comece com uma pergunta ou reflexão.",
@@ -538,12 +538,12 @@
   "Ask honestly. Disagree respectfully. No personal attacks, threats, harassment, scams or private information. These are community reflections, not reviewed study notes.": {
     "pt": "Pergunte com sinceridade e discorde com respeito. Sem ataques pessoais, ameaças, assédio, golpes ou dados privados. São reflexões da comunidade, não notas de estudo revisadas.",
     "es": "Pregunta con sinceridad y discrepa con respeto. Sin ataques personales, amenazas, acoso, estafas ni datos privados. Son reflexiones de la comunidad, no notas de estudio revisadas.",
-    "ru": "Спрашивайте искренне и возражайте уважительно. Недопустимы личные нападки, угрозы, травля, мошенничество и публикация личных данных. Это размышления сообщества, а не проверенные учебные заметки."
+    "ru": "Спрашивайте искренне и возражайте уважительно. Недопустимы личные нападки, угрозы, травля, мошенничество и публикация личных данных. Это размышления участников, а не проверенные примечания к тексту."
   },
   "Only what you type here can be shared. Your diary and chosen faith stay separate. You choose any perspective label yourself.": {
     "pt": "Só o que você escrever aqui pode ser compartilhado. Seu diário e sua fé ficam separados. Você escolhe o rótulo de perspectiva.",
     "es": "Solo se comparte lo que escribes aquí. Tu diario y tu fe permanecen separados. Tú eliges la etiqueta de perspectiva.",
-    "ru": "Публикуется только написанное здесь. Дневник и выбранная вера остаются отдельно. Метку точки зрения, если она нужна, вы выбираете сами."
+    "ru": "Публикуется только то, что вы напишете здесь. Дневник и выбранная вами вера к публикации не добавляются. Указывать ли точку зрения, вы решаете сами."
   },
   "Preview tools": {
     "pt": "Ferramentas de prévia",
@@ -553,7 +553,7 @@
   "This demo uses local memory and manual review. AI screening, real accounts and public posting are not connected. Changes reset when the app reloads.": {
     "pt": "Esta demonstração usa memória local e revisão manual. IA, contas reais e publicação pública não estão conectadas. As alterações somem ao recarregar.",
     "es": "Esta demostración usa memoria local y revisión manual. La IA, las cuentas reales y las publicaciones públicas no están conectadas. Los cambios se reinician al recargar.",
-    "ru": "Демо работает с локальной памятью и ручной проверкой. Проверка с помощью ИИ, настоящие аккаунты и публичная публикация не подключены. Изменения сбрасываются при перезапуске приложения."
+    "ru": "В демо всё хранится в памяти устройства и проверяется вручную. Проверка с помощью ИИ, настоящие аккаунты и открытая публикация не подключены. При перезапуске приложения изменения сбрасываются."
   },
   "Showing recent conversations and up to": {
     "pt": "Mostrando conversas recentes e até",
@@ -588,7 +588,7 @@
   "Awaiting a safety check or held · not public": {
     "pt": "Aguardando verificação ou retido · privado",
     "es": "Pendiente de revisión o retenido · privado",
-    "ru": "Ожидает проверки или задержано · не опубликовано"
+    "ru": "Ожидает проверки или отложено · не опубликовано"
   },
   "Your reply": {
     "pt": "Sua resposta",
@@ -618,12 +618,12 @@
   "Your display name and reply become public if they pass automated moderation.": {
     "pt": "Seu nome público e sua resposta ficam públicos se passarem pela moderação automática.",
     "es": "Tu nombre y respuesta se hacen públicos si pasan la moderación automática.",
-    "ru": "Ваше имя и ответ станут публичными, если пройдут автоматическую модерацию."
+    "ru": "Если ответ пройдёт автоматическую модерацию, его и ваше имя увидят все."
   },
   "Automatic moderation is not active. This reply stays private.": {
     "pt": "A moderação automática não está ativa. Esta resposta fica privada.",
     "es": "La moderación automática no está activa. Esta respuesta permanece privada.",
-    "ru": "Автоматическая модерация не включена. Ответ остаётся приватным."
+    "ru": "Автоматическая модерация не включена. Этот ответ видите только вы."
   },
   "Send for review": {
     "pt": "Enviar para revisão",
@@ -638,7 +638,7 @@
   "Your reply was submitted. Posts that pass the safety check appear automatically; others remain private.": {
     "pt": "Sua resposta foi enviada. As publicações aprovadas aparecem automaticamente; as demais ficam privadas.",
     "es": "Tu respuesta se ha enviado. Las publicaciones aprobadas aparecen automáticamente; las demás permanecen privadas.",
-    "ru": "Ответ отправлен. Публикации, прошедшие проверку, появляются автоматически; остальные остаются приватными."
+    "ru": "Ответ отправлен. Публикации, прошедшие проверку, появляются автоматически; остальные остаются видны только вам."
   },
   "Your reply was saved privately while moderation is prepared.": {
     "pt": "Sua resposta foi salva em privado enquanto a moderação é preparada.",
@@ -673,29 +673,29 @@
   "Share only what you feel comfortable making public.": {
     "pt": "Compartilhe apenas o que você se sente à vontade para tornar público.",
     "es": "Comparte solo lo que te sientas cómodo haciendo público.",
-    "ru": "Делитесь только тем, что готовы сделать публичным."
+    "ru": "Пишите только то, что готовы показать всем."
   },
 "Optional. It describes the conversation, not you.": { "pt": "Opcional. Descreve a conversa, não você.", "es": "Opcional. Describe la conversación, no a ti.", "ru": "Необязательно. Метка описывает беседу, а не вас." },
   "Shared as You. Your diary is never attached. This preview holds every submission for manual review.": {
     "pt": "Compartilhado como Você. Seu diário nunca é anexado. Nesta prévia, tudo aguarda revisão manual.",
     "es": "Compartido como Tú. Tu diario nunca se adjunta. En esta vista previa, todo espera revisión manual.",
-    "ru": "Публикация от имени «Вы». Дневник никогда не прикрепляется. В предпросмотре всё ожидает ручной проверки."
+    "ru": "Публикация будет подписана «Вы». Дневник к ней никогда не прикрепляется. В предпросмотре все публикации ждут ручной проверки."
   },
   "Your post is checked before it appears. With your permission, AI may help; otherwise, our team reviews it.": {
     "pt": "Sua publicação é analisada antes de aparecer. Com sua permissão, a IA pode ajudar; caso contrário, nossa equipe faz a revisão.",
     "es": "Tu publicación se revisa antes de aparecer. Con tu permiso, la IA puede ayudar; de lo contrario, nuestro equipo la revisa.",
-    "ru": "Публикация проходит проверку. С вашего разрешения может помочь ИИ; в противном случае её проверит наша команда."
+    "ru": "Прежде чем публикация появится, её проверяют. С вашего разрешения в этом может помочь ИИ, иначе её проверит наша команда."
   },
   "Automatic moderation is not active. This submission stays private. Your diary and profile are never attached.": {
     "pt": "A moderação automática não está ativa. Esta publicação fica privada. Seu diário e perfil nunca são anexados.",
     "es": "La moderación automática no está activa. Esta publicación queda privada. Tu diario y perfil nunca se adjuntan.",
-    "ru": "Автоматическая модерация не включена. Публикация остаётся приватной. Дневник и профиль никогда не прикрепляются."
+    "ru": "Автоматическая модерация не включена. Эту публикацию видите только вы. Дневник и профиль к ней никогда не прикрепляются."
   },
 "Topic submitted. See its status in My submissions.": { "pt": "Tópico enviado. Veja o status em Minhas publicações.", "es": "Tema enviado. Consulta su estado en Mis publicaciones.", "ru": "Тема отправлена. Следите за статусом в разделе «Мои публикации»." },
   "Demo review": {
     "pt": "Revisão da demonstração",
     "es": "Revisión de demostración",
-    "ru": "Проверка демо"
+    "ru": "Модерация в демо"
   },
   "Preview tools only. You are trying a manual moderator workflow. No AI is connected, and these decisions affect only your local demo.": {
     "pt": "Ferramentas de prévia. Você está testando a moderação manual. Nenhuma IA está conectada; as decisões afetam apenas sua demonstração local.",
@@ -770,12 +770,12 @@
   "Keep post and resolve report": {
     "pt": "Manter publicação e resolver denúncia",
     "es": "Conservar publicación y resolver denuncia",
-    "ru": "Оставить публикацию и закрыть жалобу"
+    "ru": "Оставить и закрыть жалобу"
   },
   "Scroll to read": {
     "pt": "Role para ler",
     "es": "Desplázate para leer",
-    "ru": "Прокрутите, чтобы прочитать"
+    "ru": "Листайте, чтобы читать"
   },
   "Chapter text": {
     "pt": "Texto do capítulo",
@@ -805,7 +805,7 @@
   "Open discussion": {
     "pt": "Discussão aberta",
     "es": "Conversación abierta",
-    "ru": "Открытое обсуждение"
+    "ru": "Общее обсуждение"
   },
   "Perspective": {
     "pt": "Perspectiva",
@@ -888,7 +888,7 @@
     "es": "Visitar",
     "ru": "Перейти"
   },
-"What does this passage say about God, people, and their relationship? What is being promised, asked, or questioned?\n\nRead the surrounding passage before drawing a conclusion. Christians may read difficult passages differently.": { "pt": "O que esta passagem diz sobre Deus, as pessoas e sua relação? O que é prometido, pedido ou questionado?\n\nLeia o contexto antes de concluir. Cristãos podem interpretar passagens difíceis de formas diferentes.", "es": "¿Qué dice este pasaje sobre Dios, las personas y su relación? ¿Qué se promete, pide o cuestiona?\n\nLee el contexto antes de sacar conclusiones. Los cristianos pueden interpretar pasajes difíciles de distintas formas.", "ru": "Что этот отрывок говорит о Боге, людях и их отношениях? Что здесь обещано, о чём просят, что ставится под вопрос?\n\nПрочитайте контекст, прежде чем делать вывод. Христиане могут по-разному понимать трудные отрывки." },
+"What does this passage say about God, people, and their relationship? What is being promised, asked, or questioned?\n\nRead the surrounding passage before drawing a conclusion. Christians may read difficult passages differently.": { "pt": "O que esta passagem diz sobre Deus, as pessoas e sua relação? O que é prometido, pedido ou questionado?\n\nLeia o contexto antes de concluir. Cristãos podem interpretar passagens difíceis de formas diferentes.", "es": "¿Qué dice este pasaje sobre Dios, las personas y su relación? ¿Qué se promete, pide o cuestiona?\n\nLee el contexto antes de sacar conclusiones. Los cristianos pueden interpretar pasajes difíciles de distintas formas.", "ru": "Что этот отрывок говорит о Боге, о людях и об отношениях между ними? Что здесь обещано, о чём просят, что ставится под вопрос?\n\nПрежде чем делать вывод, прочитайте соседние стихи. Христиане могут по-разному понимать трудные отрывки." },
   "Loading your Bible…": {
     "pt": "Carregando sua Bíblia…",
     "es": "Cargando tu Biblia…",
@@ -908,7 +908,7 @@
   "A kind space, together": {
     "pt": "Um espaço de cuidado, juntos",
     "es": "Un espacio amable, juntos",
-    "ru": "Создадим доброе пространство вместе"
+    "ru": "Будем бережны друг к другу"
   },
   "Orthodox perspective": {
     "pt": "Perspectiva ortodoxa",
@@ -938,12 +938,12 @@
   "Options for": {
     "pt": "Opções de",
     "es": "Opciones de",
-    "ru": "Действия с публикацией автора"
+    "ru": "Действия с публикацией. Автор:"
   },
   "Open demo review queue": {
     "pt": "Abrir fila de revisão da demonstração",
     "es": "Abrir cola de revisión de demostración",
-    "ru": "Открыть демо-очередь проверки"
+    "ru": "Очередь проверки в демо"
   },
   "Moderation queue": {
     "pt": "Fila de moderação",
@@ -974,7 +974,7 @@
   "Your Bible choice controls the verses in your journal. Available full readers: English, Portuguese (Bíblia Livre), Spanish (Reina-Valera 1909), and Russian (Synodal, 66 books). Availability depends on tradition; the Russian source omits additional Orthodox books.": {
     "pt": "Sua escolha de Bíblia define os versículos do diário. Leitura disponível: inglês, português (Bíblia Livre), espanhol (Reina-Valera 1909) e russo (Sinodal, 66 livros). A disponibilidade depende da tradição; a fonte russa não inclui os livros ortodoxos adicionais.",
     "es": "Tu elección de Biblia determina los versículos del diario. Lectura disponible: inglés, portugués (Bíblia Livre), español (Reina-Valera 1909) y ruso (Sinodal, 66 libros). La disponibilidad depende de la tradición; la fuente rusa no incluye los libros ortodoxos adicionales.",
-    "ru": "Выбранная Библия определяет стихи в дневнике. Доступны издания на английском, португальском (Bíblia Livre), испанском (Reina-Valera 1909) и русском (Синодальный, 66 книг). Доступность зависит от традиции; русский источник не включает дополнительные православные книги."
+    "ru": "Стихи в дневнике берутся из выбранной вами Библии. Полностью читать можно на английском, португальском (Bíblia Livre), испанском (Reina-Valera 1909) и русском (Синодальный перевод, 66 книг). Что именно доступно, зависит от традиции; в русском издании нет неканонических книг, которые входят в православную Библию."
   },
   "66-book collection from the publisher. Verse wording and numbering preserved; notes kept separately.": {
     "pt": "Coleção de 66 livros da editora. Texto e numeração dos versículos preservados; notas apresentadas separadamente.",
@@ -984,7 +984,7 @@
   "66 books from the publisher. This source does not include the additional Orthodox books.": {
     "pt": "66 livros da editora. Esta fonte não inclui os livros adicionais da tradição ortodoxa.",
     "es": "66 libros de la editorial. Esta fuente no incluye los libros adicionales de la tradición ortodoxa.",
-    "ru": "66 книг от издателя. Этот источник не включает дополнительные книги православной Библии."
+    "ru": "Издатель включил в это издание 66 книг. Неканонических книг, которые входят в православную Библию, в нём нет."
   },
   "Your space": {
     "pt": "Seu espaço",
@@ -1024,7 +1024,7 @@
   "Friends are not available yet. You can join conversations in Community.": {
     "pt": "Amigos ainda não está disponível. Você pode participar das conversas na Comunidade.",
     "es": "Amigos aún no está disponible. Puedes participar en conversaciones en Comunidad.",
-    "ru": "Раздел друзей пока недоступен. Вы можете участвовать в обсуждениях сообщества."
+    "ru": "Раздел «Друзья» пока недоступен. Вы можете участвовать в обсуждениях в разделе «Сообщество»."
   },
   "Delete data or account": {
     "pt": "Excluir dados ou conta",
@@ -1051,7 +1051,7 @@
     "es": "Inicia sesión para ver tu calendario.",
     "ru": "Войдите, чтобы увидеть свой календарь."
   },
-"Gatherings you’ve reserved or are hosting, in your local time.": { "pt": "Encontros que você reservou ou organiza, no seu horário local.", "es": "Encuentros que reservaste u organizas, en tu hora local.", "ru": "Встречи, на которые вы записались или которые ведёте. Время местное." },
+"Gatherings you’ve reserved or are hosting, in your local time.": { "pt": "Encontros que você reservou ou organiza, no seu horário local.", "es": "Encuentros que reservaste u organizas, en tu hora local.", "ru": "Встречи, на которые вы записались или которые ведёте. Время показано по вашему часовому поясу." },
   "No gatherings on this date.": {
     "pt": "Nenhum encontro nesta data.",
     "es": "No hay encuentros en esta fecha.",
@@ -1077,7 +1077,7 @@
   "Publisher story · Opens a PDF": {
     "pt": "História de uma fonte externa · Abre um PDF",
     "es": "Historia de una fuente externa · Abre un PDF",
-    "ru": "История издателя · Откроется PDF"
+    "ru": "Материал издания · Откроется PDF"
   },
   "Read the full story": {
     "pt": "Ler a história completa",
@@ -1108,12 +1108,12 @@
   "Candle recommendations: on": {
     "pt": "Sugestões de velas: ativadas",
     "es": "Sugerencias de velas: activadas",
-    "ru": "Предложения зажечь свечу: включены"
+    "ru": "Предлагать зажечь свечу: включено"
   },
   "Candle recommendations: off": {
     "pt": "Sugestões de velas: desativadas",
     "es": "Sugerencias de velas: desactivadas",
-    "ru": "Предложения зажечь свечу: выключены"
+    "ru": "Предлагать зажечь свечу: выключено"
   },
   "Church presence: on": {
     "pt": "Presença na igreja: ativada",
@@ -1129,7 +1129,7 @@
   "Include this device in the church presence count only while Home is open. No name or journal is shared. This counts devices, not verified people.": {
     "pt": "Incluir este dispositivo na contagem apenas enquanto o Início estiver aberto. Seu nome e diário não são compartilhados. A contagem é de dispositivos, não de pessoas verificadas.",
     "es": "Incluir este dispositivo en el recuento solo mientras Inicio esté abierto. No se comparte tu nombre ni diario. Se cuentan dispositivos, no personas verificadas.",
-    "ru": "Учитывать это устройство в счётчике присутствующих в церкви, только пока открыт главный экран. Имя и дневник не передаются. Считаются устройства, а не подтверждённые люди."
+    "ru": "Учитывать это устройство в числе присутствующих в церкви, только пока открыт главный экран. Имя и дневник не передаются. Счётчик показывает устройства, а не людей, чья личность подтверждена."
   },
   "Church sounds play only on Home after the entrance.": {
     "pt": "Os sons da igreja tocam apenas no Início, após a entrada.",
@@ -1174,7 +1174,7 @@
   "Your choice also shapes your Home church. You can change it later in profile preferences.": {
     "pt": "Sua escolha também define a igreja da página inicial. Você pode alterá-la depois nas preferências do perfil.",
     "es": "Tu elección también define la iglesia de Inicio. Puedes cambiarla después en las preferencias del perfil.",
-    "ru": "Ваш выбор также определяет церковь на главном экране. Его можно изменить в настройках профиля."
+    "ru": "От вашего выбора зависит и то, как выглядит церковь на главном экране. Его можно изменить позже в настройках профиля."
   },
   "What would you like to tell God today?": {
     "pt": "O que você gostaria de dizer a Deus hoje?",
@@ -1299,7 +1299,7 @@
   "Time (HH:mm, 24-hour)": {
     "pt": "Horário (HH:mm, 24 horas)",
     "es": "Hora (HH:mm, 24 horas)",
-    "ru": "Время (ЧЧ:мм, 24 часа)"
+    "ru": "Время (ЧЧ:ММ, 24-часовой формат)"
   },
   "Preview request": {
     "pt": "Pré-visualizar pedido",
@@ -1364,7 +1364,7 @@
   "Private review explanation": {
     "pt": "Explicação privada da revisão",
     "es": "Explicación privada de la revisión",
-    "ru": "Личное пояснение решения"
+    "ru": "Пояснение к решению (не публикуется)"
   },
   "Approve request": {
     "pt": "Aprovar pedido",
@@ -1394,7 +1394,7 @@
   "It is time to pray together": {
     "pt": "É hora de orar juntos",
     "es": "Es hora de orar juntos",
-    "ru": "Время помолиться вместе"
+    "ru": "Пора помолиться вместе"
   },
   "Someone prayed for you": {
     "pt": "Alguém orou por você",
@@ -1429,18 +1429,18 @@
   "Prayers could not load. Please try again.": {
     "pt": "Não foi possível carregar as orações. Tente novamente.",
     "es": "No se pudieron cargar las oraciones. Inténtalo de nuevo.",
-    "ru": "Не удалось загрузить молитвы. Повторите попытку."
+    "ru": "Не удалось загрузить молитвы. Попробуйте ещё раз."
   },
 "Between 5 minutes and 30 days from now.": { "pt": "Entre 5 minutos e 30 dias a partir de agora.", "es": "Entre 5 minutos y 30 días a partir de ahora.", "ru": "Не раньше чем через 5 минут и не позже чем через 30 дней." },
   "Enter a valid date and time.": {
     "pt": "Digite uma data e um horário válidos.",
     "es": "Introduce una fecha y hora válidas.",
-    "ru": "Введите корректные дату и время."
+    "ru": "Проверьте, правильно ли указаны дата и время."
   },
   "After review, members can see your theme, reason and time. Anonymous requests remain linked to your account for moderators. Avoid sharing someone else’s private details.": {
     "pt": "Após a revisão, membros poderão ver o tema, o motivo e o horário. Pedidos anônimos continuam ligados à sua conta para os moderadores. Evite compartilhar dados privados de outras pessoas.",
     "es": "Tras la revisión, los miembros podrán ver el tema, el motivo y la hora. Las peticiones anónimas siguen vinculadas a tu cuenta para los moderadores. Evita compartir datos privados de otras personas.",
-    "ru": "После проверки участники увидят тему, причину и время. Для модераторов анонимные просьбы остаются связанными с вашим аккаунтом. Не сообщайте чужие личные данные."
+    "ru": "После проверки участники увидят тему, текст просьбы и время. Для модераторов анонимные просьбы остаются связанными с вашим аккаунтом. Не сообщайте чужие личные данные."
   },
   "pending": {
     "pt": "Aguardando revisão",
@@ -1569,7 +1569,7 @@
   "Members can read and share an approved discussion. Your journal is not attached. Publication may require moderation.": {
     "pt": "Membros podem ler e compartilhar uma discussão aprovada. Seu diário não é anexado. A publicação pode exigir moderação.",
     "es": "Los miembros pueden leer y compartir un debate aprobado. Tu diario no se adjunta. La publicación puede requerir moderación.",
-    "ru": "Участники могут читать одобренное обсуждение и делиться им. Дневник не прикрепляется. Для публикации может потребоваться модерация."
+    "ru": "Участники могут читать одобренное обсуждение и делиться им. Ваш дневник к нему не прикрепляется. Перед публикацией обсуждение могут проверить модераторы."
   },
   "STEP Bible · Hebrew / Greek": {
     "pt": "STEP Bible · Hebraico / Grego",
@@ -1606,7 +1606,7 @@
   "Enable study AI": {
     "pt": "Ativar IA para estudo",
     "es": "Activar IA de estudio",
-    "ru": "Включить ИИ для изучения"
+    "ru": "Включить ИИ-помощника"
   },
   "Your Bible question": {
     "pt": "Sua pergunta sobre a Bíblia",
@@ -1631,12 +1631,12 @@
   "Study AI is unavailable. Sign in or try again shortly. Your question is still here.": {
     "pt": "A IA está indisponível. Entre na conta ou tente novamente em breve. Sua pergunta continua aqui.",
     "es": "La IA no está disponible. Inicia sesión o inténtalo pronto. Tu pregunta sigue aquí.",
-    "ru": "ИИ недоступен. Войдите в аккаунт или повторите позже. Ваш вопрос не пропал."
+    "ru": "ИИ сейчас недоступен. Войдите в аккаунт или попробуйте чуть позже. Ваш вопрос не пропал."
   },
   "Send your questions and Bible preferences to Alibaba Qwen for study help. AI can make mistakes; check the passages. This conversation is not published.": {
     "pt": "Envie suas perguntas e preferências bíblicas ao Alibaba Qwen para ajudar no estudo. A IA pode errar; confira as passagens. Esta conversa não é publicada.",
     "es": "Envía tus preguntas y preferencias bíblicas a Alibaba Qwen para ayudarte a estudiar. La IA puede equivocarse; comprueba los pasajes. Esta conversación no se publica.",
-    "ru": "Ваши вопросы и настройки Библии отправляются в Alibaba Qwen для помощи в изучении. ИИ может ошибаться — проверяйте отрывки. Этот разговор не публикуется."
+    "ru": "Ваши вопросы и настройки Библии отправляются в Alibaba Qwen, чтобы ИИ помогал вам изучать Писание. ИИ может ошибаться — сверяйте ответы с самими отрывками. Этот разговор не публикуется."
   },
   "BibleProject · Book backgrounds": {
     "pt": "BibleProject · Contexto dos livros",
@@ -1716,7 +1716,7 @@
   "Use YYYY-MM-DD for the date and HH:mm for the time.": {
     "pt": "Use AAAA-MM-DD para a data e HH:mm para o horário.",
     "es": "Usa AAAA-MM-DD para la fecha y HH:mm para la hora.",
-    "ru": "Введите дату в формате ГГГГ-ММ-ДД и время в формате ЧЧ:мм."
+    "ru": "Введите дату в формате ГГГГ-ММ-ДД и время в формате ЧЧ:ММ."
   },
   "This date or time does not exist. Choose another.": {
     "pt": "Esta data ou horário não existe. Escolha outro.",
@@ -1729,7 +1729,7 @@
     "es": "Tu petición necesita revisión de un moderador.",
     "ru": "Вашу просьбу должен проверить модератор."
   },
-"No verified Bible for this tradition in this language yet. You can choose another language later.": { "pt": "Ainda não há Bíblia verificada desta tradição neste idioma. Você pode escolher outro idioma depois.", "es": "Aún no hay una Biblia verificada de esta tradición en este idioma. Puedes elegir otro idioma después.", "ru": "Проверенной Библии этой традиции на этом языке пока нет. Другой язык можно выбрать позже." },
+"No verified Bible for this tradition in this language yet. You can choose another language later.": { "pt": "Ainda não há Bíblia verificada desta tradição neste idioma. Você pode escolher outro idioma depois.", "es": "Aún no hay una Biblia verificada de esta tradición en este idioma. Puedes elegir otro idioma después.", "ru": "Проверенного перевода Библии для этой традиции на этом языке пока нет. Другой язык можно выбрать позже." },
   "What’s weighing on your heart?": {
     "pt": "O que está pesando no seu coração?",
     "es": "¿Qué pesa en tu corazón?",
@@ -1748,7 +1748,7 @@
   "Community support. Not sacramental confession.": {
     "pt": "Apoio da comunidade. Não é confissão sacramental.",
     "es": "Apoyo comunitario. No es confesión sacramental.",
-    "ru": "Поддержка сообщества. Не таинство исповеди."
+    "ru": "Это поддержка сообщества, а не таинство исповеди."
   },
   "Begin wherever you are.": {
     "pt": "Comece de onde estiver.",
@@ -1783,7 +1783,7 @@
   "Mark prayer notifications read": {
     "pt": "Marcar notificações de oração como lidas",
     "es": "Marcar avisos de oración como leídos",
-    "ru": "Отметить уведомления о молитвах как прочитанные"
+    "ru": "Отметить всё прочитанным"
   },
   "My discussions": {
     "pt": "Minhas discussões",
@@ -1818,7 +1818,7 @@
   "Load older discussions": {
     "pt": "Carregar discussões anteriores",
     "es": "Cargar debates anteriores",
-    "ru": "Загрузить более ранние обсуждения"
+    "ru": "Показать более ранние"
   },
   "No published discussions yet.": {
     "pt": "Ainda não há discussões publicadas.",
@@ -1833,7 +1833,7 @@
   "Bible discussions you created or joined.": {
     "pt": "Discussões bíblicas que você criou ou das quais participou.",
     "es": "Discusiones bíblicas que creaste o en las que participaste.",
-    "ru": "Библейские обсуждения, которые вы создали или к которым присоединились."
+    "ru": "Обсуждения Библии, которые вы начали или в которых участвовали."
   },
   "Discussions I joined": {
     "pt": "Discussões em que participei",
@@ -1843,12 +1843,12 @@
   "No Bible discussions here yet.": {
     "pt": "Ainda não há discussões bíblicas aqui.",
     "es": "Todavía no hay discusiones bíblicas aquí.",
-    "ru": "Здесь пока нет библейских обсуждений."
+    "ru": "Здесь пока нет обсуждений Библии."
   },
   "Which Bible passage or theme would you like to discuss?": {
     "pt": "Qual passagem ou tema bíblico você gostaria de discutir?",
     "es": "¿Qué pasaje o tema bíblico te gustaría discutir?",
-    "ru": "Какой библейский отрывок или тему вы хотите обсудить?"
+    "ru": "Какой отрывок или какую тему из Библии вы хотите обсудить?"
   },
   "Your question or reflection": {
     "pt": "Sua pergunta ou reflexão",
@@ -1863,7 +1863,7 @@
   "Explore a Bible passage, theme, or question together.": {
     "pt": "Explorem juntos uma passagem, tema ou pergunta sobre a Bíblia.",
     "es": "Exploren juntos un pasaje, tema o pregunta sobre la Biblia.",
-    "ru": "Изучайте вместе библейский отрывок, тему или вопрос."
+    "ru": "Здесь можно вместе разобрать отрывок из Библии, тему или вопрос."
   },
   "Admin dashboard": {
     "pt": "Painel administrativo",
@@ -1878,12 +1878,12 @@
   "Review submissions and reports across the community.": {
     "pt": "Revise publicações e denúncias da comunidade.",
     "es": "Revisa publicaciones y reportes de la comunidad.",
-    "ru": "Проверяйте публикации и жалобы сообщества."
+    "ru": "Проверка публикаций и жалоб по всему сообществу."
   },
   "Reopen the dashboard to verify your staff access.": {
     "pt": "Reabra o painel para verificar seu acesso de moderador.",
     "es": "Vuelve a abrir el panel para verificar tu acceso de moderador.",
-    "ru": "Откройте панель заново, чтобы подтвердить доступ сотрудника."
+    "ru": "Откройте панель заново, чтобы подтвердить ваш доступ."
   },
   "Confessions": {
     "pt": "Confissões",
@@ -1913,7 +1913,7 @@
   "Candle recommendations": {
     "pt": "Sugestões de velas",
     "es": "Sugerencias de velas",
-    "ru": "Предложения зажечь свечу"
+    "ru": "Предлагать зажечь свечу"
   },
   "Tradition": {
     "pt": "Tradição",
@@ -1979,7 +1979,7 @@
   "Prayer requests are reviewed before sharing. Anonymous requests remain linked to your account. Please respect others’ privacy.": {
     "pt": "Os pedidos são analisados antes de serem compartilhados. Pedidos anônimos continuam vinculados à sua conta. Respeite a privacidade das outras pessoas.",
     "es": "Las peticiones se revisan antes de compartirse. Las peticiones anónimas siguen vinculadas a tu cuenta. Respeta la privacidad de los demás.",
-    "ru": "Молитвенные просьбы проверяются до публикации. Анонимные просьбы остаются связаны с вашим аккаунтом. Пожалуйста, уважайте частную жизнь других людей."
+    "ru": "Просьбы о молитве проверяются до публикации. Анонимные просьбы остаются связанными с вашим аккаунтом. Пожалуйста, уважайте частную жизнь других людей."
   },
   "Home": {
     "pt": "Início",
@@ -1999,7 +1999,7 @@
   "Discard": {
     "pt": "Descartar",
     "es": "Descartar",
-    "ru": "Удалить"
+    "ru": "Выйти без сохранения"
   },
   "Block this person? You will no longer be matched in this room.": {
     "pt": "Bloquear esta pessoa? Vocês não serão conectados novamente nesta sala.",
@@ -2010,7 +2010,7 @@
   "Search": { "pt": "Buscar", "es": "Buscar", "ru": "Поиск" },
   "Edit profile": { "pt": "Editar perfil", "es": "Editar perfil", "ru": "Изменить профиль" },
   "Confession": { "pt": "Confissão", "es": "Confesión", "ru": "Исповедь" },
-  "Find a small way to help. Giving money is never required.": { "pt": "Encontre uma pequena forma de ajudar. Doar dinheiro nunca é obrigatório.", "es": "Encuentra una pequeña forma de ayudar. Dar dinero nunca es obligatorio.", "ru": "Найдите, чем можно помочь. Жертвовать деньги вовсе не обязательно." },
+  "Find a small way to help. Giving money is never required.": { "pt": "Encontre uma pequena forma de ajudar. Doar dinheiro nunca é obrigatório.", "es": "Encuentra una pequeña forma de ayudar. Dar dinero nunca es obligatorio.", "ru": "Помочь можно и в малом. Жертвовать деньги вовсе не обязательно." },
   "Official resource": { "pt": "Recurso oficial", "es": "Recurso oficial", "ru": "Официальный ресурс" },
   "Explore ways to help": { "pt": "Ver formas de ajudar", "es": "Ver formas de ayudar", "ru": "Как можно помочь" },
   "Visit website": { "pt": "Visitar site", "es": "Visitar sitio web", "ru": "Перейти на сайт" },
@@ -2021,9 +2021,9 @@
   "Preview": { "pt": "Pré-visualizar", "es": "Vista previa", "ru": "Предпросмотр" },
   "After review, this recommendation will be visible to signed-in members and may be shared. It stays linked to your account for moderation. Do not include private contact details.": { "pt": "Após a revisão, esta recomendação ficará visível para membros conectados e poderá ser compartilhada. Ela continua vinculada à sua conta para moderação. Não inclua contatos pessoais.", "es": "Tras la revisión, esta recomendación será visible para los miembros conectados y podrá compartirse. Seguirá vinculada a tu cuenta para la moderación. No incluyas datos de contacto privados.", "ru": "После проверки рекомендацию увидят участники, вошедшие в аккаунт, и смогут ею поделиться. Для модерации она остаётся связанной с вашим аккаунтом. Не указывайте личные контакты." },
   "Community recommendations": { "pt": "Recomendações da comunidade", "es": "Recomendaciones de la comunidad", "ru": "Рекомендации сообщества" },
-  "Member recommendations are not verified partnerships. Check each organization before giving.": { "pt": "As recomendações de membros não são parcerias verificadas. Confira cada organização antes de doar.", "es": "Las recomendaciones de miembros no son alianzas verificadas. Revisa cada organización antes de donar.", "ru": "Рекомендации участников — не проверенные партнёры. Прежде чем жертвовать, проверьте организацию." },
+  "Member recommendations are not verified partnerships. Check each organization before giving.": { "pt": "As recomendações de membros não são parcerias verificadas. Confira cada organização antes de doar.", "es": "Las recomendaciones de miembros no son alianzas verificadas. Revisa cada organización antes de donar.", "ru": "Организации, которые советуют участники, — не наши проверенные партнёры. Прежде чем жертвовать, проверьте каждую из них сами." },
   "No community recommendations yet.": { "pt": "Ainda não há recomendações da comunidade.", "es": "Aún no hay recomendaciones de la comunidad.", "ru": "Рекомендаций сообщества пока нет." },
-  "Sign in to view and submit community recommendations. If you are signed in, please try again.": { "pt": "Entre para ver e enviar recomendações da comunidade. Se você já entrou, tente novamente.", "es": "Inicia sesión para ver y enviar recomendaciones de la comunidad. Si ya iniciaste sesión, inténtalo de nuevo.", "ru": "Войдите, чтобы смотреть и предлагать рекомендации сообщества. Если вы уже вошли, попробуйте ещё раз." },
+  "Sign in to view and submit community recommendations. If you are signed in, please try again.": { "pt": "Entre para ver e enviar recomendações da comunidade. Se você já entrou, tente novamente.", "es": "Inicia sesión para ver y enviar recomendaciones de la comunidad. Si ya iniciaste sesión, inténtalo de nuevo.", "ru": "Войдите, чтобы читать рекомендации сообщества и добавлять свои. Если вы уже вошли, попробуйте ещё раз." },
   "Could not submit. Your writing is still here. Please sign in and try again.": { "pt": "Não foi possível enviar. Seu texto continua aqui. Entre e tente novamente.", "es": "No se pudo enviar. Tu texto sigue aquí. Inicia sesión e inténtalo de nuevo.", "ru": "Не удалось отправить. Ваш текст сохранён здесь. Войдите и попробуйте ещё раз." },
   "Could not remove this submission. Please try again.": { "pt": "Não foi possível remover este envio. Tente novamente.", "es": "No se pudo retirar este envío. Inténtalo de nuevo.", "ru": "Не удалось удалить публикацию. Попробуйте ещё раз." },
   "Remove submission": { "pt": "Remover envio", "es": "Retirar envío", "ru": "Удалить публикацию" },
@@ -2034,8 +2034,8 @@
   "Reject": { "pt": "Rejeitar", "es": "Rechazar", "ru": "Отклонить" },
   "Previous": { "pt": "Anterior", "es": "Anterior", "ru": "Назад" },
   "Next": { "pt": "Próximo", "es": "Siguiente", "ru": "Далее" },
-  "Account services are not connected yet. Your private journal is available.": { "pt": "Os serviços da conta ainda não estão conectados. Seu diário particular continua disponível.", "es": "Los servicios de la cuenta aún no están conectados. Tu diario privado sigue disponible.", "ru": "Сервисы аккаунта пока не подключены. Ваш личный дневник доступен." },
-  "Account services are unavailable.": { "pt": "Os serviços da conta estão indisponíveis.", "es": "Los servicios de la cuenta no están disponibles.", "ru": "Сервисы аккаунта недоступны." },
+  "Account services are not connected yet. Your private journal is available.": { "pt": "Os serviços da conta ainda não estão conectados. Seu diário particular continua disponível.", "es": "Los servicios de la cuenta aún no están conectados. Tu diario privado sigue disponible.", "ru": "Функции аккаунта пока не подключены. Личным дневником можно пользоваться." },
+  "Account services are unavailable.": { "pt": "Os serviços da conta estão indisponíveis.", "es": "Los servicios de la cuenta no están disponibles.", "ru": "Функции аккаунта сейчас недоступны." },
   "Allow the print window to open.": { "pt": "Permita que a janela de impressão abra.", "es": "Permite que se abra la ventana de impresión.", "ru": "Разрешите открыть окно печати." },
   "Apple sign-in could not be verified.": { "pt": "Não foi possível confirmar o acesso com a Apple.", "es": "No se pudo verificar el inicio de sesión con Apple.", "ru": "Не удалось подтвердить вход через Apple." },
   "Automatic moderation is not active. This post remains private.": { "pt": "A moderação automática não está ativa. Esta publicação continua privada.", "es": "La moderación automática no está activa. Esta publicación sigue siendo privada.", "ru": "Автоматическая проверка не включена. Публикация пока видна только вам." },
@@ -2043,23 +2043,23 @@
   "Browser storage could not be saved.": { "pt": "Não foi possível salvar no armazenamento do navegador.", "es": "No se pudo guardar en el almacenamiento del navegador.", "ru": "Не удалось сохранить данные в браузере." },
   "Browser storage is unavailable.": { "pt": "O armazenamento do navegador está indisponível.", "es": "El almacenamiento del navegador no está disponible.", "ru": "Хранилище браузера недоступно." },
   "Close other app tabs and try again.": { "pt": "Feche as outras abas do app e tente novamente.", "es": "Cierra las demás pestañas de la app e inténtalo de nuevo.", "ru": "Закройте другие вкладки приложения и попробуйте ещё раз." },
-  "Community could not be reached. Please try again or refresh.": { "pt": "Não foi possível acessar a comunidade. Tente novamente ou atualize.", "es": "No se pudo conectar con la comunidad. Inténtalo de nuevo o actualiza.", "ru": "Не удалось подключиться к сообществу. Попробуйте ещё раз или обновите." },
+  "Community could not be reached. Please try again or refresh.": { "pt": "Não foi possível acessar a comunidade. Tente novamente ou atualize.", "es": "No se pudo conectar con la comunidad. Inténtalo de nuevo o actualiza.", "ru": "Не удалось подключиться к сообществу. Попробуйте ещё раз или обновите экран." },
   "Discover could not load. Please try again.": { "pt": "Não foi possível carregar Descobrir. Tente novamente.", "es": "No se pudo cargar Descubrir. Inténtalo de nuevo.", "ru": "Не удалось загрузить «Обзор». Попробуйте ещё раз." },
   "Encrypted storage requires a Grace & Gather development or App Store build. Expo Go is not supported.": { "pt": "O armazenamento criptografado exige uma versão de desenvolvimento ou da App Store do Grace & Gather. O Expo Go não é compatível.", "es": "El almacenamiento cifrado requiere una versión de desarrollo o de la App Store de Grace & Gather. Expo Go no es compatible.", "ru": "Для зашифрованного хранилища нужна сборка Grace & Gather для разработки или из App Store. Expo Go не поддерживается." },
   "Enter the 64-character recovery key.": { "pt": "Digite a chave de recuperação de 64 caracteres.", "es": "Introduce la clave de recuperación de 64 caracteres.", "ru": "Введите ключ восстановления из 64 символов." },
   "Interactions could not load. Try again.": { "pt": "Não foi possível carregar as interações. Tente novamente.", "es": "No se pudieron cargar las interacciones. Inténtalo de nuevo.", "ru": "Не удалось загрузить отклики. Попробуйте ещё раз." },
-  "Invalid audio backup.": { "pt": "Backup de áudio inválido.", "es": "Copia de audio no válida.", "ru": "Неверная резервная копия аудио." },
-  "Invalid backup data.": { "pt": "Dados de backup inválidos.", "es": "Datos de la copia no válidos.", "ru": "Неверные данные резервной копии." },
-  "Invalid backup or recovery key.": { "pt": "Backup ou chave de recuperação inválidos.", "es": "Copia de seguridad o clave de recuperación no válidas.", "ru": "Неверная резервная копия или ключ восстановления." },
-  "Invalid journal entries.": { "pt": "Entradas do diário inválidas.", "es": "Entradas del diario no válidas.", "ru": "Неверные записи дневника." },
-  "Invalid profile.": { "pt": "Perfil inválido.", "es": "Perfil no válido.", "ru": "Неверный профиль." },
-  "Notification permission was not granted.": { "pt": "A permissão de notificações não foi concedida.", "es": "No se concedió el permiso de notificaciones.", "ru": "Разрешение на уведомления не выдано." },
+  "Invalid audio backup.": { "pt": "Backup de áudio inválido.", "es": "Copia de audio no válida.", "ru": "Не удалось прочитать резервную копию аудио." },
+  "Invalid backup data.": { "pt": "Dados de backup inválidos.", "es": "Datos de la copia no válidos.", "ru": "Не удалось прочитать данные резервной копии." },
+  "Invalid backup or recovery key.": { "pt": "Backup ou chave de recuperação inválidos.", "es": "Copia de seguridad o clave de recuperación no válidas.", "ru": "Не подходит резервная копия или ключ восстановления." },
+  "Invalid journal entries.": { "pt": "Entradas do diário inválidas.", "es": "Entradas del diario no válidas.", "ru": "Не удалось прочитать записи дневника." },
+  "Invalid profile.": { "pt": "Perfil inválido.", "es": "Perfil no válido.", "ru": "Не удалось прочитать профиль." },
+  "Notification permission was not granted.": { "pt": "A permissão de notificações não foi concedida.", "es": "No se concedió el permiso de notificaciones.", "ru": "Уведомления не разрешены." },
   "Notifications are unavailable right now. Please try again later.": { "pt": "As notificações estão indisponíveis no momento. Tente mais tarde.", "es": "Las notificaciones no están disponibles ahora. Inténtalo más tarde.", "ru": "Уведомления сейчас недоступны. Попробуйте позже." },
   "Phone alerts are available in the iPhone app.": { "pt": "Os alertas no celular estão disponíveis no app para iPhone.", "es": "Las alertas del teléfono están disponibles en la app para iPhone.", "ru": "Оповещения на телефон доступны в приложении для iPhone." },
   "Phone alerts are not available in this test build.": { "pt": "Os alertas no celular não estão disponíveis nesta versão de teste.", "es": "Las alertas del teléfono no están disponibles en esta versión de prueba.", "ru": "В этой тестовой версии оповещения на телефон недоступны." },
   "Phone alerts are unavailable right now. Please try again later.": { "pt": "Os alertas no celular estão indisponíveis no momento. Tente mais tarde.", "es": "Las alertas del teléfono no están disponibles ahora. Inténtalo más tarde.", "ru": "Оповещения на телефон сейчас недоступны. Попробуйте позже." },
   "Please check the title, words and display name, then try again.": { "pt": "Confira o título, o texto e o nome exibido e tente novamente.", "es": "Revisa el título, el texto y el nombre visible e inténtalo de nuevo.", "ru": "Проверьте заголовок, текст и отображаемое имя и попробуйте ещё раз." },
-  "Please pause a moment before trying again.": { "pt": "Aguarde um momento antes de tentar novamente.", "es": "Espera un momento antes de volver a intentarlo.", "ru": "Подождите немного, прежде чем пробовать снова." },
+  "Please pause a moment before trying again.": { "pt": "Aguarde um momento antes de tentar novamente.", "es": "Espera un momento antes de volver a intentarlo.", "ru": "Подождите немного и попробуйте ещё раз." },
   "Please sign in, then try again. Your action has not been saved.": { "pt": "Entre e tente novamente. Sua ação não foi salva.", "es": "Inicia sesión e inténtalo de nuevo. Tu acción no se guardó.", "ru": "Войдите и попробуйте ещё раз. Действие не сохранено." },
   "Please try again.": { "pt": "Tente novamente.", "es": "Inténtalo de nuevo.", "ru": "Попробуйте ещё раз." },
   "Push notifications are available in the iPhone app.": { "pt": "As notificações push estão disponíveis no app para iPhone.", "es": "Las notificaciones push están disponibles en la app para iPhone.", "ru": "Push-уведомления доступны в приложении для iPhone." },
@@ -2070,23 +2070,23 @@
   "Sign in first.": { "pt": "Entre primeiro.", "es": "Inicia sesión primero.", "ru": "Сначала войдите в аккаунт." },
   "Sign in to take part in Community.": { "pt": "Entre para participar da comunidade.", "es": "Inicia sesión para participar en la comunidad.", "ru": "Войдите, чтобы участвовать в сообществе." },
   "Sign in to take part in the community.": { "pt": "Entre para participar da comunidade.", "es": "Inicia sesión para participar en la comunidad.", "ru": "Войдите, чтобы участвовать в сообществе." },
-  "Sign in with an eligible account to take part in Community.": { "pt": "Entre com uma conta habilitada para participar da comunidade.", "es": "Inicia sesión con una cuenta habilitada para participar en la comunidad.", "ru": "Чтобы участвовать в сообществе, войдите в подходящий аккаунт." },
+  "Sign in with an eligible account to take part in Community.": { "pt": "Entre com uma conta habilitada para participar da comunidade.", "es": "Inicia sesión con una cuenta habilitada para participar en la comunidad.", "ru": "Чтобы участвовать в сообществе, войдите в аккаунт, у которого есть к нему доступ." },
   "The browser journal key could not be read.": { "pt": "Não foi possível ler a chave do diário no navegador.", "es": "No se pudo leer la clave del diario en el navegador.", "ru": "Не удалось прочитать ключ дневника в браузере." },
   "The check could not finish. This post remains private.": { "pt": "A verificação não terminou. Esta publicação continua privada.", "es": "La revisión no pudo terminar. Esta publicación sigue siendo privada.", "ru": "Проверка не завершилась. Публикация пока видна только вам." },
   "The journal key could not be read.": { "pt": "Não foi possível ler a chave do diário.", "es": "No se pudo leer la clave del diario.", "ru": "Не удалось прочитать ключ дневника." },
   "The journal key is missing. Your files have been preserved. Contact support before reinstalling.": { "pt": "A chave do diário não foi encontrada. Seus arquivos foram preservados. Fale com o suporte antes de reinstalar.", "es": "Falta la clave del diario. Tus archivos se conservaron. Contacta con soporte antes de reinstalar.", "ru": "Ключ дневника не найден. Ваши файлы сохранены. Прежде чем переустанавливать приложение, напишите в поддержку." },
   "This backup exceeds the 50 MB limit. Export fewer recordings.": { "pt": "Este backup passa do limite de 50 MB. Exporte menos gravações.", "es": "Esta copia supera el límite de 50 MB. Exporta menos grabaciones.", "ru": "Резервная копия больше 50 МБ. Экспортируйте меньше аудиозаписей." },
-  "This conversation is no longer available. Refresh to see the latest.": { "pt": "Esta conversa não está mais disponível. Atualize para ver as novidades.", "es": "Esta conversación ya no está disponible. Actualiza para ver lo más reciente.", "ru": "Эта беседа больше недоступна. Обновите, чтобы увидеть последние изменения." },
-  "This post is still private. The safety check is unavailable or it needs further review.": { "pt": "Esta publicação ainda é privada. A verificação de segurança está indisponível ou ela precisa de mais revisão.", "es": "Esta publicación sigue siendo privada. La revisión de seguridad no está disponible o necesita más revisión.", "ru": "Публикация пока видна только вам: проверка недоступна или нужна дополнительная проверка." },
+  "This conversation is no longer available. Refresh to see the latest.": { "pt": "Esta conversa não está mais disponível. Atualize para ver as novidades.", "es": "Esta conversación ya no está disponible. Actualiza para ver lo más reciente.", "ru": "Эта беседа больше недоступна. Обновите экран, чтобы увидеть, что изменилось." },
+  "This post is still private. The safety check is unavailable or it needs further review.": { "pt": "Esta publicação ainda é privada. A verificação de segurança está indisponível ou ela precisa de mais revisão.", "es": "Esta publicación sigue siendo privada. La revisión de seguridad no está disponible o necesita más revisión.", "ru": "Публикация пока видна только вам: проверка безопасности недоступна или публикацию нужно проверить дополнительно." },
   "Unsupported backup.": { "pt": "Backup não compatível.", "es": "Copia de seguridad no compatible.", "ru": "Этот формат резервной копии не поддерживается." },
   "Use the iPhone app for encrypted audio.": { "pt": "Use o app para iPhone para áudio criptografado.", "es": "Usa la app para iPhone para el audio cifrado.", "ru": "Для зашифрованного аудио используйте приложение для iPhone." },
   "You cannot block yourself.": { "pt": "Você não pode bloquear a si mesmo.", "es": "No puedes bloquearte a ti mismo.", "ru": "Нельзя заблокировать самого себя." },
-  "Your private storage could not open. Your files have been preserved. Please close Grace & Gather and open it again. If this keeps happening, write to hello@graceandgather.online.": { "pt": "Não foi possível abrir seu armazenamento privado. Seus arquivos foram preservados. Feche o Grace & Gather e abra de novo. Se continuar, escreva para hello@graceandgather.online.", "es": "No se pudo abrir tu almacenamiento privado. Tus archivos se conservaron. Cierra Grace & Gather y vuelve a abrirlo. Si sigue ocurriendo, escribe a hello@graceandgather.online.", "ru": "Не удалось открыть ваше личное хранилище. Файлы сохранены. Закройте Grace & Gather и откройте снова. Если это повторяется, напишите на hello@graceandgather.online." },
+  "Your private storage could not open. Your files have been preserved. Please close Grace & Gather and open it again. If this keeps happening, write to hello@graceandgather.online.": { "pt": "Não foi possível abrir seu armazenamento privado. Seus arquivos foram preservados. Feche o Grace & Gather e abra de novo. Se continuar, escreva para hello@graceandgather.online.", "es": "No se pudo abrir tu almacenamiento privado. Tus archivos se conservaron. Cierra Grace & Gather y vuelve a abrirlo. Si sigue ocurriendo, escribe a hello@graceandgather.online.", "ru": "Не удалось открыть ваше личное хранилище. Файлы сохранены. Закройте Grace & Gather и откройте снова. Если это повторится, напишите на hello@graceandgather.online." },
   "Contact Grace & Gather": { "pt": "Fale com o Grace & Gather", "es": "Contacta con Grace & Gather", "ru": "Написать в Grace & Gather" },
   "About this perspective": { "pt": "Sobre esta perspectiva", "es": "Sobre esta perspectiva", "ru": "Об этой точке зрения" },
-  "Labels describe the author or the resource. They are not a church endorsement, and readers within a tradition may differ.": { "pt": "Os rótulos descrevem o autor ou o recurso. Não são uma aprovação de igreja, e leitores de uma mesma tradição podem discordar.", "es": "Las etiquetas describen al autor o el recurso. No son un aval de una iglesia, y los lectores de una misma tradición pueden opinar distinto.", "ru": "Метки описывают автора или материал. Это не одобрение церкви, и читатели одной традиции могут оценивать его по-разному." },
+  "Labels describe the author or the resource. They are not a church endorsement, and readers within a tradition may differ.": { "pt": "Os rótulos descrevem o autor ou o recurso. Não são uma aprovação de igreja, e leitores de uma mesma tradição podem discordar.", "es": "Las etiquetas describen al autor o el recurso. No son un aval de una iglesia, y los lectores de una misma tradición pueden opinar distinto.", "ru": "Метки описывают автора или материал. Они не означают, что материал одобрен какой-либо церковью, и люди одной традиции могут относиться к нему по-разному." },
   "Source for this label": { "pt": "Fonte deste rótulo", "es": "Fuente de esta etiqueta", "ru": "Источник метки" },
-  "Specific reading for this tradition is still being sourced.": { "pt": "Ainda estamos reunindo leituras específicas para esta tradição.", "es": "Aún estamos reuniendo lecturas específicas para esta tradición.", "ru": "Чтение именно для этой традиции мы ещё подбираем." },
+  "Specific reading for this tradition is still being sourced.": { "pt": "Ainda estamos reunindo leituras específicas para esta tradição.", "es": "Aún estamos reuniendo lecturas específicas para esta tradición.", "ru": "Тексты именно для этой традиции мы ещё подбираем." },
   "Submit for review": { "pt": "Enviar para revisão", "es": "Enviar a revisión", "ru": "Отправить на проверку" },
   "Open this recording in the iPhone app.": { "pt": "Abra esta gravação no app para iPhone.", "es": "Abre esta grabación en la app para iPhone.", "ru": "Откройте эту запись в приложении для iPhone." }
 }

@@ -10,7 +10,7 @@ const words = {
   en:{title:"Phone notifications",info:"Get updates about replies, messages and gatherings. You can change this later.",allow:"Allow notifications",enabled:"Notifications enabled",failed:"Notifications couldn’t be enabled. You can try again in Preferences."},
   pt:{title:"Notificações no celular",info:"Receba avisos sobre respostas, mensagens e encontros. Você pode mudar isso depois.",allow:"Permitir notificações",enabled:"Notificações ativadas",failed:"Não foi possível ativar as notificações. Tente novamente em Preferências."},
   es:{title:"Notificaciones en el móvil",info:"Recibe avisos sobre respuestas, mensajes y encuentros. Puedes cambiarlo después.",allow:"Permitir notificaciones",enabled:"Notificaciones activadas",failed:"No se pudieron activar las notificaciones. Inténtalo de nuevo en Preferencias."},
-  ru:{title:"Уведомления на телефоне",info:"Получайте уведомления об ответах, сообщениях и встречах. Это можно изменить позже.",allow:"Разрешить уведомления",enabled:"Уведомления включены",failed:"Не удалось включить уведомления. Повторите попытку в настройках."},
+  ru:{title:"Уведомления на телефоне",info:"Будем сообщать об ответах, сообщениях и встречах. Это можно изменить позже.",allow:"Разрешить уведомления",enabled:"Уведомления включены",failed:"Не удалось включить уведомления. Можно попробовать ещё раз в настройках."},
 };
 export default function OnboardingNotifications({language}:{language:Language}) {
   const t=words[language], [busy,setBusy]=useState(false), [enabled,setEnabled]=useState(false), [error,setError]=useState("");

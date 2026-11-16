@@ -13,7 +13,7 @@ const rows: Record<string, string[]> = {
     "Your journal is saved privately to your account and synced across devices. It is not end-to-end encrypted.",
     "Seu diário é salvo de forma privada na sua conta e sincronizado entre aparelhos. Ele não possui criptografia de ponta a ponta.",
     "Tu diario se guarda de forma privada en tu cuenta y se sincroniza entre dispositivos. No está cifrado de extremo a extremo.",
-    "Дневник сохраняется в вашей учётной записи и синхронизируется между устройствами. Сквозное шифрование не используется.",
+    "Ваш личный дневник сохраняется в аккаунте и синхронизируется между устройствами. Сквозное шифрование не используется.",
   ],
   webDemo: [
     "Saved in this browser.",
@@ -25,7 +25,7 @@ const rows: Record<string, string[]> = {
     "Choose a feeling to guide your verses and next steps. AI is not connected yet.",
     "Escolha um sentimento para orientar seus versículos e próximos passos. A IA ainda não está conectada.",
     "Elige un sentimiento para orientar tus versículos y próximos pasos. La IA aún no está conectada.",
-    "Выберите чувство, чтобы подобрать стихи и следующие шаги. ИИ пока не подключён.",
+    "Выберите чувство — по нему мы подберём стихи и следующие шаги. ИИ пока не подключён.",
   ],
   signIn: ["Sign in", "Entrar", "Entrar", "Войти"],
   signInOrJoin: [
@@ -47,7 +47,7 @@ const rows: Record<string, string[]> = {
     "Continue with email",
     "Continuar com email",
     "Continuar con correo",
-    "Продолжить с электронной почтой",
+    "Продолжить по почте",
   ],
   signInIntro: [
     "Enter your email and we will send you a code. There is no password to remember.",
@@ -171,7 +171,7 @@ const rows: Record<string, string[]> = {
     "Play recording",
     "Ouvir gravação",
     "Escuchar grabación",
-    "Воспроизвести запись",
+    "Прослушать запись",
   ],
   deleteAccount: [
     "Delete account",
@@ -189,7 +189,7 @@ const rows: Record<string, string[]> = {
     "This permanently deletes your account and its synced journal, profile and community activity. Export your journal first if you want a copy. Separate copies on a device are removed in device settings.",
     "Isso exclui permanentemente sua conta, diário sincronizado, perfil e atividades na comunidade. Exporte seu diário antes se quiser uma cópia. Cópias separadas no aparelho podem ser apagadas nas configurações do dispositivo.",
     "Esto elimina permanentemente tu cuenta, diario sincronizado, perfil y actividad comunitaria. Exporta tu diario primero si deseas una copia. Las copias del dispositivo se eliminan en sus ajustes.",
-    "Это навсегда удалит аккаунт, синхронизированный дневник, профиль и действия в сообществе. Сначала экспортируйте дневник, если хотите сохранить копию. Копии на устройстве удаляются отдельно.",
+    "Аккаунт будет удалён навсегда — вместе с синхронизированным дневником, профилем и вашими действиями в сообществе. Если хотите сохранить копию дневника, сначала экспортируйте его. Отдельные копии на устройстве удаляются в настройках устройства.",
   ],
   confirmDelete: [
     "Type DELETE to confirm",

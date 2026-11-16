@@ -34,7 +34,7 @@ const words: Record<string, string[]> = {
   "Search covers discussions already loaded. Load more to search further.": [
     "A busca inclui as discussões já carregadas. Carregue mais para continuar procurando.",
     "La búsqueda incluye las conversaciones cargadas. Carga más para seguir buscando.",
-    "Поиск охватывает загруженные обсуждения. Загрузите ещё, чтобы продолжить поиск.",
+    "Поиск идёт только по уже загруженным обсуждениям. Загрузите ещё, чтобы искать дальше.",
   ],
   // The screen behind "Chats" on Gather: friends (1:1) and group chats.
   "Your people": ["Sua gente", "Tu gente", "Свои люди"],
@@ -146,7 +146,7 @@ const words: Record<string, string[]> = {
     [
       "As pessoas só aparecem aqui se escolheram ser encontradas e se os dois aceitaram.",
       "Las personas solo aparecen aquí si eligieron ser encontradas y ambos aceptaron.",
-      "Люди появляются здесь, только если разрешили себя находить и вы оба согласились.",
+      "Люди появляются здесь, только если они разрешили находить себя в поиске и вы согласились добавить друг друга.",
     ],
   "No messages yet. Be the first to say hello.": [
     "Ainda não há mensagens. Seja o primeiro a dizer olá.",
@@ -251,7 +251,7 @@ const words: Record<string, string[]> = {
     [
       "Mensagens são compartilhadas com seu amigo. Moderadores podem revisar mensagens denunciadas.",
       "Los mensajes se comparten con tu amigo. Moderadores pueden revisar mensajes denunciados.",
-      "Сообщения видны вашему другу. Модераторы могут проверить сообщения, на которые поступили жалобы.",
+      "Сообщения видит ваш друг. Если на сообщение пожалуются, его смогут проверить модераторы.",
     ],
   "Write a message": [
     "Escreva uma mensagem",
@@ -262,7 +262,7 @@ const words: Record<string, string[]> = {
   "Older messages": [
     "Mensagens anteriores",
     "Mensajes anteriores",
-    "Более ранние сообщения",
+    "Предыдущие сообщения",
   ],
   Back: ["Voltar", "Volver", "Назад"],
   Block: ["Bloquear", "Bloquear", "Заблокировать"],
@@ -272,7 +272,7 @@ const words: Record<string, string[]> = {
     "Miembros bloqueados",
     "Заблокированные",
   ],
-  "Remove friend": ["Remover amigo", "Eliminar amigo", "Удалить друга"],
+  "Remove friend": ["Remover amigo", "Eliminar amigo", "Удалить из друзей"],
   Report: ["Denunciar", "Denunciar", "Пожаловаться"],
   "Reason for report": [
     "Motivo da denúncia",

@@ -37,7 +37,7 @@ const words = {
     "Come in and rest a while.",
     "Entre e descanse um pouco.",
     "Entra y descansa un momento.",
-    "Здесь можно обрести душевный покой.",
+    "Заходите и отдохните немного.",
   ),
   tapDoors: L(
     "Tap the doors to enter",
@@ -61,7 +61,7 @@ const words = {
     "Tap a place to enter. Move your finger across the church to look around.",
     "Toque em um lugar para entrar. Deslize o dedo pela igreja para olhar ao redor.",
     "Toca un lugar para entrar. Desliza el dedo por la iglesia para mirar alrededor.",
-    "Коснитесь места, чтобы войти. Чтобы осмотреть церковь, проведите по ней пальцем.",
+    "Коснитесь нужного места, чтобы войти. Чтобы осмотреться, проведите пальцем по экрану.",
   ),
   church: L("The church", "A igreja", "La iglesia", "Церковь"),
   candles: L(
@@ -102,7 +102,7 @@ const words = {
     "Before the icon, with the prayers of the Church",
     "Diante do ícone, com as orações da Igreja",
     "Ante el icono, con las oraciones de la Iglesia",
-    "Перед иконой, молитвами Церкви",
+    "Перед иконой, словами церковных молитв",
   ),
   pews: L(
     "Sit quietly · Journal",
@@ -114,7 +114,7 @@ const words = {
     "A quiet place to write and reflect",
     "Um lugar tranquilo para escrever e refletir",
     "Un lugar tranquilo para escribir y reflexionar",
-    "Тихое место, чтобы писать и размышлять",
+    "Тихое место, где можно писать и размышлять",
   ),
   wreath: L(
     "Advent wreath",
@@ -201,7 +201,7 @@ const words = {
     "When I need God close",
     "Quando preciso de Deus perto",
     "Cuando necesito a Dios cerca",
-    "Когда мне нужен Бог рядом",
+    "Когда нужно, чтобы Бог был рядом",
   ),
   loved: L(
     "For someone I love",
@@ -225,7 +225,7 @@ const words = {
     "Remember someone who has died",
     "Lembrar alguém que faleceu",
     "Recordar a alguien que falleció",
-    "Вспомнить ушедшего человека",
+    "Вспомнить того, кто ушёл из жизни",
   ),
   returnJournal: L(
     "Return to your journal",
@@ -414,7 +414,7 @@ const words = {
     "Lay down what weighs on you, anonymously",
     "Deixe o que pesa em você, anonimamente",
     "Deja lo que te pesa, de forma anónima",
-    "Анонимно оставьте то, что тяготит",
+    "Оставьте здесь то, что тяготит, — анонимно",
   ),
   candleAction: L(
     "Light a candle",
@@ -450,7 +450,7 @@ const words = {
     "You're the first one here right now",
     "Você é a primeira pessoa aqui agora",
     "Eres la primera persona aquí ahora",
-    "Сейчас вы здесь первый",
+    "Пока здесь только вы",
   ),
   // Small step
   stepTitle: L(
@@ -463,7 +463,7 @@ const words = {
     "Pick one if you like. Home will gently ask how it went.",
     "Escolha um, se quiser. O Início vai perguntar com calma como foi.",
     "Elige uno si quieres. Inicio te preguntará con calma cómo te fue.",
-    "Выберите один, если хотите. Позже на главном экране вас мягко спросят, как всё прошло.",
+    "Выберите один, если хотите. Позже на главном экране мы просто спросим, как всё прошло.",
   ),
   stepSave: L(
     "Make this my step",
@@ -487,7 +487,7 @@ const words = {
     "Keep this page in your journal and Home will ask about it tomorrow.",
     "Guarde esta página no diário e o Início vai perguntar sobre ele amanhã.",
     "Guarda esta página en tu diario e Inicio te preguntará mañana.",
-    "Сохраните эту страницу в дневнике, и завтра на главном экране вас спросят о ней.",
+    "Сохраните эту страницу в дневнике, и завтра на главном экране мы спросим, как прошёл ваш шаг.",
   ),
   stepToday: L(
     "Today's small step",
@@ -525,7 +525,7 @@ const words = {
     "No streaks, no pressure.",
     "Sem sequências, sem pressão.",
     "Sin rachas, sin presión.",
-    "Без счёта дней подряд и без давления.",
+    "Никто не считает дни и не торопит.",
   ),
   // Gather
   chats: L("Chats", "Conversas", "Conversaciones", "Беседы"),
