@@ -66,6 +66,7 @@ export default function CandleScreen() {
   const [phase, setPhase] = useState<"idle" | "choosing" | "lit">("idle");
   const [choice, setChoice] = useState<CandleIntention | null>(null);
   const [name, setName] = useState("");
+  const [round, setRound] = useState(0);
   useEffect(() => {
     void loadCandles();
   }, []);
@@ -85,7 +86,13 @@ export default function CandleScreen() {
   };
 
   return (
-    <Screen back place="candles">
+    // Tapping the candle opens the choices under it, below the screen on a
+    // phone: the page moves down to them.
+    <Screen
+      back
+      place="candles"
+      scrollToEndKey={phase === "choosing" ? `choosing-${round}` : undefined}
+    >
       <View style={s.head}>
         {returnEntry && (
           <Button secondary title={t("returnJournal")} onPress={() => router.replace({ pathname: "/entry/[id]", params: { id: returnEntry } })} />
@@ -183,6 +190,7 @@ export default function CandleScreen() {
               onPress={() => {
                 setChoice(null);
                 setName("");
+                setRound((n) => n + 1);
                 setPhase("choosing");
               }}
             />

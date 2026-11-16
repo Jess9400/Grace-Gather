@@ -306,10 +306,10 @@ const s = StyleSheet.create({
     padding: 0,
   },
   // While typing, the letter fills the space between the top of the screen
-  // and "I'm done writing", however tall the keyboard leaves it, and grows
-  // (the page scrolls) once the writing is longer than that.
-  paperWriting: { flexGrow: 1 },
-  inputWriting: { minHeight: 160, flexGrow: 1 },
+  // and "I'm done writing", however tall the keyboard leaves it. A longer
+  // entry scrolls inside the letter, so the line being typed stays in view.
+  paperWriting: { flex: 1, marginTop: 0 },
+  inputWriting: { flex: 1, minHeight: 120 },
   footer: {
     paddingHorizontal: 22,
     paddingTop: 10,

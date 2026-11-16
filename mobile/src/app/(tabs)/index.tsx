@@ -93,6 +93,10 @@ export default function Home() {
   } | null>(null);
   const walked = useRef(false);
   const arrive = useRef<null | (() => void)>(null);
+  // A walk in is under way: further taps wait, so a place never opens twice.
+  const walking = useRef(false);
+  const atHome = useRef(true);
+  const settle = useRef<ReturnType<typeof setTimeout> | null>(null);
   const blurTarget = useRef<ComponentRef<typeof View> | null>(null);
   const reduced = useReducedMotion();
   const [invitation, setInvitation] = useState(false);
@@ -177,6 +181,17 @@ export default function Home() {
         setDismissed(true);
         setTour(true);
       }
+      atHome.current = true;
+      walking.current = false;
+      if (settle.current) clearTimeout(settle.current);
+      // Whatever happened on the way back, Home ends up whole: the picture
+      // at rest and its controls showing.
+      const rest = () => {
+        if (!active || walking.current) return;
+        walk.setValue(0);
+        chrome.setValue(1);
+        setWalkTo(null);
+      };
       if (walked.current) {
         walked.current = false;
         Animated.parallel([
@@ -192,10 +207,15 @@ export default function Home() {
             delay: 380,
             useNativeDriver: true,
           }),
-        ]).start(() => setWalkTo(null));
-      }
+        ]).start(({ finished }) => {
+          if (finished && active && !walking.current) setWalkTo(null);
+        });
+        settle.current = setTimeout(rest, 1500);
+      } else rest();
       return () => {
         active = false;
+        atHome.current = false;
+        if (settle.current) clearTimeout(settle.current);
         setFocused(false);
       };
     }, [walk, chrome]),
@@ -217,21 +237,47 @@ export default function Home() {
         easing: Easing.inOut(Easing.cubic),
         useNativeDriver: true,
       }),
-    ]).start(() => go());
+    ]).start(() => {
+      go();
+      // If nothing opened after all, walk back out instead of leaving the
+      // church zoomed in with its controls hidden.
+      if (settle.current) clearTimeout(settle.current);
+      settle.current = setTimeout(() => {
+        walking.current = false;
+        if (!atHome.current) return;
+        walked.current = false;
+        Animated.parallel([
+          Animated.timing(walk, {
+            toValue: 0,
+            duration: 500,
+            useNativeDriver: true,
+          }),
+          Animated.timing(chrome, {
+            toValue: 1,
+            duration: 300,
+            useNativeDriver: true,
+          }),
+        ]).start(({ finished }) => {
+          if (finished && !walking.current) setWalkTo(null);
+        });
+      }, 1600);
+    });
   }, [walkTo, walk, chrome]);
   const enter = (
     place: RoomPlace,
     go: () => void,
     point?: { x: number; y: number },
   ) => {
+    if (walking.current) return;
     const at = point ?? getChurchSnapshot()?.points[place];
-    if (reduced || sceneFailed || !at || arrive.current) return go();
+    if (reduced || sceneFailed || !at) return go();
     const stage = getChurchSnapshot() ?? {
       width: screenWidth,
       height: screenHeight,
     };
     const crop = roomCrop(place, insets.top, at, stage, screenWidth);
     walked.current = true;
+    walking.current = true;
     arrive.current = go;
     // Scaling about the place leaves it where it is; then slide the picture
     // to where the room's strip will show it.
