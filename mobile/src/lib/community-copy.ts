@@ -802,7 +802,7 @@ const words: Record<string, string[]> = {
     "Visible in Gatherings. Members can reserve and join.",
     "Visível em Encontros. Membros podem reservar e entrar.",
     "Visible en Encuentros. Los miembros pueden reservar y entrar.",
-    "Видна в разделе «Встречи». Участники могут записаться и войти.",
+    "Видна в разделе «Встречи». Участники могут записаться и присоединиться.",
   ],
   inviteGatheringNotice: [
     "Only people with your link can reserve. Share it after creating the room.",
