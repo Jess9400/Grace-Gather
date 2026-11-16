@@ -690,7 +690,7 @@ export default function Story() {
               {comment.status === "pending" ? " · " + l("pending") : ""}
             </Body>
             {commentMenu === comment.id && (
-              <View>
+              <View style={{ gap: 10, marginTop: 8 }}>
                 {comment.user_id === uid ? (
                   <Button
                     secondary
@@ -711,7 +711,7 @@ export default function Story() {
                   <>
                     <Button
                       secondary
-                      title={l("report")}
+                      title={{ en: "Report comment", pt: "Denunciar comentário", es: "Denunciar comentario", ru: "Пожаловаться на комментарий" }[profile.language]}
                       onPress={() => setReport({ comment: comment.id })}
                     />
                     <Button
@@ -773,7 +773,7 @@ export default function Story() {
       <Disclosure title={c("guidelines")}>
         <Body small>{l("communityRules")}</Body>
         <TextAction
-          title={l("report")}
+          title={{ en: "Report story", pt: "Denunciar publicação", es: "Denunciar publicación", ru: "Пожаловаться на публикацию" }[profile.language]}
           icon="flag-outline"
           onPress={() => {
             setStoryReportNotice("");

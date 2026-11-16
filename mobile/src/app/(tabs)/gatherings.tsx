@@ -2,7 +2,7 @@ import { useClock } from "../../lib/use-clock";
 import SafetyFooter from "../../components/SafetyFooter";
 import { useCallback, useState, useEffect } from "react";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
-import { Text, View } from "react-native";
+import { Text, View, ScrollView, useWindowDimensions } from "react-native";
 import { colors } from "../../components/quiet-ui";
 import {
   Screen,
@@ -27,6 +27,7 @@ import { nextSessionPerSeries } from "../../lib/gathering-list";
 import { storyText } from "../../lib/discover";
 import { journalReturnId } from "../../lib/journal-navigation";
 export default function Gatherings() {
+  const { width } = useWindowDimensions();
   const now = useClock();
   const { journalMatch, returnEntry } = useLocalSearchParams<{
     journalMatch?: string;
@@ -43,6 +44,8 @@ export default function Gatherings() {
     [loading, setLoading] = useState(true),
     [selected, setSelected] = useState(""),
     [configured, setConfigured] = useState<boolean | null>(null),
+    [reserving, setReserving] = useState<string | null>(null),
+    [reservationNotice, setReservationNotice] = useState(""),
     // Only the team hosts gatherings for now (see the hosts_only migration).
     [canHost, setCanHost] = useState(false);
   useEffect(() => {
@@ -108,7 +111,7 @@ export default function Gatherings() {
   const sorted = nextSessionPerSeries(visible);
   const pages = Math.max(1, Math.ceil(sorted.length / 6));
   const activePage = Math.min(page, pages - 1);
-  // The gathering happening right now, if any; same rule as the Live filter.
+  // Only real, published sessions within their scheduled time appear here.
   const liveNow = items
     .filter(
       (g) =>
@@ -116,9 +119,22 @@ export default function Gatherings() {
         Date.parse(g.starts_at) <= now &&
         Date.parse(g.ends_at) > now,
     )
-    .sort((a, b) => Date.parse(a.starts_at) - Date.parse(b.starts_at))[0];
+    .sort((a, b) => Date.parse(a.starts_at) - Date.parse(b.starts_at));
   const openGathering = (id: string) =>
     router.push({ pathname: "/gathering/[id]", params: { id } });
+  const liveBanner = (live: Gathering) => (
+    <LiveNowBanner
+      eyebrow={c("liveNow")}
+      title={storyText(live.title, profile.language)}
+      detail={
+        (counts[live.id] > 0
+          ? counts[live.id] + " " + c("listening")
+          : c("readyToJoin")) + " · " + c("hostedBy") + " " + live.host_name
+      }
+      action={c("joinNow")}
+      onPress={() => openGathering(live.id)}
+    />
+  );
   return (
     <Screen place="gather" back={!!journalReturnId(returnEntry, entries)}>
       <Heading>{c("gatherings")}</Heading>
@@ -135,23 +151,17 @@ export default function Gatherings() {
           }
         </Body>
       )}
-      {liveNow && (
-        <LiveNowBanner
-          eyebrow={c("liveNow")}
-          title={storyText(liveNow.title, profile.language)}
-          detail={
-            (counts[liveNow.id] > 0
-              ? counts[liveNow.id] + " " + c("listening")
-              : c("readyToJoin")) +
-            " · " +
-            c("hostedBy") +
-            " " +
-            liveNow.host_name
-          }
-          action={c("joinNow")}
-          onPress={() => openGathering(liveNow.id)}
-        />
+      {liveNow.length === 1 && liveBanner(liveNow[0])}
+      {liveNow.length > 1 && (
+        <ScrollView horizontal showsHorizontalScrollIndicator contentContainerStyle={{ gap: 12 }}>
+          {liveNow.map((live) => (
+            <View key={live.id} style={{ width: Math.max(220, Math.min(width - 88, 440)) }}>
+              {liveBanner(live)}
+            </View>
+          ))}
+        </ScrollView>
       )}
+      {!!reservationNotice && <Notice text={reservationNotice} />}
       <ChatsStrip
         title={c("chats")}
         hint={c("chatsHint")}
@@ -325,15 +335,22 @@ export default function Gatherings() {
                 started ? "openRoom" : g.reserved ? "viewGathering" : "reserve",
               )}
               secondary={going}
+              disabled={reserving !== null}
+              loading={reserving === g.id}
               onPress={() => {
                 if (!started && !g.reserved) {
+                  setReserving(g.id);
+                  setReservationNotice("");
                   void gathering("reserve", { id: g.id })
-                    .then(load)
+                    .then(async () => {
+                      await load();
+                      setReservationNotice({ en: "Your place is reserved. Find it in My sessions.", pt: "Sua vaga está reservada. Encontre o encontro em Meus encontros.", es: "Tu plaza está reservada. Encuéntrala en Mis encuentros.", ru: "Ваше место забронировано. Встреча доступна в разделе «Мои встречи»." }[profile.language]);
+                    })
                     .catch((e) =>
                       setError(
                         e.message === "full" ? "full" : "signInGatherings",
                       ),
-                    );
+                    ).finally(() => setReserving(null));
                 } else openGathering(g.id);
               }}
             />

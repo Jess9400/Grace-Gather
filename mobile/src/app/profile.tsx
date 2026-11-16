@@ -5,7 +5,7 @@ import { q } from "../lib/quiet-copy";
 import Disclosure from "../components/Disclosure";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
 import { useEffect, useState } from "react";
-import { Platform, StyleSheet, Text, View } from "react-native";
+import { Platform, Pressable, StyleSheet, Text, View } from "react-native";
 import { router } from "expo-router";
 import {
   Screen,
@@ -148,6 +148,11 @@ export default function Profile() {
           title={tr("Edit")}
           onPress={() => router.push("/preferences")}
         />
+        <Pressable accessibilityRole="link" onPress={() => router.push("/preferences")} style={{ minHeight: 44, justifyContent: "center" }}>
+          <Text style={{ color: colors.ink, textDecorationLine: "underline" }}>
+            {{ en: "AI settings", pt: "Configurações de IA", es: "Configuración de IA", ru: "Настройки ИИ" }[profile.language]}
+          </Text>
+        </Pressable>
       </Card>
       <Disclosure title={l("account")} initiallyOpen={!signedIn}>
         <Card>

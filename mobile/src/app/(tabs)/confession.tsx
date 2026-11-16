@@ -50,7 +50,6 @@ import Recorder from "../../components/Recorder";
 import AudioPlayback from "../../components/AudioPlayback";
 import ConfessionAudio from "../../components/ConfessionAudio";
 import ConfessionArrival, {
-  ConfessionBackground,
   ConfessionLattice,
 } from "../../components/ConfessionArrival";
 import { confessionColors as room } from "../../lib/confession-theme";
@@ -505,7 +504,7 @@ export default function ConfessionRoom() {
           <Screen
             quiet={page === "share"}
             keyboardAware={page === "share"}
-            background={page === "room" ? <ConfessionBackground /> : undefined}
+            place={page === "room" ? "confession" : undefined}
           >
             {page !== "room" && (
               <TextAction
@@ -871,17 +870,6 @@ export default function ConfessionRoom() {
                 {card(detail)}
                 {detail.mine && detail.kind === "confession" ? (
                   <>
-                    {!detail.closed &&
-                      btn(
-                        "cClose",
-                        () =>
-                          void run(async () => {
-                            await confessionAPI("close", { id: detail.id });
-                            await open(detail.id);
-                          }),
-                        true,
-                      )}
-                    {btn("cDelete", remove, true)}
                     {reply && (
                       <>
                         {card(reply)}
@@ -911,6 +899,17 @@ export default function ConfessionRoom() {
                         )}
                       </>
                     )}
+                    {!detail.closed &&
+                      btn(
+                        "cClose",
+                        () =>
+                          void run(async () => {
+                            await confessionAPI("close", { id: detail.id });
+                            await open(detail.id);
+                          }),
+                        true,
+                      )}
+                    {btn("cDelete", remove, true)}
                   </>
                 ) : !detail.mine && detail.kind === "confession" ? (
                   <>

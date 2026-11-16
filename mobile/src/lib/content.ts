@@ -180,11 +180,12 @@ export function bibleEditionNote(p: Preferences) {
   }[p.language];
 }
 export function normalizeProfile(p: Profile): Profile {
-  const options = editionsFor(p);
+  const normalized = { ...p, scriptureLanguage: p.language };
+  const options = editionsFor(normalized);
   return {
-    ...p,
-    edition: options.some((e) => e.id === p.edition)
-      ? p.edition
+    ...normalized,
+    edition: options.some((e) => e.id === normalized.edition)
+      ? normalized.edition
       : (options[0]?.id ?? ""),
   };
 }

@@ -74,6 +74,9 @@ export default function GatheringPage() {
             {item.host_name} · {item.topic} · {item.language.toUpperCase()}
           </Body>
           {item.series_id && <Body small>{c("weekly")}</Body>}
+          {item.reserved && item.status === "published" && Date.parse(item.starts_at) > now && (
+            <Body>{c("reservedPlace")}</Body>
+          )}
           {item.status === "published" &&
             Date.parse(item.starts_at) > now &&
             !item.hosting && (

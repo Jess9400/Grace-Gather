@@ -100,6 +100,20 @@ export default function Preferences() {
       </Card>
 
       <Card>
+        <Subheading>{jc(p.language, "aiSetting")}</Subheading>
+        <Body small>{jc(p.language, "aiSettingInfo")}</Body>
+        <Disclosure title={jc(p.language, "aiPrivacy")}>
+          <Body small>{aiCopy(p.language, "consent")}</Body>
+        </Disclosure>
+        <Chip
+          title={jc(p.language, p.journalAIConsentVersion === AI_CONSENT_VERSION ? "aiDisable" : "aiEnable")}
+          selected={p.journalAIConsentVersion === AI_CONSENT_VERSION}
+          onPress={() => update({ journalAIConsentVersion: p.journalAIConsentVersion === AI_CONSENT_VERSION ? undefined : AI_CONSENT_VERSION })}
+        />
+      </Card>
+      <CommunityAIPermission language={p.language} />
+
+      <Card>
         <Subheading>{tr("Your language")}</Subheading>
         <Row>
           {Object.entries(languages).map(([k, v]) => (
@@ -107,7 +121,7 @@ export default function Preferences() {
               key={k}
               title={v}
               selected={p.language === k}
-              onPress={() => update({ language: k as Language })}
+              onPress={() => update({ language: k as Language, scriptureLanguage: k as Language })}
             />
           ))}
         </Row>
@@ -137,17 +151,6 @@ export default function Preferences() {
 
       <Card>
         <Subheading>{tr("Your Bible")}</Subheading>
-        <Body small>{t("scriptureLanguage")}</Body>
-        <Row>
-          {Object.entries(languages).map(([k, v]) => (
-            <Chip
-              key={k}
-              title={v}
-              selected={p.scriptureLanguage === k}
-              onPress={() => update({ scriptureLanguage: k as Language })}
-            />
-          ))}
-        </Row>
         {editions.length > 1 && (
           <Row>
             {editions.map((e) => (
@@ -182,31 +185,6 @@ export default function Preferences() {
         />
       </Card>
 
-      <Card>
-        <Subheading>{jc(p.language, "aiSetting")}</Subheading>
-        <Body small>{jc(p.language, "aiSettingInfo")}</Body>
-        <Disclosure title={jc(p.language, "aiPrivacy")}>
-          <Body small>{aiCopy(p.language, "consent")}</Body>
-        </Disclosure>
-        <Chip
-          title={jc(
-            p.language,
-            p.journalAIConsentVersion === AI_CONSENT_VERSION
-              ? "aiDisable"
-              : "aiEnable",
-          )}
-          selected={p.journalAIConsentVersion === AI_CONSENT_VERSION}
-          onPress={() =>
-            update({
-              journalAIConsentVersion:
-                p.journalAIConsentVersion === AI_CONSENT_VERSION
-                  ? undefined
-                  : AI_CONSENT_VERSION,
-            })
-          }
-        />
-      </Card>
-      <CommunityAIPermission language={p.language} />
       <Card>
         <View style={{ flexDirection: "row", alignItems: "center", gap: 16 }}>
           <View style={{ flex: 1 }}>
