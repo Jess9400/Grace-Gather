@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { router, useFocusEffect } from "expo-router";
 import { backend } from "../lib/backend";
 import { useApp } from "../lib/state";
@@ -6,13 +6,8 @@ import { refreshPrayerBadges } from "../lib/prayers";
 import { Body, Button, Card, Notice } from "./quiet-ui";
 import { isProtestant } from "../lib/church-calendar";
 import { Ionicons } from "@expo/vector-icons";
+import { activityDestination, groupUnreadActivity, type ActivityItem } from "../lib/activity-notices";
 
-type Item = {
-  id: string;
-  kind: "confession_reply" | "discussion_reply" | "confession_thanks";
-  target: string;
-  is_read: boolean;
-};
 const words = {
   en: {
     confession: "Someone responded to your confession",
@@ -74,7 +69,9 @@ export default function ActivityNotices({
     es: "Alguien te agradeció el consuelo que ofreciste",
     ru: "Вас поблагодарили за поддержку",
   }[profile.language];
-  const [items, setItems] = useState<Item[]>([]);
+  const [items, setItems] = useState<ActivityItem[]>([]);
+  const [opening, setOpening] = useState(false);
+  const loadVersion = useRef(0);
   const [pending, setPending] = useState(0);
   const [staff, setStaff] = useState(false);
   const [error, setError] = useState(false);
@@ -87,10 +84,11 @@ export default function ActivityNotices({
       let active = true;
       const load = () => {
         if (!backend) return;
+        const version = ++loadVersion.current;
         void Promise.resolve(backend.rpc("activity_snapshot_v2"))
           .then((result) => result.error?.code === "PGRST202" ? backend!.rpc("activity_snapshot") : result)
           .then(({ data, error }) => {
-            if (!active) return;
+            if (!active || version !== loadVersion.current) return;
             setError(!!error);
             if (!error) {
               setItems(data?.items ?? []);
@@ -98,7 +96,7 @@ export default function ActivityNotices({
             }
           })
           .catch(() => {
-            if (active) setError(true);
+            if (active && version === loadVersion.current) setError(true);
           });
       };
       if (backend)
@@ -118,6 +116,25 @@ export default function ActivityNotices({
       };
     }, [retry]),
   );
+  const groups = groupUnreadActivity(items);
+  async function openActivity(item: ActivityItem, ids: string[]) {
+    if (!backend || opening) return;
+    setOpening(true);
+    loadVersion.current++;
+    try {
+      const results = await Promise.all(ids.map((id) => backend!.rpc("activity_mark_read", { p_id: id })));
+      if (results.some((result) => result.error)) throw Error("mark_read_failed");
+      loadVersion.current++;
+      setItems((old) => old.filter((value) => !ids.includes(value.id)));
+      setError(false);
+      refreshPrayerBadges();
+      router.push(activityDestination(item));
+    } catch {
+      setError(true);
+    } finally {
+      setOpening(false);
+    }
+  }
   return (
     <>
       {!onLoadError && <Notice text={error ? t.error : ""} />}
@@ -151,7 +168,7 @@ export default function ActivityNotices({
           />
         </Card>
       )}
-      {items.map((item) => (
+      {groups.map(({ item, ids }) => (
         <Card key={item.id}>
           <Body small>
             <Ionicons
@@ -192,37 +209,15 @@ export default function ActivityNotices({
                 : t.confession
               : t.discussion}
           </Body>
-          {!item.is_read && <Body small>{t.unread}</Body>}
+          {ids.length > 1 && <Body small>{
+            { en: `${ids.length} new updates`, pt: `${ids.length} novas atualizações`, es: `${ids.length} novedades`, ru: `Новых обновлений: ${ids.length}` }[profile.language]
+          }</Body>}
+          <Body small>{t.unread}</Body>
           <Button
             secondary
             title={t.open}
-            onPress={() => {
-              if (backend)
-                void Promise.resolve(
-                  backend.rpc("activity_mark_read", { p_id: item.id }),
-                )
-                  .then(({ error }) => {
-                    if (!error) {
-                      setItems((old) =>
-                        old.map((x) =>
-                          x.id === item.id ? { ...x, is_read: true } : x,
-                        ),
-                      );
-                      refreshPrayerBadges();
-                    }
-                  })
-                  .catch(() => {});
-              if (item.kind !== "discussion_reply")
-                router.push({
-                  pathname: "/confession",
-                  params: { view: "mine" },
-                });
-              else
-                router.push({
-                  pathname: "/friends",
-                  params: { topic: item.target, from: "discover" },
-                });
-            }}
+            disabled={opening}
+            onPress={() => void openActivity(item, ids)}
           />
         </Card>
       ))}

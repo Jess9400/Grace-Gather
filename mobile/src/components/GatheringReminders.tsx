@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { router } from "expo-router";
 import { Body, Card, Button, Subheading, Notice } from "./quiet-ui";
 import { backend } from "../lib/backend";
@@ -30,11 +30,14 @@ export default function GatheringReminders({
   const [items, setItems] = useState<Reminder[]>([]);
   const [error, setError] = useState(false);
   const [busy, setBusy] = useState(false);
+  const loadVersion = useRef(0);
   useEffect(() => {
     onLoadError?.(error);
   }, [error, onLoadError]);
   const load = useCallback(async () => {
+    const version = ++loadVersion.current;
     const result = await backend?.rpc("gathering_notifications");
+    if (version !== loadVersion.current) return;
     if (!result || result.error) {
       setError(true);
       return;
@@ -45,9 +48,10 @@ export default function GatheringReminders({
   useEffect(() => {
     let active = true;
     const update = async () => {
+      const version = ++loadVersion.current;
       try {
         const result = await backend?.rpc("gathering_notifications");
-        if (!active) return;
+        if (!active || version !== loadVersion.current) return;
         if (!result || result.error) {
           setError(true);
           return;
@@ -55,7 +59,7 @@ export default function GatheringReminders({
         setItems(result.data?.items ?? []);
         setError(false);
       } catch {
-        if (active) setError(true);
+        if (active && version === loadVersion.current) setError(true);
       }
     };
     void update();
@@ -67,17 +71,23 @@ export default function GatheringReminders({
   }, [retry]);
   async function read(id: string) {
     setBusy(true);
+    loadVersion.current++;
     try {
       const result = await backend?.rpc("gathering_notifications", {
         p_read: id,
       });
       if (!result || result.error) {
         setError(true);
-        return;
+        return false;
       }
+      loadVersion.current++;
       setItems(result.data?.items ?? []);
       setError(false);
       refreshPrayerBadges();
+      return true;
+    } catch {
+      setError(true);
+      return false;
     } finally {
       setBusy(false);
     }
@@ -91,7 +101,7 @@ export default function GatheringReminders({
           <Button secondary title={c("retry")} onPress={() => void load()} />
         </>
       )}
-      {items.map((item) => (
+      {items.filter((item) => !compact || !item.is_read).map((item) => (
         <Card key={item.id}>
           <Body small>
             <Ionicons name="calendar-outline" size={15} accessible={false} />
@@ -107,13 +117,15 @@ export default function GatheringReminders({
           </Body>
           <Button
             secondary
+            disabled={busy}
             title={c("viewGathering")}
-            onPress={() =>
+            onPress={() => void (async () => {
+              if (!item.is_read && !(await read(item.id))) return;
               router.push({
                 pathname: "/gathering/[id]",
                 params: { id: item.gathering_id },
-              })
-            }
+              });
+            })()}
           />
           {!item.is_read && (
             <Button

@@ -414,14 +414,14 @@ function PrayerRoom({
               )}
               {(noticeFilter === "all" || noticeFilter === "prayers") && (
                 <>
-                  {!!data?.notices.length && (
+                  {!!data?.notices.some((n) => !n.is_read) && (
                     <Button
                       secondary
                       title={tr("Mark prayer notifications read")}
                       onPress={() => void act("read")}
                     />
                   )}{" "}
-                  {data?.notices.map((n) => (
+                  {data?.notices.filter((n) => !n.is_read).map((n) => (
                     <Card key={n.id}>
                       <Body small>
                         <Ionicons
@@ -455,7 +455,7 @@ function PrayerRoom({
                   {noticeFilter === "prayers" &&
                     data &&
                     !error &&
-                    !data.notices.length && (
+                    !data.notices.some((n) => !n.is_read) && (
                       <Body>{tr("No prayer notifications yet.")}</Body>
                     )}
                 </>
