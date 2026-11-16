@@ -397,11 +397,14 @@ export function External({ title, url }: { title: string; url: string }) {
     />
   );
 }
+// Messages made in code (errors, notices) are English keys; show them in the
+// person's language when a translation exists. Translated text passes through.
 export function Notice({ text }: { text: string }) {
+  const tr = useInterfaceCopy();
   return text ? (
     <CardSurface.Provider value="card">
       <View accessibilityLiveRegion="polite" style={s.notice}>
-        <Body small>{text}</Body>
+        <Body small>{tr(text)}</Body>
       </View>
     </CardSurface.Provider>
   ) : null;

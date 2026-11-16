@@ -17,6 +17,7 @@ import { router } from "expo-router";
 import { useApp } from "../lib/state";
 import { label } from "../lib/labels";
 import { useKeyboardReveal } from "../lib/keyboard-reveal";
+import { useInterfaceCopy } from "../lib/use-interface-copy";
 import { colors } from "./quiet-ui";
 import ChurchStrip, { useRoomStrip } from "./ChurchStrip";
 import type { RoomPlace } from "../lib/church-room";
@@ -328,8 +329,10 @@ export function External({ title, url }: { title: string; url: string }) {
     />
   );
 }
+// Code-made messages are English keys; show them translated when possible.
 export function Notice({ text }: { text: string }) {
   const theme = useContext(SurfaceContext);
+  const tr = useInterfaceCopy();
   return text ? (
     <CardSurface.Provider value={true}>
       <View
@@ -343,7 +346,7 @@ export function Notice({ text }: { text: string }) {
           },
         ]}
       >
-        <Body small>{text}</Body>
+        <Body small>{tr(text)}</Body>
       </View>
     </CardSurface.Provider>
   ) : null;

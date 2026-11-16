@@ -42,18 +42,18 @@ const rows: Record<string, string[]> = {
     "Не удалось сохранить язык. Попробуйте снова.",
   ],
   // The sign-in page.
-  signInEmail: ["Email", "Email", "Correo electrónico", "Email"],
+  signInEmail: ["Email", "Email", "Correo electrónico", "Электронная почта"],
   continueEmail: [
     "Continue with email",
     "Continuar com email",
     "Continuar con correo",
-    "Продолжить с email",
+    "Продолжить с электронной почтой",
   ],
   signInIntro: [
     "Enter your email and we will send you a code. There is no password to remember.",
     "Digite seu email e enviaremos um código. Não há senha para lembrar.",
     "Escribe tu correo y te enviaremos un código. No hay contraseña que recordar.",
-    "Введите email, и мы пришлём код. Пароль запоминать не нужно.",
+    "Введите адрес почты, и мы пришлём код. Пароль запоминать не нужно.",
   ],
   codeSent: [
     "We sent a code to your email.",

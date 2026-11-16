@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Body, Button, Field, Notice, colors } from "./quiet-ui";
 import AppleSignIn from "./AppleSignIn";
 import { useApp } from "../lib/state";
-import { copy, type Language } from "../lib/content";
+import type { Language } from "../lib/content";
 import { label } from "../lib/labels";
 import { requireBackend } from "../lib/backend";
 import { Platform, Pressable, Text, View } from "react-native";
@@ -23,13 +23,13 @@ export default function SignInForm({ language, chooseMethod = false }: { languag
       chooseMethod && Platform.OS === "ios" && process.env.EXPO_PUBLIC_APPLE_SIGN_IN_ENABLED !== "false" ? "apple" : "email",
     );
   const appleAvailable = Platform.OS === "ios" && process.env.EXPO_PUBLIC_APPLE_SIGN_IN_ENABLED !== "false";
-  async function run(fn: () => Promise<void>) {
+  async function run(fn: () => Promise<void>, step: "send" | "verify") {
     setBusy(true);
     setNotice("");
     try {
       await fn();
     } catch (e) {
-      setNotice(e instanceof Error ? e.message : copy(lang, "socialError"));
+      setNotice(authNotice(e, step, l));
     } finally {
       setBusy(false);
     }
@@ -60,7 +60,7 @@ export default function SignInForm({ language, chooseMethod = false }: { languag
         title={l("sendCode")}
         onPress={() =>
           void run(async () => {
-            if (Date.now() < nextSend) throw new Error(l("codeWait"));
+            if (Date.now() < nextSend) throw new Error("codeWait");
             const { error } = await requireBackend().auth.signInWithOtp({
               email: email.trim(),
               options: { shouldCreateUser: true },
@@ -68,7 +68,7 @@ export default function SignInForm({ language, chooseMethod = false }: { languag
             if (error) throw error;
             setSent(true);
             setNextSend(Date.now() + 60000);
-          })
+          }, "send")
         }
       />
       {sent && (
@@ -98,7 +98,7 @@ export default function SignInForm({ language, chooseMethod = false }: { languag
                 });
                 if (error) throw error;
                 setCode("");
-              })
+              }, "verify")
             }
           />
         </>
@@ -107,4 +107,19 @@ export default function SignInForm({ language, chooseMethod = false }: { languag
       {!chooseMethod && <AppleSignIn onError={setNotice} />}
     </>
   );
+}
+
+// Sign-in errors come from the server in English. Show our own words, in the
+// person's language, for the cases people meet.
+function authNotice(e: unknown, step: "send" | "verify", l: (k: string) => string) {
+  const err = (e ?? {}) as { status?: number; code?: string; message?: string };
+  if (err.message === "codeWait") return l("codeWait");
+  const text = `${err.code ?? ""} ${err.message ?? ""}`.toLowerCase();
+  if (err.status === 429 || /rate.?limit|security purposes|too many/.test(text))
+    return l("authRateLimit");
+  if (/network|failed to fetch|timeout|timed out/.test(text))
+    return l("authNetworkError");
+  if (step === "verify" && /expired|invalid|otp|token/.test(text))
+    return l("authInvalidCode");
+  return l(step === "send" ? "authSendError" : "authVerifyError");
 }
