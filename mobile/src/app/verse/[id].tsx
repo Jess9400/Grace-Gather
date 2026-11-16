@@ -776,7 +776,7 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
                         {englishAvailable
                           ? englishOffer
                           : tr(
-                              "This verse doesn’t have its own explanation in the app. A good way in: read the lines around it and notice who speaks, what happens and which words repeat.",
+                              "There’s no explanation for this verse yet, but one is coming soon. Meanwhile, read the lines around it and notice who speaks, what happens and which words repeat.",
                             )}
                       </Section>
                       {englishAvailable && (

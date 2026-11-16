@@ -72,5 +72,5 @@ test("with nothing in the reader's language, the verse screen offers the English
   assert.match(screen, /showEnglish && englishAvailable \? english : ownNotes/);
   // A verse with nothing in any language says so plainly.
   assert.doesNotMatch(screen, /still being prepared/);
-  assert.match(screen, /doesn’t have its own explanation in the app/);
+  assert.match(screen, /no explanation for this verse yet, but one is coming soon/);
 });
