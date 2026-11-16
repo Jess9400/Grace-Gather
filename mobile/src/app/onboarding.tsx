@@ -24,7 +24,6 @@ import {
   type Tradition,
   normalizeProfile,
   editionsFor,
-  bibleEditionNote,
 } from "../lib/content";
 import { q } from "../lib/quiet-copy";
 import { interfaceCopy } from "../lib/interface-copy";
@@ -153,7 +152,7 @@ export default function Onboarding() {
               <View style={{ flex: 1 }}>
                 <Body small>
                   {bible
-                    ? bibleEditionNote(p) ?? `${tr("Your Bible")}: ${bible.name}`
+                    ? `${tr("Your Bible")}: ${bible.name}`
                     : tr(
                         "No verified Bible for this tradition in this language yet. You can choose another language later.",
                       )}

@@ -6,9 +6,8 @@ import { data, Preferences } from "./content";
 import blivreIndex from "../generated/bible-blivre/index.json";
 import rv1909Index from "../generated/bible-rv1909/index.json";
 import synodalIndex from "../generated/bible-synodal/index.json";
-import matosIndex from "../generated/bible-matos/index.json";
 export type CollectionId =
-  "web" | "dra" | "brenton" | "blivre" | "rv1909" | "synodal" | "matos";
+  "web" | "dra" | "brenton" | "blivre" | "rv1909" | "synodal";
 interface BookMetadata {
   code: string;
   name: string;
@@ -54,7 +53,6 @@ export const collections: Record<
   CollectionId,
   { index: CollectionIndex; loaders: Record<string, () => BibleBook> }
 > = {
-  matos: { index: matosIndex, loaders: {} },
   blivre: { index: blivreIndex, loaders: {} },
   rv1909: { index: rv1909Index, loaders: {} },
   synodal: { index: synodalIndex, loaders: {} },
@@ -92,9 +90,7 @@ export function ensureCollection(id: CollectionId): Promise<void> {
                   ? await import("../generated/bible-rv1909/loaders")
                   : id === "synodal"
                     ? await import("../generated/bible-synodal/loaders")
-                    : id === "matos"
-                      ? await import("../generated/bible-matos/loaders")
-                      : null;
+                    : null;
       if (!loaded) throw new Error("Bible collection unavailable");
       collections[id].loaders = loaded.bookLoaders;
     } catch (error) {
@@ -115,10 +111,7 @@ export function collectionFor(p: Preferences): CollectionId | null {
     : null;
 }
 
-// Keep the journal's existing chosen edition, but offer the complete Matos
-// Soares reader for Portuguese Catholic Bible Study.
 export function studyCollectionFor(p: Preferences): CollectionId | null {
-  if (p.scriptureLanguage === "pt" && p.tradition === "catholic" && p.edition === "figueiredo") return "matos";
   return collectionFor(p);
 }
 
@@ -133,7 +126,6 @@ export function chapterSource(
   chapter: number,
   collection: CollectionId = "web",
 ) {
-  if (collection === "matos") return "https://github.com/bibliacatolica/biblia";
   const metadata = collections[collection].index.books.find(
     (b) => b.code === code,
   );
@@ -299,7 +291,7 @@ export function studyFor(id: string) {
 }
 export function discussionVerseId(id: string): string | null {
   const direct = id.includes(":") ? id : `web:${id}`;
-  if (/^(web|dra|brenton|blivre|rv1909|synodal|matos):[A-Z0-9]{3}\.\d+\.\d+[a-z]?$/.test(direct)) {
+  if (/^(web|dra|brenton|blivre|rv1909|synodal):[A-Z0-9]{3}\.\d+\.\d+[a-z]?$/.test(direct)) {
     return getReadingVerse(direct) ? direct : null;
   }
   const edition = data.editions.find((e) =>

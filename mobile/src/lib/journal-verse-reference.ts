@@ -1,5 +1,4 @@
 import themeMap from "../generated/journal-map.json";
-import matosThemeMap from "../generated/matos-theme-map.json";
 import { pathReferences } from "./journal-verse-path";
 import {
   collections,
@@ -68,13 +67,6 @@ const otherVerses: Record<string, Partial<Record<CollectionId, string>>> = {
 };
 
 export function journalVerseId(collection: CollectionId, reference: string) {
-  // These are explicit comparisons with Matos Soares, not inferred offsets.
-  // Its Psalm 12:1 is a title, and Psalm 72:23 is grouped differently in
-  // Figueiredo. Never guess the numbering of unlisted verses.
-  if (collection === "matos") {
-    const match = (matosThemeMap as Record<string, string>)[reference];
-    return match ? `matos:${match}` : null;
-  }
   const other = otherVerses[reference]?.[collection];
   if (other) return `${collection}:${other}`;
   if (
