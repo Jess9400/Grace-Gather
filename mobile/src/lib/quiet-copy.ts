@@ -269,10 +269,10 @@ const words = {
   ),
   source: L("Source", "Fonte", "Fuente", "Источник"),
   studyLimited: L(
-    "Guided reading, not a complete verse commentary. Study notes are in English and await theological review.",
-    "Leitura guiada, não um comentário completo. Notas em inglês aguardam revisão teológica.",
-    "Lectura guiada, no un comentario completo. Las notas en inglés esperan revisión teológica.",
-    "Это чтение с подсказками, а не полный комментарий к стиху. Заметки пока на английском и ещё не прошли богословскую проверку.",
+    "Reading prompts, not a commentary on this verse.",
+    "Sugestões de leitura, não um comentário sobre este versículo.",
+    "Sugerencias de lectura, no un comentario sobre este versículo.",
+    "Это подсказки для чтения, а не толкование этого стиха.",
   ),
   selections: L(
     "Selected passages",

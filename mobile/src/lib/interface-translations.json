@@ -224,7 +224,11 @@
     "es": "Una pregunta para llevar contigo",
     "ru": "Вопрос для размышления"
   },
-"An explanation of this verse is still being prepared. Read the lines around it: who speaks, what happens, which words repeat.": { "pt": "A explicação deste versículo ainda está sendo preparada. Leia o que vem antes e depois: quem fala, o que acontece, quais palavras se repetem.", "es": "La explicación de este versículo aún se está preparando. Lee lo que viene antes y después: quién habla, qué sucede, qué palabras se repiten.", "ru": "Объяснение этого стиха ещё готовится. Прочитайте, что стоит до и после него: кто говорит, что происходит, какие слова повторяются." },
+"This verse doesn’t have its own explanation in the app. A good way in: read the lines around it and notice who speaks, what happens and which words repeat.": {
+    "pt": "Este versículo não tem uma explicação própria no app. Um bom começo: leia o que vem antes e depois e repare em quem fala, no que acontece e nas palavras que se repetem.",
+    "es": "Este versículo no tiene una explicación propia en la app. Para empezar, lee lo que viene antes y después y fíjate en quién habla, qué sucede y qué palabras se repiten.",
+    "ru": "У этого стиха нет отдельного объяснения в приложении. С чего начать: прочитайте, что стоит до и после него, и обратите внимание, кто говорит, что происходит и какие слова повторяются."
+  },
 "Choose one word or image that stays with you. Sit with it before deciding what it means for your life.": { "pt": "Escolha uma palavra ou imagem que ficou com você. Fique com ela antes de decidir o que significa para sua vida.", "es": "Elige una palabra o imagen que se quede contigo. Quédate con ella antes de decidir qué significa para tu vida.", "ru": "Выберите слово или образ, который вам запомнился. Задержитесь на нём, прежде чем решать, что он значит для вас." },
   "The story around these words": {
     "pt": "A história ao redor destas palavras",

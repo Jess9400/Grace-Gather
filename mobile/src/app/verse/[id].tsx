@@ -602,7 +602,7 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
                   <Section title={tr("In simple words")}>
                     {explanation?.simple ??
                       tr(
-                        "An explanation of this verse is still being prepared. Read the lines around it: who speaks, what happens, which words repeat.",
+                        "This verse doesn’t have its own explanation in the app. A good way in: read the lines around it and notice who speaks, what happens and which words repeat.",
                       )}
                   </Section>
                   {!explanation && verse.context && (
