@@ -40,7 +40,7 @@ const words = {
   },
   ru: {
     confession: "Кто-то ответил на вашу исповедь",
-    discussion: "В обсуждении, в котором вы участвовали, появился новый ответ",
+    discussion: "Новый ответ в обсуждении, где вы участвовали",
     moderation: "Материалы ожидают проверки",
     open: "Открыть",
     admin: "Открыть модерацию",
@@ -210,7 +210,7 @@ export default function ActivityNotices({
               : t.discussion}
           </Body>
           {ids.length > 1 && <Body small>{
-            { en: `${ids.length} new updates`, pt: `${ids.length} novas atualizações`, es: `${ids.length} novedades`, ru: `Новых обновлений: ${ids.length}` }[profile.language]
+            { en: `${ids.length} new updates`, pt: `${ids.length} novas atualizações`, es: `${ids.length} novedades`, ru: `Новых уведомлений: ${ids.length}` }[profile.language]
           }</Body>}
           <Body small>{t.unread}</Body>
           <Button

@@ -55,3 +55,23 @@ test("the gatherings calendar has no legend line", () => {
   assert.doesNotMatch(read("src/components/GatheringCalendar.tsx"), /calendarLegend/);
   assert.doesNotMatch(read("src/lib/community-copy.ts"), /calendarLegend/);
 });
+
+test("Russian on the verse page and onboarding is not word-for-word English", () => {
+  const all =
+    read("src/lib/interface-translations.json") +
+    read("src/lib/quiet-copy.ts") +
+    read("src/components/CommunityAIPermission.tsx") +
+    read("src/app/privacy.tsx") +
+    read("src/app/(tabs)/confession.tsx");
+  for (const calque of [
+    '"Проще"',
+    '"Глубже"',
+    "Спокойное начало",
+    "Исследуйте вопросы веры",
+    "Города достаточно",
+    "ИИ сообщества",
+    "Начать публичное обсуждение",
+  ])
+    assert.ok(!all.includes(calque), calque);
+  assert.match(read("src/lib/quiet-copy.ts"), /"Простыми словами"\),/);
+});
