@@ -252,5 +252,8 @@ export async function testimony(
     p_data: data,
   });
   if (r.error) throw Error(r.error.message);
+  if (action === "publish" && typeof r.data?.id === "string") {
+    void client.functions.invoke("content-moderate", { body: { kind: "testimony", postId: r.data.id } }).catch(() => undefined);
+  }
   return r.data;
 }

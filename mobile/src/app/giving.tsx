@@ -103,13 +103,14 @@ export default function Giving({ review = false }: { review?: boolean }) {
     setNotice("");
     try {
       const { client } = await requireUser();
-      const { error } = await client.rpc("pay_forward_submit", {
+      const { data, error } = await client.rpc("pay_forward_submit", {
         p_title: title,
         p_body: body,
         p_location: location,
         p_website: website,
       });
       if (error) throw error;
+      if (typeof data === "string") void client.functions.invoke("content-moderate", { body: { kind: "giving", postId: data } }).catch(() => undefined);
       setCompose(false);
       setPreview(false);
       setTitle("");
