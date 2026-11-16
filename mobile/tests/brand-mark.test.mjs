@@ -11,6 +11,9 @@ test("the emblem and every icon made from it are in the app", () => {
   const files = [
     "assets/brand/emblem.svg",
     "assets/brand/emblem.png",
+    // The bolder rendering used at the top of each screen.
+    "assets/brand/emblem-small.svg",
+    "assets/brand/emblem-small.png",
     app.icon,
     app.web.favicon,
     ...Object.values(app.android.adaptiveIcon).filter((v) =>
