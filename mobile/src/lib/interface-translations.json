@@ -105,17 +105,17 @@
   "A gentle place to begin": {
     "pt": "Um começo tranquilo",
     "es": "Un comienzo tranquilo",
-    "ru": "Спокойное начало"
+    "ru": "Коротко и понятно"
   },
   "Context, meaning and daily life": {
     "pt": "Contexto, significado e vida cotidiana",
     "es": "Contexto, significado y vida cotidiana",
-    "ru": "Контекст, смысл и повседневная жизнь"
+    "ru": "Контекст, смысл и связь с жизнью"
   },
   "Explore questions of faith": {
     "pt": "Explore questões de fé",
     "es": "Explora preguntas de fe",
-    "ru": "Исследуйте вопросы веры"
+    "ru": "Что этот стих говорит о Боге и вере"
   },
   "BIBLE STUDY": {
     "pt": "ESTUDO BÍBLICO",
@@ -185,7 +185,7 @@
   "Sources and study notes": {
     "pt": "Fontes e notas de estudo",
     "es": "Fuentes y notas de estudio",
-    "ru": "Источники и заметки"
+    "ru": "Источники и примечания"
   },
 "Editorial reflections, separate from Scripture, in English and awaiting theological review. They cover only the passages named and are not endorsed by a church.": { "pt": "Reflexões editoriais, separadas das Escrituras, em inglês e aguardando revisão teológica. Tratam só das passagens indicadas e não têm aprovação de uma igreja.", "es": "Reflexiones editoriales, separadas de las Escrituras, en inglés y pendientes de revisión teológica. Tratan solo los pasajes indicados y no cuentan con la aprobación de una iglesia.", "ru": "Это редакционные размышления на английском, а не текст Писания. Они ещё не прошли богословскую проверку, относятся только к указанным отрывкам и не одобрены церковью." },
 "Editorial reflections for this verse, separate from Scripture. They await theological review and are not endorsed by a church.": { "pt": "Reflexões editoriais para este versículo, separadas das Escrituras. Aguardam revisão teológica e não têm aprovação de uma igreja.", "es": "Reflexiones editoriales para este versículo, separadas de las Escrituras. Pendientes de revisión teológica y sin aprobación de una iglesia.", "ru": "Это редакционные размышления к стиху, а не текст Писания. Они ещё не прошли богословскую проверку и не одобрены церковью." },
@@ -207,17 +207,17 @@
   "Back to study options": {
     "pt": "Voltar às opções de estudo",
     "es": "Volver a las opciones de estudio",
-    "ru": "Назад к вариантам изучения"
+    "ru": "Вернуться к выбору"
   },
   "In simple words": {
     "pt": "Em palavras simples",
     "es": "En palabras sencillas",
-    "ru": "Простыми словами"
+    "ru": "О чём этот стих"
   },
   "A small response": {
     "pt": "Uma pequena resposta",
     "es": "Una pequeña respuesta",
-    "ru": "Небольшой отклик"
+    "ru": "Как откликнуться"
   },
   "A question to carry": {
     "pt": "Uma pergunta para levar consigo",
@@ -243,7 +243,7 @@
     "es": "En la vida cotidiana",
     "ru": "В повседневной жизни"
   },
-"What response might fit the whole passage? Keep what the text says apart from what it brings to mind. A question can stay open for a while.": { "pt": "Que resposta combina com a passagem inteira? Separe o que o texto diz do que ele lhe traz à mente. Uma pergunta pode ficar em aberto por um tempo.", "es": "¿Qué respuesta encaja con todo el pasaje? Distingue lo que dice el texto de lo que te trae a la mente. Una pregunta puede quedar abierta un tiempo.", "ru": "Каким мог бы быть ваш отклик на весь отрывок? Не путайте то, что говорит текст, с тем, что он вам напоминает. С вопросом можно пожить, не торопясь с ответом." },
+"What response might fit the whole passage? Keep what the text says apart from what it brings to mind. A question can stay open for a while.": { "pt": "Que resposta combina com a passagem inteira? Separe o que o texto diz do que ele lhe traz à mente. Uma pergunta pode ficar em aberto por um tempo.", "es": "¿Qué respuesta encaja con todo el pasaje? Distingue lo que dice el texto de lo que te trae a la mente. Una pregunta puede quedar abierta un tiempo.", "ru": "Как можно откликнуться на этот отрывок? Отделяйте то, что говорит текст, от того, что он вам напоминает. С вопросом можно пожить, не торопясь с ответом." },
   "What this says about God": {
     "pt": "O que diz sobre Deus",
     "es": "Qué dice sobre Dios",
@@ -257,7 +257,7 @@
   "A Christian reflection, separate from Scripture. Traditions may understand some details differently.": {
     "pt": "Uma reflexão cristã, separada das Escrituras. As tradições podem entender alguns detalhes de maneiras diferentes.",
     "es": "Una reflexión cristiana, separada de las Escrituras. Las tradiciones pueden entender algunos detalles de manera diferente.",
-    "ru": "Христианское размышление, отдельное от Писания. Разные традиции могут по-разному понимать некоторые детали."
+    "ru": "Это христианское размышление, а не текст Писания. В разных традициях некоторые детали понимают по-разному."
   },
   "Conversation options": {
     "pt": "Opções da conversa",
@@ -1477,18 +1477,18 @@
     "es": "Tu tradición",
     "ru": "Ваша традиция"
   },
-"This shapes your church and the Bible you read. You can change it later.": { "pt": "Isso define a sua igreja e a Bíblia que você lê. Você pode mudar depois.", "es": "Esto define tu iglesia y la Biblia que lees. Puedes cambiarlo después.", "ru": "От этого зависят ваша церковь и Библия, которую вы читаете. Выбор можно изменить позже." },
+"This shapes your church and the Bible you read. You can change it later.": { "pt": "Isso define a sua igreja e a Bíblia que você lê. Você pode mudar depois.", "es": "Esto define tu iglesia y la Biblia que lees. Puedes cambiarlo después.", "ru": "От этого зависит, как выглядит ваша церковь и какую Библию вы читаете. Выбор можно изменить позже." },
   "This shapes your church and the Bible you read.": {
     "pt": "Isso define a sua igreja e a Bíblia que você lê.",
     "es": "Esto define tu iglesia y la Biblia que lees.",
-    "ru": "От этого зависят ваша церковь и Библия, которую вы читаете."
+    "ru": "От этого зависит, как выглядит ваша церковь и какую Библию вы читаете."
   },
   "A little about you": {
     "pt": "Um pouco sobre você",
     "es": "Un poco sobre ti",
     "ru": "Немного о вас"
   },
-"All fields are optional. Your city is enough to suggest local ways to help.": { "pt": "Todos os campos são opcionais. Sua cidade basta para sugerirmos formas de ajudar perto de você.", "es": "Todos los campos son opcionales. Tu ciudad basta para sugerir formas de ayudar cerca de ti.", "ru": "Все поля необязательны. Города достаточно, чтобы подсказать, где помочь рядом с вами." },
+"All fields are optional. Your city is enough to suggest local ways to help.": { "pt": "Todos os campos são opcionais. Sua cidade basta para sugerirmos formas de ajudar perto de você.", "es": "Todos los campos son opcionales. Tu ciudad basta para sugerir formas de ayudar cerca de ti.", "ru": "Заполнять необязательно. Если укажете город, мы подскажем, где рядом с вами можно помочь людям." },
   "Enter the church": {
     "pt": "Entrar na igreja",
     "es": "Entrar en la iglesia",
@@ -1691,7 +1691,7 @@
   "Open a public discussion": {
     "pt": "Abrir uma discussão pública",
     "es": "Abrir una discusión pública",
-    "ru": "Начать публичное обсуждение"
+    "ru": "Обсудить с другими"
   },
   "Prayer date": {
     "pt": "Data da oração",
@@ -1953,7 +1953,7 @@
   "Where Scripture picks this up": {
     "pt": "Onde a Escritura retoma isto",
     "es": "Dónde la Escritura retoma esto",
-    "ru": "Где Писание к этому возвращается"
+    "ru": "Где ещё об этом говорит Писание"
   },
   "Where Christians differ": {
     "pt": "Onde os cristãos divergem",

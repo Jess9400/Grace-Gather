@@ -258,8 +258,8 @@ const words = {
     "Explorar donaciones",
     "Узнать о пожертвованиях",
   ),
-  simple: L("Simple", "Simples", "Sencillo", "Проще"),
-  deeper: L("Deeper", "Mais fundo", "Más profundo", "Глубже"),
+  simple: L("Simple", "Simples", "Sencillo", "Простыми словами"),
+  deeper: L("Deeper", "Mais fundo", "Más profundo", "Подробнее"),
   theology: L("Theology", "Teologia", "Teología", "Богословие"),
   read: L(
     "Read in context",
