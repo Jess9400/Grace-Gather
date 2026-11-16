@@ -187,8 +187,8 @@
     "es": "Fuentes y notas de estudio",
     "ru": "Источники и заметки"
   },
-"Editorial reflections, separate from Scripture, in English and awaiting theological review. They cover only the passages named and are not endorsed by a church.": { "pt": "Reflexões editoriais, separadas das Escrituras, em inglês e aguardando revisão teológica. Tratam só das passagens indicadas e não têm aprovação de uma igreja.", "es": "Reflexiones editoriales, separadas de las Escrituras, en inglés y pendientes de revisión teológica. Tratan solo los pasajes indicados y no cuentan con la aprobación de una iglesia.", "ru": "Редакционные размышления на английском, отдельные от Писания; ждут богословской проверки. Относятся только к указанным отрывкам и не одобрены церковью." },
-"Editorial reflections for this verse, separate from Scripture. They await theological review and are not endorsed by a church.": { "pt": "Reflexões editoriais para este versículo, separadas das Escrituras. Aguardam revisão teológica e não têm aprovação de uma igreja.", "es": "Reflexiones editoriales para este versículo, separadas de las Escrituras. Pendientes de revisión teológica y sin aprobación de una iglesia.", "ru": "Редакционные размышления к этому стиху, отдельные от Писания. Ждут богословской проверки и не одобрены церковью." },
+"Editorial reflections, separate from Scripture, in English and awaiting theological review. They cover only the passages named and are not endorsed by a church.": { "pt": "Reflexões editoriais, separadas das Escrituras, em inglês e aguardando revisão teológica. Tratam só das passagens indicadas e não têm aprovação de uma igreja.", "es": "Reflexiones editoriales, separadas de las Escrituras, en inglés y pendientes de revisión teológica. Tratan solo los pasajes indicados y no cuentan con la aprobación de una iglesia.", "ru": "Это редакционные размышления на английском, а не текст Писания. Они ещё не прошли богословскую проверку, относятся только к указанным отрывкам и не одобрены церковью." },
+"Editorial reflections for this verse, separate from Scripture. They await theological review and are not endorsed by a church.": { "pt": "Reflexões editoriais para este versículo, separadas das Escrituras. Aguardam revisão teológica e não têm aprovação de uma igreja.", "es": "Reflexiones editoriales para este versículo, separadas de las Escrituras. Pendientes de revisión teológica y sin aprobación de una iglesia.", "ru": "Это редакционные размышления к стиху, а не текст Писания. Они ещё не прошли богословскую проверку и не одобрены церковью." },
   "Read the source passage": {
     "pt": "Ler a passagem na fonte",
     "es": "Leer el pasaje en la fuente",
@@ -224,7 +224,7 @@
     "es": "Una pregunta para llevar contigo",
     "ru": "Вопрос для размышления"
   },
-"An explanation of this verse is still being prepared. Read the lines around it: who speaks, what happens, which words repeat.": { "pt": "A explicação deste versículo ainda está sendo preparada. Leia o que vem antes e depois: quem fala, o que acontece, quais palavras se repetem.", "es": "La explicación de este versículo aún se está preparando. Lee lo que viene antes y después: quién habla, qué sucede, qué palabras se repiten.", "ru": "Объяснение этого стиха ещё готовится. Прочитайте строки вокруг него: кто говорит, что происходит, какие слова повторяются." },
+"An explanation of this verse is still being prepared. Read the lines around it: who speaks, what happens, which words repeat.": { "pt": "A explicação deste versículo ainda está sendo preparada. Leia o que vem antes e depois: quem fala, o que acontece, quais palavras se repetem.", "es": "La explicación de este versículo aún se está preparando. Lee lo que viene antes y después: quién habla, qué sucede, qué palabras se repiten.", "ru": "Объяснение этого стиха ещё готовится. Прочитайте, что стоит до и после него: кто говорит, что происходит, какие слова повторяются." },
 "Choose one word or image that stays with you. Sit with it before deciding what it means for your life.": { "pt": "Escolha uma palavra ou imagem que ficou com você. Fique com ela antes de decidir o que significa para sua vida.", "es": "Elige una palabra o imagen que se quede contigo. Quédate con ella antes de decidir qué significa para tu vida.", "ru": "Выберите слово или образ, который вам запомнился. Задержитесь на нём, прежде чем решать, что он значит для вас." },
   "The story around these words": {
     "pt": "A história ao redor destas palavras",
@@ -243,7 +243,7 @@
     "es": "En la vida cotidiana",
     "ru": "В повседневной жизни"
   },
-"What response might fit the whole passage? Keep what the text says apart from what it brings to mind. A question can stay open for a while.": { "pt": "Que resposta combina com a passagem inteira? Separe o que o texto diz do que ele lhe traz à mente. Uma pergunta pode ficar em aberto por um tempo.", "es": "¿Qué respuesta encaja con todo el pasaje? Distingue lo que dice el texto de lo que te trae a la mente. Una pregunta puede quedar abierta un tiempo.", "ru": "Какой отклик подходит ко всему отрывку? Отличайте слова текста от собственных ассоциаций. Вопрос может какое-то время оставаться открытым." },
+"What response might fit the whole passage? Keep what the text says apart from what it brings to mind. A question can stay open for a while.": { "pt": "Que resposta combina com a passagem inteira? Separe o que o texto diz do que ele lhe traz à mente. Uma pergunta pode ficar em aberto por um tempo.", "es": "¿Qué respuesta encaja con todo el pasaje? Distingue lo que dice el texto de lo que te trae a la mente. Una pregunta puede quedar abierta un tiempo.", "ru": "Каким мог бы быть ваш отклик на весь отрывок? Не путайте то, что говорит текст, с тем, что он вам напоминает. С вопросом можно пожить, не торопясь с ответом." },
   "What this says about God": {
     "pt": "O que diz sobre Deus",
     "es": "Qué dice sobre Dios",
@@ -334,7 +334,7 @@
     "es": "No disponible",
     "ru": "Недоступно"
   },
-"Synodal source: 66 books, without the additional Orthodox books.": { "pt": "Fonte sinodal: 66 livros, sem os livros ortodoxos adicionais.", "es": "Fuente sinodal: 66 libros, sin los libros ortodoxos adicionales.", "ru": "Синодальный перевод: 66 книг, без дополнительных книг православной Библии." },
+"Synodal source: 66 books, without the additional Orthodox books.": { "pt": "Fonte sinodal: 66 livros, sem os livros ortodoxos adicionais.", "es": "Fuente sinodal: 66 libros, sin los libros ortodoxos adicionales.", "ru": "Синодальный перевод: 66 книг, без неканонических." },
   "Awaiting a safety check or held": {
     "pt": "Aguardando verificação ou retido",
     "es": "Pendiente de revisión o retenido",
@@ -691,7 +691,7 @@
     "es": "La moderación automática no está activa. Esta publicación queda privada. Tu diario y perfil nunca se adjuntan.",
     "ru": "Автоматическая модерация не включена. Публикация остаётся приватной. Дневник и профиль никогда не прикрепляются."
   },
-"Topic submitted. See its status in My submissions.": { "pt": "Tópico enviado. Veja o status em Minhas publicações.", "es": "Tema enviado. Consulta su estado en Mis publicaciones.", "ru": "Тема отправлена. Статус — в разделе «Мои публикации»." },
+"Topic submitted. See its status in My submissions.": { "pt": "Tópico enviado. Veja o status em Minhas publicações.", "es": "Tema enviado. Consulta su estado en Mis publicaciones.", "ru": "Тема отправлена. Следите за статусом в разделе «Мои публикации»." },
   "Demo review": {
     "pt": "Revisão da demonstração",
     "es": "Revisión de demostración",
@@ -1051,7 +1051,7 @@
     "es": "Inicia sesión para ver tu calendario.",
     "ru": "Войдите, чтобы увидеть свой календарь."
   },
-"Gatherings you’ve reserved or are hosting, in your local time.": { "pt": "Encontros que você reservou ou organiza, no seu horário local.", "es": "Encuentros que reservaste u organizas, en tu hora local.", "ru": "Встречи, куда вы записались или которые ведёте. Время местное." },
+"Gatherings you’ve reserved or are hosting, in your local time.": { "pt": "Encontros que você reservou ou organiza, no seu horário local.", "es": "Encuentros que reservaste u organizas, en tu hora local.", "ru": "Встречи, на которые вы записались или которые ведёте. Время — по вашему часовому поясу." },
   "No gatherings on this date.": {
     "pt": "Nenhum encontro nesta data.",
     "es": "No hay encuentros en esta fecha.",
@@ -1134,7 +1134,7 @@
   "Church sounds play only on Home after the entrance.": {
     "pt": "Os sons da igreja tocam apenas no Início, após a entrada.",
     "es": "Los sonidos de la iglesia se reproducen solo en Inicio, después de entrar.",
-    "ru": "Церковные звуки слышны только на главном экране, после входа."
+    "ru": "Церковные звуки слышны только на главном экране, после входа в церковь."
   },
   "Church sounds: on": {
     "pt": "Sons da igreja: ativados",
@@ -1477,7 +1477,7 @@
     "es": "Tu tradición",
     "ru": "Ваша традиция"
   },
-"This shapes your church and the Bible you read. You can change it later.": { "pt": "Isso define a sua igreja e a Bíblia que você lê. Você pode mudar depois.", "es": "Esto define tu iglesia y la Biblia que lees. Puedes cambiarlo después.", "ru": "От этого зависят ваша церковь и Библия, которую вы читаете. Изменить можно позже." },
+"This shapes your church and the Bible you read. You can change it later.": { "pt": "Isso define a sua igreja e a Bíblia que você lê. Você pode mudar depois.", "es": "Esto define tu iglesia y la Biblia que lees. Puedes cambiarlo después.", "ru": "От этого зависят ваша церковь и Библия, которую вы читаете. Выбор можно изменить позже." },
   "This shapes your church and the Bible you read.": {
     "pt": "Isso define a sua igreja e a Bíblia que você lê.",
     "es": "Esto define tu iglesia y la Biblia que lees.",
@@ -1488,7 +1488,7 @@
     "es": "Un poco sobre ti",
     "ru": "Немного о вас"
   },
-"All optional. Your city is enough to suggest local ways to help.": { "pt": "Tudo opcional. Sua cidade basta para sugerirmos formas de ajudar perto de você.", "es": "Todo es opcional. Tu ciudad basta para sugerir formas de ayudar cerca de ti.", "ru": "Всё необязательно. Города достаточно, чтобы подсказать, где помочь рядом с вами." },
+"All fields are optional. Your city is enough to suggest local ways to help.": { "pt": "Todos os campos são opcionais. Sua cidade basta para sugerirmos formas de ajudar perto de você.", "es": "Todos los campos son opcionales. Tu ciudad basta para sugerir formas de ayudar cerca de ti.", "ru": "Все поля необязательны. Города достаточно, чтобы подсказать, где помочь рядом с вами." },
   "Enter the church": {
     "pt": "Entrar na igreja",
     "es": "Entrar en la iglesia",
@@ -1560,7 +1560,7 @@
     "es": "Busca en estos temas seleccionados, referencias y pasajes de tu edición. No es una respuesta de IA ni una búsqueda en toda la Biblia.",
     "ru": "Поиск по подобранным темам, ссылкам на стихи и отрывкам в выбранном переводе. Это не ответ ИИ и не поиск по всей Библии."
   },
-"These sites have their own language, translation and theology. Your Bible edition stays the same.": { "pt": "Estes sites têm idioma, tradução e teologia próprios. Sua edição da Bíblia não muda.", "es": "Estos sitios tienen su propio idioma, traducción y teología. Tu edición de la Biblia no cambia.", "ru": "У этих сайтов свои язык, перевод и богословие. Ваш перевод Библии не меняется." },
+"These sites have their own language, translation and theology. Your Bible edition stays the same.": { "pt": "Estes sites têm idioma, tradução e teologia próprios. Sua edição da Bíblia não muda.", "es": "Estos sitios tienen su propio idioma, traducción y teología. Tu edición de la Biblia no cambia.", "ru": "У этих сайтов свой язык, перевод и богословский взгляд. Ваш перевод Библии останется прежним." },
   "Preview discussion": {
     "pt": "Prévia da discussão",
     "es": "Vista previa del debate",
@@ -1723,13 +1723,13 @@
     "es": "Esta fecha u hora no existe. Elige otra.",
     "ru": "Такой даты или времени не существует. Выберите другое."
   },
-"Prayer request saved. See its status in My requests.": { "pt": "Pedido de oração salvo. Veja o status em Meus pedidos.", "es": "Petición de oración guardada. Consulta su estado en Mis peticiones.", "ru": "Просьба о молитве сохранена. Статус — в разделе «Мои просьбы»." },
+"Your prayer request is saved. You’ll find it in My requests.": { "pt": "Seu pedido de oração foi salvo. Você o encontra em Meus pedidos.", "es": "Tu petición de oración está guardada. La encontrarás en Mis peticiones.", "ru": "Ваша просьба о молитве сохранена. Её можно найти в разделе «Мои просьбы»." },
   "Your request needs moderator review.": {
     "pt": "Seu pedido precisa de revisão por um moderador.",
     "es": "Tu petición necesita revisión de un moderador.",
     "ru": "Вашу просьбу должен проверить модератор."
   },
-"No verified Bible for this tradition in this language yet. You can choose another language later.": { "pt": "Ainda não há Bíblia verificada desta tradição neste idioma. Você pode escolher outro idioma depois.", "es": "Aún no hay una Biblia verificada de esta tradición en este idioma. Puedes elegir otro idioma después.", "ru": "Пока нет проверенной Библии этой традиции на этом языке. Другой язык можно выбрать позже." },
+"No verified Bible for this tradition in this language yet. You can choose another language later.": { "pt": "Ainda não há Bíblia verificada desta tradição neste idioma. Você pode escolher outro idioma depois.", "es": "Aún no hay una Biblia verificada de esta tradición en este idioma. Puedes elegir otro idioma después.", "ru": "Проверенной Библии этой традиции на этом языке пока нет. Другой язык можно выбрать позже." },
   "What’s weighing on your heart?": {
     "pt": "O que está pesando no seu coração?",
     "es": "¿Qué pesa en tu corazón?",
@@ -1928,7 +1928,7 @@
   "Only on Home, after the entrance.": {
     "pt": "Só na tela inicial, depois da entrada.",
     "es": "Solo en Inicio, después de la entrada.",
-    "ru": "Только на главном экране, после входа."
+    "ru": "Только на главном экране, после входа в церковь."
   },
   "Edit": {
     "pt": "Editar",
@@ -2005,5 +2005,33 @@
     "pt": "Bloquear esta pessoa? Vocês não serão conectados novamente nesta sala.",
     "es": "¿Bloquear a esta persona? No volverán a coincidir en esta sala.",
     "ru": "Заблокировать этого человека? Вы больше не встретитесь в этой комнате."
-  }
+  },
+  "Bible Study": { "pt": "Estudo bíblico", "es": "Estudio bíblico", "ru": "Изучение Библии" },
+  "Search": { "pt": "Buscar", "es": "Buscar", "ru": "Поиск" },
+  "Edit profile": { "pt": "Editar perfil", "es": "Editar perfil", "ru": "Изменить профиль" },
+  "Confession": { "pt": "Confissão", "es": "Confesión", "ru": "Исповедь" },
+  "Find a small way to help. Giving money is never required.": { "pt": "Encontre uma pequena forma de ajudar. Doar dinheiro nunca é obrigatório.", "es": "Encuentra una pequeña forma de ayudar. Dar dinero nunca es obligatorio.", "ru": "Найдите, чем можно помочь. Жертвовать деньги вовсе не обязательно." },
+  "Official resource": { "pt": "Recurso oficial", "es": "Recurso oficial", "ru": "Официальный ресурс" },
+  "Explore ways to help": { "pt": "Ver formas de ajudar", "es": "Ver formas de ayudar", "ru": "Как можно помочь" },
+  "Visit website": { "pt": "Visitar site", "es": "Visitar sitio web", "ru": "Перейти на сайт" },
+  "Share charity work or an organization": { "pt": "Compartilhe uma ação solidária ou organização", "es": "Comparte una labor solidaria o una organización", "ru": "Рассказать о добром деле или организации" },
+  "Your charity work or organization": { "pt": "Sua ação solidária ou organização", "es": "Tu labor solidaria u organización", "ru": "Ваше доброе дело или организация" },
+  "Country and city (optional)": { "pt": "País e cidade (opcional)", "es": "País y ciudad (opcional)", "ru": "Страна и город (необязательно)" },
+  "Official website (optional, https://)": { "pt": "Site oficial (opcional, https://)", "es": "Sitio web oficial (opcional, https://)", "ru": "Официальный сайт (необязательно, https://)" },
+  "Preview": { "pt": "Pré-visualizar", "es": "Vista previa", "ru": "Предпросмотр" },
+  "After review, this recommendation will be visible to signed-in members and may be shared. It stays linked to your account for moderation. Do not include private contact details.": { "pt": "Após a revisão, esta recomendação ficará visível para membros conectados e poderá ser compartilhada. Ela continua vinculada à sua conta para moderação. Não inclua contatos pessoais.", "es": "Tras la revisión, esta recomendación será visible para los miembros conectados y podrá compartirse. Seguirá vinculada a tu cuenta para la moderación. No incluyas datos de contacto privados.", "ru": "После проверки рекомендацию увидят участники, вошедшие в аккаунт, и смогут ею поделиться. Для модерации она остаётся связанной с вашим аккаунтом. Не указывайте личные контакты." },
+  "Community recommendations": { "pt": "Recomendações da comunidade", "es": "Recomendaciones de la comunidad", "ru": "Рекомендации сообщества" },
+  "Member recommendations are not verified partnerships. Check each organization before giving.": { "pt": "As recomendações de membros não são parcerias verificadas. Confira cada organização antes de doar.", "es": "Las recomendaciones de miembros no son alianzas verificadas. Revisa cada organización antes de donar.", "ru": "Рекомендации участников — не проверенные партнёры. Прежде чем жертвовать, проверьте организацию." },
+  "No community recommendations yet.": { "pt": "Ainda não há recomendações da comunidade.", "es": "Aún no hay recomendaciones de la comunidad.", "ru": "Рекомендаций сообщества пока нет." },
+  "Sign in to view and submit community recommendations. If you are signed in, please try again.": { "pt": "Entre para ver e enviar recomendações da comunidade. Se você já entrou, tente novamente.", "es": "Inicia sesión para ver y enviar recomendaciones de la comunidad. Si ya iniciaste sesión, inténtalo de nuevo.", "ru": "Войдите, чтобы смотреть и предлагать рекомендации сообщества. Если вы уже вошли, попробуйте ещё раз." },
+  "Could not submit. Your writing is still here. Please sign in and try again.": { "pt": "Não foi possível enviar. Seu texto continua aqui. Entre e tente novamente.", "es": "No se pudo enviar. Tu texto sigue aquí. Inicia sesión e inténtalo de nuevo.", "ru": "Не удалось отправить. Ваш текст сохранён здесь. Войдите и попробуйте ещё раз." },
+  "Could not remove this submission. Please try again.": { "pt": "Não foi possível remover este envio. Tente novamente.", "es": "No se pudo retirar este envío. Inténtalo de nuevo.", "ru": "Не удалось удалить публикацию. Попробуйте ещё раз." },
+  "Remove submission": { "pt": "Remover envio", "es": "Retirar envío", "ru": "Удалить публикацию" },
+  "Pending review": { "pt": "Aguardando revisão", "es": "Pendiente de revisión", "ru": "Ожидают проверки" },
+  "No submissions waiting for review.": { "pt": "Nenhum envio aguardando revisão.", "es": "No hay envíos pendientes de revisión.", "ru": "Нет публикаций, ожидающих проверки." },
+  "Could not review this submission. A moderator account and a reason for rejection are required.": { "pt": "Não foi possível revisar este envio. É preciso uma conta de moderador e um motivo para a rejeição.", "es": "No se pudo revisar este envío. Se necesita una cuenta de moderador y un motivo de rechazo.", "ru": "Не удалось проверить публикацию. Нужны аккаунт модератора и причина отклонения." },
+  "Private rejection reason": { "pt": "Motivo privado da rejeição", "es": "Motivo privado del rechazo", "ru": "Причина отклонения (не публикуется)" },
+  "Reject": { "pt": "Rejeitar", "es": "Rechazar", "ru": "Отклонить" },
+  "Previous": { "pt": "Anterior", "es": "Anterior", "ru": "Назад" },
+  "Next": { "pt": "Próximo", "es": "Siguiente", "ru": "Далее" }
 }

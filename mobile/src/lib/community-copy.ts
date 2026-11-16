@@ -187,7 +187,7 @@ const words: Record<string, string[]> = {
     "Same weekday and local time each week. Each session is reserved separately.",
     "Mesmo dia da semana e horário local, toda semana. Cada sessão é reservada à parte.",
     "Mismo día de la semana y hora local, cada semana. Cada sesión se reserva aparte.",
-    "Каждую неделю в тот же день и время. На каждую встречу записываются отдельно.",
+    "Каждую неделю в тот же день и час. Записываться нужно на каждую встречу отдельно.",
   ],
   gatheringReminderNote: [
     "Hosts and attendees get an in-app reminder 24 hours before each session.",

@@ -1,10 +1,10 @@
 import type { Language } from "./content";
 const words = {
   prompt: [
-    "Did this help? You can keep talking.",
-    "Isso ajudou? Você pode continuar conversando.",
-    "¿Te ayudó? Puedes seguir hablando.",
-    "Это помогло? Можно продолжить разговор.",
+    "Did this help, or would you like to keep talking?",
+    "Isso ajudou ou você gostaria de continuar conversando?",
+    "¿Te ayudó o te gustaría seguir hablando?",
+    "Это помогло? Хотите поговорить ещё?",
   ],
   open: [
     "Continue talking",

@@ -173,7 +173,7 @@ function PrayerRoom({
       setPreview("");
       setTab("mine");
       setNotice(
-        "Prayer request saved. See its status in My requests.",
+        "Your prayer request is saved. You’ll find it in My requests.",
       );
     }
   }

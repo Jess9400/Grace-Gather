@@ -71,7 +71,7 @@ const words: Record<string, string[]> = {
     "Más conversaciones",
     "Ещё обсуждения",
   ],
-  "Be kind. Everyone in the community can read this, so keep private details out. Messages are safety-checked first; moderators review anything uncertain.":
+  "Be kind. Everyone in the community can read this, so keep private details out. Each message is checked before it appears, and moderators look at anything uncertain.":
     [
       "Seja gentil. Toda a comunidade pode ler, então não compartilhe detalhes pessoais. As mensagens passam por uma verificação de segurança antes de aparecer; moderadores analisam o que gerar dúvida.",
       "Sé amable. Toda la comunidad puede leerlo, así que no compartas datos personales. Los mensajes pasan una revisión de seguridad antes de mostrarse; los moderadores revisan lo dudoso.",
@@ -102,7 +102,7 @@ const words: Record<string, string[]> = {
   "After a safety check, everyone in the community can read and reply.": [
     "Após a verificação de segurança, toda a comunidade pode ler e responder.",
     "Tras la revisión de seguridad, toda la comunidad puede leer y responder.",
-    "После проверки безопасности обсуждение смогут читать и комментировать все в сообществе.",
+    "После проверки обсуждение смогут читать и комментировать все участники сообщества.",
   ],
   About: ["Sobre", "Sobre", "О стихе"],
   Title: ["Título", "Título", "Заголовок"],

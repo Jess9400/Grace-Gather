@@ -84,7 +84,7 @@ const values: Record<string, string[]> = {
     "Saved changes hide it from Discover until it is reviewed again.",
     "Ao salvar alterações, ele sai de Descobrir até uma nova revisão.",
     "Al guardar cambios, sale de Descubrir hasta una nueva revisión.",
-    "После правки свидетельство скрывается из раздела «Обзор» до новой проверки.",
+    "После правки свидетельство скроется из раздела «Обзор» до повторной проверки.",
   ],
   label: [
     "Community testimony",

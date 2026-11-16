@@ -1,7 +1,7 @@
 export const PROFILE_COPY={
   "en": {
     "pWelcome": "A little stillness. A little closer to God.",
-    "pWelcomeSub": "Bring what is on your heart. Find a verse and one small step for today.",
+    "pWelcomeSub": "Bring what is on your heart. Find a verse to sit with and one small step for today.",
     "pBegin": "Make room for you",
     "pLater": "Not now",
     "pContinue": "Continue",
@@ -72,7 +72,7 @@ export const PROFILE_COPY={
   },
   "pt": {
     "pWelcome": "Um pouco de calma. Um pouco mais perto de Deus.",
-    "pWelcomeSub": "Traga o que está no seu coração. Encontre um versículo e um pequeno passo para hoje.",
+    "pWelcomeSub": "Traga o que está no seu coração. Encontre um versículo para refletir e um pequeno passo para hoje.",
     "pBegin": "Reserve um momento para você",
     "pLater": "Agora não",
     "pContinue": "Continuar",
@@ -143,7 +143,7 @@ export const PROFILE_COPY={
   },
   "es": {
     "pWelcome": "Un poco de calma. Un poco más cerca de Dios.",
-    "pWelcomeSub": "Trae lo que hay en tu corazón. Encuentra un versículo y un pequeño paso para hoy.",
+    "pWelcomeSub": "Trae lo que hay en tu corazón. Encuentra un versículo para reflexionar y un pequeño paso para hoy.",
     "pBegin": "Haz espacio para ti",
     "pLater": "Ahora no",
     "pContinue": "Continuar",
@@ -214,7 +214,7 @@ export const PROFILE_COPY={
   },
   "ru": {
     "pWelcome": "Немного тишины. Немного ближе к Богу.",
-    "pWelcomeSub": "Поделитесь тем, что на сердце. Найдите стих и маленький шаг на сегодня.",
+    "pWelcomeSub": "Поделитесь тем, что на сердце. Найдите стих для размышления и маленький шаг на сегодня.",
     "pBegin": "Уделить себе время",
     "pLater": "Не сейчас",
     "pContinue": "Продолжить",

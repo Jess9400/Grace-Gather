@@ -59,7 +59,7 @@ const rows: Record<string, string[]> = {
     "We sent a code to your email.",
     "Enviamos um código para o seu email.",
     "Te enviamos un código a tu correo.",
-    "Мы отправили код на ваш email.",
+    "Мы отправили код на вашу почту.",
   ],
   codeWait: [
     "Please wait a minute before requesting another code.",

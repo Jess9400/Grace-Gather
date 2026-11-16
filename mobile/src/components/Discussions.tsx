@@ -319,7 +319,7 @@ export function DiscussionRoom({
       }
       tint={theme.tint}
       rule={c(
-        "Be kind. Everyone in the community can read this, so keep private details out. Messages are safety-checked first; moderators review anything uncertain.",
+        "Be kind. Everyone in the community can read this, so keep private details out. Each message is checked before it appears, and moderators look at anything uncertain.",
       )}
       backLabel={c("Back")}
       onBack={onBack}

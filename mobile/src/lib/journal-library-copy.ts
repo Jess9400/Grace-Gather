@@ -141,7 +141,7 @@ const words = {
     "After 90 days without a new message. We notify you in the app at least seven days before cleanup. Entries, verses and first actions stay. Removed chats can be recovered for 30 days. Cleanup runs while the app is open.",
     "Após 90 dias sem novas mensagens. Avisamos no app pelo menos sete dias antes. Entradas, versículos e primeiras ações permanecem. Conversas removidas podem ser recuperadas por 30 dias. A limpeza ocorre com o app aberto.",
     "Tras 90 días sin mensajes nuevos. Te avisamos en la app al menos siete días antes. Se conservan las entradas, los versículos y las primeras acciones. Puedes recuperar las conversaciones durante 30 días. La limpieza se realiza con la app abierta.",
-    "Через 90 дней без новых сообщений. Мы предупредим вас в приложении минимум за семь дней до очистки. Записи, стихи и первые действия сохранятся. Удалённые разговоры можно восстановить в течение 30 дней. Очистка выполняется, пока приложение открыто.",
+    "Через 90 дней без новых сообщений. Мы предупредим вас в приложении минимум за семь дней до очистки. Записи, стихи и первые действия сохранятся. Удалённые разговоры можно восстановить в течение 30 дней. Очистка проходит, пока приложение открыто.",
   ],
   cleanupUnavailable: [
     "Automatic cleanup is unavailable in this browser. Your conversations will stay saved.",
@@ -239,7 +239,7 @@ const words = {
     "Adds missing entries to your account. Existing entries stay unchanged.",
     "Adiciona as entradas que faltam à sua conta. As existentes não mudam.",
     "Añade las entradas que faltan a tu cuenta. Las existentes no cambian.",
-    "Добавит недостающие записи в ваш аккаунт. Остальные останутся без изменений.",
+    "Недостающие записи будут добавлены в ваш аккаунт, остальные не изменятся.",
   ],
   restored: [
     "Your journal has been restored.",

@@ -37,10 +37,10 @@ const text = {
     "Вспомнить что-то доброе",
   ],
   hopeNote: [
-    "Was there a kind word, a meal, or a moment of rest? Write about one thing, however small. If nothing comes to mind, write what you need today.",
-    "Houve uma palavra gentil, uma refeição ou um momento de descanso? Escreva sobre algo, por menor que seja. Se nada vier à mente, escreva o que precisa hoje.",
-    "¿Hubo una palabra amable, una comida o un momento de descanso? Escribe sobre algo, por pequeño que sea. Si no recuerdas nada, escribe lo que necesitas hoy.",
-    "Было ли доброе слово, еда или минута отдыха? Напишите о чём-то одном, пусть даже совсем небольшом. Если ничего не вспоминается, напишите, что вам нужно сегодня.",
+    "Was there a kind word, a meal, or a moment of rest? Write about one thing, however small. If nothing comes to mind, you can write what you need today.",
+    "Houve uma palavra gentil, uma refeição ou um momento de descanso? Escreva sobre algo, por menor que seja. Se nada vier à mente, você pode escrever o que precisa hoje.",
+    "¿Hubo una palabra amable, una comida o un momento de descanso? Escribe sobre algo, por pequeño que sea. Si no recuerdas nada, puedes escribir lo que necesitas hoy.",
+    "Было ли доброе слово, еда или минута отдыха? Напишите о чём-то одном, пусть даже совсем небольшом. Если ничего не вспоминается, можно написать, что вам нужно сегодня.",
   ],
   curated: [
     "Curated guidance · AI not used",
@@ -64,13 +64,13 @@ const text = {
     "AI can help choose a more relevant verse and a small step for what you share, and lets you continue the conversation. Without it, you can still journal and receive general suggestions. Your choice is optional and can be changed later.",
     "A IA pode ajudar a escolher um versículo e um pequeno passo mais relevantes para o que você compartilha, além de permitir que você continue a conversa. Sem ela, você ainda pode escrever e receber sugestões gerais. A escolha é opcional e pode ser alterada depois.",
     "La IA puede ayudar a elegir un versículo y un pequeño paso más relevantes para lo que compartes, y te permite continuar la conversación. Sin ella, puedes seguir escribiendo y recibir sugerencias generales. La elección es opcional y puedes cambiarla después.",
-    "ИИ может помочь подобрать более подходящий стих и небольшой шаг с учётом ваших слов, а также продолжить разговор. Без него можно вести дневник и получать общие рекомендации. Выбор необязателен, его можно изменить позже.",
+    "ИИ поможет подобрать более подходящий стих и маленький шаг к вашим словам, а потом можно будет продолжить разговор. Без него вы тоже сможете вести дневник и получать общие подсказки. Это необязательно, решение можно изменить позже.",
   ],
   aiShareSummary: [
     "If you agree, your writing, recent conversation, Bible questions and relevant preferences are sent through Supabase to our AI provider, Alibaba Cloud.",
     "Se você concordar, seu texto, conversa recente, perguntas bíblicas e preferências relevantes serão enviados pelo Supabase ao nosso provedor de IA, Alibaba Cloud.",
     "Si aceptas, tu texto, conversación reciente, preguntas bíblicas y preferencias relevantes se envían mediante Supabase a nuestro proveedor de IA, Alibaba Cloud.",
-    "Если вы согласитесь, ваши записи, недавний разговор, вопросы о Библии и соответствующие настройки будут отправлены через Supabase нашему провайдеру ИИ Alibaba Cloud.",
+    "Если вы согласитесь, ваши записи, недавний разговор, вопросы о Библии и нужные для этого настройки будут отправляться через Supabase нашему провайдеру ИИ Alibaba Cloud.",
   ],
   aiPrivacy: [
     "Privacy details",
@@ -275,10 +275,10 @@ const text = {
     "Посмотреть встречи",
   ],
   note: [
-    "You can write a few words, or sit with this quietly.",
-    "Você pode escrever algumas palavras ou ficar em silêncio.",
-    "Puedes escribir unas palabras o quedarte en silencio.",
-    "Можно написать несколько слов или побыть в тишине.",
+    "You can write a few words, or simply sit with this quietly.",
+    "Você pode escrever algumas palavras ou simplesmente ficar em silêncio.",
+    "Puedes escribir unas palabras o simplemente quedarte en silencio.",
+    "Можно написать несколько слов или просто побыть в тишине.",
   ],
   professional: [
     "Consider contacting a qualified mental health professional or your doctor. You can note whom you would like to contact here.",
@@ -287,10 +287,10 @@ const text = {
     "Возможно, стоит обратиться к специалисту в области психического здоровья или к своему врачу. Здесь можно записать, к кому вы хотели бы обратиться.",
   ],
   private: [
-    "Stays in your journal. Not sent to anyone.",
-    "Fica no seu diário. Não é enviado a ninguém.",
-    "Queda en tu diario. No se envía a nadie.",
-    "Останется в дневнике. Никому не отправляется.",
+    "This stays in your journal and isn’t sent to anyone.",
+    "Isto fica no seu diário e não é enviado a ninguém.",
+    "Esto queda en tu diario y no se envía a nadie.",
+    "Это останется в вашем дневнике и никуда не отправится.",
   ],
   fallback: [
     "A reflection chosen from our curated collection.",

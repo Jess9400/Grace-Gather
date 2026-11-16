@@ -179,9 +179,9 @@ const words = {
     "Зажгите свечу",
   ),
   candleIntro: L(
-    "For yourself, someone you love, or what you carry.",
-    "Por você, por alguém que você ama ou pelo que carrega.",
-    "Por ti, por alguien a quien amas o por lo que cargas.",
+    "For yourself, someone you love, or what you are carrying.",
+    "Por você, por alguém que você ama ou pelo que está carregando.",
+    "Por ti, por alguien a quien amas o por lo que estás cargando.",
     "За себя, за близкого человека или за то, что на сердце.",
   ),
   tapToLight: L(

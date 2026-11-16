@@ -12,10 +12,10 @@ const L = (en: string, pt: string, es: string, ru: string) => ({
 const words = {
   title: L("Pray", "Rezar", "Rezar", "Помолиться"),
   intro: L(
-    "Choose a prayer, or stay a while before the icon.",
-    "Escolha uma oração ou fique um pouco diante do ícone.",
-    "Elige una oración o quédate un momento ante el icono.",
-    "Выберите молитву или побудьте перед иконой.",
+    "Choose a prayer, or simply stay a while before the icon.",
+    "Escolha uma oração ou simplesmente fique um pouco diante do ícone.",
+    "Elige una oración o simplemente quédate un momento ante el icono.",
+    "Выберите молитву или просто побудьте перед иконой.",
   ),
   prayers: L("Prayers", "Orações", "Oraciones", "Молитвы"),
   forOthers: L(
