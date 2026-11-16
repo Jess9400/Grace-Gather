@@ -67,7 +67,9 @@ export async function confessionService({store,user,moderator=false},action,b={}
   if(!moderator)fail('forbidden',403);
   if(row.author===user)fail('self_review',403);
   if(!['approved','rejected'].includes(b.decision)||typeof b.note!=='string'||b.note.trim().length<5||b.note.length>500)fail('invalid');
-  await store.moderate(row.id,b.decision,user,b.note.trim());return {ok:true};
+  if(!['pending','reported'].includes(row.status))fail('already_reviewed',409);
+  if(!await store.moderate(row.id,b.decision,user,b.note.trim(),row.status))fail('already_reviewed',409);
+  return {ok:true};
  }
  fail('not_found',404);
 }

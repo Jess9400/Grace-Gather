@@ -116,6 +116,8 @@ export function communityError(error: unknown) {
     return "Please pause a moment before trying again.";
   if (/not_allowed|unauthorized|JWT|session/i.test(message))
     return "Sign in with an eligible account to take part in Community.";
+  if (/already_reviewed/.test(message))
+    return "Another moderator already reviewed this item. Refresh to see the latest.";
   if (/invalid_|check constraint/i.test(message))
     return "Please check the title, words and display name, then try again.";
   if (/not_found/.test(message))

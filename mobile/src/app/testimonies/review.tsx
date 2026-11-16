@@ -1,4 +1,5 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { AppState } from "react-native";
 import { useFocusEffect, useLocalSearchParams } from "expo-router";
 import {
   Screen,
@@ -37,6 +38,21 @@ export default function Review() {
       void load();
     }, [load]),
   );
+  useEffect(() => {
+    if (busy || id) return;
+    let active = true;
+    let pending = false;
+    const refresh = () => {
+      if (pending || AppState.currentState !== "active") return;
+      pending = true;
+      void testimony("queue").then(queue => { if (active) setItems(queue); })
+        .catch(() => { /* Manual review remains available if refresh fails. */ })
+        .finally(() => { pending = false; });
+    };
+    const timer = setInterval(refresh, 10000);
+    const listener = AppState.addEventListener("change", state => { if (state === "active") refresh(); });
+    return () => { active = false; clearInterval(timer); listener.remove(); };
+  }, [busy, id]);
   async function review(item: Testimony, decision: string) {
     setBusy(true);
     try {

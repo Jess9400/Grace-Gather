@@ -21,6 +21,7 @@ import { canUseRemotePush } from "../../lib/push-availability";
 import ChatSafetyReports from "../../components/ChatSafetyReports";
 import SafetyReviewGuide from "../../components/SafetyReviewGuide";
 import GatheringSafetyReports from "../../components/GatheringSafetyReports";
+import ModerationHistory from "../../components/ModerationHistory";
 export default function AdminDashboard() {
   const tr = useInterfaceCopy();
   const { profile } = useApp();
@@ -120,7 +121,9 @@ export default function AdminDashboard() {
             router.setParams({ view: "" });
           }}
         />
-        {queue === "editorial" ? (
+        {queue === "history" ? (
+          <ModerationHistory />
+        ) : queue === "editorial" ? (
           <EditorialStories />
         ) : queue === "gatherings" ? (
           <Screen><GatheringSafetyReports /></Screen>
@@ -192,6 +195,7 @@ export default function AdminDashboard() {
             </Pressable>
           ))}
           <TextAction title={communityCopy(profile.language, "editorialStories")} icon="create-outline" onPress={() => setQueue("editorial")} />
+          <TextAction title={{en:"Not approved",pt:"Não aprovados",es:"No aprobados",ru:"Не одобрено"}[profile.language]} icon="time-outline" onPress={() => setQueue("history")} />
         </>
       )}
     </Screen>

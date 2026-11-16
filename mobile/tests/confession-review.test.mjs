@@ -23,3 +23,15 @@ test('moderators cannot approve their own content', async () => {
   const store = { get: async () => ({ id: 'x', author: 'staff', kind: 'confession', status: 'pending' }) };
   await assert.rejects(confessionService({ store, user: 'staff', moderator: true }, 'moderate', { id: 'x', decision: 'approved', note: 'Reviewed and approved.' }), e => e.message === 'self_review');
 });
+
+test('stale moderation decisions cannot override another moderator', async () => {
+  const row = { id: 'x', author: 'author', kind: 'confession', status: 'pending' };
+  const store = { get: async () => ({...row}), moderate: async (_id, decision, _user, _note, expected) => {
+    if (row.status !== expected || !['pending', 'reported'].includes(row.status)) return false;
+    row.status = decision; return true;
+  } };
+  const context = { store, user: 'moderator', moderator: true };
+  assert.equal((await confessionService(context, 'moderate', {id:'x', decision:'approved', note:'Reviewed carefully'})).ok, true);
+  await assert.rejects(confessionService(context, 'moderate', {id:'x', decision:'rejected', note:'Different decision'}), e => e.message === 'already_reviewed' && e.status === 409);
+  assert.equal(row.status, 'approved');
+});
