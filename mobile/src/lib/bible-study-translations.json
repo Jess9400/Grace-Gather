@@ -1,0 +1,1451 @@
+{
+  "note": "Portuguese, Spanish and Russian versions of the Bible-tab studies written in English only, keyed by the English study's id. Each is written from the English study and its listed sources, adapted to the wording of the reader's own Bible.",
+  "studies": {
+    "web-genesis-1-1": {
+      "verses": [
+        "synodal:GEN.1.1",
+        "blivre:GEN.1.1",
+        "rv1909:GEN.1.1",
+        "matos:GEN.1.1"
+      ],
+      "echoes": [
+        {
+          "ref": "JHN.1.1"
+        },
+        {
+          "ref": "HEB.11.3"
+        },
+        {
+          "ref": "COL.1.16"
+        },
+        {
+          "ref": "ROM.1.20"
+        },
+        {
+          "ref": "MAT.24.35"
+        }
+      ],
+      "sources": [
+        {
+          "label": "Basil the Great, Hexaemeron, Homily 1 (about 370). Translated by Blomfield Jackson, Nicene and Post-Nicene Fathers II.8 (1895).",
+          "url": "https://www.newadvent.org/fathers/32011.htm"
+        },
+        {
+          "label": "Augustine, Confessions, Book 11, chapters 4–13 (about 400). Translated by J. G. Pilkington, Nicene and Post-Nicene Fathers I.1 (1887).",
+          "url": "https://www.newadvent.org/fathers/110111.htm"
+        },
+        {
+          "label": "Thomas Aquinas, Summa Theologiae I, question 46, articles 2–3 (1265–74). Translated by the Fathers of the English Dominican Province (1920).",
+          "url": "https://www.newadvent.org/summa/1046.htm"
+        },
+        {
+          "label": "John Calvin, Commentary on Genesis, on 1:1 and 1:5 (1554). Translated by John King (1847).",
+          "url": "https://www.ccel.org/ccel/calvin/calcom01.vii.i.html"
+        },
+        {
+          "label": "Matthew Henry, Commentary on the Whole Bible, on Genesis 1:1–2 (1706).",
+          "url": "https://www.ccel.org/ccel/henry/mhc1.Gen.ii.html"
+        },
+        {
+          "label": "Catechism of the Catholic Church, paragraphs 279–301.",
+          "url": "https://www.vatican.va/archive/ENG0015/__P19.HTM"
+        },
+        {
+          "label": "Scripture quotations: World English Bible (public domain)."
+        }
+      ],
+      "languages": {
+        "pt": {
+          "simple": "A Bíblia começa com uma frase simples: Deus criou o céu e a terra. Antes de ouvir qualquer outra coisa, aprendemos quem fez todas as coisas, e que todas as coisas tiveram um começo.\n\nO mundo não fez a si mesmo, nem é obra do acaso. Ele tem um Criador e pertence a ele. Tudo o mais na Escritura se apoia nesta primeira linha, como uma casa se apoia no seu alicerce.",
+          "context": "Este é o primeiro versículo da Bíblia. Ele fica acima de todo o relato da criação como um título e resume a obra inteira numa só linha. O versículo seguinte descreve a terra antes de receber forma. Depois os dias se sucedem um a um, e o relato termina com Deus descansando no sétimo dia.\n\nOs primeiros pregadores cristãos receberam este relato como obra de Moisés, o homem que viu Deus face a face. Os três primeiros capítulos do Gênesis têm um lugar especial. Foram colocados bem no começo da Escritura para ensinar as grandes verdades sobre a criação: de onde ela vem e para onde vai, a sua ordem e a sua bondade, a nossa vocação humana, e o primeiro pecado, seguido da esperança de salvação.\n\n“O céu e a terra” (ou “os céus e a terra”) quer dizer tudo. Ao nomear o mais alto e o mais baixo, o versículo abrange tudo o que existe entre um e outro.",
+          "meaning": "Cada expressão deste versículo tem peso. “No princípio” quer dizer o começo do tempo. Antes dele não havia ninguém além de Deus, que vive na eternidade. Os primeiros pregadores cristãos perceberam que estas palavras vêm primeiro por um motivo: elas fecham a porta à ideia de que o mundo sempre existiu.\n\nDeus é nomeado logo de início, gravado como um selo no coração de quem lê, para que o nosso próprio raciocínio não se afaste da verdade. O verbo também foi escolhido com cuidado. O autor não diz que Deus moldou ou trabalhou algo que já estava ali. Diz que Deus criou: o que antes não existia passou a existir. Na Bíblia, este verbo sempre tem Deus como sujeito.\n\nA sua Bíblia pode dizer este versículo de um jeito um pouco diferente. A Bíblia Livre diz “os céus e a terra”; a de Matos Soares, “o céu e a terra”. As Bíblias ortodoxas, que seguem a antiga tradução grega, dizem que Deus “fez” o céu e a terra. Todas apontam para a mesma coisa: tudo o que existe depende daquele que lhe dá o ser.",
+          "theology": "O mundo teve um começo, e o tempo também. O mundo não é eterno. O tempo começou junto com o céu e a terra, então não houve um “antes” em que Deus ficasse parado. E o que começou no tempo um dia terá fim. Estas primeiras palavras já apontam para a renovação do mundo.\n\nDeus criou livremente, por bondade. O mundo não é uma sombra que sai de Deus sem que ele o escolha, nem obra do destino ou do acaso. Ele o fez porque quis, por amor, para partilhar o seu próprio ser, a sua sabedoria e a sua bondade. Ele não ganha nada com isso, e no entanto tudo vem dele e existe para ele.\n\nDeus fez todas as coisas por meio da sua Palavra. O Novo Testamento revela que o Filho eterno estava agindo já neste primeiro ato. A criação é obra comum do Pai, do Filho e do Espírito, e muitos ouviram o Filho na própria palavra “princípio”.\n\nA criação é o primeiro passo em direção a Cristo. Este versículo é o alicerce de todos os planos de salvação de Deus. Desde o começo, Deus tinha em vista a nova criação em Cristo. Enquanto isso, o próprio mundo é uma escola, onde as coisas que vemos nos levam pela mão até o Deus que não vemos.",
+          "today": "Em algum momento de hoje, pare diante de algo comum: o céu, uma árvore, um copo de água. Lembre-se de que isso teve um começo e foi feito de propósito. Se quiser, diga um obrigado em silêncio àquele que deu início a tudo.",
+          "question": "O que mudaria no meu dia se eu confiasse que o mundo, e a minha própria vida nele, começaram na bondade de Deus?",
+          "words": [
+            {
+              "term": "criou",
+              "original": "bara · בָּרָא (hebraico)",
+              "meaning": "É o verbo de criar. O autor não usou a palavra comum para moldar ou formar algo, mas esta, que fala de trazer à existência o que antes não estava ali. Na Bíblia, ele sempre tem Deus como sujeito. Mais adiante no capítulo, volta a aparecer para os grandes animais do mar e para o ser humano."
+            },
+            {
+              "term": "Deus",
+              "original": "Elohim · אֱלֹהִים (hebraico)",
+              "meaning": "Uma forma plural usada para o único Deus verdadeiro. A sua forma curta, El, quer dizer o Deus forte, e só uma força todo-poderosa poderia tirar todas as coisas do nada."
+            }
+          ],
+          "teaching": [
+            {
+              "title": "O mundo teve um começo, e o tempo também",
+              "text": "Os cristãos confessam que o mundo não é eterno, mas foi criado por Deus. O próprio tempo começou junto com o céu e a terra. Por isso não faz sentido perguntar o que Deus fazia durante incontáveis eras antes, como se estivesse esperando: não havia um “então” quando não havia tempo. Os primeiros pregadores cristãos acrescentaram uma observação sóbria. O que começou no tempo também chegará ao fim, e estas palavras breves já anunciam o fim e a renovação do mundo."
+            },
+            {
+              "title": "Deus criou livremente, por bondade",
+              "text": "O mundo não é uma sombra que sai de Deus sem que ele o escolha, como um corpo projeta a sua sombra. Também não é produto da necessidade, de um destino cego ou do acaso. Deus o fez por sua livre vontade, porque quis que as suas criaturas participassem do seu ser, da sua sabedoria e da sua bondade. Ele não tem outro motivo para criar senão o seu amor. Não precisa do nosso serviço, mas, como tudo vem dele, tudo deve ser para ele."
+            },
+            {
+              "title": "Deus fez todas as coisas por meio da sua Palavra",
+              "text": "O Novo Testamento revela que Deus criou tudo por meio da Palavra eterna, o seu Filho amado, e a Igreja confessa o Espírito como aquele que dá a vida. A criação é obra comum do Pai, do Filho e do Espírito. A oração dos primeiros cristãos ouvia o Filho já na frase de abertura: no Princípio, isto é, na sua Palavra e Sabedoria, Deus fez o céu e a terra. O Filho, Sabedoria eterna do Pai, estava com ele quando fez o mundo."
+            },
+            {
+              "title": "A criação é o primeiro passo em direção a Cristo",
+              "text": "A criação é o alicerce de todos os planos de salvação de Deus, o começo de uma história que chega ao seu ponto mais alto em Cristo. Desde o princípio, Deus tinha em vista a glória da nova criação nele. É por isso que as leituras da Vigília Pascal começam com este relato, e é por isso que, na liturgia bizantina, ele é sempre a primeira leitura nas vigílias das grandes festas do Senhor. O mundo também é uma escola onde aprendemos a conhecer a Deus, pois a visão das coisas visíveis conduz a mente, como pela mão, às invisíveis."
+            }
+          ],
+          "differences": [
+            {
+              "title": "O começo do tempo, ou o Filho?",
+              "text": "Alguns mestres antigos e medievais leram o “princípio” de mais de uma maneira: como o começo do tempo e também como o Filho, a Sabedoria de Deus em quem todas as coisas foram feitas. Outros, entre os reformadores, acharam que aplicar esta palavra a Cristo vai além do que o versículo quer dizer, e a leram de modo simples: no início o mundo ainda não estava acabado, mas foi feito como matéria-prima para tudo o que veio depois. Uns e outros afirmam que o mundo teve início pelo poder da Palavra."
+            },
+            {
+              "title": "O nome no plural aponta para a Trindade?",
+              "text": "O nome hebraico de Deus aqui tem forma plural. Alguns veem nele um sinal do Pai, do Filho e do Espírito, mostrado de forma velada no Antigo Testamento e revelado com clareza no Novo. Outros alertaram contra provar uma verdade tão grande a partir de uma única palavra, e entenderam o plural como expressão dos poderes que Deus usou ao fazer o mundo. Uns e outros confessam a Trindade. Divergem apenas sobre o que esta única palavra consegue provar."
+            },
+            {
+              "title": "Tudo de uma vez, ou em seis dias?",
+              "text": "Alguns pregadores antigos entenderam as palavras “no princípio” como um único instante, indivisível, e ensinaram que, pela vontade de Deus, o mundo surgiu em menos de um instante. Outros sustentaram que Deus realmente levou seis dias, não porque precisasse deles, mas para adaptar as suas obras à compreensão humana, para que parássemos e contemplássemos a sua glória."
+            }
+          ]
+        },
+        "es": {
+          "simple": "La Biblia empieza con una frase sencilla: Dios creó los cielos y la tierra. Antes de oír cualquier otra cosa, sabemos quién hizo todo, y que todo tuvo un comienzo.\n\nEl mundo no se hizo a sí mismo, ni es obra del azar. Tiene un Creador, y le pertenece a él. Todo lo demás en la Escritura descansa sobre esta primera línea, como una casa descansa sobre sus cimientos.",
+          "context": "Es el primer versículo de la Biblia. Está sobre todo el relato de la creación como un título, y resume la obra entera en una sola línea. El versículo siguiente describe la tierra antes de recibir forma. Luego los días se suceden uno a uno, y el relato termina con Dios descansando el séptimo día.\n\nLos primeros predicadores cristianos recibieron este relato como obra de Moisés, el hombre que vio a Dios cara a cara. Los tres primeros capítulos del Génesis tienen un lugar especial. Se pusieron al comienzo mismo de la Escritura para enseñar las grandes verdades sobre la creación: de dónde viene y hacia dónde va, su orden y su bondad, nuestra vocación humana, y el primer pecado con la esperanza de salvación que viene después.\n\nLos cielos y la tierra quiere decir todo. Al nombrar lo más alto y lo más bajo, el versículo abarca todo lo que hay en medio.",
+          "meaning": "Cada expresión de este versículo tiene peso. En el principio significa el comienzo del tiempo. Antes no había nadie más que Dios, que vive en la eternidad. Los primeros predicadores cristianos notaron que estas palabras van primero por una razón: cierran la puerta a la idea de que el mundo ha existido siempre.\n\nDios es nombrado enseguida, grabado en el corazón del lector como un sello, para que nuestros propios razonamientos no se aparten de la verdad. También el verbo está elegido con cuidado. El autor no dice que Dios dio forma a algo que ya estaba ahí, ni que lo trabajó. Dice que Dios creó: lo que antes no existía, ahora existe. En la Biblia, este verbo siempre tiene a Dios como sujeto.\n\nTu Biblia puede decir este versículo con palabras un poco distintas. La Reina-Valera dice crió, una forma antigua de creó; otras dicen creó. Las Biblias ortodoxas, que siguen la antigua traducción griega, dicen que Dios hizo el cielo y la tierra. Unas dicen los cielos y otras el cielo. Todas señalan lo mismo: la totalidad de lo que existe, que depende de Aquel que le da el ser.",
+          "theology": "El mundo tuvo un comienzo, y también el tiempo. El mundo no es eterno. El tiempo empezó junto con el cielo y la tierra, así que no hubo un antes en el que Dios estuviera de brazos cruzados. Y lo que empezó en el tiempo un día terminará. Estas primeras palabras ya apuntan a la renovación del mundo.\n\nDios creó libremente, por bondad. El mundo no es una sombra que cae de Dios sin que él lo elija, ni obra del destino o del azar. Lo hizo porque quiso, por amor, para compartir su propio ser, su sabiduría y su bondad. No gana nada con ello; sin embargo, todo viene de él y está hecho para él.\n\nDios hizo todas las cosas por medio de su Palabra. El Nuevo Testamento revela que el Hijo eterno actuaba ya en este primer acto. La creación es obra común del Padre, del Hijo y del Espíritu, y muchos han oído al Hijo en la misma palabra principio.\n\nLa creación es el primer paso hacia Cristo. Este versículo es el cimiento de todos los planes de salvación de Dios. Desde el principio, Dios tenía a la vista la nueva creación en Cristo. Mientras tanto, el mundo mismo es una escuela, donde las cosas que vemos nos llevan de la mano hacia el Dios que no vemos.",
+          "today": "En algún momento de hoy, detente ante algo ordinario: el cielo, un árbol, un vaso de agua. Recuerda que tuvo un comienzo y que fue hecho a propósito. Si quieres, da gracias en silencio a Aquel que lo comenzó todo.",
+          "question": "¿Qué cambiaría en mi día si confiara en que el mundo, y mi propia vida en él, comenzaron en la bondad de Dios?",
+          "words": [
+            {
+              "term": "crió (creó)",
+              "original": "bara · בָּרָא (hebreo)",
+              "meaning": "El verbo de crear. El autor no usó la palabra común para dar forma o modelar algo, sino esta, que habla de traer a la existencia lo que antes no estaba. En la Biblia siempre tiene a Dios como sujeto. Más adelante en el capítulo vuelve a aparecer para los grandes animales del mar y para el ser humano."
+            },
+            {
+              "term": "Dios",
+              "original": "Elohim · אֱלֹהִים (hebreo)",
+              "meaning": "Una forma plural que se usa para el único Dios verdadero. Su forma breve, El, significa el Dios fuerte, y solo una fuerza todopoderosa podía sacar todas las cosas de la nada."
+            }
+          ],
+          "teaching": [
+            {
+              "title": "El mundo tuvo un comienzo, y también el tiempo",
+              "text": "Los cristianos confiesan que el mundo no es eterno, sino que fue creado por Dios. El tiempo mismo empezó junto con el cielo y la tierra. Por eso no tiene sentido preguntar qué hacía Dios durante incontables siglos antes, como si estuviera esperando: no había un entonces cuando no había tiempo. Los primeros predicadores cristianos añadían una nota sobria. Lo que empezó en el tiempo también llegará a su fin, y estas breves palabras ya anuncian el fin y la renovación del mundo."
+            },
+            {
+              "title": "Dios creó libremente, por bondad",
+              "text": "El mundo no es una sombra que cae de Dios sin que él lo elija, como un cuerpo proyecta su sombra. Tampoco es producto de la necesidad, de un destino ciego o del azar. Dios lo hizo por su libre voluntad, porque quiso que sus criaturas participaran de su ser, su sabiduría y su bondad. No tiene otra razón para crear que su amor. No necesita nuestro servicio; pero, como todo viene de él, todo debe ser para él."
+            },
+            {
+              "title": "Dios hizo todas las cosas por medio de su Palabra",
+              "text": "El Nuevo Testamento revela que Dios creó todo por medio de su Palabra eterna, su Hijo amado, y la Iglesia confiesa al Espíritu como dador de vida. La creación es obra común del Padre, del Hijo y del Espíritu. La oración de los primeros cristianos oía al Hijo incluso en la frase inicial: en el Principio, es decir, en su Palabra y su Sabiduría, Dios hizo el cielo y la tierra. El Hijo, Sabiduría eterna del Padre, estaba con él cuando hizo el mundo."
+            },
+            {
+              "title": "La creación es el primer paso hacia Cristo",
+              "text": "La creación es el cimiento de todos los planes de salvación de Dios, el comienzo de una historia que llega a su cumbre en Cristo. Desde el principio, Dios tenía a la vista la gloria de la nueva creación en él. Por eso las lecturas de la Vigilia Pascual empiezan con este relato, y por eso en la liturgia bizantina es siempre la primera lectura en las vigilias de las grandes fiestas del Señor. El mundo es también una escuela donde aprendemos a conocer a Dios, porque ver las cosas visibles lleva la mente, como de la mano, hacia lo invisible."
+            }
+          ],
+          "differences": [
+            {
+              "title": "¿El comienzo del tiempo, o el Hijo?",
+              "text": "Algunos maestros antiguos y medievales leyeron el principio de más de una manera: como el comienzo del tiempo, y también como el Hijo, la Sabiduría de Dios en quien todo fue hecho. Otros, entre los reformadores, pensaron que aplicar esta palabra a Cristo va más allá de lo que el versículo quiere decir, y la leyeron de forma sencilla: al principio el mundo aún no estaba terminado, sino que fue hecho como materia prima de todo lo que vino después. Unos y otros sostienen que el mundo comenzó por el poder de la Palabra."
+            },
+            {
+              "title": "¿Apunta el nombre plural a la Trinidad?",
+              "text": "Aquí el nombre hebreo de Dios tiene forma plural. Algunos ven en él un indicio del Padre, el Hijo y el Espíritu, mostrado en penumbra en el Antiguo Testamento y revelado con claridad en el Nuevo. Otros advirtieron que no se debe probar una verdad tan grande a partir de una sola palabra, y entendieron el plural como expresión de los poderes que Dios usó al hacer el mundo. Unos y otros confiesan la Trinidad. Solo difieren en lo que esta única palabra puede probar."
+            },
+            {
+              "title": "¿Todo a la vez, o en seis días?",
+              "text": "Algunos predicadores antiguos entendieron que en el principio significa un solo momento indivisible, y enseñaron que, por voluntad de Dios, el mundo surgió en menos de un instante. Otros sostuvieron que Dios realmente se tomó seis días, no porque los necesitara, sino para adaptar sus obras a la comprensión humana, para que nos detuviéramos a contemplar su gloria."
+            }
+          ]
+        },
+        "ru": {
+          "simple": "Библия начинается с одной простой фразы: Бог сотворил небо и землю. Прежде чем услышать что-то ещё, мы узнаём, Кто создал всё, и что у всего было начало.\n\nМир не создал сам себя и не возник случайно. У него есть Творец, и мир принадлежит Ему. Всё остальное в Писании стоит на этой первой строке, как дом стоит на фундаменте.",
+          "context": "Это первый стих Библии. Он стоит над всем рассказом о сотворении, как заглавие, и в одной строке говорит обо всём сразу. Следующий стих описывает землю, ещё не устроенную. Потом один за другим идут дни творения, а заканчивается рассказ тем, что в седьмой день Бог почил от Своих дел.\n\nДревние христианские проповедники принимали этот рассказ как труд Моисея — того, кто видел Бога лицом к лицу. Первые три главы Книги Бытия занимают особое место. Они поставлены в самом начале Писания, чтобы научить главным истинам о творении: откуда оно и куда идёт, каков его порядок и его благость, в чём призвание человека, каким был первый грех и какая надежда на спасение пришла вслед за ним.\n\n«Небо и земля» означает всё. Называя самое высокое и самое низкое, стих охватывает и всё, что между ними.",
+          "meaning": "В этом стихе весомо каждое слово. «В начале» — это начало времени. До него не было никого, кроме Бога, Который пребывает в вечности. Древние христианские проповедники заметили, что эти слова стоят первыми не случайно: они закрывают дверь перед мыслью, будто мир существовал всегда.\n\nБог назван сразу — словно печать, оттиснутая в сердце читающего, чтобы наши собственные рассуждения не уводили нас от истины. И глагол выбран тщательно. Писатель не говорит, что Бог придал форму тому, что уже было, или что-то из него сделал. Он говорит: сотворил — то, чего прежде не было, теперь есть. В Библии этот глагол всегда говорит о действии Самого Бога.\n\nВ вашей Библии сказано: «В начале сотворил Бог небо и землю». В древнем греческом переводе, на который опирается православное предание, стоит более простой глагол: Бог «сделал» небо и землю. В других переводах встречаются «небеса» во множественном числе. Но всё это говорит об одном: обо всём, что существует и зависит от Того, Кто даёт ему бытие.",
+          "theology": "У мира было начало, и у времени тоже. Мир не вечен. Время началось вместе с небом и землёй, поэтому не было никакого «до», когда Бог бездействовал. И то, что началось во времени, однажды придёт к концу. Уже эти первые слова указывают вперёд — на обновление мира.\n\nБог сотворил мир свободно, по Своей благости. Мир — не тень, которая падает от Бога помимо Его воли, и не плод судьбы или случая. Бог создал его, потому что захотел, — по любви, чтобы поделиться Своим бытием, мудростью и благостью. Ему это ничего не прибавляет, и всё же всё от Него и всё для Него.\n\nБог сотворил всё через Своё Слово. Новый Завет открывает, что в этом первом действии участвовал вечный Сын. Творение — общее дело Отца, Сына и Духа, и многие слышали Сына в самом слове «начало».\n\nТворение — первый шаг ко Христу. Этот стих — основание всех спасительных замыслов Бога. С самого начала Бог имел в виду новое творение во Христе. А пока сам мир — это школа, где видимое ведёт нас за руку к невидимому Богу.",
+          "today": "Сегодня, в какую-нибудь минуту, задержите взгляд на чём-то обычном: на небе, на дереве, на стакане воды. Вспомните, что у этого было начало и что оно создано не случайно, а с замыслом. Если захотите, тихо поблагодарите Того, Кто положил всему начало.",
+          "question": "Что изменилось бы в вашем дне, если довериться тому, что мир — и ваша собственная жизнь в нём — начался в благости Божьей?",
+          "words": [
+            {
+              "term": "сотворил",
+              "original": "bara · בָּרָא (евр.)",
+              "meaning": "Глагол творения. Писатель взял не обычное слово, которым говорят о том, чтобы вылепить или придать форму, а это — оно говорит о том, чтобы вызвать к бытию то, чего прежде не было. В Библии этот глагол всегда говорит о действии Бога. Дальше в этой главе он появляется снова, когда речь идёт о больших рыбах и о человеке."
+            },
+            {
+              "term": "Бог",
+              "original": "Elohim · אֱלֹהִים (евр.)",
+              "meaning": "Форма множественного числа, которой назван единый истинный Бог. Краткая форма этого имени, Эль, означает «сильный Бог», а вызвать всё из ничего могла только всемогущая сила."
+            }
+          ],
+          "teaching": [
+            {
+              "title": "У мира было начало, и у времени тоже",
+              "text": "Христиане исповедуют, что мир не вечен, а сотворён Богом. Само время началось вместе с небом и землёй. Поэтому бессмысленно спрашивать, что Бог делал бесчисленные века прежде, словно Он чего-то ждал: не было никакого «тогда», пока не было времени. Древние христианские проповедники добавляли трезвое напоминание. То, что началось во времени, во времени и закончится, и эти короткие слова уже возвещают конец и обновление мира."
+            },
+            {
+              "title": "Бог сотворил мир свободно, по Своей благости",
+              "text": "Мир — не тень, которая падает от Бога помимо Его воли, как тень от тела. И не плод необходимости, слепой судьбы или случая. Бог создал его по Своей свободной воле, потому что хотел, чтобы Его творения стали причастны Его бытию, мудрости и благости. У Него нет иной причины творить, кроме любви. Ему не нужно наше служение, но раз всё от Него, то и всё должно быть для Него."
+            },
+            {
+              "title": "Бог сотворил всё через Своё Слово",
+              "text": "Новый Завет открывает, что Бог сотворил всё через вечное Слово, Своего возлюбленного Сына, а Церковь исповедует Духа Животворящим. Творение — общее дело Отца, Сына и Духа. Древняя христианская молитва слышала Сына уже в первых словах: «в Начале», то есть в Своём Слове и Премудрости, Бог сотворил небо и землю. Сын, вечная Премудрость Отца, был с Ним, когда Он творил мир."
+            },
+            {
+              "title": "Творение — первый шаг ко Христу",
+              "text": "Творение — основание всех спасительных замыслов Бога, начало истории, которая достигает вершины во Христе. С самого начала Бог имел в виду славу нового творения в Нём. Поэтому чтения Пасхального бдения начинаются с этого рассказа, а в византийском богослужении он всегда звучит первым чтением на всенощных бдениях великих Господских праздников. Мир — ещё и школа, где мы учимся познавать Бога: созерцание видимого ведёт ум, словно за руку, к невидимому."
+            }
+          ],
+          "differences": [
+            {
+              "title": "Начало времени — или Сын?",
+              "text": "Некоторые древние и средневековые учители понимали слово «начало» не одним способом: и как начало времени, и как Сына, Премудрость Божию, в Котором всё сотворено. Другие, среди них реформаторы, считали, что относить это слово ко Христу — значит выходить за пределы смысла стиха, и читали его просто: в начале мир ещё не был завершён, а был создан как материал для всего, что последовало. И те и другие согласны, что мир начат силой Слова."
+            },
+            {
+              "title": "Указывает ли множественное число на Троицу?",
+              "text": "Еврейское имя Бога здесь по форме стоит во множественном числе. Одни видят в нём намёк на Отца, Сына и Духа — прикровенно показанных в Ветхом Завете и ясно открытых в Новом. Другие предостерегали от того, чтобы доказывать столь великую истину одним словом, и понимали множественное число как указание на силы, которыми Бог действовал, творя мир. Троицу исповедуют и те и другие. Расходятся они лишь в том, что может доказать одно это слово."
+            },
+            {
+              "title": "Всё сразу — или за шесть дней?",
+              "text": "Некоторые древние проповедники понимали слова «в начале» как единый, нераздельный миг и учили, что по воле Божьей мир возник быстрее, чем за мгновение. Другие считали, что Бог действительно творил шесть дней — не потому, что Ему это было нужно, а чтобы соразмерить Свои дела с человеческим разумением и чтобы мы остановились и вместили Его славу."
+            }
+          ]
+        }
+      }
+    },
+    "web-genesis-1-2": {
+      "verses": [
+        "synodal:GEN.1.2",
+        "blivre:GEN.1.2",
+        "rv1909:GEN.1.2",
+        "matos:GEN.1.2"
+      ],
+      "echoes": [
+        {
+          "ref": "PSA.33.6",
+          "dra": "PSA.32.6",
+          "brenton": "PSA.32.6",
+          "synodal": "PSA.32.6"
+        },
+        {
+          "ref": "PSA.104.30",
+          "dra": "PSA.103.30",
+          "brenton": "PSA.103.30",
+          "synodal": "PSA.103.30"
+        },
+        {
+          "ref": "JER.4.23"
+        },
+        {
+          "ref": "JHN.1.5"
+        },
+        {
+          "ref": "MRK.1.10"
+        },
+        {
+          "ref": "2CO.4.6"
+        }
+      ],
+      "sources": [
+        {
+          "label": "Basil the Great, Hexaemeron, Homily 2 (about 370). Translated by Blomfield Jackson, Nicene and Post-Nicene Fathers II.8 (1895).",
+          "url": "https://www.newadvent.org/fathers/32012.htm"
+        },
+        {
+          "label": "Tertullian, On Baptism, chapters 3–4 (about 200). Translated by S. Thelwall, Ante-Nicene Fathers 3 (1885).",
+          "url": "https://www.newadvent.org/fathers/0321.htm"
+        },
+        {
+          "label": "Augustine, Confessions 12.7 and 13.5 (about 400). Translated by J. G. Pilkington, Nicene and Post-Nicene Fathers I.1 (1887).",
+          "url": "https://www.newadvent.org/fathers/110113.htm"
+        },
+        {
+          "label": "Thomas Aquinas, Summa Theologiae I, question 66 article 1 and question 74 article 3 (1265–74). Translated by the Fathers of the English Dominican Province (1920).",
+          "url": "https://www.newadvent.org/summa/1074.htm"
+        },
+        {
+          "label": "John Calvin, Commentary on Genesis, on 1:1–2 (1554). Translated by John King (1847).",
+          "url": "https://www.ccel.org/ccel/calvin/calcom01.vii.i.html"
+        },
+        {
+          "label": "Matthew Henry, Commentary on the Whole Bible, on Genesis 1:1–2 (1706).",
+          "url": "https://www.ccel.org/ccel/henry/mhc1.Gen.ii.html"
+        },
+        {
+          "label": "Catechism of the Catholic Church, paragraphs 290–292, 296 and 703.",
+          "url": "https://www.vatican.va/archive/ENG0015/__P19.HTM"
+        },
+        {
+          "label": "Catechism of the Catholic Church, paragraph 1218, quoting the Roman Missal’s Easter Vigil blessing of water.",
+          "url": "https://www.vatican.va/archive/ENG0015/__P3I.HTM"
+        },
+        {
+          "label": "Enuma Elish, tablet 4, in L. W. King, The Seven Tablets of Creation (1902).",
+          "url": "https://archive.org/details/the-seven-tablets-of-creation.-vol.-1"
+        },
+        {
+          "label": "Scripture quotations: World English Bible (public domain)."
+        }
+      ],
+      "languages": {
+        "pt": {
+          "simple": "Antes de Deus dizer uma única palavra, a Bíblia mostra o que havia para ser trabalhado: uma terra sem forma e sem nada vivo nela, águas profundas e trevas por toda parte.\n\nIsso não é um retrato do mal. É o retrato de um mundo que ainda não está pronto, à espera de se tornar um lar. E ele não está abandonado. O Espírito de Deus já está ali, movendo-se sobre as águas, bem perto delas, como uma ave que paira sobre o ninho.\n\nA próxima coisa que Deus faz é chamar a luz à existência. Este versículo é, portanto, o momento logo antes. Nada está terminado, e Deus já está presente.",
+          "context": "O primeiro versículo da Bíblia diz tudo numa linha: Deus criou o céu e a terra. Este versículo vai mais devagar e descreve a terra antes de Deus lhe dar forma. Depois começam os seis dias, quando Deus chama a luz à existência.\n\nO versículo nomeia duas coisas que faltam: a terra não tem forma e está vazia. Os seis dias respondem a elas nessa ordem. Nos três primeiros dias Deus dá forma: separa a luz das trevas, o céu do mar, a terra seca das águas. Nos três últimos, enche o que formou, com o sol, a lua e as estrelas, as aves e os peixes, os animais e as pessoas. O grande relato medieval dos seis dias se apoia justamente neste esquema: uma obra de separar, seguida de uma obra de adornar.\n\nOs povos vizinhos de Israel também contavam histórias da criação que começavam com águas escuras. Numa história babilônica, o mundo é feito depois de uma guerra entre os deuses, a partir do corpo de uma deusa do mar. O Gênesis usa uma palavra aparentada para o abismo, mas conta uma história muito diferente. O abismo não é um deus. Não há batalha, e nada resiste. Há um só Deus, e basta que ele fale.",
+          "meaning": "O versículo é honesto sobre como a criação começa: não com um mundo pronto, mas com uma matéria-prima sem forma, escura e desabitada. Mesmo assim, a Escritura nunca chama esse estado de mau. Um antigo sermão cristão sobre este versículo rejeitou a ideia de que as trevas fossem um poder mau em guerra com Deus. As trevas são simplesmente o ar sem luz: a ausência da luz, não uma rival de Deus.\n\nE essa matéria-prima não está sozinha. O Espírito de Deus está sobre ela, sustentando em silêncio o mundo ainda inacabado. A imagem é a de uma ave-mãe que paira sobre os filhotes para aquecê-los e cuidar deles, ou que cobre os ovos e lhes dá vida com o próprio calor. Essa leitura é muito antiga, transmitida por cristãos cuja língua era próxima do hebraico.\n\nA sua Bíblia pode trazer este versículo com outras palavras. A Bíblia Livre diz que a terra estava “desordenada e vazia”; a de Matos Soares, traduzida da antiga versão latina, diz “informe e vazia”. A antiga tradução grega, que as Bíblias ortodoxas seguem, descreve a terra como invisível e sem adorno. Por isso alguns escritos cristãos antigos falam de uma terra invisível.",
+          "theology": "Deus fez tudo, inclusive a matéria-prima. Cristãos de todas as tradições confessam que Deus criou a partir do nada. Este versículo não descreve algo que existisse ao lado de Deus desde sempre. Descreve o primeiro estado daquilo que ele acabara de fazer. Se a matéria tivesse existido sempre, poderia reivindicar a mesma honra que Deus. Mas Deus não precisa de nada que já exista, nem de ajuda alguma, para criar.\n\nO Pai, o Filho e o Espírito criam juntos. Lido com o restante da Escritura, o começo do Gênesis mostra o Pai criando por meio da sua Palavra, com o seu Espírito sobre as águas. Há muito tempo os cristãos veem aqui a Trindade: Deus, o Criador; o Filho, o Princípio em quem todas as coisas foram feitas; e o Espírito Santo, que se movia sobre as águas. A Palavra de Deus e o seu Sopro estão na origem do ser e da vida de toda criatura.\n\nO Espírito dá a vida e mantém a criação no ser. O pairar sobre as águas mostra o Espírito preparando-as para produzir seres vivos. E, se até o primeiro caos precisava do Espírito de Deus para não se desfazer, o mundo já ordenado precisa dele da mesma forma. A criação não é uma máquina que Deus ligou e deixou funcionando sozinha.\n\nA primeira criação aponta para a nova criação. Desde cedo, os cristãos viram o batismo neste versículo. O poder que tirou um mundo da confusão, do vazio e das trevas é o mesmo que torna nova uma pessoa e que um dia ressuscitará os mortos.",
+          "today": "Onde há algo na sua vida que ainda está sem forma ou vazio: uma decisão, um luto, um recomeço? Este versículo não promete que já está resolvido. Diz que Deus está presente sobre isso antes de estar resolvido. Leve hoje essa única coisa a ele, chamando-a pelo nome.",
+          "question": "Em que situações eu imagino que Deus só chega depois que tudo está em ordem?",
+          "words": [
+            {
+              "term": "desordenada e vazia (informe e vazia)",
+              "original": "tohu wabohu · תֹהוּ וָבֹהוּ (hebraico)",
+              "meaning": "Um par de palavras que rimam: desolação e vazio, um lugar sem forma e sem nada dentro. O par volta em Jeremias 4:23, quando o profeta vê a terra desfeita pelo juízo. Isaías 45:18 diz que Deus não criou a terra para ser um deserto, mas a formou para ser habitada: o vazio nunca foi o objetivo."
+            },
+            {
+              "term": "abismo",
+              "original": "tehom · תְּהוֹם (hebraico)",
+              "meaning": "O mar vasto e profundo. No mundo antigo, o mar representava tudo o que as pessoas não conseguiam controlar."
+            },
+            {
+              "term": "Espírito",
+              "original": "ruach · רוּחַ (hebraico)",
+              "meaning": "Uma só palavra hebraica significa sopro, vento e espírito. A maioria das Bíblias cristãs traduz como Espírito de Deus, como faz a sua. Algumas traduções modernas e judaicas trazem um vento de Deus."
+            },
+            {
+              "term": "se movia (pairava)",
+              "original": "merachefet · מְרַחֶפֶת (hebraico)",
+              "meaning": "Um verbo raro. Nesta forma, o único outro uso está em Deuteronômio 32:11, onde uma águia esvoaça sobre os filhotes. É o movimento de uma ave que cuida da ninhada: perto, protetor e cheio de vida."
+            }
+          ],
+          "teaching": [
+            {
+              "title": "Deus fez tudo, inclusive a matéria-prima",
+              "text": "Cristãos de todas as tradições confessam que Deus criou a partir do nada. Este versículo não descreve algo que existisse ao lado de Deus desde a eternidade. Descreve o primeiro estado daquilo que ele acabara de fazer. Se a matéria não tivesse começo, poderia reivindicar a mesma honra que Deus. Mas Deus não precisa de nada que já exista, nem de ajuda alguma, para criar. Até a terra e as águas foram feitas do nada."
+            },
+            {
+              "title": "O Pai, o Filho e o Espírito criam juntos",
+              "text": "Lido com o restante da Escritura, o começo do Gênesis mostra o Pai criando por meio da sua Palavra, com o seu Espírito sobre as águas. Há muito tempo os cristãos veem aqui a Trindade: Deus, o Criador; o Filho, o Princípio em quem ele fez todas as coisas; e o Espírito Santo, que se movia sobre as águas. Alguns tomam cuidado para não provar isso pela gramática do primeiro versículo, mas concordam que é certo ler neste o Espírito eterno de Deus. A Palavra de Deus e o seu Sopro estão na origem do ser e da vida de toda criatura."
+            },
+            {
+              "title": "O Espírito dá a vida e mantém a criação no ser",
+              "text": "O pairar sobre as águas mostra o Espírito preparando-as para produzir seres vivos, e assim tomando parte ativa na formação do mundo. Há também uma lição para hoje: se até o primeiro caos precisava do Espírito de Deus para não se desfazer, o mundo já ordenado precisa dele da mesma forma. A criação não é uma máquina que Deus ligou e deixou funcionando sozinha. O Credo comum às Igrejas católica, ortodoxa e protestantes chama o Espírito de Senhor que dá a vida."
+            },
+            {
+              "title": "A primeira criação aponta para a nova criação",
+              "text": "Desde os primeiros séculos, os cristãos viram o batismo neste versículo. O Espírito que pairava sobre as águas no princípio continua repousando sobre as águas do batismo, onde as pessoas nascem da água e do Espírito. O versículo também fala ao coração e ao último dia: o poder que tirou um mundo da confusão, do vazio e das trevas é o mesmo que torna nova uma pessoa e que ressuscitará os mortos."
+            }
+          ],
+          "differences": [
+            {
+              "title": "Espírito ou vento?",
+              "text": "A palavra hebraica pode significar as duas coisas. A Igreja antiga, os mestres medievais e os reformadores a leram como o Espírito de Deus, leitura que consideravam confirmada pelas autoridades mais antigas, e alguns achavam que a ideia de um simples vento nem merecia resposta. Alguns intérpretes judeus a leram como ar ou vento, e algumas traduções modernas os seguem. As duas leituras foram conhecidas e ponderadas, e o ensino cristão manteve o Espírito."
+            },
+            {
+              "title": "A terra ficou sem forma por algum tempo?",
+              "text": "Alguns mestres antigos sustentaram que o estado sem forma veio primeiro no tempo e depois foi moldado ao longo dos seis dias. Outros sustentaram que ele veio primeiro só na ordem da natureza, não no tempo. Como Deus pode fazer uma coisa acabada num instante, as duas opiniões acabam diferindo pouco. Ambas foram mantidas livremente na Igreja."
+            },
+            {
+              "title": "Onde cada tradição põe o peso",
+              "text": "O ensino ortodoxo se apoia nos antigos sermões sobre os seis dias, que continuam sendo a sua leitura clássica deste capítulo. O ensino católico ouve o versículo no batismo: na Vigília Pascal, a bênção da água recorda que, na aurora da criação, o Espírito soprou sobre as águas e as tornou fonte de santidade. O ensino protestante destaca o poder do Espírito para sustentar o mundo e dar o novo nascimento. São diferenças de ênfase, não de doutrina."
+            }
+          ]
+        },
+        "es": {
+          "simple": "Antes de que Dios diga una sola palabra, la Biblia nos muestra con qué contaba: una tierra sin forma y sin nada vivo en ella, aguas profundas y oscuridad por todas partes.\n\nNo es una imagen del mal. Es la imagen de un mundo que todavía no está terminado y que espera convertirse en un hogar. Y no está abandonado. El Espíritu de Dios ya está allí, moviéndose muy cerca sobre las aguas, como un ave que aletea sobre su nido.\n\nLo siguiente que Dios hace es llamar a la luz a existir. Así que este versículo es el momento justo antes. Nada está terminado, y Dios ya está presente.",
+          "context": "El primer versículo de la Biblia lo dice todo en una línea: Dios creó los cielos y la tierra. Este versículo va más despacio y describe la tierra antes de que Dios le diera forma. Luego empiezan los seis días, cuando Dios llama a la luz a existir.\n\nEl versículo nombra dos carencias: la tierra no tiene forma y está vacía. Los seis días responden a ellas en ese orden. En los tres primeros días Dios da forma: separa la luz de las tinieblas, el cielo del mar, la tierra seca de las aguas. En los tres últimos llena lo que ha formado, con el sol, la luna y las estrellas, las aves y los peces, los animales y las personas. La gran explicación medieval de los seis días se construye sobre este mismo esquema: una obra de separar las cosas, seguida de una obra de adornarlas.\n\nLos pueblos vecinos de Israel también contaban relatos de la creación que empezaban con aguas oscuras. En un relato babilónico, el mundo se hace después de una guerra entre dioses, con el cuerpo de una diosa del mar. El Génesis usa una palabra emparentada para el abismo, pero cuenta una historia muy distinta. El abismo no es un dios. No hay batalla, y nada se resiste. Hay un solo Dios, y le basta con hablar.",
+          "meaning": "El versículo es honesto sobre cómo empieza la creación: no con un mundo terminado, sino con una materia prima sin forma, oscura y deshabitada. Sin embargo, la Escritura nunca llama malo a este estado. Un sermón cristiano antiguo sobre este versículo rechazó la idea de que las tinieblas fueran un poder malo en guerra con Dios. Las tinieblas son simplemente aire sin luz: la ausencia de luz, no un rival de Dios.\n\nY esa materia prima no está sola. El Espíritu de Dios está sobre ella y sostiene en silencio el mundo inacabado. La imagen es la de un ave madre que aletea sobre sus polluelos para darles calor y cuidarlos, o que cubre sus huevos y les da vida con su propio calor. Esta lectura es muy antigua; la transmitieron cristianos cuya lengua era cercana al hebreo.\n\nTu Biblia puede expresar este versículo de otra manera. La Reina-Valera dice que la tierra estaba desordenada y vacía, y que el Espíritu de Dios se movía sobre las aguas; otras Biblias dicen informe y vacía. La antigua traducción griega, que siguen las Biblias ortodoxas, describe la tierra como invisible y sin adornar. La antigua traducción latina, en la que se basan las Biblias católicas antiguas, la llama vana y vacía. Por eso algunos escritos cristianos antiguos hablan de una tierra invisible.",
+          "theology": "Dios hizo todo, incluso la materia prima. Los cristianos de todas las tradiciones confiesan que Dios creó de la nada. Este versículo no describe algo que existiera junto a Dios desde la eternidad. Describe el primer estado de lo que él acababa de hacer. Si la materia hubiera existido siempre, podría reclamar el mismo honor que Dios. Pero Dios no necesita nada que ya esté ahí, ni ayuda alguna, para crear.\n\nEl Padre, el Hijo y el Espíritu crean juntos. Leído con el resto de la Escritura, el comienzo del Génesis muestra al Padre que crea por medio de su Palabra, con su Espíritu sobre las aguas. Desde hace mucho, los cristianos ven aquí a la Trinidad: Dios el Creador, el Hijo como el Principio en quien todo fue hecho, y el Espíritu Santo que se movía sobre las aguas. La Palabra de Dios y su Aliento están en el origen del ser y de la vida de toda criatura.\n\nEl Espíritu da vida y sostiene la creación. Su aleteo muestra al Espíritu preparando las aguas para que produjeran seres vivos. Y si hasta el primer caos necesitó al Espíritu de Dios para no deshacerse, el mundo ordenado no lo necesita menos. La creación no es una máquina que Dios puso en marcha y dejó funcionando sola.\n\nLa primera creación apunta a la nueva creación. Desde muy temprano, los cristianos vieron el bautismo en este versículo. El poder que sacó un mundo de la confusión, el vacío y la oscuridad es el poder que hace nueva a una persona, y que un día resucitará a los muertos.",
+          "today": "¿Hay algo en tu vida que todavía está sin forma o vacío: una decisión, un duelo, un nuevo comienzo? Este versículo no promete que ya esté terminado. Dice que Dios está presente sobre ello antes de que lo esté. Llévale hoy eso a Dios, llamándolo por su nombre.",
+          "question": "¿Dónde doy por hecho que Dios solo llega cuando las cosas ya están en orden?",
+          "words": [
+            {
+              "term": "desordenada y vacía",
+              "original": "tohu wabohu · תֹהוּ וָבֹהוּ (hebreo)",
+              "meaning": "Una pareja de palabras que riman: desolación y vacío, un lugar sin forma y sin nada dentro. La pareja vuelve en Jeremías 4:23, donde el profeta ve la tierra deshecha por el juicio. Isaías 45:18 dice que Dios no creó la tierra para que quedara desierta, sino que la formó para que fuera habitada: el vacío nunca fue la meta."
+            },
+            {
+              "term": "abismo",
+              "original": "tehom · תְּהוֹם (hebreo)",
+              "meaning": "El mar vasto y profundo. En el mundo antiguo, el mar representaba todo lo que la gente no podía controlar."
+            },
+            {
+              "term": "Espíritu",
+              "original": "ruach · רוּחַ (hebreo)",
+              "meaning": "Una sola palabra hebrea significa aliento, viento y espíritu. La mayoría de las Biblias cristianas la traducen como el Espíritu de Dios. Algunas traducciones modernas y judías dicen un viento de Dios."
+            },
+            {
+              "term": "se movía (aleteaba)",
+              "original": "merachefet · מְרַחֶפֶת (hebreo)",
+              "meaning": "Un verbo poco común. Su único otro uso en esta forma está en Deuteronomio 32:11, donde un águila revolotea sobre sus polluelos. Es el movimiento de un ave con sus crías: cercano, protector y lleno de vida."
+            }
+          ],
+          "teaching": [
+            {
+              "title": "Dios hizo todo, incluso la materia prima",
+              "text": "Los cristianos de todas las tradiciones confiesan que Dios creó de la nada. Este versículo no describe algo que existiera junto a Dios desde la eternidad. Describe el primer estado de lo que él acababa de hacer. Si la materia no hubiera tenido comienzo, podría reclamar el mismo honor que Dios. Pero Dios no necesita nada que ya esté ahí, ni ayuda alguna, para crear. Incluso la tierra y las aguas fueron hechas de la nada."
+            },
+            {
+              "title": "El Padre, el Hijo y el Espíritu crean juntos",
+              "text": "Leído con el resto de la Escritura, el comienzo del Génesis muestra al Padre que crea por medio de su Palabra, con su Espíritu sobre las aguas. Desde hace mucho, los cristianos ven aquí a la Trinidad: Dios el Creador, el Hijo como el Principio en quien hizo todas las cosas, y el Espíritu Santo que se movía sobre las aguas. Algunos tienen cuidado de no probar esto con la gramática del primer versículo, pero coinciden en que es correcto leer en este al Espíritu eterno de Dios. La Palabra de Dios y su Aliento están en el origen del ser y de la vida de toda criatura."
+            },
+            {
+              "title": "El Espíritu da vida y sostiene la creación",
+              "text": "Su aleteo muestra al Espíritu preparando las aguas para que produjeran seres vivos, y tomando así parte activa en la formación del mundo. Hay también una lección para hoy: si hasta el primer caos necesitó al Espíritu de Dios para no deshacerse, el mundo ordenado no lo necesita menos. La creación no es una máquina que Dios puso en marcha y dejó funcionando sola. El credo que comparten las iglesias católica, ortodoxa y protestantes llama al Espíritu Señor y dador de vida."
+            },
+            {
+              "title": "La primera creación apunta a la nueva creación",
+              "text": "Desde los primeros siglos, los cristianos vieron el bautismo en este versículo. El Espíritu que se movía sobre las aguas al principio sigue reposando sobre las aguas del bautismo, donde las personas nacen del agua y del Espíritu. El versículo habla también al corazón y al último día: el poder que sacó un mundo de la confusión, el vacío y la oscuridad es el poder que hace nueva a una persona y que resucitará a los muertos."
+            }
+          ],
+          "differences": [
+            {
+              "title": "¿Espíritu o viento?",
+              "text": "La palabra hebrea puede significar las dos cosas. La Iglesia antigua, los maestros medievales y los reformadores la leyeron como el Espíritu de Dios, una lectura que veían confirmada por las autoridades más antiguas, y algunos pensaron que la idea de un simple viento ni siquiera merecía respuesta. Algunos intérpretes judíos la leyeron como aire o viento, y algunas traducciones modernas los siguen. Las dos lecturas se conocieron y se sopesaron, y la enseñanza cristiana se ha mantenido en el Espíritu."
+            },
+            {
+              "title": "¿Estuvo la tierra sin forma durante un tiempo?",
+              "text": "Algunos maestros antiguos sostuvieron que el estado sin forma vino primero en el tiempo, y que después recibió forma a lo largo de los seis días. Otros sostuvieron que vino primero solo en el orden de la naturaleza, no en el tiempo. Como Dios puede hacer algo terminado en un instante, las dos posturas resultan diferir poco. Ambas se han sostenido libremente en la Iglesia."
+            },
+            {
+              "title": "Dónde pone el acento cada tradición",
+              "text": "La enseñanza ortodoxa se apoya en los antiguos sermones sobre los seis días, que siguen siendo su lectura clásica de este capítulo. La enseñanza católica escucha este versículo en el bautismo: en la Vigilia Pascual, la bendición del agua recuerda que, en los albores de la creación, el Espíritu se cernía sobre las aguas y las hacía fuente de santidad. La enseñanza protestante subraya el poder del Espíritu para sostener el mundo y dar el nuevo nacimiento. Son diferencias de acento, no de doctrina."
+            }
+          ]
+        },
+        "ru": {
+          "simple": "Прежде чем Бог скажет хоть слово, Библия показывает, с чего всё начинается: земля без облика, на ней нет ничего живого, глубокие воды и повсюду тьма.\n\nЭто не картина зла. Это картина мира, который ещё не завершён и ждёт, чтобы стать домом. И он не оставлен один. Дух Божий уже здесь: Он носится над водой, как птица над своим гнездом.\n\nСразу после этого Бог вызывает к бытию свет. Так что этот стих — мгновение перед началом. Ещё ничего не завершено, а Бог уже рядом.",
+          "context": "Первый стих Библии говорит обо всём в одной строке: Бог сотворил небо и землю. Этот стих замедляет рассказ и описывает землю до того, как Бог её устроил. Потом начинаются шесть дней: Бог вызывает к бытию свет.\n\nСтих называет две вещи, которых пока недостаёт: земля безвидна, и она пуста. Шесть дней отвечают на это в том же порядке. В первые три дня Бог даёт форму: отделяет свет от тьмы, небо от моря, сушу от воды. В последние три Он наполняет то, что устроил: солнцем, луной и звёздами, птицами и рыбами, животными и людьми. Великое средневековое толкование шести дней построено именно на этом: сначала дело разделения, потом дело украшения.\n\nУ соседей Израиля тоже были рассказы о сотворении, которые начинались с тёмных вод. В одном вавилонском сказании мир создаётся после войны между богами — из тела морской богини. Книга Бытия употребляет для бездны родственное слово, но рассказывает совсем другую историю. Бездна — не божество. Нет никакой битвы, ничто не сопротивляется. Есть один Бог, и Ему достаточно сказать.",
+          "meaning": "Стих честно говорит о том, с чего начинается творение: не с готового мира, а с материала — бесформенного, тёмного и необитаемого. Но Писание нигде не называет это состояние злом. Одна древняя христианская проповедь на этот стих отвергает мысль, будто тьма была злой силой, воюющей с Богом. Тьма — это просто воздух без света: отсутствие света, а не соперник Бога.\n\nИ этот материал не предоставлен самому себе. Над ним Дух Божий, Который тихо удерживает незавершённый мир. Перед глазами образ птицы-матери, которая носится над птенцами, согревая и лелея их, или сидит на яйцах и даёт им жизнь своим теплом. Это очень древнее толкование: его передали христиане, чей родной язык был близок к еврейскому.\n\nВ вашей Библии сказано: «Земля же была безвидна и пуста». В древнем греческом переводе, которому следует и церковнославянская Библия, земля названа «невидимой и неустроенной», а в старом латинском переводе, на котором долго основывались католические Библии, — «пустой и порожней». Поэтому некоторые древние христианские писатели говорят о «невидимой» земле.",
+          "theology": "Бог сотворил всё, в том числе и сам материал. Христиане всех традиций исповедуют, что Бог сотворил мир из ничего. Этот стих не описывает что-то, существовавшее рядом с Богом от вечности. Он описывает первое состояние того, что Бог только что сотворил. Если бы материя существовала всегда, она могла бы притязать на ту же честь, что и Бог. Но Богу, чтобы творить, не нужно ничего готового и не нужна ничья помощь.\n\nОтец, Сын и Дух творят вместе. Если читать начало Книги Бытия вместе со всем Писанием, видно, что Отец творит через Своё Слово, а Его Дух — над водами. Христиане издавна видят здесь Троицу: Бога Творца, Сына как Начало, в Котором всё сотворено, и Святого Духа, носящегося над водами. Слово Божье и Его Дыхание стоят у истоков бытия и жизни всякого творения.\n\nДух даёт жизнь и держит творение в бытии. То, что Дух носится над водами, показывает: Он приготовляет воды к тому, чтобы они произвели живое. И если даже первоначальному хаосу нужен был Дух Божий, чтобы не распасться, то устроенному миру Он нужен не меньше. Творение — не механизм, который Бог завёл и оставил работать.\n\nПервое творение указывает на новое. С давних времён христиане видели в этом стихе крещение. Та же сила, что вывела мир из смятения, пустоты и тьмы, делает человека новым и однажды воскресит мёртвых.",
+          "today": "Есть ли в вашей жизни что-то пока бесформенное или пустое: решение, горе, новое начало? Этот стих не обещает, что всё уже завершено. Он говорит, что Бог рядом ещё до того, как всё устроится. Назовите Ему сегодня это одно — прямо, по имени.",
+          "question": "Где вы привыкли думать, что Бог приходит только тогда, когда всё уже приведено в порядок?",
+          "words": [
+            {
+              "term": "безвидна и пуста",
+              "original": "tohu wabohu · תֹהוּ וָבֹהוּ (евр.)",
+              "meaning": "Созвучная пара слов: запустение и пустота — место без облика, где ничего нет. Эта пара снова звучит у пророка Иеремии (4:23), который видит землю, опустошённую судом (в вашей Библии — «разорена и пуста»). А у пророка Исаии (45:18) сказано, что Бог «не напрасно сотворил» землю, но «образовал её для жительства»: пустота никогда не была целью."
+            },
+            {
+              "term": "бездна",
+              "original": "tehom · תְּהוֹם (евр.)",
+              "meaning": "Огромное глубокое море. В древнем мире море было образом всего, что неподвластно человеку."
+            },
+            {
+              "term": "Дух",
+              "original": "ruach · רוּחַ (евр.)",
+              "meaning": "Одно еврейское слово означает и дыхание, и ветер, и дух. Большинство христианских Библий переводит его как Дух Божий. В некоторых современных и иудейских переводах стоит «ветер от Бога»."
+            },
+            {
+              "term": "носился",
+              "original": "merachefet · מְרַחֶפֶת (евр.)",
+              "meaning": "Редкий глагол. В этой форме он встречается ещё только во Второзаконии (32:11), где говорится об орле над птенцами; в вашей Библии там то же слово: орёл «носится над птенцами своими». Это движение птицы над своим потомством: близкое, оберегающее, живое."
+            }
+          ],
+          "teaching": [
+            {
+              "title": "Бог сотворил всё, в том числе и сам материал",
+              "text": "Христиане всех традиций исповедуют, что Бог сотворил мир из ничего. Этот стих не описывает того, что существовало рядом с Богом от вечности. Он описывает первое состояние того, что Бог только что сотворил. Если бы у материи не было начала, она могла бы притязать на ту же честь, что и Бог. Но Богу, чтобы творить, не нужно ничего готового и не нужна ничья помощь. И земля, и воды тоже сотворены из ничего."
+            },
+            {
+              "title": "Отец, Сын и Дух творят вместе",
+              "text": "Если читать начало Книги Бытия вместе со всем Писанием, видно, что Отец творит через Своё Слово, а Его Дух — над водами. Христиане издавна видят здесь Троицу: Бога Творца, Сына как Начало, в Котором Он всё сотворил, и Святого Духа, носящегося над водами. Некоторые осторожны и не выводят этого из грамматики первого стиха, но согласны, что в этом стихе правильно видеть вечного Духа Божьего. Слово Божье и Его Дыхание стоят у истоков бытия и жизни всякого творения."
+            },
+            {
+              "title": "Дух даёт жизнь и держит творение в бытии",
+              "text": "То, что Дух носится над водами, показывает: Он приготовляет воды к тому, чтобы они произвели живое, и так деятельно участвует в сотворении мира. Здесь есть урок и для нашего времени: если даже первоначальному хаосу нужен был Дух Божий, чтобы не распасться, то устроенному миру Он нужен не меньше. Творение — не механизм, который Бог завёл и оставил работать. Символ веры, общий для католических, православных и протестантских церквей, называет Духа Господом Животворящим."
+            },
+            {
+              "title": "Первое творение указывает на новое",
+              "text": "С первых веков христиане видели в этом стихе крещение. Дух, Который в начале носился над водами, и теперь почивает над водами крещения, где люди рождаются от воды и Духа. Стих говорит и о сердце человека, и о последнем дне: сила, которая вывела мир из смятения, пустоты и тьмы, — та же сила, что делает человека новым и воскресит мёртвых."
+            }
+          ],
+          "differences": [
+            {
+              "title": "Дух или ветер?",
+              "text": "Еврейское слово может означать и то и другое. Древняя Церковь, средневековые учители и реформаторы — все понимали его как Дух Божий и считали, что это подтверждают самые древние авторитеты, а некоторые находили мысль о простом ветре не заслуживающей ответа. Некоторые иудейские толкователи понимали это слово как воздух или ветер, и им следуют некоторые современные переводы. Оба прочтения были известны и взвешены, и христианское учение держится прочтения «Дух»."
+            },
+            {
+              "title": "Была ли земля какое-то время безвидной?",
+              "text": "Одни древние учители считали, что неустроенное состояние было первым по времени, а затем за шесть дней земля получила свой облик. Другие — что оно было первым лишь по порядку природы, а не по времени. Поскольку Бог может создать завершённое в одно мгновение, эти два взгляда, как оказывается, различаются немного. Оба свободно существовали в Церкви."
+            },
+            {
+              "title": "На чём делают акцент традиции",
+              "text": "Православное учение опирается на древние беседы на Шестоднев, которые остаются для него классическим толкованием этой главы. Католическое учение слышит этот стих при крещении: на Пасхальной вигилии в благословении воды вспоминается, что на заре творения Дух веял над водами и сделал их источником освящения. Протестантское учение подчёркивает силу Духа, которая поддерживает мир и даёт новое рождение. Это различия в акцентах, а не в вероучении."
+            }
+          ]
+        }
+      }
+    },
+    "web-genesis-1-3": {
+      "verses": [
+        "synodal:GEN.1.3",
+        "blivre:GEN.1.3",
+        "rv1909:GEN.1.3",
+        "matos:GEN.1.3"
+      ],
+      "echoes": [
+        {
+          "ref": "2CO.4.6"
+        },
+        {
+          "ref": "JHN.1.9"
+        },
+        {
+          "ref": "EPH.5.8"
+        },
+        {
+          "ref": "1JN.1.5"
+        }
+      ],
+      "sources": [
+        {
+          "label": "Basil the Great, Hexaemeron, Homily 2, sections 7–8 (about 370). Translated by Blomfield Jackson, Nicene and Post-Nicene Fathers II.8 (1895).",
+          "url": "https://www.newadvent.org/fathers/32012.htm"
+        },
+        {
+          "label": "John Chrysostom, Homilies on Second Corinthians, Homily 8, on 2 Corinthians 4:6 (about 392). Translated by Talbot W. Chambers, Nicene and Post-Nicene Fathers I.12 (1889).",
+          "url": "https://www.newadvent.org/fathers/220208.htm"
+        },
+        {
+          "label": "Augustine, Confessions, Book 13, chapters 3, 10 and 12 (about 400). Translated by J. G. Pilkington, Nicene and Post-Nicene Fathers I.1 (1887).",
+          "url": "https://www.newadvent.org/fathers/110113.htm"
+        },
+        {
+          "label": "Thomas Aquinas, Summa Theologiae I, question 67, article 4 (1265–74). Translated by the Fathers of the English Dominican Province (1920).",
+          "url": "https://www.newadvent.org/summa/1067.htm"
+        },
+        {
+          "label": "John Calvin, Commentary on Genesis, on 1:3–5 and 1:14 (1554). Translated by John King (1847).",
+          "url": "https://www.ccel.org/ccel/calvin/calcom01.vii.i.html"
+        },
+        {
+          "label": "Matthew Henry, Commentary on the Whole Bible, on Genesis 1:3–5 (1706).",
+          "url": "https://www.ccel.org/ccel/henry/mhc1.Gen.ii.html"
+        },
+        {
+          "label": "Catechism of the Catholic Church, paragraph 298.",
+          "url": "https://www.vatican.va/archive/ENG0015/__P19.HTM"
+        },
+        {
+          "label": "Scripture quotations: World English Bible (public domain)."
+        }
+      ],
+      "languages": {
+        "pt": {
+          "simple": "Deus fala pela primeira vez, e a luz aparece. Uma palavra, e as trevas sobre o abismo cedem.\n\nNão há demora. Deus manda que haja luz, e a luz existe. A sua palavra faz exatamente o que diz.\n\nA luz vem primeiro para que todo o resto possa ser visto. A partir deste momento, as obras de Deus já não ficam escondidas no escuro.",
+          "context": "Gênesis 1:2 deixou a terra sem forma, vazia e escura, com o Espírito de Deus sobre as águas. Agora, pela primeira vez no relato, Deus fala. Os versículos 3 a 5 formam o primeiro dia: Deus faz a luz, vê que ela é boa, separa-a das trevas e dá nome ao dia e à noite.\n\nEsta é a primeira das obras pelas quais Deus separa as coisas e dá forma ao mundo. Repare que a luz vem antes do sol, da lua e das estrelas, que só aparecem no quarto dia.\n\nO primeiro dia passou a ter importância para os cristãos também de outra maneira. Era o primeiro dia da semana, o dia em que Cristo ressuscitou dos mortos, de manhã cedo. E Paulo volta a este versículo quando descreve Deus brilhando no coração das pessoas.",
+          "meaning": "Os primeiros pregadores cristãos gostavam de imaginar este momento. Com uma só palavra, a luz se espalhou pelo mundo inteiro num instante, ao norte e ao sul, a leste e a oeste. As trevas sumiram, as águas ficaram claras e cintilantes, e tudo ganhou um aspecto doce e agradável.\n\nEles tinham cuidado com o que significa Deus falar. Não é um som feito com o sopro e a língua. É o simples sinal da vontade de Deus, e a ordem já era o próprio ato. O que Deus quis e o que veio a existir coincidiram exatamente: uma palavra, e um mundo.\n\nA sua Bíblia pode dizer isso de outro modo. A Bíblia Livre diz: “Haja luz; e houve luz”. A de Matos Soares, traduzida do latim, diz: “Exista a luz. E a luz existiu”. Nos dois casos, as palavras repetidas mostram a mesma coisa: o que Deus diz, acontece.\n\nPor que a luz primeiro? Não para que Deus enxergasse para trabalhar, já que trevas e luz são iguais para ele. Ele a fez para que nós pudéssemos ver as suas obras, e a sua glória nelas.",
+          "theology": "A palavra de Deus é poder. Quando Deus fala, a coisa acontece, de verdade e para sempre, não só na aparência. Os cristãos veem neste versículo a Palavra eterna, o Filho. Por ele a luz foi feita, pois nele estava a luz, e ele é a luz do mundo.\n\nA luz vem de Deus, não do sol. Deus fez a luz antes do sol e da lua. Facilmente prendemos o poder de Deus aos meios que ele usa, como se não pudesse haver luz sem eles. A ordem dos dias mostra que ele tem a luz em suas próprias mãos.\n\nO Deus que fez a luz faz luz em nós. Paulo diz que o Deus que mandou a luz brilhar das trevas brilhou no nosso coração. No princípio, Deus deu uma ordem: que houvesse luz. Em Cristo, ele mesmo se tornou a nossa luz. Porque Deus fez a luz brilhar nas trevas pela sua Palavra, ele pode dar a luz da fé a quem ainda não o conhece. Quando alguém se afasta das trevas e volta para Deus, é como se ele dissesse de novo: haja luz.",
+          "today": "Quando o dia clarear esta manhã, ou quando você acender uma lâmpada à noite, deixe que isso lembre a primeira palavra que Deus disse. Repare em uma coisa que a luz permite ver, e agradeça por ela.",
+          "question": "Em que ponto da minha vida ainda estou esperando que Deus diga: haja luz?",
+          "words": [
+            {
+              "term": "luz",
+              "original": "or · אוֹר (hebraico)",
+              "meaning": "A palavra hebraica comum para luz. No quarto dia, o sol e a lua são chamados por uma palavra formada a partir dela: luminares, ou luzeiros, isto é, portadores de luz. Eles levam e espalham uma luz que Deus já tinha feito."
+            }
+          ],
+          "teaching": [
+            {
+              "title": "A palavra de Deus faz o que diz",
+              "text": "A primeira palavra de Deus fez a luz, dissipou a escuridão e iluminou o mundo num instante. O falar de Deus não é um som no ar, mas o sinal da sua vontade, e a sua ordem já era uma ação. Ele falou, e foi feito, de verdade e para sempre. Cristo é a Palavra eterna, e por ele a luz foi produzida."
+            },
+            {
+              "title": "A luz vem primeiro para que as obras de Deus sejam vistas",
+              "text": "Convinha que a luz fosse feita antes de tudo, porque é ela que torna visíveis todas as outras coisas. Com ela começa a obra de separar, e a beleza do mundo pode ser vista. Deus não precisava de luz para enxergar. Ele a fez para que pudéssemos ver as suas obras e a sua glória nelas, e fazer as nossas próprias obras enquanto é dia."
+            },
+            {
+              "title": "Deus tem a luz em suas mãos",
+              "text": "Não foi por acaso que a luz veio antes do sol e da lua. Somos rápidos em prender o poder de Deus aos meios que ele usa, como se não pudesse haver luz sem o sol. Pela própria ordem da criação, o Senhor mostra que tem a luz em suas mãos e pode dá-la sem eles. No quarto dia, ele simplesmente encarrega o sol, a lua e as estrelas de espalhar uma luz que já tinha feito."
+            },
+            {
+              "title": "A mesma palavra traz luz ao coração",
+              "text": "Paulo ouve este versículo no dom da fé: o Deus que mandou a luz brilhar das trevas brilhou no nosso coração. Na criação, Deus apenas deu uma ordem: que houvesse luz. Mas em Cristo ele não só falou: ele mesmo se tornou luz para nós. Na nova criação, a primeira coisa que Deus realiza na alma é a luz. Quando as pessoas se entristecem com as próprias trevas e se voltam para Deus, é como se ele dissesse de novo: haja luz. E há luz."
+            }
+          ],
+          "differences": [
+            {
+              "title": "Luz física, ou também luz espiritual?",
+              "text": "Alguns mestres antigos e medievais leram esta primeira luz também como a formação dos anjos: criaturas espirituais que se tornaram luz ao se voltarem para a Palavra e se unirem a ela. Outros sustentaram que o relato não fala dos anjos e trata apenas da luz do mundo visível. Alguns diziam que os anjos ficaram de fora porque tinham sido feitos antes; outros, porque um povo inclinado a adorar o sol e as estrelas poderia acabar adorando também os anjos."
+            },
+            {
+              "title": "Como podia haver dias antes do sol?",
+              "text": "Alguns pregadores antigos ensinaram que a própria primeira luz se espalhava e se recolhia na medida que Deus determinava, formando o dia e a noite. Mestres medievais questionaram isso e pensaram que a primeira luz era a própria luz do sol, que ainda não tinha recebido a sua forma final. Outros, entre os reformadores, deixaram esses detalhes em aberto, como coisas pouco necessárias de saber, e destacaram o que a ordem dos dias ensina sobre Deus."
+            }
+          ]
+        },
+        "es": {
+          "simple": "Dios habla por primera vez, y aparece la luz. Una sola palabra, y la oscuridad que cubría el abismo cede.\n\nNo hay espera. Dios dice: Sea la luz, y fue la luz. Su palabra hace exactamente lo que dice.\n\nLa luz viene primero para que todo lo demás pueda verse. Desde este momento, las obras de Dios ya no están escondidas en la oscuridad.",
+          "context": "Génesis 1:2 dejó la tierra sin forma, vacía y a oscuras, con el Espíritu de Dios sobre las aguas. Ahora, por primera vez en el relato, Dios habla. Los versículos 3 al 5 forman el primer día: Dios hace la luz, ve que es buena, la separa de las tinieblas y llama a la luz Día y a las tinieblas Noche.\n\nEsta es la primera de las obras con las que Dios separa las cosas y da forma al mundo. Fíjate en que la luz llega antes que el sol, la luna y las estrellas, que solo aparecen el cuarto día.\n\nEl primer día llegó a ser importante para los cristianos también por otra razón. Era el primer día de la semana, el día en que Cristo resucitó de entre los muertos muy de mañana. Y Pablo recuerda este versículo cuando describe a Dios resplandeciendo en los corazones humanos.",
+          "meaning": "A los primeros predicadores cristianos les encantaba imaginar este momento. Con una sola palabra, la luz atravesó todo el mundo en un instante, al norte y al sur, al oriente y al occidente. La oscuridad desapareció, las aguas se volvieron claras y brillantes, y todo tomó un aspecto dulce y amable.\n\nTenían cuidado con lo que significa que Dios hable. No es un sonido hecho con aliento y lengua. Es la simple señal de la voluntad de Dios, y la orden fue en sí misma la obra. Lo que Dios quiso y lo que llegó a ser coincidieron exactamente: una palabra, y un mundo.\n\nLas Biblias lo dicen de maneras parecidas. La Reina-Valera dice: Sea la luz, y fue la luz. Algunas Biblias católicas antiguas, siguiendo el latín, presentan a Dios mandando que la luz sea hecha, y dicen luego que la luz quedó hecha. Las palabras repetidas dicen lo mismo: lo que Dios dice, sucede.\n\n¿Por qué la luz primero? No para que Dios pudiera ver mientras trabajaba, porque para él la oscuridad y la luz son iguales. La hizo para que nosotros pudiéramos ver sus obras, y su gloria en ellas.",
+          "theology": "La palabra de Dios es poder. Cuando Dios habla, se cumple, de verdad y para siempre, no solo en apariencia. Los cristianos ven en este versículo a la Palabra eterna, el Hijo. Por él fue hecha la luz, porque en él estaba la luz, y él es la luz del mundo.\n\nLa luz viene de Dios, no del sol. Dios hizo la luz antes que el sol y la luna. Fácilmente atamos el poder de Dios a los medios que usa, como si no pudiera haber luz sin ellos. El orden de los días muestra que él tiene la luz en su propia mano.\n\nEl Dios que hizo la luz hace luz en nosotros. Pablo dice que el Dios que mandó que de las tinieblas resplandeciera la luz es el que resplandeció en nuestros corazones. Al principio Dios dijo: Sea la luz; en Cristo, él mismo se hizo nuestra luz. Porque Dios hizo brillar la luz en las tinieblas por su Palabra, puede dar la luz de la fe a quienes todavía no lo conocen. Cuando una persona deja la oscuridad y vuelve a Dios, es como si él dijera otra vez: Sea la luz.",
+          "today": "Cuando llegue la luz del día esta mañana, o cuando enciendas una lámpara esta noche, deja que te recuerde la primera palabra que Dios dijo. Fíjate en algo que la luz te deja ver, y da gracias por ello.",
+          "question": "¿En qué parte de mi vida sigo esperando que Dios diga: Sea la luz?",
+          "words": [
+            {
+              "term": "luz",
+              "original": "or · אוֹר (hebreo)",
+              "meaning": "La palabra hebrea común para luz. El cuarto día, el sol y la luna reciben un nombre formado a partir de ella: lumbreras, es decir, instrumentos de luz. Llevan y reparten una luz que Dios ya había hecho."
+            }
+          ],
+          "teaching": [
+            {
+              "title": "La palabra de Dios hace lo que dice",
+              "text": "La primera palabra de Dios hizo la luz, disipó la penumbra e iluminó el mundo en un instante. El hablar de Dios no es un sonido en el aire, sino la señal de su voluntad, y su orden fue en sí misma una acción. Él habló, y fue hecho, de verdad y para siempre. Cristo es la Palabra eterna, y por él fue producida la luz."
+            },
+            {
+              "title": "La luz viene primero para que se vean sus obras",
+              "text": "Convenía que la luz fuera hecha antes que todo lo demás, porque la luz es la que hace visibles todas las otras cosas. Con ella empieza la obra de separar, y la belleza del mundo puede verse. Dios no necesitaba luz para ver. La hizo para que nosotros pudiéramos ver sus obras y su gloria en ellas, y hacer nuestras propias obras mientras es de día."
+            },
+            {
+              "title": "Dios tiene la luz en su mano",
+              "text": "No fue casualidad que la luz llegara antes que el sol y la luna. Somos rápidos para atar el poder de Dios a los medios que usa, como si no pudiera haber luz sin el sol. Con el orden mismo de la creación, el Señor muestra que tiene la luz en su mano y puede darla sin ellos. El cuarto día, simplemente pone al sol, la luna y las estrellas para repartir una luz que ya había hecho."
+            },
+            {
+              "title": "La misma palabra trae luz al corazón",
+              "text": "Pablo oye este versículo en el don de la fe: el Dios que mandó que de las tinieblas resplandeciera la luz es el que resplandeció en nuestros corazones. En la creación Dios dijo: Sea la luz; pero en Cristo no solo habló, sino que él mismo se hizo luz para nosotros. En la nueva creación, lo primero que Dios obra en el alma es la luz. Cuando alguien se duele de su oscuridad y se vuelve a Dios, es como si él dijera otra vez: Sea la luz, y fue la luz."
+            }
+          ],
+          "differences": [
+            {
+              "title": "¿Luz material, o también luz espiritual?",
+              "text": "Algunos maestros antiguos y medievales leyeron esta primera luz también como la formación de los ángeles: criaturas espirituales que se volvieron luz al dirigirse hacia la Palabra y unirse a ella. Otros sostuvieron que el relato pasa por alto a los ángeles y habla solo de la luz del mundo visible. Unos decían que los ángeles quedaron fuera porque fueron hechos antes; otros, porque un pueblo inclinado a adorar al sol y a las estrellas podría haberlos adorado también a ellos."
+            },
+            {
+              "title": "¿Cómo pudo haber días antes del sol?",
+              "text": "Algunos predicadores antiguos enseñaron que la primera luz se extendía y se recogía según la medida de Dios, y así hacía el día y la noche. Los maestros medievales lo pusieron en duda y pensaron que la primera luz era la luz misma del sol, que aún no había recibido su forma definitiva. Otros, entre los reformadores, dejaron esos detalles sin decidir, como cosas no muy necesarias de saber, y subrayaron en cambio lo que el orden de los días enseña sobre Dios."
+            }
+          ]
+        },
+        "ru": {
+          "simple": "Бог впервые говорит, и появляется свет. Одно слово — и тьма над бездною отступает.\n\nНикакого промедления. Бог говорит: «да будет свет», — и стал свет. Его слово совершает именно то, что говорит.\n\nСвет появляется первым, чтобы всё остальное стало видно. С этого мгновения дела Божьи больше не скрыты во тьме.",
+          "context": "В предыдущем стихе земля была безвидна, пуста и темна, а Дух Божий носился над водою. Теперь Бог впервые в этом рассказе говорит. Стихи с 3-го по 5-й составляют первый день: Бог создаёт свет, видит, что он хорош, отделяет его от тьмы и называет свет днём, а тьму ночью.\n\nЭто первое из дел, которыми Бог разделяет и устраивает мир. Обратите внимание: свет появляется раньше солнца, луны и звёзд, которые появятся только в четвёртый день.\n\nДля христиан первый день стал важен и по другой причине. Это был первый день недели — тот день, когда Христос рано утром воскрес из мёртвых. А апостол Павел вспоминает этот стих, когда говорит о том, как Бог озаряет человеческие сердца.",
+          "meaning": "Древние христианские проповедники любили представлять себе это мгновение. Одним словом свет в один миг пронизал весь мир — север и юг, восток и запад. Тьма исчезла, воды стали чистыми и заискрились, и всё приняло отрадный и приветливый вид.\n\nОни бережно объясняли, что значит «сказал Бог». Это не звук, произнесённый дыханием и языком. Это простое знамение Божьей воли, и само повеление уже было делом. То, чего Бог хотел, и то, что возникло, совпали полностью: слово — и мир.\n\nВ латинском переводе, на котором основывалась старая католическая Библия, Бог повелевает: «да будет сотворён свет», — а дальше сказано: «и был сотворён свет». В вашей Библии: «да будет свет. И стал свет». И там и здесь повтор говорит об одном: что Бог сказал, то и совершилось.\n\nПочему свет первым? Не для того, чтобы Богу было видно, как работать: для Него тьма и свет одинаковы. Он создал свет, чтобы мы видели Его дела и Его славу в них.",
+          "theology": "Слово Божье — это сила. Когда Бог говорит, это совершается — по-настоящему и навсегда, а не только для вида. Христиане видят в этом стихе вечное Слово — Сына. Через Него был создан свет, ибо в Нём свет, и Он — свет миру.\n\nСвет — от Бога, а не от солнца. Бог создал свет раньше солнца и луны. Мы легко привязываем Божью силу к тем средствам, которыми Он пользуется, будто без них не может быть света. Сам порядок дней показывает, что свет Бог держит в Своей руке.\n\nБог, Который создал свет, творит свет и в нас. Павел говорит, что Бог, повелевший из тьмы воссиять свету, озарил наши сердца. В начале Бог сказал: да будет; во Христе Он Сам стал нашим светом. Поскольку Бог Своим Словом заставил свет воссиять во тьме, Он может дать свет веры тем, кто ещё не знает Его. Когда человек отворачивается от тьмы и возвращается к Богу, Бог словно снова говорит: да будет свет.",
+          "today": "Когда утром наступит день или вечером вы включите лампу, пусть это напомнит вам о первом слове, которое сказал Бог. Заметьте что-то одно, что свет позволяет вам увидеть, и поблагодарите за это.",
+          "question": "Где в вашей жизни вы всё ещё ждёте, чтобы Бог сказал: «да будет свет»?",
+          "words": [
+            {
+              "term": "свет",
+              "original": "or · אוֹר (евр.)",
+              "meaning": "Обычное еврейское слово для света. В четвёртый день солнце и луна названы словом, образованным от него: светила, то есть носители света. В вашей Библии это родство тоже слышно: «свет» и «светила». Они несут и распространяют свет, который Бог уже создал прежде."
+            }
+          ],
+          "teaching": [
+            {
+              "title": "Слово Божье совершает то, что говорит",
+              "text": "Первое слово Божье создало свет, рассеяло мрак и в одно мгновение осветило мир. Божье слово — не звук в воздухе, а знамение Его воли, и Его повеление само было действием. Он сказал — и стало, действительно и прочно. Христос — вечное Слово, и через Него был создан свет."
+            },
+            {
+              "title": "Свет первым — чтобы были видны Его дела",
+              "text": "Подобало, чтобы свет был создан прежде всего, ведь именно свет делает видимым всё остальное. С него начинается дело разделения, и становится видна красота мира. Богу свет не был нужен, чтобы видеть. Он создал его, чтобы мы видели Его дела и Его славу в них — и делали свои дела, пока есть день."
+            },
+            {
+              "title": "Бог держит свет в Своей руке",
+              "text": "Не случайно свет появился раньше солнца и луны. Мы склонны привязывать Божью силу к тем средствам, которыми Он пользуется, будто без солнца не может быть света. Самим порядком творения Господь показывает, что держит свет в Своей руке и может дать его и без них. В четвёртый день Он лишь поставляет солнце, луну и звёзды, чтобы они разносили свет, который Он уже создал."
+            },
+            {
+              "title": "То же слово приносит свет в сердце",
+              "text": "Павел слышит этот стих в даре веры: Бог, повелевший из тьмы воссиять свету, озарил наши сердца. При творении Бог сказал: да будет; а во Христе Он не просто сказал, но Сам стал для нас светом. В новом творении первое, что Бог совершает в душе, — это свет. Когда люди скорбят о своей тьме и обращаются к Богу, Он словно снова говорит: да будет свет, — и становится свет."
+            }
+          ],
+          "differences": [
+            {
+              "title": "Только видимый свет — или и духовный?",
+              "text": "Некоторые древние и средневековые учители видели в этом первом свете и сотворение ангелов — духовных существ, которые стали светом, обратившись к Слову и прилепившись к Нему. Другие считали, что рассказ обходит ангелов молчанием и говорит только о свете видимого мира. Одни объясняли, что об ангелах не сказано, потому что они были сотворены раньше; другие — потому что народ, склонный поклоняться солнцу и звёздам, мог бы начать поклоняться и им."
+            },
+            {
+              "title": "Как могли быть дни до солнца?",
+              "text": "Некоторые древние проповедники учили, что первый свет по мере, установленной Богом, то разливался, то сокращался, и так получались день и ночь. Средневековые учители сомневались в этом и считали, что первый свет был светом самого солнца, ещё не получившего окончательного вида. Другие, среди них реформаторы, оставляли такие подробности нерешёнными, как не слишком необходимые для знания, и подчёркивали то, чему порядок дней учит о Боге."
+            }
+          ]
+        }
+      }
+    },
+    "web-john-15-9": {
+      "verses": [
+        "synodal:JHN.15.9",
+        "blivre:JHN.15.9",
+        "rv1909:JHN.15.9",
+        "matos:JHN.15.9"
+      ],
+      "echoes": [
+        {
+          "ref": "1JN.4.19"
+        },
+        {
+          "ref": "MAT.3.17"
+        },
+        {
+          "ref": "EPH.1.6"
+        },
+        {
+          "ref": "JHN.15.12"
+        },
+        {
+          "ref": "JHN.13.1"
+        }
+      ],
+      "sources": [
+        {
+          "label": "Augustine, Tractates on the Gospel of John, Tractate 82 (John 15:8–10). Translated by John Gibb, Nicene and Post-Nicene Fathers, First Series, Vol. 7 (1888).",
+          "url": "https://www.newadvent.org/fathers/1701082.htm"
+        },
+        {
+          "label": "John Chrysostom, Homilies on the Gospel of John, Homily 76. Translated by Charles Marriott, Nicene and Post-Nicene Fathers, First Series, Vol. 14 (1889).",
+          "url": "https://www.newadvent.org/fathers/240176.htm"
+        },
+        {
+          "label": "John Calvin, Commentary on the Gospel According to John, Volume 2, on John 15:7–11. Translated by William Pringle.",
+          "url": "https://www.ccel.org/ccel/calvin/calcom35/calcom35.v.ii.html"
+        },
+        {
+          "label": "Matthew Henry, Commentary on the Whole Bible, Volume V, John chapter 15.",
+          "url": "https://www.ccel.org/ccel/henry/mhc5.John.xvi.html"
+        },
+        {
+          "label": "John Wesley, Notes on the Bible, John chapter 15.",
+          "url": "https://www.ccel.org/ccel/wesley/notes/notes.i.v.xvi.html"
+        },
+        {
+          "label": "Catechism of the Catholic Church, paragraphs 1823–1824 and 1829.",
+          "url": "https://www.vatican.va/archive/ENG0015/__P66.HTM"
+        },
+        {
+          "label": "Scripture quotations: World English Bible (public domain)."
+        }
+      ],
+      "languages": {
+        "pt": {
+          "simple": "Jesus diz aos seus amigos como os ama: do mesmo modo que o Pai o ama. Depois pede que eles fiquem nesse amor, que façam dele a sua casa e não se afastem.\n\nO amor vem primeiro. Eles não o conquistam. Ele já foi dado, e eles são convidados a permanecer nele, como o ramo continua ligado à videira.\n\nEle diz isso quando está prestes a deixá-los. Não vai embora porque os ame menos.",
+          "context": "Estas palavras fazem parte da última longa conversa de Jesus com os discípulos, no fim da Última Ceia, na noite em que ele é traído. No fim do capítulo 14 ele diz: Levantai-vos, vamos daqui. Depois fala de si mesmo como a videira verdadeira, com o Pai como o agricultor e os discípulos como os ramos.\n\nO capítulo 15 passa por quatro temas: o fruto, o amor, o ódio do mundo e o Consolador que há de vir. Este versículo abre a parte sobre o amor, os versículos 9 a 17, que leva ao mandamento de amar uns aos outros.\n\nJesus está para partir. Os amigos poderiam ser tentados a se afastar dele e a se distanciar uns dos outros. Também poderiam se sentir abandonados, como se ele os estivesse mandando para um mundo hostil e indo embora. Por isso ele lhes diz onde estão.",
+          "meaning": "Como o Pai me amou. Jesus não está dizendo que a nossa natureza é igual à dele. Ele fala como aquele que está entre Deus e nós. O amor de Deus foi derramado sobre ele para que, a partir dele, chegasse a todos os que lhe pertencem. Nele, como num espelho, podemos ver o amor do Pai por nós.\n\nTambém eu vos amei. O Pai amou o Filho, que era o mais digno. Jesus ama os seus amigos, que são os menos dignos. O que o Pai lhe deu, ele passa a eles. É um amor que escolheu morrer até por aqueles que eram seus inimigos.\n\nPermanecei no meu amor. Como ele acabou de falar do seu amor por eles, trata-se antes de tudo do amor dele por eles. Permanecer nesse amor é guardar o seu lugar no afeto de Jesus, continuar vivendo na sua graça e não jogá-la fora. A Bíblia Livre diz “estai neste meu amor”; a de Matos Soares, “permanecei no meu amor”.",
+          "theology": "O amor de Deus chega até nós por meio de Cristo. Há muito tempo os cristãos ensinam que não encontramos o amor de Deus procurando por conta própria. Tentar isso é como entrar num labirinto sem entrada nem saída. Olhamos para Cristo, o Filho amado. O Pai também nos ama, mas nele.\n\nO amor vem primeiro, e a obediência vem depois. O versículo seguinte liga permanecer no seu amor a guardar os seus mandamentos. Mas guardá-los não conquista o seu amor. Se ele não nos amar, não conseguimos guardá-los de modo algum. A nossa obediência é fruto do seu amor, não a causa dele. Amamos porque fomos amados primeiro.\n\nPermanecemos pedindo para ser guardados. Jesus fala aos amigos como pessoas capazes de permanecer, e os adverte para não perderem um dom tão grande. Mas não permanecemos pelas nossas próprias forças. Pedimos àquele que dá o mandamento que nos guarde no seu amor.\n\nO seu amor se mantém nos tempos difíceis. Jesus aponta para si mesmo. O Pai o ama, e mesmo assim ele vai sofrer. O sofrimento não é sinal de que não somos amados. Esse amor também transborda. O ensino católico fala aqui do mandamento novo: amando uns aos outros, os discípulos imitam o amor que eles mesmos recebem.",
+          "today": "Antes de fazer qualquer outra coisa hoje, talvez você possa tirar um momento tranquilo só para receber o amor dele. Imagine um ramo apoiado na videira, sustentado em vez de se agarrar. Se ajudar, peça a ele, em poucas palavras simples, que guarde você no seu amor.",
+          "question": "Onde ainda estou tentando conquistar um lugar que já me foi dado?",
+          "teaching": [
+            {
+              "title": "O amor de Deus chega até nós por meio de Cristo",
+              "text": "Não devemos tentar descobrir como Deus nos ama longe de Cristo, o que é como andar perdido num labirinto. Olhamos para ele, o Filho amado, em quem o amor de Deus foi derramado para que chegasse até nós. O Pai também nos ama, mas nele. Em Cristo, como num espelho, vemos o amor do Pai por todos nós."
+            },
+            {
+              "title": "O amor vem primeiro, e a obediência depois",
+              "text": "Permanecer no seu amor está ligado a guardar os seus mandamentos, mas o amor vem primeiro. Não guardamos os seus mandamentos para despertar o seu amor; se ele não nos amar, não conseguimos guardá-los. A obediência não é a causa do seu amor, mas o seu efeito. Amamos porque fomos amados primeiro."
+            },
+            {
+              "title": "Permanecemos pedindo para ser guardados",
+              "text": "Jesus diz aos amigos que continuem no seu amor, porque eles são capazes disso. Ele os adverte para não perderem um dom assim e para não caírem dele por culpa própria. Mas não permanecemos pelas nossas próprias forças. Pedimos àquele que dá o mandamento que nos guarde no seu amor."
+            },
+            {
+              "title": "O seu amor se mantém nos tempos difíceis",
+              "text": "Jesus aponta para si mesmo: o Pai o ama, e mesmo assim ele precisa sofrer. Por isso os seus amigos não devem tomar as dificuldades como sinal de que não são amados. Se permanecerem no seu amor, os perigos que virão não podem atingir esse amor. E o amor que recebem se torna o amor que mostram uns aos outros."
+            }
+          ],
+          "differences": [
+            {
+              "title": "Amor de quem?",
+              "text": "Alguns leem “permanecei no meu amor” como um chamado para que os discípulos amem uns aos outros. Outros, com boas razões, leem como o amor de Cristo por nós, já que ele acabou de falar dele. Alguns unem as duas coisas: conservem o seu amor por ele, e fiquem no amor dele por vocês."
+            },
+            {
+              "title": "Alguém pode se afastar deste amor?",
+              "text": "Alguns mestres protestantes leem a advertência como real: uma pessoa poderia perder essa bênção, ou Jesus não precisaria dizer isso. Outros destacam que só nos mantemos firmes porque Deus nos segura, e por isso pedimos que ele nos guarde. Uns e outros levam a advertência a sério e olham para a graça."
+            },
+            {
+              "title": "Onde cada tradição põe o peso",
+              "text": "A antiga pregação cristã em grego destaca o consolo e a coragem: Jesus não vai embora porque os ama menos. O ensino católico ouve aqui o mandamento novo do amor, que tem como frutos a alegria, a paz e a misericórdia. Os autores protestantes destacam a graça gratuita em Cristo, que tem a obediência como fruto. São diferenças de ênfase, não de doutrina."
+            }
+          ]
+        },
+        "es": {
+          "simple": "Jesús dice a sus amigos cómo los ama: de la misma manera en que el Padre lo ama a él. Luego les pide que se queden en ese amor, que hagan allí su hogar y no se alejen.\n\nEl amor viene primero. No se lo ganan. Ya se les ha dado, y se los invita a permanecer en él, como una rama sigue unida a la vid.\n\nLes dice esto cuando está a punto de dejarlos. No se va porque los ame menos.",
+          "context": "Estas palabras pertenecen a la última conversación larga de Jesús con sus discípulos, al final de la Última Cena, la noche en que es traicionado. Al final del capítulo 14 dice: Levantaos, vamos de aquí. Luego habla de sí mismo como la vid verdadera; su Padre es el labrador y sus discípulos son las ramas.\n\nEl capítulo 15 recorre cuatro temas: el fruto, el amor, el odio del mundo y el Consolador que ha de venir. Este versículo abre la parte sobre el amor, los versículos 9 al 17, que lleva al mandamiento de amarse unos a otros.\n\nJesús está a punto de irse. Sus amigos podrían sentir la tentación de alejarse de él y de distanciarse entre ellos. También podrían sentirse abandonados, como si él los enviara a un mundo hostil y se marchara. Por eso les dice dónde están.",
+          "meaning": "Como el Padre me amó. Jesús no dice que nuestra naturaleza sea igual a la suya. Habla como quien está entre Dios y nosotros. El amor de Dios se derramó sobre él para que desde él fluyera hacia todos los suyos. En él, como en un espejo, podemos ver el amor del Padre por nosotros.\n\nTambién yo os he amado. El Padre amó al Hijo, que era el más digno. Jesús ama a sus amigos, que son los menos dignos. Lo que el Padre le ha dado, él se lo pasa a ellos. Es un amor que eligió morir incluso por quienes eran sus enemigos.\n\nEstad en mi amor. Como acaba de hablar de su amor por ellos, se trata ante todo del amor que él les tiene. Permanecer en él es conservar tu lugar en su afecto, seguir viviendo en su gracia y no desecharla. Otras Biblias dicen permaneced o perseverad en mi amor.",
+          "theology": "El amor de Dios nos llega por medio de Cristo. Desde hace mucho, los cristianos enseñan que no encontramos el amor de Dios buscándolo por nuestra cuenta. Intentarlo es como entrar en un laberinto sin entrada ni salida. Miramos a Cristo, el Hijo amado. El Padre también nos ama, pero en él.\n\nEl amor viene primero, y la obediencia después. El versículo siguiente une el permanecer en su amor con guardar sus mandamientos. Sin embargo, guardarlos no nos gana su amor. Si él no nos ama, no podemos guardarlos en absoluto. Nuestra obediencia es fruto de su amor, no su causa. Amamos porque fuimos amados primero.\n\nPermanecemos pidiendo que él nos guarde. Jesús habla a sus amigos como a personas capaces de permanecer, y les advierte que no pierdan un don tan grande. Pero no permanecemos por nuestras propias fuerzas. Pedimos al que da el mandato que nos guarde en su amor.\n\nSu amor se sostiene en los tiempos difíciles. Jesús se pone a sí mismo como ejemplo. El Padre lo ama, y aun así él sufrirá. El sufrimiento no es señal de que no seamos amados. Además, este amor se desborda. La enseñanza católica lo llama el mandamiento nuevo: al amarse unos a otros, los discípulos imitan el amor que ellos mismos reciben.",
+          "today": "Antes de hacer cualquier otra cosa hoy, podrías tomar un momento de calma simplemente para dejarte amar. Imagina una rama que descansa en la vid, sostenida en lugar de aferrarse. Si te ayuda, pídele con unas pocas palabras sencillas que te guarde en su amor.",
+          "question": "¿Dónde sigo intentando ganarme un lugar que ya me ha sido dado?",
+          "teaching": [
+            {
+              "title": "El amor de Dios nos llega por medio de Cristo",
+              "text": "No debemos intentar saber cómo nos ama Dios fuera de Cristo; eso es como andar perdidos en un laberinto. Miramos a él, el Hijo amado, en quien se derramó el amor de Dios para que fluyera hacia nosotros. El Padre también nos ama, pero en él. En Cristo, como en un espejo, vemos el amor del Padre por todos nosotros."
+            },
+            {
+              "title": "El amor viene primero, y la obediencia después",
+              "text": "Permanecer en su amor va unido a guardar sus mandamientos, pero el amor viene primero. No guardamos sus mandamientos para despertar su amor; si él no nos ama, no podemos guardarlos. La obediencia no es la causa de su amor, sino su efecto. Amamos porque fuimos amados primero."
+            },
+            {
+              "title": "Permanecemos pidiendo que él nos guarde",
+              "text": "Jesús dice a sus amigos que permanezcan en su amor, porque son capaces de hacerlo. Les advierte que no pierdan un don así, ni caigan de él por su propia culpa. Pero no permanecemos por nuestras propias fuerzas. Pedimos al que da el mandato que nos guarde en su amor."
+            },
+            {
+              "title": "Su amor se sostiene en los tiempos difíciles",
+              "text": "Jesús se pone a sí mismo como ejemplo: el Padre lo ama, y aun así él tiene que sufrir. Por eso sus amigos no deben tomar las dificultades como señal de que no son amados. Si permanecen en su amor, los peligros que vienen no pueden dañar ese amor. Y el amor que reciben se convierte en el amor que se muestran unos a otros."
+            }
+          ],
+          "differences": [
+            {
+              "title": "¿El amor de quién?",
+              "text": "Algunos leen estad en mi amor como una llamada a que los discípulos se amen unos a otros. Otros, con buenas razones, lo leen como el amor de Cristo por nosotros, ya que acaba de hablar de él. Algunos sostienen las dos cosas a la vez: que conserven su amor por él, y que permanezcan en el amor que él les tiene."
+            },
+            {
+              "title": "¿Puede alguien apartarse de este amor?",
+              "text": "Algunos maestros protestantes leen la advertencia como real: una persona podría perder esta bendición, o Jesús no necesitaría decirlo. Otros subrayan que nos mantenemos firmes solo porque Dios nos sostiene, y por eso le pedimos que nos guarde. Unos y otros toman en serio la advertencia, y unos y otros miran a la gracia."
+            },
+            {
+              "title": "Dónde pone el acento cada tradición",
+              "text": "La predicación cristiana antigua en griego subraya el consuelo y el valor: Jesús no se va porque los ame menos. La enseñanza católica oye aquí el mandamiento nuevo del amor, con la alegría, la paz y la misericordia como frutos. Los autores protestantes subrayan la gracia gratuita en Cristo, con la obediencia como fruto. Son diferencias de acento, no de doctrina."
+            }
+          ]
+        },
+        "ru": {
+          "simple": "Иисус говорит Своим друзьям, как Он их любит: так же, как Отец любит Его. А потом просит их пребывать в этой любви — жить в ней, как дома, и не уходить.\n\nЛюбовь — первая. Её не нужно заслуживать. Она уже дана, и они приглашены оставаться в ней, как ветвь остаётся на виноградной лозе.\n\nОн говорит это перед тем, как уйти от них. Он уходит не потому, что любит их меньше.",
+          "context": "Эти слова — часть последней долгой беседы Иисуса с учениками в конце Тайной вечери, в ту ночь, когда Его предали. В конце 14-й главы Он говорит: «Встаньте, пойдём отсюда». А потом говорит о Себе как об истинной виноградной лозе: Отец Его — виноградарь, а ученики — ветви.\n\nВ 15-й главе четыре темы: плод, любовь, ненависть мира и грядущий Утешитель. Этот стих открывает часть о любви, стихи 9–17, которая ведёт к заповеди любить друг друга.\n\nИисус скоро уйдёт. У Его друзей может появиться искушение отдалиться от Него и друг от друга. Они могут почувствовать себя брошенными, словно Он посылает их во враждебный мир и уходит. Поэтому Он говорит им, где их место.",
+          "meaning": "«Как возлюбил Меня Отец». Иисус не говорит, что наша природа равна Его природе. Он говорит как Тот, Кто стоит между Богом и нами. Божья любовь излилась на Него, чтобы от Него перейти ко всем, кто Ему принадлежит. В Нём, как в зеркале, мы можем увидеть любовь Отца к нам.\n\n«И Я возлюбил вас». Отец любил Сына, более всех достойного любви. Иисус любит Своих друзей, менее всех её достойных. Что Отец дал Ему, то Он передаёт им. Это любовь, которая пошла на смерть даже за тех, кто был Ему врагом.\n\n«Пребудьте в любви Моей». Он только что говорил о Своей любви к ним, поэтому речь прежде всего о ней. Пребывать в ней — значит хранить своё место в Его сердце, продолжать жить в Его благодати и не отвергать её. «Пребудьте» значит: оставайтесь, живите в ней и не уходите.",
+          "theology": "Божья любовь приходит к нам через Христа. Христиане издавна учат, что мы не найдём Божью любовь, разыскивая её сами. Это всё равно что войти в лабиринт, где нет ни входа, ни выхода. Мы смотрим на Христа, возлюбленного Сына. Отец любит и нас, но в Нём.\n\nСначала любовь, потом послушание. Следующий стих связывает пребывание в Его любви с соблюдением Его заповедей. Но соблюдением заповедей Его любовь не заслужить. Если Он не любит нас, мы вообще не можем их соблюдать. Наше послушание — плод Его любви, а не её причина. Мы любим, потому что Он прежде возлюбил нас.\n\nМы остаёмся, прося, чтобы Он нас сохранил. Иисус говорит со Своими друзьями как с теми, кто способен остаться, и предупреждает их, чтобы они не потеряли такой великий дар. Но остаёмся мы не своими силами. Мы молимся Тому, Кто даёт заповедь, чтобы Он Сам сохранил нас в Своей любви.\n\nЕго любовь держит и в трудные времена. Иисус указывает на Себя. Отец любит Его — и всё же Ему предстоит страдать. Страдание — не знак того, что нас не любят. И эта любовь переливается через край. Католическое учение называет это новой заповедью: любя друг друга, ученики повторяют ту любовь, которую получили сами.",
+          "today": "Прежде чем браться за дела, можно провести минуту в тишине и просто позволить себя любить. Представьте ветвь на лозе: её держат, и ей не нужно держаться самой. Если это поможет, попросите Его в нескольких простых словах сохранить вас в Своей любви.",
+          "question": "Где вы всё ещё пытаетесь заслужить место, которое вам уже дано?",
+          "teaching": [
+            {
+              "title": "Божья любовь приходит к нам через Христа",
+              "text": "Не стоит пытаться понять, как Бог любит нас, помимо Христа: это всё равно что блуждать в лабиринте. Мы смотрим на Него, возлюбленного Сына, в Котором излилась Божья любовь, чтобы перейти к нам. Отец любит и нас, но в Нём. Во Христе, как в зеркале, мы видим любовь Отца ко всем нам."
+            },
+            {
+              "title": "Сначала любовь, потом послушание",
+              "text": "Пребывание в Его любви связано с соблюдением Его заповедей, но любовь — первая. Мы соблюдаем Его заповеди не для того, чтобы пробудить Его любовь: если Он не любит нас, мы не можем их соблюдать. Послушание — не причина Его любви, а её следствие. Мы любим, потому что Он прежде возлюбил нас."
+            },
+            {
+              "title": "Мы остаёмся, прося, чтобы Он нас сохранил",
+              "text": "Иисус велит друзьям пребывать в Его любви, потому что они на это способны. Он предупреждает их, чтобы они не потеряли такой дар и не отпали от него по собственной вине. Но остаёмся мы не своими силами. Мы молимся Тому, Кто даёт заповедь, чтобы Он сохранил нас в Своей любви."
+            },
+            {
+              "title": "Его любовь держит и в трудные времена",
+              "text": "Иисус указывает на Себя: Отец любит Его, и всё же Ему предстоит страдать. Значит, Его друзьям не стоит видеть в трудностях знак того, что их не любят. Если они пребудут в Его любви, грядущие опасности не смогут повредить этой любви. А любовь, которую они получают, становится любовью, которую они проявляют друг к другу."
+            }
+          ],
+          "differences": [
+            {
+              "title": "Чья любовь?",
+              "text": "Одни понимают слова «пребудьте в любви Моей» как призыв к ученикам любить друг друга. Другие, и не без оснований, видят здесь любовь Христа к нам, ведь Он только что говорил о ней. Третьи соединяют оба смысла: храните свою любовь к Нему и оставайтесь в Его любви к вам."
+            },
+            {
+              "title": "Может ли человек отпасть от этой любви?",
+              "text": "Некоторые протестантские учители понимают это предупреждение как настоящее: человек может потерять это благо, иначе Иисусу незачем было бы об этом говорить. Другие подчёркивают, что мы держимся только потому, что нас держит Бог, и поэтому молимся, чтобы Он нас сохранил. И те и другие относятся к предупреждению всерьёз, и те и другие уповают на благодать."
+            },
+            {
+              "title": "На чём делают акцент традиции",
+              "text": "Древние христианские проповедники, писавшие по-гречески, подчёркивают утешение и мужество: Иисус уходит не потому, что любит учеников меньше. Католическое учение слышит здесь новую заповедь любви, плоды которой — радость, мир и милосердие. Протестантские авторы подчёркивают незаслуженную благодать во Христе, а послушание видят её плодом. Это различия в акцентах, а не в вероучении."
+            }
+          ]
+        }
+      }
+    },
+    "brenton-psalm-4-9": {
+      "verses": [
+        "synodal:PSA.4.9",
+        "blivre:PSA.4.8",
+        "rv1909:PSA.4.8",
+        "matos:PSA.4.9"
+      ],
+      "echoes": [
+        {
+          "ref": "PSA.3.5",
+          "dra": "PSA.3.6",
+          "brenton": "PSA.3.6",
+          "synodal": "PSA.3.6"
+        }
+      ],
+      "sources": [
+        {
+          "label": "Augustine of Hippo, Expositions on the Psalms, Psalm 4. Translated by an anonymous scholar, Nicene and Post-Nicene Fathers, First Series, Vol. 8, ed. Philip Schaff (Christian Literature Publishing Co., 1888); revised and edited for New Advent by Kevin Knight.",
+          "url": "https://www.newadvent.org/fathers/1801004.htm"
+        },
+        {
+          "label": "Augustine of Hippo, Confessions, Book IX, chapter 4. Translated by J. G. Pilkington, Nicene and Post-Nicene Fathers, First Series, Vol. 1, ed. Philip Schaff (Christian Literature Publishing Co., 1887); revised and edited for New Advent by Kevin Knight.",
+          "url": "https://www.newadvent.org/fathers/110109.htm"
+        },
+        {
+          "label": "John Calvin, Commentary on the Book of Psalms, Volume First, Psalm 4 (introduction). Translated by the Rev. James Anderson (Christian Classics Ethereal Library).",
+          "url": "https://ccel.org/ccel/calvin/calcom08/calcom08.x.html"
+        },
+        {
+          "label": "John Calvin, Commentary on the Book of Psalms, Volume First, Psalm 4:8. Translated by the Rev. James Anderson (Christian Classics Ethereal Library).",
+          "url": "https://ccel.org/ccel/calvin/calcom08/calcom08.x.v.html"
+        },
+        {
+          "label": "Matthew Henry, Commentary on the Whole Bible, Volume III (Job to Song of Solomon), Psalm IV (Christian Classics Ethereal Library).",
+          "url": "https://www.ccel.org/ccel/henry/mhc3.Ps.v.html"
+        },
+        {
+          "label": "Scripture quotations: Brenton Septuagint, 1851 (public domain)."
+        }
+      ],
+      "languages": {
+        "pt": {
+          "simple": "Estas são as últimas palavras do salmo. Depois de um dia agitado, quem fala se deita e dorme em paz, porque só o Senhor o mantém em segurança.\n\nA sua paz não vem de um mundo tranquilo. Vem de Deus. Nada ao redor mudou, mas ele entregou as suas preocupações ao Senhor, e por isso pode descansar.",
+          "context": "O Salmo 4 é uma oração de Davi. Na Bíblia Livre, que não conta o título do salmo como versículo, estas palavras o encerram como versículo 8. Em Bíblias católicas como a de Matos Soares, o título conta como versículo 1, e por isso estas palavras aparecem no fim do salmo, divididas entre os versículos 9 e 10.\n\nO salmo começa com um pedido de socorro de alguém cercado de angústia. Depois Davi se volta para os que amam a vaidade e buscam a mentira, e pergunta até quando vão agir assim. Ele os chama a examinar o próprio coração em seu leito, a oferecer sacrifícios justos e a confiar no Senhor. Muitos ao seu redor perguntam quem lhes mostrará o bem. A resposta dele é a luz do rosto de Deus, que pôs alegria no seu coração.\n\nO salmo pode vir dos longos anos em que Davi foi um fugitivo perseguido, embora também tenha sido escrito para o povo de Deus orar. Ele termina com Davi adormecendo tranquilo, certo de que Deus o protege de noite como de dia.",
+          "meaning": "A paz deste versículo é a alegria do versículo anterior, levada para dentro da noite. O ensino cristão antigo diz que essa alegria não se encontra fora, no trigo, no vinho e no azeite, mas dentro, onde a luz do rosto de Deus fica gravada no coração. Uma alma puxada em muitas direções pelo desejo de ter mais não consegue descansar. Um coração que busca a Deus com simplicidade consegue.\n\nNa Bíblia Livre, quem fala diz que vai se deitar e dormir em paz, porque só o Senhor o faz descansar seguro. Na de Matos Soares, ele adormece em paz logo que se deita, porque só o Senhor o põe em segurança. O livro de salmos usado pelos primeiros pregadores cristãos dizia: em paz, juntamente, dormirei. Uma leitura antiga entendeu esse “juntamente” como apontando para o próprio Deus, que é sempre o mesmo. Esse mesmo texto terminava o versículo assim: tu me fizeste habitar na esperança.\n\nO sono aqui é, antes de tudo, o sono de uma noite segura. Mas alguns ensinaram que ele também é uma imagem do descanso final.",
+          "theology": "A verdadeira paz vem do favor de Deus. Muita gente quer mais trigo e mais vinho. O salmo aponta, em vez disso, para a luz do rosto de Deus. O ensino cristão antigo diz que a alegria se encontra dentro, onde a luz de Deus fica gravada na alma como a imagem do rei numa moeda. A verdadeira alegria é dom de Deus, e nenhuma colheita se compara a ela.\n\nSó Deus basta para nos guardar. Quem fala dorme tão seguro sozinho como se uma grande multidão vigiasse ao seu redor. Mesmo quando não se vê nenhuma ajuda humana, os que estão sob a mão de Deus são guardados em paz. Quem entregou as suas preocupações a Deus pode se deitar como o agricultor que semeia e depois dorme enquanto a semente cresce.\n\nUm coração dividido não descansa. Correr atrás de muitas coisas passageiras despedaça a pessoa. Deus é sempre o mesmo e nunca muda, e nele há um descanso que esquece todo cansaço.\n\nO sono desta noite aponta para o descanso final. No texto que os primeiros pregadores cristãos liam, o verbo olha para a frente: dormirei. Eles viram aqui a paz perfeita esperada depois desta vida, quando a morte for tragada pela vitória. E, como esse mesmo texto diz que o Senhor já nos firmou na esperança, esse descanso é certo.",
+          "today": "Antes de dormir esta noite, talvez você possa dizer a Deus as preocupações do dia, uma de cada vez, e depois deixá-las com ele. O descanso pode começar antes que todos os problemas estejam resolvidos.",
+          "question": "O que eu gostaria de entregar a Deus esta noite, para poder me deitar em paz?",
+          "words": [
+            {
+              "term": "só",
+              "original": "lebadad · לְבָדָד (hebraico)",
+              "meaning": "Uma palavra hebraica que significa sozinho, ou à parte. Alguns a ligam a Deus, como faz a sua Bíblia: só tu, Senhor, me dás segurança. Outros a ligam a quem fala: vivo sozinho e, mesmo assim, estou seguro. Lida desse modo, ela responde à palavra “juntamente”, que no hebraico e no grego aparece no começo do versículo."
+            }
+          ],
+          "teaching": [
+            {
+              "title": "A verdadeira paz vem do favor de Deus",
+              "text": "Quando muitos perguntam quem lhes mostrará o bem, em geral pensam em mais trigo e mais vinho. O salmo aponta, em vez disso, para a luz do rosto de Deus e para a alegria que ele põe no coração. Essa alegria não se encontra fora, diz o ensino cristão antigo, mas dentro, onde a luz de Deus fica gravada na alma como a imagem do rei numa moeda. A verdadeira alegria é dom de Deus, e nem a alegria de uma colheita farta se compara a ela."
+            },
+            {
+              "title": "Só Deus basta para nos guardar",
+              "text": "Quem fala dorme tão seguro sozinho como se uma grande multidão vigiasse ao seu redor, porque o próprio Deus o guarda. Mesmo quando não se vê nenhuma ajuda humana, os que estão sob a mão de Deus são guardados em paz e segurança. Depois de entregar as suas preocupações a Deus com fé e oração, quem crê pode se deitar como o agricultor que semeou: ele dorme e se levanta, e a semente cresce, sem que ele saiba como."
+            },
+            {
+              "title": "Um coração dividido não descansa",
+              "text": "Quem corre atrás de muitas coisas passageiras acaba despedaçado por elas. Cheio de pensamentos ansiosos, não consegue ver o único bem simples. O ensino cristão antigo põe essa multidão de desejos ao lado dos primeiros cristãos, que tinham um só coração e uma só alma. Deus é sempre o mesmo e nunca muda, e nele há um descanso que esquece todo cansaço. Por isso não é preciso correr atrás de tantas coisas que não são Deus."
+            },
+            {
+              "title": "O sono desta noite aponta para o descanso final",
+              "text": "Os primeiros pregadores cristãos notaram que, no texto que liam, o versículo fala do futuro: não “dormi”, mas “dormirei”. Viram nele a paz perfeita que nenhum tumulto pode quebrar, esperada depois desta vida, quando a morte for tragada pela vitória. Mas esse mesmo texto também diz que o Senhor já firmou na esperança quem fala, e, onde essa esperança já está, o que se espera certamente virá. Alguns também o leram pensando no fim da vida: quem crê pode se deitar na morte como Simeão partiu em paz, confiando que Deus guarda em segurança a alma e o corpo."
+            }
+          ],
+          "differences": [
+            {
+              "title": "Juntamente com quem?",
+              "text": "No hebraico e na antiga tradução grega, o versículo começa com uma palavra que quer dizer “juntamente”: em paz, juntamente, dormirei. Alguns entenderam essa palavra como apontando para o próprio Deus, aquele que é sempre o mesmo. Outros a entendem no sentido de que quem fala dorme tão seguro sozinho como se uma grande multidão o cercasse. Outros ainda pensaram que os seus inimigos se reconciliariam, de modo que ele poderia dormir em paz no meio deles."
+            },
+            {
+              "title": "Quem está sozinho?",
+              "text": "A sua Bíblia liga a palavra “só” a Deus: só o Senhor dá segurança. Alguns leitores protestantes a ligam a quem fala, que está sozinho e mesmo assim seguro, e acham que de outro modo se perde o contraste com “juntamente”. Outros mantêm as duas ideias ao mesmo tempo: embora eu esteja sozinho, não estou só, porque só o Senhor me basta."
+            },
+            {
+              "title": "O sono desta noite, ou o descanso final?",
+              "text": "Alguns pregadores cristãos antigos leram o sono sobretudo como o descanso perfeito esperado depois desta vida, e destacaram o tempo futuro do verbo. Os mestres protestantes o leram primeiro como a tranquilidade presente sob a proteção de Deus, e alguns o estendem à morte de quem crê."
+            }
+          ]
+        },
+        "es": {
+          "simple": "Son las últimas palabras del salmo. Después de un día difícil, el que habla se acuesta y duerme en paz, porque solo el Señor lo mantiene seguro.\n\nSu paz no viene de un mundo tranquilo. Viene de Dios. Nada a su alrededor ha cambiado, pero ha puesto sus preocupaciones en manos del Señor, y por eso puede descansar.",
+          "context": "El Salmo 4 es una oración de David. En la Reina-Valera estas palabras cierran el salmo como versículo 8. En las Biblias que cuentan el título del salmo como primer versículo, como muchas Biblias católicas, llevan el número 9, o se reparten entre los versículos 9 y 10.\n\nEl salmo empieza con el clamor de alguien acorralado por la angustia. Luego David se dirige a quienes aman la vanidad y buscan la mentira, y les pregunta hasta cuándo seguirán así. Los llama a meditar en su corazón sobre su cama, a ofrecer sacrificios de justicia y a confiar en el Señor. Muchos a su alrededor preguntan quién les mostrará el bien. Su respuesta es la luz del rostro de Dios, que ha puesto alegría en su corazón.\n\nEl salmo puede venir de los largos años en que David huía perseguido, aunque también se escribió para que el pueblo de Dios lo orara. Termina con él durmiéndose en calma, seguro de que Dios lo protege de noche igual que de día.",
+          "meaning": "La paz de este versículo es la alegría del versículo anterior llevada a la noche. La enseñanza cristiana antigua dice que esa alegría no se encuentra afuera, en el trigo, el vino y el aceite, sino dentro, donde la luz del rostro de Dios queda grabada en el corazón. Un alma que el deseo de tener más tira hacia muchos lados no puede descansar. Un corazón que busca a Dios con sencillez, sí.\n\nEn la Reina-Valera, el que habla se acostará y asimismo dormirá en paz, porque solo el Señor le hará estar confiado. El libro de los Salmos que usaban los primeros predicadores cristianos, que venía de la antigua traducción griega, decía: en paz, juntamente, dormiré. Una lectura antigua entendió que esa palabra, juntamente (literalmente, en lo mismo), apuntaba a Dios mismo, que es siempre el mismo. Esos mismos salterios terminaban el versículo así: me has establecido en la esperanza.\n\nEl sueño del que se habla aquí es, ante todo, el de una noche segura. Pero algunos enseñaron que es también una imagen del descanso final.",
+          "theology": "La paz verdadera viene del favor de Dios. Mucha gente quiere más trigo y más vino. El salmo señala en cambio la luz del rostro de Dios. La enseñanza cristiana antigua dice que la alegría se encuentra dentro, donde la luz de Dios queda grabada en el alma como la imagen del rey en una moneda. La verdadera alegría es un regalo de Dios, y ninguna cosecha puede igualarla.\n\nSolo Dios basta para guardarnos. El que habla duerme tan seguro estando solo como si una gran compañía hiciera guardia a su alrededor. Aun cuando no se ve ninguna ayuda humana, los que están bajo la mano de Dios son guardados en paz. Quien ha entregado sus preocupaciones a Dios puede acostarse como el agricultor que siembra su semilla y luego duerme mientras crece.\n\nUn corazón dividido no puede descansar. Perseguir muchas cosas pasajeras desgarra a una persona. Dios es siempre el mismo y nunca cambia, y en él hay un descanso que olvida toda fatiga.\n\nEl sueño de esta noche apunta al descanso final. El versículo mira hacia adelante: dormiré. Los primeros predicadores cristianos vieron aquí la paz perfecta que se espera después de esta vida, cuando la muerte sea sorbida en victoria. Y como, según su lectura, el Señor ya nos ha establecido en la esperanza, ese descanso es seguro.",
+          "today": "Antes de dormir esta noche, podrías nombrar ante Dios las preocupaciones del día, una por una, y luego dejarlas con él. El descanso puede empezar antes de que se resuelva cada problema.",
+          "question": "¿Qué me gustaría entregar a Dios esta noche, para poder acostarme en paz?",
+          "words": [
+            {
+              "term": "solo",
+              "original": "lebadad · לְבָדָד (hebreo)",
+              "meaning": "Una palabra hebrea que significa solo, o aparte. Algunos la unen a Dios, como hace la Reina-Valera: solo tú, Señor, me harás estar confiado. Otros la unen al que habla: vivo solo, y aun así estoy seguro. Leída así, responde a la palabra juntamente (en la Reina-Valera, asimismo) que aparece antes en el versículo."
+            }
+          ],
+          "teaching": [
+            {
+              "title": "La paz verdadera viene del favor de Dios",
+              "text": "Cuando muchos preguntan quién les mostrará el bien, por lo general quieren decir más trigo y más vino. El salmo señala en cambio la luz del rostro de Dios y la alegría que él pone en el corazón. Esa alegría no se encuentra afuera, dice la enseñanza cristiana antigua, sino dentro, donde la luz de Dios queda grabada en el alma como la imagen del rey en una moneda. La verdadera alegría es un regalo de Dios, y ni siquiera la alegría de una cosecha abundante puede igualarla."
+            },
+            {
+              "title": "Solo Dios basta para guardarnos",
+              "text": "El que habla duerme tan seguro estando solo como si una gran compañía hiciera guardia a su alrededor, porque Dios mismo lo guarda. Aun cuando no se ve ninguna ayuda de otras personas, los que están bajo la mano de Dios son guardados en paz y seguridad. Después de entregar sus preocupaciones a Dios con fe y oración, el creyente puede acostarse como el agricultor que ha sembrado su semilla: duerme y se levanta, y la semilla crece sin que él sepa cómo."
+            },
+            {
+              "title": "Un corazón dividido no puede descansar",
+              "text": "Quienes persiguen muchas cosas pasajeras quedan desgarrados por ellas. Llenos de pensamientos ansiosos, no logran ver el único bien sencillo. La enseñanza cristiana antigua pone esa multitud de deseos al lado de los primeros creyentes, que tenían un solo corazón y una sola alma. Dios es siempre el mismo y nunca cambia, y en él hay un descanso que olvida toda fatiga. Por eso no hace falta correr tras las muchas cosas que no son Dios."
+            },
+            {
+              "title": "El sueño de esta noche apunta al descanso final",
+              "text": "Los primeros predicadores cristianos notaron que el versículo habla del futuro: no dice he dormido, sino dormiré. Vieron en él la paz perfecta que ningún tumulto puede romper, esperada después de esta vida, cuando la muerte sea sorbida en victoria. Pero, en el salterio que ellos leían, el versículo dice también que el Señor ya ha establecido en la esperanza al que habla, y donde esa esperanza está ahora, lo esperado llegará con seguridad. Algunos lo leen también al final de la vida: el creyente puede acostarse en la muerte como Simeón partió en paz, confiando en que Dios guardará seguros su alma y su cuerpo."
+            }
+          ],
+          "differences": [
+            {
+              "title": "¿Juntamente con quién?",
+              "text": "En el antiguo salterio griego y latino, el versículo dice que el que habla dormirá juntamente; la Reina-Valera dice asimismo. Algunos entienden que esa palabra apunta a Dios mismo, Aquel que es siempre el mismo. Otros entienden que el que habla duerme tan seguro solo como si lo rodeara una gran multitud. Otros pensaron que sus enemigos se reconciliarían con él, de modo que podría dormir en paz entre ellos."
+            },
+            {
+              "title": "¿Quién está solo?",
+              "text": "La Reina-Valera une la palabra solo a Dios: solo tú, Señor, me harás estar confiado. Algunos lectores protestantes la unen al que habla, que está solo y aun así seguro, y sienten que, de otro modo, se pierde el contraste con juntamente. Otros sostienen las dos ideas a la vez: aunque estoy solo, no estoy solo, porque el Señor solo me basta."
+            },
+            {
+              "title": "¿El sueño de esta noche, o el descanso final?",
+              "text": "Algunos predicadores cristianos antiguos leyeron el sueño sobre todo como el descanso perfecto que se espera después de esta vida, y subrayaron el tiempo futuro. Los maestros protestantes lo leyeron primero como la calma presente bajo la protección de Dios, y algunos lo extienden a la muerte del creyente."
+            }
+          ]
+        },
+        "ru": {
+          "simple": "Это последние слова псалма. После тревожного дня человек спокойно ложится и спит, потому что только Господь хранит его в безопасности.\n\nЕго покой не оттого, что вокруг стало тихо. Он от Бога. Вокруг ничего не изменилось, но человек отдал свои заботы Господу и поэтому может отдохнуть.",
+          "context": "Псалом 4 — молитва Давида. В вашей Библии его заглавие считается первым стихом, поэтому эти слова, завершающие псалом, стоят под номером 9. Во многих других Библиях это стих 8.\n\nПсалом начинается с вопля о помощи человека, которого теснят беды. Затем Давид обращается к тем, кто любит суету и ищет лжи, и спрашивает, доколе это будет; в древнем греческом переводе он спрашивает ещё, доколе они будут тяжки сердцем. Он призывает их размыслить в сердцах своих на ложах своих, приносить жертвы правды и уповать на Господа. Многие вокруг говорят: «кто покажет нам благо?» Его ответ — свет лица Божьего, который исполнил его сердце веселием.\n\nВозможно, псалом относится к долгим годам, когда Давида преследовали и он скрывался, но он написан и для того, чтобы им молился народ Божий. Заканчивается он тем, что Давид спокойно засыпает, уверенный, что Бог хранит его и ночью, и днём.",
+          "meaning": "Покой этого стиха — то самое веселие из предыдущего стиха, перенесённое в ночь. Древнее христианское учение говорит, что это веселие находится не снаружи — не в хлебе, вине и елее, — а внутри, где на сердце запечатлён свет лица Божьего. Душа, которую раздирает желание иметь больше, не может успокоиться. Сердце, которое просто ищет Бога, — может.\n\nВ вашей Библии сказано: «Спокойно ложусь я и сплю, ибо Ты, Господи, един даёшь мне жить в безопасности». В древнем греческом переводе Псалтири, которым пользовались ранние христианские проповедники и которым до сих пор молится Православная Церковь, стих звучит иначе: «в мире вместе усну и почию». Одно древнее толкование видело в слове «вместе» указание на Самого Бога, Который всегда тот же. И заканчивался стих там так: «Ты вселил меня в надежде».\n\nСон здесь — прежде всего сон спокойной ночи. Но, как учили некоторые, это и образ последнего покоя.",
+          "theology": "Настоящий мир — от Божьей благосклонности. Многие хотят больше хлеба и вина. Псалом же указывает на свет лица Божьего. Древнее христианское учение говорит, что веселие находится внутри, где Божий свет запечатлён на душе, как образ царя на монете. Истинная радость — дар Божий, и никакой урожай с ней не сравнится.\n\nОдного Бога довольно, чтобы нас сохранить. Человек спит в одиночестве так же спокойно, как если бы вокруг стояла большая стража. Даже когда никакой человеческой помощи не видно, те, кто под рукой Божьей, хранятся в мире. Верующий, который отдал свои заботы Богу, может лечь, как земледелец, посеявший семя: он спит, а семя растёт.\n\nРазделённое сердце не может успокоиться. Погоня за множеством преходящих вещей разрывает человека на части. Бог всегда один и тот же и никогда не меняется, и в Нём покой, в котором забываются все труды.\n\nСегодняшний сон указывает на последний покой. В вашей Библии сказано в настоящем времени: «ложусь я и сплю», а в греческом переводе стих смотрит вперёд: «усну». Ранние христианские проповедники видели здесь совершенный мир, на который мы надеемся после этой жизни, когда смерть будет поглощена победой. И поскольку там же сказано, что Господь уже вселил нас в надежде, этот покой несомненен.",
+          "today": "Перед сном можно назвать Богу заботы прошедшего дня, одну за другой, и оставить их у Него. Отдых может начаться раньше, чем решатся все проблемы.",
+          "question": "Что вам хотелось бы отдать Богу сегодня вечером, чтобы спокойно лечь и уснуть?",
+          "words": [
+            {
+              "term": "един (только)",
+              "original": "lebadad · לְבָדָד (евр.)",
+              "meaning": "Еврейское слово, означающее «один», «отдельно». Одни относят его к Богу, как и ваша Библия: «Ты, Господи, един даёшь мне жить в безопасности». Другие относят его к самому говорящему: я живу один — и всё же в безопасности. При таком прочтении оно перекликается со словом «вместе» в начале стиха: оно есть в еврейском и греческом тексте, но в вашей Библии не передано."
+            }
+          ],
+          "teaching": [
+            {
+              "title": "Настоящий мир — от Божьей благосклонности",
+              "text": "Когда многие спрашивают: «кто покажет нам благо?» — они обычно имеют в виду больше хлеба и вина. Псалом же указывает на свет лица Божьего и на веселие, которое Бог даёт сердцу. Это веселие, говорит древнее христианское учение, находится не снаружи, а внутри, где Божий свет запечатлён на душе, как образ царя на монете. Истинная радость — дар Божий, и даже радость богатого урожая с ней не сравнится."
+            },
+            {
+              "title": "Одного Бога довольно, чтобы нас сохранить",
+              "text": "Человек спит в одиночестве так же спокойно, как если бы вокруг стояла большая стража, потому что его хранит Сам Бог. Даже когда никакой помощи от людей не видно, те, кто под рукой Божьей, хранятся в мире и безопасности. Отдав свои заботы Богу с верой и молитвой, верующий может лечь, как земледелец, посеявший семя: он спит и встаёт, а семя растёт, хотя он и не знает как."
+            },
+            {
+              "title": "Разделённое сердце не может успокоиться",
+              "text": "Тех, кто гонится за множеством преходящих вещей, эти вещи раздирают на части. Полные тревожных мыслей, они не видят единого простого блага. Древнее христианское учение противопоставляет этому множеству желаний первых верующих, у которых было одно сердце и одна душа. Бог всегда один и тот же и никогда не меняется, и в Нём покой, в котором забываются все труды. Поэтому незачем гнаться за множеством того, что не есть Бог."
+            },
+            {
+              "title": "Сегодняшний сон указывает на последний покой",
+              "text": "Ранние христианские проповедники, читавшие этот стих по-гречески, заметили, что он говорит о будущем: не «я уснул», а «усну» (в вашей Библии здесь настоящее время: «ложусь я и сплю»). Они видели в нём совершенный мир, которого не нарушит никакое смятение, — мир, на который мы надеемся после этой жизни, когда смерть будет поглощена победой. Но в греческом тексте того же стиха сказано, что Господь уже вселил говорящего в надежде, а где надежда есть уже сейчас, там непременно придёт и то, на что надеются. Некоторые относили этот стих и к концу жизни: верующий может лечь в смерти, как Симеон, отошедший с миром, доверяя Богу сохранить и душу, и тело."
+            }
+          ],
+          "differences": [
+            {
+              "title": "Вместе — с кем?",
+              "text": "В древнем греческом переводе стих начинается словами «в мире вместе усну»; в вашей Библии слово «вместе» не передано. Одни видели в нём указание на Самого Бога, Который всегда тот же. Другие понимали так: человек спит в одиночестве так же спокойно, как если бы его окружала большая толпа. Третьи думали, что его враги примирятся с ним и он сможет спокойно спать среди них."
+            },
+            {
+              "title": "Кто один?",
+              "text": "Ваша Библия относит слово «один» к Богу: «Ты, Господи, един даёшь мне жить в безопасности». Некоторые протестантские читатели относят его к говорящему, который один и всё же в безопасности, и считают, что иначе теряется противопоставление со словом «вместе» в начале стиха. Третьи держат обе мысли сразу: хотя я один, я не одинок, ведь одного Господа довольно."
+            },
+            {
+              "title": "Сон этой ночи — или последний покой?",
+              "text": "Некоторые древние христианские проповедники понимали этот сон прежде всего как совершенный покой, на который мы надеемся после этой жизни, и подчёркивали будущее время глагола в греческом тексте. Протестантские учители видели здесь прежде всего тихий покой уже сейчас, под Божьей защитой, а некоторые распространяли это и на смерть верующего."
+            }
+          ]
+        }
+      }
+    },
+    "brenton-psalm-99-3": {
+      "verses": [
+        "synodal:PSA.99.3",
+        "blivre:PSA.100.3",
+        "rv1909:PSA.100.3",
+        "matos:PSA.99.3"
+      ],
+      "echoes": [
+        {
+          "ref": "PSA.95.7",
+          "dra": "PSA.94.7",
+          "brenton": "PSA.94.7",
+          "synodal": "PSA.94.7"
+        },
+        {
+          "ref": "PSA.118.19",
+          "dra": "PSA.117.19",
+          "brenton": "PSA.117.19",
+          "synodal": "PSA.117.19"
+        },
+        {
+          "ref": "PSA.147.7",
+          "dra": "PSA.146.7",
+          "brenton": "PSA.146.7",
+          "synodal": "PSA.146.7"
+        }
+      ],
+      "sources": [
+        {
+          "label": "Augustine, Expositions on the Psalms, Psalm 100 (Psalm 99 in the Greek numbering), sections 3, 7 and 11–13. Translated by J. E. Tweed, Nicene and Post-Nicene Fathers I.8 (1888).",
+          "url": "https://www.newadvent.org/fathers/1801100.htm"
+        },
+        {
+          "label": "Augustine, Expositions on the Psalms, Psalm 95 (Psalm 94 in the Greek numbering), sections 8–9. Translated by J. E. Tweed, Nicene and Post-Nicene Fathers I.8 (1888).",
+          "url": "https://www.newadvent.org/fathers/1801095.htm"
+        },
+        {
+          "label": "Athanasius, Discourse II Against the Arians, chapter 19, section 51. Translated by John Henry Newman and Archibald Robertson, Nicene and Post-Nicene Fathers II.4 (1892).",
+          "url": "https://www.newadvent.org/fathers/28162.htm"
+        },
+        {
+          "label": "Augustine, Confessions 9.10. Translated by J. G. Pilkington, Nicene and Post-Nicene Fathers I.1 (1887).",
+          "url": "https://www.newadvent.org/fathers/110109.htm"
+        },
+        {
+          "label": "John Calvin, Commentary on the Book of Psalms, volume 4, on Psalm 100:1–3, with the translator's note on the Hebrew text. Translated by James Anderson.",
+          "url": "https://ccel.org/ccel/calvin/calcom11/calcom11.ix.i.html"
+        },
+        {
+          "label": "Matthew Henry, Commentary on the Whole Bible, volume 3, Psalm 100.",
+          "url": "https://www.ccel.org/ccel/henry/mhc3.Ps.ci.html"
+        },
+        {
+          "label": "Catechism of the Catholic Church, paragraphs 753–754.",
+          "url": "https://www.vatican.va/archive/ENG0015/__P27.HTM"
+        },
+        {
+          "label": "Scripture quotations: Brenton Septuagint, 1851 (public domain)."
+        }
+      ],
+      "languages": {
+        "pt": {
+          "simple": "Este versículo nos pede que saibamos três coisas. O Senhor é Deus. Foi ele quem nos fez. E pertencemos a ele: somos o seu povo e as ovelhas do seu pasto.\n\nAssim, aqui o pertencer não começa com nada que conquistamos. Começa com o fato de termos sido feitos. E aquele que nos fez não nos deixa à própria sorte. Como um pastor com o seu rebanho, ele alimenta e guarda o que fez.",
+          "context": "Na Bíblia Livre e em outras Bíblias que seguem a numeração hebraica, este é o Salmo 100. Nas Bíblias católicas que seguem a numeração grega e latina, como a de Matos Soares, é o Salmo 99. O seu título antigo o chama de salmo de ação de graças, e ele tem só cinco versículos.\n\nO salmo chama a terra inteira, e não uma só nação, a aclamar o Senhor com alegria, a servi-lo com alegria e a vir à sua presença. Este versículo dá o motivo de toda essa alegria. Depois o salmo convida o povo a entrar pelas suas portas com ação de graças, e termina dizendo: o Senhor é bom, e a sua bondade, a sua misericórdia, dura para sempre.\n\nComo chama todas as terras, os cristãos há muito tempo ouvem nele a Igreja reunida de todas as nações. Ele foi feito para ser cantado, e muitos ainda o cantam com frequência quando se reúnem para adorar a Deus.",
+          "meaning": "Saber que o Senhor é Deus é mais do que concordar que um deus existe. É dar a ele toda a honra e não pôr nada ao seu lado. Os primeiros pregadores cristãos ouviam aqui ainda mais: o Senhor de quem zombaram, em quem bateram e a quem pregaram na cruz é este mesmo Deus, aquele que nos fez.\n\nAs Bíblias trazem a frase do meio de dois modos. A Bíblia Livre diz: “foi ele, e não nós, que nos fez”. Essa é também a leitura da antiga tradução grega, e os primeiros mestres cristãos, no Oriente e no Ocidente, citavam o versículo assim. Já a de Matos Soares diz: “ele nos fez, e somos seus”, e muitas Bíblias traduzidas do hebraico leem da mesma forma. Em hebraico, as duas leituras diferem por uma única letra. Lidas juntas, dizem uma só coisa: porque ele nos fez, e não fomos nós que nos fizemos, não somos de nós mesmos, mas dele.\n\nA última linha junta duas imagens. Somos o seu povo, e somos as suas ovelhas. As muitas ovelhas formam um só rebanho. E esse rebanho não só tem dono, mas é alimentado: são as ovelhas do seu pasto, aquelas de quem ele cuida.",
+          "theology": "Não fomos nós que nos fizemos, então não há lugar para o orgulho. Outro nos fez, e é bom deixarmos que ele também nos torne inteiros. Toda a criação, ensinava a Igreja antiga, diz a mesma coisa a quem a escuta: não fomos nós que nos fizemos, mas fomos feitos por aquele que permanece para sempre.\n\nSomos criaturas dele por natureza e filhos por graça. Como obras das suas mãos, somos seus servos. Mas o Filho se tornou como nós, para que recebêssemos o seu Espírito e ousássemos chamar o nosso Senhor de Pai. Somos servos porque fomos feitos, e livres porque somos amados.\n\nO Pastor procura e guarda o seu rebanho. Ele deixou as noventa e nove para encontrar a que estava perdida e a carregou para casa nos ombros. A Igreja é o rebanho que Deus prometeu pastorear ele mesmo, alimentado e guiado por Cristo, que deu a vida pelas suas ovelhas.\n\nO pertencer se abre em ação de graças. Confesse que não foi você quem se fez, e louve aquele que fez você. Essa confissão é a porta por onde o rebanho entra, e o louvor nunca terá fim.",
+          "today": "Repare hoje em um momento em que você sente que precisa conquistar o seu lugar. Pare ali e diga baixinho o versículo para si: ele me fez, e eu sou dele. Depois continue o seu dia como alguém do rebanho dele.",
+          "question": "Onde ainda estou tentando me fazer por conta própria, em vez de descansar no fato de ser dele?",
+          "words": [
+            {
+              "term": "e não nós",
+              "original": "kai ouch hēmeis · καὶ οὐχ ἡμεῖς (grego)",
+              "meaning": "É a leitura da antiga tradução grega, e é também o que diz a Bíblia Livre. As antigas traduções siríaca e latina concordam com ela."
+            },
+            {
+              "term": "e não nós / e somos seus",
+              "original": "lo · לא / לו (hebraico)",
+              "meaning": "No texto hebraico, uma letra muda o sentido. Como está escrita, a palavra quer dizer não: ele nos fez, e não nós. Como é lida em voz alta na tradição hebraica, quer dizer dele: ele nos fez, e somos seus. Muitas Bíblias traduzidas do hebraico seguem a segunda leitura. A Bíblia Livre traz a primeira; a de Matos Soares, a segunda."
+            }
+          ],
+          "teaching": [
+            {
+              "title": "Não fomos nós que nos fizemos",
+              "text": "Os primeiros pregadores cristãos perguntavam que motivo temos para nos orgulhar, já que outro nos fez, e aquele que nos fez ainda sofreu nas nossas mãos. É bom deixarmos que aquele que nos fez também nos torne perfeitos. Toda a criação, ensinavam eles, diz a mesma coisa a quem a escuta: não fomos nós que nos fizemos, mas fomos feitos por aquele que permanece para sempre. Os mestres protestantes acrescentam que quase todo mundo admite que foi feito por Deus, mas as pessoas ainda fazem de si mesmas um deus quando atribuem ao próprio poder o que pertence só a Deus."
+            },
+            {
+              "title": "Criaturas por natureza, filhos por graça",
+              "text": "Porque Deus nos fez, somos obras dele e, por natureza, seus servos. Mas, por amor a nós, o Filho tomou a forma de servo e se tornou como nós, para que, recebendo o Espírito do Filho, ousássemos chamar o nosso Senhor de Pai pela graça. Os primeiros pregadores cristãos diziam isso de modo simples: somos servos porque fomos criados, e livres porque somos amados pelo Deus que nos fez. O serviço dele é doce, porque todos nós fomos resgatados."
+            },
+            {
+              "title": "O Pastor procura e guarda o seu rebanho",
+              "text": "As ovelhas do seu pasto não ficam entregues a si mesmas. Cristo, o Pastor, deixou as noventa e nove para procurar a que estava perdida, e a carregou para casa nos ombros, resgatada pelo seu próprio sangue. O ensino católico chama a Igreja de rebanho que o próprio Deus prometeu pastorear, alimentado e guiado por Cristo, o Bom Pastor, que deu a vida pelas suas ovelhas. Os mestres protestantes destacam que a mesma graça que primeiro nos fez seus também nos guarda em segurança até o fim."
+            },
+            {
+              "title": "O pertencer se abre em ação de graças",
+              "text": "Saber a quem pertencemos é o começo da adoração. Os primeiros pregadores cristãos insistiam: confessem que não foram vocês que se fizeram, e louvem aquele por quem foram feitos. Essa confissão é a porta por onde o rebanho entra, para não ficar do lado de fora como presa dos lobos. Virá um dia em que não haverá mais confissão de pecados, mas a confissão de louvor, de que ele é Deus e nós somos suas criaturas, continuará para sempre."
+            }
+          ],
+          "differences": [
+            {
+              "title": "“E não nós”, ou “somos seus”?",
+              "text": "O texto hebraico traz duas leituras que diferem por uma letra: ele nos fez, e não nós; ou: ele nos fez, e somos seus. As antigas traduções grega, siríaca e latina seguem a primeira, como a Bíblia Livre, enquanto alguns estudiosos posteriores preferem a segunda, que é a que aparece na de Matos Soares. Alguns mantêm a forma conhecida, dizendo que o sentido não muda. Outros juntam as duas: porque Deus nos fez, e não fomos nós que nos fizemos, não somos de nós mesmos, mas dele."
+            },
+            {
+              "title": "Feitos como seres humanos, ou feitos de novo?",
+              "text": "Muitos leem “ele nos fez” como a própria criação: Deus formou o nosso corpo e é o Pai do nosso espírito, e somos obras dele por natureza. Alguns mestres protestantes o leem, em vez disso, como o ser feito de novo, o segundo nascimento pelo qual Deus forma o seu povo para si, um dom muito maior do que simplesmente nascer humano. Os primeiros pregadores cristãos mantinham as duas coisas bem próximas: aquele que nos fez é a Palavra por meio da qual todas as coisas foram feitas, e é bom deixarmos que ele também nos torne perfeitos."
+            }
+          ]
+        },
+        "es": {
+          "simple": "Este versículo nos pide reconocer tres cosas. El Señor es Dios. Él nos hizo, y no nosotros a nosotros mismos. Y le pertenecemos: somos su pueblo y ovejas de su prado.\n\nAsí que aquí pertenecer no empieza con nada que logremos. Empieza con haber sido hechos. Y el que nos hizo no nos deja arreglárnoslas solos. Como un pastor con su propio rebaño, alimenta y cuida lo que ha hecho.",
+          "context": "En la Reina-Valera y en las Biblias que siguen la numeración hebrea es el Salmo 100. En las Biblias que siguen la numeración griega y latina, como muchas Biblias católicas, es el Salmo 99. Su título lo llama salmo de alabanza, o de acción de gracias, y es muy breve: solo cinco versículos.\n\nEl salmo llama a toda la tierra, no a una sola nación, a cantar alegres al Señor, a servirle con alegría y a presentarse ante él. Este versículo da la razón de toda esa alegría. Luego el salmo invita al pueblo a entrar por sus puertas con acción de gracias, y termina: el Señor es bueno, y para siempre es su misericordia.\n\nComo llama a todas las tierras, los cristianos han oído en él desde hace mucho a la Iglesia reunida de todas las naciones. Se hizo para cantarse, y muchos todavía lo cantan a menudo cuando se reúnen para el culto.",
+          "meaning": "Reconocer que el Señor es Dios es más que admitir que existe un dios. Significa darle todo su honor y no poner nada a su lado. Los primeros predicadores cristianos oyeron aquí algo más: el Señor de quien se burlaron, al que golpearon y clavaron en la cruz, es este mismo Dios, el que nos hizo.\n\nTu Biblia dice: él nos hizo, y no nosotros a nosotros mismos. Así se lee el texto hebreo tal como está escrito, y así lo traducen también la antigua traducción griega y la latina; los primeros maestros cristianos de Oriente y de Occidente citaban el versículo de esa forma. Muchas Biblias modernas traducidas del hebreo dicen en cambio: él nos hizo, y suyos somos. En hebreo, las dos lecturas se diferencian en una sola letra. Leídas juntas, dicen una sola cosa: porque él nos hizo, y no nos hicimos nosotros, no nos pertenecemos, sino que somos suyos.\n\nLa última línea une dos imágenes. Somos su pueblo, y somos sus ovejas. Las muchas ovejas forman un solo rebaño. Y este rebaño no solo tiene dueño, sino que recibe alimento: son las ovejas de su prado, las que él cuida.",
+          "theology": "No nos hicimos a nosotros mismos, así que no hay lugar para el orgullo. Otro nos hizo, y nos hace bien dejar que él también nos haga completos. Toda la creación, enseñaba la Iglesia antigua, dice lo mismo a quien escucha: no nos hicimos a nosotros mismos, sino que nos hizo el que permanece para siempre.\n\nSomos sus criaturas por naturaleza y sus hijos por gracia. Como obra de sus manos, somos sus siervos. Pero el Hijo se hizo como nosotros, para que recibiéramos su Espíritu y nos atreviéramos a llamar Padre a nuestro Señor. Somos siervos porque fuimos hechos, y libres porque somos amados.\n\nEl Pastor busca y guarda a su rebaño. Dejó las noventa y nueve para encontrar a la que faltaba, y la llevó a casa sobre sus hombros. La Iglesia es el rebaño que Dios prometió pastorear él mismo, alimentado y guiado por Cristo, que dio su vida por sus ovejas.\n\nPertenecer se abre en acción de gracias. Reconoce que tu vida no es obra tuya, y alaba a quien te hizo. Esa confesión es la puerta por la que entra el rebaño, y la alabanza no tendrá fin.",
+          "today": "Fíjate hoy en algún momento en que sientas que tienes que ganarte tu lugar. Detente ahí y repite en voz baja el versículo: él me hizo, y le pertenezco. Luego sigue con tu día como parte de su rebaño.",
+          "question": "¿Dónde sigo intentando construirme por mi cuenta, en lugar de descansar en que le pertenezco?",
+          "words": [
+            {
+              "term": "y no nosotros a nosotros mismos",
+              "original": "kai ouch hēmeis · καὶ οὐχ ἡμεῖς (griego)",
+              "meaning": "La forma de la antigua traducción griega, que coincide con tu Biblia. Las antiguas traducciones siríaca y latina dicen lo mismo."
+            },
+            {
+              "term": "no (o suyos)",
+              "original": "lo · לא / לו (hebreo)",
+              "meaning": "En el texto hebreo, una sola letra cambia el sentido. Tal como está escrita, la palabra significa no: él nos hizo, y no nosotros a nosotros mismos. Tal como se lee en voz alta en la tradición hebrea, significa suyo: él nos hizo, y suyos somos. Muchas Biblias traducidas del hebreo siguen la segunda; la Reina-Valera sigue la primera."
+            }
+          ],
+          "teaching": [
+            {
+              "title": "No nos hicimos a nosotros mismos",
+              "text": "Los primeros predicadores cristianos preguntaban qué razón tenemos para el orgullo, si otro nos hizo, y el que nos hizo también sufrió a manos nuestras. Nos hace bien dejar que el que nos hizo nos haga también perfectos. Toda la creación, enseñaban, dice lo mismo a quien escucha: no nos hicimos a nosotros mismos, sino que nos hizo el que permanece para siempre. Los maestros protestantes añaden que casi todos admiten que Dios los hizo, y aun así la gente se hace un dios de sí misma cuando atribuye a su propio poder lo que pertenece solo a Dios."
+            },
+            {
+              "title": "Criaturas por naturaleza, hijos por gracia",
+              "text": "Porque Dios nos hizo, somos obra suya y, por naturaleza, sus siervos. Pero, por amor a nosotros, el Hijo tomó forma de siervo y se hizo como nosotros, para que, al recibir el Espíritu del Hijo, nos atreviéramos a llamar Padre a nuestro Señor por gracia. Los primeros predicadores cristianos lo decían con sencillez: somos siervos porque fuimos creados, y libres porque nos ama el Dios que nos hizo. Su servicio es dulce, porque todos hemos sido redimidos."
+            },
+            {
+              "title": "El Pastor busca y guarda a su rebaño",
+              "text": "Las ovejas de su prado no quedan abandonadas a su suerte. Cristo, el Pastor, dejó las noventa y nueve para buscar a la que faltaba, y la llevó a casa sobre sus hombros, rescatada con su propia sangre. La enseñanza católica llama a la Iglesia el rebaño que Dios mismo prometió pastorear, alimentado y guiado por Cristo, el Buen Pastor, que dio la vida por sus ovejas. Los maestros protestantes subrayan que la misma gracia que primero nos hizo suyos nos guarda también seguros hasta el fin."
+            },
+            {
+              "title": "Pertenecer se abre en acción de gracias",
+              "text": "Saber de quién somos es el comienzo de la adoración. Los primeros predicadores cristianos exhortaban: confiesen que no se hicieron a sí mismos, y alaben a aquel por quien fueron hechos. Esa confesión es la puerta por la que entra el rebaño, para no quedar afuera como presa de los lobos. Llegará un día en que ya no habrá confesión de pecados, pero la confesión de alabanza, que él es Dios y nosotros sus criaturas, seguirá para siempre."
+            }
+          ],
+          "differences": [
+            {
+              "title": "¿No nosotros mismos, o suyos somos?",
+              "text": "El texto hebreo conserva dos lecturas que se diferencian en una letra: él nos hizo, y no nosotros a nosotros mismos; o bien, él nos hizo, y suyos somos. Las antiguas traducciones griega, siríaca y latina siguen la primera, como tu Biblia, mientras que algunos estudiosos posteriores prefieren la segunda. Unos conservan la forma conocida, diciendo que el sentido no cambia. Otros unen las dos: porque Dios nos hizo, y no nosotros a nosotros mismos, no nos pertenecemos, sino que somos suyos."
+            },
+            {
+              "title": "¿Hechos como seres humanos, o hechos de nuevo?",
+              "text": "Muchos leen él nos hizo como referido a la creación misma: Dios formó nuestro cuerpo y es el Padre de nuestro espíritu, y somos obra suya por naturaleza. Algunos maestros protestantes lo leen en cambio como ser hechos de nuevo, el segundo nacimiento por el que Dios forma a su pueblo para sí, un don mucho mayor que el simple hecho de nacer humanos. Los primeros predicadores cristianos mantenían las dos ideas muy unidas: el que nos hizo es la Palabra por medio de la cual todo fue hecho, y nos hace bien dejar que él también nos haga perfectos."
+            }
+          ]
+        },
+        "ru": {
+          "simple": "Этот стих призывает познать три вещи. Господь есть Бог. Он сотворил нас, и не мы сами себя создали. И мы принадлежим Ему: мы Его народ и овцы паствы Его.\n\nЗначит, принадлежность Ему начинается не с наших достижений. Она начинается с того, что мы сотворены. И Тот, Кто нас сотворил, не оставляет нас выживать в одиночку. Как пастырь со своим стадом, Он питает и хранит то, что создал.",
+          "context": "В вашей Библии это Псалом 99. В Библиях, где псалмы нумеруются по еврейскому тексту, это Псалом 100. Его древнее заглавие называет его псалмом благодарения, и в нём всего пять стихов.\n\nПсалом призывает всю землю, а не один народ, восклицать Господу, служить Ему с веселием и идти пред лице Его. Этот стих объясняет, откуда вся эта радость. Затем псалом приглашает войти во врата Его со славословием и заканчивается словами: благ Господь, милость Его вовек.\n\nПоскольку псалом обращён ко всем землям, христиане издавна слышат в нём Церковь, собранную из всех народов. Он создан для пения, и многие до сих пор часто поют его, когда собираются на богослужение.",
+          "meaning": "Познать, что Господь есть Бог, — больше, чем согласиться, что какой-то бог существует. Это значит воздать Ему всю честь и ничего не ставить рядом с Ним. Древние христианские проповедники слышали здесь и большее: Господь, над Которым насмехались, Которого били и пригвоздили ко кресту, — это тот же Бог, Который сотворил нас.\n\nВ вашей Библии сказано: «Он сотворил нас, и мы — Его». Так читают многие переводы с еврейского. А в древнем греческом переводе Псалтири, которым молится Православная Церковь, стоит: «Он сотворил нас, а не мы»; так этот стих приводили древние христианские учители и на Востоке, и на Западе. По-еврейски эти два прочтения различаются одной буквой. Вместе они говорят одно: Он сотворил нас, и не мы сами себя создали, а значит, мы принадлежим не себе, а Ему.\n\nПоследняя строка соединяет два образа. Мы — Его народ, и мы — Его овцы. Множество овец составляет одно стадо. И это стадо Ему не просто принадлежит — Он его питает: это овцы паствы Его, те, о ком Он заботится.",
+          "theology": "Мы не сотворили себя сами, поэтому гордиться нечем. Нас сотворил Другой, и хорошо позволить Ему также сделать нас целыми. Всё творение, учила древняя Церковь, говорит каждому, кто готов слушать, одно и то же: не мы сотворили себя, нас сотворил Тот, Кто пребывает вовек.\n\nПо природе мы Его творения, по благодати — Его дети. Как дело Его рук мы Его рабы. Но Сын стал таким, как мы, чтобы мы приняли Его Духа и дерзнули называть нашего Господа Отцом. Мы рабы, потому что сотворены, и свободны, потому что любимы.\n\nПастырь ищет и хранит Своё стадо. Он оставил девяносто девять, чтобы найти одну овцу, и принёс её домой на плечах. Церковь — то стадо, которое Бог обещал пасти Сам; её питает и ведёт Христос, положивший жизнь Свою за овец.\n\nПринадлежность Ему раскрывается в благодарении. Исповедуйте, что не вы сами себя сотворили, и хвалите Того, Кто вас сотворил. Это исповедание — врата, через которые входит стадо, и хвала эта не прекратится никогда.",
+          "today": "Заметьте сегодня момент, когда вам покажется, что своё место нужно заслужить. Остановитесь и тихо скажите себе слова этого стиха: Он сотворил меня, и я — Его. А потом продолжайте свой день как часть Его стада.",
+          "question": "Где вы всё ещё пытаетесь создать себя сами, вместо того чтобы спокойно знать, что вы — Его?",
+          "words": [
+            {
+              "term": "и мы — Его",
+              "original": "lo · לא / לו (евр.)",
+              "meaning": "В еврейском тексте одна буква меняет смысл. Как слово написано, оно значит «не»: Он сотворил нас, а не мы. Как его по еврейской традиции читают вслух, оно значит «Его»: Он сотворил нас, и мы — Его. Ваша Библия, как и многие переводы с еврейского, следует второму прочтению. Древние греческий, сирийский и латинский переводы — первому."
+            }
+          ],
+          "teaching": [
+            {
+              "title": "Не мы сотворили себя",
+              "text": "Древние христианские проповедники спрашивали: чем нам гордиться, если нас сотворил Другой, и Тот, Кто нас сотворил, ещё и пострадал от наших рук? Хорошо позволить Тому, Кто нас сотворил, также сделать нас совершенными. Всё творение, учили они, говорит каждому, кто готов слушать, одно и то же: не мы сотворили себя, нас сотворил Тот, Кто пребывает вовек. Протестантские учители добавляют, что почти каждый признаёт, что его сотворил Бог, и всё же люди делают из себя бога, когда приписывают своей силе то, что принадлежит одному Богу."
+            },
+            {
+              "title": "По природе творения, по благодати дети",
+              "text": "Раз Бог нас сотворил, мы — Его творения и по природе Его рабы. Но по любви к нам Сын принял образ раба и стал таким, как мы, чтобы мы, приняв Духа Сына, по благодати дерзнули называть нашего Господа Отцом. Древние христианские проповедники говорили просто: человек — раб, потому что сотворён, и свободен, потому что его любит сотворивший его Бог. Служить Ему сладко, потому что все мы искуплены."
+            },
+            {
+              "title": "Пастырь ищет и хранит Своё стадо",
+              "text": "Овцы паствы Его не оставлены сами по себе. Христос Пастырь оставил девяносто девять, чтобы искать одну, и принёс её домой на плечах, выкупив Своей кровью. Католическое учение называет Церковь стадом, которое Сам Бог обещал пасти; её питает и ведёт Христос, Пастырь добрый, положивший жизнь Свою за овец. Протестантские учители подчёркивают, что та же благодать, которая сначала сделала нас Его, и хранит нас до конца."
+            },
+            {
+              "title": "Принадлежность раскрывается в благодарении",
+              "text": "Знать, Чьи мы, — начало поклонения. Древние христианские проповедники призывали: исповедуйте, что не сами вы себя сотворили, и хвалите Того, Кем вы сотворены. Это исповедание — врата, через которые входит стадо, чтобы не остаться снаружи добычей волков. Придёт день, когда исповедания грехов больше не будет, но исповедание хвалы — что Он Бог, а мы Его творения — продлится вовек."
+            }
+          ],
+          "differences": [
+            {
+              "title": "«А не мы» — или «мы — Его»?",
+              "text": "В еврейском тексте есть два прочтения, которые различаются одной буквой: «Он сотворил нас, а не мы» или «Он сотворил нас, и мы — Его». Древние греческий, сирийский и латинский переводы следуют первому, и так этот стих звучит в Псалтири, которой молится Православная Церковь. Ваша Библия, как и некоторые более поздние исследователи, следует второму. Одни держатся старого прочтения «а не мы», говоря, что смысл от этого не меняется. Другие соединяют оба: раз Бог сотворил нас, а не мы сами, то мы принадлежим не себе, а Ему."
+            },
+            {
+              "title": "Сотворены как люди — или сотворены заново?",
+              "text": "Многие относят слова «Он сотворил нас» к самому творению: Бог создал наши тела и есть Отец наших духов, и по природе мы Его творения. Некоторые протестантские учители понимают их иначе — как сотворение заново, второе рождение, которым Бог образует Свой народ для Себя; а это дар куда больший, чем просто родиться человеком. Древние христианские проповедники держали оба смысла рядом: Тот, Кто нас сотворил, — это Слово, через Которое всё сотворено, и хорошо позволить Ему также сделать нас совершенными."
+            }
+          ]
+        }
+      }
+    },
+    "brenton-psalm-106-1": {
+      "verses": [
+        "synodal:PSA.106.1",
+        "blivre:PSA.107.1",
+        "rv1909:PSA.107.1",
+        "matos:PSA.106.1"
+      ],
+      "echoes": [
+        {
+          "ref": "PSA.106.1",
+          "dra": "PSA.105.1",
+          "brenton": "PSA.105.1",
+          "synodal": "PSA.105.1"
+        },
+        {
+          "ref": "PSA.118.1",
+          "dra": "PSA.117.1",
+          "brenton": "PSA.117.1",
+          "synodal": "PSA.117.1"
+        },
+        {
+          "ref": "PSA.34.1",
+          "dra": "PSA.33.2",
+          "brenton": "PSA.33.2",
+          "synodal": "PSA.33.2"
+        }
+      ],
+      "sources": [
+        {
+          "label": "Augustine, Expositions on the Psalms, Psalm 107 (Psalm 106 in the Greek numbering), sections 1–8. Translated by J. E. Tweed, Nicene and Post-Nicene Fathers I.8 (1888).",
+          "url": "https://www.newadvent.org/fathers/1801107.htm"
+        },
+        {
+          "label": "Augustine, Expositions on the Psalms, Psalm 106 (Psalm 105 in the Greek numbering), sections 1–2. Translated by J. E. Tweed, Nicene and Post-Nicene Fathers I.8 (1888).",
+          "url": "https://www.newadvent.org/fathers/1801106.htm"
+        },
+        {
+          "label": "John Chrysostom, Homily 19 on Ephesians (on Ephesians 5:20). Translated by Gross Alexander, Nicene and Post-Nicene Fathers I.13 (1889).",
+          "url": "https://www.newadvent.org/fathers/230119.htm"
+        },
+        {
+          "label": "John Calvin, Commentary on the Book of Psalms, volume 4, introduction to Psalm 107 with the translator's note. Translated by James Anderson.",
+          "url": "https://ccel.org/ccel/calvin/calcom11/calcom11.xvi.html"
+        },
+        {
+          "label": "John Calvin, Commentary on the Book of Psalms, volume 4, on Psalm 107:1–9. Translated by James Anderson.",
+          "url": "https://ccel.org/ccel/calvin/calcom11/calcom11.xvi.i.html"
+        },
+        {
+          "label": "John Calvin, Commentary on the Book of Psalms, volume 4, on Psalm 106:1–5, with the translator's notes. Translated by James Anderson.",
+          "url": "https://ccel.org/ccel/calvin/calcom11/calcom11.xv.i.html"
+        },
+        {
+          "label": "Matthew Henry, Commentary on the Whole Bible, volume 3, Psalm 107.",
+          "url": "https://www.ccel.org/ccel/henry/mhc3.Ps.cviii.html"
+        },
+        {
+          "label": "Catechism of the Catholic Church, paragraphs 2637–2638.",
+          "url": "https://www.vatican.va/archive/ENG0015/__P99.HTM"
+        },
+        {
+          "label": "Scripture quotations: Brenton Septuagint, 1851 (public domain)."
+        }
+      ],
+      "languages": {
+        "pt": {
+          "simple": "O salmo começa com um chamado: deem graças ao Senhor. Seguem-se dois motivos. Ele é bom, e a sua bondade não tem fim.\n\nO resto do salmo mostra por que as pessoas podem dizer isso. Alguns estavam perdidos no deserto, outros presos em correntes, outros doentes, e outros apanhados por uma tempestade no mar. Clamaram ao Senhor, e ele os ajudou. Esta primeira linha é o cântico de gratidão que eles cantam depois, e o salmo convida todos a cantá-lo com eles.",
+          "context": "Na Bíblia Livre e em outras Bíblias que seguem a numeração hebraica, este é o Salmo 107. Nas Bíblias católicas que seguem a numeração grega e latina, como a de Matos Soares, é o Salmo 106.\n\nA linha de abertura era um refrão conhecido no culto de Israel, e o salmo anterior começa com as mesmas palavras. Parece que um lado do coro cantava, e o outro respondia: dai graças ao Senhor, porque ele é bom.\n\nDepois o salmo conta quatro histórias de aflição: pessoas vagando no deserto, prisioneiros nas trevas e nas correntes, doentes chegando perto da morte, e marinheiros numa tempestade. Todas seguem o mesmo padrão. Eles clamam ao Senhor, ele os salva, e um refrão os chama a agradecer-lhe a sua bondade e as suas maravilhas. O salmo termina perguntando quem é sábio o bastante para observar essas coisas e entender as misericórdias do Senhor.",
+          "meaning": "Na antiga tradução grega dos Salmos, que a Igreja Ortodoxa reza, este salmo começa com Aleluia, uma palavra hebraica conservada no grego que quer dizer louvai o Senhor. Muitas Bíblias traduzidas do hebraico não a trazem aqui, e nem a Bíblia Livre nem a de Matos Soares a têm neste salmo. Os primeiros pregadores cristãos já sabiam que as cópias divergiam sobre onde esse aleluia devia ficar, e mantinham o costume da Igreja de lê-lo com o salmo que ele encabeça.\n\nOnde a sua Bíblia diz “agradecei” ou “louvai”, os primeiros pregadores cristãos liam “confessai”. Essa palavra guarda duas coisas: reconhecer os nossos pecados e proclamar o louvor de Deus. Agradecer-lhe porque ele é bom já é confessá-lo.\n\n“Ele é bom” quer dizer bom em si mesmo, sem mistura de mal, a fonte de onde brota todo bem. Os pregadores antigos também ouviam nessa palavra o sentido de doce, e só quem provou pode dizer isso.\n\n“A sua misericórdia é eterna”, diz a Bíblia de Matos Soares; a Bíblia Livre diz que a sua bondade dura para sempre. A misericórdia dele não é para uma estação. Ela é mostrada às pessoas agora, para que vivam com ele para sempre.",
+          "theology": "A gratidão nasce da misericórdia que provamos. Este salmo é mais doce para quem conheceu a misericórdia de Deus na própria vida. Foi escrito para todo o povo de Deus, para que cada um pudesse se ver nele como num espelho.\n\nAgradecemos pela misericórdia dele, não pela nossa força. Em cada livramento, são as misericórdias dele que são louvadas. É fácil clamar a Deus no perigo e esquecê-lo quando estamos a salvo.\n\nLembrar dá esperança nos tempos difíceis. Trazer à memória as misericórdias passadas alivia a tristeza pelas dificuldades presentes e protege o coração do desespero. Nada agrada tanto a Deus quanto um coração agradecido, e podemos agradecer-lhe pelas bênçãos que vemos e pelas que nunca percebemos.\n\nA ação de graças é partilhada. Quando não estamos em aflição, outros estão, e agradecemos pela ajuda que eles recebem, assim como pela nossa. A ação de graças marca toda a oração da Igreja.",
+          "today": "Pense na semana que passou e lembre um momento em que a ajuda chegou, seja direto de Deus, seja por meio de outra pessoa. Agradeça por isso, em voz alta ou no coração. Se alguém perto de você recebeu ajuda, você também pode agradecer por isso.",
+          "question": "Que misericórdia eu já provei e ainda não parei para agradecer a Deus por ela?",
+          "words": [
+            {
+              "term": "bom",
+              "original": "ki tov · כי טוב (hebraico)",
+              "meaning": "Porque ele é bom: bom em si mesmo, sem nenhuma mistura de mal, e a fonte de onde brota todo bem, e nada além do bem."
+            },
+            {
+              "term": "para sempre (eterna)",
+              "original": "eis aiōna · εἰς αἰῶνα (grego)",
+              "meaning": "A expressão grega por trás de para sempre. A misericórdia de Deus não é só para um tempo; ela repousa sobre as pessoas agora para que vivam com os anjos para sempre."
+            }
+          ],
+          "teaching": [
+            {
+              "title": "A gratidão nasce da misericórdia que provamos",
+              "text": "Este salmo recomenda as misericórdias de Deus experimentadas na nossa própria vida, e por isso é mais doce para quem as conheceu. Os primeiros pregadores cristãos diziam que só quem provou pode confessar que o Senhor é doce: se você provou, confesse. O salmo não foi escrito para uma ou duas pessoas, mas para todo o povo de Deus, para que cada um se reconhecesse nele como num espelho."
+            },
+            {
+              "title": "Agradecemos pela misericórdia dele, não pela nossa força",
+              "text": "Depois de cada livramento, o salmo canta o mesmo refrão. Que não sejam os nossos méritos, a nossa força ou a nossa sabedoria a dar graças, diziam os primeiros pregadores cristãos, mas as misericórdias dele; que seja amado em cada livramento aquele que foi invocado em cada aflição. Os mestres protestantes alertam como é fácil clamar a Deus no perigo e depois esquecê-lo quando se está a salvo. Ficar calado depois de tal ajuda seria esconder as obras maravilhosas de Deus."
+            },
+            {
+              "title": "Lembrar dá esperança nos tempos difíceis",
+              "text": "O chamado a louvar a Deus pela sua bondade é também um chamado a lembrar. Trazer à memória as misericórdias passadas alivia a tristeza pelas dificuldades presentes e impede que o espírito afunde no desespero; é próprio da fé celebrar a misericórdia de Deus mesmo nos tempos mais duros. Os primeiros pregadores cristãos ensinavam que nada agrada tanto a Deus quanto uma pessoa agradecida, e que dar graças quando tudo vai bem não é nada de extraordinário. Podemos agradecer-lhe pelas bênçãos que vemos e pelas que não vemos, porque ele nos dá muitas sem que peçamos ou saibamos."
+            },
+            {
+              "title": "A ação de graças é partilhada",
+              "text": "Quando nós mesmos não estamos em aflição, outros estão, e damos glória a Deus também pelo livramento deles, porque somos membros uns dos outros. Devemos reconhecer a bondade dele para com os outros, assim como para conosco. O ensino católico diz que a ação de graças marca a oração da Igreja, sobretudo quando ela celebra a Eucaristia, e que todo acontecimento e toda necessidade podem se tornar uma oferta de gratidão."
+            }
+          ],
+          "differences": [
+            {
+              "title": "Confissão dos pecados, ou confissão de louvor?",
+              "text": "O salmo anterior começa com a mesma linha e depois diz que pecamos com os nossos pais, por isso alguns ouvem nela uma confissão de pecados. Outros ouvem sobretudo louvor nas palavras “porque ele é bom”. Os primeiros pregadores cristãos mantinham as duas coisas juntas: uma confissão de pecados só é santa quando é feita com louvor a Deus e com esperança na sua misericórdia."
+            },
+            {
+              "title": "Para sempre, ou até o fim do mundo?",
+              "text": "Alguns entendem que a misericórdia que dura para sempre é aquela sem a qual ninguém pode ser feliz, e essa misericórdia nunca acaba. Outros a entendem como a misericórdia mostrada às pessoas na miséria, que dura até o fim do mundo, já que sempre haverá alguém precisando dela. As duas leituras foram ponderadas pelos primeiros pregadores cristãos."
+            },
+            {
+              "title": "Quem são os resgatados?",
+              "text": "Alguns leem os resgatados como exilados, cativos e viajantes trazidos de volta em segurança, e veem no salmo o cuidado de Deus por todas as pessoas, não só por Israel. Outros os leem como a Igreja reunida do mundo inteiro e libertada no batismo, como Israel atravessou o mar Vermelho. Alguns mantêm as duas leituras: o salmo fala de livramento nesta vida e também pode ser aplicado a todos os que são salvos por Cristo."
+            }
+          ]
+        },
+        "es": {
+          "simple": "El salmo se abre con una llamada a alabar al Señor y darle gracias. Siguen dos razones: él es bueno, y su misericordia es para siempre. En algunas Biblias, el salmo lleva además al comienzo la palabra Aleluya, que quiere decir alabad al Señor.\n\nEl resto del salmo muestra por qué se puede decir esto. Unos estaban perdidos en el desierto, otros encadenados, otros enfermos, y otros atrapados en una tormenta en el mar. Clamaron al Señor, y él los ayudó. Esta primera línea es el canto de gratitud que cantan después, y el salmo invita a todos a cantarlo con ellos.",
+          "context": "En la Reina-Valera y en las Biblias que siguen la numeración hebrea es el Salmo 107. En las Biblias que siguen la numeración griega y latina, como muchas Biblias católicas, es el Salmo 106.\n\nLa primera línea era un estribillo conocido en el culto de Israel, y el salmo anterior empieza con las mismas palabras. Parece que un lado del coro cantaba y el otro respondía: alabad al Señor, porque es bueno.\n\nLuego el salmo cuenta cuatro historias de angustia: gente que vaga por el desierto, presos en tinieblas y cadenas, enfermos que se acercan a la muerte, y marineros en una tormenta. Todas siguen el mismo esquema. Claman al Señor, él los salva, y un estribillo los llama a alabarlo por su misericordia. El salmo termina preguntando quién es lo bastante sabio para fijarse en estas cosas y entender las misericordias del Señor.",
+          "meaning": "Algunas Biblias, sobre todo las que siguen la antigua traducción griega, abren el salmo con Aleluya, una palabra hebrea que el griego conservó y que significa alabad al Señor. Cuando encabeza un salmo, funciona más como título que como parte del texto. La Reina-Valera, como muchas Biblias traducidas del hebreo, no la tiene aquí. Los primeros predicadores cristianos ya sabían que las copias no coincidían sobre dónde iba ese Aleluya, y conservaron la costumbre de la Iglesia de leerlo con el salmo que encabeza.\n\nDonde la Reina-Valera dice alabad, otras Biblias dicen dad gracias, y los primeros predicadores cristianos leían confesad. Esa palabra encierra dos cosas: reconocer nuestros pecados y reconocer la alabanza que Dios merece. Darle gracias porque es bueno ya es confesarlo.\n\nEs bueno quiere decir bueno en sí mismo, sin mezcla de mal, la fuente de la que brota todo bien. Los primeros predicadores también oían en esa palabra dulce, y solo quien lo ha probado puede decirlo.\n\nPara siempre es su misericordia. Su misericordia no es para una temporada. Se muestra ahora a las personas para que vivan con él para siempre.",
+          "theology": "La gratitud nace de la misericordia que hemos probado. Este salmo es más dulce para quienes han conocido la misericordia de Dios en su propia vida. Se escribió para todo el pueblo de Dios, para que pudieran verse en él como en un espejo.\n\nDamos gracias por su misericordia, no por nuestra propia fuerza. En cada rescate, lo que se alaba es su misericordia. Es fácil clamar a Dios en el peligro y olvidarlo una vez a salvo.\n\nRecordar da esperanza en los tiempos difíciles. Traer a la memoria las misericordias pasadas alivia la pena por los problemas presentes y guarda el corazón de la desesperación. Nada agrada tanto a Dios como un corazón agradecido, y podemos darle gracias por los beneficios que vemos y por los que nunca notamos.\n\nLa acción de gracias se comparte. Cuando nosotros no estamos en apuros, otros sí lo están, y damos gracias por la ayuda que ellos reciben además de la nuestra. La acción de gracias marca toda la oración de la Iglesia.",
+          "today": "Repasa la última semana y nombra un momento en que llegó ayuda, ya sea directamente de Dios o por medio de otra persona. Da gracias por ello, en voz alta o en tu corazón. Si alguien cercano a ti recibió ayuda, también podrías dar gracias por eso.",
+          "question": "¿Qué misericordia he probado ya y todavía no me he detenido a agradecerle a Dios?",
+          "words": [
+            {
+              "term": "bueno",
+              "original": "ki tov · כי טוב (hebreo)",
+              "meaning": "Porque es bueno: bueno en sí mismo, sin mezcla de mal, y la fuente de la que brota todo bien, y nada más que bien."
+            },
+            {
+              "term": "para siempre",
+              "original": "eis aiōna · εἰς αἰῶνα (griego)",
+              "meaning": "La expresión de la antigua traducción griega para decir para siempre. La misericordia de Dios no es solo para un tiempo; descansa ahora sobre las personas para que vivan con los ángeles para siempre."
+            }
+          ],
+          "teaching": [
+            {
+              "title": "La gratitud nace de la misericordia que hemos probado",
+              "text": "Este salmo pone ante nosotros las misericordias de Dios comprobadas en nuestra propia vida, y por eso es más dulce para quienes las han conocido. Los primeros predicadores cristianos decían que solo quien ha probado puede confesar que el Señor es dulce: si lo has probado, confiésalo. El salmo no se escribió para una o dos personas, sino para todo el pueblo de Dios, para que se reconocieran en él como en un espejo."
+            },
+            {
+              "title": "Damos gracias por su misericordia, no por nuestra fuerza",
+              "text": "Después de cada rescate, el salmo canta el mismo estribillo. Que no den gracias nuestros méritos, nuestra fuerza ni nuestra sabiduría, decían los primeros predicadores cristianos, sino sus misericordias; que sea amado en cada liberación aquel a quien se invocó en cada angustia. Los maestros protestantes advierten con qué facilidad la gente clama a Dios en el peligro y luego lo olvida una vez a salvo. Callar después de semejante ayuda sería esconder las maravillas de Dios."
+            },
+            {
+              "title": "Recordar da esperanza en los tiempos difíciles",
+              "text": "La llamada a alabar a Dios por su bondad es también una llamada a recordar. Traer a la memoria las misericordias pasadas alivia la pena por los problemas presentes y evita que el espíritu se hunda en la desesperación; es propio de la fe celebrar la misericordia de Dios incluso en los tiempos más duros. Los primeros predicadores cristianos enseñaban que nada agrada tanto a Dios como una persona agradecida, y que dar gracias en la prosperidad no es gran cosa. Podemos darle gracias por los beneficios que vemos y por los que no vemos, porque nos da muchos sin que los pidamos ni lo sepamos."
+            },
+            {
+              "title": "La acción de gracias se comparte",
+              "text": "Cuando nosotros no estamos en apuros, otros sí lo están, y damos gloria a Dios también por su liberación, porque somos miembros unos de otros. Debemos reconocer su bondad con los demás tanto como con nosotros. La enseñanza católica dice que la acción de gracias caracteriza la oración de la Iglesia, sobre todo cuando celebra la Eucaristía, y que todo acontecimiento y toda necesidad pueden convertirse en ofrenda de gratitud."
+            }
+          ],
+          "differences": [
+            {
+              "title": "¿Confesar los pecados, o confesar la alabanza?",
+              "text": "El salmo anterior empieza con la misma línea y luego dice que pecamos con nuestros padres, así que algunos oyen en ella una confesión de pecados. Otros oyen sobre todo alabanza en las palabras porque es bueno. Los primeros predicadores cristianos mantenían las dos cosas juntas: una confesión de pecados solo es santa cuando se hace con alabanza a Dios y con esperanza en su misericordia."
+            },
+            {
+              "title": "¿Para siempre, o hasta el fin del mundo?",
+              "text": "Algunos leen para siempre es su misericordia como la misericordia sin la cual nadie puede ser feliz, y esa misericordia nunca termina. Otros la leen como la misericordia que se muestra a las personas en su miseria, que dura hasta el fin del mundo, porque siempre habrá alguien que la necesite. Los primeros predicadores cristianos sopesaron ambas lecturas."
+            },
+            {
+              "title": "¿Quiénes son los redimidos?",
+              "text": "Algunos ven en los redimidos a desterrados, cautivos y viajeros traídos a casa sanos y salvos, y descubren en el salmo el cuidado de Dios por todas las personas, no solo por Israel. Otros ven en ellos a la Iglesia reunida de todo el mundo y liberada en el bautismo, como Israel pasó por el mar Rojo. Algunos sostienen ambas cosas: el salmo habla de rescates en esta vida, y también puede aplicarse a todos los que son salvados por Cristo."
+            }
+          ]
+        },
+        "ru": {
+          "simple": "Псалом начинается с призыва славить Господа — благодарить Его. И сразу две причины: Он благ, и милость Его вовек.\n\nОстальной псалом показывает, почему люди могут так сказать. Одни заблудились в пустыне, другие были в оковах, третьи болели, четвёртые попали в бурю на море. Они воззвали к Господу, и Он помог им. Эта первая строка — песнь благодарности, которую они поют потом, и псалом приглашает всех петь её вместе с ними.",
+          "context": "В вашей Библии это Псалом 106. В Библиях, где псалмы нумеруются по еврейскому тексту, это Псалом 107.\n\nПервая строка была привычным припевом в богослужении Израиля, и предыдущий псалом начинается теми же словами. По-видимому, одна часть хора пела, а другая отвечала: славьте Господа, ибо Он благ.\n\nДальше псалом рассказывает четыре истории беды: о скитающихся в пустыне, об узниках во тьме и оковах, о больных, приблизившихся к смерти, и о мореплавателях в бурю. Все они построены одинаково. Люди взывают к Господу, Он спасает их, и припев призывает славить Его за милость Его. Заканчивается псалом словами о том, кто мудр: такой человек заметит это и уразумеет милость Господа.",
+          "meaning": "В древнем греческом переводе псалом открывается словом «Аллилуия». Это еврейское выражение, сохранённое в греческом, означает «хвалите Господа». В вашей Библии, как и во многих переводах с еврейского, здесь его нет. Ещё древние христианские проповедники знали, что списки расходятся в том, где ставить такое «Аллилуия», и держались церковного обычая читать его вместе с псалмом, перед которым оно стоит.\n\nТам, где в вашей Библии сказано «славьте» (во многих переводах — «благодарите»), древние христианские проповедники читали «исповедайтесь». В этом слове соединяются две вещи: признание своих грехов и исповедание хвалы Богу. Благодарить Его за то, что Он благ, — уже значит исповедовать Его.\n\n«Он благ» — значит благ в Самом Себе, без всякой примеси зла; Он источник, из которого течёт всякое благо. Древние проповедники слышали в этом слове и «сладок», а так может сказать только тот, кто вкусил.\n\n«Вовек милость Его». Его милость не на время. Она явлена людям сейчас, чтобы они жили с Ним вечно.",
+          "theology": "Благодарность вырастает из вкушённой милости. Этот псалом слаще всего для тех, кто узнал Божью милость в собственной жизни. Он написан для всего народа Божьего, чтобы люди узнавали в нём себя, как в зеркале.\n\nМы благодарим за Его милость, а не за собственную силу. При каждом избавлении прославляется Его милость. Легко взывать к Богу в опасности и забыть о Нём, когда всё позади.\n\nПамять даёт надежду в трудные времена. Вспоминая прежние милости, мы облегчаем скорбь о нынешних бедах, и сердце не впадает в отчаяние. Ничто так не угодно Богу, как благодарное сердце, и мы можем благодарить Его и за благодеяния, которые видим, и за те, которых даже не заметили.\n\nБлагодарение — общее. Когда беда не у нас, она у других, и мы благодарим за помощь им так же, как за помощь себе. Благодарение пронизывает всю молитву Церкви.",
+          "today": "Вспомните прошедшую неделю и назовите один момент, когда пришла помощь — прямо от Бога или через другого человека. Поблагодарите за это вслух или в сердце. Если помогли кому-то рядом с вами, можно поблагодарить и за это.",
+          "question": "Какую милость вы уже вкусили, но ещё не нашли минуты поблагодарить за неё Бога?",
+          "words": [
+            {
+              "term": "благ",
+              "original": "ki tov · כי טוב (евр.)",
+              "meaning": "«Ибо Он благ»: благ в Самом Себе, без всякой примеси зла; источник, из которого течёт всякое благо — и ничего, кроме блага."
+            },
+            {
+              "term": "вовек",
+              "original": "eis aiōna · εἰς αἰῶνα (греч.)",
+              "meaning": "Так слово «вовек» звучит в древнем греческом переводе. Божья милость не на время: она пребывает на людях сейчас, чтобы они жили с ангелами вечно."
+            }
+          ],
+          "teaching": [
+            {
+              "title": "Благодарность вырастает из вкушённой милости",
+              "text": "Этот псалом говорит о Божьих милостях, испытанных в собственной жизни, и потому он слаще всего для тех, кто их узнал. Древние христианские проповедники говорили, что исповедать, как сладок Господь, может только тот, кто вкусил: если вкусили — исповедуйте. Псалом написан не для одного-двух человек, а для всего народа Божьего, чтобы все могли узнать в нём себя, как в зеркале."
+            },
+            {
+              "title": "Мы благодарим за Его милость, а не за свою силу",
+              "text": "После каждого избавления псалом повторяет один и тот же припев. Пусть благодарят не наши заслуги, не наша сила и не наша мудрость, говорили древние христианские проповедники, а Его милости; пусть в каждом избавлении любят Того, Кого призывали в каждой беде. Протестантские учители предупреждают, как легко люди взывают к Богу в опасности, а потом, оказавшись в безопасности, забывают о Нём. Промолчать после такой помощи — значит скрыть чудные дела Божьи."
+            },
+            {
+              "title": "Память даёт надежду в трудные времена",
+              "text": "Призыв хвалить Бога за Его благость — это и призыв вспоминать. Память о прежних милостях облегчает скорбь о нынешних бедах и не даёт духу впасть в отчаяние; дело веры — прославлять Божью милость даже в самые тяжёлые времена. Древние христианские проповедники учили, что ничто так не угодно Богу, как благодарный человек, и что благодарить, когда всё хорошо, — невелика заслуга. Мы можем благодарить Его и за благодеяния, которые видим, и за те, которых не видим: многое Он даёт, когда мы не просим и даже не знаем об этом."
+            },
+            {
+              "title": "Благодарение — общее",
+              "text": "Когда беда не у нас, она у других, и мы воздаём Богу славу и за их избавление, потому что мы члены друг другу. Мы признаём Его благость не только к себе, но и к другим. Католическое учение говорит, что благодарение отличает всю молитву Церкви, прежде всего когда она совершает Евхаристию, и что всякое событие и всякая нужда могут стать благодарственным приношением."
+            }
+          ],
+          "differences": [
+            {
+              "title": "Исповедание грехов — или исповедание хвалы?",
+              "text": "Предыдущий псалом начинается той же строкой, а дальше говорит: «Согрешили мы с отцами нашими», — поэтому некоторые слышат в ней исповедание грехов. Другие слышат в словах «ибо Он благ» прежде всего хвалу. Древние христианские проповедники соединяли одно с другим: исповедание грехов свято лишь тогда, когда оно приносится с хвалой Богу и с надеждой на Его милость."
+            },
+            {
+              "title": "Вовек — или до конца мира?",
+              "text": "Одни понимают слова «вовек милость Его» как милость, без которой никто не может быть блажен, — и эта милость не кончается никогда. Другие видят здесь милость к людям в беде, которая продлится до конца мира, потому что всегда найдётся тот, кому она нужна. Древние христианские проповедники взвешивали оба прочтения."
+            },
+            {
+              "title": "Кто такие избавленные?",
+              "text": "Одни видят в избавленных изгнанников, пленников и путников, благополучно вернувшихся домой, и находят в псалме Божью заботу обо всех людях, а не только об Израиле. Другие видят в них Церковь, собранную со всего мира и освобождённую в крещении, как Израиль прошёл через Чермное море. Третьи соединяют оба смысла: псалом говорит об избавлении в этой жизни и может быть отнесён ко всем, кто спасён Христом."
+            }
+          ]
+        }
+      }
+    }
+  }
+}
