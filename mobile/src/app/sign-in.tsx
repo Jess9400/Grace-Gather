@@ -90,8 +90,8 @@ export default function SignIn() {
           </>
         ) : signedIn === false ? (
           <>
-            <TermsAgreementNotice language={profile.language} action="signIn" />
             <SignInForm chooseMethod />
+            <TermsAgreementNotice language={profile.language} action="signIn" />
           </>
         ) : null}
         {/* Privacy remains available before signing in. */}
