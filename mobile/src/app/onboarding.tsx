@@ -141,7 +141,7 @@ export default function Onboarding() {
           </Row>
           <Body small>
             {tr(
-              "This shapes your church and the Bible you read. You can change it anytime in your profile.",
+              "This shapes your church and the Bible you read. You can change it later.",
             )}
           </Body>
           {chosen(p) && (
@@ -155,7 +155,7 @@ export default function Onboarding() {
                   {bible
                     ? bibleEditionNote(p) ?? `${tr("Your Bible")}: ${bible.name}`
                     : tr(
-                        "No verified Bible for this tradition in this language yet. You can choose another Bible language later in your profile.",
+                        "No verified Bible for this tradition in this language yet. You can choose another language later.",
                       )}
                 </Body>
               </View>
@@ -173,7 +173,7 @@ export default function Onboarding() {
           <Heading>{tr("A reply written for you")}</Heading>
           <Body>
             {tr(
-              "When you write to God, you can receive a reflection based on what you shared. Sign in to continue.",
+              "Sign in to receive a reflection on what you write to God.",
             )}
           </Body>
           <SignInForm language={p.language} />
@@ -196,7 +196,7 @@ export default function Onboarding() {
           <Heading>{tr("A little about you")}</Heading>
           <Body>
             {tr(
-              "Both are optional. Your city helps us suggest local ways to help; no precise location is needed.",
+              "All fields are optional. Your city is enough to suggest local ways to help.",
             )}
           </Body>
           <Field

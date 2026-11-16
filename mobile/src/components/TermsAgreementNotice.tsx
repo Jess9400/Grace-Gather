@@ -22,7 +22,7 @@ export default function TermsAgreementNotice({ language, action }: { language: L
           <Ionicons name="close" size={24} color={colors.ink} />
         </Pressable>
       </View>
-      <Body small>Grace &amp; Gather · 16 November 2026</Body>
+      <Body small>Grace &amp; Gather · {new Date(2026, 10, 16).toLocaleDateString(language, { day: "numeric", month: "long", year: "numeric" })}</Body>
       {(terms[language] ?? terms.en).map(([title, text]) => <TermsSection key={title} title={title} text={text} />)}
       <Button title={words.close} onPress={() => setOpen(false)} />
     </PreviewDialog>

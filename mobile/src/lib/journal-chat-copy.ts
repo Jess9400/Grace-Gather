@@ -4,7 +4,7 @@ const words = {
     "Did this help, or would you like to keep talking?",
     "Isso ajudou ou você gostaria de continuar conversando?",
     "¿Te ayudó o te gustaría seguir hablando?",
-    "Это помогло или хотите продолжить разговор?",
+    "Это помогло? Хотите поговорить ещё?",
   ],
   open: [
     "Continue talking",
@@ -19,13 +19,13 @@ const words = {
     "Ваша запись",
   ],
   rateLimit: [
-    "Conversation limit reached. Your message is saved. Please try again later.",
+    "Conversation limit reached. Your message is saved. Try again later.",
     "Limite de conversa atingido. Sua mensagem foi salva. Tente novamente mais tarde.",
     "Se alcanzó el límite de conversación. Tu mensaje está guardado. Inténtalo más tarde.",
     "Достигнут лимит разговора. Сообщение сохранено. Попробуйте позже.",
   ],
   providerBusy: [
-    "A reply is taking longer than usual. Your message is saved. Please try again shortly.",
+    "A reply is taking longer than usual. Your message is saved. Try again shortly.",
     "A resposta está demorando mais que o normal. Sua mensagem foi salva. Tente novamente em breve.",
     "La respuesta está tardando más de lo habitual. Tu mensaje está guardado. Inténtalo de nuevo en un momento.",
     "Ответ готовится дольше обычного. Сообщение сохранено. Попробуйте чуть позже.",

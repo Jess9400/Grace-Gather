@@ -77,9 +77,7 @@ export default function MyCalendar() {
     <Screen back>
       <Heading>{tr("My calendar")}</Heading>
       <Body small>
-        {tr(
-          "Gatherings you have reserved or are hosting. Times are shown in your device’s timezone.",
-        )}
+        {tr("Gatherings you’ve reserved or are hosting, in your local time.")}
       </Body>
       {loading ? (
         <Busy />
@@ -93,9 +91,7 @@ export default function MyCalendar() {
         </>
       ) : error ? (
         <>
-          <Notice
-            text={tr("Unable to load your calendar. Please try again.")}
-          />
+          <Notice text={tr("Could not load your calendar.")} />
           <Button title={tr("Retry")} onPress={() => setRetry((x) => x + 1)} />
         </>
       ) : (
@@ -120,7 +116,7 @@ export default function MyCalendar() {
               {tr(
                 selected
                   ? "No gatherings on this date."
-                  : "You have no upcoming gatherings yet.",
+                  : "No upcoming gatherings yet.",
               )}
             </Body>
           )}

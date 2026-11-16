@@ -178,7 +178,7 @@ test('the saved entry passes its theme verse and the verse screen reads it', () 
   // The shipped English studies stay English-only.
   assert.match(verse, /study = lang === "en" \? studyFor\(id\) : undefined/);
   // The note shown with these explanations is translated too.
-  const note = 'Editorial reflections are separate from Scripture and await theological review. They are written for this verse and do not represent approval by a church.';
+  const note = 'Editorial reflections for this verse, separate from Scripture. They await theological review and are not endorsed by a church.';
   const translations = JSON.parse(readFileSync(root + 'mobile/src/lib/interface-translations.json', 'utf8'));
   assert.ok(verse.includes(`"${note}"`));
   for (const language of ['pt', 'es', 'ru']) assert.ok(translations[note][language].length > 60, language);

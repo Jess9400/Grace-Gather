@@ -6,12 +6,17 @@ const L = (en: string, pt: string, es: string, ru: string) => ({
   ru,
 });
 const words = {
-  audioJournal: L("Audio journal", "Diário em áudio", "Diario de audio", "Аудиодневник"),
+  audioJournal: L(
+    "Audio journal",
+    "Diário em áudio",
+    "Diario de audio",
+    "Аудиодневник",
+  ),
   recordingPrivacy: L(
     "Recordings are encrypted on this device. Unsaved recordings are excluded from journal backups.",
     "As gravações são criptografadas neste dispositivo. Gravações não salvas não entram nos backups do diário.",
     "Las grabaciones se cifran en este dispositivo. Las no guardadas se excluyen de las copias de seguridad del diario.",
-    "Записи зашифрованы на этом устройстве. Несохранённые записи не входят в резервные копии дневника."
+    "Записи зашифрованы на этом устройстве. Несохранённые записи не входят в резервные копии дневника.",
   ),
   yourTradition: L(
     "Your tradition",
@@ -122,7 +127,12 @@ const words = {
     "Guardar preferencias",
     "Сохранить настройки",
   ),
-  bible: L("Bible Study", "Estudo bíblico", "Estudio bíblico", "Изучение Библии"),
+  bible: L(
+    "Bible Study",
+    "Estudo bíblico",
+    "Estudio bíblico",
+    "Изучение Библии",
+  ),
   // The tab bar has little room; «Изучение Библии» is cut off there.
   bibleTab: L("Bible Study", "Estudo bíblico", "Estudio bíblico", "Библия"),
   diary: L("Diary", "Diário", "Diario", "Дневник"),
@@ -139,10 +149,10 @@ const words = {
     "Редактирование молитвы",
   ),
   editingFrom: L(
-    "Written {date}. Your changes replace this page; the earlier wording is kept.",
-    "Escrita em {date}. Suas alterações substituem esta página; o texto anterior fica guardado.",
-    "Escrita el {date}. Tus cambios reemplazan esta página; el texto anterior se guarda.",
-    "Написано {date}. Изменения заменят этот текст, но прежний вариант сохранится.",
+    "Written {date}. The earlier version is kept.",
+    "Escrita em {date}. A versão anterior fica guardada.",
+    "Escrita el {date}. La versión anterior se guarda.",
+    "Написано {date}. Прежний вариант сохранится.",
   ),
   saveChanges: L(
     "Save changes",
@@ -181,12 +191,7 @@ const words = {
     "Una página solo tuya",
     "Страница только для вас",
   ),
-  dear: L(
-    "Dear God,",
-    "Querido Deus,",
-    "Querido Dios,",
-    "Господи,",
-  ),
+  dear: L("Dear God,", "Querido Deus,", "Querido Dios,", "Господи,"),
   keep: L(
     "Save on this device",
     "Salvar neste dispositivo",

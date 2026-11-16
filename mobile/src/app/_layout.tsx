@@ -10,17 +10,19 @@ import { Busy, Screen, Body, External, colors } from "../components/ui";
 import { hasCompletedOnboarding } from "../lib/onboarding";
 import { CommunityProvider } from "../lib/discussion-state";
 import { useSignedIn } from "../lib/account";
+import { useInterfaceCopy } from "../lib/use-interface-copy";
 import ModeratorPushListener from "../components/ModeratorPushListener";
 function Routes() {
   const { ready, error, profile } = useApp();
   const signedIn = useSignedIn();
   const legacy = useSegments().some((s) => s === "confession");
+  const tr = useInterfaceCopy();
   if (error)
     return (
       <Screen>
-        <Body>{error}</Body>
+        <Body>{tr(error)}</Body>
         <External
-          title="Contact Grace & Gather"
+          title={tr("Contact Grace & Gather")}
           url="mailto:hello@graceandgather.online"
         />
       </Screen>

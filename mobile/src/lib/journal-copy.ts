@@ -37,10 +37,10 @@ const text = {
     "Вспомнить что-то доброе",
   ],
   hopeNote: [
-    "Was there a kind word, a meal, or a moment of rest? Write about one thing, however small. If nothing comes to mind, you can simply write what you need today.",
-    "Houve uma palavra gentil, uma refeição ou um momento de descanso? Escreva sobre algo, por menor que seja. Se nada vier à mente, escreva o que precisa hoje.",
-    "¿Hubo una palabra amable, una comida o un momento de descanso? Escribe sobre algo, por pequeño que sea. Si no recuerdas nada, escribe lo que necesitas hoy.",
-    "Было ли доброе слово, еда или минута отдыха? Напишите о чём-то одном, пусть даже совсем небольшом. Если ничего не вспоминается, можно просто написать, что вам нужно сегодня.",
+    "Was there a kind word, a meal, or a moment of rest? Write about one thing, however small. If nothing comes to mind, you can write what you need today.",
+    "Houve uma palavra gentil, uma refeição ou um momento de descanso? Escreva sobre algo, por menor que seja. Se nada vier à mente, você pode escrever o que precisa hoje.",
+    "¿Hubo una palabra amable, una comida o un momento de descanso? Escribe sobre algo, por pequeño que sea. Si no recuerdas nada, puedes escribir lo que necesitas hoy.",
+    "Было ли доброе слово, еда или минута отдыха? Напишите о чём-то одном, пусть даже совсем небольшом. Если ничего не вспоминается, можно написать, что вам нужно сегодня.",
   ],
   curated: [
     "Curated guidance · AI not used",
@@ -64,13 +64,13 @@ const text = {
     "AI can help choose a more relevant verse and a small step for what you share, and lets you continue the conversation. Without it, you can still journal and receive general suggestions. Your choice is optional and can be changed later.",
     "A IA pode ajudar a escolher um versículo e um pequeno passo mais relevantes para o que você compartilha, além de permitir que você continue a conversa. Sem ela, você ainda pode escrever e receber sugestões gerais. A escolha é opcional e pode ser alterada depois.",
     "La IA puede ayudar a elegir un versículo y un pequeño paso más relevantes para lo que compartes, y te permite continuar la conversación. Sin ella, puedes seguir escribiendo y recibir sugerencias generales. La elección es opcional y puedes cambiarla después.",
-    "ИИ может помочь подобрать более подходящий стих и небольшой шаг с учётом ваших слов, а также продолжить разговор. Без него можно вести дневник и получать общие рекомендации. Выбор необязателен, его можно изменить позже.",
+    "ИИ поможет подобрать более подходящий стих и маленький шаг к вашим словам, а потом можно будет продолжить разговор. Без него вы тоже сможете вести дневник и получать общие подсказки. Это необязательно, решение можно изменить позже.",
   ],
   aiShareSummary: [
     "If you agree, your writing, recent conversation, Bible questions and relevant preferences are sent through Supabase to our AI provider, Alibaba Cloud.",
     "Se você concordar, seu texto, conversa recente, perguntas bíblicas e preferências relevantes serão enviados pelo Supabase ao nosso provedor de IA, Alibaba Cloud.",
     "Si aceptas, tu texto, conversación reciente, preguntas bíblicas y preferencias relevantes se envían mediante Supabase a nuestro proveedor de IA, Alibaba Cloud.",
-    "Если вы согласитесь, ваши записи, недавний разговор, вопросы о Библии и соответствующие настройки будут отправлены через Supabase нашему провайдеру ИИ Alibaba Cloud.",
+    "Если вы согласитесь, ваши записи, недавний разговор, вопросы о Библии и нужные для этого настройки будут отправляться через Supabase нашему провайдеру ИИ Alibaba Cloud.",
   ],
   aiPrivacy: [
     "Privacy details",
@@ -129,10 +129,10 @@ const text = {
     "Момент для размышления",
   ],
   weeklyIntro: [
-    "Would you like a moment to reflect on the step you chose?",
-    "Gostaria de refletir um momento sobre o passo que escolheu?",
+    "Would you like to reflect on the step you chose?",
+    "Gostaria de refletir sobre o passo que escolheu?",
     "¿Te gustaría reflexionar sobre el paso que elegiste?",
-    "Хотите немного подумать о выбранном вами шаге?",
+    "Хотите подумать о выбранном шаге?",
   ],
   reflect: [
     "Talk to God",
@@ -275,9 +275,9 @@ const text = {
     "Посмотреть встречи",
   ],
   note: [
-    "You can write a few words here, or simply sit with this quietly.",
-    "Você pode escrever algumas palavras ou ficar em silêncio.",
-    "Puedes escribir unas palabras o quedarte en silencio.",
+    "You can write a few words, or simply sit with this quietly.",
+    "Você pode escrever algumas palavras ou simplesmente ficar em silêncio.",
+    "Puedes escribir unas palabras o simplemente quedarte en silencio.",
     "Можно написать несколько слов или просто побыть в тишине.",
   ],
   professional: [
@@ -287,10 +287,10 @@ const text = {
     "Возможно, стоит обратиться к специалисту в области психического здоровья или к своему врачу. Здесь можно записать, к кому вы хотели бы обратиться.",
   ],
   private: [
-    "This stays in your journal. Nothing is sent to anyone.",
-    "Isto fica no seu diário. Nada é enviado a ninguém.",
-    "Esto queda en tu diario. No se envía nada a nadie.",
-    "Это останется в вашем дневнике и никому не отправляется.",
+    "This stays in your journal and isn’t sent to anyone.",
+    "Isto fica no seu diário e não é enviado a ninguém.",
+    "Esto queda en tu diario y no se envía a nadie.",
+    "Это останется в вашем дневнике и никуда не отправится.",
   ],
   fallback: [
     "A reflection chosen from our curated collection.",
@@ -440,7 +440,7 @@ export function actionInvitation(lang: Language, action: string) {
       "Тихая молитва может стать способом вспомнить близкого человека.",
     ],
     A03: [
-      "A short prayer can give you a place to bring this to God.",
+      "A short prayer can help you bring this to God.",
       "Uma breve oração pode ajudar a levar isso a Deus.",
       "Una breve oración puede ayudarte a llevar esto ante Dios.",
       "Короткая молитва поможет принести это Богу.",
@@ -461,7 +461,7 @@ export function actionInvitation(lang: Language, action: string) {
       "Talking with someone you trust may help you feel supported.",
       "Conversar com alguém de confiança pode ajudar você a se sentir apoiado.",
       "Hablar con alguien de confianza puede ayudarte a sentirte acompañado.",
-      "Разговор с человеком, которому вы доверяете, может помочь вам почувствовать поддержку.",
+      "Разговор с тем, кому вы доверяете, может вас поддержать.",
     ],
     A08: [
       "Putting one thought into words can make room to reflect.",
@@ -494,9 +494,9 @@ export function actionInvitation(lang: Language, action: string) {
       "Вы можете рассказать человеку, как много для вас значила его доброта.",
     ],
     A14: [
-      "Listening may be a meaningful way to offer someone comfort.",
-      "Escutar pode ser uma forma significativa de oferecer conforto a alguém.",
-      "Escuchar puede ser una forma significativa de ofrecer consuelo a alguien.",
+      "Listening can be a way to comfort someone.",
+      "Escutar pode ser uma forma de confortar alguém.",
+      "Escuchar puede ser una forma de consolar a alguien.",
       "Выслушать другого — один из способов его утешить.",
     ],
     A15: [

@@ -62,7 +62,7 @@ export default function Practices() {
     try {
       await saveProfile({ ...profile, ...change });
     } catch {
-      setError(tr("Could not save. Please try again."));
+      setError(tr("Could not save. Try again."));
     } finally {
       setBusy(false);
     }
@@ -88,9 +88,7 @@ export default function Practices() {
           )}
         </View>
         <Text style={s.hint}>
-          {tr(
-            "Your choice updates your church background and Scripture tradition.",
-          )}
+          {tr("This shapes your church and the Bible you read.")}
         </Text>
       </Card>
       <Card>
@@ -142,7 +140,7 @@ export default function Practices() {
       </Card>
       <Body small>
         {tr(
-          "Your tradition sets a starting point. Choose the practices that feel meaningful to you.",
+          "Your tradition is a starting point; choose what feels meaningful to you.",
         )}
       </Body>
       <Notice text={error} />

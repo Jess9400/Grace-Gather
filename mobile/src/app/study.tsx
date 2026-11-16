@@ -108,7 +108,7 @@ export default function Study({
         }
       />
       <Body>
-        {tr("Explore themes and resources in your chosen Bible edition.")}
+        {tr("Themes and resources in your Bible edition.")}
       </Body>
       <FilterStrip
         options={[
@@ -184,7 +184,7 @@ export default function Study({
               ))}
               <Button
                 secondary
-                title={tr("Start a discussion about this topic")}
+                title={tr("Discuss")}
                 onPress={() => {
                   setStudyDiscussionTopic(topic.title);
                   router.push({
@@ -213,7 +213,7 @@ export default function Study({
           <Heading>{tr("History & biblical languages")}</Heading>
           <Body>
             {tr(
-              "External resources have their own language, translation and theological perspective. They do not change your selected Bible edition.",
+              "These sites have their own language, translation and theology. Your Bible edition stays the same.",
             )}
           </Body>
           <External

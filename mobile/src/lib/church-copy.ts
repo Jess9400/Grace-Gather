@@ -179,10 +179,10 @@ const words = {
     "Зажгите свечу",
   ),
   candleIntro: L(
-    "For yourself, for someone you love, or for what you are carrying.",
+    "For yourself, someone you love, or what you are carrying.",
     "Por você, por alguém que você ama ou pelo que está carregando.",
     "Por ti, por alguien a quien amas o por lo que estás cargando.",
-    "За себя, за того, кого вы любите, или за то, что у вас на сердце.",
+    "За себя, за близкого человека или за то, что на сердце.",
   ),
   tapToLight: L(
     "Tap the candle to light it",
@@ -215,9 +215,24 @@ const words = {
     "Familia, un amigo, alguien enfermo",
     "Родные, друг, тот, кто болеет",
   ),
-  memory: L("In memory of someone", "Em memória de alguém", "En memoria de alguien", "В память о близком"),
-  memorySub: L("Remember someone who has died", "Lembrar alguém que faleceu", "Recordar a alguien que falleció", "Вспомнить ушедшего человека"),
-  returnJournal: L("Return to your journal", "Voltar ao seu diário", "Volver a tu diario", "Вернуться в дневник"),
+  memory: L(
+    "In memory of someone",
+    "Em memória de alguém",
+    "En memoria de alguien",
+    "В память о близком",
+  ),
+  memorySub: L(
+    "Remember someone who has died",
+    "Lembrar alguém que faleceu",
+    "Recordar a alguien que falleció",
+    "Вспомнить ушедшего человека",
+  ),
+  returnJournal: L(
+    "Return to your journal",
+    "Voltar ao seu diário",
+    "Volver a tu diario",
+    "Вернуться в дневник",
+  ),
   carry: L(
     "For something I'm carrying",
     "Por algo que carrego",
@@ -420,10 +435,10 @@ const words = {
     "Облегчить душу",
   ),
   present: L(
-    "{n} connections in church right now",
-    "{n} conexões na igreja agora",
-    "{n} conexiones en la iglesia ahora",
-    "Людей в церкви сейчас: {n}",
+    "{n} in church right now",
+    "{n} na igreja agora",
+    "{n} en la iglesia ahora",
+    "Сейчас в церкви: {n}",
   ),
   churchControls: L(
     "Church controls",

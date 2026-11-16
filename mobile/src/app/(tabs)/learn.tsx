@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useInterfaceCopy } from "../../lib/use-interface-copy";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import {
@@ -56,6 +57,7 @@ function Library({
       params.category === "theology" ? "theology" : "allCourses",
     );
   const t = (key: string) => copy(profile.language, key);
+  const tr = useInterfaceCopy();
   const [allPerspectives, setAllPerspectives] = useState(false);
   const selection = readingBooks(profile, allPerspectives, params.mood ?? "");
   const traditionName = selection.tradition
@@ -73,13 +75,14 @@ function Library({
         <Body small>{book.author}</Body>
         <Body>{localized(book.note, profile.language)}</Body>
         <External title={t("pBookSource")} url={book.url} />
-        <Disclosure title="About this perspective">
+        <Disclosure title={tr("About this perspective")}>
           <Body small>
-            Labels describe the author or the resource. They are not a church
-            endorsement, and readers within a tradition may differ.
+            {tr(
+              "Labels describe the author or the resource. They are not a church endorsement, and readers within a tradition may differ.",
+            )}
           </Body>
           <External
-            title="Source for this label"
+            title={tr("Source for this label")}
             url={perspective.sourceUrl || book.url}
           />
         </Disclosure>
@@ -190,7 +193,7 @@ function Library({
             selection.faith.map(bookCard)
           ) : (
             <Body small>
-              Specific reading for this tradition is still being sourced.
+              {tr("Specific reading for this tradition is still being sourced.")}
             </Body>
           )}
           <Subheading>{q(profile.language, "generalReading")}</Subheading>

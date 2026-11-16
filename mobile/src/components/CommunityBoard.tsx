@@ -360,7 +360,7 @@ function CommunityScreen({
         <Heading>{tr("Create a discussion")}</Heading>
         <Body>
           {tr(
-            "Sign in to start your discussion. Your topic will wait here until you return.",
+            "Sign in to start your discussion. Your topic will wait here.",
           )}
         </Body>
         <Button title={tr("Sign in")} onPress={() => router.push("/sign-in")} />
@@ -905,7 +905,7 @@ function CommunityScreen({
             <Disclosure title={`${tr("Perspective")}: ${tr(perspective)}`}>
               <Body small>
                 {tr(
-                  "Optional. This label describes the conversation, not your profile.",
+                  "Optional. It describes the conversation, not you.",
                 )}
               </Body>
               <Row>
@@ -998,7 +998,7 @@ function CommunityScreen({
                     clearStudyDiscussionTopic();
                     setNotice(
                       tr(
-                        "Your topic was submitted. Check My submissions for its publication status.",
+                        "Topic submitted. See its status in My submissions.",
                       ),
                     );
                   },

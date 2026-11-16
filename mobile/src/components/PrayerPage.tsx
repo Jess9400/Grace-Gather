@@ -173,7 +173,7 @@ function PrayerRoom({
       setPreview("");
       setTab("mine");
       setNotice(
-        "Your prayer request has been saved. Check its status in Mine.",
+        "Your prayer request is saved. You’ll find it in My requests.",
       );
     }
   }
@@ -535,7 +535,7 @@ function PrayerRoom({
                 }}
               />
               <Body small>
-                {tr("Choose a time between 5 minutes and 30 days from now.")}
+                {tr("Between 5 minutes and 30 days from now.")}
               </Body>
               {!!scheduleError && <Notice text={tr(scheduleError)} />}
             </>

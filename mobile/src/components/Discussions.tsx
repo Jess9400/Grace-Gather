@@ -88,7 +88,7 @@ export default function Discussions({
     <>
       <Text style={s.intro}>
         {c(
-          "Talk together about a verse or anything on your heart. Every message passes a safety check before others see it.",
+          "Talk together about a verse or anything on your heart.",
         )}
       </Text>
       <Button title={c("Start a discussion")} onPress={onStart} />
@@ -319,7 +319,7 @@ export function DiscussionRoom({
       }
       tint={theme.tint}
       rule={c(
-        "Be kind. Every message passes a safety check before others see it, and moderators look at anything uncertain. Everyone in the community can read this, so please do not share private details.",
+        "Be kind. Everyone in the community can read this, so keep private details out. Each message is checked before it appears, and moderators look at anything uncertain.",
       )}
       backLabel={c("Back")}
       onBack={onBack}
@@ -511,7 +511,7 @@ export function StartDiscussion({
       <Heading>{c("Start a discussion")}</Heading>
       <Text style={s.intro}>
         {c(
-          "Anyone in the community can read and answer. It appears once it passes the safety check.",
+          "After a safety check, everyone in the community can read and reply.",
         )}
       </Text>
       {verse && (

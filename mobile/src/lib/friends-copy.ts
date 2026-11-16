@@ -1,4 +1,5 @@
 import type { Language } from "./content";
+// Each entry is [pt, es, ru], keyed by the English the screens pass in.
 const words: Record<string, string[]> = {
   "Join discussion": [
     "Participar da discussão",
@@ -15,10 +16,10 @@ const words: Record<string, string[]> = {
     "No se encontraron conversaciones.",
     "Обсуждения не найдены.",
   ],
-  "Enter at least two characters to search discussions.": [
-    "Digite ao menos dois caracteres para buscar discussões.",
-    "Escribe al menos dos caracteres para buscar conversaciones.",
-    "Введите не менее двух символов для поиска обсуждений.",
+  "Enter at least two characters.": [
+    "Digite ao menos dois caracteres.",
+    "Escribe al menos dos caracteres.",
+    "Введите хотя бы два символа.",
   ],
   "Sign in to take part in discussions.": [
     "Entre para participar das discussões.",
@@ -39,12 +40,11 @@ const words: Record<string, string[]> = {
   "Your people": ["Sua gente", "Tu gente", "Свои люди"],
   Discussions: ["Discussões", "Conversaciones", "Обсуждения"],
   Discussion: ["Discussão", "Conversación", "Обсуждение"],
-  "Talk together about a verse or anything on your heart. Every message passes a safety check before others see it.":
-    [
-      "Conversem sobre um versículo ou o que estiver no coração. Cada mensagem passa por uma verificação de segurança antes que outros a vejam.",
-      "Conversen sobre un versículo o lo que lleven en el corazón. Cada mensaje pasa una revisión de seguridad antes de que otros lo vean.",
-      "Обсуждайте стих или то, что у вас на сердце. Каждое сообщение проходит проверку безопасности, прежде чем его увидят другие.",
-    ],
+  "Talk together about a verse or anything on your heart.": [
+    "Conversem sobre um versículo ou o que estiver no coração.",
+    "Conversen sobre un versículo o lo que lleven en el corazón.",
+    "Обсуждайте стих или то, что у вас на сердце.",
+  ],
   "Start a discussion": [
     "Iniciar uma discussão",
     "Iniciar una conversación",
@@ -71,11 +71,11 @@ const words: Record<string, string[]> = {
     "Más conversaciones",
     "Ещё обсуждения",
   ],
-  "Be kind. Every message passes a safety check before others see it, and moderators look at anything uncertain. Everyone in the community can read this, so please do not share private details.":
+  "Be kind. Everyone in the community can read this, so keep private details out. Each message is checked before it appears, and moderators look at anything uncertain.":
     [
-      "Seja gentil. Cada mensagem passa por uma verificação de segurança antes que outros a vejam, e moderadores analisam o que gerar dúvida. Toda a comunidade pode ler, então não compartilhe detalhes pessoais.",
-      "Sé amable. Cada mensaje pasa una revisión de seguridad antes de que otros lo vean, y los moderadores revisan lo dudoso. Toda la comunidad puede leerlo, así que no compartas datos personales.",
-      "Будьте добры друг к другу. Каждое сообщение проходит проверку безопасности, прежде чем его увидят другие, а всё сомнительное просматривают модераторы. Это могут прочитать все в сообществе, поэтому не делитесь личными данными.",
+      "Seja gentil. Toda a comunidade pode ler, então não compartilhe detalhes pessoais. As mensagens passam por uma verificação de segurança antes de aparecer; moderadores analisam o que gerar dúvida.",
+      "Sé amable. Toda la comunidad puede leerlo, así que no compartas datos personales. Los mensajes pasan una revisión de seguridad antes de mostrarse; los moderadores revisan lo dudoso.",
+      "Будьте добры друг к другу. Это читают все в сообществе, поэтому не делитесь личными данными. Сообщения проверяются перед публикацией, а всё сомнительное смотрят модераторы.",
     ],
   "Being checked. Only you can see this for now.": [
     "Em verificação. Por enquanto só você vê isto.",
@@ -99,12 +99,11 @@ const words: Record<string, string[]> = {
     "Eliminar mi mensaje",
     "Удалить моё сообщение",
   ],
-  "Anyone in the community can read and answer. It appears once it passes the safety check.":
-    [
-      "Qualquer pessoa da comunidade pode ler e responder. Ela aparece depois de passar pela verificação de segurança.",
-      "Cualquier persona de la comunidad puede leer y responder. Aparece cuando pasa la revisión de seguridad.",
-      "Любой участник сообщества может прочитать и ответить. Обсуждение появится после проверки безопасности.",
-    ],
+  "After a safety check, everyone in the community can read and reply.": [
+    "Após a verificação de segurança, toda a comunidade pode ler e responder.",
+    "Tras la revisión de seguridad, toda la comunidad puede leer y responder.",
+    "После проверки обсуждение смогут читать и комментировать все участники сообщества.",
+  ],
   About: ["Sobre", "Sobre", "О стихе"],
   Title: ["Título", "Título", "Заголовок"],
   "What would you like to talk about?": [
@@ -112,10 +111,10 @@ const words: Record<string, string[]> = {
     "¿De qué te gustaría conversar?",
     "О чём вы хотели бы поговорить?",
   ],
-  "Talk any day of the week, not only at gatherings.": [
-    "Converse em qualquer dia da semana, não só nos encontros.",
-    "Conversa cualquier día de la semana, no solo en los encuentros.",
-    "Общайтесь в любой день недели, не только на встречах.",
+  "Talk any day, not only at gatherings.": [
+    "Converse em qualquer dia, não só nos encontros.",
+    "Conversa cualquier día, no solo en los encuentros.",
+    "Общайтесь в любой день, не только на встречах.",
   ],
   "No messages yet": [
     "Ainda sem mensagens",
@@ -138,12 +137,11 @@ const words: Record<string, string[]> = {
     "Denunciar o bloquear",
     "Пожаловаться или заблокировать",
   ],
-  "Private messages with people you have met. Only the two of you can read them.":
-    [
-      "Mensagens privadas com pessoas que você conheceu. Só vocês dois podem ler.",
-      "Mensajes privados con personas que has conocido. Solo ustedes dos pueden leerlos.",
-      "Личные сообщения с теми, с кем вы познакомились. Их видите только вы двое.",
-    ],
+  "Private messages with people you've met, just between the two of you.": [
+    "Mensagens privadas com pessoas que você conheceu, só entre vocês dois.",
+    "Mensajes privados con personas que has conocido, solo entre ustedes dos.",
+    "Личные сообщения с теми, с кем вы познакомились, — только для вас двоих.",
+  ],
   "People appear here only if they chose to be findable, and both of you said yes.":
     [
       "As pessoas só aparecem aqui se escolheram ser encontradas e se os dois aceitaram.",
@@ -218,20 +216,20 @@ const words: Record<string, string[]> = {
   Chat: ["Conversar", "Chat", "Чат"],
   Friends: ["Amigos", "Amigos", "Друзья"],
   Requests: ["Solicitações", "Solicitudes", "Запросы"],
-  "No friends yet. Search for someone to connect with.": [
-    "Ainda sem amigos. Busque alguém para se conectar.",
-    "Aún no tienes amigos. Busca a alguien para conectar.",
-    "Друзей пока нет. Найдите тех, с кем хотите общаться.",
+  "No friends yet.": [
+    "Ainda sem amigos.",
+    "Aún no tienes amigos.",
+    "Друзей пока нет.",
   ],
   "No members found.": [
     "Nenhum membro encontrado.",
     "No se encontraron miembros.",
     "Участники не найдены.",
   ],
-  "Choose and save a public name before requesting friends.": [
-    "Escolha e salve um nome público antes de adicionar amigos.",
-    "Elige y guarda un nombre público antes de añadir amigos.",
-    "Чтобы добавлять друзей, сначала выберите и сохраните публичное имя.",
+  "Save a public name to add friends.": [
+    "Salve um nome público para adicionar amigos.",
+    "Guarda un nombre público para añadir amigos.",
+    "Чтобы добавлять друзей, сохраните публичное имя.",
   ],
   "Sign in to find friends and chat.": [
     "Entre para encontrar amigos e conversar.",
