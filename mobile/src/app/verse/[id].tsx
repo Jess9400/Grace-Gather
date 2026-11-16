@@ -43,10 +43,19 @@ import {
   type JournalVerseStudy,
 } from "../../lib/journal-verse-studies";
 import { useApp } from "../../lib/state";
+import commentarySamples from "../../lib/commentary-samples.json";
 import { fromVerseRoute } from "../../lib/verse-route";
 import { q } from "../../lib/quiet-copy";
 import { useReducedMotion } from "../../lib/use-reduced-motion";
-type Layer = "simple" | "deeper" | "theology";
+type Layer = "simple" | "deeper" | "theology" | "classic";
+// MOCK-UP ONLY: sample notes for three verses, to compare two ways of
+// covering the whole Bible. Not for release.
+interface ClassicNote { who: string; work: string; year: string; text: string }
+interface CommentarySample {
+  plain?: Partial<Record<Language, { simple: string; context: string; meaning: string }>>;
+  classic?: Partial<Record<string, ClassicNote[]>>;
+}
+const SAMPLES = commentarySamples.verses as Record<string, CommentarySample>;
 // The fuller study notes add these to the basic explanation. Every claim in
 // them is drawn from the sources they list.
 interface RichStudy {
@@ -352,7 +361,20 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
     lang,
   );
   const sourced = journalNote?.sources?.length ? journalNote : undefined;
-  const explanation = sourced ?? study ?? journalNote;
+  const sample = Object.hasOwn(SAMPLES, id) ? SAMPLES[id] : undefined;
+  const plain = sample?.plain?.[lang];
+  const explanation =
+    sourced ??
+    study ??
+    journalNote ??
+    (plain && {
+      ...plain,
+      theology: plain.meaning,
+      today: undefined as unknown as string,
+      question: undefined as unknown as string,
+    });
+  const classic = location ? sample?.classic?.[location.collection] : undefined;
+  const classicTitle = lang === "ru" ? "Толкование" : lang === "pt" ? "Comentário clássico" : lang === "es" ? "Comentario clásico" : "Classic commentary";
   const rich: RichStudy =
     (sourced && journalRich(sourced, verse?.collection, lang)) ?? study ?? {};
   if (!verse)
@@ -411,6 +433,15 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
       icon: "sparkles-outline" as const,
       hint: tr("Explore questions of faith"),
     },
+    ...(classic?.length
+      ? [
+          {
+            id: "classic" as const,
+            icon: "library-outline" as const,
+            hint: classic.map((note) => `${note.who}, ${note.year}`).join(" · "),
+          },
+        ]
+      : []),
   ];
   return (
     <SafeAreaView style={s.safe} edges={["top", "left", "right", "bottom"]}>
@@ -492,7 +523,7 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
             <Pressable
               key={option.id}
               accessibilityRole="button"
-              accessibilityLabel={q(lang, option.id)}
+              accessibilityLabel={option.id === "classic" ? classicTitle : q(lang, option.id)}
               onPress={() => setLayer(option.id)}
               style={({ pressed }) => [
                 s.option,
@@ -503,7 +534,9 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
                 <Ionicons name={option.icon} size={23} color={colors.goldInk} />
               </View>
               <View style={{ flex: 1, gap: 5 }}>
-                <Text style={s.optionTitle}>{q(lang, option.id)}</Text>
+                <Text style={s.optionTitle}>
+                  {option.id === "classic" ? classicTitle : q(lang, option.id)}
+                </Text>
                 <Text style={s.optionHint}>{option.hint}</Text>
               </View>
               <Ionicons name="chevron-forward" size={18} color={colors.muted} />
@@ -582,7 +615,9 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
                 <Text style={s.backText}>{tr("Back")}</Text>
               </Pressable>
               <View style={{ flex: 1, gap: 5 }}>
-                <Text style={s.sheetMode}>{layer ? q(lang, layer) : ""}</Text>
+                <Text style={s.sheetMode}>
+                  {layer === "classic" ? classicTitle : layer ? q(lang, layer) : ""}
+                </Text>
                 <Text style={s.sheetReference}>{verse.reference}</Text>
               </View>
             </View>
@@ -681,8 +716,24 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
                     {question}
                   </Invitation>
                 </>
+              ) : layer === "classic" ? (
+                <>
+                  {(classic ?? []).map((note) => (
+                    <View key={note.who} style={{ gap: 10 }}>
+                      <Text accessibilityRole="header" style={s.sectionTitle}>
+                        {note.who}
+                      </Text>
+                      <Body small>
+                        {note.work} · {note.year}
+                      </Body>
+                      {note.text.split("\n\n").map((paragraph, i) => (
+                        <Paragraph key={i}>{paragraph}</Paragraph>
+                      ))}
+                    </View>
+                  ))}
+                </>
               ) : null}
-              {!!rich.sources && (
+              {layer !== "classic" && !!rich.sources && (
                 <Sources title={tr("Sources")} sources={rich.sources} />
               )}
               <Body small>
