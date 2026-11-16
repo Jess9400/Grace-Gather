@@ -9,7 +9,7 @@ import { Ionicons } from "@expo/vector-icons";
 
 type Item = {
   id: string;
-  kind: "confession_reply" | "discussion_reply";
+  kind: "confession_reply" | "discussion_reply" | "confession_thanks";
   target: string;
   is_read: boolean;
 };
@@ -68,6 +68,12 @@ export default function ActivityNotices({
     es: "Alguien respondió a tu desahogo",
     ru: "Кто-то ответил на ваше сообщение",
   }[profile.language];
+  const thanks = {
+    en: "Someone thanked you for offering comfort",
+    pt: "Alguém agradeceu pelo conforto que você ofereceu",
+    es: "Alguien te agradeció el consuelo que ofreciste",
+    ru: "Вас поблагодарили за поддержку",
+  }[profile.language];
   const [items, setItems] = useState<Item[]>([]);
   const [pending, setPending] = useState(0);
   const [staff, setStaff] = useState(false);
@@ -81,7 +87,8 @@ export default function ActivityNotices({
       let active = true;
       const load = () => {
         if (!backend) return;
-        void Promise.resolve(backend.rpc("activity_snapshot"))
+        void Promise.resolve(backend.rpc("activity_snapshot_v2"))
+          .then((result) => result.error?.code === "PGRST202" ? backend!.rpc("activity_snapshot") : result)
           .then(({ data, error }) => {
             if (!active) return;
             setError(!!error);
@@ -149,7 +156,7 @@ export default function ActivityNotices({
           <Body small>
             <Ionicons
               name={
-                item.kind === "confession_reply"
+                item.kind !== "discussion_reply"
                   ? "heart-outline"
                   : "chatbubbles-outline"
               }
@@ -157,7 +164,7 @@ export default function ActivityNotices({
               accessible={false}
             />
             {"  "}
-            {item.kind === "confession_reply"
+            {item.kind !== "discussion_reply"
               ? isProtestant(profile)
                 ? {
                     en: "Unburden",
@@ -179,7 +186,7 @@ export default function ActivityNotices({
                 }[profile.language]}
           </Body>
           <Body>
-            {item.kind === "confession_reply"
+            {item.kind === "confession_thanks" ? thanks : item.kind === "confession_reply"
               ? isProtestant(profile)
                 ? burdenReply
                 : t.confession
@@ -205,7 +212,7 @@ export default function ActivityNotices({
                     }
                   })
                   .catch(() => {});
-              if (item.kind === "confession_reply")
+              if (item.kind !== "discussion_reply")
                 router.push({
                   pathname: "/confession",
                   params: { view: "mine" },

@@ -373,11 +373,13 @@ const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: DUSK },
   nativeStage: {
     position: "absolute",
-    top: "33.3333%",
-    left: "33.3333%",
-    width: "33.3333%",
-    height: "33.3333%",
-    transform: [{ scale: 3 }],
+    // Render at half size instead of one third, then scale to the screen.
+    // This reduces visible pixelation without rendering the full display.
+    top: "25%",
+    left: "25%",
+    width: "50%",
+    height: "50%",
+    transform: [{ scale: 2 }],
   },
   shade: {
     position: "absolute",

@@ -1,12 +1,26 @@
 import { AudioSession, registerGlobals } from "@livekit/react-native";
 import { AudioModule } from "expo-audio";
 import type { Room } from "livekit-client";
+import { suspendAmbience } from "../church-audio";
 registerGlobals();
+let restoreAmbience: (() => void) | null = null;
 export async function startAudio() {
-  await AudioSession.startAudioSession();
+  const restore = await suspendAmbience();
+  try {
+    await AudioSession.startAudioSession();
+    restoreAmbience = restore;
+  } catch (error) {
+    restore();
+    throw error;
+  }
 }
 export async function stopAudio() {
-  await AudioSession.stopAudioSession();
+  try {
+    await AudioSession.stopAudioSession();
+  } finally {
+    restoreAmbience?.();
+    restoreAmbience = null;
+  }
 }
 export function attachAudio(_room: Room) {
   return () => {};

@@ -14,6 +14,9 @@ const KEY = "church-sound";
 const VOLUME = 0.32;
 let player: AudioPlayer | null = null;
 let fade: ReturnType<typeof setInterval> | null = null;
+let suspended = 0;
+let generation = 0;
+let configuring: Promise<void> = Promise.resolve();
 
 export async function loadSoundOn() {
   try {
@@ -49,27 +52,35 @@ function fadeTo(target: number, ms: number, done?: () => void) {
 }
 
 export function startAmbience(volume = VOLUME, ms = 2500) {
+  if (suspended) return;
   try {
     if (!player) {
       player = createAudioPlayer(require("../../assets/church/ambience.m4a"));
       player.loop = true;
       player.volume = 0;
     }
-    void setAudioModeAsync({
-      playsInSilentMode: false,
-      shouldPlayInBackground: false,
-      interruptionMode: "mixWithOthers",
-      allowsRecording: false,
+    const ticket = ++generation;
+    const currentPlayer = player;
+    configuring = configuring.then(async () => {
+      if (ticket !== generation || suspended) return;
+      await setAudioModeAsync({
+        playsInSilentMode: false,
+        shouldPlayInBackground: false,
+        interruptionMode: "mixWithOthers",
+        allowsRecording: false,
+      });
+      if (ticket !== generation || suspended || player !== currentPlayer) return;
+      const wasPlaying = currentPlayer.playing;
+      currentPlayer.play();
+      fadeTo(volume, wasPlaying ? 900 : ms);
     }).catch(() => {});
-    const wasPlaying = player.playing;
-    player.play();
-    fadeTo(volume, wasPlaying ? 900 : ms);
   } catch {
     // Sound is a gentle extra; the church works without it.
   }
 }
 
 export function stopAmbience() {
+  generation++;
   if (!player) return;
   const p = player;
   fadeTo(0, 700, () => {
@@ -91,8 +102,28 @@ function applyHolds() {
   if (release) clearTimeout(release);
   release = null;
   const level = Math.max(0, ...holds.values());
+  if (suspended) return;
   if (level > 0) startAmbience(level);
   else release = setTimeout(stopAmbience, 300);
+}
+
+// A live voice room owns the device audio session until it has disconnected.
+export async function suspendAmbience() {
+  suspended++;
+  generation++;
+  if (release) clearTimeout(release);
+  release = null;
+  if (fade) clearInterval(fade);
+  fade = null;
+  try { player?.pause(); } catch { /* Already stopped. */ }
+  await configuring;
+  let restored = false;
+  return () => {
+    if (restored) return;
+    restored = true;
+    suspended = Math.max(0, suspended - 1);
+    applyHolds();
+  };
 }
 export function holdAmbience(level: keyof typeof LEVELS) {
   const id = Symbol(level);

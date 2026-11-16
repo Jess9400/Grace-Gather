@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import {
   Image,
   Modal,
@@ -10,7 +9,6 @@ import {
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { useFocusEffect } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
 import { useReducedMotion } from "../lib/use-reduced-motion";
@@ -18,7 +16,6 @@ import { confessionColors as room } from "../lib/confession-theme";
 import { useApp } from "../lib/state";
 import { isProtestant } from "../lib/church-calendar";
 import { roomCopy } from "../lib/burden-copy";
-import { holdAmbience, loadSoundOn } from "../lib/church-audio";
 export function ConfessionLattice({ height = 180 }: { height?: number }) {
   return (
     <Image
@@ -27,30 +24,6 @@ export function ConfessionLattice({ height = 180 }: { height?: number }) {
       accessible={false}
       style={{ width: "100%", height, backgroundColor: room.background }}
     />
-  );
-}
-/** Decorative artwork stays behind the accessible content and scroll view. */
-export function ConfessionBackground() {
-  useFocusEffect(
-    useCallback(() => {
-      let active = true;
-      let release: (() => void) | undefined;
-      void loadSoundOn().then((on) => {
-        if (active && on) release = holdAmbience("soft");
-      });
-      return () => { active = false; release?.(); };
-    }, []),
-  );
-  return (
-    <View pointerEvents="none" style={StyleSheet.absoluteFill} accessible={false}>
-      <Image
-        source={require("../../assets/confession/walnut-lattice-screen.jpg")}
-        resizeMode="cover"
-        accessible={false}
-        style={StyleSheet.absoluteFill}
-      />
-      <View style={[StyleSheet.absoluteFill, s.shade]} />
-    </View>
   );
 }
 export default function ConfessionArrival({
@@ -74,7 +47,6 @@ export default function ConfessionArrival({
       onRequestClose={onCancel}
     >
       <View style={[s.safe, { paddingBottom: insets.bottom }]}>
-        <ConfessionBackground />
         <ScrollView contentContainerStyle={s.content}>
           <View style={[s.top, { marginTop: insets.top + 8 }]}>
               <Pressable
@@ -124,7 +96,6 @@ export default function ConfessionArrival({
 }
 const s = StyleSheet.create({
   safe: { flex: 1, backgroundColor: room.background },
-  shade: { backgroundColor: "rgba(20, 13, 9, 0.67)" },
   content: { flexGrow: 1, width: "100%", maxWidth: 560, alignSelf: "center" },
   top: {
     paddingHorizontal: 12,

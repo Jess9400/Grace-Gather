@@ -56,7 +56,8 @@ export function usePrayerUnread() {
         backend.rpc("prayer_unread"),
         backend.rpc("gathering_notifications"),
         backend.rpc("friend_unread"),
-        backend.rpc("activity_snapshot"),
+        Promise.resolve(backend.rpc("activity_snapshot_v2")).then((result) =>
+          result.error?.code === "PGRST202" ? backend!.rpc("activity_snapshot") : result),
       ])
         .then(([prayers, gatherings, messages, activity]) => {
           if (active)

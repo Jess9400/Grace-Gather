@@ -72,10 +72,12 @@ export function AudioRoomProvider({ children }: { children: ReactNode }) {
     setHands([]);
     cleanup.current();
     cleanup.current = () => {};
-    try {
-      await old?.room.disconnect(true);
-    } finally {
-      await platform.stopAudio();
+    if (old) {
+      try {
+        await old.room.disconnect(true);
+      } finally {
+        await platform.stopAudio();
+      }
     }
     if (old) void gathering("leave", { id: old.id }).catch(() => {});
   }
@@ -92,6 +94,7 @@ export function AudioRoomProvider({ children }: { children: ReactNode }) {
     const version = ++generation.current;
     setConnection("connecting");
     let room: Room | undefined;
+    let audioStarted = false;
     try {
       const access: Access = await audioCommand("join", {
         gatheringId: id,
@@ -99,6 +102,7 @@ export function AudioRoomProvider({ children }: { children: ReactNode }) {
       });
       if (version !== generation.current) return;
       await platform.startAudio();
+      audioStarted = true;
       if (version !== generation.current) {
         await platform.stopAudio();
         return;
@@ -155,7 +159,7 @@ export function AudioRoomProvider({ children }: { children: ReactNode }) {
         current.current = null;
         setSession(null);
         setConnection("disconnected");
-        await platform.stopAudio().catch(() => {});
+        if (audioStarted) await platform.stopAudio().catch(() => {});
         setNotice(e instanceof Error ? e.message : "audioUnavailable");
       }
     } finally {
