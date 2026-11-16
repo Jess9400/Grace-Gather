@@ -1,12 +1,12 @@
 import { ExpoConfig, ConfigContext } from "expo/config";
 import { withInfoPlist, type ConfigPlugin } from "expo/config-plugins";
 
-// The WebRTC plugin always writes a generic camera message, even with
-// cameraPermission: false. Gatherings are voice only and the app never asks
-// for the camera, so the key is removed rather than left with vague wording.
-const withoutCameraUsage: ConfigPlugin = (config) =>
+// The WebRTC library references camera APIs even though gatherings use audio
+// only. Apple requires this purpose string for any binary referencing them.
+const describeCameraUsage: ConfigPlugin = (config) =>
   withInfoPlist(config, (mod) => {
-    delete mod.modResults.NSCameraUsageDescription;
+    mod.modResults.NSCameraUsageDescription =
+      "Grace & Gather does not use the camera. Gatherings are audio only.";
     return mod;
   });
 const appConfig = ({ config }: ConfigContext): ExpoConfig => ({
@@ -38,7 +38,7 @@ const appConfig = ({ config }: ConfigContext): ExpoConfig => ({
       : {}),
   },
 });
-// Applied before the listed plugins are registered, so its Info.plist change
-// runs after theirs and the WebRTC camera key is gone from the final file.
+// Applied before the listed plugins are registered, so this clear description
+// replaces the WebRTC plugin's generic text in the final Info.plist.
 export default (context: ConfigContext): ExpoConfig =>
-  withoutCameraUsage(appConfig(context));
+  describeCameraUsage(appConfig(context));
