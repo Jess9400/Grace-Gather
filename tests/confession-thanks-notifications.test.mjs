@@ -23,7 +23,7 @@ test('a private thank-you is visible only to the comforter, with safe compatibil
     insert into public.confessions(id,author,kind,status) values('parent','${author}','confession','approved');
     insert into public.confessions(id,parent,author,kind,status) values('reply','parent','${helper}','reply','approved');
   `);
-  await db.exec(await readFile(new URL('../supabase/migrations/20261116115712_confession_thanks_notifications.sql', import.meta.url), 'utf8'));
+  await db.exec(await readFile(new URL('../supabase/migrations/20261116121620_confession_thanks_notifications.sql', import.meta.url), 'utf8'));
   await db.exec(`update public.confessions set thanked=1 where id='reply'; update public.confessions set thanked=1 where id='reply'; select set_config('request.jwt.claim.sub','${helper}',false);`);
   let result = await db.query(`select public.activity_snapshot_v2() as snapshot`);
   assert.equal(result.rows[0].snapshot.unread, 1);
