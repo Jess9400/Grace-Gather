@@ -77,27 +77,6 @@ export default function Profile() {
       setBusy(false);
     }
   }
-  async function sync() {
-    const { client, user } = await requireUser();
-    const { error } = await client.from("profiles").upsert({
-      id: user.id,
-      name: profile.name,
-      city: profile.city,
-      region: profile.region,
-      country: profile.country,
-      language: profile.language,
-      tradition: profile.tradition,
-      scripture_language: profile.scriptureLanguage,
-      edition: profile.edition,
-      intent: profile.intent,
-      notification_email: profile.emailConsent ? profile.email : "",
-      email_consent: profile.emailConsent,
-      consent_at: profile.emailConsent ? new Date().toISOString() : null,
-      updated_at: new Date().toISOString(),
-    });
-    if (error) throw error;
-    setNotice(l("synced"));
-  }
   // What the person told us when they first arrived, and nothing else.
   const place = [profile.city, profile.region].filter(Boolean).join(", ");
   const faith = profile.faithChoice;
@@ -145,12 +124,14 @@ export default function Profile() {
         </View>
         <Button
           secondary
-          title={{
-            en: "Edit profile & preferences",
-            pt: "Editar perfil e preferências",
-            es: "Editar perfil y preferencias",
-            ru: "Изменить профиль и настройки",
-          }[profile.language]}
+          title={
+            {
+              en: "Edit profile & preferences",
+              pt: "Editar perfil e preferências",
+              es: "Editar perfil y preferencias",
+              ru: "Изменить профиль и настройки",
+            }[profile.language]
+          }
           onPress={() => router.push("/preferences")}
         />
       </Card>
@@ -163,11 +144,6 @@ export default function Profile() {
           ) : signedIn ? (
             <>
               <Body>{userEmail}</Body>
-              <Button
-                disabled={busy}
-                title={l("sync")}
-                onPress={() => void run(sync)}
-              />
               <Button
                 secondary
                 title={l("signOut")}
@@ -201,18 +177,22 @@ export default function Profile() {
               })
             }
           />
-          {signedIn && canUseRemotePush(Platform.OS, process.env.EXPO_PUBLIC_ANDROID_REMOTE_PUSH_ENABLED) && (
-            <Button
-              secondary
-              title={t("gather")}
-              onPress={() =>
-                void run(async () => {
-                  await registerGatheringPush();
-                  setNotice(t("saved"));
-                })
-              }
-            />
-          )}
+          {signedIn &&
+            canUseRemotePush(
+              Platform.OS,
+              process.env.EXPO_PUBLIC_ANDROID_REMOTE_PUSH_ENABLED,
+            ) && (
+              <Button
+                secondary
+                title={t("gather")}
+                onPress={() =>
+                  void run(async () => {
+                    await registerGatheringPush();
+                    setNotice(t("saved"));
+                  })
+                }
+              />
+            )}
         </Card>
       )}
       {Platform.OS !== "web" && (

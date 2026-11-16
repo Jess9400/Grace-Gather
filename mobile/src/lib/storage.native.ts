@@ -168,7 +168,11 @@ export async function exportEncrypted(options?: BackupOptions) {
     "SELECT key,value FROM vault WHERE key IN ('profile','entries') OR key LIKE 'course:%'",
   );
   if (options) {
-    rows = rows.filter((r) => r.key === "entries" || r.key === "profile");
+    rows = rows.filter((r) => r.key === "entries");
+    const accountProfile = options.audioOwner
+      ? await getItem(`account-profile:${options.audioOwner}`)
+      : await getItem("profile");
+    if (accountProfile) rows.push({ key: "profile", value: accountProfile });
     const stored = rows.find((r) => r.key === "entries");
     if (stored) stored.value = JSON.stringify(options.entries);
     else rows.push({ key: "entries", value: JSON.stringify(options.entries) });
