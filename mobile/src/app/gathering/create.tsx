@@ -73,7 +73,8 @@ export default function CreateGathering() {
         params: { id: result.id },
       });
     } catch (e) {
-      setError((e as Error).message);
+      const message = (e as Error).message;
+      setError(message === "hosts_only" ? c("hosts_only") : message);
     } finally {
       submitting.current = false;
       setBusy(false);
