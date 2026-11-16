@@ -74,12 +74,59 @@ const reviewMessages = {
   es: { self: "Otro moderador debe revisar tu propio envío.", forbidden: "Esta cuenta no puede moderar. Inicia sesión con una cuenta de moderador autorizada.", note: "Añade una nota de revisión de al menos cinco caracteres.", noteLabel: "Nota de revisión (opcional al aprobar)" },
   ru: { self: "Ваше сообщение должен проверить другой модератор.", forbidden: "У этого аккаунта нет доступа к модерации. Войдите как модератор.", note: "Добавьте заметку о проверке не короче пяти символов.", noteLabel: "Заметка о проверке (при одобрении необязательна)" },
 };
-const confessionAIConsentCopy = {
-  en: "With Community AI enabled, I agree to send my words and any recording to Alibaba Cloud for safety checks, including a later recheck. Recordings will be transcribed. Otherwise, a moderator will review them.",
-  pt: "Com a IA da comunidade ativada, concordo em enviar minhas palavras e gravações à Alibaba Cloud para análise de segurança, inclusive uma nova verificação depois. As gravações serão transcritas. Caso contrário, um moderador fará a revisão.",
-  es: "Con la IA de la comunidad activada, acepto enviar mis palabras y grabaciones a Alibaba Cloud para revisiones de seguridad, incluida una revisión posterior. Las grabaciones se transcribirán. De lo contrario, las revisará un moderador.",
-  ru: "Если ИИ сообщества включён, я согласен отправить мои слова и записи в Alibaba Cloud для проверки безопасности, включая повторную. Записи будут расшифрованы. Иначе их проверит модератор.",
+const confessionAICopy = {
+  en: {
+    text: "I agree to send my words to an external AI service for a safety check.",
+    audio: "I agree to send my words and recording to an external AI service for a safety check. Audio will be transcribed.",
+    more: "How AI review works", less: "Hide AI review details",
+    details: "With Community AI enabled, your submission is sent to Alibaba Cloud for a safety check and may be checked again later. Without permission, or if the check is uncertain, a moderator reviews it.",
+    pending: "Your submission was sent. Check your submissions for the latest status.",
+  },
+  pt: {
+    text: "Concordo em enviar minhas palavras a um serviço externo de IA para uma verificação de segurança.",
+    audio: "Concordo em enviar minhas palavras e gravação a um serviço externo de IA para uma verificação de segurança. O áudio será transcrito.",
+    more: "Como funciona a revisão por IA", less: "Ocultar detalhes da revisão por IA",
+    details: "Com a IA da comunidade ativada, seu envio é encaminhado à Alibaba Cloud para uma verificação de segurança e poderá ser verificado novamente depois. Sem sua permissão, ou se houver dúvida, um moderador fará a revisão.",
+    pending: "Seu envio foi recebido. Veja o status mais recente nos seus envios.",
+  },
+  es: {
+    text: "Acepto enviar mis palabras a un servicio externo de IA para una revisión de seguridad.",
+    audio: "Acepto enviar mis palabras y grabación a un servicio externo de IA para una revisión de seguridad. El audio se transcribirá.",
+    more: "Cómo funciona la revisión con IA", less: "Ocultar detalles de la revisión con IA",
+    details: "Con la IA de la comunidad activada, tu envío se comparte con Alibaba Cloud para una revisión de seguridad y puede revisarse de nuevo más adelante. Sin permiso, o si hay dudas, lo revisará un moderador.",
+    pending: "Tu envío se recibió. Consulta su estado más reciente en tus envíos.",
+  },
+  ru: {
+    text: "Я согласен отправить свои слова внешнему сервису ИИ для проверки безопасности.",
+    audio: "Я согласен отправить свои слова и запись внешнему сервису ИИ для проверки безопасности. Аудио будет расшифровано.",
+    more: "Как работает проверка ИИ", less: "Скрыть подробности проверки ИИ",
+    details: "При включённом ИИ сообщества сообщение отправляется в Alibaba Cloud для проверки безопасности и может быть проверено повторно. Без разрешения или при сомнениях его проверит модератор.",
+    pending: "Ваше сообщение отправлено. Актуальный статус можно посмотреть в своих сообщениях.",
+  },
 };
+
+function AIReviewConsent({ language, checked, onToggle, hasAudio = false }: {
+  language: keyof typeof confessionAICopy;
+  checked: boolean;
+  onToggle: () => void;
+  hasAudio?: boolean;
+}) {
+  const [expanded, setExpanded] = useState(false);
+  const content = confessionAICopy[language];
+  const label = hasAudio ? content.audio : content.text;
+  return (
+    <View>
+      <Pressable accessibilityRole="checkbox" accessibilityLabel={label} accessibilityState={{ checked }} onPress={onToggle} style={s.check}>
+        <Ionicons name={checked ? "checkbox" : "square-outline"} size={25} color={room.ink} accessible={false} />
+        <Text style={s.consent}>{label}</Text>
+      </Pressable>
+      <Pressable accessibilityRole="button" accessibilityState={{ expanded }} onPress={() => setExpanded(!expanded)} style={s.aiDetailsButton}>
+        <Text style={s.aiDetailsLink}>{expanded ? content.less : content.more}</Text>
+      </Pressable>
+      {expanded && <Text style={s.aiDetails}>{content.details}</Text>}
+    </View>
+  );
+}
 export default function ConfessionRoom() {
   const tr = useInterfaceCopy();
   const [needsSignIn, setNeedsSignIn] = useState(false);
@@ -122,7 +169,32 @@ export default function ConfessionRoom() {
     [blockTarget, setBlockTarget] = useState<string | null>(null),
     [notes, setNotes] = useState<Record<string, string>>({}),
     [success, setSuccess] = useState("share"),
+    [successItem, setSuccessItem] = useState<Confession | null>(null),
     [support, setSupport] = useState(false);
+  const successId = successItem?.id;
+  const successStatus = successItem?.status;
+  useEffect(() => {
+    if (page !== "success" || !successId || successStatus !== "pending") return;
+    const id = successId;
+    let cancelled = false;
+    let attempts = 0;
+    let timer: ReturnType<typeof setTimeout>;
+    async function checkStatus() {
+      try {
+        const result = await confessionAPI("read", { id });
+        if (cancelled) return;
+        if (result.item && result.item.status !== "pending") {
+          setSuccessItem((current) => current?.id === id ? result.item : current);
+          return;
+        }
+      } catch {
+        // The saved submission remains available in My confessions.
+      }
+      if (!cancelled && ++attempts < 12) timer = setTimeout(checkStatus, 5000);
+    }
+    timer = setTimeout(checkStatus, 1500);
+    return () => { cancelled = true; clearTimeout(timer); };
+  }, [page, successId, successStatus]);
   // The first page opens with its corner of the church across the top.
   const enterRoom = useCallback(
     (record = false) => {
@@ -310,6 +382,7 @@ export default function ConfessionRoom() {
     setConsent(false);
     setPreview("");
     setSuccess("share");
+    setSuccessItem(r.item);
     setSupport(r.supportSuggested);
     setPage("success");
   }
@@ -620,10 +693,7 @@ export default function ConfessionRoom() {
                         />
                         <Text style={s.consent}>{t("cConsent")}</Text>
                       </Pressable>
-                      <Pressable accessibilityRole="checkbox" accessibilityLabel={confessionAIConsentCopy[language]} accessibilityState={{ checked: aiModerationConsent }} onPress={() => setAIModerationConsent(!aiModerationConsent)} style={s.check}>
-                        <Ionicons name={aiModerationConsent ? "checkbox" : "square-outline"} size={25} color={room.ink} accessible={false} />
-                        <Text style={s.consent}>{confessionAIConsentCopy[language]}</Text>
-                      </Pressable>
+                      <AIReviewConsent language={language} checked={aiModerationConsent} onToggle={() => setAIModerationConsent(!aiModerationConsent)} hasAudio={!!audio} />
                       <Button
                         title={
                           protestant
@@ -685,7 +755,9 @@ export default function ConfessionRoom() {
                   <Text style={s.intro}>{t("cAfter")}</Text>
                 )}
                 <Text style={s.note}>
-                  {t(success === "reply" ? "cReplyPending" : "cPending")}
+                  {successItem && successItem.status !== "pending"
+                    ? t(successItem.status === "approved" ? "cApproved" : successItem.status === "reported" ? "cReported" : "cRejected")
+                    : confessionAICopy[language].pending}
                 </Text>
                 {support && <Text style={s.note}>{t("cSupport")}</Text>}
                 {btn("cMine", () => void run(() => load("mine")))}
@@ -816,10 +888,7 @@ export default function ConfessionRoom() {
                         multiline
                         maxLength={3000}
                       />
-                      <Pressable accessibilityRole="checkbox" accessibilityLabel={confessionAIConsentCopy[language]} accessibilityState={{ checked: replyAIConsent }} onPress={() => setReplyAIConsent(!replyAIConsent)} style={s.check}>
-                        <Ionicons name={replyAIConsent ? "checkbox" : "square-outline"} size={25} color={room.ink} accessible={false} />
-                        <Text style={s.consent}>{confessionAIConsentCopy[language]}</Text>
-                      </Pressable>
+                      <AIReviewConsent language={language} checked={replyAIConsent} onToggle={() => setReplyAIConsent(!replyAIConsent)} />
                       {btn(
                         "cOffer",
                         () =>
@@ -840,6 +909,7 @@ export default function ConfessionRoom() {
                             setDraft("");
                             setReplyAIConsent(false);
                             setSuccess("reply");
+                            setSuccessItem(r.item);
                             setSupport(r.supportSuggested);
                             setPage("success");
                           }),
@@ -982,4 +1052,7 @@ const s = StyleSheet.create({
     minHeight: 49,
   },
   consent: { flex: 1, fontSize: 13, lineHeight: 22, color: room.ink },
+  aiDetailsButton: { alignSelf: "flex-start", paddingLeft: 35, paddingVertical: 6, minHeight: 36, justifyContent: "center" },
+  aiDetailsLink: { color: room.muted, fontSize: 12, textDecorationLine: "underline" },
+  aiDetails: { color: room.muted, fontSize: 12, lineHeight: 20, paddingLeft: 35, paddingBottom: 10 },
 });
