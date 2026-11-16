@@ -858,10 +858,10 @@ const words: Record<string, string[]> = {
     "Соединение прервалось. Войдите снова, когда будете готовы.",
   ],
   micDenied: [
-    "Microphone access denied. You can listen. Enable access in device or browser settings to speak.",
+    "Microphone access is off. You can listen. To speak, allow the microphone for Grace & Gather in Settings.",
     "Acesso ao microfone negado. Você pode ouvir. Ative nas configurações para falar.",
     "Acceso al micrófono denegado. Puedes escuchar. Actívalo en ajustes para hablar.",
-    "Нет доступа к микрофону. Слушать можно, а чтобы говорить, разрешите доступ в настройках устройства или браузера.",
+    "Нет доступа к микрофону. Слушать можно, а чтобы говорить, разрешите доступ к микрофону в настройках.",
   ],
   micError: [
     "Check your microphone permissions.",

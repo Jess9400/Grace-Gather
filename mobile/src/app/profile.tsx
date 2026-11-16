@@ -28,6 +28,7 @@ import { deleteConfirmationWord } from "../lib/delete-confirmation";
 import { copy, editionsFor, languages } from "../lib/content";
 import { label } from "../lib/labels";
 import { backend, requireUser, requireBackend } from "../lib/backend";
+import { termsCopy } from "../lib/terms-copy";
 import {
   enableReminder,
   disableGatheringPush,
@@ -319,6 +320,11 @@ export default function Profile() {
           secondary
           title={l("privacy")}
           onPress={() => router.push("/privacy")}
+        />
+        <Button
+          secondary
+          title={termsCopy[profile.language].title}
+          onPress={() => router.push("/terms")}
         />
         <External
           title="hello@graceandgather.online"

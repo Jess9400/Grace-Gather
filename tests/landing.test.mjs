@@ -14,7 +14,13 @@ test('the landing page has every picture and file it points to', () => {
 
 test('the landing page shows the app is coming soon and gives the right contact address', () => {
   const app = [...page.matchAll(/href="(https:\/\/[^"]+)"/g)].map((m) => m[1]).filter((url) => !url.includes('fonts.g'));
-  assert.ok(app.length >= 2);
+  assert.ok(app.length >= 1);
+  // The privacy policy and support pages are published beside the page, so
+  // App Store Connect can link to them on the site's own domain.
+  for (const file of ['privacy.html', 'support.html', 'terms.html']) {
+    assert.match(page, new RegExp(`href="${file}"`));
+    assert.ok(existsSync(root + file), file);
+  }
   for (const url of app) assert.match(url, /^https:\/\/(grace-gather\.findflockie\.workers\.dev|www\.graceandgather\.online)\//, url);
   assert.match(page, /hello@graceandgather\.online/);
   assert.equal((page.match(/Coming soon to the App Store/g) || []).length, 2);

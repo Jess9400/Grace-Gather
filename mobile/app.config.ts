@@ -1,5 +1,15 @@
 import { ExpoConfig, ConfigContext } from "expo/config";
-export default ({ config }: ConfigContext): ExpoConfig => ({
+import { withInfoPlist, type ConfigPlugin } from "expo/config-plugins";
+
+// The WebRTC plugin always writes a generic camera message, even with
+// cameraPermission: false. Gatherings are voice only and the app never asks
+// for the camera, so the key is removed rather than left with vague wording.
+const withoutCameraUsage: ConfigPlugin = (config) =>
+  withInfoPlist(config, (mod) => {
+    delete mod.modResults.NSCameraUsageDescription;
+    return mod;
+  });
+const appConfig = ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   name: "Grace & Gather",
   slug: process.env.EXPO_PROJECT_SLUG || "away-church",
@@ -28,3 +38,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       : {}),
   },
 });
+// Applied before the listed plugins are registered, so its Info.plist change
+// runs after theirs and the WebRTC camera key is gone from the final file.
+export default (context: ConfigContext): ExpoConfig =>
+  withoutCameraUsage(appConfig(context));
