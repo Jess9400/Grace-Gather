@@ -71,7 +71,7 @@ export default function BibleReading() {
         <Body>
           {tr(
             failedCollection === collection
-              ? "Could not load this Bible. Please try again."
+              ? "Could not load this Bible."
               : "Loading your Bible…",
           )}
         </Body>
@@ -182,7 +182,7 @@ function BibleReader({ collection }: { collection: CollectionId | null }) {
         <Brand />
         <Body>
           {tr(
-            "No Bible is available for this language and tradition yet. Choose another edition explicitly; we will not substitute English.",
+            "No Bible for this language and tradition yet.",
           )}
         </Body>
         <Button
@@ -288,7 +288,7 @@ function BibleReader({ collection }: { collection: CollectionId | null }) {
         {collection === "synodal" && (
           <Body small>
             {tr(
-              "Synodal source: 66 books. Additional Orthodox books are not included in this publisher’s file.",
+              "Synodal source: 66 books, without the additional Orthodox books.",
             )}
           </Body>
         )}

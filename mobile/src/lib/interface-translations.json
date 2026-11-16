@@ -95,21 +95,13 @@
     "es": "Este pasaje no está disponible.",
     "ru": "Этот отрывок недоступен."
   },
-  "This is Psalm 33 in this edition, corresponding to Psalm 34 in Hebrew-based numbering.": {
-    "pt": "Este é o Salmo 33 nesta edição, correspondente ao Salmo 34 na numeração hebraica.",
-    "es": "Este es el Salmo 33 en esta edición, equivalente al Salmo 34 en la numeración hebrea.",
-    "ru": "В этом издании это псалом 33; в еврейской нумерации — псалом 34."
-  },
+"Psalm 33 in this edition; Psalm 34 in Hebrew numbering.": { "pt": "Salmo 33 nesta edição; Salmo 34 na numeração hebraica.", "es": "Salmo 33 en esta edición; Salmo 34 en la numeración hebrea.", "ru": "В этом издании — псалом 33; в еврейской нумерации — псалом 34." },
   "Psalm numbers follow the Septuagint edition shown above.": {
     "pt": "Os números dos salmos seguem a edição da Septuaginta indicada acima.",
     "es": "La numeración de los salmos sigue la edición de la Septuaginta indicada arriba.",
     "ru": "Нумерация псалмов соответствует указанному выше изданию Септуагинты."
   },
-  "What do I notice in this passage, and what question would I like to carry with me?": {
-    "pt": "O que percebo nesta passagem e que pergunta gostaria de levar comigo?",
-    "es": "¿Qué noto en este pasaje y qué pregunta me gustaría llevar conmigo?",
-    "ru": "Что я замечаю в этом отрывке и над каким вопросом хочу поразмышлять?"
-  },
+"What do I notice here, and what question will I carry with me?": { "pt": "O que percebo aqui e que pergunta levo comigo?", "es": "¿Qué noto aquí y qué pregunta me llevo conmigo?", "ru": "Что я здесь замечаю и какой вопрос унесу с собой?" },
   "A gentle place to begin": {
     "pt": "Um começo tranquilo",
     "es": "Un comienzo tranquilo",
@@ -195,16 +187,8 @@
     "es": "Fuentes y notas de estudio",
     "ru": "Источники и заметки"
   },
-  "Editorial reflections are separate from Scripture. They are in English and await theological review. Notes match explicitly identified passages and do not represent approval by a church.": {
-    "pt": "As reflexões editoriais são separadas das Escrituras. Estão em inglês e aguardam revisão teológica. Referem-se a passagens identificadas e não representam aprovação de uma igreja.",
-    "es": "Las reflexiones editoriales están separadas de las Escrituras. Están en inglés y pendientes de revisión teológica. Corresponden a pasajes identificados y no representan la aprobación de una iglesia.",
-    "ru": "Редакционные размышления отделены от Писания. Они написаны на английском и ожидают богословской проверки. Они относятся к указанным отрывкам и не означают одобрения церковью."
-  },
-  "Editorial reflections are separate from Scripture and await theological review. They are written for this verse and do not represent approval by a church.": {
-    "pt": "As reflexões editoriais são separadas das Escrituras e aguardam revisão teológica. Foram escritas para este versículo e não representam aprovação de uma igreja.",
-    "es": "Las reflexiones editoriales están separadas de las Escrituras y pendientes de revisión teológica. Fueron escritas para este versículo y no representan la aprobación de una iglesia.",
-    "ru": "Редакционные размышления отделены от Писания и ожидают богословской проверки. Они написаны для этого стиха и не означают одобрения церковью."
-  },
+"Editorial reflections, separate from Scripture, in English and awaiting theological review. They cover only the passages named and are not endorsed by a church.": { "pt": "Reflexões editoriais, separadas das Escrituras, em inglês e aguardando revisão teológica. Tratam só das passagens indicadas e não têm aprovação de uma igreja.", "es": "Reflexiones editoriales, separadas de las Escrituras, en inglés y pendientes de revisión teológica. Tratan solo los pasajes indicados y no cuentan con la aprobación de una iglesia.", "ru": "Редакционные размышления на английском, отдельные от Писания; ждут богословской проверки. Относятся только к указанным отрывкам и не одобрены церковью." },
+"Editorial reflections for this verse, separate from Scripture. They await theological review and are not endorsed by a church.": { "pt": "Reflexões editoriais para este versículo, separadas das Escrituras. Aguardam revisão teológica e não têm aprovação de uma igreja.", "es": "Reflexiones editoriales para este versículo, separadas de las Escrituras. Pendientes de revisión teológica y sin aprobación de una iglesia.", "ru": "Редакционные размышления к этому стиху, отдельные от Писания. Ждут богословской проверки и не одобрены церковью." },
   "Read the source passage": {
     "pt": "Ler a passagem na fonte",
     "es": "Leer el pasaje en la fuente",
@@ -240,46 +224,26 @@
     "es": "Una pregunta para llevar contigo",
     "ru": "Вопрос для размышления"
   },
-  "A verse-specific explanation is still being prepared. Read the words before and after this verse. Notice who is speaking, what is happening, and which words repeat.": {
-    "pt": "Uma explicação específica deste versículo ainda está sendo preparada. Leia o que vem antes e depois. Observe quem fala, o que acontece e quais palavras se repetem.",
-    "es": "Aún se está preparando una explicación específica de este versículo. Lee lo que viene antes y después. Observa quién habla, qué sucede y qué palabras se repiten.",
-    "ru": "Объяснение именно этого стиха ещё готовится. Прочитайте строки до и после него. Обратите внимание, кто говорит, что происходит и какие слова повторяются."
-  },
-  "Choose one word or image that stays with you. Give it a little attention before deciding what it means for your own life.": {
-    "pt": "Escolha uma palavra ou imagem que ficou com você. Dedique-lhe atenção antes de decidir o que significa para sua vida.",
-    "es": "Elige una palabra o imagen que se quede contigo. Dedícale atención antes de decidir qué significa para tu vida.",
-    "ru": "Выберите слово или образ, который вам запомнился. Уделите ему внимание, прежде чем решать, что он значит для вашей жизни."
-  },
+"An explanation of this verse is still being prepared. Read the lines around it: who speaks, what happens, which words repeat.": { "pt": "A explicação deste versículo ainda está sendo preparada. Leia o que vem antes e depois: quem fala, o que acontece, quais palavras se repetem.", "es": "La explicación de este versículo aún se está preparando. Lee lo que viene antes y después: quién habla, qué sucede, qué palabras se repiten.", "ru": "Объяснение этого стиха ещё готовится. Прочитайте строки вокруг него: кто говорит, что происходит, какие слова повторяются." },
+"Choose one word or image that stays with you. Sit with it before deciding what it means for your life.": { "pt": "Escolha uma palavra ou imagem que ficou com você. Fique com ela antes de decidir o que significa para sua vida.", "es": "Elige una palabra o imagen que se quede contigo. Quédate con ella antes de decidir qué significa para tu vida.", "ru": "Выберите слово или образ, который вам запомнился. Задержитесь на нём, прежде чем решать, что он значит для вас." },
   "The story around these words": {
     "pt": "A história ao redor destas palavras",
     "es": "La historia que rodea estas palabras",
     "ru": "Контекст этих слов"
   },
-  "Read the surrounding chapter. What kind of writing is this: a story, a song, a letter, a law, or a vision? How does this verse fit the passage around it?": {
-    "pt": "Leia o capítulo ao redor. Que tipo de texto é este: história, cântico, carta, lei ou visão? Como este versículo se relaciona com o restante da passagem?",
-    "es": "Lee el capítulo completo. ¿Qué tipo de texto es: relato, canción, carta, ley o visión? ¿Cómo encaja este versículo en el pasaje?",
-    "ru": "Прочитайте главу целиком. Что это за текст: рассказ, песня, письмо, закон или видение? Как этот стих связан с окружающим отрывком?"
-  },
+"Read the whole chapter. Is it a story, song, letter, law or vision? How does this verse fit in?": { "pt": "Leia o capítulo inteiro. É uma história, cântico, carta, lei ou visão? Como este versículo se encaixa?", "es": "Lee el capítulo completo. ¿Es un relato, canción, carta, ley o visión? ¿Cómo encaja este versículo?", "ru": "Прочитайте главу целиком. Это рассказ, песня, письмо, закон или видение? Какое место в ней занимает этот стих?" },
   "What it means": {
     "pt": "O que significa",
     "es": "Qué significa",
     "ru": "Что это значит"
   },
-  "Look for repeated words, contrasts and changes of speaker. Read a difficult line in the flow of the whole passage before deciding what it means. These are reading questions, not a completed commentary on this verse.": {
-    "pt": "Procure palavras repetidas, contrastes e mudanças de quem fala. Leia uma frase difícil no contexto da passagem antes de interpretá-la. São perguntas para leitura, não um comentário completo deste versículo.",
-    "es": "Busca palabras repetidas, contrastes y cambios de hablante. Lee una frase difícil en el contexto del pasaje antes de interpretarla. Son preguntas de lectura, no un comentario completo del versículo.",
-    "ru": "Ищите повторения, противопоставления и смену говорящего. Прежде чем толковать трудную строку, прочитайте весь отрывок. Это вопросы для чтения, а не готовый комментарий к стиху."
-  },
+"Look for repeated words, contrasts and changes of speaker. Read a hard line in light of the whole passage. These are reading prompts, not a commentary.": { "pt": "Procure palavras repetidas, contrastes e mudanças de quem fala. Leia uma frase difícil à luz de toda a passagem. São pistas de leitura, não um comentário.", "es": "Busca palabras repetidas, contrastes y cambios de hablante. Lee una frase difícil a la luz de todo el pasaje. Son pistas de lectura, no un comentario.", "ru": "Ищите повторы, противопоставления и смену говорящего. Трудную строку читайте в свете всего отрывка. Это подсказки для чтения, а не комментарий." },
   "In everyday life": {
     "pt": "Na vida cotidiana",
     "es": "En la vida cotidiana",
     "ru": "В повседневной жизни"
   },
-  "What response might fit the passage as a whole? Notice the difference between what the text says and a personal association it brings to mind. You can hold a question without needing an immediate answer.": {
-    "pt": "Que resposta combina com a passagem como um todo? Diferencie o que o texto diz das associações pessoais que desperta. Você pode guardar uma pergunta sem precisar respondê-la imediatamente.",
-    "es": "¿Qué respuesta encaja con el pasaje completo? Distingue lo que dice el texto de las asociaciones personales que despierta. Puedes quedarte con una pregunta sin responderla de inmediato.",
-    "ru": "Какой отклик соответствует отрывку в целом? Различайте слова текста и личные ассоциации. Можно оставаться с вопросом, не требуя немедленного ответа."
-  },
+"What response might fit the whole passage? Keep what the text says apart from what it brings to mind. A question can stay open for a while.": { "pt": "Que resposta combina com a passagem inteira? Separe o que o texto diz do que ele lhe traz à mente. Uma pergunta pode ficar em aberto por um tempo.", "es": "¿Qué respuesta encaja con todo el pasaje? Distingue lo que dice el texto de lo que te trae a la mente. Una pregunta puede quedar abierta un tiempo.", "ru": "Какой отклик подходит ко всему отрывку? Отличайте слова текста от собственных ассоциаций. Вопрос может какое-то время оставаться открытым." },
   "What this says about God": {
     "pt": "O que diz sobre Deus",
     "es": "Qué dice sobre Dios",
@@ -370,11 +334,7 @@
     "es": "No disponible",
     "ru": "Недоступно"
   },
-  "Synodal source: 66 books. Additional Orthodox books are not included in this publisher’s file.": {
-    "pt": "Fonte sinodal: 66 livros. Os livros ortodoxos adicionais não estão incluídos no arquivo desta editora.",
-    "es": "Fuente sinodal: 66 libros. Los libros ortodoxos adicionales no están incluidos en el archivo de este editor.",
-    "ru": "Источник — Синодальный перевод, 66 книг. Дополнительных книг православной Библии в файле издателя нет."
-  },
+"Synodal source: 66 books, without the additional Orthodox books.": { "pt": "Fonte sinodal: 66 livros, sem os livros ortodoxos adicionais.", "es": "Fuente sinodal: 66 libros, sin los libros ortodoxos adicionales.", "ru": "Синодальный перевод: 66 книг, без дополнительных книг православной Библии." },
   "Awaiting a safety check or held": {
     "pt": "Aguardando verificação ou retido",
     "es": "Pendiente de revisión o retenido",
@@ -715,11 +675,7 @@
     "es": "Comparte solo lo que te sientas cómodo haciendo público.",
     "ru": "Делитесь только тем, что готовы сделать публичным."
   },
-  "Optional. This label describes the conversation, not your profile.": {
-    "pt": "Opcional. Este rótulo descreve a conversa, não seu perfil.",
-    "es": "Opcional. Esta etiqueta describe la conversación, no tu perfil.",
-    "ru": "Необязательно. Метка описывает беседу, а не ваш профиль."
-  },
+"Optional. It describes the conversation, not you.": { "pt": "Opcional. Descreve a conversa, não você.", "es": "Opcional. Describe la conversación, no a ti.", "ru": "Необязательно. Метка описывает беседу, а не вас." },
   "Shared as You. Your diary is never attached. This preview holds every submission for manual review.": {
     "pt": "Compartilhado como Você. Seu diário nunca é anexado. Nesta prévia, tudo aguarda revisão manual.",
     "es": "Compartido como Tú. Tu diario nunca se adjunta. En esta vista previa, todo espera revisión manual.",
@@ -735,11 +691,7 @@
     "es": "La moderación automática no está activa. Esta publicación queda privada. Tu diario y perfil nunca se adjuntan.",
     "ru": "Автоматическая модерация не включена. Публикация остаётся приватной. Дневник и профиль никогда не прикрепляются."
   },
-  "Your topic was submitted. Check My submissions for its publication status.": {
-    "pt": "Seu tópico foi enviado. Confira o status em Minhas publicações.",
-    "es": "Tu tema se ha enviado. Consulta su estado en Mis publicaciones.",
-    "ru": "Тема отправлена. Проверьте её статус в разделе «Мои публикации»."
-  },
+"Topic submitted. See its status in My submissions.": { "pt": "Tópico enviado. Veja o status em Minhas publicações.", "es": "Tema enviado. Consulta su estado en Mis publicaciones.", "ru": "Тема отправлена. Статус — в разделе «Мои публикации»." },
   "Demo review": {
     "pt": "Revisão da demonstração",
     "es": "Revisión de demostración",
@@ -900,11 +852,7 @@
     "es": "Idioma original",
     "ru": "Язык оригинала"
   },
-  "Translation is not available for this item. The original text is shown.": {
-    "pt": "A tradução deste conteúdo não está disponível. O texto original é exibido.",
-    "es": "La traducción de este contenido no está disponible. Se muestra el texto original.",
-    "ru": "Перевод этого материала недоступен. Показан оригинальный текст."
-  },
+"No translation available. Showing the original.": { "pt": "Tradução indisponível. Mostrando o original.", "es": "Traducción no disponible. Se muestra el original.", "ru": "Перевода нет — показан оригинал." },
   "Children": {
     "pt": "Crianças",
     "es": "Niños",
@@ -940,21 +888,13 @@
     "es": "Visitar",
     "ru": "Перейти"
   },
-  "What does this passage say about God, people, and their relationship? What is being promised, asked, or questioned?\n\nRead the surrounding passage before drawing a conclusion. Christians may read difficult passages differently; a reflection question cannot settle those differences.": {
-    "pt": "O que esta passagem diz sobre Deus, as pessoas e sua relação? O que é prometido, pedido ou questionado?\n\nLeia o contexto antes de concluir. Cristãos podem interpretar passagens difíceis de formas diferentes; uma pergunta de reflexão não resolve essas diferenças.",
-    "es": "¿Qué dice este pasaje sobre Dios, las personas y su relación? ¿Qué se promete, pide o cuestiona?\n\nLee el contexto antes de sacar conclusiones. Los cristianos pueden interpretar pasajes difíciles de distintas formas; una pregunta de reflexión no resuelve esas diferencias.",
-    "ru": "Что этот отрывок говорит о Боге, людях и их отношениях? Что здесь обещано, о чём просят, что ставится под вопрос?\n\nПрочитайте контекст, прежде чем делать вывод. Христиане могут по-разному понимать трудные отрывки; вопрос для размышления не может разрешить этих различий."
-  },
+"What does this passage say about God, people, and their relationship? What is being promised, asked, or questioned?\n\nRead the surrounding passage before drawing a conclusion. Christians may read difficult passages differently.": { "pt": "O que esta passagem diz sobre Deus, as pessoas e sua relação? O que é prometido, pedido ou questionado?\n\nLeia o contexto antes de concluir. Cristãos podem interpretar passagens difíceis de formas diferentes.", "es": "¿Qué dice este pasaje sobre Dios, las personas y su relación? ¿Qué se promete, pide o cuestiona?\n\nLee el contexto antes de sacar conclusiones. Los cristianos pueden interpretar pasajes difíciles de distintas formas.", "ru": "Что этот отрывок говорит о Боге, людях и их отношениях? Что здесь обещано, о чём просят, что ставится под вопрос?\n\nПрочитайте контекст, прежде чем делать вывод. Христиане могут по-разному понимать трудные отрывки." },
   "Loading your Bible…": {
     "pt": "Carregando sua Bíblia…",
     "es": "Cargando tu Biblia…",
     "ru": "Загружаем вашу Библию…"
   },
-  "Could not load this Bible. Please try again.": {
-    "pt": "Não foi possível carregar esta Bíblia. Tente novamente.",
-    "es": "No se pudo cargar esta Biblia. Inténtalo de nuevo.",
-    "ru": "Не удалось загрузить эту Библию. Попробуйте ещё раз."
-  },
+"Could not load this Bible.": { "pt": "Não foi possível carregar esta Bíblia.", "es": "No se pudo cargar esta Biblia.", "ru": "Не удалось загрузить эту Библию." },
   "Try again": {
     "pt": "Tentar novamente",
     "es": "Intentar de nuevo",
@@ -1030,11 +970,7 @@
     "es": "Elegir una edición disponible",
     "ru": "Выбрать доступное издание"
   },
-  "No Bible is available for this language and tradition yet. Choose another edition explicitly; we will not substitute English.": {
-    "pt": "Ainda não há uma Bíblia disponível para este idioma e tradição. Escolha outra edição explicitamente; não substituiremos por inglês.",
-    "es": "Aún no hay una Biblia disponible para este idioma y tradición. Elige otra edición de forma explícita; no la sustituiremos por inglés.",
-    "ru": "Библия для этого языка и традиции пока недоступна. Выберите другое издание сами — мы не подставляем английское вместо него."
-  },
+"No Bible for this language and tradition yet.": { "pt": "Ainda não há Bíblia para este idioma e tradição.", "es": "Aún no hay una Biblia para este idioma y tradición.", "ru": "Для этого языка и традиции Библии пока нет." },
   "Your Bible choice controls the verses in your journal. Available full readers: English, Portuguese (Bíblia Livre), Spanish (Reina-Valera 1909), and Russian (Synodal, 66 books). Availability depends on tradition; the Russian source omits additional Orthodox books.": {
     "pt": "Sua escolha de Bíblia define os versículos do diário. Leitura disponível: inglês, português (Bíblia Livre), espanhol (Reina-Valera 1909) e russo (Sinodal, 66 livros). A disponibilidade depende da tradição; a fonte russa não inclui os livros ortodoxos adicionais.",
     "es": "Tu elección de Biblia determina los versículos del diario. Lectura disponible: inglés, portugués (Bíblia Livre), español (Reina-Valera 1909) y ruso (Sinodal, 66 libros). La disponibilidad depende de la tradición; la fuente rusa no incluye los libros ortodoxos adicionales.",
@@ -1115,31 +1051,19 @@
     "es": "Inicia sesión para ver tu calendario.",
     "ru": "Войдите, чтобы увидеть свой календарь."
   },
-  "Gatherings you have reserved or are hosting. Times are shown in your device’s timezone.": {
-    "pt": "Encontros que você reservou ou está organizando. Horários no fuso do seu dispositivo.",
-    "es": "Encuentros que has reservado u organizas. Horarios en la zona horaria de tu dispositivo.",
-    "ru": "Встречи, на которые вы записались или которые проводите. Время указано в часовом поясе устройства."
-  },
+"Gatherings you’ve reserved or are hosting, in your local time.": { "pt": "Encontros que você reservou ou organiza, no seu horário local.", "es": "Encuentros que reservaste u organizas, en tu hora local.", "ru": "Встречи, куда вы записались или которые ведёте. Время местное." },
   "No gatherings on this date.": {
     "pt": "Nenhum encontro nesta data.",
     "es": "No hay encuentros en esta fecha.",
     "ru": "На эту дату встреч нет."
   },
-  "You have no upcoming gatherings yet.": {
-    "pt": "Você ainda não tem encontros agendados.",
-    "es": "Aún no tienes encuentros próximos.",
-    "ru": "У вас пока нет предстоящих встреч."
-  },
+"No upcoming gatherings yet.": { "pt": "Ainda não há encontros agendados.", "es": "Aún no hay encuentros próximos.", "ru": "Предстоящих встреч пока нет." },
   "Browse gatherings": {
     "pt": "Explorar encontros",
     "es": "Explorar encuentros",
     "ru": "Найти встречи"
   },
-  "Unable to load your calendar. Please try again.": {
-    "pt": "Não foi possível carregar seu calendário. Tente novamente.",
-    "es": "No se pudo cargar tu calendario. Inténtalo de nuevo.",
-    "ru": "Не удалось загрузить календарь. Попробуйте ещё раз."
-  },
+"Could not load your calendar.": { "pt": "Não foi possível carregar seu calendário.", "es": "No se pudo cargar tu calendario.", "ru": "Не удалось загрузить календарь." },
   "Retry": {
     "pt": "Tentar novamente",
     "es": "Reintentar",
@@ -1180,11 +1104,7 @@
     "es": "Preferencias de la iglesia",
     "ru": "Настройки церкви"
   },
-  "Your tradition sets a starting point. Choose the practices that feel meaningful to you.": {
-    "pt": "Sua tradição é um ponto de partida. Escolha as práticas que fazem sentido para você.",
-    "es": "Tu tradición es un punto de partida. Elige las prácticas que tengan sentido para ti.",
-    "ru": "Ваша традиция — отправная точка. Выберите близкие вам практики."
-  },
+"Your tradition is a starting point; choose what feels meaningful to you.": { "pt": "Sua tradição é um ponto de partida; escolha o que faz sentido para você.", "es": "Tu tradición es un punto de partida; elige lo que tenga sentido para ti.", "ru": "Ваша традиция — отправная точка. Выберите то, что вам близко." },
   "Candle recommendations: on": {
     "pt": "Sugestões de velas: ativadas",
     "es": "Sugerencias de velas: activadas",
@@ -1205,11 +1125,7 @@
     "es": "Presencia en la iglesia: desactivada",
     "ru": "Присутствие в церкви: выключено"
   },
-  "Could not save. Please try again.": {
-    "pt": "Não foi possível salvar. Tente novamente.",
-    "es": "No se pudo guardar. Inténtalo de nuevo.",
-    "ru": "Не удалось сохранить. Попробуйте ещё раз."
-  },
+"Could not save. Try again.": { "pt": "Não foi possível salvar. Tente novamente.", "es": "No se pudo guardar. Inténtalo de nuevo.", "ru": "Не удалось сохранить. Попробуйте ещё раз." },
   "Include this device in the church presence count only while Home is open. No name or journal is shared. This counts devices, not verified people.": {
     "pt": "Incluir este dispositivo na contagem apenas enquanto o Início estiver aberto. Seu nome e diário não são compartilhados. A contagem é de dispositivos, não de pessoas verificadas.",
     "es": "Incluir este dispositivo en el recuento solo mientras Inicio esté abierto. No se comparte tu nombre ni diario. Se cuentan dispositivos, no personas verificadas.",
@@ -1289,11 +1205,6 @@
     "pt": "Conversas privadas ainda não estão disponíveis.",
     "es": "Los chats privados aún no están disponibles.",
     "ru": "Личные чаты пока недоступны."
-  },
-  "Your choice updates your church background and Scripture tradition.": {
-    "pt": "Sua escolha atualiza o ambiente da igreja e a tradição das Escrituras.",
-    "es": "Tu elección actualiza el ambiente de la iglesia y la tradición de las Escrituras.",
-    "ru": "Ваш выбор меняет облик церкви и традицию Писания."
   },
   "Back to church": {
     "pt": "Voltar à igreja",
@@ -1520,11 +1431,7 @@
     "es": "No se pudieron cargar las oraciones. Inténtalo de nuevo.",
     "ru": "Не удалось загрузить молитвы. Повторите попытку."
   },
-  "Choose a time between 5 minutes and 30 days from now.": {
-    "pt": "Escolha um horário entre 5 minutos e 30 dias a partir de agora.",
-    "es": "Elige una hora entre 5 minutos y 30 días a partir de ahora.",
-    "ru": "Выберите время не раньше чем через 5 минут и не позже чем через 30 дней."
-  },
+"Between 5 minutes and 30 days from now.": { "pt": "Entre 5 minutos e 30 dias a partir de agora.", "es": "Entre 5 minutos y 30 días a partir de ahora.", "ru": "Не раньше чем через 5 минут и не позже чем через 30 дней." },
   "Enter a valid date and time.": {
     "pt": "Digite uma data e um horário válidos.",
     "es": "Introduce una fecha y hora válidas.",
@@ -1570,11 +1477,7 @@
     "es": "Tu tradición",
     "ru": "Ваша традиция"
   },
-  "This shapes your church and the Bible you read. You can change it anytime in your profile.": {
-    "pt": "Isso define a sua igreja e a Bíblia que você lê. Você pode mudar quando quiser no seu perfil.",
-    "es": "Esto define tu iglesia y la Biblia que lees. Puedes cambiarlo cuando quieras en tu perfil.",
-    "ru": "От этого зависят ваша церковь и Библия, которую вы читаете. Это можно изменить в профиле в любое время."
-  },
+"This shapes your church and the Bible you read. You can change it later.": { "pt": "Isso define a sua igreja e a Bíblia que você lê. Você pode mudar depois.", "es": "Esto define tu iglesia y la Biblia que lees. Puedes cambiarlo después.", "ru": "От этого зависят ваша церковь и Библия, которую вы читаете. Изменить можно позже." },
   "This shapes your church and the Bible you read.": {
     "pt": "Isso define a sua igreja e a Bíblia que você lê.",
     "es": "Esto define tu iglesia y la Biblia que lees.",
@@ -1585,11 +1488,7 @@
     "es": "Un poco sobre ti",
     "ru": "Немного о вас"
   },
-  "Both are optional. Your city helps us suggest local ways to help; no precise location is needed.": {
-    "pt": "Ambos são opcionais. Sua cidade nos ajuda a sugerir formas de ajudar perto de você; não precisamos da sua localização exata.",
-    "es": "Ambos son opcionales. Tu ciudad nos ayuda a sugerir formas de ayudar cerca de ti; no necesitamos tu ubicación exacta.",
-    "ru": "Оба поля необязательны. По городу мы подскажем, где можно помочь рядом с вами; точное местоположение не нужно."
-  },
+"Both are optional. Your city is enough to suggest local ways to help.": { "pt": "Ambos são opcionais. Sua cidade basta para sugerirmos formas de ajudar perto de você.", "es": "Ambos son opcionales. Tu ciudad basta para sugerir formas de ayudar cerca de ti.", "ru": "Оба поля необязательны. Города достаточно, чтобы подсказать, где помочь рядом с вами." },
   "Enter the church": {
     "pt": "Entrar na igreja",
     "es": "Entrar en la iglesia",
@@ -1650,11 +1549,7 @@
     "es": "Iniciar un debate",
     "ru": "Начать обсуждение"
   },
-  "Start a discussion about this topic": {
-    "pt": "Iniciar uma discussão sobre este tema",
-    "es": "Iniciar un debate sobre este tema",
-    "ru": "Начать обсуждение этой темы"
-  },
+"Discuss": { "pt": "Conversar", "es": "Conversar", "ru": "Обсудить" },
   "No matching theme yet. Try another word or start a discussion.": {
     "pt": "Nenhum tema encontrado. Tente outra palavra ou inicie uma discussão.",
     "es": "No se encontró un tema. Prueba otra palabra o inicia un debate.",
@@ -1665,11 +1560,7 @@
     "es": "Busca en estos temas seleccionados, referencias y pasajes de tu edición. No es una respuesta de IA ni una búsqueda en toda la Biblia.",
     "ru": "Поиск по подобранным темам, ссылкам на стихи и отрывкам в выбранном переводе. Это не ответ ИИ и не поиск по всей Библии."
   },
-  "External resources have their own language, translation and theological perspective. They do not change your selected Bible edition.": {
-    "pt": "Recursos externos têm idioma, tradução e perspectiva teológica próprios. Eles não alteram sua edição da Bíblia.",
-    "es": "Los recursos externos tienen su propio idioma, traducción y perspectiva teológica. No cambian tu edición de la Biblia.",
-    "ru": "У внешних ресурсов свои язык, перевод и богословский взгляд. Они не меняют выбранный перевод Библии."
-  },
+"These sites have their own language, translation and theology. Your Bible edition stays the same.": { "pt": "Estes sites têm idioma, tradução e teologia próprios. Sua edição da Bíblia não muda.", "es": "Estos sitios tienen su propio idioma, traducción y teología. Tu edición de la Biblia no cambia.", "ru": "У этих сайтов свои язык, перевод и богословие. Ваш перевод Библии не меняется." },
   "Preview discussion": {
     "pt": "Prévia da discussão",
     "es": "Vista previa del debate",
@@ -1690,11 +1581,7 @@
     "es": "BibleProject · Vídeos y estudio de palabras",
     "ru": "BibleProject · Видео и разбор слов"
   },
-  "Sign in to start your discussion. Your topic will wait here until you return.": {
-    "pt": "Entre para iniciar sua discussão. Seu tema ficará aqui até você voltar.",
-    "es": "Inicia sesión para comenzar tu conversación. Tu tema te esperará aquí.",
-    "ru": "Войдите, чтобы начать обсуждение. Тема сохранится до вашего возвращения."
-  },
+"Sign in to start your discussion. Your topic will wait here.": { "pt": "Entre para iniciar sua discussão. Seu tema ficará aqui.", "es": "Inicia sesión para comenzar tu conversación. Tu tema te esperará aquí.", "ru": "Войдите, чтобы начать обсуждение. Тема вас дождётся." },
   "Testimonies & stories": {
     "pt": "Testemunhos e histórias",
     "es": "Testimonios e historias",
@@ -1710,11 +1597,7 @@
     "es": "Historia y lenguas bíblicas",
     "ru": "История и библейские языки"
   },
-  "Explore themes and resources in your chosen Bible edition.": {
-    "pt": "Explore temas e recursos na edição bíblica escolhida.",
-    "es": "Explora temas y recursos en tu edición bíblica.",
-    "ru": "Изучайте темы и материалы в выбранном переводе Библии."
-  },
+"Themes and resources in your Bible edition.": { "pt": "Temas e recursos na sua edição da Bíblia.", "es": "Temas y recursos en tu edición de la Biblia.", "ru": "Темы и материалы в вашем переводе Библии." },
   "Discuss with AI": {
     "pt": "Conversar com a IA",
     "es": "Conversar con IA",
@@ -1840,21 +1723,13 @@
     "es": "Esta fecha u hora no existe. Elige otra.",
     "ru": "Такой даты или времени не существует. Выберите другое."
   },
-  "Your prayer request has been saved. Check its status in Mine.": {
-    "pt": "Seu pedido de oração foi salvo. Confira o status em Meus pedidos.",
-    "es": "Tu petición de oración se ha guardado. Consulta su estado en Mis peticiones.",
-    "ru": "Ваша просьба о молитве сохранена. Проверьте её статус в разделе «Мои»."
-  },
+"Prayer request saved. See its status in My requests.": { "pt": "Pedido de oração salvo. Veja o status em Meus pedidos.", "es": "Petición de oración guardada. Consulta su estado en Mis peticiones.", "ru": "Просьба о молитве сохранена. Статус — в разделе «Мои просьбы»." },
   "Your request needs moderator review.": {
     "pt": "Seu pedido precisa de revisão por um moderador.",
     "es": "Tu petición necesita revisión de un moderador.",
     "ru": "Вашу просьбу должен проверить модератор."
   },
-  "No verified Bible for this tradition in this language yet. You can choose another Bible language later in your profile.": {
-    "pt": "Ainda não há uma Bíblia verificada desta tradição neste idioma. Você pode escolher outro idioma da Bíblia depois, no seu perfil.",
-    "es": "Todavía no hay una Biblia verificada de esta tradición en este idioma. Puedes elegir otro idioma de la Biblia más tarde en tu perfil.",
-    "ru": "Пока нет проверенной Библии этой традиции на этом языке. Позже в профиле можно выбрать другой язык Библии."
-  },
+"No verified Bible for this tradition in this language yet. You can choose another language later.": { "pt": "Ainda não há Bíblia verificada desta tradição neste idioma. Você pode escolher outro idioma depois.", "es": "Aún no hay una Biblia verificada de esta tradición en este idioma. Puedes elegir otro idioma después.", "ru": "Пока нет проверенной Библии этой традиции на этом языке. Другой язык можно выбрать позже." },
   "What’s weighing on your heart?": {
     "pt": "O que está pesando no seu coração?",
     "es": "¿Qué pesa en tu corazón?",
@@ -2095,11 +1970,7 @@
     "es": "Una respuesta escrita para ti",
     "ru": "Ответ, написанный для вас"
   },
-  "When you write to God, you can receive a reflection based on what you shared. Sign in to continue.": {
-    "pt": "Quando você escrever a Deus, poderá receber uma reflexão sobre o que partilhou. Entre na sua conta para continuar.",
-    "es": "Cuando escribas a Dios, puedes recibir una reflexión sobre lo que compartiste. Inicia sesión para continuar.",
-    "ru": "Когда вы пишете Богу, вы можете получить размышление об этом. Войдите, чтобы продолжить."
-  },
+"Sign in to receive a reflection on what you write to God.": { "pt": "Entre para receber uma reflexão sobre o que você escreve a Deus.", "es": "Inicia sesión para recibir una reflexión sobre lo que escribes a Dios.", "ru": "Войдите, чтобы получать размышления о том, что вы пишете Богу." },
   "Skip for now": {
     "pt": "Pular por agora",
     "es": "Omitir por ahora",

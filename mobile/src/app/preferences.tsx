@@ -80,7 +80,7 @@ export default function Preferences() {
       if (router.canGoBack()) router.back();
       else router.replace("/profile");
     } catch {
-      setError(tr("Could not save. Please try again."));
+      setError(tr("Could not save. Try again."));
     } finally {
       setBusy(false);
     }

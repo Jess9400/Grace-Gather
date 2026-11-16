@@ -313,7 +313,7 @@ export default function Story() {
         <Body small>
           {interfaceCopy(
             profile.language,
-            "Translation is not available for this item. The original text is shown.",
+            "No translation available. Showing the original.",
           )}
         </Body>
       )}

@@ -310,7 +310,7 @@ export default function VerseStudy() {
         <Body>
           {tr(
             failedCollection === collection
-              ? "Could not load this Bible. Please try again."
+              ? "Could not load this Bible."
               : "Loading your Bible…",
           )}
         </Body>
@@ -385,7 +385,7 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
     "dra:PSA.33.19",
   ].includes(id)
     ? tr(
-        "This is Psalm 33 in this edition, corresponding to Psalm 34 in Hebrew-based numbering.",
+        "Psalm 33 in this edition; Psalm 34 in Hebrew numbering.",
       )
     : study?.editionId === "brenton" && location?.code === "PSA"
       ? tr("Psalm numbers follow the Septuagint edition shown above.")
@@ -393,7 +393,7 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
   const question =
     explanation?.question ??
     tr(
-      "What do I notice in this passage, and what question would I like to carry with me?",
+      "What do I notice here, and what question will I carry with me?",
     );
   const options = [
     {
@@ -535,11 +535,11 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
               <Body small>
                 {study
                   ? tr(
-                      "Editorial reflections are separate from Scripture. They are in English and await theological review. Notes match explicitly identified passages and do not represent approval by a church.",
+                      "Editorial reflections, separate from Scripture, in English and awaiting theological review. They cover only the passages named and are not endorsed by a church.",
                     )
                   : explanation
                     ? tr(
-                        "Editorial reflections are separate from Scripture and await theological review. They are written for this verse and do not represent approval by a church.",
+                        "Editorial reflections for this verse, separate from Scripture. They await theological review and are not endorsed by a church.",
                       )
                     : q(lang, "studyLimited")}
               </Body>
@@ -602,7 +602,7 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
                   <Section title={tr("In simple words")}>
                     {explanation?.simple ??
                       tr(
-                        "A verse-specific explanation is still being prepared. Read the words before and after this verse. Notice who is speaking, what is happening, and which words repeat.",
+                        "An explanation of this verse is still being prepared. Read the lines around it: who speaks, what happens, which words repeat.",
                       )}
                   </Section>
                   {!explanation && verse.context && (
@@ -613,7 +613,7 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
                   <Invitation title={tr("A small response")}>
                     {explanation?.today ??
                       tr(
-                        "Choose one word or image that stays with you. Give it a little attention before deciding what it means for your own life.",
+                        "Choose one word or image that stays with you. Sit with it before deciding what it means for your life.",
                       )}
                   </Invitation>
                 </>
@@ -624,7 +624,7 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
                       verse.context?.[lang] ??
                       verse.context?.en ??
                       tr(
-                        "Read the surrounding chapter. What kind of writing is this: a story, a song, a letter, a law, or a vision? How does this verse fit the passage around it?",
+                        "Read the whole chapter. Is it a story, song, letter, law or vision? How does this verse fit in?",
                       )}
                   </Section>
                   {!!psalmNumbering && <Body small>{psalmNumbering}</Body>}
@@ -634,7 +634,7 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
                   <Section title={tr("What it means")} tint>
                     {explanation?.meaning ??
                       tr(
-                        "Look for repeated words, contrasts and changes of speaker. Read a difficult line in the flow of the whole passage before deciding what it means. These are reading questions, not a completed commentary on this verse.",
+                        "Look for repeated words, contrasts and changes of speaker. Read a hard line in light of the whole passage. These are reading prompts, not a commentary.",
                       )}
                   </Section>
                   {!!rich.echoes && (
@@ -646,7 +646,7 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
                   <Invitation title={tr("In everyday life")}>
                     {explanation?.today ??
                       tr(
-                        "What response might fit the passage as a whole? Notice the difference between what the text says and a personal association it brings to mind. You can hold a question without needing an immediate answer.",
+                        "What response might fit the whole passage? Keep what the text says apart from what it brings to mind. A question can stay open for a while.",
                       )}
                   </Invitation>
                 </>
@@ -663,7 +663,7 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
                     (
                       explanation?.theology ??
                       tr(
-                        "What does this passage say about God, people, and their relationship? What is being promised, asked, or questioned?\n\nRead the surrounding passage before drawing a conclusion. Christians may read difficult passages differently; a reflection question cannot settle those differences.",
+                        "What does this passage say about God, people, and their relationship? What is being promised, asked, or questioned?\n\nRead the surrounding passage before drawing a conclusion. Christians may read difficult passages differently.",
                       )
                     )
                       .split("\n\n")
