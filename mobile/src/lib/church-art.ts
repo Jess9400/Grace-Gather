@@ -87,8 +87,7 @@ export function visibleArtworkTourPoint(art: ChurchArt, place: ChurchPlace, widt
   const top = Math.max(66, box.top);
   const bottom = Math.min(height - bottomInset - 12, box.top + box.height);
   if (left > right || top > bottom) return null;
-  // Keep the arrow as close to the centre of the visible object as possible,
-  // while leaving room for the centred, narrower tour card on bench stops.
+  // Keep the bench arrows near the outside of the visible object.
   const middle = (left + right) / 2;
   const captionWidth = Math.min(420, (width - 56) * 0.62);
   const x = place === "pews"

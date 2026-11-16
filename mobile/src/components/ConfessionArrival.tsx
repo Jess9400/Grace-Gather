@@ -47,6 +47,15 @@ export default function ConfessionArrival({
       onRequestClose={onCancel}
     >
       <View style={[s.safe, { paddingBottom: insets.bottom }]}>
+        <View pointerEvents="none" style={StyleSheet.absoluteFill} accessible={false}>
+          <Image
+            source={require("../../assets/confession/walnut-lattice-screen.jpg")}
+            resizeMode="cover"
+            accessible={false}
+            style={StyleSheet.absoluteFill}
+          />
+          <View style={[StyleSheet.absoluteFill, s.shade]} />
+        </View>
         <ScrollView contentContainerStyle={s.content}>
           <View style={[s.top, { marginTop: insets.top + 8 }]}>
               <Pressable
@@ -96,6 +105,7 @@ export default function ConfessionArrival({
 }
 const s = StyleSheet.create({
   safe: { flex: 1, backgroundColor: room.background },
+  shade: { backgroundColor: "rgba(20, 13, 9, 0.55)" },
   content: { flexGrow: 1, width: "100%", maxWidth: 560, alignSelf: "center" },
   top: {
     paddingHorizontal: 12,

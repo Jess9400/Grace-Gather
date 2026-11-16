@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
-import { Animated, AppState, Image, StyleSheet, View } from "react-native";
+import { Animated, AppState, Image, Pressable, StyleSheet, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useFocusEffect } from "expo-router";
 import { Asset } from "expo-asset";
-import { artworkPoints, artworkStage, visibleArtworkTourPoint, type ChurchArt } from "../lib/church-art";
+import { artworkBox, artworkHasTourTarget, artworkPoints, artworkStage, visibleArtworkTourPoint, type ChurchArt } from "../lib/church-art";
 import type { ChurchPlace } from "../lib/church-scene";
 import { setChurchSnapshot } from "../lib/church-room";
 import { useReducedMotion } from "../lib/use-reduced-motion";
@@ -23,11 +23,10 @@ const NIGHT_ART = {
 };
 const TOUR_ORDER: ChurchPlace[] = ["pray", "confession", "gather", "bible", "candles", "pews", "wreath"];
 
-/** The approved sanctuary artwork, with the guided tour on top. The picture
- * itself does not answer taps: places are reached from the tabs and buttons. */
+/** The sanctuary artwork, with accessible tap targets and a guided tour. */
 export default function LivingChurchScene({
   art, places, night, paused, tour, bottomInset,
-  onTourDone, onTourPlace, onFailure, accessibilityLabel,
+  onTourDone, onTourPlace, onPlace, onFailure, accessibilityLabel,
 }: {
   art: ChurchArt;
   places: PlaceLabel[];
@@ -37,6 +36,7 @@ export default function LivingChurchScene({
   bottomInset: number;
   onTourDone: () => void;
   onTourPlace: (place: ChurchPlace | null) => void;
+  onPlace: (place: ChurchPlace, point?: { x: number; y: number }) => void;
   onFailure: () => void;
   accessibilityLabel: string;
 }) {
@@ -99,6 +99,27 @@ export default function LivingChurchScene({
           onLoad={() => setReadyArt(artKey)} onError={onFailure} />
       </View>
       {ready && <LivingArtwork key={artKey} art={art} source={source} running={focused && active && !paused} night={night} still={reduced} />}
+      {ready && !paused && size.width > 0 && [...places]
+        .filter((place) => artworkHasTourTarget(art, place.key))
+        .sort((a, b) => {
+          const first = artworkBox(art, a.key, size.width, size.height);
+          const second = artworkBox(art, b.key, size.width, size.height);
+          return second.width * second.height - first.width * first.height;
+        })
+        .map((place) => {
+          const box = artworkBox(art, place.key, size.width, size.height);
+          const point = visibleArtworkTourPoint(art, place.key, size.width, size.height, bottomInset) ?? undefined;
+          return (
+            <Pressable
+              key={place.key}
+              accessibilityRole="button"
+              accessibilityLabel={place.label}
+              accessibilityHint={place.hint}
+              onPress={() => onPlace(place.key, point)}
+              style={{ position: "absolute", left: box.left, top: box.top, width: box.width, height: box.height }}
+            />
+          );
+        })}
       {ready && size.width > 0 && (
         <>
           {tour && current && <Animated.View pointerEvents="none" style={[styles.pointer, { left: current.x - 24, top: current.y - 66, opacity: shown }]}>
