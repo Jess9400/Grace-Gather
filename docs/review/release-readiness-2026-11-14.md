@@ -20,3 +20,5 @@ This is a working checklist, not a declaration that Apple will approve the app.
 6. Supabase Security Advisor reports authenticated security-definer functions that must each be assessed for intentional access and authorization. Its RLS-without-policy informational findings can be intentional for tables accessed only through authorized server functions; do not add permissive policies merely to silence them. See https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable.
 
 Jessica is working on the landing page now; social accounts are planned for after Apple approval. PR #88 and the subscription plan remain undecided; this checklist does not enable them.
+
+Once the landing page is ready, follow the [App Store links checklist](landing-page-app-store-links.md) to publish and verify the support and privacy destinations before entering them in App Store Connect.
