@@ -52,7 +52,7 @@ export function selectOpenStudyNotes(
   const key = chapter * 1000 + verse;
   const select = (source: NoteRow[4]) => {
     const candidates = rows.filter(
-      (row) => row[4] === source && row[0] <= key && key <= row[1],
+      (row) => row[4] === source && row[5] === "Professional" && row[0] <= key && key <= row[1],
     );
     candidates.sort((a, b) => a[1] - a[0] - (b[1] - b[0]));
     const row = candidates[0];

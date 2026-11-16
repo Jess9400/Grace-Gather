@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync, existsSync } from "node:fs";
+import { readFileSync, existsSync, readdirSync } from "node:fs";
 import { createRequire } from "node:module";
 import { dirname, resolve, extname } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -78,7 +78,7 @@ test("matches Catholic numbering only where the actual Matos text was verified",
   assert.equal(sourceReference("matos:TOB.1.1"), null);
 });
 
-test("finds source notes in each language and does not use neighbouring passages", () => {
+test("only professionally reviewed notes can be selected", () => {
   for (const lang of ["en", "pt", "es", "ru"]) {
     const rows = JSON.parse(
       readFileSync(
@@ -87,9 +87,20 @@ test("finds source notes in each language and does not use neighbouring passages
       ),
     );
     const found = selectOpenStudyNotes(rows, 3, 16);
-    assert.ok(found.overview, lang);
-    assert.match(found.overview.title, /3/);
-    assert.equal(selectOpenStudyNotes(rows, 999, 999).overview, undefined);
+    assert.ok(rows.every((row) => row[5] === "Professional"), lang);
+    if (lang === "en" || lang === "ru") assert.ok(found.detail, lang);
+    else assert.equal(found.detail, undefined, lang);
+    assert.equal(found.overview, undefined, lang);
+    assert.equal(selectOpenStudyNotes(rows, 999, 999).detail, undefined);
+  }
+  const unreviewed = [[3001, 3021, "John 3", "text", "aquifer", "None"]];
+  assert.equal(selectOpenStudyNotes(unreviewed, 3, 16).detail, undefined);
+  for (const lang of ["en", "pt", "es", "ru"]) {
+    const dir = resolve(root, `mobile/public/study-notes/v1/${lang}`);
+    for (const file of readdirSync(dir).filter((file) => file.endsWith(".json"))) {
+      const rows = JSON.parse(readFileSync(resolve(dir, file), "utf8"));
+      assert.ok(rows.every((row) => row[5] === "Professional"), `${lang}/${file}`);
+    }
   }
 });
 

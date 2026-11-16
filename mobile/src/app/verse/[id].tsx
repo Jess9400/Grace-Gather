@@ -36,7 +36,6 @@ import type { Language } from "../../lib/content";
 import {
   journalScripture,
   journalStudyReference,
-  themeReferenceFor,
 } from "../../lib/journal-verse-reference";
 import {
   journalVerseStudy,
@@ -167,12 +166,6 @@ function SourcedStudyNote({
             "Biblica Study Notes · Biblica / Mission Mutual · CC BY-SA 4.0",
           url: "https://github.com/BibleAquifer/BiblicaStudyNotes",
         };
-  const reviewNotice = {
-    en: "The publisher does not list a professional review for this translation.",
-    pt: "O editor não informa revisão profissional desta tradução.",
-    es: "El editor no indica una revisión profesional de esta traducción.",
-    ru: "Издатель не указал профессиональную проверку этого перевода.",
-  }[lang];
   const notice = {
     en: "Study notes reflect their authors’ perspective; Christian traditions may differ.",
     pt: "As notas refletem a perspectiva dos autores; as tradições cristãs podem ter interpretações diferentes.",
@@ -187,7 +180,6 @@ function SourcedStudyNote({
         sources={[
           source,
           { label: notice },
-          ...(note.reviewLevel === "None" ? [{ label: reviewNotice }] : []),
           {
             label: "CC BY-SA 4.0",
             url: "https://creativecommons.org/licenses/by-sa/4.0/",
@@ -432,14 +424,10 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
     (journalReference && location
       ? journalScripture(location.collection, journalReference)
       : null);
-  const study = lang === "en" ? studyFor(id) : undefined;
-  // Journal verses are explained in every language; other studies are English.
-  // A journal theme verse has a note in every language; once that note is
-  // rebuilt from sources it is preferred, wherever the verse is opened.
-  const journalNote = journalVerseStudy(
-    journalReference ?? themeReferenceFor(id),
-    lang,
-  );
+  // The legacy editorial explanations do not record professional review.
+  // Keep them out of the reading experience until their review is verified.
+  const study = undefined as ReturnType<typeof studyFor>;
+  const journalNote = undefined as ReturnType<typeof journalVerseStudy>;
   const sourced = journalNote?.sources?.length ? journalNote : undefined;
   const explanation = sourced ?? study ?? journalNote;
   const openHeading = {
@@ -738,14 +726,6 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
                       )}
                     </Section>
                   )}
-                  {!explanation &&
-                    !openNotes?.detail &&
-                    !openNotes?.overview &&
-                    verse.context && (
-                      <Paragraph>
-                        {verse.context[lang] ?? verse.context.en}
-                      </Paragraph>
-                    )}
                   <Invitation title={tr("A small response")}>
                     {explanation?.today ??
                       tr(
@@ -759,8 +739,6 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
                     (!openNotes?.detail && !openNotes?.overview)) && (
                     <Section title={tr("The story around these words")}>
                       {explanation?.context ??
-                        verse.context?.[lang] ??
-                        verse.context?.en ??
                         tr(
                           "Read the whole chapter. Is it a story, song, letter, law or vision? How does this verse fit in?",
                         )}

@@ -124,7 +124,7 @@ test('the verse each edition shows for a theme leads back to that theme’s expl
     // 3:22-23 are its 3:21a-21b).
     assert.ok(verse, `${edition.id} ${reference}`);
     assert.equal(references.journalStudyReference(verse.id, reference), reference, `${edition.id} ${reference}`);
-    // What the verse screen does: an existing English study first, otherwise the journal one.
+    // The preserved editorial data remains available for a future review.
     for (const language of languages) {
       const study = language === 'en' ? reader.studyFor(verse.id) : undefined;
       const explanation = study ?? journalVerseStudy(references.journalStudyReference(verse.id, reference), language);
@@ -171,17 +171,10 @@ test('the saved entry passes its theme verse and the verse screen reads it', () 
   // The verse actually shown (a step on a verse path), else the theme's verse.
   assert.match(entry, /journal:\s*displayResponse\?\.reference \?\?\s*journalTheme\(entry\)\.verse/);
   assert.match(verse, /journalStudyReference\(id, journal\)/);
-  // The journal note is found by the entry's reference, or by the verse itself
-  // when it is a theme verse opened elsewhere; sourced notes come first.
-  assert.match(verse, /journalVerseStudy\(\s*journalReference \?\? themeReferenceFor\(id\),\s*lang,?\s*\)/);
-  assert.match(verse, /sourced \?\? study \?\? journalNote/);
-  // The shipped English studies stay English-only.
-  assert.match(verse, /study = lang === "en" \? studyFor\(id\) : undefined/);
-  // The note shown with these explanations is translated too.
-  const note = 'Editorial reflections for this verse, separate from Scripture. They await theological review and are not endorsed by a church.';
-  const translations = JSON.parse(readFileSync(root + 'mobile/src/lib/interface-translations.json', 'utf8'));
-  assert.ok(verse.includes(`"${note}"`));
-  for (const language of ['pt', 'es', 'ru']) assert.ok(translations[note][language].length > 60, language);
+  // Legacy editorial reflections are unavailable until their review is verified.
+  assert.match(verse, /const study = undefined as ReturnType<typeof studyFor>/);
+  assert.match(verse, /const journalNote = undefined as ReturnType<typeof journalVerseStudy>/);
+  assert.match(verse, /fetchOpenStudyNotes\(id, lang\)/);
 });
 
 test('rebuilt notes name their sources and every related verse exists', () => {

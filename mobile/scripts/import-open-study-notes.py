@@ -50,6 +50,9 @@ for lang, label in LANGUAGES.items():
             for name in sorted(archive.namelist()):
                 if not re.fullmatch(r'json/\d{2}\.content\.json', name): continue
                 for item in json.loads(archive.read(name)):
+                    # Only publish translations whose source explicitly records
+                    # professional review; missing metadata is not evidence.
+                    if item.get('review_level') != 'Professional': continue
                     body = text(item.get('content', ''))
                     if not body: continue
                     for passage in item.get('associations', {}).get('passage', []):
@@ -59,6 +62,10 @@ for lang, label in LANGUAGES.items():
                         if not match or not end_match or match[1] != end_match[1] or start is None or end is None or end < start: continue
                         books.setdefault(match[1], []).append([start, end, text(item.get('title', '')), body, source, item.get('review_level', 'None')])
     target = OUT / lang; target.mkdir(parents=True, exist_ok=True)
+    # Clear previously imported unreviewed files on repeat runs as well.
+    for existing in target.glob('*.json'):
+        if existing.stem not in books:
+            existing.write_text('[]', encoding='utf-8')
     for book, entries in sorted(books.items()):
         (target / (book + '.json')).write_text(json.dumps(entries, ensure_ascii=False, separators=(',', ':')), encoding='utf-8')
     stats[lang] = {'books':len(books), 'notes':sum(map(len, books.values()))}
