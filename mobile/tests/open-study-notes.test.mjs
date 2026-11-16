@@ -66,7 +66,17 @@ test("matches Catholic numbering only where the actual Matos text was verified",
     book: "GEN", chapter: 1, verse: 4,
   });
   assert.equal(sourceReference("matos:GEN.1.32"), null);
-  assert.equal(sourceReference("matos:GEN.2.4"), null);
+  for (const [chapter, last] of [[2, 25], [3, 24], [4, 26], [5, 30], [6, 22], [7, 24], [8, 22], [9, 29], [10, 32], [11, 32]]) {
+    assert.deepEqual(asObject(sourceReference(`matos:GEN.${chapter}.1`)), {
+      book: "GEN", chapter, verse: 1,
+    });
+    assert.deepEqual(asObject(sourceReference(`matos:GEN.${chapter}.${last}`)), {
+      book: "GEN", chapter, verse: last,
+    });
+    assert.equal(sourceReference(`matos:GEN.${chapter}.${last + 1}`), null);
+  }
+  for (const id of ["GEN.8.4", "GEN.8.6", "GEN.8.7", "GEN.10.15", "GEN.10.16", "GEN.10.17", "GEN.11.13"])
+    assert.equal(sourceReference(`matos:${id}`), null);
   assert.deepEqual(asObject(sourceReference("matos:PSA.12.2")), {
     book: "PSA",
     chapter: 13,

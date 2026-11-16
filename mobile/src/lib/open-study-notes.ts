@@ -29,16 +29,29 @@ export function sourceReference(
     "GEN.1.3": "GEN.1.3",
     "JHN.3.16": "JHN.3.16",
   };
-  // The individual verses of Genesis 1 were checked against both editions.
-  const genesisOne = /^GEN\.1\.(\d+)$/.exec(raw);
-  const verifiedGenesisOne =
-    genesisOne && Number(genesisOne[1]) >= 1 && Number(genesisOne[1]) <= 31
+  // Matos Soares and Bíblia Livre were compared verse by verse for these
+  // chapters. Equal chapter length alone is not evidence of equivalence.
+  // Gênesis 5:31 combines two verses, so only 5:1–30 are included.
+  const verifiedGenesisChapters: Record<number, number> = {
+    1: 31, 2: 25, 3: 24, 4: 26, 5: 30, 6: 22,
+    7: 24, 8: 22, 9: 29, 10: 32, 11: 32,
+  };
+  // Different wording or verse boundaries can matter to commentary even when
+  // the chapter lengths agree, so omit these until individually resolved.
+  const unmatchedGenesis = new Set([
+    "GEN.8.4", "GEN.8.6", "GEN.8.7",
+    "GEN.10.15", "GEN.10.16", "GEN.10.17", "GEN.11.13",
+  ]);
+  const genesis = /^GEN\.(\d+)\.(\d+)$/.exec(raw);
+  const verifiedGenesis =
+    genesis && !unmatchedGenesis.has(raw) && Number(genesis[2]) >= 1 &&
+    Number(genesis[2]) <= (verifiedGenesisChapters[Number(genesis[1])] ?? 0)
       ? raw
       : undefined;
   const reference =
     mapped ??
     (edition === "matos"
-      ? verifiedMatos[raw] ?? verifiedGenesisOne
+      ? verifiedMatos[raw] ?? verifiedGenesis
       : ["web", "blivre", "rv1909"].includes(edition)
         ? raw
         : undefined);
