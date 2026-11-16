@@ -26,12 +26,6 @@ const words: Record<string, string[]> = {
     "Días santos de este mes ({count})",
     "Праздники в этом месяце: {count}",
   ],
-  calendarLegend: [
-    "Dot: gathering · Illustration: church observance",
-    "Ponto: encontro · Ilustração: celebração cristã",
-    "Punto: encuentro · Ilustración: celebración cristiana",
-    "Точка: встреча · Рисунок: церковный праздник",
-  ],
   oneUnreadMessage: [
     "1 unread private message",
     "1 mensagem privada não lida",

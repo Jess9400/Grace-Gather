@@ -222,8 +222,7 @@ export default function Onboarding() {
           />
           <Card>
             <Subheading>{jc(p.language, "aiSetting")}</Subheading>
-            <Body small>{jc(p.language, "aiDefaultInfo")}</Body>
-            <Body small>{jc(p.language, "aiShareSummary")}</Body>
+            <Body small>{jc(p.language, "aiShort")}</Body>
             <Disclosure title={jc(p.language, "aiPrivacy")}>
               <Body small>{aiCopy(p.language, "consent")}</Body>
             </Disclosure>

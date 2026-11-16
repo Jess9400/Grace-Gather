@@ -2,7 +2,7 @@ import MemberAvatar from "./MemberAvatar";
 import ChurchStrip, { useRoomStrip } from "./ChurchStrip";
 import type { RoomPlace } from "../lib/church-room";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
-import React, { createContext, useContext, useRef } from "react";
+import React, { createContext, useContext, useRef, useState } from "react";
 import {
   ScrollView,
   type ScrollViewInstance,
@@ -101,6 +101,9 @@ function useSurfaceColors() {
     outline: card ? colors.cardLine : "#C9A45C8C",
   };
 }
+// The least height a compact page keeps (very large text, short screens);
+// below this the page scrolls instead of squeezing what is being written.
+const COMPACT_MIN = 330;
 // `place` makes the screen one of the church's rooms: its part of the church
 // runs across the top in place of the plain header.
 export function Screen({
@@ -130,6 +133,7 @@ export function Screen({
   home?: boolean;
 }) {
   const scroll = useRef<ScrollViewInstance>(null);
+  const [viewport, setViewport] = useState(0);
   const onScroll = useKeyboardReveal(scroll);
   const lastScrolled = useRef<string | undefined>(undefined);
   const tr = useInterfaceCopy();
@@ -156,16 +160,32 @@ export function Screen({
             keyboardDismissMode={footer ? "interactive" : "none"}
             onScroll={onScroll}
             scrollEventThrottle={32}
-            // A compact page reaches down to the footer, so what is being
-            // written can fill the space above the keyboard.
+            // A compact page is exactly as tall as the space above the
+            // footer, so what is being written fills it and scrolls inside
+            // its own field, keeping the line being typed in view.
             contentContainerStyle={compact ? { flexGrow: 1 } : undefined}
+            onLayout={(event) => setViewport(event.nativeEvent.layout.height)}
+            onContentSizeChange={() => {
+              if (scrollToEndKey && lastScrolled.current !== scrollToEndKey) {
+                lastScrolled.current = scrollToEndKey;
+                scroll.current?.scrollToEnd({ animated: true });
+              }
+            }}
           >
             {!compact && <ChurchStrip place={place} back={false} hideControls={back} />}
             <View
               style={[
                 s.page,
                 compact
-                  ? { paddingTop: insets.top + 12, paddingBottom: 0, flexGrow: 1 }
+                  ? {
+                      // The bar above already clears the status bar.
+                      paddingTop: back ? 4 : insets.top + 12,
+                      paddingBottom: 0,
+                      flexGrow: 1,
+                      ...(viewport > 0 && {
+                        height: Math.max(viewport, COMPACT_MIN),
+                      }),
+                    }
                   : s.roomPage,
               ]}
             >

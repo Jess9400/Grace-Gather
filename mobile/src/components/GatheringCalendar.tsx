@@ -395,9 +395,6 @@ export default function GatheringCalendar({
           )}
         </View>
       )}
-      <Text style={{ fontSize: 12, color: surface.muted }}>
-        {communityCopy(profile.language, "calendarLegend")}
-      </Text>
       {!!holyDays.length && (
         <Pressable
           accessibilityRole="button"
