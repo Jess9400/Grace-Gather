@@ -11,6 +11,7 @@ import { Button, Body, Notice } from "./quiet-ui";
 import { protectAudio, removeAudio } from "../lib/storage";
 import { Language, copy } from "../lib/content";
 import { label } from "../lib/labels";
+import { suspendAmbience } from "../lib/church-audio";
 export default function Recorder({
   language,
   value,
@@ -27,12 +28,26 @@ export default function Recorder({
   const [error, setError] = useState(""),
     [busy, setBusy] = useState(false);
   const wasRecording = useRef(false),
-    saving = useRef(false);
+    saving = useRef(false),
+    restoreSound = useRef<(() => void) | null>(null),
+    mounted = useRef(true);
+  useEffect(() => {
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
+      restoreSound.current?.();
+      restoreSound.current = null;
+    };
+  }, []);
   useEffect(() => {
     onBusyChange(state.isRecording || busy);
   }, [state.isRecording, busy, onBusyChange]);
   useEffect(() => {
     if (state.isRecording) wasRecording.current = true;
+    if (wasRecording.current && !state.isRecording) {
+      restoreSound.current?.();
+      restoreSound.current = null;
+    }
     if (
       wasRecording.current &&
       !state.isRecording &&
@@ -53,12 +68,16 @@ export default function Recorder({
   }, [state.isRecording, recorder.uri, language, onChange]);
   async function start() {
     setError("");
+    setBusy(true);
     try {
       const permission = await AudioModule.requestRecordingPermissionsAsync();
       if (!permission.granted) {
         setError(copy(language, "micError"));
         return;
       }
+      const restore = await suspendAmbience();
+      if (!mounted.current) { restore(); return; }
+      restoreSound.current = restore;
       await setAudioModeAsync({
         allowsRecording: true,
         playsInSilentMode: true,
@@ -66,7 +85,11 @@ export default function Recorder({
       await recorder.prepareToRecordAsync();
       recorder.record({ forDuration: 300 });
     } catch {
+      restoreSound.current?.();
+      restoreSound.current = null;
       setError(copy(language, "micError"));
+    } finally {
+      if (mounted.current) setBusy(false);
     }
   }
   return (

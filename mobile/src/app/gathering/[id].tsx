@@ -73,7 +73,14 @@ export default function GatheringPage() {
           <Body small>
             {item.host_name} · {item.topic} · {item.language.toUpperCase()}
           </Body>
+          <Body small>
+            {{ en: "Ends", pt: "Termina", es: "Termina", ru: "Окончание" }[profile.language]}{" "}
+            {new Date(item.ends_at).toLocaleString(profile.language, { timeZoneName: "short" })}
+          </Body>
           {item.series_id && <Body small>{c("weekly")}</Body>}
+          {item.reserved && item.status === "published" && Date.parse(item.starts_at) > now && (
+            <Body>{c("reservedPlace")}</Body>
+          )}
           {item.status === "published" &&
             Date.parse(item.starts_at) > now &&
             !item.hosting && (
