@@ -147,6 +147,14 @@ App Privacy questionnaire and a final link check. It does not cover:
 - that the policy URL can now be `https://www.graceandgather.online/privacy.html`
   (published by this branch), and that only the `www.` address works
 
+## Third-party and public-domain content
+
+If App Review asks about rights to the Bible-study material (guideline 5.2.1):
+
+- Bible texts: each edition's rights are listed on its source page in the app.
+- English, Portuguese, Spanish and Russian study notes: Aquifer Open Study Notes and Biblica Study Notes, CC BY-SA 4.0, attributed under each note (`mobile/public/study-notes/README.md`).
+- Russian classic commentary: «Толковая Библия» (Lopukhin, 1904–1913), public domain, only books whose commentator is clearly free; each note shows its title, date and "public domain". Rights record: `docs/content-rights/lopukhin.md`.
+
 ## Known risks this branch does not fix
 
 - **Sign-in is required for everything,** including the Bible reader (guideline

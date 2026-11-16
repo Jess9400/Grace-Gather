@@ -43,6 +43,13 @@ import {
   type JournalVerseStudy,
 } from "../../lib/journal-verse-studies";
 import { translatedStudy } from "../../lib/bible-study-translations";
+import {
+  fetchLopukhin,
+  lopukhinReference,
+  LOPUKHIN_CREDIT,
+  LOPUKHIN_NOTE,
+  type LopukhinNote,
+} from "../../lib/lopukhin";
 import { useApp } from "../../lib/state";
 import { fromVerseRoute } from "../../lib/verse-route";
 import { q } from "../../lib/quiet-copy";
@@ -145,6 +152,25 @@ function Heading({ children }: { children: string }) {
     <Text accessibilityRole="header" style={s.sectionTitle}>
       {children}
     </Text>
+  );
+}
+// The classic Russian commentary, with its source and a note on its age.
+function LopukhinSection({
+  note,
+  chapter,
+}: {
+  note: LopukhinNote;
+  chapter: boolean;
+}) {
+  return (
+    <>
+      {!!note.verse && <Section title="Толкование">{note.verse}</Section>}
+      {chapter && !!note.chapter && (
+        <Section title="О главе">{note.chapter}</Section>
+      )}
+      <Body small>{LOPUKHIN_CREDIT}</Body>
+      <Body small>{LOPUKHIN_NOTE}</Body>
+    </>
   );
 }
 function SourcedStudyNote({
@@ -414,6 +440,27 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
     notes: OpenStudyNotes | null;
   } | null>(null);
   const [showEnglish, setShowEnglish] = useState(false);
+  const [lopukhin, setLopukhin] = useState<{
+    key: string;
+    note: LopukhinNote | null;
+  } | null>(null);
+  const hasLopukhin = !!lopukhinReference(id);
+  useEffect(() => {
+    if (!hasLopukhin) return;
+    let active = true;
+    void fetchLopukhin(id)
+      .then((note) => {
+        if (active) setLopukhin({ key: id, note });
+      })
+      .catch(() => {
+        if (active) setLopukhin({ key: id, note: null });
+      });
+    return () => {
+      active = false;
+    };
+  }, [id, hasLopukhin]);
+  const lopukhinLoading = hasLopukhin && lopukhin?.key !== id;
+  const lopukhinNote = lopukhin?.key === id ? lopukhin.note : null;
   const notesUnavailable = !notesLoading && loadedNotes.unavailable;
   useEffect(() => {
     let active = true;
@@ -466,7 +513,9 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
   }, [id, lookForEnglish]);
   const english = englishNotes?.key === id ? englishNotes.notes : null;
   const englishAvailable =
-    lookForEnglish && !!(english?.detail || english?.overview);
+    lookForEnglish &&
+    !lopukhinNote?.verse &&
+    !!(english?.detail || english?.overview);
   const openNotes =
     showEnglish && englishAvailable ? english : ownNotes;
   const englishOffer = {
@@ -759,8 +808,21 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
                       heading={openNotes.overview ? overviewHeading : openHeading}
                       lang={lang}
                     />
-                  ) : notesLoading ? (
+                  ) : notesLoading || lopukhinLoading ? (
                     <Body small>{loadingLabel}</Body>
+                  ) : lopukhinNote?.verse ? (
+                    // The classic commentary is long and scholarly: it lives
+                    // under "Подробнее", and this layer points there.
+                    <>
+                      <Section title={tr("In simple words")}>
+                        Простого объяснения пока нет — подробное толкование есть в разделе «Подробнее».
+                      </Section>
+                      <Button
+                        secondary
+                        title="Открыть «Подробнее»"
+                        onPress={() => setLayer("deeper")}
+                      />
+                    </>
                   ) : notesUnavailable ? (
                     <>
                       <Body small>{unavailableLabel}</Body>
@@ -806,7 +868,9 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
               ) : layer === "deeper" ? (
                 <>
                   {(explanation ||
-                    (!openNotes?.detail && !openNotes?.overview)) && (
+                    (!openNotes?.detail &&
+                      !openNotes?.overview &&
+                      !lopukhinNote?.verse)) && (
                     <Section title={tr("The story around these words")}>
                       {explanation?.context ??
                         verse.context?.[lang] ??
@@ -821,7 +885,9 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
                     <KeyWords title={tr("Key words")} words={rich.words} />
                   )}
                   {(explanation ||
-                    (!openNotes?.detail && !openNotes?.overview)) && (
+                    (!openNotes?.detail &&
+                      !openNotes?.overview &&
+                      !lopukhinNote?.verse)) && (
                     <Section title={tr("What it means")} tint>
                       {explanation?.meaning ??
                         tr(
@@ -852,6 +918,9 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
                       heading={overviewHeading}
                       lang={lang}
                     />
+                  )}
+                  {!!(lopukhinNote?.verse || lopukhinNote?.chapter) && (
+                    <LopukhinSection note={lopukhinNote!} chapter />
                   )}
                   {!!rich.echoes && (
                     <Echoes
