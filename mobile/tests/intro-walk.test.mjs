@@ -28,7 +28,8 @@ function load(file) {
 }
 const walk = load("src/lib/intro-walk.ts");
 
-test("every language has the five moments of the walk", () => {
+test("the walk has three moments, in every language", () => {
+  assert.equal(walk.INTRO_MOMENTS, 3);
   for (const language of ["en", "pt", "es", "ru"]) {
     const copy = walk.introCopy[language];
     assert.ok(copy.skip, language);
@@ -66,23 +67,68 @@ test("the road is dark at the start and lanterns light on the way", () => {
       walk.lanternLit(moment, walk.placeOnRoad(moment, spot.side, spot.along)),
     ).length;
   assert.equal(lit(0), 0);
-  for (const moment of [1, 2, 3])
-    assert.ok(lit(moment) >= 2, `moment ${moment}`);
+  assert.ok(lit(1) >= 2);
+  // Every moment has its sky and its light.
+  for (const name of [
+    "STARS_SHOWN",
+    "MOON_RISE",
+    "HILLS_GROWN",
+    "LIGHT_SIZE",
+    "LIGHT_SHOWN",
+  ])
+    assert.equal(walk[name].length, walk.INTRO_MOMENTS, name);
 });
 
-test("the intro stays a web preview: the phone app sends /intro home", () => {
-  const page = readFileSync(root + "src/app/intro.tsx", "utf8");
-  assert.match(page, /Platform\.OS !== "web"\) return <Redirect/);
-  const phone = readFileSync(root + "src/components/IntroWalk.tsx", "utf8");
-  assert.match(phone, /return null;/);
-  // The preview opens without signing in: its page sits outside the
-  // signed-in part of the app.
-  const layout = readFileSync(root + "src/app/_layout.tsx", "utf8");
+test("on a phone the walk comes once, on the way into the church", () => {
+  const read = (file) => readFileSync(root + file, "utf8");
+  // The church (the tabs) sends people to the walk until it has been seen;
+  // the tabs sit behind onboarding, so the walk comes after it.
+  const tabs = read("src/app/(tabs)/_layout.tsx");
+  assert.match(tabs, /if \(introPending\) return <Redirect href="\/intro" \/>/);
+  const layout = read("src/app/_layout.tsx");
   assert.ok(
-    layout.indexOf('<Stack.Screen name="intro" />') <
-      layout.indexOf("<Stack.Protected"),
+    layout.indexOf("guard={hasCompletedOnboarding(profile)}") <
+      layout.indexOf('"(tabs)"'),
   );
-  // Nothing else in the app leads to it yet.
-  const onboarding = readFileSync(root + "src/app/onboarding.tsx", "utf8");
-  assert.doesNotMatch(onboarding, /\/intro/);
+  // Never on the web, where /intro stays a preview, and never when the
+  // phone cannot say whether it was seen.
+  const seen = read("src/lib/intro-seen.ts");
+  assert.match(seen, /Platform\.OS === "web" \? false : null/);
+  assert.match(seen, /\.catch\(\(\) => false\)/);
+  // It is remembered before leaving, and the church's own doors are not
+  // shown again straight after the walk's door.
+  const page = read("src/app/intro.tsx");
+  const done = page.slice(page.indexOf("onDone="));
+  assert.ok(done.indexOf("markIntroSeen()") < done.indexOf("router.replace"));
+  assert.ok(done.indexOf("markEntered()") < done.indexOf("router.replace"));
+  // Signing in is not held up by it.
+  assert.doesNotMatch(read("src/app/sign-in.tsx"), /intro/);
+});
+
+test("the phone draws the same walk from pictures of the web drawing", () => {
+  const phone = readFileSync(root + "src/components/IntroWalk.tsx", "utf8");
+  for (const name of [
+    "church-catholic",
+    "church-orthodox",
+    "church-protestant",
+    "tree",
+    "lantern",
+    "glow",
+    "light",
+    "moon",
+    "hills",
+    "road",
+    "doorlight",
+  ]) {
+    assert.ok(phone.includes(`assets/intro/${name}.png`), name);
+    assert.ok(
+      readFileSync(root + `assets/intro/${name}.png`).length > 500,
+      name,
+    );
+  }
+  // Less motion: each moment appears at once.
+  assert.match(phone, /isReduceMotionEnabled/);
+  // The web keeps its own drawing and does not load the pictures.
+  const web = readFileSync(root + "src/components/IntroWalk.web.tsx", "utf8");
+  assert.doesNotMatch(web, /assets\/intro/);
 });
