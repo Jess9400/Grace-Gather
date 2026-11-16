@@ -6,14 +6,21 @@ import { Stack, useSegments } from "expo-router";
 import { QuietProvider } from "../lib/quiet-state";
 import { StatusBar } from "expo-status-bar";
 import { AppProvider, useApp } from "../lib/state";
-import { Busy, Screen, Body, External, colors } from "../components/ui";
+import { Busy, Screen, Body, Button, External, colors } from "../components/ui";
 import { hasCompletedOnboarding } from "../lib/onboarding";
 import { CommunityProvider } from "../lib/discussion-state";
 import { useSignedIn } from "../lib/account";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
 import ModeratorPushListener from "../components/ModeratorPushListener";
 function Routes() {
-  const { ready, error, profile } = useApp();
+  const {
+    ready,
+    error,
+    profile,
+    profileReady,
+    profileUnavailable,
+    retryProfile,
+  } = useApp();
   const signedIn = useSignedIn();
   const legacy = useSegments().some((s) => s === "confession");
   const tr = useInterfaceCopy();
@@ -27,10 +34,21 @@ function Routes() {
         />
       </Screen>
     );
-  if (!ready || signedIn === null)
+  if (!ready || signedIn === null || (signedIn && !profileReady))
     return (
       <Screen>
         <Busy />
+      </Screen>
+    );
+  if (signedIn && profileUnavailable)
+    return (
+      <Screen>
+        <Body>
+          {tr(
+            "Could not load your profile. Please check your connection and try again.",
+          )}
+        </Body>
+        <Button title={tr("Try again")} onPress={() => void retryProfile()} />
       </Screen>
     );
   return (

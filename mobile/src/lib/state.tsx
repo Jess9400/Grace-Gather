@@ -20,6 +20,12 @@ import { setTraditionWording } from "./tradition-wording";
 import { isOrthodox } from "./church-calendar";
 import { savedJournalEntries } from "../generated/quiet-diary";
 import { backend } from "./backend";
+import {
+  profileFromAccount,
+  readAccountProfile,
+  writeAccountProfile,
+} from "./account-profile";
+import { profileSettings } from "./profile-settings";
 import { isMemberSession } from "./account";
 import { accountJournalStore } from "./account-journal-store";
 import { updateAccountJournal } from "./account-journal-write";
@@ -41,6 +47,9 @@ import {
 interface State {
   ready: boolean;
   error: string;
+  profileReady: boolean;
+  profileUnavailable: boolean;
+  retryProfile: () => Promise<void>;
   profile: Profile;
   entries: Entry[];
   journalItems: Entry[];
@@ -77,6 +86,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const [ready, setReady] = useState(false),
     [error, setError] = useState(""),
     [profile, setProfile] = useState(initialProfile),
+    [profileReady, setProfileReady] = useState(false),
+    [profileUnavailable, setProfileUnavailable] = useState(false),
     [journalItems, setEntries] = useState<Entry[]>([]),
     [journalLoading, setJournalLoading] = useState(false),
     [journalUnavailable, setJournalUnavailable] = useState(false),
@@ -85,7 +96,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     profileRef = useRef(initialProfile),
     journalOwner = useRef<string | null>(null),
     gate = useRef(createJournalSessionGate()),
-    loadSequence = useRef(0);
+    loadSequence = useRef(0),
+    profileRevision = useRef<string | null>(null);
   const writes = useRef(Promise.resolve());
   const switchOwner = useCallback((owner: string | null) => {
     if (journalOwner.current === owner) return;
@@ -97,8 +109,89 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     setJournalUnavailable(false);
     setJournalLoading(!!owner);
     setLegacyJournalAvailable(false);
-    profileRef.current = { ...profileRef.current, journalAIConsentVersion: undefined, deleteJournalChatsAfter90Days: false };
-    setProfile(profileRef.current);
+    profileRevision.current = null;
+    profileRef.current = initialProfile;
+    setProfile(initialProfile);
+    setProfileReady(!owner);
+    setProfileUnavailable(false);
+  }, []);
+  const restoreAccountProfile = useCallback(async (allowLegacy = false) => {
+    const ticket = gate.current.capture();
+    if (!ticket.owner) {
+      setProfileReady(true);
+      return;
+    }
+    const owner = ticket.owner;
+    try {
+      const cached = await storage.getItem(`account-profile:${owner}`);
+      const legacyOwner = await storage.getItem("profile-owner");
+      const legacy =
+        allowLegacy && !legacyOwner ? await storage.getItem("profile") : null;
+      const row = await readAccountProfile(owner);
+      if (!ticket.current()) return;
+      setProfileUnavailable(false);
+      let next: Profile;
+      if (row?.profile_state) {
+        next = profileFromAccount(row);
+        profileRevision.current = row.updated_at;
+      } else if (cached || legacy) {
+        // Adopt the pre-sync device settings only for the signed-in account at upgrade.
+        next = normalizeProfile({
+          ...initialProfile,
+          ...JSON.parse((cached || legacy)!),
+        });
+        const revision = await writeAccountProfile(
+          owner,
+          next,
+          row?.updated_at ?? null,
+        );
+        if (!ticket.current()) return;
+        profileRevision.current = revision;
+      } else if (row) {
+        next = profileFromAccount(row);
+        profileRevision.current = row.updated_at;
+      } else {
+        next = initialProfile;
+        profileRevision.current = null;
+      }
+      if (!ticket.current()) return;
+      await storage.setItem(
+        `account-profile:${owner}`,
+        JSON.stringify(profileSettings(next)),
+      );
+      if (!ticket.current()) return;
+      await storage.setItem("profile-owner", owner);
+      if (!ticket.current()) return;
+      profileRef.current = {
+        ...next,
+        journalAIConsentVersion: profileRef.current.journalAIConsentVersion,
+        deleteJournalChatsAfter90Days:
+          profileRef.current.deleteJournalChatsAfter90Days,
+      };
+      setProfile(profileRef.current);
+    } catch {
+      if (!ticket.current()) return;
+      // Keep the last account-specific copy available, but never copy it to the cloud
+      // without a fresh read. Subsequent saves will fail rather than overwrite it.
+      const cached = await storage
+        .getItem(`account-profile:${owner}`)
+        .catch(() => null);
+      if (!ticket.current()) return;
+      profileRevision.current = null;
+      if (cached) {
+        try {
+          profileRef.current = normalizeProfile({
+            ...initialProfile,
+            ...JSON.parse(cached),
+          });
+          setProfile(profileRef.current);
+        } catch {
+          setProfileUnavailable(true);
+        }
+      } else setProfileUnavailable(true);
+    } finally {
+      if (ticket.current()) setProfileReady(true);
+    }
   }, []);
   const loadAccountJournal = useCallback(async () => {
     const ticket = gate.current.capture();
@@ -110,15 +203,21 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       await writes.current;
       if (!current()) return;
       // Consent belongs to the account, never to a shared device profile.
-      const [permission, cleanup] = backend ? await Promise.all([
-        backend.rpc("ai_journal_permission"),
-        backend.rpc("journal_cleanup_enabled"),
-      ]) : [null, null];
+      const [permission, cleanup] = backend
+        ? await Promise.all([
+            backend.rpc("ai_journal_permission"),
+            backend.rpc("journal_cleanup_enabled"),
+          ])
+        : [null, null];
       if (!current()) return;
       profileRef.current = {
         ...profileRef.current,
-        journalAIConsentVersion: !permission?.error && permission?.data === true ? AI_CONSENT_VERSION : undefined,
-        deleteJournalChatsAfter90Days: !cleanup?.error && cleanup?.data === true,
+        journalAIConsentVersion:
+          !permission?.error && permission?.data === true
+            ? AI_CONSENT_VERSION
+            : undefined,
+        deleteJournalChatsAfter90Days:
+          !cleanup?.error && cleanup?.data === true,
       };
       setProfile(profileRef.current);
       const result = await accountJournalStore(ticket.owner).read();
@@ -220,19 +319,13 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         const cleanup = await backend.rpc("journal_cleanup_enabled");
         if (cleanup.error || !ticket.current()) return;
         const cleanupEnabled = cleanup.data === true;
-        const initial = planAccountRetention(
-          entryRef.current,
-          cleanupEnabled,
-        );
+        const initial = planAccountRetention(entryRef.current, cleanupEnabled);
         if (!initial.changed && !initial.audioToRemove.length) return;
         const next = await updateAccountJournal(
           accountJournalStore(ticket.owner),
           (fresh) => {
             return savedJournalEntries(
-              planAccountRetention(
-                fresh,
-                cleanupEnabled,
-              ).entries,
+              planAccountRetention(fresh, cleanupEnabled).entries,
             );
           },
         );
@@ -278,19 +371,17 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   }, []);
   const reloadJournal = useCallback(async () => {
     await writes.current;
-    const p = await storage.getItem("profile");
-    profileRef.current = { ...(p ? normalizeProfile(JSON.parse(p)) : initialProfile), journalAIConsentVersion: undefined, deleteJournalChatsAfter90Days: false };
-    setProfile(profileRef.current);
     const session = backend ? await backend.auth.getSession() : null;
     switchOwner(
       isMemberSession(session?.data.session ?? null)
         ? session!.data.session!.user.id
         : null,
     );
+    await restoreAccountProfile(true);
     await loadAccountJournal();
     // A failed cleanup must never prevent access to the intact journal.
     await runRetention().catch(() => {});
-  }, [runRetention, switchOwner, loadAccountJournal]);
+  }, [runRetention, switchOwner, loadAccountJournal, restoreAccountProfile]);
   useEffect(() => {
     let mounted = true;
     storage
@@ -316,10 +407,14 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       if (owner === journalOwner.current) return;
       switchOwner(owner);
       // Auth callbacks must not await other Supabase operations.
-      if (owner) setTimeout(() => void loadAccountJournal(), 0);
+      if (owner)
+        setTimeout(
+          () => void restoreAccountProfile().then(loadAccountJournal),
+          0,
+        );
     });
     return () => subscription.data.subscription.unsubscribe();
-  }, [ready, switchOwner, loadAccountJournal]);
+  }, [ready, switchOwner, loadAccountJournal, restoreAccountProfile]);
   useEffect(() => {
     const sub = AppState.addEventListener("change", (state) => {
       if (state === "active") {
@@ -353,21 +448,47 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       storage.withJournalLock(async () => {
         const next = normalizeProfile(p);
         const desired = next.journalAIConsentVersion === AI_CONSENT_VERSION;
-        const current = profileRef.current.journalAIConsentVersion === AI_CONSENT_VERSION;
+        const current =
+          profileRef.current.journalAIConsentVersion === AI_CONSENT_VERSION;
         if (desired !== current) {
-          if (!backend || !ticket.owner || !ticket.current()) throw Error("journal_account_changed");
-          const result = await backend.rpc("set_ai_journal_permission", {p_allowed:desired,p_expected_user:ticket.owner});
+          if (!backend || !ticket.owner || !ticket.current())
+            throw Error("journal_account_changed");
+          const result = await backend.rpc("set_ai_journal_permission", {
+            p_allowed: desired,
+            p_expected_user: ticket.owner,
+          });
           if (result.error) throw result.error;
           if (!ticket.current()) throw Error("journal_account_changed");
         }
-        if (next.deleteJournalChatsAfter90Days !== profileRef.current.deleteJournalChatsAfter90Days) {
-          if (!backend || !ticket.owner || !ticket.current()) throw Error("journal_account_changed");
-          const result = await backend.rpc("set_journal_cleanup_enabled", {p_enabled:next.deleteJournalChatsAfter90Days === true,p_expected_user:ticket.owner});
+        if (
+          next.deleteJournalChatsAfter90Days !==
+          profileRef.current.deleteJournalChatsAfter90Days
+        ) {
+          if (!backend || !ticket.owner || !ticket.current())
+            throw Error("journal_account_changed");
+          const result = await backend.rpc("set_journal_cleanup_enabled", {
+            p_enabled: next.deleteJournalChatsAfter90Days === true,
+            p_expected_user: ticket.owner,
+          });
           if (result.error) throw result.error;
           if (!ticket.current()) throw Error("journal_account_changed");
         }
-        await storage.setItem("profile", JSON.stringify({...next,journalAIConsentVersion:undefined,deleteJournalChatsAfter90Days:undefined}));
-        if (ticket.owner && !ticket.current()) throw Error("journal_account_changed");
+        if (!backend || !ticket.owner || !ticket.current())
+          throw Error("profile_account_unavailable");
+        const revision = await writeAccountProfile(
+          ticket.owner,
+          next,
+          profileRevision.current,
+        );
+        if (!ticket.current()) throw Error("journal_account_changed");
+        profileRevision.current = revision;
+        await storage.setItem(
+          `account-profile:${ticket.owner}`,
+          JSON.stringify(profileSettings(next)),
+        );
+        if (!ticket.current()) throw Error("journal_account_changed");
+        await storage.setItem("profile-owner", ticket.owner);
+        if (!ticket.current()) throw Error("journal_account_changed");
         profileRef.current = next;
         setProfile(next);
       }),
@@ -601,6 +722,13 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       value={{
         ready,
         error,
+        profileReady,
+        profileUnavailable,
+        retryProfile: async () => {
+          setProfileReady(false);
+          await restoreAccountProfile();
+          await loadAccountJournal();
+        },
         profile,
         journalItems,
         journalLoading,

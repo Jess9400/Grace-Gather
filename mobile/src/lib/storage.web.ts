@@ -55,7 +55,9 @@ export async function exportEncrypted(
   const source: Entry[] =
     options?.entries ?? JSON.parse((await getItem("entries")) ?? "[]");
   const rows = [{ key: "entries", value: JSON.stringify(source) }];
-  const profile = await getItem("profile");
+  const profile = await getItem(
+    options?.audioOwner ? `account-profile:${options.audioOwner}` : "profile",
+  );
   if (profile) rows.push({ key: "profile", value: profile });
   const audio: Record<string, string> = {};
   for (const entry of source)
