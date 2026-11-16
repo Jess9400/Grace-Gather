@@ -1,4 +1,4 @@
-import { Tabs } from "expo-router";
+import { Redirect, Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useApp } from "../../lib/state";
 import { copy } from "../../lib/content";
@@ -8,7 +8,8 @@ import { churchCopy } from "../../lib/church-copy";
 import { isProtestant } from "../../lib/church-calendar";
 import { walkFromHome, type RoomPlace } from "../../lib/church-room";
 import { PlatformPressable } from "expo-router/react-navigation";
-import { Text, useWindowDimensions } from "react-native";
+import { Text, View, useWindowDimensions } from "react-native";
+import { useIntroPending } from "../../lib/intro-seen";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 // From Home, these tabs walk to their place in the church before opening.
 const TAB_PLACE: Partial<Record<string, RoomPlace>> = {
@@ -24,6 +25,12 @@ export default function TabsLayout() {
   const insets = useSafeAreaInsets();
   const labelLines = fontScale >= 1.4 ? 3 : 2;
   const tabHeight = 40 + 12 * labelLines * fontScale + insets.bottom;
+  // On a phone, the first time into the church (after onboarding) begins
+  // with the walk to its door. Nothing of the church is shown before it.
+  const introPending = useIntroPending();
+  if (introPending === null)
+    return <View style={{ flex: 1, backgroundColor: palette.paper }} />;
+  if (introPending) return <Redirect href="/intro" />;
   return (
     <Tabs
       screenOptions={{

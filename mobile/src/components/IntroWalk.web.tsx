@@ -12,8 +12,14 @@ import BrandMark from "./BrandMark";
 import {
   CHURCH_SIZE,
   GROUND_DROP,
+  HILLS_GROWN,
   INTRO_MOMENTS,
+  LIGHT_SHOWN,
+  LIGHT_SIZE,
+  MOON_RISE,
   ROAD_HALF,
+  STARS_SHOWN,
+  WALK_MS,
   churchOnRoad,
   introCopy,
   introMotes,
@@ -24,6 +30,7 @@ import {
   treeSpots,
   type IntroChurch,
   type IntroWalkProps,
+  wordsWait,
   type Placed,
 } from "../lib/intro-walk";
 
@@ -35,7 +42,6 @@ import {
 const NIGHT = "#05060C";
 const SANS =
   "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
-const WALK_MS = 2400;
 const WALK = `${WALK_MS}ms cubic-bezier(.45,.05,.25,1)`;
 const EASE = "cubic-bezier(.4,0,.2,1)";
 const KEYFRAMES = `
@@ -91,7 +97,7 @@ export default function IntroWalk({
   }, []);
   // The words wait until the walk has almost arrived.
   useEffect(() => {
-    timer.current = setTimeout(() => setShown(moment), 1500);
+    timer.current = setTimeout(() => setShown(moment), wordsWait(moment));
     return () => clearTimeout(timer.current);
   }, [moment]);
 
@@ -208,7 +214,7 @@ export default function IntroWalk({
               top: 0,
               width: "100%",
               height: horizon,
-              opacity: [1, 0.95, 0.85, 0.7, 0][moment],
+              opacity: STARS_SHOWN[moment],
               transition: glide,
             }}
           >
@@ -242,7 +248,7 @@ export default function IntroWalk({
               background:
                 "radial-gradient(circle at 36% 34%, #FFF8E2, #E6D4A8)",
               boxShadow: "0 0 44px 14px rgba(255,240,200,0.16)",
-              transform: `translateY(${-8 * moment}px)`,
+              transform: `translateY(${MOON_RISE[moment]}px)`,
               opacity: last ? 0 : 1,
               transition: glide,
             }}
@@ -257,7 +263,7 @@ export default function IntroWalk({
               left: 0,
               top: horizon - 48 * scale,
               transformOrigin: `${W / 2}px ${48 * scale}px`,
-              transform: `scale(${(1 + 0.09 * moment).toFixed(2)})`,
+              transform: `scale(${HILLS_GROWN[moment].toFixed(2)})`,
               transition: glide,
             }}
           >
@@ -301,8 +307,8 @@ export default function IntroWalk({
                 top: -210,
                 width: 420,
                 height: 420,
-                transform: `translateY(${(-55 * k).toFixed(1)}px) scale(${[0.26, 0.4, 0.62, 1, 1.7][moment]})`,
-                opacity: [1, 0.95, 0.85, 0.5, 0.3][moment],
+                transform: `translateY(${(-55 * k).toFixed(1)}px) scale(${LIGHT_SIZE[moment]})`,
+                opacity: LIGHT_SHOWN[moment],
                 transition: glide,
               }}
             >
@@ -343,7 +349,7 @@ export default function IntroWalk({
                 clipPath: `polygon(${1100 - 57}px ${doorstep - 2}px, ${1100 + 57}px ${doorstep - 2}px, 1380px 440px, 820px 440px)`,
                 opacity: last ? 1 : 0,
                 transition: animate
-                  ? `opacity 1600ms ease ${last ? 1500 : 0}ms`
+                  ? `opacity 1600ms ease ${last ? WALK_MS - 900 : 0}ms`
                   : undefined,
               }}
             />

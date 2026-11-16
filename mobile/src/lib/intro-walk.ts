@@ -11,7 +11,8 @@ export type IntroWalkProps = {
   onDone: () => void;
 };
 
-// Each moment: the line that arrives word by word, the quieter sentence
+// Three moments: far away, part of the way, and at the door. Each has the
+// line that arrives word by word, the quieter sentence
 // under it, and the button that takes the next steps.
 type Moment = [title: string, body: string, action: string];
 export const introCopy: Record<
@@ -27,18 +28,8 @@ export const introCopy: Record<
         "Walk toward it",
       ],
       [
-        "Always on the road?",
-        "Far from any church, this one travels with you.",
-        "Keep walking",
-      ],
-      [
-        "Been away a long time?",
-        "No one here will ask where you have been.",
-        "Come closer",
-      ],
-      [
-        "Carrying questions?",
-        "Bring them as they are. Many have come this way before you.",
+        "Always on the road, or away a long time?",
+        "This church travels with you, and no one here will ask where you have been.",
         "Up to the door",
       ],
       [
@@ -57,18 +48,8 @@ export const introCopy: Record<
         "Caminhar até ela",
       ],
       [
-        "Sempre na estrada?",
-        "Longe de qualquer igreja, esta vai com você.",
-        "Continuar caminhando",
-      ],
-      [
-        "Faz tempo que você se afastou?",
-        "Aqui ninguém vai perguntar por onde você andou.",
-        "Chegar mais perto",
-      ],
-      [
-        "Carregando perguntas?",
-        "Traga-as como estão. Muitos chegaram assim antes de você.",
+        "Sempre na estrada, ou faz tempo que se afastou?",
+        "Esta igreja vai com você, e aqui ninguém vai perguntar por onde você andou.",
         "Até a porta",
       ],
       [
@@ -87,18 +68,8 @@ export const introCopy: Record<
         "Caminar hacia ella",
       ],
       [
-        "¿Siempre de camino?",
-        "Lejos de cualquier iglesia, esta va contigo.",
-        "Seguir caminando",
-      ],
-      [
-        "¿Llevas mucho tiempo lejos?",
-        "Aquí nadie te preguntará dónde has estado.",
-        "Acércate",
-      ],
-      [
-        "¿Cargas con preguntas?",
-        "Tráelas tal como son. Muchos llegaron así antes que tú.",
+        "¿Siempre de camino, o mucho tiempo lejos?",
+        "Esta iglesia va contigo, y aquí nadie te preguntará dónde has estado.",
         "Hasta la puerta",
       ],
       [
@@ -117,18 +88,8 @@ export const introCopy: Record<
         "Идти на свет",
       ],
       [
-        "Всегда в дороге?",
-        "Вдали от любого храма эта церковь идёт с вами.",
-        "Идти дальше",
-      ],
-      [
-        "Давно не были в церкви?",
-        "Здесь никто не спросит, где вы были.",
-        "Подойти ближе",
-      ],
-      [
-        "Несёте с собой вопросы?",
-        "Приносите их такими, какие они есть. Многие приходили так же.",
+        "В дороге или давно не были в церкви?",
+        "Эта церковь идёт с вами, и здесь никто не спросит, где вы были.",
         "К двери",
       ],
       [
@@ -140,14 +101,26 @@ export const introCopy: Record<
   },
 };
 
-export const INTRO_MOMENTS = 5;
+export const INTRO_MOMENTS = 3;
+// One step of the walk, in milliseconds. The words wait until the walk has
+// almost arrived (and, at the start, until the night has faded in).
+export const WALK_MS = 3000;
+export const wordsWait = (moment: number) => (moment === 0 ? 1500 : 2000);
 
 // ---- The road -----------------------------------------------------------
 // Everything on the road (the church, lantern posts, trees) has a place along
 // it and is drawn at the size it would have from where the walker stands.
 // Sizes are in units of the drawing: at size 1 the church is as wide as a
-// 390-point phone. Each step roughly halves the distance to the church.
-export const CHURCH_SIZE = [0.1, 0.2, 0.4, 0.8, 2.1];
+// 390-point phone: far away, part of the way, and at the door.
+export const CHURCH_SIZE = [0.1, 0.4, 2.1];
+// How the sky and the light ahead change from moment to moment: how bright
+// the stars are, how far the moon has risen and the hills have grown, and
+// the size and strength of the glow around the church.
+export const STARS_SHOWN = [1, 0.85, 0];
+export const MOON_RISE = [0, -16, -32];
+export const HILLS_GROWN = [1, 1.18, 1.36];
+export const LIGHT_SIZE = [0.26, 0.62, 1.7];
+export const LIGHT_SHOWN = [1, 0.85, 0.3];
 // How far below the horizon the ground falls, per unit of size.
 export const GROUND_DROP = 22;
 // Half the width of the road, at size 1.
