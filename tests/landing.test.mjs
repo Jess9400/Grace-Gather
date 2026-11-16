@@ -17,7 +17,7 @@ test('the landing page shows the app is coming soon and gives the right contact 
   assert.ok(app.length >= 1);
   // The privacy policy and support pages are published beside the page, so
   // App Store Connect can link to them on the site's own domain.
-  for (const file of ['privacy.html', 'support.html']) {
+  for (const file of ['privacy.html', 'support.html', 'terms.html']) {
     assert.match(page, new RegExp(`href="${file}"`));
     assert.ok(existsSync(root + file), file);
   }

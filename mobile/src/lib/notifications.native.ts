@@ -41,7 +41,7 @@ export async function registerGatheringPush() {
   requireRemotePush();
   const projectId = Constants.expoConfig?.extra?.eas?.projectId;
   if (!projectId || !backend)
-    throw new Error("Push notifications are not configured yet.");
+    throw new Error("Notifications are unavailable right now. Please try again later.");
   const { status } = await Notifications.requestPermissionsAsync();
   if (status !== "granted")
     throw new Error("Notification permission was not granted.");
@@ -78,7 +78,7 @@ export async function disableGatheringPush() {
 export async function registerModeratorPush() {
   requireRemotePush();
   const projectId = Constants.expoConfig?.extra?.eas?.projectId;
-  if (!projectId || !backend) throw new Error("Push notifications are not configured yet.");
+  if (!projectId || !backend) throw new Error("Notifications are unavailable right now. Please try again later.");
   const { status } = await Notifications.requestPermissionsAsync();
   if (status !== "granted") throw new Error("Notification permission was not granted.");
   const token = (await Notifications.getExpoPushTokenAsync({ projectId })).data;
@@ -108,7 +108,7 @@ export async function forgetModeratorPush() { await removeItem("moderator-push-t
 export async function registerMemberPush(language: Language) {
   requireRemotePush();
   const projectId = Constants.expoConfig?.extra?.eas?.projectId;
-  if (!projectId || !backend) throw new Error("Phone alerts are not configured yet.");
+  if (!projectId || !backend) throw new Error("Phone alerts are unavailable right now. Please try again later.");
   const { status } = await Notifications.requestPermissionsAsync();
   if (status !== "granted") throw new Error("Notification permission was not granted.");
   const token = (await Notifications.getExpoPushTokenAsync({ projectId })).data;
