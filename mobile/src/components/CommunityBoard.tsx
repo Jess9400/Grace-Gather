@@ -8,7 +8,7 @@ import {
 } from "../lib/study-discussion-draft";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
 import { useEffect, useState, useRef, type ReactNode } from "react";
-import { View, Text, Pressable, ScrollView, StyleSheet } from "react-native";
+import { AppState, View, Text, Pressable, ScrollView, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ChurchStrip, { useRoomStrip } from "./ChurchStrip";
 import { Ionicons } from "@expo/vector-icons";
@@ -148,6 +148,13 @@ function CommunityScreen({
   useEffect(() => {
     void reload(mode === "thread" ? (selected ?? undefined) : undefined, feed);
   }, [reload, selected, userId, feed, mode]);
+  useEffect(() => {
+    if (mode !== "review" || !moderator || busy) return;
+    const refresh = () => { if (AppState.currentState === "active") void reload(undefined, feed); };
+    const timer = setInterval(refresh, 10000);
+    const listener = AppState.addEventListener("change", state => { if (state === "active") refresh(); });
+    return () => { clearInterval(timer); listener.remove(); };
+  }, [mode, moderator, busy, reload, feed]);
   const own = (post: Post) => post.author === userId;
   async function act(action: DiscussionAction, success?: () => void) {
     if (await perform(action, demo ? "You" : alias)) success?.();

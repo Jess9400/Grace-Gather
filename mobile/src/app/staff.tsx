@@ -1,6 +1,7 @@
 import { router } from "expo-router";
 import SafetyReviewBadge, { SafetyReviewUnavailable, useSafetyReviewIds } from "../components/SafetyReviewBadge";
 import { useCallback, useEffect, useState } from "react";
+import { AppState } from "react-native";
 import {
   Screen,
   Heading,
@@ -80,6 +81,13 @@ export default function Staff() {
         ),
       );
   }, [load]);
+  useEffect(() => {
+    if (!allowed) return;
+    const refresh = () => { if (AppState.currentState === "active") void load().catch(() => undefined); };
+    const timer = setInterval(refresh, 10000);
+    const listener = AppState.addEventListener("change", state => { if (state === "active") refresh(); });
+    return () => { clearInterval(timer); listener.remove(); };
+  }, [allowed, load]);
   return (
     <Screen back>
       <Heading>Editorial & moderation</Heading>
@@ -110,11 +118,14 @@ export default function Staff() {
                   onPress={() =>
                     void run(async () => {
                       const { client } = await requireUser();
-                      const { error } = await client
+                      const { data, error } = await client
                         .from("comments")
                         .update({ status })
-                        .eq("id", c.id);
+                        .eq("id", c.id)
+                        .eq("status", "pending")
+                        .select("id");
                       if (error) throw error;
+                      if (!data?.length) throw new Error("Another moderator already reviewed this comment. Refresh to see the latest.");
                     })
                   }
                 />

@@ -22,6 +22,12 @@ serve(async req=>{
   else{if(size>16000)return json({error:'too_large'},413);b=await body.json();delete b.audioType;}
   const action=b.action;if(audio&&action!=='share')return json({error:'invalid'},400);if(typeof action!=='string')return json({error:'invalid'},400);
   const store=Object.fromEntries(methods.map(op=>[op,async(...a:unknown[])=>{const {data,error}=await service.rpc('confession_store',{op,a});if(error)throw error;return data;}]));
+  // The decision and its audit record are committed atomically. Another
+  // moderator's newer decision must never be overwritten by a stale screen.
+  store.moderate=async(id:unknown,decision:unknown,actor:unknown,note:unknown,expectedStatus:unknown)=>{
+   const {data,error}=await service.rpc('confession_moderate_once',{p_id:id,p_decision:decision,p_actor:actor,p_note:note,p_expected_status:expectedStatus});
+   if(error)throw error;return data===true;
+  };
   const bucket=service.storage.from('confession-audio');
   const remove=store.remove;store.remove=async(id:unknown)=>{const {error}=await bucket.remove([String(id)]);if(error)throw error;return remove(id);};
   const result: any=await confessionService({store,user:user.id,moderator},action,b);

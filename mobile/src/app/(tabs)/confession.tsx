@@ -15,6 +15,7 @@ import {
   Platform,
   Alert,
   ActivityIndicator,
+  AppState,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useApp } from "../../lib/state";
@@ -77,6 +78,12 @@ const reviewMessages = {
   pt: { self: "Outro moderador precisa revisar seu próprio envio.", forbidden: "Esta conta não pode moderar. Entre com uma conta de moderador autorizada.", note: "Adicione uma nota de revisão com pelo menos cinco caracteres.", noteLabel: "Nota da revisão (opcional para aprovar)" },
   es: { self: "Otro moderador debe revisar tu propio envío.", forbidden: "Esta cuenta no puede moderar. Inicia sesión con una cuenta de moderador autorizada.", note: "Añade una nota de revisión de al menos cinco caracteres.", noteLabel: "Nota de revisión (opcional al aprobar)" },
   ru: { self: "Ваше сообщение должен проверить другой модератор.", forbidden: "У этого аккаунта нет доступа к модерации. Войдите как модератор.", note: "Добавьте заметку о проверке не короче пяти символов.", noteLabel: "Заметка о проверке (при одобрении необязательна)" },
+};
+const reviewedElsewhere = {
+  en: "Another moderator already reviewed this item. The list has been refreshed.",
+  pt: "Outro moderador já revisou este item. A lista foi atualizada.",
+  es: "Otro moderador ya revisó este elemento. La lista se ha actualizado.",
+  ru: "Другой модератор уже проверил эту запись. Список обновлён.",
 };
 const safetyReviewCopy = {
   en: { priority: "Safety flag or report · review first", guide: "How to review a safety concern", steps: "1. Read or listen to the whole submission. A flag can be wrong.\n2. If an appropriate way to contact the person is available, encourage them to contact local emergency services or someone they trust.\n3. If you have a credible reason to think someone is in immediate danger, contact the appropriate local emergency service and share only relevant information already available to you.\n4. Record your decision briefly without copying private details. Never promise immediate help or automatically contact authorities based on an AI flag.", limits: "Private journals are not monitored. Alerts can be missed or delayed. Ask another moderator to review your own submission." },
@@ -287,6 +294,22 @@ export default function ConfessionRoom() {
       active = false;
     };
   }, [view, language]);
+  useEffect(() => {
+    if (page !== "review" || busy) return;
+    let active = true;
+    let pending = false;
+    const refresh = () => {
+      if (pending || AppState.currentState !== "active") return;
+      pending = true;
+      void confessionAPI("queue", { language }).then((result) => {
+        if (active) { setItems(result.items); setReviewReports(result.reports || []); }
+      }).catch(() => { /* Keep the last list and the manual refresh control. */ })
+        .finally(() => { pending = false; });
+    };
+    const timer = setInterval(refresh, 10000);
+    const listener = AppState.addEventListener("change", state => { if (state === "active") refresh(); });
+    return () => { active = false; clearInterval(timer); listener.remove(); };
+  }, [page, language, busy]);
   async function run(fn: () => Promise<void>) {
     if (busy || recording || (view === "review" && page !== "review")) return;
     setBusy(true);
@@ -307,6 +330,11 @@ export default function ConfessionRoom() {
       }
       if (page === "review" && (msg === "self_review" || msg === "forbidden")) {
         setError(reviewMessages[language][msg === "self_review" ? "self" : "forbidden"]);
+        return;
+      }
+      if (page === "review" && msg === "already_reviewed") {
+        try { await load("review"); } catch { /* A manual refresh remains available. */ }
+        setError(reviewedElsewhere[language]);
         return;
       }
       setError(
