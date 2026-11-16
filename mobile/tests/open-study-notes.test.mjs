@@ -62,6 +62,11 @@ test("matches Catholic numbering only where the actual Matos text was verified",
     chapter: 1,
     verse: 1,
   });
+  assert.deepEqual(asObject(sourceReference("matos:GEN.1.4")), {
+    book: "GEN", chapter: 1, verse: 4,
+  });
+  assert.equal(sourceReference("matos:GEN.1.32"), null);
+  assert.equal(sourceReference("matos:GEN.2.4"), null);
   assert.deepEqual(asObject(sourceReference("matos:PSA.12.2")), {
     book: "PSA",
     chapter: 13,
@@ -78,7 +83,7 @@ test("matches Catholic numbering only where the actual Matos text was verified",
   assert.equal(sourceReference("matos:TOB.1.1"), null);
 });
 
-test("only professionally reviewed notes can be selected", () => {
+test("Portuguese and Spanish references include their source's review status", () => {
   for (const lang of ["en", "pt", "es", "ru"]) {
     const rows = JSON.parse(
       readFileSync(
@@ -86,22 +91,37 @@ test("only professionally reviewed notes can be selected", () => {
         "utf8",
       ),
     );
-    const found = selectOpenStudyNotes(rows, 3, 16);
-    assert.ok(rows.every((row) => row[5] === "Professional"), lang);
-    if (lang === "en" || lang === "ru") assert.ok(found.detail, lang);
-    else assert.equal(found.detail, undefined, lang);
-    assert.equal(found.overview, undefined, lang);
+    const found = selectOpenStudyNotes(rows, 3, 16, lang);
+    assert.ok(found.detail, lang);
+    if (lang === "pt" || lang === "es") {
+      assert.equal(found.detail.reviewLevel, "None", lang);
+      assert.ok(found.overview, lang);
+    } else {
+      assert.ok(rows.every((row) => row[5] === "Professional"), lang);
+      assert.equal(found.overview, undefined, lang);
+    }
     assert.equal(selectOpenStudyNotes(rows, 999, 999).detail, undefined);
   }
   const unreviewed = [[3001, 3021, "John 3", "text", "aquifer", "None"]];
   assert.equal(selectOpenStudyNotes(unreviewed, 3, 16).detail, undefined);
+  assert.ok(selectOpenStudyNotes(unreviewed, 3, 16, "pt").detail);
+  assert.ok(selectOpenStudyNotes(unreviewed, 3, 16, "es").detail);
   for (const lang of ["en", "pt", "es", "ru"]) {
     const dir = resolve(root, `mobile/public/study-notes/v1/${lang}`);
     for (const file of readdirSync(dir).filter((file) => file.endsWith(".json"))) {
       const rows = JSON.parse(readFileSync(resolve(dir, file), "utf8"));
-      assert.ok(rows.every((row) => row[5] === "Professional"), `${lang}/${file}`);
+      if (lang === "en" || lang === "ru")
+        assert.ok(rows.every((row) => row[5] === "Professional"), `${lang}/${file}`);
     }
   }
+});
+
+test("the Catholic Portuguese Genesis 1:4 can show passage context", () => {
+  const ref = sourceReference("matos:GEN.1.4");
+  const rows = JSON.parse(readFileSync(resolve(root, "mobile/public/study-notes/v1/pt/GEN.json"), "utf8"));
+  const found = selectOpenStudyNotes(rows, ref.chapter, ref.verse, "pt");
+  assert.ok(found.detail || found.overview);
+  assert.match((found.detail ?? found.overview).title, /1/);
 });
 
 test("the website loading screen uses the current church emblem", () => {

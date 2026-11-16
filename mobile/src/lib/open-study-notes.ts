@@ -29,10 +29,16 @@ export function sourceReference(
     "GEN.1.3": "GEN.1.3",
     "JHN.3.16": "JHN.3.16",
   };
+  // The individual verses of Genesis 1 were checked against both editions.
+  const genesisOne = /^GEN\.1\.(\d+)$/.exec(raw);
+  const verifiedGenesisOne =
+    genesisOne && Number(genesisOne[1]) >= 1 && Number(genesisOne[1]) <= 31
+      ? raw
+      : undefined;
   const reference =
     mapped ??
     (edition === "matos"
-      ? verifiedMatos[raw]
+      ? verifiedMatos[raw] ?? verifiedGenesisOne
       : ["web", "blivre", "rv1909"].includes(edition)
         ? raw
         : undefined);
@@ -48,11 +54,14 @@ export function selectOpenStudyNotes(
   rows: NoteRow[],
   chapter: number,
   verse: number,
+  language: Language = "en",
 ): OpenStudyNotes {
   const key = chapter * 1000 + verse;
   const select = (source: NoteRow[4]) => {
     const candidates = rows.filter(
-      (row) => row[4] === source && row[5] === "Professional" && row[0] <= key && key <= row[1],
+      (row) => row[4] === source &&
+        (row[5] === "Professional" || language === "pt" || language === "es") &&
+        row[0] <= key && key <= row[1],
     );
     candidates.sort((a, b) => a[1] - a[0] - (b[1] - b[0]));
     const row = candidates[0];
@@ -94,5 +103,5 @@ export async function fetchOpenStudyNotes(
       if (cache.get(key) === pending) cache.delete(key);
     });
   }
-  return selectOpenStudyNotes(await request, ref.chapter, ref.verse);
+  return selectOpenStudyNotes(await request, ref.chapter, ref.verse, language);
 }
