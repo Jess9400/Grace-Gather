@@ -6,6 +6,7 @@ import { useApp } from "../lib/state";
 import { churchCopy } from "../lib/church-copy";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
 import MemberAvatar from "./MemberAvatar";
+import BrandMark from "./BrandMark";
 
 /** Persistent navigation for pages opened on top of the main tabs. */
 export default function ScreenNav({ home = false, dirty = false }: { home?: boolean; dirty?: boolean }) {
@@ -28,6 +29,7 @@ export default function ScreenNav({ home = false, dirty = false }: { home?: bool
         style={({ pressed }) => [styles.control, pressed && styles.pressed]}>
         <Ionicons name="chevron-back" size={24} color="#F4EBDA" />
       </Pressable>
+      <BrandMark size={30} />
       <Text style={styles.brand} numberOfLines={1}>GRACE &amp; GATHER</Text>
       {(home || onAccount) && <Pressable accessibilityRole="button"
         accessibilityLabel={churchCopy(profile.language, "home")}
@@ -62,7 +64,7 @@ export default function ScreenNav({ home = false, dirty = false }: { home?: bool
 }
 const styles = StyleSheet.create({
   bar: { width: "100%", maxWidth: 620, alignSelf: "center", flexDirection: "row", alignItems: "center", paddingHorizontal: 12, minHeight: 52 },
-  brand: { color: "#F4EBDA", fontWeight: "600", fontSize: 12, letterSpacing: 2.1, flex: 1, marginLeft: 4 },
+  brand: { color: "#F4EBDA", fontWeight: "600", fontSize: 12, letterSpacing: 2.1, flex: 1, marginLeft: 10 },
   control: { width: 44, height: 44, borderRadius: 22, alignItems: "center", justifyContent: "center" },
   pressed: { opacity: 0.7, backgroundColor: "#F4EBDA14" },
   scrim: { flex: 1, backgroundColor: "rgba(0,0,0,0.62)", alignItems: "center", justifyContent: "center", padding: 24 },

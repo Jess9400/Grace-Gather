@@ -393,7 +393,7 @@ function CommunityScreen({
             <Text style={s.backText}>{tr("Back")}</Text>
           </Pressable>
           <Text style={s.brand}>GRACE & GATHER</Text>
-          <BrandMark size={26} />
+          <BrandMark size={30} />
         </View>
       )}
       <ScrollView

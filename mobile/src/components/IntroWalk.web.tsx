@@ -500,7 +500,7 @@ export default function IntroWalk({
           }}
         >
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
-            <BrandMark size={26} />
+            <BrandMark size={32} />
             <span
               style={{
                 fontSize: 11,
