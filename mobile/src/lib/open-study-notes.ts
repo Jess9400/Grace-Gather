@@ -1,6 +1,7 @@
 import { Platform } from "react-native";
 import type { Language } from "./content";
 import { themeReferenceFor } from "./journal-verse-reference";
+import synodalNewTestament from "./synodal-nt-chapters.json";
 
 type NoteRow = [number, number, string, string, "aquifer" | "biblica", string];
 export type OpenStudyNote = {
@@ -48,8 +49,21 @@ export function sourceReference(
     Number(genesis[2]) <= (verifiedGenesisChapters[Number(genesis[1])] ?? 0)
       ? raw
       : undefined;
+  // The Synodal New Testament was compared with the World English Bible
+  // chapter by chapter: in these chapters every verse has the same number
+  // (the English only leaves out Luke 17:36, Acts 8:37, 15:34 and 24:7).
+  // Acts 19 and 2 Corinthians 11 and 13 divide verses differently and are
+  // not included. The Synodal Old Testament is not matched.
+  const nt = /^([1-3]?[A-Z]{2,3})\.(\d+)\.\d+$/.exec(raw);
+  const synodalAligned =
+    edition === "synodal" &&
+    !!nt &&
+    (synodalNewTestament as Record<string, number[]>)[nt[1]]?.includes(
+      Number(nt[2]),
+    );
   const reference =
     mapped ??
+    (synodalAligned ? raw : undefined) ??
     (edition === "matos"
       ? verifiedMatos[raw] ?? verifiedGenesis
       : ["web", "blivre", "rv1909"].includes(edition)

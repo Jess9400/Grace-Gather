@@ -407,7 +407,13 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
   } | null>(null);
   const notesKey = `${id}:${lang}:${notesAttempt}`;
   const notesLoading = loadedNotes?.key !== notesKey;
-  const openNotes = notesLoading ? null : loadedNotes.notes;
+  const ownNotes = notesLoading ? null : loadedNotes.notes;
+  // When the reader's language has nothing for this verse, an English note may.
+  const [englishNotes, setEnglishNotes] = useState<{
+    key: string;
+    notes: OpenStudyNotes | null;
+  } | null>(null);
+  const [showEnglish, setShowEnglish] = useState(false);
   const notesUnavailable = !notesLoading && loadedNotes.unavailable;
   useEffect(() => {
     let active = true;
@@ -443,6 +449,38 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
     translatedStudy(id, lang);
   const sourced = journalNote?.sources?.length ? journalNote : undefined;
   const explanation = sourced ?? study ?? journalNote;
+  const ownNotesFound = !!(ownNotes?.detail || ownNotes?.overview);
+  const lookForEnglish =
+    lang !== "en" && !explanation && !notesLoading && !ownNotesFound;
+  useEffect(() => {
+    if (!lookForEnglish) return;
+    let active = true;
+    void fetchOpenStudyNotes(id, "en")
+      .then((notes) => {
+        if (active) setEnglishNotes({ key: id, notes });
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, [id, lookForEnglish]);
+  const english = englishNotes?.key === id ? englishNotes.notes : null;
+  const englishAvailable =
+    lookForEnglish && !!(english?.detail || english?.overview);
+  const openNotes =
+    showEnglish && englishAvailable ? english : ownNotes;
+  const englishOffer = {
+    en: "",
+    pt: "Este versículo ainda não tem explicação em português, mas há uma em inglês.",
+    es: "Este versículo aún no tiene explicación en español, pero hay una en inglés.",
+    ru: "Для этого стиха пока нет объяснения на русском, но есть на английском.",
+  }[lang];
+  const showInEnglish = {
+    en: "",
+    pt: "Mostrar em inglês",
+    es: "Mostrar en inglés",
+    ru: "Показать на английском",
+  }[lang];
   const openHeading = {
     en: "Study note",
     pt: "Nota de estudo",
@@ -733,11 +771,22 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
                       />
                     </>
                   ) : (
-                    <Section title={tr("In simple words")}>
-                      {tr(
-                        "An explanation of this verse is still being prepared. Read the lines around it: who speaks, what happens, which words repeat.",
+                    <>
+                      <Section title={tr("In simple words")}>
+                        {englishAvailable
+                          ? englishOffer
+                          : tr(
+                              "This verse doesn’t have its own explanation in the app. A good way in: read the lines around it and notice who speaks, what happens and which words repeat.",
+                            )}
+                      </Section>
+                      {englishAvailable && (
+                        <Button
+                          secondary
+                          title={showInEnglish}
+                          onPress={() => setShowEnglish(true)}
+                        />
                       )}
-                    </Section>
+                    </>
                   )}
                   {!explanation &&
                     !openNotes?.detail &&
@@ -779,6 +828,16 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
                           "Look for repeated words, contrasts and changes of speaker. Read a hard line in light of the whole passage. These are reading prompts, not a commentary.",
                         )}
                     </Section>
+                  )}
+                  {englishAvailable && !showEnglish && (
+                    <>
+                      <Body small>{englishOffer}</Body>
+                      <Button
+                        secondary
+                        title={showInEnglish}
+                        onPress={() => setShowEnglish(true)}
+                      />
+                    </>
                   )}
                   {openNotes?.detail && (
                     <SourcedStudyNote
