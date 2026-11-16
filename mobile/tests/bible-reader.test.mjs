@@ -58,10 +58,10 @@ test('Matos Soares provides the complete Portuguese Catholic reader with its own
 
 test('Matos study verses are not mistaken for the journal edition or Hebrew-numbered references', () => {
   const refs = load(resolve(root, 'mobile/src/lib/journal-verse-reference.ts'));
-  assert.equal(refs.journalVerseId('matos', 'PSA.23.4'), null);
-  assert.equal(refs.journalVerseId('matos', 'MAT.5.4'), null);
+  assert.equal(refs.journalVerseId('matos', 'PSA.23.4'), 'matos:PSA.22.4');
+  assert.equal(refs.journalVerseId('matos', 'MAT.5.4'), 'matos:MAT.5.5');
   assert.equal(refs.journalVerseId('matos', 'PSA.999.1'), null);
-  assert.equal(refs.journalStudyReference('matos:PSA.22.4', 'PSA.23.4'), undefined);
+  assert.equal(refs.journalStudyReference('matos:PSA.22.4', 'PSA.23.4'), 'PSA.23.4');
   assert.equal(refs.journalStudyReference('matos:PSA.23.4', 'PSA.23.4'), undefined);
 });
 

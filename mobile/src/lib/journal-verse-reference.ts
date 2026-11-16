@@ -1,4 +1,5 @@
 import themeMap from "../generated/journal-map.json";
+import matosThemeMap from "../generated/matos-theme-map.json";
 import { pathReferences } from "./journal-verse-path";
 import {
   collections,
@@ -26,7 +27,11 @@ const psalms: Record<string, Record<"dra" | "brenton" | "synodal", string>> = {
   "PSA.61.2": { dra: "PSA.60.3", brenton: "PSA.60.3", synodal: "PSA.60.3" },
   // The Vulgate puts "you hold my right hand" in its verse 24.
   "PSA.73.23": { dra: "PSA.72.24", brenton: "PSA.72.23", synodal: "PSA.72.23" },
-  "PSA.103.12": { dra: "PSA.102.12", brenton: "PSA.102.12", synodal: "PSA.102.12" },
+  "PSA.103.12": {
+    dra: "PSA.102.12",
+    brenton: "PSA.102.12",
+    synodal: "PSA.102.12",
+  },
   "PSA.126.5": { dra: "PSA.125.5", brenton: "PSA.125.5", synodal: "PSA.125.5" },
   "PSA.6.2": { dra: "PSA.6.3", brenton: "PSA.6.3", synodal: "PSA.6.3" },
   "PSA.25.16": { dra: "PSA.24.16", brenton: "PSA.24.16", synodal: "PSA.24.16" },
@@ -34,7 +39,11 @@ const psalms: Record<string, Record<"dra" | "brenton" | "synodal", string>> = {
   "PSA.56.3": { dra: "PSA.55.4", brenton: "PSA.55.4", synodal: "PSA.55.4" },
   "PSA.73.26": { dra: "PSA.72.26", brenton: "PSA.72.26", synodal: "PSA.72.26" },
   "PSA.94.19": { dra: "PSA.93.19", brenton: "PSA.93.19", synodal: "PSA.93.19" },
-  "PSA.139.10": { dra: "PSA.138.10", brenton: "PSA.138.10", synodal: "PSA.138.10" },
+  "PSA.139.10": {
+    dra: "PSA.138.10",
+    brenton: "PSA.138.10",
+    synodal: "PSA.138.10",
+  },
   "PSA.34.18": { dra: "PSA.33.19", brenton: "PSA.33.19", synodal: "PSA.33.19" },
   "PSA.42.11": { dra: "PSA.41.12", brenton: "PSA.41.12", synodal: "PSA.41.12" },
   "PSA.62.8": { dra: "PSA.61.9", brenton: "PSA.61.9", synodal: "PSA.61.9" },
@@ -59,9 +68,13 @@ const otherVerses: Record<string, Partial<Record<CollectionId, string>>> = {
 };
 
 export function journalVerseId(collection: CollectionId, reference: string) {
-  // Matos is used for study, not journal replies; its Vulgate references
-  // must never be treated as Hebrew-numbered theme references by default.
-  if (collection === "matos") return null;
+  // These are explicit comparisons with Matos Soares, not inferred offsets.
+  // Its Psalm 12:1 is a title, and Psalm 72:23 is grouped differently in
+  // Figueiredo. Never guess the numbering of unlisted verses.
+  if (collection === "matos") {
+    const match = (matosThemeMap as Record<string, string>)[reference];
+    return match ? `matos:${match}` : null;
+  }
   const other = otherVerses[reference]?.[collection];
   if (other) return `${collection}:${other}`;
   if (

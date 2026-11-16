@@ -46,6 +46,11 @@ import { useApp } from "../../lib/state";
 import { fromVerseRoute } from "../../lib/verse-route";
 import { q } from "../../lib/quiet-copy";
 import { useReducedMotion } from "../../lib/use-reduced-motion";
+import {
+  fetchOpenStudyNotes,
+  type OpenStudyNote,
+  type OpenStudyNotes,
+} from "../../lib/open-study-notes";
 type Layer = "simple" | "deeper" | "theology";
 // The fuller study notes add these to the basic explanation. Every claim in
 // them is drawn from the sources they list.
@@ -141,6 +146,58 @@ function Heading({ children }: { children: string }) {
     </Text>
   );
 }
+function SourcedStudyNote({
+  note,
+  heading,
+  lang,
+}: {
+  note: OpenStudyNote;
+  heading: string;
+  lang: Language;
+}) {
+  const source =
+    note.source === "aquifer"
+      ? {
+          label:
+            "Aquifer Open Study Notes · Tyndale / Mission Mutual · CC BY-SA 4.0",
+          url: "https://github.com/BibleAquifer/AquiferOpenStudyNotes",
+        }
+      : {
+          label:
+            "Biblica Study Notes · Biblica / Mission Mutual · CC BY-SA 4.0",
+          url: "https://github.com/BibleAquifer/BiblicaStudyNotes",
+        };
+  const reviewNotice = {
+    en: "The publisher does not list a professional review for this translation.",
+    pt: "O editor não informa revisão profissional desta tradução.",
+    es: "El editor no indica una revisión profesional de esta traducción.",
+    ru: "Издатель не указал профессиональную проверку этого перевода.",
+  }[lang];
+  const notice = {
+    en: "Study notes reflect their authors’ perspective; Christian traditions may differ.",
+    pt: "As notas refletem a perspectiva dos autores; as tradições cristãs podem ter interpretações diferentes.",
+    es: "Las notas reflejan la perspectiva de sus autores; las tradiciones cristianas pueden interpretarlas de otra manera.",
+    ru: "Заметки отражают взгляды авторов; христианские традиции могут толковать их иначе.",
+  }[lang];
+  return (
+    <>
+      <Section title={`${heading} · ${note.title}`}>{note.text}</Section>
+      <Sources
+        title=""
+        sources={[
+          source,
+          { label: notice },
+          ...(note.reviewLevel === "None" ? [{ label: reviewNotice }] : []),
+          {
+            label: "CC BY-SA 4.0",
+            url: "https://creativecommons.org/licenses/by-sa/4.0/",
+          },
+        ]}
+      />
+    </>
+  );
+}
+
 // The words of the verse in their first language, each with what it means.
 function KeyWords({
   title,
@@ -228,9 +285,11 @@ function Sources({
 }) {
   return (
     <View style={s.sources}>
-      <Text accessibilityRole="header" style={s.label}>
-        {title}
-      </Text>
+      {!!title && (
+        <Text accessibilityRole="header" style={s.label}>
+          {title}
+        </Text>
+      )}
       {sources.map((source) =>
         source.url ? (
           <Text
@@ -306,7 +365,12 @@ export default function VerseStudy() {
   if (collection && loaded !== collection)
     return (
       <SafeAreaView style={s.safe}>
-        <Button title={tr("Back")} onPress={() => router.canGoBack() ? router.back() : router.replace("/(tabs)/bible")} />
+        <Button
+          title={tr("Back")}
+          onPress={() =>
+            router.canGoBack() ? router.back() : router.replace("/(tabs)/bible")
+          }
+        />
         <Body>
           {tr(
             failedCollection === collection
@@ -334,6 +398,31 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
   const [layer, setLayer] = useState<Layer | null>(null);
   const [chapterOpen, setChapterOpen] = useState(false);
   const [sourcesOpen, setSourcesOpen] = useState(false);
+  const [notesAttempt, setNotesAttempt] = useState(0);
+  const [loadedNotes, setLoadedNotes] = useState<{
+    key: string;
+    notes: OpenStudyNotes | null;
+    unavailable: boolean;
+  } | null>(null);
+  const notesKey = `${id}:${lang}:${notesAttempt}`;
+  const notesLoading = loadedNotes?.key !== notesKey;
+  const openNotes = notesLoading ? null : loadedNotes.notes;
+  const notesUnavailable = !notesLoading && loadedNotes.unavailable;
+  useEffect(() => {
+    let active = true;
+    void fetchOpenStudyNotes(id, lang)
+      .then((notes) => {
+        if (active)
+          setLoadedNotes({ key: notesKey, notes, unavailable: false });
+      })
+      .catch(() => {
+        if (active)
+          setLoadedNotes({ key: notesKey, notes: null, unavailable: true });
+      });
+    return () => {
+      active = false;
+    };
+  }, [id, lang, notesKey]);
   const reducedMotion = useReducedMotion();
   const location = readingLocation(id);
   // Trust the journal's reference only when this is that theme verse here.
@@ -353,6 +442,30 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
   );
   const sourced = journalNote?.sources?.length ? journalNote : undefined;
   const explanation = sourced ?? study ?? journalNote;
+  const openHeading = {
+    en: "Study note",
+    pt: "Nota de estudo",
+    es: "Nota de estudio",
+    ru: "Учебное примечание",
+  }[lang];
+  const overviewHeading = {
+    en: "Passage context",
+    pt: "Contexto da passagem",
+    es: "Contexto del pasaje",
+    ru: "Контекст отрывка",
+  }[lang];
+  const loadingLabel = {
+    en: "Loading study notes…",
+    pt: "Carregando notas de estudo…",
+    es: "Cargando notas de estudio…",
+    ru: "Загрузка примечаний…",
+  }[lang];
+  const unavailableLabel = {
+    en: "Study notes could not load. Check your connection and try again.",
+    pt: "Não foi possível carregar as notas. Verifique sua conexão e tente novamente.",
+    es: "No se pudieron cargar las notas. Comprueba tu conexión e inténtalo de nuevo.",
+    ru: "Не удалось загрузить примечания. Проверьте подключение и попробуйте снова.",
+  }[lang];
   const rich: RichStudy =
     (sourced && journalRich(sourced, verse?.collection, lang)) ?? study ?? {};
   if (!verse)
@@ -384,17 +497,13 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
     "brenton:PSA.33.19",
     "dra:PSA.33.19",
   ].includes(id)
-    ? tr(
-        "Psalm 33 in this edition; Psalm 34 in Hebrew numbering.",
-      )
+    ? tr("Psalm 33 in this edition; Psalm 34 in Hebrew numbering.")
     : study?.editionId === "brenton" && location?.code === "PSA"
       ? tr("Psalm numbers follow the Septuagint edition shown above.")
       : "";
   const question =
     explanation?.question ??
-    tr(
-      "What do I notice here, and what question will I carry with me?",
-    );
+    tr("What do I notice here, and what question will I carry with me?");
   const options = [
     {
       id: "simple" as const,
@@ -415,24 +524,26 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
   return (
     <SafeAreaView style={s.safe} edges={["top", "left", "right", "bottom"]}>
       <View style={s.topbar}>
-          <Pressable
-            accessibilityRole="button"
-            accessibilityLabel={tr("Back")}
-            onPress={() =>
-              router.canGoBack()
-                ? router.back()
-                : router.replace("/(tabs)/bible")
-            }
-            style={s.back}
-          >
-            <Ionicons name="chevron-back" size={20} color={colors.ink} />
-            <Text style={s.backText}>{tr("Back")}</Text>
-          </Pressable>
-          <Text style={s.eyebrow}>{tr("BIBLE STUDY")}</Text>
-          <Pressable accessibilityRole="button" accessibilityLabel={tr("Home")}
-            onPress={() => router.dismissTo("/(tabs)")} style={s.home}>
-            <Ionicons name="home-outline" size={22} color={colors.ink} />
-          </Pressable>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={tr("Back")}
+          onPress={() =>
+            router.canGoBack() ? router.back() : router.replace("/(tabs)/bible")
+          }
+          style={s.back}
+        >
+          <Ionicons name="chevron-back" size={20} color={colors.ink} />
+          <Text style={s.backText}>{tr("Back")}</Text>
+        </Pressable>
+        <Text style={s.eyebrow}>{tr("BIBLE STUDY")}</Text>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={tr("Home")}
+          onPress={() => router.dismissTo("/(tabs)")}
+          style={s.home}
+        >
+          <Ionicons name="home-outline" size={22} color={colors.ink} />
+        </Pressable>
       </View>
       <ScrollView contentContainerStyle={s.page}>
         <View style={s.headingGroup}>
@@ -599,17 +710,42 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
               </View>
               {layer === "simple" ? (
                 <>
-                  <Section title={tr("In simple words")}>
-                    {explanation?.simple ??
-                      tr(
+                  {explanation?.simple ? (
+                    <Section title={tr("In simple words")}>
+                      {explanation.simple}
+                    </Section>
+                  ) : openNotes?.detail || openNotes?.overview ? (
+                    <SourcedStudyNote
+                      note={(openNotes.detail ?? openNotes.overview)!}
+                      heading={openNotes.detail ? openHeading : overviewHeading}
+                      lang={lang}
+                    />
+                  ) : notesLoading ? (
+                    <Body small>{loadingLabel}</Body>
+                  ) : notesUnavailable ? (
+                    <>
+                      <Body small>{unavailableLabel}</Body>
+                      <Button
+                        secondary
+                        title={tr("Try again")}
+                        onPress={() => setNotesAttempt((n) => n + 1)}
+                      />
+                    </>
+                  ) : (
+                    <Section title={tr("In simple words")}>
+                      {tr(
                         "An explanation of this verse is still being prepared. Read the lines around it: who speaks, what happens, which words repeat.",
                       )}
-                  </Section>
-                  {!explanation && verse.context && (
-                    <Paragraph>
-                      {verse.context[lang] ?? verse.context.en}
-                    </Paragraph>
+                    </Section>
                   )}
+                  {!explanation &&
+                    !openNotes?.detail &&
+                    !openNotes?.overview &&
+                    verse.context && (
+                      <Paragraph>
+                        {verse.context[lang] ?? verse.context.en}
+                      </Paragraph>
+                    )}
                   <Invitation title={tr("A small response")}>
                     {explanation?.today ??
                       tr(
@@ -619,24 +755,44 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
                 </>
               ) : layer === "deeper" ? (
                 <>
-                  <Section title={tr("The story around these words")}>
-                    {explanation?.context ??
-                      verse.context?.[lang] ??
-                      verse.context?.en ??
-                      tr(
-                        "Read the whole chapter. Is it a story, song, letter, law or vision? How does this verse fit in?",
-                      )}
-                  </Section>
+                  {(explanation ||
+                    (!openNotes?.detail && !openNotes?.overview)) && (
+                    <Section title={tr("The story around these words")}>
+                      {explanation?.context ??
+                        verse.context?.[lang] ??
+                        verse.context?.en ??
+                        tr(
+                          "Read the whole chapter. Is it a story, song, letter, law or vision? How does this verse fit in?",
+                        )}
+                    </Section>
+                  )}
                   {!!psalmNumbering && <Body small>{psalmNumbering}</Body>}
                   {!!rich.words && (
                     <KeyWords title={tr("Key words")} words={rich.words} />
                   )}
-                  <Section title={tr("What it means")} tint>
-                    {explanation?.meaning ??
-                      tr(
-                        "Look for repeated words, contrasts and changes of speaker. Read a hard line in light of the whole passage. These are reading prompts, not a commentary.",
-                      )}
-                  </Section>
+                  {(explanation ||
+                    (!openNotes?.detail && !openNotes?.overview)) && (
+                    <Section title={tr("What it means")} tint>
+                      {explanation?.meaning ??
+                        tr(
+                          "Look for repeated words, contrasts and changes of speaker. Read a hard line in light of the whole passage. These are reading prompts, not a commentary.",
+                        )}
+                    </Section>
+                  )}
+                  {openNotes?.detail && (
+                    <SourcedStudyNote
+                      note={openNotes.detail}
+                      heading={openHeading}
+                      lang={lang}
+                    />
+                  )}
+                  {openNotes?.overview && (
+                    <SourcedStudyNote
+                      note={openNotes.overview}
+                      heading={overviewHeading}
+                      lang={lang}
+                    />
+                  )}
                   {!!rich.echoes && (
                     <Echoes
                       title={tr("Where Scripture picks this up")}
@@ -671,6 +827,13 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
                         <Paragraph key={i}>{paragraph}</Paragraph>
                       ))
                   )}
+                  {!explanation && openNotes?.detail && (
+                    <SourcedStudyNote
+                      note={openNotes.detail}
+                      heading={openHeading}
+                      lang={lang}
+                    />
+                  )}
                   {!!rich.differences && (
                     <>
                       <Heading>{tr("Where Christians differ")}</Heading>
@@ -686,7 +849,7 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
                 <Sources title={tr("Sources")} sources={rich.sources} />
               )}
               <Body small>
-                {explanation
+                {explanation || openNotes?.detail || openNotes?.overview
                   ? tr(
                       "A Christian reflection, separate from Scripture. Traditions may understand some details differently.",
                     )
@@ -783,7 +946,12 @@ const s = StyleSheet.create({
     alignSelf: "center",
     paddingHorizontal: 22,
   },
-  home: { width: 44, height: 44, alignItems: "center", justifyContent: "center" },
+  home: {
+    width: 44,
+    height: 44,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   back: {
     flexDirection: "row",
     alignItems: "center",
