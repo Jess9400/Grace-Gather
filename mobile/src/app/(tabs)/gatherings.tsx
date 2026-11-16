@@ -344,7 +344,7 @@ export default function Gatherings() {
                   void gathering("reserve", { id: g.id })
                     .then(async () => {
                       await load();
-                      setReservationNotice({ en: "Your place is reserved. Find it in My sessions.", pt: "Sua vaga está reservada. Encontre o encontro em Meus encontros.", es: "Tu plaza está reservada. Encuéntrala en Mis encuentros.", ru: "Ваше место забронировано. Встреча доступна в разделе «Мои встречи»." }[profile.language]);
+                      setReservationNotice({ en: "Your place is reserved. Find it in My sessions.", pt: "Sua vaga está reservada. Encontre o encontro em Meus encontros.", es: "Tu plaza está reservada. Encuéntrala en Mis encuentros.", ru: "Вы записаны. Встречу можно найти в разделе «Мои встречи»." }[profile.language]);
                     })
                     .catch((e) =>
                       setError(

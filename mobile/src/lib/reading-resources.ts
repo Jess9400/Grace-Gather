@@ -22,7 +22,7 @@ const unclassified: BookPerspective = {
     en: "Perspective not yet reviewed",
     pt: "Perspectiva ainda não revisada",
     es: "Perspectiva aún no revisada",
-    ru: "Направление пока не проверено",
+    ru: "Точка зрения автора пока не определена",
   },
   sourceUrl: "",
 };

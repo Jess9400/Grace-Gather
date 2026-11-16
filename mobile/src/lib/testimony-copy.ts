@@ -28,7 +28,7 @@ const values: Record<string, string[]> = {
     "Tell your story in your own words. Journals and confessions are never published here automatically.",
     "Conte sua história com suas palavras. Diários e confissões nunca são publicados aqui automaticamente.",
     "Cuenta tu historia con tus palabras. Los diarios y las confesiones nunca se publican aquí automáticamente.",
-    "Расскажите свою историю своими словами. Дневники и исповеди никогда не публикуются здесь автоматически.",
+    "Расскажите свою историю — своими словами. Записи из дневника и исповеди никогда не публикуются здесь автоматически.",
   ],
   title: ["Title", "Título", "Título", "Название"],
   body: ["Your story", "Sua história", "Tu historia", "Ваша история"],
@@ -42,7 +42,7 @@ const values: Record<string, string[]> = {
     "Publish anonymously to readers",
     "Publicar anonimamente para leitores",
     "Publicar de forma anónima",
-    "Опубликовать анонимно для читателей",
+    "Не показывать читателям моё имя",
   ],
   anonymousName: [
     "Anonymous member",
@@ -54,7 +54,7 @@ const values: Record<string, string[]> = {
     "Display name",
     "Nome de exibição",
     "Nombre visible",
-    "Отображаемое имя",
+    "Имя, которое увидят читатели",
   ],
   privacy: [
     "Anonymous posts remain linked to your account for moderation. Your wording stays intact.",
@@ -108,7 +108,7 @@ const values: Record<string, string[]> = {
     "I reviewed my words and understand this audience",
     "Revisei minhas palavras e entendi quem poderá ler",
     "Revisé mis palabras y entiendo quién podrá leerlas",
-    "Я проверил(а) текст и понимаю, кто сможет его прочитать",
+    "Текст проверен, и я понимаю, кто сможет его прочитать",
   ],
   publish: ["Publish", "Publicar", "Publicar", "Опубликовать"],
   keepEditing: [

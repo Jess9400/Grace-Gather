@@ -10,7 +10,7 @@ const words = {
   en: { title: "Gathering reports", intro: "Review the member’s report. Live audio is not recorded for review.", done: "Mark reviewed", empty: "No gathering reports waiting.", error: "Couldn’t load or update reports. Try again.", retry: "Try again" },
   pt: { title: "Denúncias de encontros", intro: "Revise a denúncia enviada. O áudio ao vivo não é gravado para revisão.", done: "Marcar como revisada", empty: "Nenhuma denúncia de encontro aguardando.", error: "Não foi possível carregar ou atualizar as denúncias. Tente novamente.", retry: "Tentar novamente" },
   es: { title: "Denuncias de encuentros", intro: "Revisa la denuncia. El audio en vivo no se graba para revisión.", done: "Marcar revisado", empty: "No hay denuncias pendientes.", error: "No se pudieron cargar o actualizar las denuncias. Inténtalo de nuevo.", retry: "Reintentar" },
-  ru: { title: "Жалобы на встречи", intro: "Проверьте жалобу участника. Живое аудио не записывается для проверки.", done: "Отметить проверенным", empty: "Жалоб на встречи пока нет.", error: "Не удалось загрузить или обновить жалобы. Повторите попытку.", retry: "Повторить" },
+  ru: { title: "Жалобы на встречи", intro: "Проверьте жалобу участника. Звук встречи не записывается, в том числе для проверки.", done: "Отметить как проверенную", empty: "Жалоб на встречи пока нет.", error: "Не удалось загрузить или обновить жалобы. Попробуйте ещё раз.", retry: "Повторить" },
 };
 export default function GatheringSafetyReports() {
   const { profile } = useApp(); const t = words[profile.language];

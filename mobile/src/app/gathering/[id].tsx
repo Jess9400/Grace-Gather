@@ -74,7 +74,7 @@ export default function GatheringPage() {
             {item.host_name} · {item.topic} · {item.language.toUpperCase()}
           </Body>
           <Body small>
-            {{ en: "Ends", pt: "Termina", es: "Termina", ru: "Окончание" }[profile.language]}{" "}
+            {{ en: "Ends", pt: "Termina", es: "Termina", ru: "Окончание:" }[profile.language]}{" "}
             {new Date(item.ends_at).toLocaleString(profile.language, { timeZoneName: "short" })}
           </Body>
           {item.series_id && <Body small>{c("weekly")}</Body>}

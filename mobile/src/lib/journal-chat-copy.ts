@@ -22,7 +22,7 @@ const words = {
     "Conversation limit reached. Your message is saved. Try again later.",
     "Limite de conversa atingido. Sua mensagem foi salva. Tente novamente mais tarde.",
     "Se alcanzó el límite de conversación. Tu mensaje está guardado. Inténtalo más tarde.",
-    "Достигнут лимит разговора. Сообщение сохранено. Попробуйте позже.",
+    "Достигнут лимит сообщений. Ваше сообщение сохранено. Попробуйте позже.",
   ],
   providerBusy: [
     "A reply is taking longer than usual. Your message is saved. Try again shortly.",
@@ -55,7 +55,7 @@ const words = {
     "Your message is saved. The reply is unavailable right now.",
     "Sua mensagem foi salva. A resposta está indisponível no momento.",
     "Tu mensaje está guardado. La respuesta no está disponible ahora.",
-    "Сообщение сохранено. Ответ сейчас недоступен.",
+    "Сообщение сохранено. Получить ответ сейчас не удаётся.",
   ],
   saveFailed: [
     "Could not save. Your words are still here.",
@@ -98,7 +98,7 @@ const words = {
     "This conversation is saved with your journal entry. With your permission, your entry and recent conversation are sent to an external AI service to generate replies. See Privacy & support for provider details.",
     "Esta conversa é salva com sua entrada no diário. Com sua permissão, sua entrada e conversa recente são enviadas a um serviço externo de IA para gerar respostas. Veja os detalhes do provedor em Privacidade e suporte.",
     "Esta conversación se guarda con tu entrada. Con tu permiso, la entrada y la conversación reciente se envían a un servicio externo de IA para generar respuestas. Consulta los detalles del proveedor en Privacidad y ayuda.",
-    "Разговор сохраняется вместе с записью дневника. С вашего разрешения запись и недавний разговор отправляются внешней службе ИИ для создания ответов. Сведения о провайдере — в разделе конфиденциальности.",
+    "Разговор сохраняется вместе с записью в дневнике. С вашего разрешения запись и последние сообщения разговора отправляются внешнему сервису ИИ, который готовит ответы. Сведения о провайдере — в разделе конфиденциальности.",
   ],
   you: ["You", "Você", "Tú", "Вы"],
   ai: ["Reflection", "Reflexão", "Reflexión", "Размышление"],
@@ -106,7 +106,7 @@ const words = {
     "This conversation is full. You can begin a new journal entry.",
     "Esta conversa está cheia. Você pode iniciar uma nova entrada.",
     "Esta conversación está llena. Puedes comenzar una nueva entrada.",
-    "Разговор достиг максимальной длины. Можно начать новую запись.",
+    "В этом разговоре больше нет места. Можно начать новую запись в дневнике.",
   ],
 };
 export function chatCopy(lang: Language, key: keyof typeof words) {
