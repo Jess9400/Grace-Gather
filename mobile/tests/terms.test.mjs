@@ -9,7 +9,7 @@ const read = (file) =>
 const ts = createRequire(import.meta.url)("../node_modules/typescript");
 
 function termsSections() {
-  const source = read("src/app/terms.tsx");
+  const source = read("src/lib/terms-content.ts");
   const start = source.indexOf("const terms = ");
   const end = source.indexOf("\n};\n", start) + 3;
   return runInNewContext("(" + source.slice(start + 14, end - 1) + ")");
@@ -60,9 +60,7 @@ test("the church opens only after the Terms of Use are agreed", () => {
     layout.indexOf('name="terms"') < layout.indexOf("<Stack.Protected"),
   );
   const onboarding = read("src/app/onboarding.tsx");
-  assert.match(
-    onboarding,
-    /disabled=\{!chosen\(p\) \|\| p\.termsVersion !== TERMS_VERSION\}/,
-  );
+  assert.match(onboarding, /<TermsAgreementNotice language=\{p.language\} action="continue"/);
+  assert.match(onboarding, /onPress=\{\(\) => \{ update\(\{ termsVersion: TERMS_VERSION \}\); setStep\(1\); \}\}/);
   assert.match(onboarding, /termsVersion: TERMS_VERSION,/);
 });
