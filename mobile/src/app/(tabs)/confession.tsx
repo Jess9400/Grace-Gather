@@ -23,6 +23,7 @@ import { copy } from "../../lib/content";
 import { isProtestant } from "../../lib/church-calendar";
 import { backend } from "../../lib/backend";
 import { confessionAPI, Confession } from "../../lib/confession";
+import { confessionReviewNote } from "../../lib/confession-review";
 import { removeAudio } from "../../lib/storage";
 import {
   Screen,
@@ -67,6 +68,12 @@ const themes = [
     "other",
   ],
   responses = ["listen", "encouragement", "prayer"];
+const reviewMessages = {
+  en: { self: "Another moderator must review your own submission.", forbidden: "This account cannot moderate. Sign in with an authorized moderator account.", note: "Add a review note of at least five characters.", noteLabel: "Review note (optional when approving)" },
+  pt: { self: "Outro moderador precisa revisar seu próprio envio.", forbidden: "Esta conta não pode moderar. Entre com uma conta de moderador autorizada.", note: "Adicione uma nota de revisão com pelo menos cinco caracteres.", noteLabel: "Nota da revisão (opcional para aprovar)" },
+  es: { self: "Otro moderador debe revisar tu propio envío.", forbidden: "Esta cuenta no puede moderar. Inicia sesión con una cuenta de moderador autorizada.", note: "Añade una nota de revisión de al menos cinco caracteres.", noteLabel: "Nota de revisión (opcional al aprobar)" },
+  ru: { self: "Ваше сообщение должен проверить другой модератор.", forbidden: "У этого аккаунта нет доступа к модерации. Войдите как модератор.", note: "Добавьте заметку о проверке не короче пяти символов.", noteLabel: "Заметка о проверке (при одобрении необязательна)" },
+};
 export default function ConfessionRoom() {
   const tr = useInterfaceCopy();
   const [needsSignIn, setNeedsSignIn] = useState(false);
@@ -177,7 +184,7 @@ export default function ConfessionRoom() {
     };
   }, [view, language]);
   async function run(fn: () => Promise<void>) {
-    if (busy || recording || view === "review") return;
+    if (busy || recording || (view === "review" && page !== "review")) return;
     setBusy(true);
     setNeedsSignIn(false);
     setError("");
@@ -192,6 +199,10 @@ export default function ConfessionRoom() {
             "Sign in to offer comfort or share a confession. Your draft stays here.",
           ),
         );
+        return;
+      }
+      if (page === "review" && (msg === "self_review" || msg === "forbidden")) {
+        setError(reviewMessages[language][msg === "self_review" ? "self" : "forbidden"]);
         return;
       }
       setError(
@@ -295,7 +306,7 @@ export default function ConfessionRoom() {
   const btn = (key: string, onPress: () => void, quiet = false) => (
     <Button
       title={t(key)}
-      disabled={busy || view === "review" || recording || entering}
+      disabled={busy || (view === "review" && page !== "review") || recording || entering}
       onPress={onPress}
       secondary={quiet}
     />
@@ -874,7 +885,7 @@ export default function ConfessionRoom() {
                     {card(x)}
                     <Card>
                       <Field
-                        label={t("cNote")}
+                        label={reviewMessages[language].noteLabel}
                         value={notes[x.id] || ""}
                         onChangeText={(value) =>
                           setNotes((n) => ({ ...n, [x.id]: value }))
@@ -889,10 +900,15 @@ export default function ConfessionRoom() {
                           )}
                           onPress={() =>
                             void run(async () => {
+                              const note = confessionReviewNote(decision, notes[x.id] || "");
+                              if (!note) {
+                                setError(reviewMessages[language].note);
+                                return;
+                              }
                               await confessionAPI("moderate", {
                                 id: x.id,
                                 decision,
-                                note: notes[x.id] || "",
+                                note,
                               });
                               await load("review");
                             })
