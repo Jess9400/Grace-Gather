@@ -4,13 +4,13 @@ import type { Language } from "../lib/content";
 import { Body, Button, Card, Notice, Subheading } from "./quiet-ui";
 
 const words = {
-  en: { title: "Community AI", info: "With your permission, your posts, prayer requests and messages, including earlier ones, may be sent through Supabase to our AI provider, Alibaba Cloud, for translation and safety checks. If you decline, content stays in its original language and posts go to human review. You can change this in Preferences.", agree: "I agree", revoke: "Turn off community AI", enabled: "Community AI permitted", failed: "Couldn’t save your choice. Try again." },
-  pt: { title: "IA da comunidade", info: "Com sua permissão, suas publicações, pedidos de oração e mensagens, inclusive os anteriores, podem ser enviados pelo Supabase ao nosso provedor de IA, Alibaba Cloud, para tradução e análise de segurança. Sem permissão, o conteúdo fica no idioma original e as publicações vão para revisão humana. Você pode mudar em Preferências.", agree: "Concordo", revoke: "Desativar IA da comunidade", enabled: "IA da comunidade permitida", failed: "Não foi possível salvar sua escolha. Tente novamente." },
-  es: { title: "IA de la comunidad", info: "Con tu permiso, tus publicaciones, peticiones de oración y mensajes, incluidos los anteriores, pueden enviarse mediante Supabase a nuestro proveedor de IA, Alibaba Cloud, para traducción y revisión de seguridad. Sin permiso, el contenido queda en su idioma original y las publicaciones pasan a revisión humana. Puedes cambiarlo en Preferencias.", agree: "Acepto", revoke: "Desactivar IA de la comunidad", enabled: "IA de la comunidad permitida", failed: "No se pudo guardar tu elección. Inténtalo de nuevo." },
-  ru: { title: "ИИ сообщества", info: "С вашего разрешения публикации, молитвенные просьбы и сообщения, включая предыдущие, могут отправляться через Supabase нашему провайдеру ИИ Alibaba Cloud для перевода и проверки безопасности. Без разрешения текст останется на исходном языке, а публикации проверят модераторы. Вы можете изменить выбор в настройках.", agree: "Согласиться", revoke: "Отключить ИИ сообщества", enabled: "ИИ сообщества разрешён", failed: "Не удалось сохранить выбор. Попробуйте ещё раз." },
+  en: { title: "Community AI", info: "AI can help translate conversations and review submissions more quickly. With your permission, your posts, prayer requests and messages, including earlier ones, may be sent through Supabase to our AI provider, Alibaba Cloud, for translation and safety checks. Without it, content stays in its original language and posts go to human review. You can change this in Preferences.", agree: "I agree", revoke: "Turn off community AI", enabled: "Community AI permitted", failed: "Couldn’t save your choice. Try again." },
+  pt: { title: "IA da comunidade", info: "A IA pode ajudar a traduzir conversas e revisar envios mais rapidamente. Com sua permissão, suas publicações, pedidos de oração e mensagens, inclusive os anteriores, podem ser enviados pelo Supabase ao nosso provedor de IA, Alibaba Cloud, para tradução e análise de segurança. Sem permissão, o conteúdo fica no idioma original e as publicações vão para revisão humana. Você pode mudar em Preferências.", agree: "Concordo", revoke: "Desativar IA da comunidade", enabled: "IA da comunidade permitida", failed: "Não foi possível salvar sua escolha. Tente novamente." },
+  es: { title: "IA de la comunidad", info: "La IA puede ayudar a traducir conversaciones y revisar envíos más rápido. Con tu permiso, tus publicaciones, peticiones de oración y mensajes, incluidos los anteriores, pueden enviarse mediante Supabase a nuestro proveedor de IA, Alibaba Cloud, para traducción y revisión de seguridad. Sin permiso, el contenido queda en su idioma original y las publicaciones pasan a revisión humana. Puedes cambiarlo en Preferencias.", agree: "Acepto", revoke: "Desactivar IA de la comunidad", enabled: "IA de la comunidad permitida", failed: "No se pudo guardar tu elección. Inténtalo de nuevo." },
+  ru: { title: "ИИ сообщества", info: "ИИ помогает переводить разговоры и быстрее проверять сообщения. С вашего разрешения публикации, молитвенные просьбы и сообщения, включая предыдущие, могут отправляться через Supabase нашему провайдеру ИИ Alibaba Cloud для перевода и проверки безопасности. Без разрешения текст останется на исходном языке, а публикации проверят модераторы. Вы можете изменить выбор в настройках.", agree: "Согласиться", revoke: "Отключить ИИ сообщества", enabled: "ИИ сообщества разрешён", failed: "Не удалось сохранить выбор. Попробуйте ещё раз." },
 };
 
-export default function CommunityAIPermission({ language }: { language: Language }) {
+export default function CommunityAIPermission({ language, onEnabled }: { language: Language; onEnabled?: () => void }) {
   const t = words[language], [allowed, setAllowed] = useState(false), [busy, setBusy] = useState(!!backend), [error, setError] = useState("");
   const owner = useRef<string | null>(null);
   useEffect(() => {
@@ -39,7 +39,11 @@ export default function CommunityAIPermission({ language }: { language: Language
     try {
       const result = await backend.rpc("set_ai_community_permission", {p_allowed:!allowed,p_expected_user:expectedOwner});
       if (owner.current !== expectedOwner) return;
-      if (result.error) setError(t.failed); else setAllowed(!allowed);
+      if (result.error) setError(t.failed);
+      else {
+        setAllowed(!allowed);
+        if (!allowed) onEnabled?.();
+      }
     } catch { if (owner.current === expectedOwner) setError(t.failed); }
     finally { if (owner.current === expectedOwner) setBusy(false); }
   }

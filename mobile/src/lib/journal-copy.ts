@@ -61,10 +61,16 @@ const text = {
     "С вашего разрешения дневник, вопросы о Библии и настройки отправляются через Supabase нашему провайдеру ИИ Alibaba Cloud. Подробнее — в разделе конфиденциальности.",
   ],
   aiDefaultInfo: [
-    "With your permission, your journal, Bible questions and preferences are sent through Supabase to our AI provider, Alibaba Cloud. You can change your choice in Preferences.",
-    "Com sua permissão, seu diário, perguntas bíblicas e preferências são enviados pelo Supabase ao nosso provedor de IA, Alibaba Cloud. Você pode mudar sua escolha em Preferências.",
-    "Con tu permiso, tu diario, preguntas bíblicas y preferencias se envían mediante Supabase a nuestro proveedor de IA, Alibaba Cloud. Puedes cambiar tu elección en Preferencias.",
-    "С вашего разрешения дневник, вопросы о Библии и настройки отправляются через Supabase нашему провайдеру ИИ Alibaba Cloud. Вы можете изменить выбор в настройках.",
+    "AI can help choose a more relevant verse and a small step for what you share, and lets you continue the conversation. Without it, you can still journal and receive general suggestions. Your choice is optional and can be changed later.",
+    "A IA pode ajudar a escolher um versículo e um pequeno passo mais relevantes para o que você compartilha, além de permitir que você continue a conversa. Sem ela, você ainda pode escrever e receber sugestões gerais. A escolha é opcional e pode ser alterada depois.",
+    "La IA puede ayudar a elegir un versículo y un pequeño paso más relevantes para lo que compartes, y te permite continuar la conversación. Sin ella, puedes seguir escribiendo y recibir sugerencias generales. La elección es opcional y puedes cambiarla después.",
+    "ИИ может помочь подобрать более подходящий стих и небольшой шаг с учётом ваших слов, а также продолжить разговор. Без него можно вести дневник и получать общие рекомендации. Выбор необязателен, его можно изменить позже.",
+  ],
+  aiShareSummary: [
+    "If you agree, your writing, recent conversation, Bible questions and relevant preferences are sent through Supabase to our AI provider, Alibaba Cloud.",
+    "Se você concordar, seu texto, conversa recente, perguntas bíblicas e preferências relevantes serão enviados pelo Supabase ao nosso provedor de IA, Alibaba Cloud.",
+    "Si aceptas, tu texto, conversación reciente, preguntas bíblicas y preferencias relevantes se envían mediante Supabase a nuestro proveedor de IA, Alibaba Cloud.",
+    "Если вы согласитесь, ваши записи, недавний разговор, вопросы о Библии и соответствующие настройки будут отправлены через Supabase нашему провайдеру ИИ Alibaba Cloud.",
   ],
   aiPrivacy: [
     "Privacy details",

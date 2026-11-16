@@ -102,10 +102,10 @@ const words: Record<string, string[]> = {
     "Пишем ответ…",
   ],
   enableGuidanceToRetry: [
-    "Enable AI guidance in preferences to retry your personal response.",
-    "Ative a orientação por IA nas preferências para tentar novamente sua resposta personalizada.",
-    "Activa la orientación con IA en preferencias para volver a intentar tu respuesta personalizada.",
-    "Включите подсказки ИИ в настройках, чтобы снова запросить личный ответ.",
+    "Allow AI guidance to try your personal response again.",
+    "Permita a orientação por IA para tentar novamente sua resposta personalizada.",
+    "Permite la orientación con IA para volver a intentar tu respuesta personalizada.",
+    "Разрешите подсказки ИИ, чтобы снова запросить личный ответ.",
   ],
   openPreferences: [
     "Open preferences",

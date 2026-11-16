@@ -1,16 +1,16 @@
 import { useEffect, useRef, useState } from "react";
 import { View } from "react-native";
-import { router } from "expo-router";
 import { Body, Button, Card, Notice, Subheading } from "./quiet-ui";
 import { TextAction } from "./CommunityControls";
 import SignInForm from "./SignInForm";
 import { useApp } from "../lib/state";
-import type { Entry } from "../lib/content";
+import type { Entry, Profile } from "../lib/content";
 import { suggestJourney } from "../lib/ai";
 import { AI_CONSENT_VERSION } from "../lib/ai-copy";
 import { isEarlyPrayer, useSignedIn } from "../lib/account";
 import { resolveJournalResponse } from "../lib/journal-response";
 import { communityCopy } from "../lib/community-copy";
+import JournalAIPermissionDialog from "./JournalAIPermissionDialog";
 
 // Above a saved prayer that has no personal reply yet. Without an account it
 // offers, on someone's first few prayers only, to add an email; once they do,
@@ -23,15 +23,16 @@ export default function JournalGuidanceStatus({ entry }: { entry: Entry }) {
   const [notice, setNotice] = useState("");
   const [adding, setAdding] = useState(false);
   const [later, setLater] = useState(false);
+  const [permissionOpen, setPermissionOpen] = useState(false);
   const wantsReply = useRef(false);
   const c = (key: string) => communityCopy(profile.language, key);
   const enabled = profile.journalAIConsentVersion === AI_CONSENT_VERSION;
-  async function retry() {
+  async function retry(currentProfile: Profile = profile) {
     if (busy) return;
     setBusy(true);
     setNotice("");
     try {
-      const settings = { ...profile, ...entry.prefs };
+      const settings = { ...currentProfile, ...entry.prefs };
       const result = await suggestJourney(entry.text, settings);
       const next = {
         ...entry,
@@ -92,6 +93,7 @@ export default function JournalGuidanceStatus({ entry }: { entry: Entry }) {
   }
   return (
     <View style={{ gap: 4 }}>
+      <JournalAIPermissionDialog visible={permissionOpen} onClose={() => setPermissionOpen(false)} onAllowed={(next) => { setPermissionOpen(false); void retry(next); }} />
       <Body small>{c("guidanceUnavailable")}</Body>
       <Notice text={notice} />
       {enabled ? (
@@ -104,8 +106,8 @@ export default function JournalGuidanceStatus({ entry }: { entry: Entry }) {
         <>
           <Body small>{c("enableGuidanceToRetry")}</Body>
           <TextAction
-            title={c("openPreferences")}
-            onPress={() => router.push("/preferences")}
+            title={c("retryGuidance")}
+            onPress={() => setPermissionOpen(true)}
           />
         </>
       )}
