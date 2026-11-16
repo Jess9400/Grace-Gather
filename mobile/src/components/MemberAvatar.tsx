@@ -5,6 +5,12 @@ import { Ionicons } from "@expo/vector-icons";
 import { backend } from "../lib/backend";
 import { avatarVariant } from "../lib/avatar";
 
+// Candlelight: every mascot sits on a dark espresso disc inside a thin
+// antique-gold ring, like the logo beside it, so it belongs on the brown
+// screens instead of glowing pale against them.
+const DISC = "#3A2E24";
+const RING = "#C9A45C";
+
 /** Four friendly celestial mascots, drawn locally without personal likenesses. */
 export function CelestialAvatar({
   variant,
@@ -14,7 +20,7 @@ export function CelestialAvatar({
   size?: number;
 }) {
   const kind = variant % 4;
-  const background = ["#DFE9E4", "#DDDDF0", "#F4E5CD", "#EEDDE4"][kind];
+  const background = DISC;
   const shape = (
     left: number,
     top: number,
@@ -43,8 +49,8 @@ export function CelestialAvatar({
         borderRadius: size / 2,
         backgroundColor: background,
         overflow: "hidden",
-        borderWidth: 1,
-        borderColor: "#302C2812",
+        borderWidth: Math.max(1.5, size * 0.03),
+        borderColor: RING,
       }}
     >
       {kind === 0 && (
@@ -168,13 +174,13 @@ export default function MemberAvatar() {
             minWidth: 19,
             height: 19,
             borderRadius: 10,
-            backgroundColor: "#302C28",
+            backgroundColor: "#F1E4CB",
             alignItems: "center",
             justifyContent: "center",
             paddingHorizontal: 3,
           }}
         >
-          <Text style={{ color: "#FFFCF3", fontSize: 10, fontWeight: "700" }}>
+          <Text style={{ color: "#1B1612", fontSize: 10, fontWeight: "700" }}>
             {unread > 99 ? "99+" : unread}
           </Text>
         </View>
