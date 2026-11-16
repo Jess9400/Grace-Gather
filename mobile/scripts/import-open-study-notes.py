@@ -50,9 +50,9 @@ for lang, label in LANGUAGES.items():
             for name in sorted(archive.namelist()):
                 if not re.fullmatch(r'json/\d{2}\.content\.json', name): continue
                 for item in json.loads(archive.read(name)):
-                    # Only publish translations whose source explicitly records
-                    # professional review; missing metadata is not evidence.
-                    if item.get('review_level') != 'Professional': continue
+                    # Portuguese and Spanish are also offered as attributed
+                    # references even when review information is missing.
+                    if lang not in ('pt', 'es') and item.get('review_level') != 'Professional': continue
                     body = text(item.get('content', ''))
                     if not body: continue
                     for passage in item.get('associations', {}).get('passage', []):

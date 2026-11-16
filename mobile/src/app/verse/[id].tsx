@@ -168,10 +168,16 @@ function SourcedStudyNote({
           url: "https://github.com/BibleAquifer/BiblicaStudyNotes",
         };
   const notice = {
-    en: "Study notes reflect their authors’ perspective; Christian traditions may differ.",
-    pt: "As notas refletem a perspectiva dos autores; as tradições cristãs podem ter interpretações diferentes.",
-    es: "Las notas reflejan la perspectiva de sus autores; las tradiciones cristianas pueden interpretarlas de otra manera.",
+    en: "A study reference; Christian traditions may interpret the passage differently.",
+    pt: "Uma referência de estudo; diferentes tradições cristãs podem interpretar a passagem de outra forma.",
+    es: "Una referencia de estudio; las tradiciones cristianas pueden interpretar el pasaje de otra manera.",
     ru: "Заметки отражают взгляды авторов; христианские традиции могут толковать их иначе.",
+  }[lang];
+  const reviewNotice = {
+    en: "The source does not specify a professional review of this translation.",
+    pt: "A fonte não informa se esta tradução teve revisão profissional.",
+    es: "La fuente no indica si esta traducción tuvo una revisión profesional.",
+    ru: "Источник не указывает, была ли профессиональная проверка перевода.",
   }[lang];
   return (
     <>
@@ -181,6 +187,7 @@ function SourcedStudyNote({
         sources={[
           source,
           { label: notice },
+          ...(note.reviewLevel === "Professional" ? [] : [{ label: reviewNotice }]),
           {
             label: "CC BY-SA 4.0",
             url: "https://creativecommons.org/licenses/by-sa/4.0/",
@@ -709,8 +716,8 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
                     </Section>
                   ) : openNotes?.detail || openNotes?.overview ? (
                     <SourcedStudyNote
-                      note={(openNotes.detail ?? openNotes.overview)!}
-                      heading={openNotes.detail ? openHeading : overviewHeading}
+                      note={(openNotes.overview ?? openNotes.detail)!}
+                      heading={openNotes.overview ? overviewHeading : openHeading}
                       lang={lang}
                     />
                   ) : notesLoading ? (

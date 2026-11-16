@@ -29,10 +29,29 @@ export function sourceReference(
     "GEN.1.3": "GEN.1.3",
     "JHN.3.16": "JHN.3.16",
   };
+  // Matos Soares and Bíblia Livre were compared verse by verse for these
+  // chapters. Equal chapter length alone is not evidence of equivalence.
+  // Gênesis 5:31 combines two verses, so only 5:1–30 are included.
+  const verifiedGenesisChapters: Record<number, number> = {
+    1: 31, 2: 25, 3: 24, 4: 26, 5: 30, 6: 22,
+    7: 24, 8: 22, 9: 29, 10: 32, 11: 32,
+  };
+  // Different wording or verse boundaries can matter to commentary even when
+  // the chapter lengths agree, so omit these until individually resolved.
+  const unmatchedGenesis = new Set([
+    "GEN.8.4", "GEN.8.6", "GEN.8.7",
+    "GEN.10.15", "GEN.10.16", "GEN.10.17", "GEN.11.13",
+  ]);
+  const genesis = /^GEN\.(\d+)\.(\d+)$/.exec(raw);
+  const verifiedGenesis =
+    genesis && !unmatchedGenesis.has(raw) && Number(genesis[2]) >= 1 &&
+    Number(genesis[2]) <= (verifiedGenesisChapters[Number(genesis[1])] ?? 0)
+      ? raw
+      : undefined;
   const reference =
     mapped ??
     (edition === "matos"
-      ? verifiedMatos[raw]
+      ? verifiedMatos[raw] ?? verifiedGenesis
       : ["web", "blivre", "rv1909"].includes(edition)
         ? raw
         : undefined);
@@ -48,11 +67,14 @@ export function selectOpenStudyNotes(
   rows: NoteRow[],
   chapter: number,
   verse: number,
+  language: Language = "en",
 ): OpenStudyNotes {
   const key = chapter * 1000 + verse;
   const select = (source: NoteRow[4]) => {
     const candidates = rows.filter(
-      (row) => row[4] === source && row[5] === "Professional" && row[0] <= key && key <= row[1],
+      (row) => row[4] === source &&
+        (row[5] === "Professional" || language === "pt" || language === "es") &&
+        row[0] <= key && key <= row[1],
     );
     candidates.sort((a, b) => a[1] - a[0] - (b[1] - b[0]));
     const row = candidates[0];
@@ -94,5 +116,5 @@ export async function fetchOpenStudyNotes(
       if (cache.get(key) === pending) cache.delete(key);
     });
   }
-  return selectOpenStudyNotes(await request, ref.chapter, ref.verse);
+  return selectOpenStudyNotes(await request, ref.chapter, ref.verse, language);
 }
