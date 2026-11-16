@@ -221,7 +221,7 @@ export default function Diary() {
           )}
         </View>
       )}
-      <View style={s.paper}>
+      <View style={[s.paper, writing && s.paperWriting]}>
         <View style={s.rule} />
         <Text style={s.date}>
           {new Date(draft.createdAt).toLocaleDateString(lang, {
@@ -305,8 +305,11 @@ const s = StyleSheet.create({
     textAlignVertical: "top",
     padding: 0,
   },
-  // While typing there is less room above the keyboard.
-  inputWriting: { minHeight: 160 },
+  // While typing, the letter fills the space between the top of the screen
+  // and "I'm done writing", however tall the keyboard leaves it, and grows
+  // (the page scrolls) once the writing is longer than that.
+  paperWriting: { flexGrow: 1 },
+  inputWriting: { minHeight: 160, flexGrow: 1 },
   footer: {
     paddingHorizontal: 22,
     paddingTop: 10,

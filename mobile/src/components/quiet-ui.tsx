@@ -156,12 +156,17 @@ export function Screen({
             keyboardDismissMode={footer ? "interactive" : "none"}
             onScroll={onScroll}
             scrollEventThrottle={32}
+            // A compact page reaches down to the footer, so what is being
+            // written can fill the space above the keyboard.
+            contentContainerStyle={compact ? { flexGrow: 1 } : undefined}
           >
             {!compact && <ChurchStrip place={place} back={false} hideControls={back} />}
             <View
               style={[
                 s.page,
-                compact ? { paddingTop: insets.top + 12 } : s.roomPage,
+                compact
+                  ? { paddingTop: insets.top + 12, paddingBottom: 0, flexGrow: 1 }
+                  : s.roomPage,
               ]}
             >
               {children}
