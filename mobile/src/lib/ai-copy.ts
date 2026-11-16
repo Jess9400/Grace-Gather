@@ -6,6 +6,22 @@ const words = {
     "Orientación con IA opcional",
     "Подсказки ИИ — по желанию",
   ],
+  benefit: [
+    "AI can help find a more relevant verse and a small step for what you share, and lets you continue the conversation. You can still journal without it.",
+    "A IA pode ajudar a encontrar um versículo e um pequeno passo mais relevantes para o que você compartilha, além de permitir que você continue a conversa. Você pode escrever sem ela.",
+    "La IA puede ayudar a encontrar un versículo y un pequeño paso más relevantes para lo que compartes, y te permite continuar la conversación. Puedes escribir sin ella.",
+    "ИИ может помочь подобрать подходящий стих и небольшой шаг с учётом ваших слов и продолжить разговор. Вы можете вести дневник и без него.",
+  ],
+  permissionSummary: [
+    "If you agree, your writing, recent conversation, Bible questions and relevant preferences go through Supabase to our AI provider, Alibaba Cloud. Audio is sent only if you choose transcription. You can turn this off in Preferences.",
+    "Se concordar, seu texto, conversa recente, perguntas bíblicas e preferências relevantes serão enviados pelo Supabase ao nosso provedor de IA, Alibaba Cloud. O áudio só é enviado se você escolher transcrever. Você pode desativar em Preferências.",
+    "Si aceptas, tu texto, conversación reciente, preguntas bíblicas y preferencias relevantes se envían mediante Supabase a nuestro proveedor de IA, Alibaba Cloud. El audio solo se envía si eliges transcribirlo. Puedes desactivarlo en Preferencias.",
+    "Если вы согласитесь, ваши записи, недавний разговор, вопросы о Библии и соответствующие настройки будут отправлены через Supabase нашему провайдеру ИИ Alibaba Cloud. Аудио отправляется только по вашему запросу на расшифровку. Это можно отключить в настройках.",
+  ],
+  allowGuidance: ["Allow AI guidance", "Permitir orientação por IA", "Permitir orientación con IA", "Разрешить подсказки ИИ"],
+  continueWithout: ["Continue without AI", "Continuar sem IA", "Continuar sin IA", "Продолжить без ИИ"],
+  notNow: ["Not now", "Agora não", "Ahora no", "Не сейчас"],
+  permissionFailed: ["Couldn’t save your choice. Please try again.", "Não foi possível salvar sua escolha. Tente novamente.", "No se pudo guardar tu elección. Inténtalo de nuevo.", "Не удалось сохранить выбор. Попробуйте ещё раз."],
   consent: [
     "With your permission, your journal writing, recent conversation, Bible study questions and language and tradition preferences are sent through Supabase to our AI provider, Alibaba Cloud. Recordings are sent only when you choose Transcribe. Processing may occur outside your country. AI is not emergency care. You can withdraw permission in Preferences.",
     "Com sua permissão, seu diário, conversa recente, perguntas sobre a Bíblia e preferências de idioma e tradição são enviados pelo Supabase ao nosso provedor de IA, Alibaba Cloud. Áudios só são enviados ao escolher Transcrever. O processamento pode ocorrer fora do seu país. A IA não é atendimento de emergência. Você pode retirar a permissão em Preferências.",

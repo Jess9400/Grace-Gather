@@ -19,7 +19,7 @@ import { useApp } from "../lib/state";
 import { backend } from "../lib/backend";
 import { continueJournal } from "../lib/ai";
 import { AI_CONSENT_VERSION } from "../lib/ai-copy";
-import { copy, needsSupport, type Entry } from "../lib/content";
+import { copy, needsSupport, type Entry, type Profile } from "../lib/content";
 import { chatCopy } from "../lib/journal-chat-copy";
 import { jc, journalActionCopy, type JournalCopyKey } from "../lib/journal-copy";
 import { shouldSendJournalKey } from "../lib/journal-composer";
@@ -30,6 +30,7 @@ import {
 import { journalCopy } from "../lib/journal-library-copy";
 import { useSignedIn } from "../lib/account";
 import JournalActionButton from "./JournalActionButton";
+import JournalAIPermissionDialog from "./JournalAIPermissionDialog";
 export default function JournalConversation({
   entry,
   initialAction,
@@ -48,6 +49,7 @@ export default function JournalConversation({
     [error, setError] = useState("");
   const [focused, setFocused] = useState(false);
   const [needsSignIn, setNeedsSignIn] = useState(false);
+  const [permissionOpen, setPermissionOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const [olderOpen, setOlderOpen] = useState(false);
   const [scrollKey, setScrollKey] = useState<string>();
@@ -80,14 +82,22 @@ export default function JournalConversation({
       )}
     </View>
   );
-  async function send() {
+  async function send(settings: Profile = profile) {
     if (lock.current || full || (!pending && !text.trim())) return;
-    if (needsEmail) {
+    const hasPermission = settings.journalAIConsentVersion === AI_CONSENT_VERSION;
+    if (!!backend && hasPermission && signedIn === false) {
       router.push("/sign-in");
       return;
     }
-    if (!backend || !enabled) {
-      setError(chatCopy(lang, !backend ? "local" : "consent"));
+    if (!backend) {
+      setError(chatCopy(lang, "local"));
+      return;
+    }
+    // A locally detected urgent safety message should receive the existing
+    // support response without asking the person to enable an AI provider.
+    const urgent = needsSupport(pending ? messages.at(-1)?.content ?? "" : text);
+    if (!hasPermission && !urgent) {
+      setPermissionOpen(true);
       return;
     }
     lock.current = true;
@@ -114,7 +124,7 @@ export default function JournalConversation({
       const history = saved.conversation ?? [];
       const result = needsSupport(history.at(-1)!.content)
         ? { content: "", support: true }
-        : await continueJournal(saved, profile, history, [
+        : await continueJournal(saved, settings, history, [
             ...new Set([
               initialAction,
               ...history.flatMap((m) => (m.actionId ? [m.actionId] : [])),
@@ -279,6 +289,7 @@ export default function JournalConversation({
   );
   return (
     <Screen back keyboard scrollToEndKey={scrollKey}>
+      <JournalAIPermissionDialog visible={permissionOpen} onClose={() => setPermissionOpen(false)} onAllowed={(next) => { setPermissionOpen(false); void send(next); }} />
       {children}
       {messages.length > 0 && (
         <View style={s.conversation}>

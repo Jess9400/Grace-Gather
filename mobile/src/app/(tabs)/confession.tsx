@@ -56,6 +56,7 @@ import ConfessionArrival, {
 import { confessionColors as room } from "../../lib/confession-theme";
 import { communityCopy } from "../../lib/community-copy";
 import PreviewDialog from "../../components/PreviewDialog";
+import CommunityAIPermission from "../../components/CommunityAIPermission";
 type Page =
   "room" | "share" | "list" | "mine" | "detail" | "success" | "review";
 const themes = [
@@ -81,6 +82,8 @@ const confessionAICopy = {
     more: "How AI review works", less: "Hide AI review details",
     details: "With Community AI enabled, your submission is sent to Alibaba Cloud for a safety check and may be checked again later. Without permission, or if the check is uncertain, a moderator reviews it.",
     pending: "Your submission was sent. Check your submissions for the latest status.",
+    permissionFailed: "Couldn’t check your AI setting. Please try again; your draft is still here.",
+    permissionPrompt: "Allow Community AI for faster safety checks",
   },
   pt: {
     text: "Concordo em enviar minhas palavras a um serviço externo de IA para uma verificação de segurança.",
@@ -88,6 +91,8 @@ const confessionAICopy = {
     more: "Como funciona a revisão por IA", less: "Ocultar detalhes da revisão por IA",
     details: "Com a IA da comunidade ativada, seu envio é encaminhado à Alibaba Cloud para uma verificação de segurança e poderá ser verificado novamente depois. Sem sua permissão, ou se houver dúvida, um moderador fará a revisão.",
     pending: "Seu envio foi recebido. Veja o status mais recente nos seus envios.",
+    permissionFailed: "Não foi possível verificar sua escolha sobre IA. Tente novamente; seu rascunho continua aqui.",
+    permissionPrompt: "Permita a IA da comunidade para verificações de segurança mais rápidas",
   },
   es: {
     text: "Acepto enviar mis palabras a un servicio externo de IA para una revisión de seguridad.",
@@ -95,6 +100,8 @@ const confessionAICopy = {
     more: "Cómo funciona la revisión con IA", less: "Ocultar detalles de la revisión con IA",
     details: "Con la IA de la comunidad activada, tu envío se comparte con Alibaba Cloud para una revisión de seguridad y puede revisarse de nuevo más adelante. Sin permiso, o si hay dudas, lo revisará un moderador.",
     pending: "Tu envío se recibió. Consulta su estado más reciente en tus envíos.",
+    permissionFailed: "No se pudo comprobar tu elección sobre IA. Inténtalo de nuevo; tu borrador sigue aquí.",
+    permissionPrompt: "Permite la IA de la comunidad para revisiones de seguridad más rápidas",
   },
   ru: {
     text: "Я согласен отправить свои слова внешнему сервису ИИ для проверки безопасности.",
@@ -102,6 +109,8 @@ const confessionAICopy = {
     more: "Как работает проверка ИИ", less: "Скрыть подробности проверки ИИ",
     details: "При включённом ИИ сообщества сообщение отправляется в Alibaba Cloud для проверки безопасности и может быть проверено повторно. Без разрешения или при сомнениях его проверит модератор.",
     pending: "Ваше сообщение отправлено. Актуальный статус можно посмотреть в своих сообщениях.",
+    permissionFailed: "Не удалось проверить настройки ИИ. Попробуйте ещё раз: черновик сохранён здесь.",
+    permissionPrompt: "Разрешите ИИ сообщества для более быстрой проверки безопасности",
   },
 };
 
@@ -146,6 +155,8 @@ export default function ConfessionRoom() {
     [responseOpen, setResponseOpen] = useState(false);
   const [audioOpen, setAudioOpen] = useState(false);
   const [preview, setPreview] = useState("");
+  const [communityPrompt, setCommunityPrompt] = useState<"share" | "reply" | null>(null);
+  const [checkingAI, setCheckingAI] = useState(false);
   const [page, setPage] = useState<Page>("room"),
     [entering, setEntering] = useState(false),
     [body, setBody] = useState(""),
@@ -359,6 +370,25 @@ export default function ConfessionRoom() {
     responseType,
     consent,
   ]);
+  async function toggleAIReview(target: "share" | "reply") {
+    const checked = target === "share" ? aiModerationConsent : replyAIConsent;
+    const setChecked = target === "share" ? setAIModerationConsent : setReplyAIConsent;
+    if (checked) { setChecked(false); return; }
+    if (checkingAI) return;
+    setCheckingAI(true);
+    setError("");
+    try {
+      if (!backend) throw Error("unavailable");
+      const result = await backend.rpc("ai_community_permission");
+      if (result.error) throw result.error;
+      if (result.data === true) setChecked(true);
+      else setCommunityPrompt(target);
+    } catch {
+      setError(confessionAICopy[language].permissionFailed);
+    } finally {
+      setCheckingAI(false);
+    }
+  }
   async function share() {
     if (preview !== fingerprint) return;
     if (!theme) {
@@ -693,7 +723,7 @@ export default function ConfessionRoom() {
                         />
                         <Text style={s.consent}>{t("cConsent")}</Text>
                       </Pressable>
-                      <AIReviewConsent language={language} checked={aiModerationConsent} onToggle={() => setAIModerationConsent(!aiModerationConsent)} hasAudio={!!audio} />
+                      <AIReviewConsent language={language} checked={aiModerationConsent} onToggle={() => void toggleAIReview("share")} hasAudio={!!audio} />
                       <Button
                         title={
                           protestant
@@ -888,7 +918,7 @@ export default function ConfessionRoom() {
                         multiline
                         maxLength={3000}
                       />
-                      <AIReviewConsent language={language} checked={replyAIConsent} onToggle={() => setReplyAIConsent(!replyAIConsent)} />
+                      <AIReviewConsent language={language} checked={replyAIConsent} onToggle={() => void toggleAIReview("reply")} />
                       {btn(
                         "cOffer",
                         () =>
@@ -1018,6 +1048,15 @@ export default function ConfessionRoom() {
       {entering && (
         <ConfessionArrival onEntered={enterRoom} onCancel={cancelEntrance} />
       )}
+      <PreviewDialog visible={communityPrompt !== null} onClose={() => setCommunityPrompt(null)} closeLabel={t("cancel")}>
+        <Text style={s.subheading}>{confessionAICopy[language].permissionPrompt}</Text>
+        <CommunityAIPermission language={language} onEnabled={() => {
+          if (communityPrompt === "share") setAIModerationConsent(true);
+          if (communityPrompt === "reply") setReplyAIConsent(true);
+          setCommunityPrompt(null);
+        }} />
+        <Button secondary title={t("cancel")} onPress={() => setCommunityPrompt(null)} />
+      </PreviewDialog>
     </>
   );
 }

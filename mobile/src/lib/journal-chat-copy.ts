@@ -64,10 +64,10 @@ const words = {
     "Не удалось сохранить. Ваш текст остался здесь.",
   ],
   consent: [
-    "Enable AI guidance in Preferences to continue talking.",
-    "Ative a orientação por IA nas Preferências para continuar.",
-    "Activa la orientación con IA en Preferencias para continuar.",
-    "Включите подсказки ИИ в настройках, чтобы продолжить.",
+    "Send a message to review AI guidance options.",
+    "Envie uma mensagem para conhecer as opções de orientação por IA.",
+    "Envía un mensaje para ver las opciones de orientación con IA.",
+    "Отправьте сообщение, чтобы увидеть настройки подсказок ИИ.",
   ],
   preferences: ["Preferences", "Preferências", "Preferencias", "Настройки"],
   local: [
