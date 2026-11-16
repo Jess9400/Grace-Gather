@@ -170,15 +170,6 @@ export function editionsFor(p: Preferences) {
       (e.traditions as string[]).includes(p.tradition),
   );
 }
-export function bibleEditionNote(p: Preferences) {
-  if (p.scriptureLanguage !== "pt" || p.tradition !== "catholic" || p.edition !== "figueiredo") return undefined;
-  return {
-    en: "Journal: Figueiredo · Bible Study: Matos Soares",
-    pt: "Diário: Figueiredo · Estudo bíblico: Matos Soares",
-    es: "Diario: Figueiredo · Estudio bíblico: Matos Soares",
-    ru: "Дневник: Фигейреду · Изучение Библии: Матуш Соареш",
-  }[p.language];
-}
 export function normalizeProfile(p: Profile): Profile {
   const normalized = { ...p, scriptureLanguage: p.language };
   const options = editionsFor(normalized);

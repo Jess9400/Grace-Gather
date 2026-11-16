@@ -9,8 +9,4 @@ License: https://creativecommons.org/licenses/by-sa/4.0/. English and Russian im
 
 Changes: the importer converts HTML to plain text, removes unrelated metadata, groups notes into language/book files and retains title, passage interval, text and source. It does not generate or paraphrase commentary. The original releases provide the full source and metadata. To reproduce run `mobile/scripts/import-open-study-notes.py` with the original English-json, Portuguese-json, Spanish-json and Russian-json ZIP assets from each release in AQUIFER_ZIPS and BIBLICA_ZIPS. Changes are released under CC BY-SA 4.0.
 
-Matos Soares matching: alongside the explicitly mapped journal themes, Genesis 1–11 have been compared against the bundled Bíblia Livre text verse by verse. Genesis 5:31 is excluded because it combines two source verses. Genesis 8:4 has a different date, 8:6–7 have different verse boundaries, 10:15–17 divide the genealogy differently, and 11:13 reports a different number; those verses are intentionally excluded. Notes reflect the source's interpretation and are not Catholic doctrinal approval. Other unmapped chapters are not assumed to use identical numbering.
-
-## Russian classic commentary (Lopukhin)
-
-`lopukhin/<BOOK>.json` holds verse notes and chapter introductions from «Толковая Библия» under the editorship of A. P. Lopukhin and his successors (St Petersburg, 1904–1913), public domain, in Synodal verse numbering. Only books whose commentator is clearly in the public domain are included; the rule, the list and the excluded books are in `docs/content-rights/lopukhin.md`. Rows are `[first, last, text]` with `chapter * 1000 + verse` (verse 0 = chapter introduction). Rebuild with `python3 scripts/import-lopukhin.py lopukhin_commentary.xml`.
+For this launch, the Matos Soares Bible and Lopukhin commentary are excluded pending confirmation of distribution rights. Their source review records remain under `docs/` for future reference.

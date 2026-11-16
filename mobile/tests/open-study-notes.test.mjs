@@ -46,51 +46,8 @@ const { sourceReference, selectOpenStudyNotes } = load(
 );
 const asObject = (value) => value && JSON.parse(JSON.stringify(value));
 
-test("matches Catholic numbering only where the actual Matos text was verified", () => {
-  assert.deepEqual(asObject(sourceReference("matos:PSA.22.4")), {
-    book: "PSA",
-    chapter: 23,
-    verse: 4,
-  });
-  assert.deepEqual(asObject(sourceReference("matos:MAT.5.5")), {
-    book: "MAT",
-    chapter: 5,
-    verse: 4,
-  });
-  assert.deepEqual(asObject(sourceReference("matos:GEN.1.1")), {
-    book: "GEN",
-    chapter: 1,
-    verse: 1,
-  });
-  assert.deepEqual(asObject(sourceReference("matos:GEN.1.4")), {
-    book: "GEN", chapter: 1, verse: 4,
-  });
-  assert.equal(sourceReference("matos:GEN.1.32"), null);
-  for (const [chapter, last] of [[2, 25], [3, 24], [4, 26], [5, 30], [6, 22], [7, 24], [8, 22], [9, 29], [10, 32], [11, 32]]) {
-    assert.deepEqual(asObject(sourceReference(`matos:GEN.${chapter}.1`)), {
-      book: "GEN", chapter, verse: 1,
-    });
-    assert.deepEqual(asObject(sourceReference(`matos:GEN.${chapter}.${last}`)), {
-      book: "GEN", chapter, verse: last,
-    });
-    assert.equal(sourceReference(`matos:GEN.${chapter}.${last + 1}`), null);
-  }
-  for (const id of ["GEN.8.4", "GEN.8.6", "GEN.8.7", "GEN.10.15", "GEN.10.16", "GEN.10.17", "GEN.11.13"])
-    assert.equal(sourceReference(`matos:${id}`), null);
-  assert.deepEqual(asObject(sourceReference("matos:PSA.12.2")), {
-    book: "PSA",
-    chapter: 13,
-    verse: 1,
-  });
-  assert.deepEqual(asObject(sourceReference("matos:PSA.72.23")), {
-    book: "PSA",
-    chapter: 73,
-    verse: 23,
-  });
-  assert.equal(sourceReference("matos:PSA.12.1"), null);
-  assert.equal(sourceReference("matos:PSA.23.4"), null);
-  assert.equal(sourceReference("matos:MAT.5.4"), null);
-  assert.equal(sourceReference("matos:TOB.1.1"), null);
+test("unavailable Bible editions are not mapped to study notes", () => {
+  assert.equal(sourceReference("matos:GEN.1.1"), null);
 });
 
 test("Portuguese and Spanish references include their source's review status", () => {
@@ -126,8 +83,8 @@ test("Portuguese and Spanish references include their source's review status", (
   }
 });
 
-test("the Catholic Portuguese Genesis 1:4 can show passage context", () => {
-  const ref = sourceReference("matos:GEN.1.4");
+test("Portuguese Genesis 1:4 can show passage context", () => {
+  const ref = sourceReference("blivre:GEN.1.4");
   const rows = JSON.parse(readFileSync(resolve(root, "mobile/public/study-notes/v1/pt/GEN.json"), "utf8"));
   const found = selectOpenStudyNotes(rows, ref.chapter, ref.verse, "pt");
   assert.ok(found.detail || found.overview);

@@ -26,7 +26,7 @@ const reader = load(resolve(root, 'mobile/src/lib/bible.ts'));
 const { translatedStudy } = load(resolve(root, 'mobile/src/lib/bible-study-translations.ts'));
 const { studies } = JSON.parse(readFileSync(root + 'mobile/src/lib/bible-study-translations.json', 'utf8'));
 const english = Object.fromEntries(JSON.parse(readFileSync(root + 'mobile/src/generated/quiet-studies.json', 'utf8')).verses.map(v => [v.id, v]));
-await Promise.all(['web', 'dra', 'brenton', 'blivre', 'rv1909', 'synodal', 'matos'].map(id => reader.ensureCollection(id)));
+await Promise.all(['web', 'dra', 'brenton', 'blivre', 'rv1909', 'synodal'].map(id => reader.ensureCollection(id)));
 const fields = ['simple', 'context', 'meaning', 'theology', 'today', 'question'];
 const languages = ['pt', 'es', 'ru'];
 
