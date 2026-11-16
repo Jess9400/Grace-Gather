@@ -156,7 +156,7 @@ export default function Gatherings() {
         title={c("chats")}
         hint={c("chatsHint")}
         onPress={() =>
-          router.push({ pathname: "/friends", params: { view: "friends" } })
+          router.push({ pathname: "/friends", params: { view: "discussions" } })
         }
       />
       <Card>
