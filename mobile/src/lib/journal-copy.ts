@@ -341,7 +341,7 @@ export function journalActionCopy(
   if (action === "A04") {
     const invitations = [
       "If you’d like someone to listen, the Confession room is a place to share what’s weighing on you. A listener may respond with care.",
-      "Se quiser que alguém escute, a sala de Confissão é um espaço para compartilhar o que pesa no seu coração. Uma pessoa pode responder com carinho.",
+      "Se quiser ser ouvido, você pode compartilhar o que está sentindo na sala de Confissão. Alguém poderá responder com carinho.",
       "Si te gustaría que alguien te escuche, la sala de Confesión es un lugar para compartir lo que pesa en tu corazón. Una persona puede responder con cariño.",
       "Если хочется, чтобы вас выслушали, в комнате исповеди можно поделиться тем, что лежит на сердце. Слушатель может ответить вам словами поддержки.",
     ];

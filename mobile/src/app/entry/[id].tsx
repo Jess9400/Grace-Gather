@@ -33,6 +33,7 @@ import { useQuiet } from "../../lib/quiet-state";
 import { copy, type JournalResponse } from "../../lib/content";
 import { q } from "../../lib/quiet-copy";
 import HelpLine from "../../components/HelpLine";
+import { offersOngoingSupport } from "../../lib/safety";
 import { toVerseRoute } from "../../lib/verse-route";
 import type { ReadingVerse } from "../../lib/bible";
 import { resolveJournalResponse } from "../../lib/journal-response";
@@ -421,9 +422,9 @@ export default function EntryScreen() {
                     onPress={() => openAction()}
                   />
                 </View>
-                {["hopelessness", "persistent-distress"].includes(
-                  journalTheme(entry).id,
-                ) && <HelpLine gentle />}
+                {offersOngoingSupport(entry.text, journalTheme(entry).id) && (
+                  <HelpLine gentle />
+                )}
               </>
             )}
           </View>

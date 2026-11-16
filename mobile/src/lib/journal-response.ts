@@ -17,6 +17,7 @@ import { journalActionCopy } from "./journal-copy";
 import { journalScripture } from "./journal-verse-reference";
 import { availableJournalAction } from "./journal-gathering";
 import { gathering } from "./gatherings";
+import { refreshPortuguesePrayerCopy } from "./journal-prayer-copy";
 
 export async function resolveJournalResponse(
   entry: Entry,
@@ -24,7 +25,7 @@ export async function resolveJournalResponse(
   journal: Entry[] = [],
 ): Promise<JournalResponse> {
   if (entry.response) {
-    if (entry.response.actionId !== "A25") return entry.response;
+    if (entry.response.actionId !== "A25") return refreshPortuguesePrayerCopy(entry.response, entry.prefs.language);
     const theme = journalTheme(entry);
     const safeAction = await availableJournalAction(theme.id, profile.language, entry.text, [], () => gathering("list"), true);
     if (safeAction === "A25") return entry.response;
