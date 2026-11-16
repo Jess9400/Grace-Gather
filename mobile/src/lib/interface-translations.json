@@ -1488,7 +1488,7 @@
     "es": "Un poco sobre ti",
     "ru": "Немного о вас"
   },
-"Both are optional. Your city is enough to suggest local ways to help.": { "pt": "Ambos são opcionais. Sua cidade basta para sugerirmos formas de ajudar perto de você.", "es": "Ambos son opcionales. Tu ciudad basta para sugerir formas de ayudar cerca de ti.", "ru": "Оба поля необязательны. Города достаточно, чтобы подсказать, где помочь рядом с вами." },
+"All optional. Your city is enough to suggest local ways to help.": { "pt": "Tudo opcional. Sua cidade basta para sugerirmos formas de ajudar perto de você.", "es": "Todo es opcional. Tu ciudad basta para sugerir formas de ayudar cerca de ti.", "ru": "Всё необязательно. Города достаточно, чтобы подсказать, где помочь рядом с вами." },
   "Enter the church": {
     "pt": "Entrar na igreja",
     "es": "Entrar en la iglesia",

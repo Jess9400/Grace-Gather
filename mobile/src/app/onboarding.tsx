@@ -193,7 +193,7 @@ export default function Onboarding() {
           <Heading>{tr("A little about you")}</Heading>
           <Body>
             {tr(
-              "Both are optional. Your city is enough to suggest local ways to help.",
+              "All optional. Your city is enough to suggest local ways to help.",
             )}
           </Body>
           <Field
