@@ -10,7 +10,7 @@ import { Pressable, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
 import BrandMark from "../components/BrandMark";
-import { termsCopy } from "../lib/terms-copy";
+import TermsAgreementNotice from "../components/TermsAgreementNotice";
 
 // One clear place to sign in. Every "Sign in" button leads here, and signing
 // in returns the person to the screen they came from.
@@ -91,9 +91,10 @@ export default function SignIn() {
         ) : signedIn === false ? (
           <>
             <SignInForm chooseMethod />
+            <TermsAgreementNotice language={profile.language} action="signIn" />
           </>
         ) : null}
-        {/* The terms and the privacy policy can be read before signing in. */}
+        {/* Privacy remains available before signing in. */}
         <View
           style={{
             flexDirection: "row",
@@ -102,15 +103,6 @@ export default function SignIn() {
             gap: 4,
           }}
         >
-          <Pressable
-            accessibilityRole="link"
-            onPress={() => router.push("/terms")}
-            style={{ minHeight: 44, justifyContent: "center", paddingHorizontal: 8 }}
-          >
-            <Text style={{ color: colors.goldInk, fontSize: 14 }}>
-              {(termsCopy[profile.language] ?? termsCopy.en).title}
-            </Text>
-          </Pressable>
           <Pressable
             accessibilityRole="link"
             onPress={() => router.push("/privacy")}

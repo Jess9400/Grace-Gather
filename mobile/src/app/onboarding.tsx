@@ -29,7 +29,7 @@ import {
 import { q } from "../lib/quiet-copy";
 import { interfaceCopy } from "../lib/interface-copy";
 import { TERMS_VERSION, TRADITION_QUESTION_VERSION } from "../lib/onboarding";
-import { termsCopy } from "../lib/terms-copy";
+import TermsAgreementNotice from "../components/TermsAgreementNotice";
 import { aiCopy, AI_CONSENT_VERSION } from "../lib/ai-copy";
 import { jc } from "../lib/journal-copy";
 import { backend } from "../lib/backend";
@@ -41,8 +41,6 @@ import CountryPicker from "../components/CountryPicker";
 import { Disclosure } from "../components/QuietControls";
 
 const TRADITIONS: Tradition[] = ["catholic", "protestant", "orthodox"];
-// Agreeing to the Terms of Use is the one required tick before entering.
-const termsWords = termsCopy;
 const chosen = (p: Profile) =>
   !!p.faithChoice && p.faithChoice !== "unspecified";
 
@@ -163,28 +161,11 @@ export default function Onboarding() {
               </View>
             </View>
           )}
-          <Chip
-            title={
-              (p.termsVersion === TERMS_VERSION ? "✓ " : "") +
-              termsWords[p.language].agree
-            }
-            selected={p.termsVersion === TERMS_VERSION}
-            onPress={() =>
-              update({
-                termsVersion:
-                  p.termsVersion === TERMS_VERSION ? undefined : TERMS_VERSION,
-              })
-            }
-          />
-          <Button
-            secondary
-            title={termsWords[p.language].read}
-            onPress={() => router.push("/terms")}
-          />
+          <TermsAgreementNotice language={p.language} action="continue" />
           <Button
             title={t("pContinue")}
-            disabled={!chosen(p) || p.termsVersion !== TERMS_VERSION}
-            onPress={() => setStep(1)}
+            disabled={!chosen(p)}
+            onPress={() => { update({ termsVersion: TERMS_VERSION }); setStep(1); }}
           />
         </>
       ) : step === 2 ? (
