@@ -582,6 +582,12 @@ const words: Record<string, string[]> = {
     "Общие беседы и переписка с друзьями",
   ],
   reservedPlace: ["You're going", "Você vai", "Vas a ir", "Вы записаны"],
+  hosts_only: [
+    "Gatherings are hosted by the Grace & Gather team for now. You can join any of them.",
+    "Por enquanto, os encontros são conduzidos pela equipe do Grace & Gather. Você pode participar de qualquer um.",
+    "Por ahora, los encuentros los organiza el equipo de Grace & Gather. Puedes unirte a cualquiera.",
+    "Пока встречи проводит команда Grace & Gather. Вы можете присоединиться к любой из них.",
+  ],
   createGathering: [
     "Create gathering",
     "Criar encontro",

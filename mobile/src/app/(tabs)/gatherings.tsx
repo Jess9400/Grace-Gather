@@ -42,7 +42,14 @@ export default function Gatherings() {
     [error, setError] = useState(""),
     [loading, setLoading] = useState(true),
     [selected, setSelected] = useState(""),
-    [configured, setConfigured] = useState<boolean | null>(null);
+    [configured, setConfigured] = useState<boolean | null>(null),
+    // Only the team hosts gatherings for now (see the hosts_only migration).
+    [canHost, setCanHost] = useState(false);
+  useEffect(() => {
+    void Promise.resolve(backend?.rpc("staff_role")).then((r) =>
+      setCanHost(!!r?.data),
+    );
+  }, []);
   const load = useCallback(async (manual = false) => {
     if (manual) setLoading(true);
     try {
@@ -191,11 +198,13 @@ export default function Gatherings() {
           flexWrap: "wrap",
         }}
       >
-        <TextAction
-          icon="add"
-          title={c("createGathering")}
-          onPress={() => router.push("/gathering/create")}
-        />
+        {canHost && (
+          <TextAction
+            icon="add"
+            title={c("createGathering")}
+            onPress={() => router.push("/gathering/create")}
+          />
+        )}
       </View>
       <Notice text={error ? c(error) : ""} />
       {error === "gatheringsLoadError" && (
