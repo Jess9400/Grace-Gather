@@ -53,3 +53,12 @@ test("the written name is always accompanied by the emblem, never the old leaf",
   }
   assert.match(read("public/index.html"), /viewBox="0 0 100 100"/);
 });
+
+test("avatars sit on a dark disc with a gold ring, like the logo", () => {
+  const avatar = read("src/components/MemberAvatar.tsx");
+  assert.match(avatar, /const DISC = "#3A2E24";/);
+  assert.match(avatar, /const RING = "#C9A45C";/);
+  assert.match(avatar, /borderColor: RING/);
+  // No pale pastel discs left to glow against the brown screens.
+  assert.doesNotMatch(avatar, /#DFE9E4|#DDDDF0|#EEDDE4/);
+});
