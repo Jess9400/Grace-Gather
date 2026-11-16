@@ -25,7 +25,7 @@ const values: Record<string, string[]> = {
     "Редактировать свидетельство",
   ],
   intro: [
-    "Tell your own story, in your own words. Journals and confessions are never published here automatically.",
+    "Tell your story in your own words. Journals and confessions are never published here automatically.",
     "Conte sua história com suas palavras. Diários e confissões nunca são publicados aqui automaticamente.",
     "Cuenta tu historia con tus palabras. Los diarios y las confesiones nunca se publican aquí automáticamente.",
     "Расскажите свою историю своими словами. Дневники и исповеди никогда не публикуются здесь автоматически.",
@@ -81,10 +81,10 @@ const values: Record<string, string[]> = {
     "Черновик сохранён. Его видите только вы.",
   ],
   editNotice: [
-    "Saving changes removes the current version from Discover until it is reviewed again.",
-    "Salvar alterações remove a versão atual de Descobrir até uma nova revisão.",
-    "Al guardar cambios se retira la versión actual de Descubrir hasta una nueva revisión.",
-    "После сохранения изменений текущая версия будет скрыта из раздела «Обзор» до повторной проверки.",
+    "Saved changes hide it from Discover until it is reviewed again.",
+    "Ao salvar alterações, ele sai de Descobrir até uma nova revisão.",
+    "Al guardar cambios, sale de Descubrir hasta una nueva revisión.",
+    "После правки свидетельство скрывается из раздела «Обзор» до новой проверки.",
   ],
   label: [
     "Community testimony",
@@ -124,10 +124,10 @@ const values: Record<string, string[]> = {
     "Ваша история отправлена на проверку.",
   ],
   sentNote: [
-    "It will appear in Discover after approval. Check its status and private review notes in My testimonies.",
-    "Ela aparecerá em Descobrir após aprovação. Confira o status e as notas privadas em Meus testemunhos.",
-    "Aparecerá en Descubrir tras la aprobación. Consulta el estado y las notas privadas en Mis testimonios.",
-    "После одобрения она появится в разделе «Обзор». Статус и замечания модератора (их видите только вы) — в разделе «Мои свидетельства».",
+    "It will appear in Discover after approval.",
+    "Ela aparecerá em Descobrir após aprovação.",
+    "Aparecerá en Descubrir tras la aprobación.",
+    "После одобрения она появится в разделе «Обзор».",
   ],
   empty: [
     "Your drafts and published testimonies will appear here.",

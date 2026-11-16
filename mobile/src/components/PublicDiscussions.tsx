@@ -189,7 +189,7 @@ export default function PublicDiscussions({ query }: { query: string }) {
       )}
       {term.length === 1 && (
         <Body small>
-          {c("Enter at least two characters to search discussions.")}
+          {c("Enter at least two characters.")}
         </Body>
       )}
       {!loading && hasMore && (

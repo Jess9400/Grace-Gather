@@ -390,7 +390,7 @@ function FriendsScreen({
       <View style={{ gap: 6 }}>
         <Heading>{c("Your people")}</Heading>
         <Text style={s.lede}>
-          {c("Talk any day of the week, not only at gatherings.")}
+          {c("Talk any day, not only at gatherings.")}
         </Text>
       </View>
       <View accessibilityRole="tablist" style={s.tabs}>
@@ -428,7 +428,7 @@ function FriendsScreen({
         <>
           <Text style={s.intro}>
             {c(
-              "Private messages with people you have met. Only the two of you can read them.",
+              "Private messages with people you've met, just between the two of you.",
             )}
           </Text>
           <Notice text={notice ? c(notice) : ""} />
@@ -486,7 +486,7 @@ function FriendsScreen({
             </View>
           ) : (
             <Body>
-              {c("No friends yet. Search for someone to connect with.")}
+              {c("No friends yet.")}
             </Body>
           )}
           <Pressable
@@ -535,7 +535,7 @@ function FriendsScreen({
               {!hasName && (
                 <Body small>
                   {c(
-                    "Choose and save a public name before requesting friends.",
+                    "Save a public name to add friends.",
                   )}
                 </Body>
               )}
