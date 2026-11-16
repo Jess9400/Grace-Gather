@@ -30,17 +30,23 @@ test("Offer comfort opens its page before the list arrives", () => {
   assert.match(room, /onPress=\{offerComfort\}/);
 });
 
-test("the picture of the church does not lead anywhere when tapped", () => {
+test("the welcome dismisses first and church targets can open their places", () => {
   const scene = read("src/components/LivingChurchScene.tsx");
-  // No tap targets on the artwork: places are reached from tabs and buttons.
-  assert.doesNotMatch(scene, /Pressable|onPress|onPlace/);
+  assert.match(scene, /artworkBox\(art, place.key/);
+  assert.match(scene, /onPress=\{\(\) => onPlace\(place.key, point\)\}/);
+  assert.match(scene, /accessibilityLabel=\{place.label\}/);
   const home = read("src/app/(tabs)/index.tsx");
-  assert.doesNotMatch(home, /artworkPlaceAt|tapAnywhere|onPlace=/);
-  // Tapping outside the welcome card only closes it.
+  assert.match(home, /onPlace=\{\(place, point\) =>/);
   assert.match(
     home,
     /accessibilityLabel=\{t\("dismissWelcome"\)\}\s*onPress=\{dismissInvitation\}/,
   );
+});
+
+test("tour caption keeps its full width for every stop", () => {
+  const home = read("src/app/(tabs)/index.tsx");
+  assert.match(home, /<View style=\{s.tourCaption\}>/);
+  assert.doesNotMatch(home, /tourCaptionNarrow/);
 });
 
 test("candles and the Orthodox prayer screen keep a button on Home", () => {

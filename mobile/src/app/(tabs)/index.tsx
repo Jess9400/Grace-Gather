@@ -443,6 +443,13 @@ export default function Home() {
               bottomInset={tabHeight}
               onTourDone={endTour}
               onTourPlace={setTourPlace}
+              onPlace={(place, point) => {
+                if (touring) {
+                  setTour(false);
+                  setHasExplored(true);
+                }
+                open(place, point);
+              }}
               onFailure={() => setSceneFailed(true)}
             />
           </Animated.View>
@@ -452,8 +459,7 @@ export default function Home() {
         pointerEvents="box-none"
         style={[StyleSheet.absoluteFill, { opacity: chrome }]}
       >
-        {/* Tapping outside the welcome card only closes it; the picture of the
-          church does not lead anywhere when tapped. This layer sits under
+        {/* Tapping outside the welcome card first closes it. This layer sits under
           the header, so the avatar and the church controls answer the first
           tap even while the card is showing. */}
         {invitation && !entrance && (
@@ -682,9 +688,7 @@ export default function Home() {
             </Animated.View>
           )}
           {touring && (
-            <View style={[s.tourCaption,
-              (tourPlace === "pews" || tourPlace === "gather") && s.tourCaptionNarrow,
-            ]}>
+            <View style={s.tourCaption}>
               {tourPlace && (
                 <Pressable
                   accessibilityRole="button"
@@ -920,10 +924,9 @@ const s = StyleSheet.create({
     maxWidth: 420,
     padding: 20,
     borderRadius: 20,
-    backgroundColor: "rgba(48,44,40,0.94)",
+    backgroundColor: "rgba(48,36,29,0.76)",
     gap: 8,
   },
-  tourCaptionNarrow: { width: "62%" },
   tourTitle: {
     fontFamily: serif,
     fontSize: 24,
