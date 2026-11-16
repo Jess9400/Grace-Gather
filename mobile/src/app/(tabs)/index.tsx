@@ -475,7 +475,7 @@ export default function Home() {
           style={[s.header, { paddingTop: insets.top + 16 }]}
         >
           <View style={s.brandRow}>
-            <BrandMark size={30} />
+            <BrandMark size={42} />
             <Text style={s.brand}>GRACE &amp; GATHER</Text>
             <Pressable
               accessibilityRole="button"
