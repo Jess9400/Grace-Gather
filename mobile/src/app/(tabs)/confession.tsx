@@ -153,8 +153,9 @@ export default function ConfessionRoom() {
     protestant = isProtestant(profile),
     t = (key: string) => roomCopy(language, key, protestant);
   const navigation = useNavigation();
-  const { view, returnEntry } = useLocalSearchParams<{
+  const { view, item, returnEntry } = useLocalSearchParams<{
     view?: string;
+    item?: string;
     returnEntry?: string;
   }>();
   const journalReturn = journalReturnId(returnEntry, entries);
@@ -366,6 +367,13 @@ export default function ConfessionRoom() {
     // Load only in response to the explicit notification link.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [view]);
+  useEffect(() => {
+    if (view !== "detail" || !item) return;
+    router.setParams({ view: "", item: "" });
+    void Promise.resolve().then(() => run(() => open(item)));
+    // The backend verifies that this account is allowed to read the item.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [view, item]);
   async function open(id: string, claim = false) {
     const r = await confessionAPI(claim ? "open" : "read", { id });
     if (detail?.id !== id) { setDraft(""); setReplyAIConsent(false); }
@@ -843,7 +851,15 @@ export default function ConfessionRoom() {
               <>
                 <Text style={s.title}>{t("cMine")}</Text>
                 {items.length ? (
-                  items.map((x) => (
+                  (["confession", "reply"] as const).map((kind) => {
+                    const section = items.filter((x) => x.kind === kind);
+                    if (!section.length) return null;
+                    const title = kind === "confession"
+                      ? { en: "What I shared", pt: "O que compartilhei", es: "Lo que compartí", ru: "Мои сообщения" }[language]
+                      : { en: "Comfort I offered", pt: "Conforto que ofereci", es: "Consuelo que ofrecí", ru: "Моя поддержка" }[language];
+                    return <View key={kind} style={{ gap: 12 }}>
+                    <Text style={s.subheading}>{title}</Text>
+                    {section.map((x) => (
                     <Pressable
                       key={x.id}
                       accessibilityRole="button"
@@ -858,7 +874,9 @@ export default function ConfessionRoom() {
                         {x.thanked && <Body small>{t("cReceivedThanks")}</Body>}
                       </Card>
                     </Pressable>
-                  ))
+                    ))}
+                    </View>;
+                  })
                 ) : (
                   <Text style={s.note}>{t("cNoMine")}</Text>
                 )}
@@ -867,11 +885,19 @@ export default function ConfessionRoom() {
             )}
             {page === "detail" && detail && (
               <>
+                {detail.mine && detail.kind === "confession" && (
+                  <Text style={s.subheading}>{{ en: "What I shared", pt: "O que compartilhei", es: "Lo que compartí", ru: "Моё сообщение" }[language]}</Text>
+                )}
+                {detail.mine && detail.kind === "reply" && (
+                  <Text style={s.subheading}>{{ en: "Comfort I offered", pt: "Conforto que ofereci", es: "Consuelo que ofrecí", ru: "Моя поддержка" }[language]}</Text>
+                )}
                 {card(detail)}
+                {detail.mine && detail.kind === "reply" && detail.thanked && <Body>{t("cReceivedThanks")}</Body>}
                 {detail.mine && detail.kind === "confession" ? (
                   <>
                     {reply && (
                       <>
+                        <Text style={s.subheading}>{{ en: "Comfort received", pt: "Conforto recebido", es: "Consuelo recibido", ru: "Полученная поддержка" }[language]}</Text>
                         {card(reply)}
                         {reply.status === "approved" && (
                           <>
