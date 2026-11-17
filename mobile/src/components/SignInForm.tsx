@@ -15,6 +15,8 @@ export default function SignInForm({ language, chooseMethod = false }: { languag
     l = (k: string) => label(lang, k);
   const [email, setEmail] = useState(""),
     [code, setCode] = useState(""),
+    [password, setPassword] = useState(""),
+    [passwordMode, setPasswordMode] = useState(false),
     [sent, setSent] = useState(false),
     [nextSend, setNextSend] = useState(0),
     [notice, setNotice] = useState(""),
@@ -23,7 +25,7 @@ export default function SignInForm({ language, chooseMethod = false }: { languag
       chooseMethod && Platform.OS === "ios" && process.env.EXPO_PUBLIC_APPLE_SIGN_IN_ENABLED !== "false" ? "apple" : "email",
     );
   const appleAvailable = Platform.OS === "ios" && process.env.EXPO_PUBLIC_APPLE_SIGN_IN_ENABLED !== "false";
-  async function run(fn: () => Promise<void>, step: "send" | "verify") {
+  async function run(fn: () => Promise<void>, step: "send" | "verify" | "password") {
     setBusy(true);
     setNotice("");
     try {
@@ -55,6 +57,26 @@ export default function SignInForm({ language, chooseMethod = false }: { languag
         keyboardType="email-address"
         autoComplete="email"
       />
+      {passwordMode ? <>
+        <Field
+          label={l("password")}
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+          autoCapitalize="none"
+          autoComplete="current-password"
+          textContentType="password"
+        />
+        <Button
+          disabled={busy || !email.includes("@") || !password}
+          title={l("signIn")}
+          onPress={() => void run(async () => {
+            const { error } = await requireBackend().auth.signInWithPassword({ email: email.trim(), password });
+            if (error) throw error;
+            setPassword("");
+          }, "password")}
+        />
+      </> : <>
       <Button
         disabled={busy || !email.includes("@")}
         title={l("sendCode")}
@@ -104,6 +126,15 @@ export default function SignInForm({ language, chooseMethod = false }: { languag
         </>
       )}
       </>}
+      {chooseMethod && <Pressable
+        accessibilityRole="button"
+        onPress={() => { setPasswordMode((value) => !value); setPassword(""); setNotice(""); }}
+        style={{ alignSelf: "center", padding: 12 }}>
+        <Text style={{ color: colors.ink, textDecorationLine: "underline", fontSize: 14 }}>
+          {l(passwordMode ? "signInWithCode" : "signInWithPassword")}
+        </Text>
+      </Pressable>}
+      </>}
       {!chooseMethod && <AppleSignIn onError={setNotice} />}
     </>
   );
@@ -111,7 +142,7 @@ export default function SignInForm({ language, chooseMethod = false }: { languag
 
 // Sign-in errors come from the server in English. Show our own words, in the
 // person's language, for the cases people meet.
-function authNotice(e: unknown, step: "send" | "verify", l: (k: string) => string) {
+function authNotice(e: unknown, step: "send" | "verify" | "password", l: (k: string) => string) {
   const err = (e ?? {}) as { status?: number; code?: string; message?: string };
   if (err.message === "codeWait") return l("codeWait");
   const text = `${err.code ?? ""} ${err.message ?? ""}`.toLowerCase();
@@ -119,6 +150,7 @@ function authNotice(e: unknown, step: "send" | "verify", l: (k: string) => strin
     return l("authRateLimit");
   if (/network|failed to fetch|timeout|timed out/.test(text))
     return l("authNetworkError");
+  if (step === "password") return l("authPasswordError");
   if (step === "verify" && /expired|invalid|otp|token/.test(text))
     return l("authInvalidCode");
   return l(step === "send" ? "authSendError" : "authVerifyError");

@@ -43,6 +43,10 @@ const rows: Record<string, string[]> = {
   ],
   // The sign-in page.
   signInEmail: ["Email", "Email", "Correo electrónico", "Электронная почта"],
+  password: ["Password", "Senha", "Contraseña", "Пароль"],
+  signInWithPassword: ["Sign in with a password", "Entrar com senha", "Entrar con contraseña", "Войти с паролем"],
+  signInWithCode: ["Sign in with an email code", "Entrar com código por email", "Entrar con un código por correo", "Войти с кодом из письма"],
+  authPasswordError: ["Could not sign in. Check your email and password and try again.", "Não foi possível entrar. Confira seu email e sua senha e tente novamente.", "No se pudo entrar. Comprueba tu correo y contraseña e inténtalo de nuevo.", "Не удалось войти. Проверьте почту и пароль и попробуйте снова."],
   continueEmail: [
     "Continue with email",
     "Continuar com email",
