@@ -91,7 +91,8 @@ test("sign in, onboarding, the walk, then the church's doors", () => {
   // Remembered per account, so a new account on the same phone sees it, and
   // outside the journal's encrypted store, which may not be open yet.
   const seen = read("src/lib/intro-seen.ts");
-  assert.match(seen, /Platform\.OS === "web" \? false : null/);
+  // On phones and on the web alike.
+  assert.doesNotMatch(seen, /Platform/);
   assert.match(seen, /readIntroSeen\(account\)\.catch\(\(\) => false\)/);
   assert.doesNotMatch(seen, /from "\.\/storage"/);
   assert.match(read("src/lib/intro-seen-store.native.ts"), /expo-secure-store/);

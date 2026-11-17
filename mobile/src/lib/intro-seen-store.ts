@@ -1,6 +1,18 @@
-// The web never shows the walk by itself (it stays a preview at /intro), so
-// it always counts as seen there. Phones use intro-seen-store.native.ts.
-export async function readIntroSeen(_account: string) {
-  return true;
+// On the web the "intro seen" flag lives in the browser's storage, per
+// account. Phones use intro-seen-store.native.ts. If the browser keeps no
+// storage (private mode), the walk may be offered again; it has Skip.
+const key = (account: string) => `intro_seen_${account}`;
+export async function readIntroSeen(account: string) {
+  try {
+    return globalThis.localStorage?.getItem(key(account)) === "yes";
+  } catch {
+    return false;
+  }
 }
-export async function writeIntroSeen(_account: string) {}
+export async function writeIntroSeen(account: string) {
+  try {
+    globalThis.localStorage?.setItem(key(account), "yes");
+  } catch {
+    // Not kept in this browser; nothing else depends on it.
+  }
+}
