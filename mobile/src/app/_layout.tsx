@@ -1,12 +1,13 @@
 import JournalCleanupNotice from "../components/JournalCleanupNotice";
-import { View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
+import BrandMark from "../components/BrandMark";
 import { AudioRoomProvider } from "../lib/audio-room";
 import ActiveRoomBar from "../components/ActiveRoomBar";
 import { Stack, useSegments } from "expo-router";
 import { QuietProvider } from "../lib/quiet-state";
 import { StatusBar } from "expo-status-bar";
 import { AppProvider, useApp } from "../lib/state";
-import { Busy, Screen, Body, Button, External, colors } from "../components/ui";
+import { Screen, Body, Button, External, colors } from "../components/ui";
 import { hasCompletedOnboarding } from "../lib/onboarding";
 import { CommunityProvider } from "../lib/discussion-state";
 import { useSignedIn } from "../lib/account";
@@ -36,9 +37,10 @@ function Routes() {
     );
   if (!ready || signedIn === null || (signedIn && !profileReady))
     return (
-      <Screen>
-        <Busy />
-      </Screen>
+      <View style={{ flex: 1, backgroundColor: colors.paper, alignItems: "center", justifyContent: "center", gap: 24 }}>
+        <BrandMark size={76} />
+        <ActivityIndicator color={colors.gold} accessibilityLabel={tr("Loading")} />
+      </View>
     );
   if (signedIn && profileUnavailable)
     return (

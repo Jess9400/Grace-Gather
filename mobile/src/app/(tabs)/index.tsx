@@ -50,7 +50,7 @@ import {
   getChurchSnapshot,
   isRoomPlace,
   setWalker,
-  roomCrop,
+  walkInCrop,
   type RoomPlace,
 } from "../../lib/church-room";
 
@@ -275,7 +275,7 @@ export default function Home() {
       width: screenWidth,
       height: screenHeight,
     };
-    const crop = roomCrop(place, insets.top, at, stage, screenWidth);
+    const crop = walkInCrop(place, insets.top, at, stage, screenWidth);
     walked.current = true;
     walking.current = true;
     arrive.current = go;
@@ -485,6 +485,7 @@ export default function Home() {
               night={night}
               accessibilityLabel={t("church")}
               paused={entrance || aboutAdvent || !focused}
+              deferAnimation={entrance}
               tour={touring}
               bottomInset={tabHeight}
               onTourDone={endTour}
