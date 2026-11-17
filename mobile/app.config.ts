@@ -3,10 +3,14 @@ import { withInfoPlist, type ConfigPlugin } from "expo/config-plugins";
 
 // The WebRTC library references camera APIs even though gatherings use audio
 // only. Apple requires this purpose string for any binary referencing them.
+// The development client adds a local-network purpose string written for
+// developers; live audio may use the local network, so describe that instead.
 const describeCameraUsage: ConfigPlugin = (config) =>
   withInfoPlist(config, (mod) => {
     mod.modResults.NSCameraUsageDescription =
       "Grace & Gather does not use the camera. Gatherings are audio only.";
+    mod.modResults.NSLocalNetworkUsageDescription =
+      "Live audio in gatherings may connect through your local network.";
     return mod;
   });
 const appConfig = ({ config }: ConfigContext): ExpoConfig => ({

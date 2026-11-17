@@ -239,14 +239,15 @@ test("submissions are pending, aliases explicit, and only active staff can publi
     false,
   );
   assert.equal(JSON.stringify(published).includes("catholic"), false);
-  await review(id, false);
-  assert.equal((await snapshot(bob)).topics.length, 0);
-  assert.equal((await snapshot(alice)).topics[0].status, "removed");
+  // A second moderator cannot silently undo the first decision; a published
+  // post is taken down through a report (see the report test below).
+  await assert.rejects(review(id, false), /already_reviewed/);
+  assert.equal((await snapshot(bob)).topics.length, 1);
   assert.deepEqual(
     (
       await db.query("select action from private.community_audit order by id")
     ).rows.map((r) => r.action),
-    ["submit", "approve", "reject"],
+    ["submit", "approve"],
   );
 });
 test("replies require an approved readable root and inherit exact edition links", async () => {
