@@ -13,6 +13,7 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors, serif } from "./quiet-ui";
 import BrandMark from "./BrandMark";
+import IntroDoor from "./IntroDoor";
 import {
   CHURCH_SIZE,
   HILLS_GROWN,
@@ -313,6 +314,7 @@ export default function IntroWalk({
             />
             <Animated.View collapsable={false} style={placed(spots.church)}>
               <Image source={CHURCHES[church]} style={s.church} />
+              <IntroDoor anchorOffset={1} />
             </Animated.View>
             {spots.trees.map((along, i) => (
               <Animated.View key={i} collapsable={false} style={placed(along)}>
