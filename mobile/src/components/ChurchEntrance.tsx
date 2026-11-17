@@ -234,6 +234,17 @@ export default function ChurchEntrance({
     entranceTimeout.current = setTimeout(finish, ENTRANCE_MS + 2500);
   }, [entering, failed, finish, ready, reduced, words]);
 
+  // Tapped before the drawing is ready: give it a moment, then go in with a
+  // simple fade instead of leaving the tap without an answer.
+  useEffect(() => {
+    if (!entering || reduced || ready || failed) return;
+    const timeout = setTimeout(() => {
+      abandoned.current = true;
+      setFailed(true);
+    }, 1000);
+    return () => clearTimeout(timeout);
+  }, [entering, failed, ready, reduced]);
+
   useEffect(() => {
     if (!entering || reduced || !failed || started.current !== null) return;
     entranceTimeout.current = setTimeout(finish, 1200);

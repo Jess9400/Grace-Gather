@@ -64,13 +64,21 @@ export default function LivingArtwork({ art, source, running, night, still }: { 
       const tick = (now: number) => {
         frame.current = null;
         if (disposed.current || !runningRef.current) return;
-        if (stillRef.current || now - previous >= 40) {
-          previous = now;
-          const w = gl.drawingBufferWidth, h = gl.drawingBufferHeight;
-          const scale = Math.max(w / 869, h / 1810);
-          gl.viewport(0, 0, w, h); gl.uniform2f(visible, w / (869 * scale), h / (1810 * scale));
-          gl.uniform1f(time, stillRef.current ? 0 : now / 1000); gl.uniform1f(nightUniform, nightRef.current ? 1 : 0); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); gl.endFrameEXP();
-          if (!displayed) { displayed = true; setReady(true); }
+        try {
+          if (stillRef.current || now - previous >= 40) {
+            previous = now;
+            const w = gl.drawingBufferWidth, h = gl.drawingBufferHeight;
+            const scale = Math.max(w / 869, h / 1810);
+            gl.viewport(0, 0, w, h); gl.uniform2f(visible, w / (869 * scale), h / (1810 * scale));
+            gl.uniform1f(time, stillRef.current ? 0 : now / 1000); gl.uniform1f(nightUniform, nightRef.current ? 1 : 0); gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4); gl.endFrameEXP();
+            if (!displayed) { displayed = true; setReady(true); }
+          }
+        } catch {
+          // A drawing error stops the living light; the still picture
+          // underneath stays, and nothing is thrown into the app.
+          disposed.current = true;
+          setReady(false);
+          return;
         }
         if (!stillRef.current) frame.current = requestAnimationFrame(tick);
       };

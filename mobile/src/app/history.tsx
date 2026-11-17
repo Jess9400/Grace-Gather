@@ -133,7 +133,7 @@ export default function History() {
           icon="add"
           onPress={() => {
             clear();
-            router.push("/(tabs)/diary");
+            router.push("/diary");
           }}
         />
         <TextAction
