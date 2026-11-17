@@ -29,6 +29,7 @@ import {
   ENTRANCE_MS,
 } from "../lib/church-door-scene";
 import { churchCopy } from "../lib/church-copy";
+import { releaseIntroHandoff } from "../lib/intro-handoff";
 import type { Language } from "../lib/content";
 import { serif } from "./quiet-ui";
 
@@ -153,6 +154,11 @@ export default function ChurchEntrance({
       setFailed(true);
     }, 8000);
     return () => clearTimeout(timeout);
+  }, [ready, failed]);
+
+  // Keep the previous scene visible until the first doorway frame is ready.
+  useEffect(() => {
+    if (Platform.OS === "web" && (ready || failed)) releaseIntroHandoff();
   }, [ready, failed]);
 
   // One loop draws the idle doorway (lantern flicker, a breath of movement)

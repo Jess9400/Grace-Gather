@@ -380,7 +380,7 @@ export default function IntroWalk({
           {!last && (
             <Pressable
               accessibilityRole="button"
-              onPress={onDone}
+              onPress={() => onDone()}
               style={({ pressed }) => [s.skip, pressed && { opacity: 0.7 }]}
             >
               <Text style={s.skipText} maxFontSizeMultiplier={1.3}>

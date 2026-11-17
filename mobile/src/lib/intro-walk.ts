@@ -8,7 +8,9 @@ export type IntroWalkProps = {
   language: IntroLanguage;
   church: IntroChurch;
   // Called when the person opens the door, or skips the walk.
-  onDone: () => void;
+  onDone: (moment?: number) => void;
+  // A still copy of the current scene bridges navigation on the web.
+  stillMoment?: number;
 };
 
 // Three moments: far away, part of the way, and at the door. Each has the
