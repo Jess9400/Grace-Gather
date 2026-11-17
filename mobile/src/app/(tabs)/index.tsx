@@ -50,7 +50,7 @@ import {
   getChurchSnapshot,
   isRoomPlace,
   setWalker,
-  roomCrop,
+  walkInCrop,
   type RoomPlace,
 } from "../../lib/church-room";
 
@@ -289,7 +289,7 @@ export default function Home() {
       width: screenWidth,
       height: screenHeight,
     };
-    const crop = roomCrop(place, insets.top, at, stage, screenWidth);
+    const crop = walkInCrop(place, insets.top, at, stage, screenWidth);
     walked.current = true;
     walking.current = true;
     arrive.current = go;
@@ -501,6 +501,7 @@ export default function Home() {
               // Paused during the walk into a place, so the animation and
               // the next screen never compete for the phone.
               paused={entrance || aboutAdvent || !focused || !!walkTo}
+              deferAnimation={entrance}
               tour={touring}
               bottomInset={tabHeight}
               onTourDone={endTour}
