@@ -78,29 +78,33 @@ export default function IntroWalk({
   language,
   church,
   onDone,
+  stillMoment,
 }: IntroWalkProps) {
   const { width, height } = useWindowDimensions();
   const insets = useSafeAreaInsets();
-  const [calm] = useState(prefersCalm);
-  const [moment, setMoment] = useState(0);
+  const still = stillMoment !== undefined;
+  const [calm] = useState(() => still || prefersCalm());
+  const [moment, setMoment] = useState(stillMoment ?? 0);
   // awake: the night has faded in. shown: the moment whose words have started
   // to appear. instant: a tap asked for the rest of them at once.
-  const [awake, setAwake] = useState(false);
-  const [shown, setShown] = useState(-1);
+  const [awake, setAwake] = useState(still);
+  const [shown, setShown] = useState(stillMoment ?? -1);
   const [instant, setInstant] = useState(-1);
   const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const stars = useMemo(() => introStars(), []);
   const motes = useMemo(() => introMotes(), []);
 
   useEffect(() => {
+    if (still) return;
     const wake = setTimeout(() => setAwake(true), 80);
     return () => clearTimeout(wake);
-  }, []);
+  }, [still]);
   // The words wait until the walk has almost arrived.
   useEffect(() => {
+    if (still) return;
     timer.current = setTimeout(() => setShown(moment), wordsWait(moment));
     return () => clearTimeout(timer.current);
-  }, [moment]);
+  }, [moment, still]);
 
   const animate = !calm;
   const last = moment === INTRO_MOMENTS - 1;
@@ -155,7 +159,7 @@ export default function IntroWalk({
   const words = title.split(" ");
   const wordGap = 180;
 
-  const step = () => (last ? onDone() : setMoment(moment + 1));
+  const step = () => (last ? onDone(moment) : setMoment(moment + 1));
   // A tap anywhere shows the rest of the words straight away.
   const showWords = () => {
     if (!animate || wordsNow) return;
@@ -525,7 +529,7 @@ export default function IntroWalk({
               type="button"
               onClick={(event) => {
                 event.stopPropagation();
-                onDone();
+                onDone(moment);
               }}
               style={{
                 minHeight: 44,

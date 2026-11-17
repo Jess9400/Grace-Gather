@@ -13,6 +13,7 @@ import { CommunityProvider } from "../lib/discussion-state";
 import { useSignedIn } from "../lib/account";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
 import ModeratorPushListener from "../components/ModeratorPushListener";
+import IntroHandoff from "../components/IntroHandoff";
 function Routes() {
   const {
     ready,
@@ -121,6 +122,7 @@ function Routes() {
       <JournalCleanupNotice compact />
       <ActiveRoomBar />
       <ModeratorPushListener />
+      <IntroHandoff />
     </>
   );
 }

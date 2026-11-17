@@ -6,6 +6,7 @@ import {
   Easing,
   Image,
   Modal,
+  Platform,
   Pressable,
   StyleSheet,
   Text,
@@ -14,6 +15,7 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { churchCopy } from "../lib/church-copy";
+import { releaseIntroHandoff } from "../lib/intro-handoff";
 import type { Language } from "../lib/content";
 import { serif } from "./quiet-ui";
 
@@ -46,11 +48,16 @@ export default function OrthodoxEntrance({
   const [open] = useState(() => new Animated.Value(0));
   const [fade] = useState(() => new Animated.Value(0));
   const [words] = useState(() => new Animated.Value(0));
+  const [loadedParts, setLoadedParts] = useState(0);
   const started = useRef(false);
   const entered = useRef(onEntered);
   useEffect(() => {
     entered.current = onEntered;
   }, [onEntered]);
+
+  useEffect(() => {
+    if (Platform.OS === "web" && loadedParts === 7) releaseIntroHandoff();
+  }, [loadedParts]);
 
   useEffect(() => {
     let mounted = true;
@@ -163,6 +170,11 @@ export default function OrthodoxEntrance({
         >
           <Image
             source={background}
+            onLoadEnd={
+              Platform.OS === "web"
+                ? () => setLoadedParts((loaded) => loaded | 1)
+                : undefined
+            }
             style={{
               position: "absolute",
               left: artLeft,
@@ -171,8 +183,24 @@ export default function OrthodoxEntrance({
               height: artHeight,
             }}
           />
-          <Animated.Image source={leftLeaf} style={leaf("left")} />
-          <Animated.Image source={rightLeaf} style={leaf("right")} />
+          <Animated.Image
+            source={leftLeaf}
+            style={leaf("left")}
+            onLoadEnd={
+              Platform.OS === "web"
+                ? () => setLoadedParts((loaded) => loaded | 2)
+                : undefined
+            }
+          />
+          <Animated.Image
+            source={rightLeaf}
+            style={leaf("right")}
+            onLoadEnd={
+              Platform.OS === "web"
+                ? () => setLoadedParts((loaded) => loaded | 4)
+                : undefined
+            }
+          />
         </View>
 
         <Pressable

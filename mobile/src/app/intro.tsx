@@ -1,10 +1,13 @@
-import { View } from "react-native";
+import { Platform, View } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import IntroWalk from "../components/IntroWalk";
 import { useApp } from "../lib/state";
 import { isOrthodox, isProtestant } from "../lib/church-calendar";
 import { markIntroSeen } from "../lib/intro-seen";
 import { showEntranceAgain } from "../lib/church-entrance";
+import { useSignedIn } from "../lib/account";
+import { hasCompletedOnboarding } from "../lib/onboarding";
+import { beginIntroHandoff } from "../lib/intro-handoff";
 import {
   introCopy,
   type IntroChurch,
@@ -21,6 +24,7 @@ const churches: IntroChurch[] = ["catholic", "orthodox", "protestant"];
 // the church's own doors, which the person opens to go in.
 export default function Intro() {
   const { profile } = useApp();
+  const signedIn = useSignedIn();
   const asked = useLocalSearchParams<{ church?: string; lang?: string }>();
   const church =
     churches.find((name) => name === asked.church) ??
@@ -38,10 +42,18 @@ export default function Intro() {
       <IntroWalk
         language={language}
         church={church}
-        onDone={() => {
+        onDone={(moment) => {
           // Remembered first, so the church does not send them back here.
           markIntroSeen();
           showEntranceAgain();
+          if (
+            Platform.OS === "web" &&
+            signedIn &&
+            hasCompletedOnboarding(profile) &&
+            moment !== undefined
+          ) {
+            beginIntroHandoff({ church, language, moment });
+          }
           router.replace("/(tabs)");
         }}
       />
