@@ -9,6 +9,7 @@ import { useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colors, serif } from "./quiet-ui";
 import BrandMark from "./BrandMark";
+import IntroDoor from "./IntroDoor";
 import {
   CHURCH_SIZE,
   GROUND_DROP,
@@ -356,6 +357,7 @@ export default function IntroWalk({
             <div style={placed(churchSpot)}>
               <ChurchArt church={church} />
               <DoorArt />
+              <IntroDoor />
             </div>
             {treeSpots.map((spot, i) => (
               <div
@@ -637,7 +639,7 @@ export default function IntroWalk({
 
 // ---- Artwork ---------------------------------------------------------------
 // Each church is drawn in a 300 by 400 box that stands on the middle of its
-// bottom edge; the door (shared by all three) is drawn over it.
+// bottom edge; the shared illustrated door is drawn over it on both platforms.
 const WALL = {
   fill: "url(#ggWall)",
   stroke: colors.gold,
@@ -820,10 +822,6 @@ function DoorArt() {
   return (
     <svg width={300} height={400} viewBox="0 0 300 400" style={art}>
       <defs>
-        <radialGradient id="ggDoorGlow" cx=".5" cy=".9" r=".9">
-          <stop offset="0" stopColor="#FFE9B5" />
-          <stop offset="1" stopColor="#D88F3D" />
-        </radialGradient>
         <radialGradient id="ggDoorHalo">
           <stop offset="0" stopColor="#FFC670" stopOpacity=".55" />
           <stop offset="1" stopColor="#FFC670" stopOpacity="0" />
@@ -836,33 +834,6 @@ function DoorArt() {
       <ellipse cx="150" cy="352" rx="78" ry="70" fill="url(#ggDoorWash)" />
       <path d="M104 400v-4h92v4z" fill="#2B2119" />
       <path d="M110 396v-4h80v4z" fill="#3A2D22" />
-      <path
-        {...thin}
-        d="M116 392v-60a34 34 0 0 1 68 0v60z"
-        fill="#0A0706"
-        stroke={colors.gold}
-        strokeOpacity={0.6}
-        strokeWidth={1}
-      />
-      <path d="M123 335a27 27 0 0 1 54 0z" fill="url(#ggDoorGlow)" />
-      <path
-        d="M150 308v27M131 316l19 19M169 316l-19 19"
-        stroke="#2A1A10"
-        strokeWidth={1.2}
-        fill="none"
-      />
-      <path d="M123 337h26v55h-26zM151 337h26v55h-26z" fill="#412A18" />
-      <path
-        d="M127 342h18v20h-18zM127 366h18v22h-18zM155 342h18v20h-18zM155 366h18v22h-18z"
-        fill="none"
-        stroke="#63432A"
-        strokeWidth={0.8}
-      />
-      {/* Light from inside shows between the doors and under them. */}
-      <path d="M149 337h2v55h-2z" fill="#FFE7B0" />
-      <path d="M123 390.8h54v1.2h-54z" fill="#FFE7B0" opacity={0.9} />
-      <circle cx="146.5" cy="365" r="1.2" fill={colors.goldInk} />
-      <circle cx="153.5" cy="365" r="1.2" fill={colors.goldInk} />
       <circle cx="104" cy="346" r="16" fill="url(#ggDoorHalo)" />
       <circle cx="196" cy="346" r="16" fill="url(#ggDoorHalo)" />
       <path d="M102 343h4v7h-4zM194 343h4v7h-4z" fill="#FFDFA0" />
