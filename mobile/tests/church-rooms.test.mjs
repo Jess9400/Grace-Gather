@@ -25,7 +25,7 @@ runInNewContext(
     URL,
   },
 );
-const { roomCrop, roomGeometry, isRoomPlace, roomSpot } = module.exports;
+const { roomCrop, walkInCrop, roomGeometry, isRoomPlace, roomSpot } = module.exports;
 const stage = { width: 390, height: 844 };
 
 test("the walk-in lands each place on the same spot its strip shows it", () => {
@@ -55,6 +55,17 @@ test("near the edge of the church the picture still covers the whole strip", () 
   const crop = roomCrop("gather", 0, { x: 10, y: 20 }, stage, 390);
   assert.ok(crop.left <= 0 && crop.left + crop.width >= 390);
   assert.ok(crop.top <= 0 && crop.top + crop.imageHeight >= crop.height);
+});
+
+test("the candle walk aims at the candles instead of the pews below", () => {
+  for (const at of [{ x: 45, y: 430 }, { x: 110, y: 470 }]) {
+    const crop = walkInCrop("candles", 47, at, stage, 390);
+    assert.ok(Math.abs(crop.top + at.y * crop.zoom - stage.height * 0.42) < 1e-9);
+    assert.ok(crop.left <= 0 && crop.left + crop.width >= stage.width);
+    assert.ok(crop.top <= 0 && crop.top + crop.imageHeight >= stage.height);
+  }
+  const point = { x: 200, y: 400 };
+  assert.equal(walkInCrop("bible", 47, point, stage, 390).top, roomCrop("bible", 47, point, stage, 390).top);
 });
 
 test("the Bible keeps a shorter strip than the other rooms", () => {

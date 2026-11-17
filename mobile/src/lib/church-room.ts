@@ -100,6 +100,25 @@ export function roomCrop(
   const top = Math.min(0, Math.max(g.height - h, g.focusY - at.y * g.zoom));
   return { ...g, width: w, height: g.height, imageHeight: h, left, top };
 }
+
+// The candle is near the edge of the picture. A room strip keeps its subject
+// near the top of the screen; on the full church screen that makes the camera
+// settle on the pews below it. Aim the walk at the candle itself instead.
+export function walkInCrop(
+  place: RoomPlace,
+  topInset: number,
+  at: { x: number; y: number },
+  stage: { width: number; height: number },
+  screenWidth: number,
+) {
+  const crop = roomCrop(place, topInset, at, stage, screenWidth);
+  if (place !== "candles") return crop;
+  const top = Math.min(
+    0,
+    Math.max(stage.height - crop.imageHeight, stage.height * 0.42 - at.y * crop.zoom),
+  );
+  return { ...crop, top };
+}
 // While Home is showing, it can walk into a room before another screen opens
 // (used by the tab bar). Returns false when Home is not there to walk from.
 type Walker = (place: RoomPlace, go: () => void) => boolean;

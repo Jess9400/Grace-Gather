@@ -25,13 +25,14 @@ const TOUR_ORDER: ChurchPlace[] = ["pray", "confession", "gather", "bible", "can
 
 /** The sanctuary artwork, with accessible tap targets and a guided tour. */
 export default function LivingChurchScene({
-  art, places, night, paused, tour, bottomInset,
+  art, places, night, paused, deferAnimation, tour, bottomInset,
   onTourDone, onTourPlace, onPlace, onFailure, accessibilityLabel,
 }: {
   art: ChurchArt;
   places: PlaceLabel[];
   night: boolean;
   paused: boolean;
+  deferAnimation?: boolean;
   tour: boolean;
   bottomInset: number;
   onTourDone: () => void;
@@ -98,7 +99,7 @@ export default function LivingChurchScene({
         <Image key={artKey} source={source} resizeMode="cover" style={styles.artwork} accessible={false}
           onLoad={() => setReadyArt(artKey)} onError={onFailure} />
       </View>
-      {ready && <LivingArtwork key={artKey} art={art} source={source} running={focused && active && !paused} night={night} still={reduced} />}
+      {ready && !deferAnimation && <LivingArtwork key={artKey} art={art} source={source} running={focused && active && !paused} night={night} still={reduced} />}
       {ready && !paused && size.width > 0 && [...places]
         .filter((place) => artworkHasTourTarget(art, place.key))
         .sort((a, b) => {
