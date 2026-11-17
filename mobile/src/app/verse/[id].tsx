@@ -463,7 +463,11 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
   const explanation = sourced ?? study ?? journalNote;
   const ownNotesFound = !!(ownNotes?.detail || ownNotes?.overview);
   const lookForEnglish =
-    lang !== "en" && !explanation && !notesLoading && !ownNotesFound;
+    lang !== "en" &&
+    !explanation &&
+    !notesLoading &&
+    !notesUnavailable &&
+    !ownNotesFound;
   useEffect(() => {
     if (!lookForEnglish) return;
     let active = true;
@@ -518,6 +522,20 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
     es: "No se pudieron cargar las notas. Comprueba tu conexión e inténtalo de nuevo.",
     ru: "Не удалось загрузить примечания. Проверьте подключение и попробуйте снова.",
   }[lang];
+  // The deeper tabs wait for, or explain, missing study notes too, so a
+  // note never appears late or silently fails to appear.
+  const notesStatus = explanation ? null : notesLoading ? (
+    <Body small>{loadingLabel}</Body>
+  ) : notesUnavailable ? (
+    <>
+      <Body small>{unavailableLabel}</Body>
+      <Button
+        secondary
+        title={tr("Try again")}
+        onPress={() => setNotesAttempt((n) => n + 1)}
+      />
+    </>
+  ) : null;
   const rich: RichStudy =
     (sourced && journalRich(sourced, verse?.collection, lang)) ?? study ?? {};
   if (!verse)
@@ -818,6 +836,7 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
                 </>
               ) : layer === "deeper" ? (
                 <>
+                  {notesStatus}
                   {(explanation ||
                     (!openNotes?.detail &&
                       !openNotes?.overview)) && (
@@ -883,6 +902,7 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
                 </>
               ) : layer === "theology" ? (
                 <>
+                  {notesStatus}
                   <Text accessibilityRole="header" style={s.sectionTitle}>
                     {explanation
                       ? tr("What this says about God")

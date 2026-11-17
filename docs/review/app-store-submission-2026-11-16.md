@@ -30,10 +30,13 @@ This is a working guide, not a guarantee of approval.
      outside addresses reliably.
    - Sign in with Apple works on the TestFlight build, and Profile → Delete
      account removes the account.
-   - Either create a review account that Apple can use, or explain in the
-     review notes that any email address receives a code. Apple's text: "If
-     your app includes account-based features, provide either an active demo
-     account or fully-featured demo mode."
+   - Create a review account with a password in Supabase (Authentication →
+     Users → Add user, with "Auto confirm" on) and enter its email and
+     password under Sign-In Information in App Store Connect. The reviewer
+     signs in on the Email tab with "Sign in with a password", so no code
+     is needed. Sign in with it on the TestFlight build once before
+     submitting. Apple's text: "If your app includes account-based features,
+     provide either an active demo account or fully-featured demo mode."
 2. **Moderation staffing.** The Terms now promise action on reports within 24
    hours. Assign at least one moderator, turn on moderator phone alerts in
    Admin, and check the queues daily.
@@ -112,12 +115,14 @@ set it only after the team confirms the answer.
 > Grace & Gather is a Christian prayer, Bible-reading and journaling app with a
 > small moderated community.
 >
-> Sign in: use Sign in with Apple, or enter any email address and type the
-> 6-digit code we send. [If you create a review account, give its address
-> here and how the code reaches you.]
+> Sign in: use the review account in Sign-In Information. On the sign-in
+> screen choose Email, then "Sign in with a password". Sign in with Apple and
+> a 6-digit email code also work.
 >
-> After signing in, choose a language and tradition and agree to the Terms of
-> Use. The church opens on Home. Talk to God opens the private journal. Bible
+> After signing in, enter a name and choose a place, tradition and language.
+> The sign-in screen states that continuing means agreeing to the Terms of
+> Use. A short three-step introduction follows, then the church doors open
+> onto Home. Talk to God opens the private journal. Bible
 > Study, Discover, Confession and Gather are in the tab bar.
 >
 > Safety: every post, reply, prayer request and testimony is checked before
@@ -153,7 +158,7 @@ If App Review asks about rights to the Bible-study material (guideline 5.2.1):
 
 - Bible texts: each edition's rights are listed on its source page in the app.
 - English, Portuguese, Spanish and Russian study notes: Aquifer Open Study Notes and Biblica Study Notes, CC BY-SA 4.0, attributed under each note (`mobile/public/study-notes/README.md`).
-- Russian classic commentary: «Толковая Библия» (Lopukhin, 1904–1913), public domain, only books whose commentator is clearly free; each note shows its title, date and "public domain". Rights record: `docs/content-rights/lopukhin.md`.
+- No other commentary is included: the Russian classic commentary (Lopukhin) and the Matos Soares notes were removed before this build. Verses without a note say that one is coming soon.
 
 ## Known risks this branch does not fix
 

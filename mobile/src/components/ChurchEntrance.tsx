@@ -241,7 +241,7 @@ export default function ChurchEntrance({
     const timeout = setTimeout(() => {
       abandoned.current = true;
       setFailed(true);
-    }, 1000);
+    }, 2000);
     return () => clearTimeout(timeout);
   }, [entering, failed, ready, reduced]);
 
