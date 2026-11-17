@@ -6,6 +6,11 @@ export function shouldShowEntrance() {
 export function markEntered() {
   entered = true;
 }
+// After the first-visit walk the doors are shown again, even if another
+// account already went in during this app session.
+export function showEntranceAgain() {
+  entered = false;
+}
 
 let tourRequested = false;
 export function requestChurchTour() {

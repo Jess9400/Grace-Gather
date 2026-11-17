@@ -42,10 +42,15 @@ export function useIntroPending() {
 }
 
 export function markIntroSeen() {
-  const account = current;
-  if (!account) return;
-  answers.set(account, false);
-  void writeIntroSeen(account).catch(() => {
-    // Shown once more on a later visit at worst; nothing depends on it.
-  });
+  // The walk was just shown to this account: never send it back here.
+  if (current) answers.set(current, false);
+  void signedInAccount()
+    .then((account) => {
+      if (!account) return;
+      answers.set(account, false);
+      return writeIntroSeen(account);
+    })
+    .catch(() => {
+      // Shown once more on a later visit at worst; nothing depends on it.
+    });
 }

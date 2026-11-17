@@ -705,7 +705,9 @@ const s = StyleSheet.create({
     position: "absolute",
     left: 26,
     right: 26,
-    height: 190,
+    // Anchored above the button: longer words at large text sizes grow
+    // upward instead of covering it.
+    minHeight: 190,
     alignItems: "center",
     justifyContent: "center",
     gap: 12,

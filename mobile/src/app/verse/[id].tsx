@@ -147,6 +147,16 @@ function Heading({ children }: { children: string }) {
     </Text>
   );
 }
+// A source title is shown only when it is a short passage reference: some
+// translated rows carry a pasted passage or a machine-translation refusal.
+function noteTitle(title: string) {
+  return (
+    !!title &&
+    title.length <= 60 &&
+    !title.includes("\n") &&
+    !/lo siento|no puedo|i'?m sorry|desculpe|não posso|извините/i.test(title)
+  );
+}
 function SourcedStudyNote({
   note,
   heading,
@@ -182,7 +192,9 @@ function SourcedStudyNote({
   }[lang];
   return (
     <>
-      <Section title={`${heading} · ${note.title}`}>{note.text}</Section>
+      <Section title={noteTitle(note.title) ? `${heading} · ${note.title}` : heading}>
+        {note.text}
+      </Section>
       <Sources
         title=""
         sources={[
