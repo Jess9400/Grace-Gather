@@ -108,7 +108,8 @@ export default function CandleScreen() {
       </View>
 
       <CandleView
-        lit={phase === "lit"}
+        // Tapping the candle lights it; who it is for is chosen after.
+        lit={phase !== "idle"}
         label={t("candleScene")}
         hint={phase === "idle" ? t("tapToLight") : undefined}
         onPress={phase === "idle" ? () => setPhase("choosing") : undefined}
@@ -157,7 +158,7 @@ export default function CandleScreen() {
             </>
           )}
           <Button
-            title={t("lightIt")}
+            title={t("offerPrayer")}
             disabled={!choice}
             onPress={() => void light()}
           />

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useRevealSelected } from "../lib/use-reveal-selected";
 import { colors, useSurfaceColors } from "./ui";
 
 type Icon = React.ComponentProps<typeof Ionicons>["name"];
@@ -183,8 +184,11 @@ export function FilterStrip({
   value: string;
   onChange: (value: string) => void;
 }) {
+  // Tapping a choice that is partly hidden scrolls it fully into view.
+  const { chipLayout, ...row } = useRevealSelected(value);
   return (
     <ScrollView
+      {...row}
       horizontal
       showsHorizontalScrollIndicator={false}
       contentContainerStyle={{ gap: 8 }}
@@ -195,6 +199,7 @@ export function FilterStrip({
           accessibilityRole="button"
           accessibilityState={{ selected: option.value === value }}
           onPress={() => onChange(option.value)}
+          onLayout={chipLayout(option.value)}
           style={[
             styles.filter,
             option.value === value && { backgroundColor: colors.green },

@@ -1,39 +1,55 @@
 import { useEffect, useState } from "react";
 import { Platform } from "react-native";
-import * as storage from "./storage";
+import { backend } from "./backend";
+import { readIntroSeen, writeIntroSeen } from "./intro-seen-store";
 
-// The walk to the church is shown once on each phone, on the way into the
-// church after onboarding. If the answer cannot be read, the walk is not
-// shown: it must never stand between someone and the app. On the web the
-// walk stays a preview at /intro and is never shown by itself.
-const KEY = "intro-seen";
-let pending: boolean | null = Platform.OS === "web" ? false : null;
-let loading: Promise<boolean> | undefined;
-function load() {
-  return (loading ??= storage
-    .getItem(KEY)
-    .then((value) => value !== "yes")
-    .catch(() => false)
-    .then((answer) => (pending = pending ?? answer)));
+// The walk to the church is shown once for each account on each phone, after
+// onboarding and before the church's doors. It is remembered per account, so
+// a new account on the same phone sees it too. If the phone cannot answer,
+// the walk is shown: it has a Skip button, so it never blocks anyone.
+const answers = new Map<string, boolean>();
+let current: string | null = null;
+
+async function signedInAccount() {
+  if (!backend) return null;
+  const { data } = await backend.auth.getSession();
+  const user = data.session?.user;
+  return user && !user.is_anonymous ? user.id : null;
 }
 
-// Whether the walk is still to be shown here: null until the phone has
-// answered (a moment, the first time only).
+// Whether the walk is still to be shown: null until the phone has answered.
 export function useIntroPending() {
-  const [answer, setAnswer] = useState(pending);
+  const [answer, setAnswer] = useState<boolean | null>(
+    Platform.OS === "web" ? false : null,
+  );
   useEffect(() => {
-    if (answer !== null) return;
+    if (Platform.OS === "web") return;
     let active = true;
-    void load().then((value) => active && setAnswer(value));
+    const settle = (value: boolean) => {
+      if (active) setAnswer(value);
+    };
+    void (async () => {
+      const account = await signedInAccount();
+      current = account;
+      if (!account) return settle(false);
+      const known = answers.get(account);
+      if (known !== undefined) return settle(known);
+      const seen = await readIntroSeen(account).catch(() => false);
+      answers.set(account, !seen);
+      settle(!seen);
+    })().catch(() => settle(false));
     return () => {
       active = false;
     };
-  }, [answer]);
+  }, []);
   return answer;
 }
+
 export function markIntroSeen() {
-  pending = false;
-  void storage.setItem(KEY, "yes").catch(() => {
-    // It may be offered once more on a later visit; nothing else depends on it.
+  const account = current;
+  if (!account) return;
+  answers.set(account, false);
+  void writeIntroSeen(account).catch(() => {
+    // Shown once more on a later visit at worst; nothing depends on it.
   });
 }
