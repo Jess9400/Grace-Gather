@@ -183,7 +183,7 @@ export default function CandleScreen() {
           <View style={s.actions}>
             <Button
               title={t("writeAbout")}
-              onPress={() => router.push("/(tabs)/diary")}
+              onPress={() => router.push("/diary")}
             />
             <Button
               secondary

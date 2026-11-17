@@ -66,7 +66,10 @@ test("Russian New Testament verses reach the notes only where numbering matches"
 
 test("with nothing in the reader's language, the verse screen offers the English note", () => {
   const screen = read("mobile/src/app/verse/[id].tsx");
-  assert.match(screen, /lang !== "en" && !explanation && !notesLoading && !ownNotesFound/);
+  assert.match(
+    screen,
+    /lang !== "en" &&\s*!explanation &&\s*!notesLoading &&\s*!notesUnavailable &&\s*!ownNotesFound/,
+  );
   assert.match(screen, /fetchOpenStudyNotes\(id, "en"\)/);
   assert.match(screen, /Для этого стиха пока нет объяснения на русском, но есть на английском\./);
   assert.match(screen, /showEnglish && englishAvailable \? english : ownNotes/);

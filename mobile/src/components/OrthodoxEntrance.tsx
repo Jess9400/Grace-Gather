@@ -76,7 +76,15 @@ export default function OrthodoxEntrance({
   const enter = useCallback(() => {
     if (started.current) return;
     started.current = true;
-    const done = () => entered.current();
+    // The animation's completion callback is not guaranteed on a phone, so a
+    // timer also finishes the entrance; whichever comes first wins.
+    let finished = false;
+    const done = () => {
+      if (finished) return;
+      finished = true;
+      entered.current();
+    };
+    setTimeout(done, OPEN_MS + FADE_MS + 1000);
     if (reduced) {
       Animated.timing(fade, {
         toValue: 1,

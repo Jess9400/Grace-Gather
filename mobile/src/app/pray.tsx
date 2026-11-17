@@ -138,7 +138,7 @@ export default function Pray() {
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={`${t("ownWords")}. ${t("ownWordsSub")}`}
-        onPress={() => router.push("/(tabs)/diary")}
+        onPress={() => router.push("/diary")}
         style={({ pressed }) => [s.own, { opacity: pressed ? 0.8 : 1 }]}
       >
         <View style={{ flex: 1, gap: 2 }}>

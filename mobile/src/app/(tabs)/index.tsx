@@ -238,6 +238,12 @@ export default function Home() {
         useNativeDriver: true,
       }),
     ]).start(() => {
+      // Home was left during the walk (another screen opened): do not open
+      // this place on top of it.
+      if (!atHome.current) {
+        walking.current = false;
+        return;
+      }
       go();
       // If nothing opened after all, walk back out instead of leaving the
       // church zoomed in with its controls hidden.
@@ -270,7 +276,15 @@ export default function Home() {
   ) => {
     if (walking.current) return;
     const at = point ?? getChurchSnapshot()?.points[place];
-    if (reduced || sceneFailed || !at) return go();
+    if (reduced || sceneFailed || !at) {
+      // No walk to show: still ignore a quick second tap, so the place
+      // never opens twice.
+      walking.current = true;
+      setTimeout(() => {
+        walking.current = false;
+      }, 800);
+      return go();
+    }
     const stage = getChurchSnapshot() ?? {
       width: screenWidth,
       height: screenHeight,
@@ -484,7 +498,9 @@ export default function Home() {
               places={scenePlaces}
               night={night}
               accessibilityLabel={t("church")}
-              paused={entrance || aboutAdvent || !focused}
+              // Paused during the walk into a place, so the animation and
+              // the next screen never compete for the phone.
+              paused={entrance || aboutAdvent || !focused || !!walkTo}
               deferAnimation={entrance}
               tour={touring}
               bottomInset={tabHeight}
@@ -503,7 +519,8 @@ export default function Home() {
         )}
       </BlurTargetView>
       <Animated.View
-        pointerEvents="box-none"
+        // Hidden controls cannot be tapped while walking into a place.
+        pointerEvents={walkTo ? "none" : "box-none"}
         style={[StyleSheet.absoluteFill, { opacity: chrome }]}
       >
         {/* Tapping outside the welcome card first closes it. This layer sits under

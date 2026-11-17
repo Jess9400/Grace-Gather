@@ -10,4 +10,8 @@ test("the generated iOS configuration describes the camera reference and microph
   assert.match(info.NSCameraUsageDescription, /camera/i);
   assert.match(info.NSCameraUsageDescription, /audio only/i);
   assert.ok(info.NSMicrophoneUsageDescription);
+  // No purpose string written for developers may reach the store build.
+  for (const [key, value] of Object.entries(info))
+    if (key.endsWith("UsageDescription")) assert.doesNotMatch(value, /Expo|Dev Launcher|development server/i, key);
+  assert.match(info.NSLocalNetworkUsageDescription, /gatherings/i);
 });

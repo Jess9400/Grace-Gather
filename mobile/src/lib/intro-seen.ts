@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { backend } from "./backend";
-import { readIntroSeen, writeIntroSeen } from "./intro-seen-store";
+import { readIntroMark, writeIntroMark } from "./intro-seen-store";
 
-// The walk to the church is shown once for each account on each phone or
-// browser, after onboarding and before the church's doors. It is remembered
-// per account, so a new account on the same device sees it too. If the phone cannot answer,
-// the walk is shown: it has a Skip button, so it never blocks anyone.
+// The walk to the church is shown once, to a new account, right after it
+// finishes onboarding on this phone or browser, and before the church's
+// doors. People who were already members never see it, and an account that
+// signs in on a new phone with its profile already set up does not either.
 const answers = new Map<string, boolean>();
 let current: string | null = null;
 
@@ -30,9 +30,9 @@ export function useIntroPending() {
       if (!account) return settle(false);
       const known = answers.get(account);
       if (known !== undefined) return settle(known);
-      const seen = await readIntroSeen(account).catch(() => false);
-      answers.set(account, !seen);
-      settle(!seen);
+      const mark = await readIntroMark(account).catch(() => null);
+      answers.set(account, mark === "due");
+      settle(mark === "due");
     })().catch(() => settle(false));
     return () => {
       active = false;
@@ -41,11 +41,28 @@ export function useIntroPending() {
   return answer;
 }
 
+/** Onboarding is finishing for this account: the walk comes next. */
+export async function markIntroDue() {
+  try {
+    const account = await signedInAccount();
+    if (!account) return;
+    answers.set(account, true);
+    await writeIntroMark(account, "due");
+  } catch {
+    // Without the mark the member goes straight to the doors; nothing breaks.
+  }
+}
+
 export function markIntroSeen() {
-  const account = current;
-  if (!account) return;
-  answers.set(account, false);
-  void writeIntroSeen(account).catch(() => {
-    // Shown once more on a later visit at worst; nothing depends on it.
-  });
+  // The walk was just shown to this account: never send it back here.
+  if (current) answers.set(current, false);
+  void signedInAccount()
+    .then((account) => {
+      if (!account) return;
+      answers.set(account, false);
+      return writeIntroMark(account, "yes");
+    })
+    .catch(() => {
+      // Shown once more on a later visit at worst; nothing depends on it.
+    });
 }

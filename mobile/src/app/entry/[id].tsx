@@ -144,7 +144,7 @@ export default function EntryScreen() {
       audio: entry!.audio,
       entryId: entry!.id,
     });
-    router.push("/(tabs)/diary");
+    router.push("/diary");
   }
   async function openAction(selectedAction = action) {
     if (

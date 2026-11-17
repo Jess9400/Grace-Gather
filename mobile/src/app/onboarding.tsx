@@ -33,6 +33,7 @@ import { aiCopy, AI_CONSENT_VERSION } from "../lib/ai-copy";
 import { jc } from "../lib/journal-copy";
 import { backend } from "../lib/backend";
 import { useSignedIn } from "../lib/account";
+import { markIntroDue } from "../lib/intro-seen";
 import SignInForm from "../components/SignInForm";
 import CommunityAIPermission from "../components/CommunityAIPermission";
 import OnboardingNotifications from "../components/OnboardingNotifications";
@@ -71,6 +72,9 @@ export default function Onboarding() {
     setBusy(true);
     setError("");
     try {
+      // Mark the walk to the church before the profile completes, so it is
+      // waiting when the app opens the church.
+      await markIntroDue();
       await saveProfile({
         ...p,
         name: p.name.trim(),

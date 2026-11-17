@@ -5,7 +5,7 @@ import { q } from "../lib/quiet-copy";
 import Disclosure from "../components/Disclosure";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
 import { useEffect, useState } from "react";
-import { Platform, StyleSheet, Text, View } from "react-native";
+import { Alert, Platform, StyleSheet, Text, View } from "react-native";
 import { router } from "expo-router";
 import {
   Screen,
@@ -40,6 +40,20 @@ import {
   remindersEnabled,
   registerGatheringPush,
 } from "../lib/notifications";
+// A message the person must read before the app moves on (e.g. before
+// signing out, which leaves this screen at once).
+function tellAndWait(message: string) {
+  return new Promise<void>((resolve) => {
+    if (Platform.OS === "web") {
+      globalThis.alert?.(message);
+      resolve();
+      return;
+    }
+    Alert.alert("Grace & Gather", message, [{ text: "OK", onPress: () => resolve() }], {
+      cancelable: false,
+    });
+  });
+}
 export default function Profile() {
   const tr = useInterfaceCopy();
   const { userId } = useCommunity();
@@ -149,9 +163,11 @@ export default function Profile() {
                 title={l("signOut")}
                 onPress={() =>
                   void run(async () => {
-                    await disableGatheringPush();
-                    await disableModeratorPush();
-                    await disableMemberPush();
+                    // Turning off phone alerts needs the network; signing out
+                    // must still work without it.
+                    await disableGatheringPush().catch(() => {});
+                    await disableModeratorPush().catch(() => {});
+                    await disableMemberPush().catch(() => {});
                     const result = await requireBackend().auth.signOut();
                     if (result.error) throw result.error;
                   })
@@ -267,16 +283,18 @@ export default function Profile() {
                         throw new Error(
                           "Account deletion did not complete. Please retry or contact support.",
                         );
-                      await client.auth.signOut({ scope: "local" });
-                      await forgetModeratorPush();
-                      await forgetMemberPush();
-                      setSignedIn(false);
+                      // Signing out leaves this screen at once, so any last
+                      // instruction has to be read before that.
                       if (data.appleRevokeRequired)
-                        setNotice(
+                        await tellAndWait(
                           tr(
                             "Your account has been deleted. Remove Grace & Gather under Sign in with Apple in your Apple Account settings.",
                           ),
                         );
+                      await client.auth.signOut({ scope: "local" });
+                      await forgetModeratorPush();
+                      await forgetMemberPush();
+                      setSignedIn(false);
                     } else {
                       await disableReminder();
                       await disableGatheringPush();

@@ -4,6 +4,7 @@ import IntroWalk from "../components/IntroWalk";
 import { useApp } from "../lib/state";
 import { isOrthodox, isProtestant } from "../lib/church-calendar";
 import { markIntroSeen } from "../lib/intro-seen";
+import { showEntranceAgain } from "../lib/church-entrance";
 import {
   introCopy,
   type IntroChurch,
@@ -40,6 +41,7 @@ export default function Intro() {
         onDone={() => {
           // Remembered first, so the church does not send them back here.
           markIntroSeen();
+          showEntranceAgain();
           router.replace("/(tabs)");
         }}
       />

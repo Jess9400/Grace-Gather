@@ -125,8 +125,15 @@ export async function writeAccountProfile(
   };
   if (!expected) {
     const { error } = await db.from("profiles").insert(row);
-    if (error) throw error;
-  } else {
+    if (!error) return row.updated_at;
+    if (error.code !== "23505") throw error;
+    // A row appeared since the last read. Fill it in only while it holds no
+    // settings yet; settings saved elsewhere are never overwritten unseen.
+    const current = await readAccountProfile(owner);
+    if (!current || current.profile_state) throw Error("profile_changed_elsewhere");
+    expected = current.updated_at;
+  }
+  {
     const { data, error } = await db
       .from("profiles")
       .update(row)

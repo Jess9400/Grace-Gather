@@ -93,7 +93,12 @@ test("sign in, onboarding, the walk, then the church's doors", () => {
   const seen = read("src/lib/intro-seen.ts");
   // On phones and on the web alike.
   assert.doesNotMatch(seen, /Platform/);
-  assert.match(seen, /readIntroSeen\(account\)\.catch\(\(\) => false\)/);
+  // Only for an account that has just finished onboarding: members who were
+  // already set up (an app update, a new phone) go straight to the doors.
+  assert.match(seen, /answers\.set\(account, mark === "due"\)/);
+  const onboarding = read("src/app/onboarding.tsx");
+  const finish = onboarding.slice(onboarding.indexOf("async function finish()"));
+  assert.ok(finish.indexOf("await markIntroDue()") < finish.indexOf("await saveProfile("));
   assert.doesNotMatch(seen, /from "\.\/storage"/);
   assert.match(read("src/lib/intro-seen-store.native.ts"), /expo-secure-store/);
   // After the walk the church's own doors are shown, then the church.

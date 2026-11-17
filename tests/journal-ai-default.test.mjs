@@ -21,10 +21,13 @@ const content = compile('../mobile/src/lib/content.ts', (id) => {
   throw Error(id);
 });
 
-test('new profiles start with AI on; saved choices survive normalization and reopening', () => {
+test('new profiles start with AI off until the person agrees; choices survive normalization', () => {
   const { initialProfile, normalizeProfile } = content;
-  assert.equal(initialProfile.journalAIConsentVersion, aiCopy.AI_CONSENT_VERSION);
-  assert.equal(normalizeProfile(JSON.parse(JSON.stringify(initialProfile))).journalAIConsentVersion, aiCopy.AI_CONSENT_VERSION);
+  // App Store guideline 5.1.2(i): nothing goes to the AI provider without consent.
+  assert.equal(initialProfile.journalAIConsentVersion, undefined);
+  assert.equal(normalizeProfile(JSON.parse(JSON.stringify(initialProfile))).journalAIConsentVersion, undefined);
+  const agreed = { ...initialProfile, journalAIConsentVersion: aiCopy.AI_CONSENT_VERSION };
+  assert.equal(normalizeProfile(JSON.parse(JSON.stringify(agreed))).journalAIConsentVersion, aiCopy.AI_CONSENT_VERSION);
   const optedOut = { ...initialProfile, journalAIConsentVersion: undefined, onboarded: true };
   assert.equal(normalizeProfile(JSON.parse(JSON.stringify(optedOut))).journalAIConsentVersion, undefined);
   const oldChoice = { ...initialProfile, journalAIConsentVersion: 'older-policy' };
