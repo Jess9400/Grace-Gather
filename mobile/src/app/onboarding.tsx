@@ -27,12 +27,14 @@ import {
 } from "../lib/content";
 import { q } from "../lib/quiet-copy";
 import { interfaceCopy } from "../lib/interface-copy";
+import { label } from "../lib/labels";
 import { TERMS_VERSION, TRADITION_QUESTION_VERSION } from "../lib/onboarding";
 import TermsAgreementNotice from "../components/TermsAgreementNotice";
 import { aiCopy, AI_CONSENT_VERSION } from "../lib/ai-copy";
 import { jc } from "../lib/journal-copy";
 import { backend } from "../lib/backend";
 import { useSignedIn } from "../lib/account";
+import { disableGatheringPush, disableMemberPush, disableModeratorPush } from "../lib/notifications";
 import { markIntroDue } from "../lib/intro-seen";
 import SignInForm from "../components/SignInForm";
 import CommunityAIPermission from "../components/CommunityAIPermission";
@@ -53,6 +55,7 @@ export default function Onboarding() {
   const [p, setP] = useState(profile),
     [step, setStep] = useState(0),
     [error, setError] = useState(""),
+    [signOutError, setSignOutError] = useState(""),
     [busy, setBusy] = useState(false);
   const t = (k: string) => copy(p.language, k);
   const tr = (text: string) => interfaceCopy(p.language, text);
@@ -86,6 +89,31 @@ export default function Onboarding() {
       router.replace("/(tabs)");
     } catch {
       setError(t("pSaveError"));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function signOut() {
+    if (!backend || busy) return;
+    setBusy(true);
+    setSignOutError("");
+    try {
+      await Promise.allSettled([
+        disableGatheringPush(),
+        disableMemberPush(),
+        disableModeratorPush(),
+      ]);
+      const { error: authError } = await backend.auth.signOut({ scope: "local" });
+      if (authError) throw authError;
+      router.replace("/sign-in");
+    } catch {
+      setSignOutError({
+        en: "Could not sign out. Please try again.",
+        pt: "Não foi possível sair. Tente novamente.",
+        es: "No se pudo cerrar sesión. Inténtalo de nuevo.",
+        ru: "Не удалось выйти. Попробуйте ещё раз.",
+      }[p.language]);
     } finally {
       setBusy(false);
     }
@@ -263,6 +291,12 @@ export default function Onboarding() {
             disabled={busy}
             onPress={() => setStep(0)}
           />
+        </>
+      )}
+      {signedIn && (
+        <>
+          <Notice text={signOutError} />
+          <Button secondary title={label(p.language, "signOut")} disabled={busy} onPress={() => void signOut()} />
         </>
       )}
     </Screen>
