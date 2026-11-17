@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { Platform } from "react-native";
 import { backend } from "./backend";
 import { readIntroSeen, writeIntroSeen } from "./intro-seen-store";
 
-// The walk to the church is shown once for each account on each phone, after
-// onboarding and before the church's doors. It is remembered per account, so
-// a new account on the same phone sees it too. If the phone cannot answer,
+// The walk to the church is shown once for each account on each phone or
+// browser, after onboarding and before the church's doors. It is remembered
+// per account, so a new account on the same device sees it too. If the phone cannot answer,
 // the walk is shown: it has a Skip button, so it never blocks anyone.
 const answers = new Map<string, boolean>();
 let current: string | null = null;
@@ -19,11 +18,8 @@ async function signedInAccount() {
 
 // Whether the walk is still to be shown: null until the phone has answered.
 export function useIntroPending() {
-  const [answer, setAnswer] = useState<boolean | null>(
-    Platform.OS === "web" ? false : null,
-  );
+  const [answer, setAnswer] = useState<boolean | null>(null);
   useEffect(() => {
-    if (Platform.OS === "web") return;
     let active = true;
     const settle = (value: boolean) => {
       if (active) setAnswer(value);

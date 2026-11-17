@@ -25,8 +25,8 @@ export default function TabsLayout() {
   const insets = useSafeAreaInsets();
   const labelLines = fontScale >= 1.4 ? 3 : 2;
   const tabHeight = 40 + 12 * labelLines * fontScale + insets.bottom;
-  // On a phone, the first time into the church (after onboarding) begins
-  // with the walk to its door. Nothing of the church is shown before it.
+  // The first time into the church (after onboarding) begins with the walk
+  // to its door. Nothing of the church is shown before it.
   const introPending = useIntroPending();
   if (introPending === null)
     return <View style={{ flex: 1, backgroundColor: palette.paper }} />;

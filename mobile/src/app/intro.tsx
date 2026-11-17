@@ -12,12 +12,12 @@ import {
 
 const churches: IntroChurch[] = ["catholic", "orthodox", "protestant"];
 
-// The first-visit intro. On a phone it is shown once, on the way into the
+// The first-visit intro, shown once to each new account on the way into the
 // church after onboarding (the tabs send people here), in the person's own
-// language and with their own church. On the web it stays a preview: open
-// /intro to watch it, signed in or not; ?church=orthodox and ?lang=ru show
-// the other versions. Opening the door (or skipping) leads to the church's
-// own doors, which the person opens to go in.
+// language and with their own church, on phones and on the web alike. It can
+// also be opened directly at /intro, signed in or not; ?church=orthodox and
+// ?lang=ru show the other versions. Opening the door (or skipping) leads to
+// the church's own doors, which the person opens to go in.
 export default function Intro() {
   const { profile } = useApp();
   const asked = useLocalSearchParams<{ church?: string; lang?: string }>();
