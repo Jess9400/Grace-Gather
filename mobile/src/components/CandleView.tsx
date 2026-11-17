@@ -56,7 +56,9 @@ export default function CandleView({
 }) {
   const reduced = useReducedMotion();
   const [ready, setReady] = useState(false);
-  const [failed, setFailed] = useState(false);
+  // On phones the drawn candle is used: the 3D view did not start reliably
+  // on iPhone and could hold up the screen when leaving it.
+  const [failed, setFailed] = useState(Platform.OS !== "web");
   const renderer = useRef<ReturnType<typeof createCandleRenderer> | null>(null);
   const context = useRef<ExpoWebGLRenderingContext | null>(null);
   const frame = useRef<number | null>(null);

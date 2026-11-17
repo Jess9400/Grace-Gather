@@ -4,7 +4,6 @@ import IntroWalk from "../components/IntroWalk";
 import { useApp } from "../lib/state";
 import { isOrthodox, isProtestant } from "../lib/church-calendar";
 import { markIntroSeen } from "../lib/intro-seen";
-import { markEntered } from "../lib/church-entrance";
 import {
   introCopy,
   type IntroChurch,
@@ -17,9 +16,8 @@ const churches: IntroChurch[] = ["catholic", "orthodox", "protestant"];
 // church after onboarding (the tabs send people here), in the person's own
 // language and with their own church. On the web it stays a preview: open
 // /intro to watch it, signed in or not; ?church=orthodox and ?lang=ru show
-// the other versions. Opening the door (or skipping) goes into the church.
-// The walk ends with its door open, so the church's own doors are not shown
-// again straight after it.
+// the other versions. Opening the door (or skipping) leads to the church's
+// own doors, which the person opens to go in.
 export default function Intro() {
   const { profile } = useApp();
   const asked = useLocalSearchParams<{ church?: string; lang?: string }>();
@@ -42,7 +40,6 @@ export default function Intro() {
         onDone={() => {
           // Remembered first, so the church does not send them back here.
           markIntroSeen();
-          markEntered();
           router.replace("/(tabs)");
         }}
       />

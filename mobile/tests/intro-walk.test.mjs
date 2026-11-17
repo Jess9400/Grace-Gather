@@ -79,28 +79,27 @@ test("the road is dark at the start and lanterns light on the way", () => {
     assert.equal(walk[name].length, walk.INTRO_MOMENTS, name);
 });
 
-test("on a phone the walk comes once, on the way into the church", () => {
+test("sign in, onboarding, the walk, then the church's doors", () => {
   const read = (file) => readFileSync(root + file, "utf8");
   // The church (the tabs) sends people to the walk until it has been seen;
-  // the tabs sit behind onboarding, so the walk comes after it.
+  // the tabs sit behind sign-in and onboarding, so the walk comes after them.
   const tabs = read("src/app/(tabs)/_layout.tsx");
   assert.match(tabs, /if \(introPending\) return <Redirect href="\/intro" \/>/);
   const layout = read("src/app/_layout.tsx");
-  assert.ok(
-    layout.indexOf("guard={hasCompletedOnboarding(profile)}") <
-      layout.indexOf('"(tabs)"'),
-  );
-  // Never on the web, where /intro stays a preview, and never when the
-  // phone cannot say whether it was seen.
+  assert.ok(layout.indexOf("guard={signedIn}") < layout.indexOf("guard={hasCompletedOnboarding(profile)}"));
+  assert.ok(layout.indexOf("guard={hasCompletedOnboarding(profile)}") < layout.indexOf('"(tabs)"'));
+  // Remembered per account, so a new account on the same phone sees it, and
+  // outside the journal's encrypted store, which may not be open yet.
   const seen = read("src/lib/intro-seen.ts");
   assert.match(seen, /Platform\.OS === "web" \? false : null/);
-  assert.match(seen, /\.catch\(\(\) => false\)/);
-  // It is remembered before leaving, and the church's own doors are not
-  // shown again straight after the walk's door.
+  assert.match(seen, /readIntroSeen\(account\)\.catch\(\(\) => false\)/);
+  assert.doesNotMatch(seen, /from "\.\/storage"/);
+  assert.match(read("src/lib/intro-seen-store.native.ts"), /expo-secure-store/);
+  // After the walk the church's own doors are shown, then the church.
   const page = read("src/app/intro.tsx");
   const done = page.slice(page.indexOf("onDone="));
   assert.ok(done.indexOf("markIntroSeen()") < done.indexOf("router.replace"));
-  assert.ok(done.indexOf("markEntered()") < done.indexOf("router.replace"));
+  assert.doesNotMatch(page, /markEntered/);
   // Signing in is not held up by it.
   assert.doesNotMatch(read("src/app/sign-in.tsx"), /intro/);
 });

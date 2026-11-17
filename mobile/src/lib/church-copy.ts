@@ -275,6 +275,9 @@ const words = {
     "Encender la vela",
     "Зажечь свечу",
   ),
+  // The candle is already burning when the person chooses who it is for;
+  // this button offers the prayer.
+  offerPrayer: L("Pray", "Rezar", "Orar", "Помолиться"),
   lit: L(
     "Your candle is lit",
     "Sua vela está acesa",
