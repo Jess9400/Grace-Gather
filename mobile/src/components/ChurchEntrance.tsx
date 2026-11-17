@@ -8,6 +8,7 @@ import {
 } from "react";
 import {
   AccessibilityInfo,
+  ActivityIndicator,
   Animated,
   AppState,
   Modal,
@@ -234,17 +235,6 @@ export default function ChurchEntrance({
     entranceTimeout.current = setTimeout(finish, ENTRANCE_MS + 2500);
   }, [entering, failed, finish, ready, reduced, words]);
 
-  // Tapped before the drawing is ready: give it a moment, then go in with a
-  // simple fade instead of leaving the tap without an answer.
-  useEffect(() => {
-    if (!entering || reduced || ready || failed) return;
-    const timeout = setTimeout(() => {
-      abandoned.current = true;
-      setFailed(true);
-    }, 2000);
-    return () => clearTimeout(timeout);
-  }, [entering, failed, ready, reduced]);
-
   useEffect(() => {
     if (!entering || reduced || !failed || started.current !== null) return;
     entranceTimeout.current = setTimeout(finish, 1200);
@@ -366,9 +356,16 @@ export default function ChurchEntrance({
               },
             ]}
           >
-            <View style={styles.cta}>
-              <Text style={styles.ctaText}>{t("tapDoors")}</Text>
-            </View>
+            {/* The invitation to tap appears once the doors are ready to
+                open, so the opening always plays; until then a small light
+                shows they are on their way. */}
+            {ready || failed || reduced ? (
+              <View style={styles.cta}>
+                <Text style={styles.ctaText}>{t("tapDoors")}</Text>
+              </View>
+            ) : (
+              <ActivityIndicator color="#E0BE76" style={styles.preparing} />
+            )}
           </Animated.View>
         </Pressable>
         <Animated.View
@@ -410,6 +407,7 @@ const styles = StyleSheet.create({
       "linear-gradient(0deg, rgba(14,11,12,0.85) 0%, rgba(14,11,12,0) 100%)",
   },
   top: { alignItems: "center", gap: 12, paddingHorizontal: 28 },
+  preparing: { height: 48 },
   peace: {
     fontFamily: serif,
     fontSize: 36,
