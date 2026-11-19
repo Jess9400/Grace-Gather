@@ -180,6 +180,8 @@
     footer { background: var(--espresso-deep); border-top: 1px solid var(--line); padding-block: 28px; font-size: 14px; color: var(--muted); }
     footer .wrap { display: flex; flex-wrap: wrap; gap: 10px 28px; align-items: center; justify-content: space-between; }
     footer .mail { user-select: all; color: var(--ivory); }
+    footer nav { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 0 22px; }
+    footer nav a { display: inline-flex; align-items: center; min-height: 44px; }
 
     @media (max-width: 720px) {
       .room, .room:nth-child(even) { grid-template-columns: minmax(0, 1fr); gap: 28px; }
@@ -428,7 +430,15 @@
       <div class="wrap">
         <span>&copy; 2026 Grace &amp; Gather</span>
         <span>Write to us: <span class="mail">hello@graceandgather.online</span></span>
-        <span style="display: inline-flex; gap: 22px"><a class="quiet-link" href="support.html" target="_blank" rel="noopener">Support</a><a class="quiet-link" href="privacy.html" target="_blank" rel="noopener">Privacy</a><a class="quiet-link" href="terms.html" target="_blank" rel="noopener">Terms</a></span>
+        <nav aria-label="Social media">
+          <a class="quiet-link" href="https://www.instagram.com/graceandgather.app/" target="_blank" rel="noopener noreferrer">Instagram</a>
+          <a class="quiet-link" href="https://www.tiktok.com/@gracegather_online" target="_blank" rel="noopener noreferrer">TikTok</a>
+        </nav>
+        <nav aria-label="Support and policies">
+          <a class="quiet-link" href="support.html" target="_blank" rel="noopener">Support</a>
+          <a class="quiet-link" href="privacy.html" target="_blank" rel="noopener">Privacy</a>
+          <a class="quiet-link" href="terms.html" target="_blank" rel="noopener">Terms</a>
+        </nav>
       </div>
     </footer>
 
