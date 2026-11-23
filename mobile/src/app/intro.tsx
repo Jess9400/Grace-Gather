@@ -4,7 +4,7 @@ import IntroWalk from "../components/IntroWalk";
 import { useApp } from "../lib/state";
 import { isOrthodox, isProtestant } from "../lib/church-calendar";
 import { markIntroSeen } from "../lib/intro-seen";
-import { showEntranceAgain } from "../lib/church-entrance";
+import { showEntranceAgain, requestFirstChurchTour } from "../lib/church-entrance";
 import { useSignedIn } from "../lib/account";
 import { hasCompletedOnboarding } from "../lib/onboarding";
 import { beginIntroHandoff } from "../lib/intro-handoff";
@@ -46,6 +46,7 @@ export default function Intro() {
           // Remembered first, so the church does not send them back here.
           markIntroSeen();
           showEntranceAgain();
+          requestFirstChurchTour();
           if (
             signedIn &&
             hasCompletedOnboarding(profile) &&

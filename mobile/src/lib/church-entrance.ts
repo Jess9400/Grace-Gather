@@ -21,3 +21,15 @@ export function consumeChurchTour() {
   tourRequested = false;
   return requested;
 }
+// A brand-new member sees the whole tour once, right after the doors, before
+// anything else in the church.
+let firstTour = false;
+export function requestFirstChurchTour() {
+  tourRequested = true;
+  firstTour = true;
+}
+export function consumeFirstTour() {
+  const first = firstTour;
+  firstTour = false;
+  return first;
+}
