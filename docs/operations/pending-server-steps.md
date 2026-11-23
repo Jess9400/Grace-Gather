@@ -15,7 +15,7 @@ Apply in this order, before the next app build is released:
   `public.gatherings.speak_mode`, default `invited`). It is idempotent. Check:
   `select speak_mode, count(*) from public.gatherings group by 1;` shows
   `invited`.
-- [ ] **2. Deploy the `gathering-token` edge function.** From the repository root
+- [x] **2. Deploy the `gathering-token` edge function.** Deployed by Codex on 23 Nov 2026. Production version 11 matches the merged source and reports audio configured. From the repository root
   on the latest `main`:
 
   ```bash
@@ -36,7 +36,7 @@ The function is safe before the migration (it then treats every gathering as
 The journal reply gains one or two sentences written to what the person wrote,
 above the verse. English and Portuguese for now. No database change.
 
-- [ ] **1. Deploy the `llm-journey` edge function.** From the repository root on
+- [x] **1. Deploy the `llm-journey` edge function.** Deployed by Codex on 23 Nov 2026. Production version 24 matches the merged source and rejects signed-out requests. From the repository root on
   the latest `main`:
 
   ```bash
