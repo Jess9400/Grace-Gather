@@ -924,7 +924,8 @@ export default function Home() {
           onEntered={() => {
             markEntered();
             setEntrance(false);
-            setTour(false);
+            // Only the first visit's tour waits behind the doors.
+            if (!firstTour) setTour(false);
           }}
         />
       )}
