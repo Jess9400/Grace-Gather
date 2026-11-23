@@ -10,7 +10,7 @@ and who did it. Remove an item once it is done and verified.
 Lets the host choose who can speak, mute everyone, and see raised hands first.
 Apply in this order, before the next app build is released:
 
-- [ ] **1. Database migration.** Apply
+- [x] **1. Database migration.** Done 23 Nov 2026 by the owner. Apply
   `supabase/migrations/20261123120000_gathering_speak_mode.sql` (adds
   `public.gatherings.speak_mode`, default `invited`). It is idempotent. Check:
   `select speak_mode, count(*) from public.gatherings group by 1;` shows
