@@ -2,7 +2,8 @@ import { useCallback, useEffect, useState } from "react";
 import { AppState, Platform, Pressable, Text, View } from "react-native";
 import { router, useFocusEffect } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import { Screen, Heading, Body, Notice, Button } from "../../components/quiet-ui";
+import { Screen, Heading, Body, Notice, Button, colors } from "../../components/quiet-ui";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useSurfaceColors } from "../../components/community-ui";
 import { TextAction } from "../../components/CommunityControls";
 import { requireUser, backend } from "../../lib/backend";
@@ -24,6 +25,7 @@ import GatheringSafetyReports from "../../components/GatheringSafetyReports";
 import ModerationHistory from "../../components/ModerationHistory";
 export default function AdminDashboard() {
   const tr = useInterfaceCopy();
+  const insets = useSafeAreaInsets();
   const { profile } = useApp();
   const [allowed, setAllowed] = useState(false);
   const [notice, setNotice] = useState("");
@@ -113,14 +115,17 @@ export default function AdminDashboard() {
   if (allowed && queue)
     return (
       <>
-        <TextAction
-          icon="chevron-back"
-          title={tr("Admin dashboard")}
-          onPress={() => {
-            setQueue("");
-            router.setParams({ view: "" });
-          }}
-        />
+        {/* Below the status bar, so the time and battery never cover it. */}
+        <View style={{ paddingTop: insets.top, paddingHorizontal: 8, backgroundColor: colors.paper }}>
+          <TextAction
+            icon="chevron-back"
+            title={tr("Admin dashboard")}
+            onPress={() => {
+              setQueue("");
+              router.setParams({ view: "" });
+            }}
+          />
+        </View>
         {queue === "history" ? (
           <ModerationHistory />
         ) : queue === "editorial" ? (

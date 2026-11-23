@@ -74,10 +74,10 @@ const themes = [
   ],
   responses = ["listen", "encouragement", "prayer"];
 const reviewMessages = {
-  en: { self: "Another moderator must review your own submission.", forbidden: "This account cannot moderate. Sign in with an authorized moderator account.", note: "Add a review note of at least five characters.", noteLabel: "Review note (optional when approving)" },
-  pt: { self: "Outro moderador precisa revisar seu próprio envio.", forbidden: "Esta conta não pode moderar. Entre com uma conta de moderador autorizada.", note: "Adicione uma nota de revisão com pelo menos cinco caracteres.", noteLabel: "Nota da revisão (opcional para aprovar)" },
-  es: { self: "Otro moderador debe revisar tu propio envío.", forbidden: "Esta cuenta no puede moderar. Inicia sesión con una cuenta de moderador autorizada.", note: "Añade una nota de revisión de al menos cinco caracteres.", noteLabel: "Nota de revisión (opcional al aprobar)" },
-  ru: { self: "Ваше сообщение должен проверить другой модератор.", forbidden: "У этого аккаунта нет доступа к модерации. Войдите как модератор.", note: "Добавьте заметку о проверке не короче пяти символов.", noteLabel: "Заметка о проверке (при одобрении необязательна)" },
+  en: { self: "Another moderator must review your own submission.", forbidden: "This account cannot moderate. Sign in with an authorized moderator account.", note: "To keep it hidden, write a short reason (at least 5 characters).", noteLabel: "Review note (optional to approve, needed to keep hidden)", approved: "Approved and shared.", rejected: "Kept hidden. It is off the review list." },
+  pt: { self: "Outro moderador precisa revisar seu próprio envio.", forbidden: "Esta conta não pode moderar. Entre com uma conta de moderador autorizada.", note: "Para manter oculto, escreva um motivo curto (pelo menos 5 caracteres).", noteLabel: "Nota da revisão (opcional para aprovar, necessária para manter oculto)", approved: "Aprovado e compartilhado.", rejected: "Mantido oculto. Saiu da lista de revisão." },
+  es: { self: "Otro moderador debe revisar tu propio envío.", forbidden: "Esta cuenta no puede moderar. Inicia sesión con una cuenta de moderador autorizada.", note: "Para mantenerlo oculto, escribe un motivo breve (al menos 5 caracteres).", noteLabel: "Nota de revisión (opcional al aprobar, necesaria para mantener oculto)", approved: "Aprobado y compartido.", rejected: "Se mantiene oculto. Ya no está en la lista de revisión." },
+  ru: { self: "Ваше сообщение должен проверить другой модератор.", forbidden: "У этого аккаунта нет доступа к модерации. Войдите как модератор.", note: "Чтобы скрыть сообщение, коротко напишите причину (не меньше 5 символов).", noteLabel: "Заметка о проверке (для одобрения необязательна, чтобы скрыть — нужна)", approved: "Одобрено и опубликовано.", rejected: "Скрыто. Сообщение убрано из списка проверки." },
 };
 const reviewedElsewhere = {
   en: "Another moderator already reviewed this item. The list has been refreshed.",
@@ -189,6 +189,8 @@ export default function ConfessionRoom() {
     [busy, setBusy] = useState(false),
     [error, setError] = useState(""),
     [items, setItems] = useState<Confession[]>([]),
+    // A message tied to one review card (id), or a confirmation after a decision (no id).
+    [reviewHint, setReviewHint] = useState({ id: "", text: "" }),
     [reviewReports, setReviewReports] = useState<NonNullable<import("../../lib/confession").ConfessionResult["reports"]>>([]),
     [reserved, setReserved] = useState<Confession[]>([]),
     [detail, setDetail] = useState<Confession | null>(null),
@@ -1079,10 +1081,12 @@ export default function ConfessionRoom() {
                       <Field
                         label={reviewMessages[language].noteLabel}
                         value={notes[x.id] || ""}
-                        onChangeText={(value) =>
-                          setNotes((n) => ({ ...n, [x.id]: value }))
-                        }
+                        onChangeText={(value) => {
+                          setNotes((n) => ({ ...n, [x.id]: value }));
+                          if (reviewHint.id === x.id) setReviewHint({ id: "", text: "" });
+                        }}
                       />
+                      {reviewHint.id === x.id && <Notice text={reviewHint.text} />}
                       {["approved", "rejected"].map((decision) => (
                         <Button
                           key={decision}
@@ -1094,7 +1098,8 @@ export default function ConfessionRoom() {
                             void run(async () => {
                               const note = confessionReviewNote(decision, notes[x.id] || "");
                               if (!note) {
-                                setError(reviewMessages[language].note);
+                                // Shown beside this card, where the tap was.
+                                setReviewHint({ id: x.id, text: reviewMessages[language].note });
                                 return;
                               }
                               await confessionAPI("moderate", {
@@ -1102,6 +1107,7 @@ export default function ConfessionRoom() {
                                 decision,
                                 note,
                               });
+                              setReviewHint({ id: "", text: reviewMessages[language][decision === "approved" ? "approved" : "rejected"] });
                               await load("review");
                             })
                           }
@@ -1110,6 +1116,7 @@ export default function ConfessionRoom() {
                     </Card>
                   </View>
                 ))}
+                {!reviewHint.id && !!reviewHint.text && <Notice text={reviewHint.text} />}
                 {btn("cRefresh", () => void run(() => load("review")), true)}
               </>
             )}
