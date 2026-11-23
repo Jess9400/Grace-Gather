@@ -20,11 +20,12 @@ const TOP_MARGIN = 100;
 // shown reacts. Returns the page's onScroll handler (it tracks the offset).
 export function useKeyboardReveal(
   scroll: RefObject<ScrollViewInstance | null>,
+  enabled = true,
 ): (event: NativeSyntheticEvent<NativeScrollEvent>) => void {
   const offset = useRef(0);
   useFocusEffect(
     useCallback(() => {
-      if (Platform.OS !== "ios") return;
+      if (!enabled || Platform.OS !== "ios") return;
       const sub = Keyboard.addListener("keyboardDidShow", (event) => {
         const input = TextInput.State.currentlyFocusedInput();
         if (!input) return;
@@ -40,7 +41,7 @@ export function useKeyboardReveal(
         });
       });
       return () => sub.remove();
-    }, [scroll]),
+    }, [enabled, scroll]),
   );
   return useCallback((event: NativeSyntheticEvent<NativeScrollEvent>) => {
     offset.current = event.nativeEvent.contentOffset.y;

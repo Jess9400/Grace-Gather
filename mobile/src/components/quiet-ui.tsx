@@ -2,7 +2,7 @@ import MemberAvatar from "./MemberAvatar";
 import ChurchStrip, { useRoomStrip } from "./ChurchStrip";
 import type { RoomPlace } from "../lib/church-room";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
-import React, { createContext, useContext, useRef, useState } from "react";
+import React, { createContext, useContext, useRef } from "react";
 import {
   ScrollView,
   type ScrollViewInstance,
@@ -101,9 +101,6 @@ function useSurfaceColors() {
     outline: card ? colors.cardLine : "#C9A45C8C",
   };
 }
-// The least height a compact page keeps (very large text, short screens);
-// below this the page scrolls instead of squeezing what is being written.
-const COMPACT_MIN = 210;
 // `place` makes the screen one of the church's rooms: its part of the church
 // runs across the top in place of the plain header.
 export function Screen({
@@ -133,8 +130,10 @@ export function Screen({
   home?: boolean;
 }) {
   const scroll = useRef<ScrollViewInstance>(null);
-  const [viewport, setViewport] = useState(0);
-  const onScroll = useKeyboardReveal(scroll);
+  const onScroll = useKeyboardReveal(scroll, !compact);
+  // Disabling the web ScrollView also disables touch panning inside its textarea.
+  // Its content is already bounded, so leave browser touch gestures enabled.
+  const allowPageScroll = !compact || Platform.OS === "web";
   const lastScrolled = useRef<string | undefined>(undefined);
   const tr = useInterfaceCopy();
   const insets = useSafeAreaInsets();
@@ -163,8 +162,8 @@ export function Screen({
             // A compact page is exactly as tall as the space above the
             // footer, so what is being written fills it and scrolls inside
             // its own field, keeping the line being typed in view.
-            contentContainerStyle={compact ? { flexGrow: 1 } : undefined}
-            onLayout={(event) => setViewport(event.nativeEvent.layout.height)}
+            scrollEnabled={allowPageScroll}
+            contentContainerStyle={compact ? { flex: 1 } : undefined}
             onContentSizeChange={() => {
               if (scrollToEndKey && lastScrolled.current !== scrollToEndKey) {
                 lastScrolled.current = scrollToEndKey;
@@ -181,16 +180,13 @@ export function Screen({
                       // The bar above already clears the status bar.
                       paddingTop: back ? 4 : insets.top + 12,
                       paddingBottom: 0,
-                      flexGrow: 1,
-                      ...(viewport > 0 && {
-                        height: Math.max(viewport, COMPACT_MIN),
-                      }),
+                      flex: 1,
                     }
                   : s.roomPage,
               ]}
             >
               {children}
-              <View style={{ height: footer ? 8 : 26 }} />
+              {!compact && <View style={{ height: footer ? 8 : 26 }} />}
             </View>
           </ScrollView>
           {footer}
@@ -221,10 +217,10 @@ export function Screen({
           automaticallyAdjustKeyboardInsets={!avoid}
           onScroll={onScroll}
           scrollEventThrottle={32}
-          onLayout={compact ? (event) => setViewport(event.nativeEvent.layout.height) : undefined}
+          scrollEnabled={allowPageScroll}
           contentContainerStyle={[
             s.page,
-            compact && viewport > 0 && { height: Math.max(viewport, COMPACT_MIN) },
+            compact && { flex: 1 },
             !!footer && { paddingBottom: 8 },
             centered && { flexGrow: 1, justifyContent: "center" },
           ]}

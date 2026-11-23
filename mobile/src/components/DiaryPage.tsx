@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { View, Text, TextInput, StyleSheet, Platform } from "react-native";
+import { View, Text, TextInput, StyleSheet, Platform, useWindowDimensions } from "react-native";
 import { router } from "expo-router";
 import { randomUUID } from "expo-crypto";
 import { Screen, Button, Notice, colors, letter, serif } from "./quiet-ui";
@@ -33,6 +33,10 @@ export default function Diary() {
     [error, setError] = useState(""),
     [permissionOpen, setPermissionOpen] = useState(false),
     [permissionIntent, setPermissionIntent] = useState<"submit" | "transcribe">("submit");
+  const { fontScale } = useWindowDimensions();
+  const [paperHeight, setPaperHeight] = useState(0);
+  // Leave room for three writing lines before showing the date and salutation.
+  const showLetterHeading = !writing || !paperHeight || paperHeight >= 100 + 105 * fontScale;
   const useAI = profile.journalAIConsentVersion === AI_CONSENT_VERSION;
   const lang = profile.language;
   // Editing a saved prayer, opened from its Edit button.
@@ -224,29 +228,38 @@ export default function Diary() {
           )}
         </View>
       )}
-      <View style={[s.paper, writing && s.paperWriting]}>
+      <View
+        style={[s.paper, writing && s.paperWriting]}
+        onLayout={writing ? (event) => setPaperHeight(event.nativeEvent.layout.height) : undefined}
+      >
         <View style={s.rule} />
-        <Text style={s.date}>
-          {new Date(draft.createdAt).toLocaleDateString(lang, {
-            weekday: "long",
-            month: "long",
-            day: "numeric",
-          })}
-        </Text>
-        <Text style={s.dear}>{q(lang, "dear")}</Text>
-        <TextInput
-          accessibilityLabel={copy(lang, "entryLabel")}
-          multiline
-          scrollEnabled
-          maxLength={30000}
-          value={draft.text}
-          onChangeText={(text) => update({ text })}
-          placeholder={copy(lang, "prompt")}
-          placeholderTextColor={letter.muted}
-          onFocus={() => setWriting(true)}
-          onBlur={() => setWriting(false)}
-          style={[s.input, writing && s.inputWriting]}
-        />
+        {showLetterHeading && (
+          <>
+            <Text style={s.date}>
+              {new Date(draft.createdAt).toLocaleDateString(lang, {
+                weekday: "long",
+                month: "long",
+                day: "numeric",
+              })}
+            </Text>
+            <Text style={s.dear}>{q(lang, "dear")}</Text>
+          </>
+        )}
+        <View style={writing && s.writingArea}>
+          <TextInput
+            accessibilityLabel={copy(lang, "entryLabel")}
+            multiline
+            scrollEnabled
+            maxLength={30000}
+            value={draft.text}
+            onChangeText={(text) => update({ text })}
+            placeholder={copy(lang, "prompt")}
+            placeholderTextColor={letter.muted}
+            onFocus={() => setWriting(true)}
+            onBlur={() => setWriting(false)}
+            style={[s.input, writing && s.inputWriting]}
+          />
+        </View>
       </View>
       <Notice text={error} />
       {editing && !writing && (
@@ -313,7 +326,10 @@ const s = StyleSheet.create({
   // and "I'm done writing", however tall the keyboard leaves it. A longer
   // entry scrolls inside the letter, so the line being typed stays in view.
   paperWriting: { flex: 1, minHeight: 0, marginTop: 0, paddingVertical: 12 },
-  inputWriting: { flex: 1, minHeight: 50, paddingBottom: 10 },
+  writingArea: { flex: 1, minHeight: 0 },
+  // Bound the native text view to the visible paper, even when its text is
+  // much taller. UIKit can then scroll the caret into view as lines wrap.
+  inputWriting: { ...StyleSheet.absoluteFill, minHeight: 0, paddingBottom: 10 },
   footer: {
     paddingHorizontal: 22,
     paddingTop: 10,
