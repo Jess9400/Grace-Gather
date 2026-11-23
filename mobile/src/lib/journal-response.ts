@@ -58,7 +58,7 @@ export async function resolveJournalResponse(
       candidates.find((v) => entry.passageIds?.includes(v.id)) ?? candidates[0];
     if (fallback) verse = getReadingVerse(fallback.id);
   }
-  const proposed = journalAction(entry, profile);
+  const proposed = journalAction(entry, profile, journal);
   const actionId = proposed === "A25"
     ? (await availableJournalAction(theme.id, profile.language, entry.text, [], () => gathering("list"), true)) ?? "A08"
     : proposed;

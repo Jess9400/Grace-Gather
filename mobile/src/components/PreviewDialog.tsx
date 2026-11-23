@@ -8,17 +8,20 @@ export default function PreviewDialog({
   busy = false,
   onClose,
   closeLabel,
+  onDismiss,
   children,
 }: {
   visible: boolean;
   busy?: boolean;
   onClose: () => void;
   closeLabel: string;
+  onDismiss?: () => void;
   children: ReactNode;
 }) {
   return (
     <Modal
       visible={visible}
+      onDismiss={onDismiss}
       transparent
       animationType="fade"
       onRequestClose={() => {

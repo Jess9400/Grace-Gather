@@ -144,6 +144,7 @@ export default function Diary() {
   return (
     <Screen
       back
+      home
       place="pews"
       compact={writing}
       // "I'm done writing" never needs a scroll to find: it rests at the
@@ -234,6 +235,7 @@ export default function Diary() {
         <TextInput
           accessibilityLabel={copy(lang, "entryLabel")}
           multiline
+          scrollEnabled
           maxLength={30000}
           value={draft.text}
           onChangeText={(text) => update({ text })}
@@ -308,8 +310,8 @@ const s = StyleSheet.create({
   // While typing, the letter fills the space between the top of the screen
   // and "I'm done writing", however tall the keyboard leaves it. A longer
   // entry scrolls inside the letter, so the line being typed stays in view.
-  paperWriting: { flex: 1, marginTop: 0 },
-  inputWriting: { flex: 1, minHeight: 120 },
+  paperWriting: { flex: 1, minHeight: 0, marginTop: 0, paddingVertical: 12 },
+  inputWriting: { flex: 1, minHeight: 50, paddingBottom: 10 },
   footer: {
     paddingHorizontal: 22,
     paddingTop: 10,
