@@ -68,6 +68,8 @@ export function journalTheme(entry: Entry) {
     ["anger", "angry|anger|raiva|furios|enoj|злость|злюсь"],
     ["exhaustion", "exhaust|burnt out|exaust|esgotad|agotad|истощ"],
     ["doubt", ""],
+    ["listen", "offer comfort|listen to someone|ouvir alguém|escuchar a alguien|выслушать кого"],
+    ["homesick", "homesick|miss (?:my )?home|saudade de casa|extraño mi hogar|скучаю по дому"],
     ["service", "give back|volunteer|voluntár|voluntari|волонт"],
     [
       "venting",
@@ -127,17 +129,14 @@ export function spiritualDistance(text: string) {
 }
 export function journalAction(entry: Entry, profile: Profile, journal: Entry[] = []) {
   const theme = journalTheme(entry);
-  let id =
-    entry.suggestedAction ??
-    chooseJournalAction(theme, {
-      candles: welcomesCandles(profile),
-      connectedActions: true,
-      privateOnly:
-        /keep.*private|rather.*private|prefiro.*privad|prefiero.*privad|не хочу делиться/i.test(
-          entry.text,
-        ),
-      financialStress: theme.id === "money",
-    });
+  const privateOnly = /keep.*private|rather.*private|prefiro.*privad|prefiero.*privad|не хочу делиться/i.test(entry.text);
+  const mapped = chooseJournalAction(theme, {
+    candles: welcomesCandles(profile),
+    connectedActions: true,
+    privateOnly,
+    financialStress: theme.id === "money",
+  });
+  let id = privateOnly ? mapped : entry.suggestedAction ?? mapped;
   if (["A01", "A21"].includes(id) && !welcomesCandles(profile)) id = "A02";
   if (
     id === "A18" &&
@@ -147,17 +146,7 @@ export function journalAction(entry: Entry, profile: Profile, journal: Entry[] =
     )
   )
     id = "A03";
-  if (
-    !entry.suggestedAction &&
-    theme.id === "gratitude" &&
-    /thank|agradec|gracias|благодар/i.test(entry.text)
-  )
-    id = "A12";
-  // The owner requested a private 24-hour reflection for hopelessness.
-  // Keep persistent distress and safety handling separate from this invitation.
-  if (theme.id === "hopelessness" && (!entry.suggestedAction || id === "A04"))
-    id = "A08";
-  if (!entry.safety && theme.id !== "persistent-distress" && ["A03", "A08", "A12"].includes(id)) {
+  if (!privateOnly && !entry.safety && theme.id !== "persistent-distress" && ["A03", "A08", "A12"].includes(id)) {
     const recent = journal
       .filter((other) => other.id !== entry.id && !other.safety && !other.deletedAt && other.createdAt < entry.createdAt && other.response)
       .sort((a, b) => b.createdAt.localeCompare(a.createdAt))

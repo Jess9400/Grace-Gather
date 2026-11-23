@@ -82,7 +82,7 @@ export function journeyInput(value) {
   if (typeof value.text !== 'string' || !value.text.trim() || value.text.length > 30000) throw Error('invalid_entry');
   return {text:value.text.trim(),preferences:{language:p.language,scriptureLanguage:p.scriptureLanguage,tradition:p.tradition,edition:p.edition,candlePractice:p.candlePractice===true}};
 }
-export function recommendations(value, preferences, catalog, connectedActions = false) {
+export function recommendations(value, preferences, catalog, connectedActions = false, previousActions = null) {
   if (!value || !MOODS.includes(value.path) || typeof value.support !== 'boolean') throw Error('invalid_model_response');
   if (value.support) return {path:'unsure',passageIds:[],actionIds:[],support:true};
   const path = catalog.PATHS[value.path];
@@ -90,7 +90,20 @@ export function recommendations(value, preferences, catalog, connectedActions = 
   const passages = (edition?.passages || []).filter(v=>v.theme===path.theme).sort((a,b)=>Number(b.situations?.includes(value.path)||false)-Number(a.situations?.includes(value.path)||false)).slice(0,1);
   const theme = map.find(t=>t.id===value.themeId);
   if (value.themeId !== undefined && !theme) throw Error('invalid_model_response');
-  const suggestedAction = theme ? chooseJournalAction(value.actionId && ['A01','A02','A03','A04','A05','A07','A08','A09','A10','A11','A12','A15','A16','A18','A19','A20','A21','A26',...(connectedActions?['A14','A25','A27']:[])].includes(value.actionId) ? {...theme,main:value.actionId} : theme,{privateOnly:value.privateOnly===true,candles:preferences.candlePractice===true,financialStress:value.financialStress===true||theme.id==='money',connectedActions}) : undefined;
+  // The model identifies the need. For an initial entry the map supplies the
+  // first invitation. Follow-ups can respond to feedback with another action.
+  const availableIds = ['A01','A02','A03','A04','A05','A07','A08','A09','A10','A11','A12','A15','A16','A18','A19','A20','A21','A26', ...(connectedActions ? ['A14','A25','A27'] : [])];
+  const hosting = theme?.id === 'welcome' && value.actionId === 'A27';
+  const options = {
+    privateOnly:value.privateOnly === true, candles:preferences.candlePractice === true,
+    financialStress:value.financialStress === true || theme?.id === 'money', connectedActions,
+  };
+  const primary = theme && chooseJournalAction(theme, options);
+  const followUp = Array.isArray(previousActions) &&
+    (value.actionId !== theme?.private || previousActions.includes(primary));
+  const selectedTheme = (followUp || hosting) && availableIds.includes(value.actionId)
+    ? {...theme, main:value.actionId} : theme;
+  const suggestedAction = theme ? chooseJournalAction(selectedTheme, options) : undefined;
   const explanation = suggestedAction && value.actionId === suggestedAction ? safeActionExplanation(value.actionExplanation) : undefined;
   return {path:value.path,passageIds:passages.map(v=>v.id),actionIds:path.actions.slice(0,1),support:false, ...(theme ? {themeId:theme.id,suggestedAction} : {}), ...(explanation ? {actionExplanation:explanation} : {}), ...(reflectionLanguage(preferences.language) && !reflectionIssue(value.reflection) ? {reflection:value.reflection.trim()} : {})};
 }

@@ -17,13 +17,13 @@ const context=createContext({exports:{},require:(id)=>{
 runInContext(ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.CommonJS,esModuleInterop:true}}).outputText,context);
 const {journalTheme,journalAction}=context.exports;
 function entry(text,extra={}) {return {text,mood:quietMood(text),...extra};}
-test('hopeless writing chooses a private reflection, including older sadness entries',()=>{
+test('hopeless writing chooses the mapped stories of hope, including older sadness entries',()=>{
  for(const text of ['I am feeling hopeless','Nothing is going to change','Estou sem esperança','Me siento sin esperanza','Я чувствую безнадёжность']) {
   assert.equal(quietMood(text),'hopeless');
   assert.equal(journalTheme(entry(text,{mood:'sad'})).id,'hopelessness');
-  assert.equal(journalAction(entry(text),{}),'A08');
+  assert.equal(journalAction(entry(text),{}),'A19');
  }
- assert.equal(journalAction(entry('I am feeling hopeless',{themeId:'hopelessness',suggestedAction:'A04'}),{}),'A08');
+ assert.equal(journalAction(entry('I am feeling hopeless',{themeId:'hopelessness',suggestedAction:'A04'}),{}),'A04');
 });
 test('negation and persistent distress are not converted into the hope exercise',()=>{
  assert.equal(hopelessWriting('I am not feeling hopeless'),false);
@@ -32,7 +32,7 @@ test('negation and persistent distress are not converted into the hope exercise'
  assert.equal(journalAction(entry('I have felt hopeless for weeks'),{}),'A05');
 });
 test('different needs keep distinct actions and model suggestions',()=>{
- assert.equal(journalAction(entry('I am grateful and want to thank my friend'),{}),'A12');
+ assert.equal(journalAction(entry('Someone helped me and I feel grateful'),{}),'A18');
  assert.equal(journalAction(entry('I need someone to listen'),{}),'A04');
  assert.equal(journalAction(entry('I feel hopeless',{themeId:'hopelessness',suggestedAction:'A19'}),{}),'A19');
 });

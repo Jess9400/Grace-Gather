@@ -49,3 +49,8 @@ above the verse. English and Portuguese for now. No database change.
   English, then in Portuguese, write a journal entry; a short personal
   paragraph appears above "A word for you". Spanish and Russian show the reply
   as before.
+
+## Journal action priority
+
+- [ ] Deploy `llm-journey` after merging the community-first action rules. Use the deployment command above. No database migration is needed.
+- [ ] Release the matching app update for live availability checks. Verify that an eligible burden offers listening, an empty listening room offers the mapped independent step, and gratitude opens Pay it Forward.

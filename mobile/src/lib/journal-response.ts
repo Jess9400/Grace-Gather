@@ -15,8 +15,7 @@ import { journalAction, journalTheme } from "./journal-guidance";
 import { journalVerseFor } from "./journal-verse-path";
 import { journalActionCopy } from "./journal-copy";
 import { journalScripture } from "./journal-verse-reference";
-import { availableJournalAction } from "./journal-gathering";
-import { gathering } from "./gatherings";
+import { availableJournalAction, needsActivityCheck } from "./journal-gathering";
 import { refreshPortuguesePrayerCopy } from "./journal-prayer-copy";
 import { safeReflection } from "./llm-contract";
 
@@ -26,10 +25,10 @@ export async function resolveJournalResponse(
   journal: Entry[] = [],
 ): Promise<JournalResponse> {
   if (entry.response) {
-    if (entry.response.actionId !== "A25") return refreshPortuguesePrayerCopy(entry.response, entry.prefs.language);
+    if (!needsActivityCheck(entry.response.actionId)) return refreshPortuguesePrayerCopy(entry.response, entry.prefs.language);
     const theme = journalTheme(entry);
-    const safeAction = await availableJournalAction(theme.id, profile.language, entry.text, [], () => gathering("list"), true);
-    if (safeAction === "A25") return entry.response;
+    const safeAction = await availableJournalAction(entry.response.actionId, theme.id, entry.prefs.language, entry.text);
+    if (safeAction === entry.response.actionId) return entry.response;
     const copy = journalActionCopy(entry.prefs.language, theme.id, safeAction ?? "A08");
     return { ...entry.response, actionId: safeAction ?? "A08", actionTitle: copy.title, invitation: copy.invitation, actionPrompt: copy.prompt };
   }
@@ -60,9 +59,7 @@ export async function resolveJournalResponse(
     if (fallback) verse = getReadingVerse(fallback.id);
   }
   const proposed = journalAction(entry, profile, journal);
-  const actionId = proposed === "A25"
-    ? (await availableJournalAction(theme.id, profile.language, entry.text, [], () => gathering("list"), true)) ?? "A08"
-    : proposed;
+  const actionId = await availableJournalAction(proposed, theme.id, entry.prefs.language, entry.text) ?? "A08";
   const lang = entry.prefs.language;
   const action = journalActionCopy(lang, theme.id, actionId);
   return {

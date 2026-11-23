@@ -8,12 +8,16 @@ function compile(file,require) {
  const ctx=createContext({exports:{},require,setTimeout,clearTimeout});
  runInContext(code,ctx); return ctx.exports;
 }
-const helper=compile('../mobile/src/lib/journal-gathering.ts', id => {
- if(id==='./discover')return {storyText:(v,l)=>typeof v==='string'?v:v[l]??''};
- throw Error(id);
-});
 const item={id:'1',status:'published',visibility:'public',language:'en',topic:'loneliness',title:{en:'Connection'},starts_at:new Date(Date.now()+86400000).toISOString(),ends_at:new Date(Date.now()+90000000).toISOString()};
 function client(items){
+const helper=compile('../mobile/src/lib/journal-gathering.ts', id => {
+ if(id==='./discover')return {storyText:(v,l)=>typeof v==='string'?v:v[l]??''};
+ if(id==='./gatherings')return {gathering:async()=>items};
+ if(id==='./confession')return {confessionAPI:async()=>({items:[],reserved:[]})};
+ if(id==='./backend')return {};
+ if(id==='../generated/journal-map.json')return [{id:'lonely',private:'A07'}];
+ throw Error(id);
+});
  const ai=compile('../mobile/src/lib/ai.ts',id=>{
   if(id==='./backend')return {requireUser:async()=>({client:{functions:{invoke:async()=>({data:{reply:'Your words matter.',actionId:'A25',actionTheme:'lonely',actionExplanation:'A group could help you connect.',support:false}})}}})};
   if(id==='./church-calendar')return {welcomesCandles:()=>false};
@@ -33,6 +37,6 @@ test('chat confirms an available gathering before displaying its action',async()
  assert.equal(noMatch.actionExplanation,undefined);
  assert.equal((await client([item])('I have no one to talk to')).actionExplanation,'A group could help you connect.');
  assert.equal(noMatch.content,'Your words matter.');
- assert.equal((await client([])('I have no one to talk to',['A04'])).actionId,undefined);
- assert.equal((await client([])('I feel lonely')).actionId,undefined);
+ assert.equal((await client([])('I have no one to talk to',['A04'])).actionId,'A08');
+ assert.equal((await client([])('I feel lonely')).actionId,'A07');
 });

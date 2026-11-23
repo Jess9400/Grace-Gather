@@ -38,3 +38,16 @@ test('mapped journal returns exactly one verse and one appropriate action',()=>{
  assert.ok(result.passageIds.length<=1);assert.equal(result.actionIds.length,1);assert.notEqual(result.suggestedAction,'A18');
  assert.throws(()=>recommendations({path:'sad',support:false,themeId:'invented'},preferences,catalog),/invalid_model_response/);
 });
+
+test('initial journal uses the mapped main action even if the model chooses the private alternative',()=>{
+ for(const [themeId,actionId,expected] of [['gratitude','A12','A18'],['listen','A11','A14'],['homesick','A07','A25'],['venting','A03','A04']]){
+   const input={path:'peaceful',support:false,themeId,actionId,actionExplanation:'Explanation for the private action.'};
+   const result=recommendations(input,preferences,catalog,true);
+   assert.equal(result.suggestedAction,expected);
+   assert.equal(result.actionExplanation,undefined);
+   assert.equal(recommendations(input,preferences,catalog,true,[]).suggestedAction,expected);
+   assert.equal(recommendations(input,preferences,catalog,true,[expected]).suggestedAction,actionId);
+   const privateResult=recommendations({...input,privateOnly:true},preferences,catalog,true);
+   assert.equal(privateResult.suggestedAction,actionId==='A07'?'A08':actionId);
+ }
+});
