@@ -42,7 +42,7 @@ export function journalChatReply(value,input,catalog,onActionOmitted=()=>{}) {
    try {
     // A25 means browse the list, never an assertion that a session is available.
     // Keep the existing preference/context validation before returning it.
-    const selection=recommendations({...value,support:false},input.preferences,catalog,input.supportsConnectedActions||value.actionId==='A25');
+    const selection=recommendations({...value,support:false},input.preferences,catalog,input.supportsConnectedActions||value.actionId==='A25',input.previousActions);
     actionId=value.privateOnly===true && ['A14','A25','A27'].includes(value.actionId) ? null : selection.suggestedAction??null;
     if(input.previousActions.includes(actionId))actionId=null;
    }catch(error){
@@ -54,5 +54,5 @@ export function journalChatReply(value,input,catalog,onActionOmitted=()=>{}) {
  if(value.actionId==null&&value.privateOnly!==true)actionId=connectionInvitation(input);
  if(['A04','A14','A25','A27'].includes(actionId)&&connectionDeclined(input))actionId=null;
  const explanation=input.includeActionExplanation && actionId && actionId===value.actionId ? safeActionExplanation(value.actionExplanation) : undefined;
- return {reply:value.reply.trim(),actionId,support:false,...(explanation ? {actionExplanation:explanation} : {}),...(input.includeActionTheme && actionId==='A25' && typeof value.themeId==='string' ? {actionTheme:value.themeId} : {})};
+ return {reply:value.reply.trim(),actionId,support:false,...(explanation ? {actionExplanation:explanation} : {}),...(input.includeActionTheme && ['A25','A14','A04','A27'].includes(actionId) && typeof value.themeId==='string' ? {actionTheme:value.themeId} : {})};
 }

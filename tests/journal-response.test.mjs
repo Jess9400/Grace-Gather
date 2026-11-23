@@ -12,6 +12,8 @@ function load(path) {
   if (!existsSync(file)) file += existsSync(file + '.ts') ? '.ts' : '.js';
   if (cache.has(file)) return cache.get(file);
   if (file.endsWith('.json')) return JSON.parse(readFileSync(file, 'utf8'));
+  if (file.endsWith('/backend.ts')) return {};
+  if (file.endsWith('/confession.ts')) return { confessionAPI: async () => ({items:[],reserved:[]}) };
   if (file.endsWith('/gatherings.ts')) return { gathering: async () => [] };
   if (file.endsWith('/discover.ts')) return { storyText: (v, lang) => typeof v === 'string' ? v : v[lang] ?? '' };
   if (file.endsWith('/church-calendar.ts')) return { welcomesCandles: p => p.candlePractice ?? p.tradition !== 'protestant' };

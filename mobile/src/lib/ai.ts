@@ -5,7 +5,6 @@ import { validateSuggestion } from "./llm-contract";
 import { AI_CONSENT_VERSION } from "./ai-copy";
 import { aiRequestError } from "./ai-error";
 import { availableJournalAction } from "./journal-gathering";
-import { gathering } from "./gatherings";
 export async function suggestJourney(text: string, preferences: Profile) {
   if (preferences.journalAIConsentVersion !== AI_CONSENT_VERSION)
     throw Error("consent_required");
@@ -99,12 +98,12 @@ export async function continueJournal(
   )
     throw Error("invalid_response");
   const latest = messages.at(-1)?.content ?? "";
-  const selected = data.actionId === "A25"
-    ? await availableJournalAction(typeof data.actionTheme === "string" ? data.actionTheme : "", preferences.language, latest, previousActions, () => gathering("list"), false)
-    : data.actionId;
+  const selected = data.actionId
+    ? await availableJournalAction(data.actionId, data.actionTheme ?? "", preferences.language, latest, previousActions)
+    : undefined;
   return {
     content: data.reply,
-    actionId: previousActions.includes(selected) ? undefined : (selected ?? undefined),
+    actionId: selected && !previousActions.includes(selected) ? selected : undefined,
     actionExplanation: selected && selected === data.actionId && !previousActions.includes(selected) && typeof data.actionExplanation === "string" && data.actionExplanation.trim().length > 0 && data.actionExplanation.length <= 240 && !/[\r\n<>]|https?:\/\/|www\./i.test(data.actionExplanation) ? data.actionExplanation.trim() : undefined,
   };
 }
