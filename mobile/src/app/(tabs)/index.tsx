@@ -44,6 +44,7 @@ import {
   markEntered,
   shouldShowEntrance,
   consumeChurchTour,
+  consumeFirstTour,
 } from "../../lib/church-entrance";
 import { loadSoundOn, saveSoundOn, holdAmbience } from "../../lib/church-audio";
 import {
@@ -135,6 +136,8 @@ export default function Home() {
   const [tour, setTour] = useState(false);
   const [toolsOpen, setToolsOpen] = useState(false);
   const [hasExplored, setHasExplored] = useState(false);
+  // The first visit's tour plays to the end: no skip, no stepping out early.
+  const [firstTour, setFirstTour] = useState(false);
   const [tourPlace, setTourPlace] = useState<ChurchPlace | null>(null);
   const [soundOn, setSoundOn] = useState<boolean | null>(null);
   const [focused, setFocused] = useState(true);
@@ -180,6 +183,7 @@ export default function Home() {
         setInvitation(false);
         setDismissed(true);
         setTour(true);
+        if (consumeFirstTour()) setFirstTour(true);
       }
       atHome.current = true;
       walking.current = false;
@@ -350,8 +354,17 @@ export default function Home() {
   const endTour = useCallback(() => {
     setTour(false);
     setHasExplored(true);
+    setFirstTour(false);
+    // The welcome card follows every tour, the first one included.
     setInvitation(true);
   }, []);
+  // A tour that cannot play (the drawing failed) or stalls never traps
+  // anyone: it ends by itself.
+  useEffect(() => {
+    if (!tour || (!sceneFailed && !firstTour)) return;
+    const timer = setTimeout(endTour, sceneFailed ? 0 : 60000);
+    return () => clearTimeout(timer);
+  }, [tour, sceneFailed, firstTour, endTour]);
 
   const week = adventWeekFor(profile, now, preview);
   const theme = week > 0 && plain ? ` · ${t(THEMES[week - 1])}` : "";
@@ -507,6 +520,7 @@ export default function Home() {
               onTourDone={endTour}
               onTourPlace={setTourPlace}
               onPlace={(place, point) => {
+                if (touring && firstTour) return;
                 if (touring) {
                   setTour(false);
                   setHasExplored(true);
@@ -756,6 +770,7 @@ export default function Home() {
               {tourPlace && (
                 <Pressable
                   accessibilityRole="button"
+                  disabled={firstTour}
                   onPress={() => {
                     endTour();
                     open(tourPlace);
@@ -769,13 +784,15 @@ export default function Home() {
                   </Text>
                 </Pressable>
               )}
-              <Pressable
-                accessibilityRole="button"
-                onPress={endTour}
-                style={s.stay}
-              >
-                <Text style={s.stayText}>{t("finishExploring")}</Text>
-              </Pressable>
+              {!firstTour && (
+                <Pressable
+                  accessibilityRole="button"
+                  onPress={endTour}
+                  style={s.stay}
+                >
+                  <Text style={s.stayText}>{t("finishExploring")}</Text>
+                </Pressable>
+              )}
             </View>
           )}
           {/* The Orthodox church shows no welcome card, so its candle and
