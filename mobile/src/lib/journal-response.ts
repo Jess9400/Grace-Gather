@@ -18,6 +18,7 @@ import { journalScripture } from "./journal-verse-reference";
 import { availableJournalAction } from "./journal-gathering";
 import { gathering } from "./gatherings";
 import { refreshPortuguesePrayerCopy } from "./journal-prayer-copy";
+import { safeReflection } from "./llm-contract";
 
 export async function resolveJournalResponse(
   entry: Entry,
@@ -71,5 +72,8 @@ export async function resolveJournalResponse(
     actionTitle: action.title,
     invitation: entry.suggestedAction === actionId && typeof entry.suggestedActionExplanation === "string" && entry.suggestedActionExplanation.trim() && entry.suggestedActionExplanation.length <= 240 ? entry.suggestedActionExplanation : action.invitation,
     actionPrompt: action.prompt,
+    ...(safeReflection(entry.suggestedReflection)
+      ? { reflection: safeReflection(entry.suggestedReflection) }
+      : {}),
   };
 }

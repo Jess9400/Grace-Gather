@@ -9,6 +9,37 @@ export function safeActionExplanation(value) {
   if (!text || text.length > 240 || /[\r\n<>]|https?:\/\/|www\./i.test(text)) return undefined;
   return text;
 }
+// Phrases that make a reply read as machine-written. A reflection that uses
+// one is rewritten once, then left out rather than shown.
+export const GENERIC_PHRASES = [
+  /\bit sounds like\b/i, /\bi hear you\b/i, /\bcompletely (understandable|normal|natural)\b/i,
+  /\byou(?: are|'re|’re) not alone\b/i, /\bjourney\b/i, /\btake a moment\b/i, /\bself-care\b/i,
+  /\bit(?:'s| is|’s) important to\b/i, /\bfeelings are valid\b/i, /\bthank you for sharing\b/i,
+  /\bi(?:'m| am|’m) here for you\b/i, /\bconsider\b/i, /\bgod has a plan\b/i,
+  /\beverything happens for a reason\b/i, /\bremember that god\b/i, /[—–]/, /\?/,
+];
+export const REFLECTION_EXAMPLES = [
+  ['Big presentation tomorrow and I can\'t sleep. I keep going over everything that could go wrong.', 'You don\'t have to rehearse every way tomorrow could go wrong. Give the worries to God one by one, then let the notes rest.'],
+  ['My daughter starts school abroad next week and I keep imagining everything that could happen to her.', 'It\'s okay to be worried; it\'s a very natural feeling for a mom. But worrying won\'t do any good for your daughter or for you. Being calm and confident will help her feel better too, and face new situations at her best.'],
+  ['It\'s been a year since Dad died. Everyone has moved on and I still set out two cups some mornings.', 'A year is not long. The second cup is love that has nowhere to go yet.'],
+  ['I yelled at my son today over nothing. He looked so scared. I don\'t know why I get like this.', 'You saw his face, and it stayed with you; that is where repair starts. Tomorrow, tell him you were wrong to shout, in words a child understands.'],
+  ['Night shift again. Kids, work, Mom in hospital. I have nothing left, not even for prayer.', 'With night shifts, the kids and your mom in hospital, it is no wonder there are no words left. Tonight, simply being here can be the prayer.'],
+  ['I don\'t know if I believe anymore. I pray and it feels like talking to the ceiling.', 'Telling God it feels like talking to the ceiling is still praying. Many of the psalms begin exactly there.'],
+  ['Biopsy came back clear. I cried in the car for twenty minutes.', 'Twenty minutes in the car is all that fear finally letting go. Thank God for it today, out loud if you can.'],
+  ['Another rejection. That\'s 40 applications. Maybe I\'m just not good enough for anything.', 'Forty applications means you got up and tried forty times. A no from a company is not a verdict on you.'],
+  ['Tired. Just tired.', 'Then rest tonight. Nothing more is asked of you right now.'],
+  ['We fought again about money. I said things I can\'t take back.', 'Words can\'t be taken back, but they can be owned. Before you sleep, name one thing you are sorry you said, without explaining why you said it.'],
+];
+export const REFLECTION_GUIDE = `reflection: one or two short sentences, under 280 characters, written to the person as a caring friend who read every word. Use one concrete word or detail from what they wrote. Name the feeling plainly; if it fits, add one gentle, practical turn. Match their length: a very short entry gets a very short reply. No preaching, Bible quotations, verse references, questions, dashes or speaking as God. Avoid stock phrases such as "it sounds like", "I hear you", "completely understandable", "you are not alone", "journey", "take a moment", "self-care", "it's important to", "consider" and "God has a plan". Examples (entry => reflection): ${REFLECTION_EXAMPLES.map(([e,r])=>JSON.stringify(e)+' => '+JSON.stringify(r)).join(' | ')}`;
+export function reflectionIssue(value) {
+  if (typeof value !== 'string' || !value.trim()) return 'missing';
+  const text = value.trim();
+  if (text.length > 320 || /[\r\n<>]|https?:\/\/|www\./i.test(text)) return 'format';
+  return GENERIC_PHRASES.some(p=>p.test(text)) ? 'generic' : undefined;
+}
+// For now only English replies carry a written reflection; the other languages
+// follow once native speakers have written examples.
+export const reflectionLanguage = (language) => language === 'en';
 export const MOODS = ['grateful','peaceful','hopeful','anxious','lonely','sad','overwhelmed','hopeless','unsure'];
 // Same list as mobile/src/lib/safety.ts: it errs on the side of asking.
 const DANGER=[
@@ -38,7 +69,7 @@ export function recommendations(value, preferences, catalog, connectedActions = 
   if (value.themeId !== undefined && !theme) throw Error('invalid_model_response');
   const suggestedAction = theme ? chooseJournalAction(value.actionId && ['A01','A02','A03','A04','A05','A07','A08','A09','A10','A11','A12','A15','A16','A18','A19','A20','A21','A26',...(connectedActions?['A14','A25','A27']:[])].includes(value.actionId) ? {...theme,main:value.actionId} : theme,{privateOnly:value.privateOnly===true,candles:preferences.candlePractice===true,financialStress:value.financialStress===true||theme.id==='money',connectedActions}) : undefined;
   const explanation = suggestedAction && value.actionId === suggestedAction ? safeActionExplanation(value.actionExplanation) : undefined;
-  return {path:value.path,passageIds:passages.map(v=>v.id),actionIds:path.actions.slice(0,1),support:false, ...(theme ? {themeId:theme.id,suggestedAction} : {}), ...(explanation ? {actionExplanation:explanation} : {})};
+  return {path:value.path,passageIds:passages.map(v=>v.id),actionIds:path.actions.slice(0,1),support:false, ...(theme ? {themeId:theme.id,suggestedAction} : {}), ...(explanation ? {actionExplanation:explanation} : {}), ...(reflectionLanguage(preferences.language) && !reflectionIssue(value.reflection) ? {reflection:value.reflection.trim()} : {})};
 }
 export async function readBounded(req, limit) {
   if (Number(req.headers.get('content-length')) > limit) throw Error('too_large');

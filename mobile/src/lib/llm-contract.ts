@@ -13,6 +13,7 @@ export interface JourneySuggestion {
   themeId?: string;
   suggestedAction?: string;
   actionExplanation?: string;
+  reflection?: string;
 }
 // The provider may select approved identifiers; it cannot invent Bible quotations.
 export function validateSuggestion(
@@ -72,9 +73,18 @@ export function validateSuggestion(
   return {
     ...candidate,
     actionExplanation: typeof candidate.actionExplanation === "string" && candidate.actionExplanation.trim().length > 0 && candidate.actionExplanation.length <= 240 && !/[\r\n<>]|https?:\/\/|www\./i.test(candidate.actionExplanation) ? candidate.actionExplanation.trim() : undefined,
+    reflection: safeReflection(candidate.reflection),
     passageIds: candidate.passageIds.slice(0, 1),
     actionIds: candidate.actionIds.slice(0, 1),
   };
+}
+/** A reply sentence the server already checked; kept only if it is plain text. */
+export function safeReflection(value: unknown) {
+  if (typeof value !== "string") return undefined;
+  const text = value.trim();
+  return text && text.length <= 320 && !/[\r\n<>]|https?:\/\/|www\./i.test(text)
+    ? text
+    : undefined;
 }
 export function maySendToLLM(request: JourneyRequest) {
   return (

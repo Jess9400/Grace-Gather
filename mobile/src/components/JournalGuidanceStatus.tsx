@@ -45,6 +45,7 @@ export default function JournalGuidanceStatus({ entry }: { entry: Entry }) {
         themeId: result.themeId,
         suggestedAction: result.suggestedAction,
         suggestedActionExplanation: result.actionExplanation,
+        suggestedReflection: result.reflection,
       };
       const response = await resolveJournalResponse(next, settings, entries);
       await saveRetriedGuidance(entry.id, entry.text, { ...next, response });

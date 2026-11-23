@@ -355,6 +355,16 @@ export default function EntryScreen() {
           </Card>
         ) : (
           <View style={s.reply}>
+            {!loading && !!displayResponse?.reflection && (
+              <>
+                <View style={s.section}>
+                  <Text selectable style={s.reflection}>
+                    {displayResponse.reflection}
+                  </Text>
+                </View>
+                <View style={s.divider} />
+              </>
+            )}
             <View style={s.section}>
               <Text style={s.label}>{jc(lang, "wordForYou")}</Text>
               {loading ? (
@@ -590,6 +600,7 @@ const s = StyleSheet.create({
   },
   divider: { height: 1, backgroundColor: colors.line },
   invitation: { fontSize: 16, lineHeight: 25, color: colors.ink },
+  reflection: { fontSize: 17, lineHeight: 27, color: colors.ink },
   backdrop: {
     flex: 1,
     backgroundColor: "#000000AA",

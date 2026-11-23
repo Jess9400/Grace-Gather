@@ -72,6 +72,7 @@ export default function Diary() {
       themeId: undefined,
       suggestedAction: undefined,
       suggestedActionExplanation: undefined,
+      suggestedReflection: undefined,
       passageIds: undefined,
       actionIds: undefined,
       aiUnavailable: undefined,
@@ -121,6 +122,7 @@ export default function Diary() {
             themeId: result.themeId,
             suggestedAction: result.suggestedAction,
             suggestedActionExplanation: result.actionExplanation,
+            suggestedReflection: result.reflection,
           };
         } catch {
           entry = { ...entry, aiUnavailable: true };

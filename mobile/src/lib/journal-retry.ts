@@ -22,6 +22,7 @@ export function applyRetriedGuidance(
           themeId: guidance.themeId,
           suggestedAction: guidance.suggestedAction,
           suggestedActionExplanation: guidance.suggestedActionExplanation,
+          suggestedReflection: guidance.suggestedReflection,
           response: guidance.response,
           aiUnavailable: false,
         }
