@@ -35,3 +35,10 @@ feature work; keep further visual changes there to what the user requests.
 
 Preserve other contributors' work. Follow the more specific instructions in
 `mobile/AGENTS.md` for mobile implementation and validation.
+
+## Pending server steps
+
+Some merged changes need a database migration or an edge-function deploy
+before they are live. Check `docs/operations/pending-server-steps.md` at the
+start of a task, tell the user about anything still open, and tick items off
+there when they are done.
