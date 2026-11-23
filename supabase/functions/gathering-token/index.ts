@@ -1,6 +1,9 @@
 import { AccessToken, RoomServiceClient, TrackSource } from 'npm:livekit-server-sdk@2.19.2';
 import { serve,identity,json,env } from '../_shared/http.ts';
 const configured=()=>['LIVEKIT_URL','LIVEKIT_API_KEY','LIVEKIT_API_SECRET'].every(k=>!!Deno.env.get(k));
+// Before the speak_mode column exists every participant may speak, as before.
+const speakMode=(g:{speak_mode?:string})=>g.speak_mode==='invited'?'invited':'everyone';
+const mayPublish=(mode:string,m:{can_speak?:boolean|null,speech_revoked?:boolean|null})=>mode==='everyone'?!m.speech_revoked:m.can_speak===true&&!m.speech_revoked;
 serve(async(req)=>{
  if(req.method==='GET')return json({configured:configured(),audioOnly:true,missing:['LIVEKIT_URL','LIVEKIT_API_KEY','LIVEKIT_API_SECRET'].filter(k=>!Deno.env.get(k))});
  const {user,client,service}=await identity(req);const body=await req.json();
@@ -27,7 +30,35 @@ serve(async(req)=>{
   const membership=await client.from('memberships').select('user_id,hand_raised,can_speak').eq('gathering_id',g.id);
   if(membership.error)throw membership.error;
   if(!host&&!membership.data.some(m=>m.user_id===user.id))return json({error:'not_allowed'},403);
-  return json({hands:host?membership.data.filter(m=>m.hand_raised).map(m=>m.user_id):[],endsAt:g.ends_at});
+  return json({hands:host?membership.data.filter(m=>m.hand_raised).map(m=>m.user_id):[],endsAt:g.ends_at,speakMode:speakMode(g)});
+ }
+ if(body.action==='speak_mode'){
+  if(!host)return json({error:'host_required'},403);
+  const mode=body.enabled===true?'everyone':'invited';
+  // A weekly series keeps one rule: this gathering and the later ones in it.
+  const scope=service.from('gatherings').update({speak_mode:mode}).eq('host_id',user.id);
+  const saved=g.series_id?await scope.eq('series_id',g.series_id).gte('starts_at',g.starts_at):await scope.eq('id',g.id);if(saved.error)throw saved.error;
+  const members=await service.from('memberships').select('user_id,can_speak,speech_revoked').eq('gathering_id',g.id);if(members.error)throw members.error;
+  for(const m of members.data??[]){
+   if(m.user_id===g.host_id)continue;
+   try{await server.updateParticipant(g.room_name,m.user_id,{permission:{canSubscribe:true,canPublish:mayPublish(mode,m),canPublishSources:[TrackSource.MICROPHONE],canPublishData:false}});}
+   catch{/* Not in the room right now: their next join follows the new rule. */}
+  }
+  return json({speakMode:mode});
+ }
+ if(body.action==='mute_all'){
+  if(!host)return json({error:'host_required'},403);
+  let muted=0;
+  try{
+   for(const p of await server.listParticipants(g.room_name)){
+    if(p.identity===g.host_id)continue;
+    for(const t of p.tracks){
+     if(t.source!==TrackSource.MICROPHONE||t.muted)continue;
+     await server.mutePublishedTrack(g.room_name,p.identity,t.sid,true);muted++;
+    }
+   }
+  }catch(e){if((e as {code?:string}).code!=='not_found')throw e;}
+  return json({muted});
  }
  if(['speaker','remove'].includes(body.action)){
   if(!host||typeof body.participant!=='string'||body.participant===user.id)return json({error:'host_required'},403);
@@ -47,13 +78,13 @@ serve(async(req)=>{
  if(Date.now()<Date.parse(g.starts_at))return json({error:'not_started'},409);
  const reserved=await client.rpc('gathering_command',{p_action:'reserve',p_data:{id:g.id,invite:body.invite??''}});
  if(reserved.error)return json({error:['full','invite_required','not_allowed','unavailable'].find(x=>reserved.error!.message===x)??'join_failed'},409);
- const membership=await service.from('memberships').select('speech_revoked').eq('gathering_id',g.id).eq('user_id',user.id).single();if(membership.error)throw membership.error;
+ const membership=await service.from('memberships').select('can_speak,speech_revoked').eq('gathering_id',g.id).eq('user_id',user.id).single();if(membership.error)throw membership.error;
  await server.createRoom({name:g.room_name,maxParticipants:g.capacity,emptyTimeout:120,departureTimeout:30});
  const profile=await service.from('profiles').select('name').eq('id',user.id).maybeSingle();const name=host?g.host_name:profile.data?.name?.trim()||'Community member';
- // Every admitted participant may choose to unmute. The host retains the
- // ability to remove people or change their speaking permission during a room.
- const canSpeak=host||!membership.data.speech_revoked;
+ // The gathering's rule decides who may unmute: everyone, or only people the
+ // host allowed. The host can still remove people or change who speaks.
+ const canSpeak=host||mayPublish(speakMode(g),membership.data);
  const token=new AccessToken(env('LIVEKIT_API_KEY'),env('LIVEKIT_API_SECRET'),{identity:user.id,name:name.slice(0,60),ttl:Math.min(300,Math.max(1,Math.floor((Date.parse(g.ends_at)-Date.now())/1000))),metadata:JSON.stringify({role:host?'host':canSpeak?'speaker':'listener'})});
  token.addGrant({roomJoin:true,room:g.room_name,canSubscribe:true,canPublish:canSpeak,canPublishSources:[TrackSource.MICROPHONE],canPublishData:false});
- return json({token:await token.toJwt(),url:env('LIVEKIT_URL'),endsAt:g.ends_at,host,hostId:g.host_id,canSpeak,title:g.title});
+ return json({token:await token.toJwt(),url:env('LIVEKIT_URL'),endsAt:g.ends_at,host,hostId:g.host_id,canSpeak,title:g.title,speakMode:speakMode(g)});
 });
