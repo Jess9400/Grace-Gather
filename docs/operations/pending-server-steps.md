@@ -40,11 +40,11 @@ above the verse. English only for now. No database change.
   the latest `main`:
 
   ```bash
-  npx supabase functions deploy llm-journey --project-ref <project-ref>
+  npx supabase functions deploy llm-journey --no-verify-jwt --project-ref <project-ref>
   ```
 
-  `llm-journey` has no `verify_jwt` override in `supabase/config.toml`, so no
-  extra flag. It can go out together with `gathering-token` above.
+  Keep `--no-verify-jwt`, as for `gathering-token` (see `supabase/config.toml`).
+  It can go out together with `gathering-token` above.
 - [ ] **2. Check on the next app build:** with AI replies on and the app in
   English, write a journal entry; a short personal paragraph appears above
   "A word for you". Other languages show the reply as before.
