@@ -12,7 +12,7 @@ import {
 } from "../../components/community-ui";
 import { useApp } from "../../lib/state";
 import { languages, Language } from "../../lib/content";
-import { gathering } from "../../lib/gatherings";
+import { audioCommand, gathering } from "../../lib/gatherings";
 import { backend } from "../../lib/backend";
 import { communityCopy } from "../../lib/community-copy";
 import PrayerSchedule from "../../components/PrayerSchedule";
@@ -37,6 +37,7 @@ export default function CreateGathering() {
       Intl.DateTimeFormat().resolvedOptions().timeZone,
     ),
     [visibility, setVisibility] = useState("public"),
+    [everyoneSpeaks, setEveryoneSpeaks] = useState(false),
     [capacity, setCapacity] = useState("20"),
     [minutes, setMinutes] = useState("60"),
     [busy, setBusy] = useState(false),
@@ -68,6 +69,9 @@ export default function CreateGathering() {
         repeat: !now && weekly ? "weekly" : "none",
         occurrences: !now && weekly ? Number(occurrences) : 1,
       });
+      // New gatherings let only invited people speak; open the floor if chosen.
+      if (everyoneSpeaks && configured)
+        await audioCommand("speak_mode", { gatheringId: result.id, enabled: true }).catch(() => {});
       router.replace({
         pathname: "/gathering/[id]",
         params: { id: result.id },
@@ -204,6 +208,20 @@ export default function CreateGathering() {
             : "inviteGatheringNotice",
         )}
       </Body>
+      <Body>{c("whoCanSpeak")}</Body>
+      <Row>
+        <Chip
+          title={c("speakInvited")}
+          selected={!everyoneSpeaks}
+          onPress={() => setEveryoneSpeaks(false)}
+        />
+        <Chip
+          title={c("speakEveryone")}
+          selected={everyoneSpeaks}
+          onPress={() => setEveryoneSpeaks(true)}
+        />
+      </Row>
+      <Body small>{c(everyoneSpeaks ? "speakEveryoneNote" : "speakInvitedNote")}</Body>
       <Field
         label={c("capacity")}
         value={capacity}

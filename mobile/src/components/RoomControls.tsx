@@ -111,6 +111,44 @@ export default function RoomControls() {
           <Button secondary title={c("invite")} onPress={() => void invite()} />
         </Row>
       )}
+      {s.access.host && audio.connection === "connected" && (
+        <View style={{ gap: 10 }}>
+          {/* Requests first, so nobody waits with a raised hand unseen. */}
+          {audio.participants
+            .filter((p) => !p.isLocal && audio.hands.includes(p.identity))
+            .map((p) => (
+              <View key={p.identity} style={{ gap: 6 }}>
+                <Body>
+                  ✋ {p.name || c("member")} · {c("raisedHand")}
+                </Body>
+                <Button
+                  disabled={audio.busy}
+                  title={c("allowSpeaking")}
+                  onPress={() => void audio.command("speaker", p.identity, true)}
+                />
+              </View>
+            ))}
+          <Body small>
+            {c(audio.speakMode === "everyone" ? "speakEveryoneNow" : "speakInvitedNow")}
+          </Body>
+          <Row>
+            <Button
+              secondary
+              disabled={audio.busy}
+              title={c("muteEveryone")}
+              onPress={() => void audio.command("mute_all")}
+            />
+            <Button
+              secondary
+              disabled={audio.busy}
+              title={c(audio.speakMode === "everyone" ? "speakSwitchInvited" : "speakSwitchEveryone")}
+              onPress={() =>
+                void audio.command("speak_mode", undefined, audio.speakMode !== "everyone")
+              }
+            />
+          </Row>
+        </View>
+      )}
       <Disclosure
         title={c("audioOutput")}
         onToggle={() => {

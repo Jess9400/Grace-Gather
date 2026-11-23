@@ -19,6 +19,8 @@ interface Access {
   hostId: string;
   canSpeak: boolean;
   title: Localized;
+  // Missing from servers without the setting: everyone may speak there.
+  speakMode?: "everyone" | "invited";
 }
 interface Session {
   id: string;
@@ -32,6 +34,8 @@ interface AudioContext {
   connection: string;
   notice: string;
   hands: string[];
+  /** Who may switch on their microphone: everyone, or only people the host allows. */
+  speakMode: "everyone" | "invited";
   raised: boolean;
   muted: boolean;
   canSpeak: boolean;
@@ -56,6 +60,7 @@ export function AudioRoomProvider({ children }: { children: ReactNode }) {
     [connection, setConnection] = useState("disconnected"),
     [notice, setNotice] = useState(""),
     [hands, setHands] = useState<string[]>([]),
+    [speakMode, setSpeakMode] = useState<"everyone" | "invited">("everyone"),
     [raised, setRaised] = useState(false),
     [busy, setBusy] = useState(false),
     [, refresh] = useState(0);
@@ -101,6 +106,7 @@ export function AudioRoomProvider({ children }: { children: ReactNode }) {
         invite,
       });
       if (version !== generation.current) return;
+      setSpeakMode(access.speakMode === "invited" ? "invited" : "everyone");
       await platform.startAudio();
       audioStarted = true;
       if (version !== generation.current) {
@@ -185,7 +191,11 @@ export function AudioRoomProvider({ children }: { children: ReactNode }) {
     const poll = async () => {
       try {
         const data = await audioCommand("state", { gatheringId: session.id });
-        if (active) setHands(data.hands ?? []);
+        if (active) {
+          setHands(data.hands ?? []);
+          if (data.speakMode === "invited" || data.speakMode === "everyone")
+            setSpeakMode(data.speakMode);
+        }
       } catch (e) {
         if (active && (e as Error).message === "ended") {
           await leaveRef.current();
@@ -250,11 +260,16 @@ export function AudioRoomProvider({ children }: { children: ReactNode }) {
     if (!current.current) return;
     setBusy(true);
     try {
-      await audioCommand(action, {
+      const result = await audioCommand(action, {
         gatheringId: current.current.id,
         participant,
         enabled,
       });
+      if (action === "speak_mode")
+        setSpeakMode(result?.speakMode === "invited" ? "invited" : "everyone");
+      if (action === "mute_all") setNotice("mutedEveryone");
+      if (action === "speaker" && enabled)
+        setHands((list) => list.filter((h) => h !== participant));
       if (action === "close") {
         await leave();
         setNotice("ended");
@@ -278,6 +293,7 @@ export function AudioRoomProvider({ children }: { children: ReactNode }) {
         connection,
         notice,
         hands,
+        speakMode,
         raised,
         busy,
         muted: !room?.localParticipant.isMicrophoneEnabled,
