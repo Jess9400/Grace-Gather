@@ -31,10 +31,10 @@ Apply in this order, before the next app build is released:
 The function is safe before the migration (it then treats every gathering as
 "everyone", as before), and an older app keeps working against the new server.
 
-## Personal sentence in English journal replies (merged with this item's PR)
+## Personal sentence in English and Portuguese journal replies (#225)
 
 The journal reply gains one or two sentences written to what the person wrote,
-above the verse. English only for now. No database change.
+above the verse. English and Portuguese for now. No database change.
 
 - [ ] **1. Deploy the `llm-journey` edge function.** From the repository root on
   the latest `main`:
@@ -46,5 +46,6 @@ above the verse. English only for now. No database change.
   Keep `--no-verify-jwt`, as for `gathering-token` (see `supabase/config.toml`).
   It can go out together with `gathering-token` above.
 - [ ] **2. Check on the next app build:** with AI replies on and the app in
-  English, write a journal entry; a short personal paragraph appears above
-  "A word for you". Other languages show the reply as before.
+  English, then in Portuguese, write a journal entry; a short personal
+  paragraph appears above "A word for you". Spanish and Russian show the reply
+  as before.
