@@ -33,9 +33,14 @@ test("tapping the candle brings its choices into view", () => {
 test("a long journal entry scrolls inside the letter while writing", () => {
   const diary = read("src/components/DiaryPage.tsx");
   assert.match(diary, /paperWriting: \{ flex: 1/);
-  assert.match(diary, /inputWriting: \{ flex: 1/);
+  assert.match(diary, /multiline\s+scrollEnabled/);
+  assert.match(diary, /writingArea: \{ flex: 1, minHeight: 0/);
+  assert.match(diary, /inputWriting: \{ \.\.\.StyleSheet\.absoluteFill, minHeight: 0/);
   const screen = read("src/components/quiet-ui.tsx");
-  assert.match(screen, /height: Math\.max\(viewport, COMPACT_MIN\)/);
+  assert.match(screen, /allowPageScroll = !compact \|\| Platform.OS === "web"/);
+  assert.equal(screen.match(/scrollEnabled=\{allowPageScroll\}/g)?.length, 2);
+  assert.match(screen, /useKeyboardReveal\(scroll, !compact\)/);
+  assert.doesNotMatch(screen, /Math\.max\(viewport/);
   // The bar above the page already clears the status bar.
   assert.match(screen, /paddingTop: back \? 4 : insets\.top \+ 12/);
 });
