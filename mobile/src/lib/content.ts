@@ -54,6 +54,7 @@ export interface JournalResponse {
   actionTitle: string;
   invitation: string;
   actionPrompt?: string;
+  reflection?: string;
 }
 export interface DeletedConversation {
   id: string;
@@ -81,6 +82,8 @@ export interface Entry {
   themeId?: string;
   suggestedAction?: string;
   suggestedActionExplanation?: string;
+  // A short personal reply to what was written (English, AI on).
+  suggestedReflection?: string;
   text: string;
   audio?: string;
   action?: string;

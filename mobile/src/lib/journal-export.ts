@@ -74,6 +74,7 @@ export function journalExportHtml(entries: Entry[], language: Language) {
         verse = response?.verse;
       return `<article><h2>${escape(new Date(entry.createdAt).toLocaleDateString(language, { dateStyle: "long" }))}</h2>
       ${paragraph(entry.text || journalCopy(language, "audio"), "writing")}
+      ${response?.reflection && !entry.safety ? paragraph(response.reflection) : ""}
       ${verse ? `<section><h3>${t("verse")}</h3>${paragraph(verse.text, "verse")}${paragraph(`${verse.reference} · ${verse.editionName}`, "muted")}${paragraph(verse.attribution, "credit")}</section>` : ""}
       ${response && !entry.safety ? `<section><h3>${t("action")}</h3>${paragraph(response.invitation)}${paragraph(response.actionTitle, "action")}</section>` : ""}
       ${entry.reflection ? `<section><h3>${t("reflection")}</h3>${paragraph(entry.reflection)}</section>` : ""}

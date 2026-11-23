@@ -67,6 +67,12 @@ export function validateJournalEntries(
         return true;
       if (e.audio !== undefined && !validId(e.audio)) return true;
       if (
+        e.suggestedReflection !== undefined &&
+        (typeof e.suggestedReflection !== "string" ||
+          e.suggestedReflection.length > 320)
+      )
+        return true;
+      if (
         e.suggestedActionExplanation !== undefined &&
         (typeof e.suggestedActionExplanation !== "string" ||
           e.suggestedActionExplanation.length > 240)
@@ -111,6 +117,9 @@ export function validateJournalEntries(
           typeof e.response.invitation !== "string" ||
           (e.response.actionPrompt !== undefined &&
             typeof e.response.actionPrompt !== "string") ||
+          (e.response.reflection !== undefined &&
+            (typeof e.response.reflection !== "string" ||
+              e.response.reflection.length > 320)) ||
           (e.response.verse &&
             [
               "id",
