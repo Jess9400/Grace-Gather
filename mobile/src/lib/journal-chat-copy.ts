@@ -1,5 +1,7 @@
 import type { Language } from "./content";
 const words = {
+  helped: ["Did this help?", "Isso ajudou?", "¿Te ayudó?", "Вам это помогло?"],
+  homeAfter: ["Yes, back to Home", "Sim, voltar ao início", "Sí, volver al inicio", "Да, на главную"],
   prompt: [
     "Did this help, or would you like to keep talking?",
     "Isso ajudou ou você gostaria de continuar conversando?",

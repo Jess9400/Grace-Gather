@@ -1,4 +1,4 @@
-import { Platform, View } from "react-native";
+import { View } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import IntroWalk from "../components/IntroWalk";
 import { useApp } from "../lib/state";
@@ -47,7 +47,6 @@ export default function Intro() {
           markIntroSeen();
           showEntranceAgain();
           if (
-            Platform.OS === "web" &&
             signedIn &&
             hasCompletedOnboarding(profile) &&
             moment !== undefined

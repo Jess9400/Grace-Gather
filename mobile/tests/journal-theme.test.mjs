@@ -22,7 +22,7 @@ function load(path) {
   }).outputText, { module, exports: module.exports, require: name => name.startsWith('.') ? load(resolve(dirname(path), name)) : require(name) }, { filename: path });
   return module.exports;
 }
-const { journalTheme, says } = load(resolve(root, 'mobile/src/lib/journal-guidance.ts'));
+const { journalAction, journalTheme, says } = load(resolve(root, 'mobile/src/lib/journal-guidance.ts'));
 const { refreshPortuguesePrayerCopy } = load(resolve(root, 'mobile/src/lib/journal-prayer-copy.ts'));
 
 test('older saved prayer wording is updated for display without changing other responses', () => {
@@ -100,4 +100,16 @@ test('grief walks a path of verses, one per entry', () => {
   assert.equal(journalVerseFor(mixed[3], mixed), 'JHN.11.35');
   // A theme without a path keeps its one verse.
   assert.equal(journalVerseFor({ id: 'j', text: 'joy', mood: 'grateful', themeId: 'joy', createdAt: '2026-11-09T00:00:00Z' }, journal), 'JAS.5.13');
+});
+
+test('repeated writing suggestions vary across recent entries and preserve safety actions', () => {
+  const entry = { id: 'today', createdAt: '2026-11-23', text: 'I feel hopeless', themeId: 'hopelessness', suggestedAction: 'A08', mood: 'unsure' };
+  const profile = { tradition: 'protestant' };
+  const yesterday = { ...entry, id: 'yesterday', createdAt: '2026-11-22', response: { actionId: 'A08' } };
+  const older = { ...yesterday, id: 'older', createdAt: '2026-11-21', response: { actionId: 'A19' } };
+  assert.equal(journalAction(entry, profile), 'A08');
+  assert.equal(journalAction(entry, profile, [yesterday]), 'A19');
+  assert.equal(journalAction(entry, profile, [older, yesterday]), 'A09');
+  assert.equal(journalAction(entry, profile, [{ ...yesterday, deletedAt: '2026-11-23' }]), 'A08');
+  assert.equal(journalAction({ ...entry, safety: true }, profile, [yesterday]), 'A08');
 });

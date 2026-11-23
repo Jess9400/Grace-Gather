@@ -68,19 +68,20 @@ export default function IntroWalk({
   language,
   church,
   onDone,
+  stillMoment,
 }: IntroWalkProps) {
   const { width, height } = useWindowDimensions();
   const insets = useSafeAreaInsets();
   // People who ask their phone for less motion see each moment at once.
   // Nothing is drawn until the phone has answered, so the walk never starts
   // one way and switches to the other.
-  const [calm, setCalm] = useState<boolean | null>(null);
-  const [moment, setMoment] = useState(0);
-  const [instant, setInstant] = useState(-1);
-  const [walk] = useState(() => new Animated.Value(0));
+  const [calm, setCalm] = useState<boolean | null>(stillMoment === undefined ? null : true);
+  const [moment, setMoment] = useState(stillMoment ?? 0);
+  const [instant, setInstant] = useState(stillMoment ?? -1);
+  const [walk] = useState(() => new Animated.Value(stillMoment ?? 0));
   const [dip] = useState(() => new Animated.Value(0));
-  const [veil] = useState(() => new Animated.Value(1));
-  const [doorLight] = useState(() => new Animated.Value(0));
+  const [veil] = useState(() => new Animated.Value(stillMoment === undefined ? 1 : 0));
+  const [doorLight] = useState(() => new Animated.Value(stillMoment === INTRO_MOMENTS - 1 ? 1 : 0));
   const [pulse] = useState(() => new Animated.Value(1));
   const stars = useMemo(() => introStars(), []);
   const motes = useMemo(() => introMotes(), []);
@@ -94,6 +95,7 @@ export default function IntroWalk({
   );
 
   useEffect(() => {
+    if (stillMoment !== undefined) return;
     let active = true;
     void AccessibilityInfo.isReduceMotionEnabled()
       .then((reduced) => active && setCalm(reduced))
@@ -101,7 +103,7 @@ export default function IntroWalk({
     return () => {
       active = false;
     };
-  }, []);
+  }, [stillMoment]);
   const animate = calm === false;
   // The night fades in, and the light ahead breathes.
   useEffect(() => {
@@ -168,7 +170,7 @@ export default function IntroWalk({
   });
 
   const step = () => {
-    if (last) return onDone();
+    if (last) return onDone(animate ? moment : undefined);
     const next = moment + 1;
     setMoment(next);
     if (!animate) {

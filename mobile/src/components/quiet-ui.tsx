@@ -103,7 +103,7 @@ function useSurfaceColors() {
 }
 // The least height a compact page keeps (very large text, short screens);
 // below this the page scrolls instead of squeezing what is being written.
-const COMPACT_MIN = 330;
+const COMPACT_MIN = 210;
 // `place` makes the screen one of the church's rooms: its part of the church
 // runs across the top in place of the plain header.
 export function Screen({
@@ -157,7 +157,7 @@ export function Screen({
             keyboardShouldPersistTaps="handled"
             automaticallyAdjustKeyboardInsets={!footer}
             // A downward swipe puts the keyboard away.
-            keyboardDismissMode={footer ? "interactive" : "none"}
+            keyboardDismissMode={footer && !compact ? "interactive" : "none"}
             onScroll={onScroll}
             scrollEventThrottle={32}
             // A compact page is exactly as tall as the space above the
@@ -221,8 +221,10 @@ export function Screen({
           automaticallyAdjustKeyboardInsets={!avoid}
           onScroll={onScroll}
           scrollEventThrottle={32}
+          onLayout={compact ? (event) => setViewport(event.nativeEvent.layout.height) : undefined}
           contentContainerStyle={[
             s.page,
+            compact && viewport > 0 && { height: Math.max(viewport, COMPACT_MIN) },
             !!footer && { paddingBottom: 8 },
             centered && { flexGrow: 1, justifyContent: "center" },
           ]}

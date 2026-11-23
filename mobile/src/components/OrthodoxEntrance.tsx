@@ -15,6 +15,7 @@ import {
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { churchCopy } from "../lib/church-copy";
+import IntroHandoff from "./IntroHandoff";
 import { releaseIntroHandoff } from "../lib/intro-handoff";
 import type { Language } from "../lib/content";
 import { serif } from "./quiet-ui";
@@ -56,7 +57,7 @@ export default function OrthodoxEntrance({
   }, [onEntered]);
 
   useEffect(() => {
-    if (Platform.OS === "web" && loadedParts === 7) releaseIntroHandoff();
+    if (loadedParts === 7) releaseIntroHandoff();
   }, [loadedParts]);
 
   useEffect(() => {
@@ -170,11 +171,7 @@ export default function OrthodoxEntrance({
         >
           <Image
             source={background}
-            onLoadEnd={
-              Platform.OS === "web"
-                ? () => setLoadedParts((loaded) => loaded | 1)
-                : undefined
-            }
+            onLoadEnd={() => setLoadedParts((loaded) => loaded | 1)}
             style={{
               position: "absolute",
               left: artLeft,
@@ -186,20 +183,12 @@ export default function OrthodoxEntrance({
           <Animated.Image
             source={leftLeaf}
             style={leaf("left")}
-            onLoadEnd={
-              Platform.OS === "web"
-                ? () => setLoadedParts((loaded) => loaded | 2)
-                : undefined
-            }
+            onLoadEnd={() => setLoadedParts((loaded) => loaded | 2)}
           />
           <Animated.Image
             source={rightLeaf}
             style={leaf("right")}
-            onLoadEnd={
-              Platform.OS === "web"
-                ? () => setLoadedParts((loaded) => loaded | 4)
-                : undefined
-            }
+            onLoadEnd={() => setLoadedParts((loaded) => loaded | 4)}
           />
         </View>
 
@@ -250,6 +239,7 @@ export default function OrthodoxEntrance({
           pointerEvents="none"
           style={[StyleSheet.absoluteFill, styles.light, { opacity: fade }]}
         />
+        {Platform.OS !== "web" && <IntroHandoff />}
       </View>
     </Modal>
   );

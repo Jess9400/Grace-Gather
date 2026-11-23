@@ -125,7 +125,7 @@ export function spiritualDistance(text: string) {
       );
     });
 }
-export function journalAction(entry: Entry, profile: Profile) {
+export function journalAction(entry: Entry, profile: Profile, journal: Entry[] = []) {
   const theme = journalTheme(entry);
   let id =
     entry.suggestedAction ??
@@ -157,5 +157,18 @@ export function journalAction(entry: Entry, profile: Profile) {
   // Keep persistent distress and safety handling separate from this invitation.
   if (theme.id === "hopelessness" && (!entry.suggestedAction || id === "A04"))
     id = "A08";
+  if (!entry.safety && theme.id !== "persistent-distress" && ["A03", "A08", "A12"].includes(id)) {
+    const recent = journal
+      .filter((other) => other.id !== entry.id && !other.safety && !other.deletedAt && other.createdAt < entry.createdAt && other.response)
+      .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+      .slice(0, 2)
+      .map((other) => other.response!.actionId);
+    if (recent.includes(id)) {
+      const alternatives = theme.id === "doubt" ? ["A26", "A09"]
+        : ["hopelessness", "sadness", "gratitude"].includes(theme.id) ? ["A19", "A09"]
+        : ["A09", "A19"];
+      return alternatives.find((candidate) => !recent.includes(candidate)) ?? id;
+    }
+  }
   return id;
 }

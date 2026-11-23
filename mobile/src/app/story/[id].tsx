@@ -351,20 +351,22 @@ export default function Story() {
                 <Body key={index} small={!!item.license && paragraph.startsWith(item.license)}>{paragraph}</Body>
               ))}
           </Card>
-          {!!item.url && /^https:\/\//.test(item.url) && (
-            <TextAction
-              title={c("openOriginal")}
-              icon="open-outline"
-              onPress={() => void Linking.openURL(item.url!)}
-            />
-          )}
-          {!!item.license && !item.body.pt.includes(item.license) && <Body small>{item.license}</Body>}
-          {!!item.licenseUrl && /^https:\/\//.test(item.licenseUrl) && (
-            <External title={c("reuseTerms")} url={item.licenseUrl} />
-          )}
-          {item.resources?.filter(([, , url]) => /^https:\/\//.test(url)).map(([, title, url]) => (
-            <External key={url} title={title} url={url} />
-          ))}
+          <Disclosure title={c("sources")}>
+            {!!item.url && /^https:\/\//.test(item.url) && (
+              <TextAction
+                title={c("openOriginal")}
+                icon="open-outline"
+                onPress={() => void Linking.openURL(item.url!)}
+              />
+            )}
+            {!!item.license && !item.body.pt.includes(item.license) && <Body small>{item.license}</Body>}
+            {!!item.licenseUrl && /^https:\/\//.test(item.licenseUrl) && (
+              <External title={c("reuseTerms")} url={item.licenseUrl} />
+            )}
+            {item.resources?.filter(([, , url]) => /^https:\/\//.test(url)).map(([, title, url]) => (
+              <External key={url} title={title} url={url} />
+            ))}
+          </Disclosure>
         </>
       ) : item.origin === "publisher" ? (
         <>
@@ -389,11 +391,13 @@ export default function Story() {
             /^https:\/\/christianfaithstories\.org\/wp-content\/uploads\/\d{4}\/\d{2}\/[a-z0-9%._-]+\.pdf$/i.test(
               item.url,
             ) && (
-              <TextAction
-                title={c("openOriginal")}
-                icon="open-outline"
-                onPress={() => void Linking.openURL(item.url!)}
-              />
+              <Disclosure title={c("sources")}>
+                <TextAction
+                  title={c("openOriginal")}
+                  icon="open-outline"
+                  onPress={() => void Linking.openURL(item.url!)}
+                />
+              </Disclosure>
             )}
         </>
       ) : (
@@ -425,17 +429,12 @@ export default function Story() {
               {i + 1}. {v}
             </Body>
           ))}
-          <External title={t("source")} url={psalm.source} />
         </Card>
       )}
-      {item.origin !== "publisher" && !!item.resources?.length && (
-        <View style={{ gap: 2, paddingVertical: 4 }}>
-          <Text
-            style={{ color: colors.muted, fontSize: 13, fontWeight: "600" }}
-          >
-            {interfaceCopy(profile.language, "Watch, listen and explore")}
-          </Text>
-          {item.resources.map(([kind, title, url]) => (
+      {item.origin !== "publisher" && (!!item.resources?.length || psalm) && (
+        <Disclosure title={c("sources")}>
+          {psalm && <External title={t("source")} url={psalm.source} />}
+          {item.resources?.map(([kind, title, url]) => (
             <TextAction
               key={url}
               icon="open-outline"
@@ -471,7 +470,7 @@ export default function Story() {
               {new Date(item.retrievedAt).toLocaleString(profile.language)}
             </Body>
           )}
-        </View>
+        </Disclosure>
       )}
       <View
         style={{
@@ -755,6 +754,7 @@ export default function Story() {
               (x) => profile.language !== "pt" || isPortugueseDiscoverStory(x),
             )
             .filter((x) => !x.tradition || x.tradition === profile.tradition)
+            .slice(0, 1)
             .map((story) => (
               <TextAction
                 key={story.id}

@@ -131,7 +131,7 @@ export default function EntryScreen() {
   const action =
     displayResponse?.actionId ??
     (entry.response?.actionId === "A25" ? "A08" : entry.response?.actionId) ??
-    journalAction(entry, profile);
+    journalAction(entry, profile, entries);
   const actionCopy = journalActionCopy(lang, journalTheme(entry).id, action);
   const actionTitle = displayResponse?.actionTitle ?? actionCopy.title;
   // Long letters open folded so the reply stays in reach.

@@ -10,10 +10,11 @@ import {
   ScrollView,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import type { ReactNode } from "react";
+import type { ComponentRef, ReactNode } from "react";
 import { router } from "expo-router";
 import { randomUUID } from "expo-crypto";
-import { Screen, Notice, colors } from "./quiet-ui";
+import PreviewDialog from "./PreviewDialog";
+import { Screen, Notice, colors, Subheading, Button } from "./quiet-ui";
 import { TextAction } from "./CommunityControls";
 import { useApp } from "../lib/state";
 import { backend } from "../lib/backend";
@@ -51,10 +52,18 @@ export default function JournalConversation({
   const [focused, setFocused] = useState(false);
   const [needsSignIn, setNeedsSignIn] = useState(false);
   const [permissionOpen, setPermissionOpen] = useState(false);
+  const [feedback, setFeedback] = useState(false);
   const [open, setOpen] = useState(false);
   const [olderOpen, setOlderOpen] = useState(false);
   const [scrollKey, setScrollKey] = useState<string>();
   const lock = useRef(false);
+  const composerRef = useRef<ComponentRef<typeof TextInput>>(null);
+  const resumeChat = useRef(false);
+  function focusChat() {
+    if (!resumeChat.current) return;
+    resumeChat.current = false;
+    composerRef.current?.focus();
+  }
   const lang = profile.language,
     messages = entry.conversation ?? [];
   const pending = messages.at(-1)?.role === "user";
@@ -192,8 +201,9 @@ export default function JournalConversation({
         </View>
         <View style={[s.composer, focused && s.composerFocused]}>
           <TextInput
+            ref={composerRef}
             accessibilityLabel={chatCopy(lang, "label")}
-            placeholder={chatCopy(lang, "prompt")}
+            placeholder={chatCopy(lang, "label")}
             placeholderTextColor={colors.muted}
             multiline
             returnKeyType="send"
@@ -289,9 +299,28 @@ export default function JournalConversation({
     </View>
   );
   return (
-    <Screen back keyboard scrollToEndKey={scrollKey}>
+    <Screen back home keyboard scrollToEndKey={scrollKey}>
       <JournalAIPermissionDialog visible={permissionOpen} onClose={() => setPermissionOpen(false)} onAllowed={(next) => { setPermissionOpen(false); void send(next); }} />
       {children}
+      {!entry.safety && (
+        <>
+          <TextAction title={chatCopy(lang, "helped")} onPress={() => setFeedback(true)} />
+          <PreviewDialog onDismiss={focusChat} visible={feedback} onClose={() => setFeedback(false)} closeLabel={chatCopy(lang, "close")}>
+            <Subheading>{chatCopy(lang, "helped")}</Subheading>
+            <Button title={chatCopy(lang, "homeAfter")} onPress={() => {
+              setFeedback(false);
+              router.dismissTo("/(tabs)");
+            }} />
+            <TextAction title={chatCopy(lang, "open")} onPress={() => {
+              setFeedback(false);
+              resumeChat.current = true;
+              setOpen(true);
+              setScrollKey(randomUUID());
+              if (Platform.OS !== "ios") requestAnimationFrame(focusChat);
+            }} />
+          </PreviewDialog>
+        </>
+      )}
       {messages.length > 0 && (
         <View style={s.conversation}>
           <Pressable
