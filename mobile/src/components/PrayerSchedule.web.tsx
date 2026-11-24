@@ -12,9 +12,16 @@ export default function PrayerSchedule({
 }: PrayerScheduleProps) {
   const tr = useInterfaceCopy();
   const id = useId();
+  // iPhone Safari gives date and time boxes a built-in minimum width; without
+  // these rules they stretch past the screen edge.
   const style = {
+    display: "block",
     width: "100%",
+    maxWidth: "100%",
     minWidth: 0,
+    WebkitAppearance: "none" as const,
+    appearance: "none" as const,
+    textAlign: "left" as const,
     boxSizing: "border-box" as const,
     minHeight: 52,
     borderRadius: 14,
@@ -28,10 +35,10 @@ export default function PrayerSchedule({
     colorScheme: "dark",
   };
   return (
-    <div style={{ display: "grid", gap: 16 }}>
+    <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr)", gap: 16, minWidth: 0 }}>
       <label
         htmlFor={`${id}-date`}
-        style={{ display: "grid", gap: 8, color: colors.ink, fontSize: 13, fontWeight: 600 }}
+        style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr)", gap: 8, minWidth: 0, color: colors.ink, fontSize: 13, fontWeight: 600 }}
       >
         {dateLabel ?? tr("Prayer date")}
         <input
@@ -45,7 +52,7 @@ export default function PrayerSchedule({
       </label>
       <label
         htmlFor={`${id}-time`}
-        style={{ display: "grid", gap: 8, color: colors.ink, fontSize: 13, fontWeight: 600 }}
+        style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr)", gap: 8, minWidth: 0, color: colors.ink, fontSize: 13, fontWeight: 600 }}
       >
         {timeLabel ?? tr("Prayer time")}
         <input
