@@ -14,6 +14,7 @@ import { useApp } from "../../lib/state";
 import { languages, Language } from "../../lib/content";
 import { audioCommand, gathering } from "../../lib/gatherings";
 import { backend } from "../../lib/backend";
+import { gatheringFieldsToCheck } from "../../lib/gathering-form";
 import { communityCopy } from "../../lib/community-copy";
 import PrayerSchedule from "../../components/PrayerSchedule";
 import { Disclosure } from "../../components/CommunityControls";
@@ -28,7 +29,6 @@ export default function CreateGathering() {
     [topic, setTopic] = useState(""),
     [name, setName] = useState(profile.name),
     [language, setLanguage] = useState<Language>(profile.language),
-    [now, setNow] = useState(false),
     [weekly, setWeekly] = useState(false),
     [occurrences, setOccurrences] = useState("8"),
     [date, setDate] = useState(""),
@@ -42,17 +42,49 @@ export default function CreateGathering() {
     [minutes, setMinutes] = useState("60"),
     [busy, setBusy] = useState(false),
     [error, setError] = useState(""),
-    [configured, setConfigured] = useState<boolean | null>(null);
+    [attempted, setAttempted] = useState(false),
+    [now, setNow] = useState(false),
+    [configured, setConfigured] = useState<boolean | null>(backend ? null : false);
   useEffect(() => {
-    void backend?.functions
-      .invoke("gathering-token", { method: "GET" })
-      .then((r) => setConfigured(r.data?.configured === true));
+    if (!backend) return;
+    void backend.functions.invoke("gathering-token", { method: "GET" }).then(
+      (r) => setConfigured(r.data?.configured === true),
+      () => setConfigured(false),
+    );
   }, []);
+  const checkingLive = now && configured === null;
+  const missingFields = gatheringFieldsToCheck({
+    title,
+    description,
+    topic,
+    name,
+    date,
+    time,
+    zone,
+    capacity,
+    minutes,
+    occurrences,
+    now,
+    weekly,
+  });
+  const audioIssue =
+    now && !configured
+      ? c(checkingLive ? "checkingGatheringAudio" : "audioSetupNote")
+      : "";
+  const validation =
+    attempted && missingFields.length
+      ? c("checkGatheringFields").replace(
+          "{fields}",
+          missingFields.map(c).join(", "),
+        )
+      : "";
   async function create() {
     if (submitting.current) return;
+    setError("");
+    setAttempted(true);
+    if (audioIssue || missingFields.length) return;
     submitting.current = true;
     setBusy(true);
-    setError("");
     try {
       const result = await gathering("create", {
         title,
@@ -62,7 +94,7 @@ export default function CreateGathering() {
         language,
         now,
         localStart: date + "T" + time,
-        timezone: zone,
+        timezone: zone.trim(),
         visibility,
         capacity: Number(capacity),
         minutes: Number(minutes),
@@ -71,14 +103,17 @@ export default function CreateGathering() {
       });
       // New gatherings let only invited people speak; open the floor if chosen.
       if (everyoneSpeaks && configured)
-        await audioCommand("speak_mode", { gatheringId: result.id, enabled: true }).catch(() => {});
+        await audioCommand("speak_mode", {
+          gatheringId: result.id,
+          enabled: true,
+        }).catch(() => {});
       router.replace({
         pathname: "/gathering/[id]",
         params: { id: result.id },
       });
     } catch (e) {
       const message = (e as Error).message;
-      setError(message === "hosts_only" ? c("hosts_only") : message);
+      setError(communityCopy(profile.language, message || "unavailable"));
     } finally {
       submitting.current = false;
       setBusy(false);
@@ -88,15 +123,14 @@ export default function CreateGathering() {
     <Screen back keyboardAware>
       <Heading>{c("createGathering")}</Heading>
       <Body small>{c("createIntro")}</Body>
-      <Notice text={error} />
       <Field
-        label={c("title")}
+        label={c("gatheringTitleLabel")}
         value={title}
         onChangeText={setTitle}
         maxLength={120}
       />
       <Field
-        label={c("description")}
+        label={c("gatheringDescriptionLabel")}
         value={description}
         onChangeText={setDescription}
         multiline
@@ -134,13 +168,10 @@ export default function CreateGathering() {
         <Chip
           title={c("startNow")}
           selected={now}
-          onPress={() => {
-            if (configured) setNow(true);
-            else setError(c("audio_not_configured"));
-          }}
+          onPress={() => setNow(true)}
         />
       </Row>
-      {/* Only once the server has answered that audio is unavailable. */}
+      {checkingLive && <Body small>{c("checkingGatheringAudio")}</Body>}
       {configured === false && <Body small>{c("audioSetupNote")}</Body>}
       {!now && (
         <>
@@ -221,7 +252,9 @@ export default function CreateGathering() {
           onPress={() => setEveryoneSpeaks(true)}
         />
       </Row>
-      <Body small>{c(everyoneSpeaks ? "speakEveryoneNote" : "speakInvitedNote")}</Body>
+      <Body small>
+        {c(everyoneSpeaks ? "speakEveryoneNote" : "speakInvitedNote")}
+      </Body>
       <Field
         label={c("capacity")}
         value={capacity}
@@ -237,26 +270,11 @@ export default function CreateGathering() {
         maxLength={3}
       />
       <Body small>{c("gatheringReminderNote")}</Body>
+      <Notice text={error || (attempted && audioIssue) || validation} />
       <Button
         title={busy ? tr("Saving…") : c("createGathering")}
         loading={busy}
-        disabled={
-          busy ||
-          title.trim().length < 3 ||
-          description.trim().length < 10 ||
-          !topic.trim() ||
-          !name.trim() ||
-          (!now && (!date || !time)) ||
-          Number(capacity) < 2 ||
-          Number(capacity) > 100 ||
-          Number(minutes) < 15 ||
-          Number(minutes) > 180 ||
-          (!now &&
-            weekly &&
-            (!Number.isInteger(Number(occurrences)) ||
-              Number(occurrences) < 2 ||
-              Number(occurrences) > 52))
-        }
+        disabled={busy}
         onPress={() => void create()}
       />
     </Screen>

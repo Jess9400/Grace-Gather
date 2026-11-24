@@ -738,6 +738,24 @@ const words: Record<string, string[]> = {
     "Nuevas entradas bloqueadas. Reintenta finalizar para desconectar a todos.",
     "Новые участники больше не могут войти. Попробуйте ещё раз завершить встречу, чтобы отключить всех.",
   ],
+  checkGatheringFields: [
+    "Please check the following fields: {fields}.",
+    "Confira estes campos: {fields}.",
+    "Revisa estos campos: {fields}.",
+    "Проверьте поля: {fields}.",
+  ],
+  gatheringTitleLabel: [
+    "Title (at least 3 characters)", "Título (mínimo de 3 caracteres)",
+    "Título (mínimo 3 caracteres)", "Название (от 3 символов)",
+  ],
+  gatheringDescriptionLabel: [
+    "Short description (at least 10 characters)", "Breve descrição (mínimo de 10 caracteres)",
+    "Descripción breve (mínimo 10 caracteres)", "Краткое описание (от 10 символов)",
+  ],
+  checkingGatheringAudio: [
+    "Checking live audio…", "Verificando o áudio ao vivo…",
+    "Comprobando el audio en vivo…", "Проверяем доступность аудио…",
+  ],
   createIntro: [
     "Host an audio conversation and manage who can speak.",
     "Organize uma conversa em áudio e gerencie quem pode falar.",
