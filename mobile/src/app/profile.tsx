@@ -20,6 +20,7 @@ import {
   colors,
   serif,
 } from "../components/quiet-ui";
+import { APP_REVIEW_URL } from "../lib/app-rating";
 import SignInForm from "../components/SignInForm";
 import { useQuiet } from "../lib/quiet-state";
 import { useApp } from "../lib/state";
@@ -318,6 +319,17 @@ export default function Profile() {
           )}
         </Card>
       </Disclosure>
+      {Platform.OS === "ios" && (
+        <External
+          title={{
+            en: "Rate Grace & Gather",
+            pt: "Avaliar o Grace & Gather",
+            es: "Valorar Grace & Gather",
+            ru: "Оценить Grace & Gather",
+          }[profile.language]}
+          url={APP_REVIEW_URL}
+        />
+      )}
       <Disclosure title={tr("Privacy and support")}>
         <Button
           secondary
