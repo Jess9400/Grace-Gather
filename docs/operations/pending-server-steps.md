@@ -54,3 +54,22 @@ above the verse. English and Portuguese for now. No database change.
 
 - [ ] Deploy `llm-journey` after merging the community-first action rules. Use the deployment command above. No database migration is needed.
 - [ ] Release the matching app update for live availability checks. Verify that an eligible burden offers listening, an empty listening room offers the mapped independent step, and gratitude opens Pay it Forward.
+
+## "Mute everyone" returns people to listening (#235)
+
+Mute everyone now takes speaking permission away in every gathering, so people
+cannot switch their microphone back on until they raise a hand and the host
+allows them, or the host chooses "Let everyone speak". An "Everyone" gathering
+becomes "Only people I allow" when muted. Found in a two-phone test on
+24 Nov 2026. Server-side: works on the current app build once deployed.
+
+- [ ] **1. Deploy the `gathering-token` edge function again** from the latest
+  `main`:
+
+  ```bash
+  npx supabase functions deploy gathering-token --no-verify-jwt --project-ref <project-ref>
+  ```
+
+- [ ] **2. Two-phone check:** in an "Only people I allow" gathering, allow the
+  second phone to speak, tap Mute everyone, and confirm the second phone shows
+  only "Raise hand" until allowed again.

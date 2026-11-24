@@ -30,7 +30,9 @@ serve(async(req)=>{
   const membership=await client.from('memberships').select('user_id,hand_raised,can_speak').eq('gathering_id',g.id);
   if(membership.error)throw membership.error;
   if(!host&&!membership.data.some(m=>m.user_id===user.id))return json({error:'not_allowed'},403);
-  return json({hands:host?membership.data.filter(m=>m.hand_raised).map(m=>m.user_id):[],endsAt:g.ends_at,speakMode:speakMode(g)});
+  // Each person also learns whether their own hand is still up, so a hand the
+  // host cleared (by allowing them, or by Mute everyone) goes down on their screen.
+  return json({hands:host?membership.data.filter(m=>m.hand_raised).map(m=>m.user_id):[],raised:membership.data.some(m=>m.user_id===user.id&&m.hand_raised),endsAt:g.ends_at,speakMode:speakMode(g)});
  }
  if(body.action==='speak_mode'){
   if(!host)return json({error:'host_required'},403);
@@ -48,17 +50,20 @@ serve(async(req)=>{
  }
  if(body.action==='mute_all'){
   if(!host)return json({error:'host_required'},403);
+  // One meaning in every gathering: everyone but the host goes back to
+  // listening, and only people the host allows may speak, until the host
+  // chooses "Let everyone speak" again. Raised hands start over.
+  const mode=await service.from('gatherings').update({speak_mode:'invited'}).eq('id',g.id);if(mode.error)throw mode.error;
+  const r=await service.from('memberships').update({can_speak:false,hand_raised:false}).eq('gathering_id',g.id).neq('user_id',g.host_id);if(r.error)throw r.error;
   let muted=0;
   try{
    for(const p of await server.listParticipants(g.room_name)){
     if(p.identity===g.host_id)continue;
-    for(const t of p.tracks){
-     if(t.source!==TrackSource.MICROPHONE||t.muted)continue;
-     await server.mutePublishedTrack(g.room_name,p.identity,t.sid,true);muted++;
-    }
+    // Taking away the right to publish also stops a microphone that is on.
+    await server.updateParticipant(g.room_name,p.identity,{permission:{canSubscribe:true,canPublish:false,canPublishSources:[TrackSource.MICROPHONE],canPublishData:false}});muted++;
    }
   }catch(e){if((e as {code?:string}).code!=='not_found')throw e;}
-  return json({muted});
+  return json({muted,listeners:true,speakMode:'invited'});
  }
  if(['speaker','remove'].includes(body.action)){
   if(!host||typeof body.participant!=='string'||body.participant===user.id)return json({error:'host_required'},403);

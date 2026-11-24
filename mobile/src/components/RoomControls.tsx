@@ -138,14 +138,16 @@ export default function RoomControls() {
               title={c("muteEveryone")}
               onPress={() => void audio.command("mute_all")}
             />
-            <Button
-              secondary
-              disabled={audio.busy}
-              title={c(audio.speakMode === "everyone" ? "speakSwitchInvited" : "speakSwitchEveryone")}
-              onPress={() =>
-                void audio.command("speak_mode", undefined, audio.speakMode !== "everyone")
-              }
-            />
+            {/* "Mute everyone" already closes the floor, so the only switch
+                left is opening it again. */}
+            {audio.speakMode === "invited" && (
+              <Button
+                secondary
+                disabled={audio.busy}
+                title={c("speakSwitchEveryone")}
+                onPress={() => void audio.command("speak_mode", undefined, true)}
+              />
+            )}
           </Row>
         </View>
       )}
