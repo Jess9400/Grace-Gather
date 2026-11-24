@@ -40,10 +40,15 @@ test("the notice opens the right page and fades, and Notifications keeps it", ()
   assert.match(home, /<HomeNotice visible=\{focused && !entrance && !touring\} \/>/);
 });
 
-test("Protestant members enter through the modern church", () => {
+test("Protestant members keep the church and get plain modern doors", () => {
   const home = readFileSync(root + "src/app/(tabs)/index.tsx", "utf8");
   assert.match(home, /isProtestant\(profile\)\s*\?\s*ProtestantEntrance/);
-  const entrance = readFileSync(root + "src/components/OrthodoxEntrance.tsx", "utf8");
-  assert.match(entrance, /protestant-entrance\/background\.png/);
-  assert.match(entrance, /door: \{ left: 150, top: 596, width: 45, height: 140 \}/);
+  assert.match(home, /return <ChurchEntrance \{\.\.\.props\} modern \/>;/);
+  const scene = readFileSync(root + "src/lib/church-door-scene.ts", "utf8");
+  assert.match(scene, /if \(modern\) \{\s*buildModernDoorway\(mesh\);\s*buildNave\(mesh\);/);
+  // The modern doorway has no stone, arches, iron straps or ring pulls.
+  const modern = scene.slice(scene.indexOf("function buildModernDoorway"), scene.indexOf("const VERTEX"));
+  assert.doesNotMatch(modern, /KIND\.stone|archRing|archOutline|strap|Ring pull/);
+  assert.match(modern, /kind: KIND\.veneer/);
+  assert.match(readFileSync(root + "src/components/ChurchEntrance.tsx", "utf8"), /Platform\.OS !== "web",\s*modern,/);
 });

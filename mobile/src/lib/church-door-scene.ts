@@ -52,10 +52,20 @@ const KIND = {
   interior: 5,
   lantern: 6,
   glass: 7,
+  // The modern doorway: smooth plaster, and wood without plank grooves.
+  plaster: 8,
+  veneer: 9,
 };
+// Top of the doorway: the arch's crown, and the modern frame's head.
+const TOP = SPRING + OPENING;
 
-export function buildChurchDoorMesh() {
+export function buildChurchDoorMesh(modern = false) {
   const mesh = new MeshBuilder();
+  if (modern) {
+    buildModernDoorway(mesh);
+    buildNave(mesh);
+    return mesh.build();
+  }
   const stone: Material = { color: [0.72, 0.66, 0.58], kind: KIND.stone };
   const darkStone: Material = { color: [0.6, 0.55, 0.49], kind: KIND.stone };
   const pavement: Material = { color: [0.5, 0.47, 0.43], kind: KIND.stone };
@@ -192,6 +202,12 @@ export function buildChurchDoorMesh() {
       mesh.box(0.012, -0.17, DOOR_Z + 0.05, 0.024, 2.6, 0.014, wood);
   }
 
+  buildNave(mesh);
+  return mesh.build();
+}
+
+// The candlelit nave behind the doors, the same for every doorway.
+function buildNave(mesh: MeshBuilder) {
   // The candlelit nave behind the doors.
   const plaster: Material = { color: [0.58, 0.5, 0.41], kind: KIND.interior };
   const floor: Material = { color: [0.55, 0.45, 0.35], kind: KIND.interior };
@@ -230,7 +246,69 @@ export function buildChurchDoorMesh() {
   mesh.box(0, 0.52, -7.08, 0.4, 0.07, 0.04, gilt);
   const glass = archOutline(0.48, 1.55, 0.95);
   mesh.prism(glass, -7.11, -7.09, { color: [1, 1, 1], kind: KIND.glass });
-  return mesh.build();
+}
+
+// For Protestants: the same doorway in a smooth plaster wall with a plain
+// frame, a flat canopy and two light oak doors with narrow glass panes and
+// long bar handles. No stone, arches, iron straps or ring pulls.
+function buildModernDoorway(mesh: MeshBuilder) {
+  const wall: Material = { color: [0.8, 0.76, 0.7], kind: KIND.plaster };
+  const reveal: Material = { color: [0.7, 0.66, 0.6], kind: KIND.plaster };
+  const concrete: Material = { color: [0.56, 0.54, 0.5], kind: KIND.plaster };
+  const frame: Material = { color: [0.09, 0.085, 0.08], kind: KIND.iron };
+  const F = 0.08; // frame width
+  // Wall around a rectangular opening, with a recessed reveal.
+  mesh.box(-3.9 - OPENING / 2, 1.0, 0.04, 6.4, 5.4, 0.12, wall);
+  mesh.box(3.9 + OPENING / 2, 1.0, 0.04, 6.4, 5.4, 0.12, wall);
+  mesh.box(0, (TOP + F + 3.7) / 2, 0.04, 2 * (OPENING + F) + 0.02, 3.7 - TOP - F, 0.12, wall);
+  for (const side of [-1, 1])
+    mesh.box(side * (OPENING + F + 0.03), (SILL + TOP) / 2, -0.2, 0.06, TOP - SILL + 2 * F, 0.44, reveal);
+  mesh.box(0, TOP + F + 0.03, -0.2, 2 * (OPENING + F) + 0.12, 0.06, 0.44, reveal);
+  // A slim dark frame at the door plane.
+  for (const side of [-1, 1])
+    mesh.box(side * (OPENING + F / 2), (SILL + TOP) / 2, DOOR_Z, F, TOP - SILL, 0.12, frame);
+  mesh.box(0, TOP + F / 2, DOOR_Z, 2 * (OPENING + F), F, 0.12, frame);
+  // Flat canopy and a plain cross above it.
+  mesh.box(0, TOP + 0.36, 0.42, 2.3, 0.07, 0.9, frame);
+  mesh.box(0, 2.08, 0.13, 0.06, 0.52, 0.04, reveal);
+  mesh.box(0, 2.2, 0.13, 0.3, 0.06, 0.04, reveal);
+  // Smooth concrete steps and pavement.
+  mesh.box(0, SILL - 0.1, 0.0, 2.7, 0.2, 0.96, concrete);
+  mesh.box(0, SILL - 0.3, 0.62, 3.2, 0.2, 0.56, concrete);
+  mesh.box(0, SILL - 0.5, 4.2, 14, 0.2, 7.6, concrete);
+  // Modern wall lights where the lanterns hang, so the lighting is the same.
+  for (const side of [-1, 1]) {
+    const x = side * LANTERN_X;
+    mesh.box(x, 0.46, 0.1, 0.12, 0.34, 0.1, frame);
+    mesh.box(x, 0.46, 0.16, 0.06, 0.24, 0.02, { color: [1, 0.7, 0.35], kind: KIND.lantern });
+  }
+  // The two leaves: plain rectangles of light oak.
+  for (const part of [1, 2]) {
+    const side = part === 1 ? -1 : 1;
+    const oak: Material = { color: [0.62, 0.44, 0.27], kind: KIND.veneer, part };
+    const metal: Material = { color: [0.09, 0.085, 0.08], kind: KIND.iron, part };
+    const seam = 0.004;
+    const outline: [number, number][] = [
+      [side * seam, SILL],
+      [side * OPENING, SILL],
+      [side * OPENING, TOP],
+      [side * seam, TOP],
+    ];
+    if (side > 0) outline.reverse();
+    mesh.prism(outline, DOOR_Z - 0.045, DOOR_Z + 0.045, oak);
+    // A narrow glass pane with warm light behind it, on the hinge side.
+    const paneX = side * (OPENING - 0.2);
+    mesh.box(paneX, 0.05, DOOR_Z + 0.05, 0.16, 1.5, 0.012, metal);
+    mesh.box(paneX, 0.05, DOOR_Z + 0.056, 0.12, 1.44, 0.012, {
+      color: [0.95, 0.72, 0.42],
+      kind: KIND.interior,
+      part,
+    });
+    // A long bar handle on two stand-offs, beside the seam.
+    const hx = side * 0.12;
+    mesh.box(hx, -0.35, DOOR_Z + 0.12, 0.03, 0.9, 0.03, metal);
+    for (const y of [-0.72, 0.02]) mesh.box(hx, y, DOOR_Z + 0.08, 0.02, 0.02, 0.06, metal);
+  }
 }
 
 const VERTEX = `
@@ -305,7 +383,7 @@ void main() {
     + point(p, n, lanternL, lanternColor, 2.8) + point(p, n, lanternR, lanternColor, 2.8);
   float kind = vKind;
   vec3 color;
-  if (kind < 0.5) {
+  if (kind < 0.5 || kind > 8.5) {
     vec3 lp = vLocal;
     float plank = 0.165;
     float u = (lp.x + 0.66) / plank;
@@ -313,6 +391,7 @@ void main() {
     float groove = smoothstep(0.0, 0.045, fx) * smoothstep(0.0, 0.045, 1.0 - fx);
     vec2 uv = vec2(fx * 0.16 + hash(vec2(id, 3.0)) * 0.8, lp.y * 0.24 + hash(vec2(id, 7.0)));
     if (abs(vLocalNormal.z) < 0.5) { uv = vec2(lp.z * 2.0 + 0.3, lp.y * 0.24); groove = 1.0; }
+    if (kind > 8.5) { uv = vec2(lp.x * 0.5 + 0.25, lp.y * 0.18); groove = 1.0; }
     vec3 timber = lin(texture2D(uWood, fract(uv)).rgb) * (0.8 + 0.32 * hash(vec2(id, 1.0)));
     timber = mix(timber, vec3(dot(timber, vec3(0.3, 0.59, 0.11))), 0.22);
     timber *= lin(vColor) / lin(vec3(0.5, 0.33, 0.2));
@@ -363,6 +442,10 @@ void main() {
     color = mix(color, vec3(1.0, 0.64, 0.32) * 0.7, 1.0 - exp(-depth * 0.09));
   } else if (kind < 6.5) {
     color = vec3(1.0, 0.6, 0.26) * 4.0 * flick;
+  } else if (kind > 7.5) {
+    // Smooth plaster or concrete: a faint trowelled texture, no blocks.
+    float soft = 0.92 + 0.08 * fbm(vLocal.xy * 3.0 + vLocal.z);
+    color = lin(vColor) * soft * light * 2.5;
   } else {
     vec2 q = vec2(vLocal.x + vLocal.y, vLocal.x - vLocal.y) * 4.6;
     vec2 g = fract(q);
@@ -501,6 +584,7 @@ export function createChurchDoorRenderer(
   gl: WebGLRenderingContext,
   woodImage: TexImageSource,
   lightweight = false,
+  modern = false,
 ) {
   const buffers: WebGLBuffer[] = [];
   const programs: WebGLProgram[] = [];
@@ -547,7 +631,7 @@ export function createChurchDoorRenderer(
     gl.generateMipmap(gl.TEXTURE_2D);
     gl.uniform1i(gl.getUniformLocation(main.program, "uWood"), 0);
 
-    const mesh = buildChurchDoorMesh();
+    const mesh = buildChurchDoorMesh(modern);
     const meshBuffer = gl.createBuffer();
     const glowMesh = buildGlowMesh();
     const glowBuffer = gl.createBuffer();

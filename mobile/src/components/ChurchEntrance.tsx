@@ -63,9 +63,12 @@ class SceneBoundary extends Component<
 export default function ChurchEntrance({
   language,
   onEntered,
+  modern = false,
 }: {
   language: Language;
   onEntered: () => void;
+  // Plain modern doors in a smooth wall instead of stone and oak.
+  modern?: boolean;
 }) {
   const t = (key: Parameters<typeof churchCopy>[1]) =>
     churchCopy(language, key);
@@ -262,6 +265,7 @@ export default function ChurchEntrance({
           gl,
           timber,
           Platform.OS !== "web",
+          modern,
         );
         draw(0, 0, 0);
         setReady(true);
@@ -269,7 +273,7 @@ export default function ChurchEntrance({
         setFailed(true);
       }
     },
-    [draw],
+    [draw, modern],
   );
 
   return (

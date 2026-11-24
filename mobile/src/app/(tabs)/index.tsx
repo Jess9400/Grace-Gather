@@ -64,11 +64,12 @@ import { StepCheckIn } from "../../components/SmallStep";
 import { useChurchPresence } from "../../lib/church-presence";
 import BrandMark from "../../components/BrandMark";
 
-// The same drawn entrance, with the simple modern Protestant church.
+// The same church entrance with plain modern doors in a smooth wall, for
+// Protestants, to whom stone arches and iron-strapped doors feel pretentious.
 function ProtestantEntrance(
-  props: Omit<React.ComponentProps<typeof OrthodoxEntrance>, "church">,
+  props: Omit<React.ComponentProps<typeof ChurchEntrance>, "modern">,
 ) {
-  return <OrthodoxEntrance {...props} church="protestant" />;
+  return <ChurchEntrance {...props} modern />;
 }
 
 const ROUTES: Record<Exclude<ChurchPlace, "wreath">, string> = {
@@ -437,7 +438,8 @@ export default function Home() {
         ]
       : places;
   // An Orthodox church has its own entrance: a white church with a golden dome.
-  // Orthodox and Protestant members get their own drawn church; others the 3D doors.
+  // Russian Orthodox members get the drawn Orthodox church; Protestants the
+  // same doorway as everyone else, with modern doors.
   const EntranceView = eastern
     ? OrthodoxEntrance
     : isProtestant(profile)
