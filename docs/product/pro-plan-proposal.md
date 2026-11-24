@@ -1,17 +1,21 @@
 # Pro study proposal and prototype
 
-Pro appears as a quiet gold badge in Bible Study and opens a preview of deeper study, reading plans, devotionals and higher journal guidance limits. Prices and allowances below are proposals. The prototype performs no billing, enforces no limits and includes sample plan progress for the current visit.
+Pro appears as a quiet gold badge in Bible Study and opens a study workspace with Today, Reading plans and Study tools tabs, daily devotional samples, six reading plans, original-language examples and pricing in a secondary sheet. Prices and allowances below are proposals. The prototype performs no billing, enforces no limits and includes sample plan progress for the current visit.
 
 ## Proposed offer
 
 | Feature | Free | Pro |
 | --- | --- | --- |
 | Bible reading, community, prayer requests, gatherings, journal storage and export | Included | Included |
-| Guided journal entries | 1/day | 3/day |
-| Follow-up replies | 2/day | 10/day total |
-| Additional verse studies | 1/day | 10/day |
+| Guided journal entries | Up to 1/day | Up to 3/day |
+| Follow-up replies | Up to 2/day | Up to 10/day |
+| Additional verse studies | Up to 1/day | Up to 5/day |
 | Reading plans and devotionals | Starter samples | Full licensed/editorial collection |
 | Original-language tools and premium commentary | Available existing references | Contracted resources when available |
+
+Personalized requests are pooled at a proposed 30/month Free and 150/month Pro. See [cost and source model](pro-costs-and-sources.md) for token budgets, free-user subsidy and the 35% margin scenario. These require approval and server enforcement.
+
+The prototype covers all four interface languages and tradition selectors. Licensed native-language commentary for every tradition remains a procurement requirement.
 
 A devotional combines a Scripture reading, short reflection, prayer and optional practical step. A reading plan arranges passages into a sequence. Samples in the prototype demonstrate each format.
 

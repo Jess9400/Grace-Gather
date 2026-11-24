@@ -1,0 +1,488 @@
+{
+  "en": {
+    "study": "Bible Study",
+    "plans": "Reading plans",
+    "words": "Study tools",
+    "today": "For today",
+    "heading": "A little deeper, every day.",
+    "intro": "Read with purpose. Make space for understanding.",
+    "daily": "Daily devotional",
+    "reflect": "Reflect",
+    "pray": "Pray",
+    "open": "Open devotional",
+    "continue": "Continue reading",
+    "library": "Find your rhythm",
+    "start": "Start this plan",
+    "day": "Day",
+    "close": "Close",
+    "sample": "Sample content",
+    "preview": "Pro workspace preview",
+    "pricing": "Explore Pro",
+    "monthly": "Monthly · $5",
+    "annual": "Yearly · $48 · Save 20%",
+    "trial": "Preview 3-day trial",
+    "original": "Original words",
+    "context": "Historical context",
+    "compare": "Compare traditions",
+    "sources": "Sources & notes",
+    "reason": "Ask about this passage",
+    "notice": "Licensed collections are being prepared. Samples demonstrate the experience.",
+    "complete": "Mark read",
+    "selected": "Active plan",
+    "traditions": "Tradition",
+    "read": "Read the passage",
+    "question": "What stays with you?",
+    "planTitles": [
+      "Begin with Mark",
+      "Psalms for quiet days",
+      "The Sermon on the Mount",
+      "Faith in action",
+      "The story of Ruth",
+      "Love in daily life"
+    ],
+    "devotionals": [
+      [
+        "Hope for today",
+        "Notice one place where hope is still possible. You can begin there.",
+        "God, help me welcome hope today."
+      ],
+      [
+        "Rest for your heart",
+        "You do not need to earn every moment of rest. Make a little room for quiet.",
+        "God, help me rest in your care."
+      ],
+      [
+        "A grateful heart",
+        "Remember a kindness you received. Let that memory shape one kind response.",
+        "God, thank you for the kindness around me."
+      ],
+      [
+        "Wisdom for the next step",
+        "Consider one decision patiently. Who could help you see it more clearly?",
+        "God, give me wisdom for the next step."
+      ],
+      [
+        "Love that listens",
+        "Give someone your attention today. Listening can be a simple act of love.",
+        "God, help me listen with patience."
+      ],
+      [
+        "Courage to begin",
+        "A small faithful beginning can matter. What is within your reach today?",
+        "God, help me take one faithful step."
+      ],
+      [
+        "Peace in the pause",
+        "Pause before the next task. Name what you would like to bring to prayer.",
+        "God, help me make space for peace."
+      ]
+    ],
+    "traditionNames": ["Catholic", "Protestant", "Orthodox", "Still exploring"],
+    "traditionNotes": [
+      "Read alongside Catholic commentary and the wider canon.",
+      "Explore the passage with Protestant commentary.",
+      "Explore the passage alongside Orthodox and patristic sources.",
+      "Compare clearly attributed perspectives from the three traditions."
+    ],
+    "lexicon": [
+      [
+        "λόγος · logos",
+        "Greek · John 1:1",
+        "Word, speech or message. The surrounding passage shapes its meaning. A dictionary gloss alone cannot settle the theology of this verse."
+      ],
+      [
+        "שָׁלוֹם · shalom",
+        "Hebrew · Numbers 6:26",
+        "Peace and well-being. Read this word within the whole blessing."
+      ],
+      [
+        "אַבָּא · abba",
+        "Aramaic · Mark 14:36",
+        "Father. Mark preserves this Aramaic address alongside its Greek equivalent."
+      ]
+    ],
+    "contextSample": "Mark is a Gospel narrative about Jesus. Read an episode alongside what comes before and after it. The opening moves from John the Baptist to Jesus’s baptism, temptation and public ministry.",
+    "books": {
+      "Romans": "Romans",
+      "Matthew": "Matthew",
+      "Psalm": "Psalm",
+      "James": "James",
+      "Zechariah": "Zechariah",
+      "Philippians": "Philippians",
+      "Mark": "Mark",
+      "Ruth": "Ruth",
+      "1 Corinthians": "1 Corinthians",
+      "John": "John",
+      "Luke": "Luke",
+      "1 John": "1 John"
+    },
+    "days": "days"
+  },
+  "pt": {
+    "study": "Estudo bíblico",
+    "plans": "Planos de leitura",
+    "words": "Ferramentas",
+    "today": "Para hoje",
+    "heading": "Mais perto da Palavra, a cada dia.",
+    "intro": "Leia com propósito. Reserve um tempo para compreender.",
+    "daily": "Devocional do dia",
+    "reflect": "Reflita",
+    "pray": "Ore",
+    "open": "Abrir devocional",
+    "continue": "Continuar leitura",
+    "library": "Encontre seu ritmo",
+    "start": "Começar este plano",
+    "day": "Dia",
+    "close": "Fechar",
+    "sample": "Conteúdo de exemplo",
+    "preview": "Prévia do espaço Pro",
+    "pricing": "Conheça o Pro",
+    "monthly": "Mensal · US$ 5",
+    "annual": "Anual · US$ 48 · Economize 20%",
+    "trial": "Conheça o teste de 3 dias",
+    "original": "Palavras originais",
+    "context": "Contexto histórico",
+    "compare": "Compare tradições",
+    "sources": "Fontes e notas",
+    "reason": "Pergunte sobre a passagem",
+    "notice": "As coleções licenciadas estão em preparação. Os exemplos mostram a experiência.",
+    "complete": "Marcar como lido",
+    "selected": "Plano ativo",
+    "traditions": "Tradição",
+    "read": "Ler a passagem",
+    "question": "O que ficou com você?",
+    "planTitles": [
+      "Comece por Marcos",
+      "Salmos para aquietar o coração",
+      "O Sermão da Montanha",
+      "Fé em ação",
+      "A história de Rute",
+      "O amor no dia a dia"
+    ],
+    "devotionals": [
+      [
+        "Esperança para hoje",
+        "Perceba onde ainda existe uma possibilidade de esperança. Você pode começar por aí.",
+        "Deus, ajuda-me a acolher a esperança hoje."
+      ],
+      [
+        "Descanso para o coração",
+        "Você pode reservar um tempo para descansar. Abra um pequeno espaço para o silêncio.",
+        "Deus, ajuda-me a descansar no teu cuidado."
+      ],
+      [
+        "Um coração grato",
+        "Lembre-se de uma gentileza que recebeu. Deixe essa lembrança inspirar um gesto de carinho.",
+        "Deus, obrigado pela bondade ao meu redor."
+      ],
+      [
+        "Sabedoria para o próximo passo",
+        "Pense com calma em uma decisão. Quem poderia ajudar você a enxergá-la melhor?",
+        "Deus, dá-me sabedoria para o próximo passo."
+      ],
+      [
+        "O amor que escuta",
+        "Ofereça sua atenção a alguém hoje. Escutar pode ser um gesto simples de amor.",
+        "Deus, ajuda-me a escutar com paciência."
+      ],
+      [
+        "Coragem para começar",
+        "Um pequeno começo pode fazer diferença. O que está ao seu alcance hoje?",
+        "Deus, ajuda-me a dar um passo com fé."
+      ],
+      [
+        "Paz na pausa",
+        "Faça uma pausa antes da próxima tarefa. O que você gostaria de levar à oração?",
+        "Deus, ajuda-me a abrir espaço para a paz."
+      ]
+    ],
+    "traditionNames": [
+      "Católica",
+      "Protestante",
+      "Ortodoxa",
+      "Ainda explorando"
+    ],
+    "traditionNotes": [
+      "Leia com comentários católicos e atenção ao cânon.",
+      "Explore a passagem com comentários protestantes.",
+      "Explore a passagem com fontes ortodoxas e patrísticas.",
+      "Compare perspectivas identificadas das três tradições."
+    ],
+    "lexicon": [
+      [
+        "λόγος · logos",
+        "Grego · João 1:1",
+        "Palavra, fala ou mensagem. O contexto orienta o sentido. Uma definição de dicionário, sozinha, não resolve a teologia deste versículo."
+      ],
+      [
+        "שָׁלוֹם · shalom",
+        "Hebraico · Números 6:26",
+        "Paz e bem-estar. Leia esta palavra no contexto da bênção inteira."
+      ],
+      [
+        "אַבָּא · abba",
+        "Aramaico · Marcos 14:36",
+        "Pai. Marcos preserva essa forma aramaica ao lado do equivalente em grego."
+      ]
+    ],
+    "contextSample": "Marcos é uma narrativa do Evangelho sobre Jesus. Leia cada episódio junto ao que vem antes e depois. A abertura passa de João Batista ao batismo, à tentação e ao ministério público de Jesus.",
+    "books": {
+      "Romans": "Romanos",
+      "Matthew": "Mateus",
+      "Psalm": "Salmo",
+      "James": "Tiago",
+      "Zechariah": "Zacarias",
+      "Philippians": "Filipenses",
+      "Mark": "Marcos",
+      "Ruth": "Rute",
+      "1 Corinthians": "1 Coríntios",
+      "John": "João",
+      "Luke": "Lucas",
+      "1 John": "1 João"
+    },
+    "days": "dias"
+  },
+  "es": {
+    "study": "Estudio bíblico",
+    "plans": "Planes de lectura",
+    "words": "Herramientas",
+    "today": "Para hoy",
+    "heading": "Más cerca de la Palabra, cada día.",
+    "intro": "Lee con propósito. Dedica un momento a comprender.",
+    "daily": "Devocional del día",
+    "reflect": "Reflexiona",
+    "pray": "Ora",
+    "open": "Abrir devocional",
+    "continue": "Continuar lectura",
+    "library": "Encuentra tu ritmo",
+    "start": "Comenzar este plan",
+    "day": "Día",
+    "close": "Cerrar",
+    "sample": "Contenido de ejemplo",
+    "preview": "Vista previa de Pro",
+    "pricing": "Conoce Pro",
+    "monthly": "Mensual · US$ 5",
+    "annual": "Anual · US$ 48 · Ahorra un 20%",
+    "trial": "Conoce la prueba de 3 días",
+    "original": "Palabras originales",
+    "context": "Contexto histórico",
+    "compare": "Compara tradiciones",
+    "sources": "Fuentes y notas",
+    "reason": "Pregunta sobre el pasaje",
+    "notice": "Las colecciones con licencia están en preparación. Los ejemplos muestran la experiencia.",
+    "complete": "Marcar como leído",
+    "selected": "Plan activo",
+    "traditions": "Tradición",
+    "read": "Leer el pasaje",
+    "question": "¿Qué te deja este pasaje?",
+    "planTitles": [
+      "Comienza por Marcos",
+      "Salmos para aquietar el corazón",
+      "El Sermón del Monte",
+      "Fe en acción",
+      "La historia de Rut",
+      "El amor en la vida diaria"
+    ],
+    "devotionals": [
+      [
+        "Esperanza para hoy",
+        "Observa dónde aún existe una posibilidad de esperanza. Puedes comenzar ahí.",
+        "Dios, ayúdame a acoger la esperanza hoy."
+      ],
+      [
+        "Descanso para el corazón",
+        "Puedes dedicar un momento al descanso. Haz un pequeño espacio para el silencio.",
+        "Dios, ayúdame a descansar en tu cuidado."
+      ],
+      [
+        "Un corazón agradecido",
+        "Recuerda un gesto de bondad que recibiste. Deja que inspire un gesto de cariño.",
+        "Dios, gracias por la bondad que me rodea."
+      ],
+      [
+        "Sabiduría para el siguiente paso",
+        "Piensa con calma en una decisión. ¿Quién podría ayudarte a verla con más claridad?",
+        "Dios, dame sabiduría para el siguiente paso."
+      ],
+      [
+        "El amor que escucha",
+        "Ofrece tu atención a alguien hoy. Escuchar puede ser un sencillo acto de amor.",
+        "Dios, ayúdame a escuchar con paciencia."
+      ],
+      [
+        "Valor para comenzar",
+        "Un pequeño comienzo puede importar. ¿Qué está a tu alcance hoy?",
+        "Dios, ayúdame a dar un paso con fe."
+      ],
+      [
+        "Paz en la pausa",
+        "Haz una pausa antes de la próxima tarea. ¿Qué quisieras llevar a la oración?",
+        "Dios, ayúdame a abrir espacio para la paz."
+      ]
+    ],
+    "traditionNames": ["Católica", "Protestante", "Ortodoxa", "Aún explorando"],
+    "traditionNotes": [
+      "Lee con comentarios católicos y atención al canon.",
+      "Explora el pasaje con comentarios protestantes.",
+      "Explora el pasaje con fuentes ortodoxas y patrísticas.",
+      "Compara perspectivas identificadas de las tres tradiciones."
+    ],
+    "lexicon": [
+      [
+        "λόγος · logos",
+        "Griego · Juan 1:1",
+        "Palabra, habla o mensaje. El contexto orienta el sentido. Una definición de diccionario, por sí sola, no resuelve la teología del versículo."
+      ],
+      [
+        "שָׁלוֹם · shalom",
+        "Hebreo · Números 6:26",
+        "Paz y bienestar. Lee esta palabra dentro de la bendición completa."
+      ],
+      [
+        "אַבָּא · abba",
+        "Arameo · Marcos 14:36",
+        "Padre. Marcos conserva esta forma aramea junto a su equivalente griego."
+      ]
+    ],
+    "contextSample": "Marcos es una narración del Evangelio sobre Jesús. Lee cada episodio junto a lo que viene antes y después. El comienzo pasa de Juan el Bautista al bautismo, la tentación y el ministerio público de Jesús.",
+    "books": {
+      "Romans": "Romanos",
+      "Matthew": "Mateo",
+      "Psalm": "Salmo",
+      "James": "Santiago",
+      "Zechariah": "Zacarías",
+      "Philippians": "Filipenses",
+      "Mark": "Marcos",
+      "Ruth": "Rut",
+      "1 Corinthians": "1 Corintios",
+      "John": "Juan",
+      "Luke": "Lucas",
+      "1 John": "1 Juan"
+    },
+    "days": "días"
+  },
+  "ru": {
+    "study": "Изучение Библии",
+    "plans": "Планы чтения",
+    "words": "Инструменты",
+    "today": "На сегодня",
+    "heading": "Глубже в Писание, каждый день.",
+    "intro": "Читайте осмысленно. Находите время для понимания.",
+    "daily": "Размышление дня",
+    "reflect": "Размышляйте",
+    "pray": "Молитесь",
+    "open": "Открыть размышление",
+    "continue": "Продолжить чтение",
+    "library": "Найдите свой ритм",
+    "start": "Начать этот план",
+    "day": "День",
+    "close": "Закрыть",
+    "sample": "Пример материала",
+    "preview": "Предварительная версия Pro",
+    "pricing": "О Pro",
+    "monthly": "Месяц · 5 долларов",
+    "annual": "Год · 48 долларов · Скидка 20%",
+    "trial": "Пробный период 3 дня",
+    "original": "Слова оригинала",
+    "context": "Исторический контекст",
+    "compare": "Сравнить традиции",
+    "sources": "Источники и заметки",
+    "reason": "Задать вопрос о тексте",
+    "notice": "Лицензированные подборки готовятся. Примеры показывают будущие возможности.",
+    "complete": "Отметить прочитанным",
+    "selected": "Активный план",
+    "traditions": "Традиция",
+    "read": "Читать отрывок",
+    "question": "Что вам запомнилось?",
+    "planTitles": [
+      "Начните с Марка",
+      "Псалмы для тихих дней",
+      "Нагорная проповедь",
+      "Вера в действии",
+      "История Руфи",
+      "Любовь в повседневности"
+    ],
+    "devotionals": [
+      [
+        "Надежда на сегодня",
+        "Заметьте, где ещё возможна надежда. С этого можно начать.",
+        "Боже, помоги мне принять надежду сегодня."
+      ],
+      [
+        "Покой для сердца",
+        "Можно выделить время для отдыха. Оставьте немного места для тишины.",
+        "Боже, помоги мне обрести покой в твоей заботе."
+      ],
+      [
+        "Благодарное сердце",
+        "Вспомните добро, которое получили. Пусть это вдохновит вас на добрый поступок.",
+        "Боже, спасибо за доброту вокруг меня."
+      ],
+      [
+        "Мудрость для следующего шага",
+        "Спокойно обдумайте одно решение. Кто поможет вам увидеть его яснее?",
+        "Боже, дай мне мудрость для следующего шага."
+      ],
+      [
+        "Любовь, которая слушает",
+        "Уделите кому-нибудь внимание. Умение слушать может стать проявлением любви.",
+        "Боже, помоги мне слушать терпеливо."
+      ],
+      [
+        "Смелость начать",
+        "Маленькое начало может быть важным. Что вам по силам сегодня?",
+        "Боже, помоги мне сделать шаг с верой."
+      ],
+      [
+        "Мир в паузе",
+        "Остановитесь перед следующим делом. Что вы хотели бы принести в молитву?",
+        "Боже, помоги мне найти место для мира."
+      ]
+    ],
+    "traditionNames": [
+      "Католическая",
+      "Протестантская",
+      "Православная",
+      "В поиске"
+    ],
+    "traditionNotes": [
+      "Читайте с католическими комментариями и учётом канона.",
+      "Изучайте отрывок с протестантскими комментариями.",
+      "Изучайте отрывок с православными и святоотеческими источниками.",
+      "Сравните обозначенные взгляды трёх традиций."
+    ],
+    "lexicon": [
+      [
+        "λόγος · logos",
+        "Греческий · Иоанна 1:1",
+        "Слово, речь или сообщение. Значение определяется контекстом. Одна словарная статья не решает богословский смысл стиха."
+      ],
+      [
+        "שָׁלוֹם · shalom",
+        "Древнееврейский · Числа 6:26",
+        "Мир и благополучие. Читайте это слово в контексте всего благословения."
+      ],
+      [
+        "אַבָּא · abba",
+        "Арамейский · Марка 14:36",
+        "Отец. Марк сохраняет арамейское обращение рядом с греческим эквивалентом."
+      ]
+    ],
+    "contextSample": "Евангелие от Марка повествует об Иисусе. Читайте каждый эпизод вместе с предыдущим и следующим. Начало ведёт от Иоанна Крестителя к крещению, искушению и служению Иисуса.",
+    "books": {
+      "Romans": "Римлянам",
+      "Matthew": "Матфея",
+      "Psalm": "Псалом",
+      "James": "Иакова",
+      "Zechariah": "Захарии",
+      "Philippians": "Филиппийцам",
+      "Mark": "Марка",
+      "Ruth": "Руфь",
+      "1 Corinthians": "1 Коринфянам",
+      "John": "Иоанна",
+      "Luke": "Луки",
+      "1 John": "1 Иоанна"
+    },
+    "days": "дней"
+  }
+}
