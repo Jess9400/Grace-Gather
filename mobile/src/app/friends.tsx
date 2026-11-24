@@ -76,7 +76,15 @@ function FriendsScreen({
     [blocked, setBlocked] = useState<{ peer: string; name: string }[]>([]);
   const [name, setName] = useState(""),
     [discoverable, setDiscoverable] = useState(false),
-    [hasName, setHasName] = useState(false);
+    [hasName, setHasName] = useState(false),
+    // Once saved, the settings fold into one line with a short "Saved".
+    [editingFindable, setEditingFindable] = useState(false),
+    [savedFlash, setSavedFlash] = useState(false);
+  useEffect(() => {
+    if (!savedFlash) return;
+    const timer = setTimeout(() => setSavedFlash(false), 3000);
+    return () => clearTimeout(timer);
+  }, [savedFlash]);
   const [query, setQuery] = useState(""),
     [results, setResults] = useState<{ peer: string; name: string }[] | null>(
       null,
@@ -582,49 +590,72 @@ function FriendsScreen({
           />
           {finding && (
             <>
-              {/* How others find you, in plain view: a name and one switch. */}
-              <View style={s.findable}>
-                <Text style={s.findableTitle}>{c("How friends find you")}</Text>
-                <Field
-                  label={c("Your public name")}
-                  value={name}
-                  onChangeText={setName}
-                  maxLength={40}
-                />
-                <View style={s.findableRow}>
+              {hasName && !editingFindable ? (
+                <View style={[s.findable, s.findableRow]}>
                   <Text style={s.findableLabel}>
-                    {c("Let members find me by this name")}
+                    {(discoverable
+                      ? c("Friends can find you as {name}.")
+                      : c("Search can't find you. Friends can still add you with your link.")
+                    ).replace("{name}", name)}
                   </Text>
-                  <Switch
-                    {...switchColors}
-                    accessibilityLabel={c("Let members find me by this name")}
-                    value={discoverable}
-                    onValueChange={setDiscoverable}
-                  />
-                </View>
-                <Body small>
-                  {c(
-                    "Only your chosen name appears in search. Your email stays private.",
+                  {savedFlash ? (
+                    <Text style={s.saved}>{c("Saved")} ✓</Text>
+                  ) : (
+                    <TextAction
+                      title={c("Change")}
+                      onPress={() => setEditingFindable(true)}
+                    />
                   )}
-                </Body>
-                <Button
-                  title={c("Save")}
-                  disabled={busy || name.trim().length < 2}
-                  onPress={() =>
-                    void run(async () => {
-                      await act("directory", { name, discoverable });
-                    }).then((ok) => ok && setNotice("Saved"))
-                  }
-                />
-                {hasName && (
-                  <TextAction
-                    icon="refresh"
-                    title={c("Make a new friend link (the old one stops working)")}
-                    disabled={busy}
-                    onPress={() => void shareFriendLink(true)}
+                </View>
+              ) : (
+                // How others find you, in plain view: a name and one switch.
+                <View style={s.findable}>
+                  <Text style={s.findableTitle}>{c("How friends find you")}</Text>
+                  <Field
+                    label={c("Your public name")}
+                    value={name}
+                    onChangeText={setName}
+                    maxLength={40}
                   />
-                )}
-              </View>
+                  <View style={s.findableRow}>
+                    <Text style={s.findableLabel}>
+                      {c("Let members find me by this name")}
+                    </Text>
+                    <Switch
+                      {...switchColors}
+                      accessibilityLabel={c("Let members find me by this name")}
+                      value={discoverable}
+                      onValueChange={setDiscoverable}
+                    />
+                  </View>
+                  <Body small>
+                    {c(
+                      "Only your chosen name appears in search. Your email stays private.",
+                    )}
+                  </Body>
+                  <Button
+                    title={c("Save")}
+                    disabled={busy || name.trim().length < 2}
+                    onPress={() =>
+                      void run(async () => {
+                        await act("directory", { name, discoverable });
+                      }).then((ok) => {
+                        if (!ok) return;
+                        setEditingFindable(false);
+                        setSavedFlash(true);
+                      })
+                    }
+                  />
+                  {hasName && (
+                    <TextAction
+                      icon="refresh"
+                      title={c("Make a new friend link (the old one stops working)")}
+                      disabled={busy}
+                      onPress={() => void shareFriendLink(true)}
+                    />
+                  )}
+                </View>
+              )}
               {!hasName && (
                 <Body small>
                   {c(
@@ -815,4 +846,5 @@ const s = StyleSheet.create({
   findableTitle: { fontSize: 16, fontWeight: "600", color: colors.ink },
   findableRow: { flexDirection: "row", alignItems: "center", gap: 12 },
   findableLabel: { flex: 1, fontSize: 15, lineHeight: 21, color: colors.ink },
+  saved: { fontSize: 15, fontWeight: "600", color: colors.goldInk },
 });
