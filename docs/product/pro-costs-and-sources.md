@@ -12,14 +12,15 @@ The conservative annual-plan basis is $48/12 = $4/month. Assuming the Apple Smal
 
 | Meter | Free | Pro |
 | --- | --- | --- |
-| Guided journal entries | Up to 1/day | Up to 3/day |
-| Follow-up replies | Up to 2/day | Up to 10/day |
-| Newly generated verse explanations/questions | Up to 1/day | Up to 5/day |
-| All personalized AI requests combined | 30/month | 150/month |
+| Guided journal entries | Up to 1/day | Up to 2/day |
+| Follow-up replies | Up to 1/day | Up to 2/day |
+| Newly generated verse explanations/questions | Published Simple/Deep notes | Up to 5/day |
+| Journal AI at 30 days of full use | 60/month | 120/month |
+| Total including maximum new Pro verse studies | 60/month | 270/month |
 | Eligible trial | — | 10 AI requests total across 3 days |
 | Previously saved content, Bible reader, published study material, plans and devotionals | Unlimited reading | Unlimited reading |
 
-Monthly limits are pooled across the three AI features. Entry saves remain unlimited. A journal verse/action generated in one response counts once. Unsuccessful user requests restore their entitlement, while paid upstream failures still consume the operator cost budget. New limits require product approval, clear user-facing allowances and treatment of existing users. This revises the earlier daily-only proposal. Never suggest that every daily maximum can be used every day alongside the monthly cap.
+Daily journal allowances are the approved proposal, with no hidden smaller monthly pool. Two Pro follow-ups are interpreted as a daily total across entries. Free Simple/Deep verse notes are published/cached resources. Pro generates up to 5 verse studies/day. Entry saves remain unlimited. A journal verse/action generated in one response counts once. Completed guidance consumes the allowance once, even on retries. Provider failures still have an operator cost. New limits require clear user-facing balances and server enforcement. Months with 31 days need proportional reserves.
 
 ## Token envelope and cost calculation
 
@@ -27,20 +28,20 @@ Planning rate from Qwen Plus international, non-thinking tier up to 256K input i
 
 | Monthly allocation per paid subscriber | USD | Basis |
 | --- | --- | --- |
-| Pro personalized AI | 0.348 | 150 requests at $0.00232 |
-| Support for 5 active free accounts | 0.348 | 5 × 30 requests at $0.00232 |
+| Pro personalized AI | 0.6264 | 270 requests at $0.00232 |
+| Support for 1 active free account | 0.1392 | 60 requests at $0.00232 |
 | Hosting, database, storage, audio and email | 0.300 | Budget allocation, verify with actual invoices |
 | Moderation, community translation and trial abuse allowance | 0.150 | Budget allocation, independently meter |
 | Content license allocation | 0.250 | Maximum planning allowance, not a supplier quote |
 | Editorial review and multilingual content | 0.300 | Allocation, actual people costs may exceed it |
 | Retries, refunds and operating reserve | 0.200 | Budget allowance |
-| Total excluding Apple | 1.896 | Must remain below $2.00 annual-plan threshold |
+| Total excluding Apple | 1.9656 | Must remain below $2.00 annual-plan threshold |
 
-Annual-plan contribution is $4 − $0.60 − $1.896 = $1.504/month, or 37.6% of sales. Monthly-plan contribution is $5 − $0.75 − $1.896 = $2.354, or 47.08%. For 100 annual subscribers plus 500 fully active free users, monthly-equivalent sales are $400, Apple $60, remaining modeled costs $189.60 and contribution $150.40. This assumes all fixed costs fit within those allocations and the small-business commission applies.
+Annual-plan contribution is $4 − $0.60 − $1.9656 = $1.4344/month, or 35.86% of sales. Monthly-plan contribution is $5 − $0.75 − $1.9656 = $2.2844, or 45.69%. For 100 annual subscribers plus 100 fully active free users, monthly-equivalent sales are $400, Apple $60, remaining modeled costs $196.56 and contribution $143.44. This assumes fixed costs fit those allocations and the small-business commission applies.
 
-At 30% Apple commission annual margin falls to 22.6%. At twice the token envelope it falls to 20.2%. At ten fully active free users per paid subscriber it falls to 28.9%. Therefore daily count limits alone cannot ensure the target. Measure monthly request costs and free-to-paid ratios. The model tolerates roughly 6 active free users per annual payer at maximum free use before falling below 35%, with every other assumption unchanged. At 10 Pro payers, a $25 database plan alone is $2.50/payer and breaks the model.
+At five fully active free users per payer, remaining costs become $2.5224 and annual-plan margin is 21.94%. At 30% Apple commission the base annual margin is 20.86%. At double the token envelope the base annual margin falls to 16.72%. The revised daily allowances therefore require an active-free-to-paid ratio near 1:1 at full use for the target, or a cheaper validated token envelope, better actual utilization, lower other costs or higher price. Daily limits do not guarantee profit. A $25 database plan alone costs $2.50/payer at only 10 payers.
 
-Operational gates should cap Pro personalized model spend around $0.35/month at this rate and trial spend around $0.025, subject to how many real source tokens each operation needs. Large deeper-study requests must count multiple credits or have a lower count allowance. Never silently truncate the user's journal to fit this envelope. Surface an understandable size limit before sending. Limit audio duration, cache shared translations, budget community AI separately and meter all provider invoices. If contracted royalties, staff time or usage exceed the model, renegotiate scope, allowances or price before selling. A flat license of $100/month needs 400 payers to fit the $0.25/payer license allocation.
+Meter personalized AI and all provider activity, including translation, moderation and transcription. Compact history and reuse authorized public notes. Do not silently truncate journals or reduce advertised daily entitlements to meet a cost cap. If deeper requests need more than 4,000 input/600 output tokens, reprice the cost model before launch. Add a larger reserve for 31-day months. A flat license of $100/month needs 400 payers to fit the $0.25/payer license allocation. No universal 35% net-profit guarantee is possible while supplier fees, staffing costs and real usage are unknown.
 
 ## Source and licensing shortlist
 

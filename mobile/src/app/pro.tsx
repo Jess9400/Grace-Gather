@@ -78,6 +78,8 @@ export default function Pro() {
   const [tool, setTool] = useState<number | null>(null);
   const [word, setWord] = useState(0);
   const [pricing, setPricing] = useState(false);
+  const [previewAccess, setPreviewAccess] = useState(false);
+  const [limit, setLimit] = useState<string | null>(null);
   const [annual, setAnnual] = useState(false);
   const c = copy[language];
   const ref = (value: string) =>
@@ -96,6 +98,7 @@ export default function Pro() {
     setDevotional(false);
     setTool(null);
     setPricing(false);
+    setLimit(null);
   };
   return (
     <Screen home>
@@ -112,6 +115,9 @@ export default function Pro() {
         <Body small>{c.preview}</Body>
       </View>
       <Heading>{c.heading}</Heading>
+      <Body small>{c.freeAllowance}</Body>
+      <Body small>{c.proAllowance}</Body>
+      <Button title={c.freeVerse} secondary onPress={() => setTab(3)} />
       <Body>{c.intro}</Body>
       <View style={s.row}>
         {languages.map((l) => (
@@ -156,11 +162,51 @@ export default function Pro() {
           </Pressable>
         ))}
       </View>
+      {tab === 3 && (
+        <Card>
+          <Heading>{ref("Mark 1")}</Heading>
+          {[c.simple, c.deep].map((title) => (
+            <Button
+              key={title}
+              secondary
+              title={title}
+              onPress={() => {
+                setTool(1);
+              }}
+            />
+          ))}
+          <Button
+            title={c.theology}
+            secondary
+            onPress={() => {
+              setTab(2);
+              setPricing(true);
+            }}
+          />
+          <Button
+            title={c.discussion}
+            secondary
+            onPress={() => setPricing(true)}
+          />
+          <Button
+            title={c.limitEntry}
+            secondary
+            onPress={() => setLimit(c.limitEntry)}
+          />
+          <Button
+            title={c.limitReply}
+            secondary
+            onPress={() => setLimit(c.limitReply)}
+          />
+        </Card>
+      )}
       {tab === 0 && (
         <>
           <Pressable
             accessibilityRole="button"
-            onPress={() => setDevotional(true)}
+            onPress={() =>
+              previewAccess ? setDevotional(true) : setPricing(true)
+            }
           >
             <Card>
               <View style={s.row}>
@@ -185,19 +231,24 @@ export default function Pro() {
                 {c.day} {(days[active] ?? 0) + 1} /{" "}
                 {planReadings[active].length}
               </Body>
-              <Button title={c.continue} onPress={() => setDetail(active)} />
+              <Button
+                title={c.continue}
+                onPress={() =>
+                  previewAccess ? setDetail(active) : setPricing(true)
+                }
+              />
             </Card>
           )}
           <Text style={s.title}>{c.library}</Text>
         </>
       )}
-      {tab !== 2 && (
+      {(tab === 0 || tab === 1) && (
         <View style={s.grid}>
           {c.planTitles.map((name, i) => (
             <Pressable
               key={name}
               accessibilityRole="button"
-              onPress={() => setDetail(i)}
+              onPress={() => (previewAccess ? setDetail(i) : setPricing(true))}
               style={s.plan}
             >
               <View style={s.art}>
@@ -219,7 +270,7 @@ export default function Pro() {
               <Pressable
                 key={name}
                 accessibilityRole="button"
-                onPress={() => setTool(i)}
+                onPress={() => (previewAccess ? setTool(i) : setPricing(true))}
                 style={s.tool}
               >
                 <Ionicons
@@ -254,7 +305,13 @@ export default function Pro() {
       </Body>
       <Button title={c.pricing} secondary onPress={() => setPricing(true)} />
       <Modal
-        visible={detail !== null || devotional || tool !== null || pricing}
+        visible={
+          detail !== null ||
+          devotional ||
+          tool !== null ||
+          pricing ||
+          limit !== null
+        }
         transparent
         animationType="fade"
         onRequestClose={close}
@@ -361,9 +418,32 @@ export default function Pro() {
                   <Text style={s.gold}>{c.sample}</Text>
                 </>
               )}
+              {limit !== null && (
+                <>
+                  <Body>{limit}</Body>
+                  <Button
+                    title={c.upgrade}
+                    onPress={() => {
+                      setLimit(null);
+                      setPricing(true);
+                    }}
+                  />
+                  <Button title={c.tomorrow} secondary onPress={close} />
+                </>
+              )}
               {pricing && (
                 <>
                   <Heading>{c.pricing}</Heading>
+                  <Body>{c.freeAllowance}</Body>
+                  <Body>{c.proAllowance}</Body>
+                  <Button
+                    title={c.previewAccess}
+                    onPress={() => {
+                      setPreviewAccess(true);
+                      setPricing(false);
+                      setTab(0);
+                    }}
+                  />
                   {[false, true].map((value) => (
                     <Button
                       key={String(value)}

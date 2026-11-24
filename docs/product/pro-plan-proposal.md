@@ -7,13 +7,13 @@ Pro appears as a quiet gold badge in Bible Study and opens a study workspace wit
 | Feature | Free | Pro |
 | --- | --- | --- |
 | Bible reading, community, prayer requests, gatherings, journal storage and export | Included | Included |
-| Guided journal entries | Up to 1/day | Up to 3/day |
-| Follow-up replies | Up to 2/day | Up to 10/day |
+| Guided journal entries | Up to 1/day | Up to 2/day |
+| Follow-up replies | Up to 1/day | Up to 2/day |
 | Additional verse studies | Up to 1/day | Up to 5/day |
 | Reading plans and devotionals | Starter samples | Full licensed/editorial collection |
 | Original-language tools and premium commentary | Available existing references | Contracted resources when available |
 
-Personalized requests are pooled at a proposed 30/month Free and 150/month Pro. See [cost and source model](pro-costs-and-sources.md) for token budgets, free-user subsidy and the 35% margin scenario. These require approval and server enforcement.
+The journal allowance resets daily, with no smaller pooled monthly allowance overriding it. At 30 days this permits 60 journal AI calls for Free and 120 for Pro. Free Simple/Deep study uses published notes. Pro has up to 5 newly generated verse studies/day, budgeted separately. See [cost and source model](pro-costs-and-sources.md) for token budgets, free-user subsidy and the 35% margin scenario. These require approval and server enforcement.
 
 The prototype covers all four interface languages and tradition selectors. Licensed native-language commentary for every tradition remains a procurement requirement.
 
@@ -45,3 +45,13 @@ Greek for the New Testament, Hebrew and Aramaic for relevant Old Testament passa
 - Apple trial durations https://developer.apple.com/help/app-store-connect/manage-subscriptions/set-up-introductory-offers-for-auto-renewable-subscriptions
 - Apple Small Business commission https://developer.apple.com/app-store/small-business-program/
 - Apple subscription implementation https://developer.apple.com/app-store/subscriptions/
+
+## Access and limit flows added 24 November
+
+- Free verse options are Simple and Deep. Theology displays “Theology · Pro” and opens the Pro workspace. The Bible verse also links to the workspace so free members can browse its tools.
+- Creating/opening a public discussion from the verse is proposed as a Pro action, interpreting the owner's request to gate both that action and Theology. Discover's existing public discussion feed stays available. Confirm the broader community policy before implementing live entitlement checks.
+- Free members can browse Pro plan/tool descriptions. Starting a reading plan, opening a devotional or using a study tool opens the upgrade sheet. A clearly labeled prototype-access control lets reviewers inspect the unlocked samples.
+- After 1 guided entry or 1 follow-up today, show the corresponding localized message with “Come back tomorrow” and “Upgrade to Pro”. Preserve the draft, saved entry and visible conversation. Upgrade returns to the interrupted action after verified purchase. Limit status must come from the server and not the device clock.
+- Pro receives 2 guided journal entries and 2 follow-up replies TOTAL each day, across entries. This interpretation needs confirmation if the owner intends 2 replies per entry.
+- Show separate entry and follow-up balances. Count only completed guidance results once, prevent duplicate charges on retry, and handle simultaneous devices atomically.
+- Paid/Free limits are proposed in this PR only. Billing and production access enforcement remain implementation work.

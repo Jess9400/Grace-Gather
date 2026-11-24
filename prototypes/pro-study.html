@@ -322,6 +322,7 @@
     </div>
     <small id="preview"></small>
     <nav class="tabs" id="tabs"></nav>
+    <button class="quiet" id="freeVerse" onclick="freeVerse()"></button>
     <div id="content"></div>
     <p class="footer" id="notice"></p>
     <button class="quiet" id="pricing" onclick="prices()"></button>
@@ -331,7 +332,7 @@
     <button
       class="primary secondary"
       id="close"
-      onclick="document.getElementById('dialog').close()"
+      onclick="closePreview()"
     ></button>
   </dialog>
   <script>
@@ -461,6 +462,20 @@
           "1 John": "1 John",
         },
         days: "days",
+        freeVerse: "Free verse preview",
+        simple: "Simple",
+        deep: "Deep",
+        theology: "Theology · Pro",
+        discussion: "Open a public discussion · Pro",
+        upgrade: "Upgrade to Pro",
+        limitEntry:
+          "You’ve used today’s free guided entry. Come back tomorrow or upgrade to Pro to keep reflecting.",
+        limitReply:
+          "You’ve used today’s free follow-up. Come back tomorrow or upgrade to Pro to keep talking.",
+        tomorrow: "Come back tomorrow",
+        previewAccess: "Preview Pro access",
+        freeAllowance: "Free · 1 guided entry and 1 follow-up per day",
+        proAllowance: "Pro · 2 guided entries and 2 follow-ups per day",
       },
       pt: {
         study: "Estudo bíblico",
@@ -587,6 +602,20 @@
           "1 John": "1 João",
         },
         days: "dias",
+        freeVerse: "Prévia do versículo gratuito",
+        simple: "Simples",
+        deep: "Aprofundar",
+        theology: "Teologia · Pro",
+        discussion: "Abrir uma discussão pública · Pro",
+        upgrade: "Assinar o Pro",
+        limitEntry:
+          "Você já usou sua reflexão gratuita de hoje. Volte amanhã ou assine o Pro para continuar.",
+        limitReply:
+          "Você já usou sua resposta gratuita de hoje. Volte amanhã ou assine o Pro para continuar a conversa.",
+        tomorrow: "Voltar amanhã",
+        previewAccess: "Experimentar a prévia Pro",
+        freeAllowance: "Grátis · 1 reflexão guiada e 1 resposta por dia",
+        proAllowance: "Pro · 2 reflexões guiadas e 2 respostas por dia",
       },
       es: {
         study: "Estudio bíblico",
@@ -713,6 +742,20 @@
           "1 John": "1 Juan",
         },
         days: "días",
+        freeVerse: "Vista previa del versículo gratuito",
+        simple: "Sencillo",
+        deep: "Profundizar",
+        theology: "Teología · Pro",
+        discussion: "Abrir un debate público · Pro",
+        upgrade: "Pasar a Pro",
+        limitEntry:
+          "Ya usaste la reflexión gratuita de hoy. Vuelve mañana o pasa a Pro para continuar.",
+        limitReply:
+          "Ya usaste la respuesta gratuita de hoy. Vuelve mañana o pasa a Pro para seguir conversando.",
+        tomorrow: "Volver mañana",
+        previewAccess: "Explorar la vista previa Pro",
+        freeAllowance: "Gratis · 1 reflexión guiada y 1 respuesta al día",
+        proAllowance: "Pro · 2 reflexiones guiadas y 2 respuestas al día",
       },
       ru: {
         study: "Изучение Библии",
@@ -839,8 +882,23 @@
           "1 John": "1 Иоанна",
         },
         days: "дней",
+        freeVerse: "Предпросмотр бесплатного стиха",
+        simple: "Просто",
+        deep: "Глубже",
+        theology: "Богословие · Pro",
+        discussion: "Открыть публичное обсуждение · Pro",
+        upgrade: "Перейти на Pro",
+        limitEntry:
+          "Бесплатная запись с разбором на сегодня использована. Вернитесь завтра или перейдите на Pro.",
+        limitReply:
+          "Бесплатный ответ на сегодня использован. Вернитесь завтра или перейдите на Pro, чтобы продолжить разговор.",
+        tomorrow: "Вернуться завтра",
+        previewAccess: "Посмотреть возможности Pro",
+        freeAllowance: "Бесплатно · 1 запись с разбором и 1 ответ в день",
+        proAllowance: "Pro · 2 записи с разбором и 2 ответа в день",
       },
     };
+    let proAccess = false;
     let language = "en",
       tradition = 0,
       tab = 0,
@@ -946,6 +1004,7 @@
       document.getElementById("notice").textContent =
         t.sample + " · " + t.notice;
       document.getElementById("pricing").textContent = t.pricing + " →";
+      document.getElementById("freeVerse").textContent = t.freeVerse + " →";
       document.getElementById("close").textContent = t.close;
       let body = "";
       if (tab === 0) {
@@ -1024,6 +1083,7 @@
       if (!d.open) d.showModal();
     }
     function devotional() {
+      if (!proAccess) return prices();
       const t = c(),
         d = daily(),
         v = t.devotionals[d];
@@ -1048,6 +1108,7 @@
       );
     }
     function plan(i) {
+      if (!proAccess) return prices();
       selected = i;
       const t = c(),
         day = Math.min(days[i] || 0, readings[i].length - 1),
@@ -1083,6 +1144,7 @@
       plan(selected);
     }
     function tool(i, w = 0) {
+      if (!proAccess) return prices();
       const t = c();
       let body = "";
       if (i === 0)
@@ -1142,12 +1204,62 @@
           body,
       );
     }
+    function freeVerse() {
+      const t = c();
+      show(
+        "<h2>" +
+          ref("Mark 1") +
+          '</h2><button class="primary secondary" onclick="freeStudy()">' +
+          t.simple +
+          '</button><button class="primary secondary" onclick="freeStudy()">' +
+          t.deep +
+          '</button><button class="primary secondary" onclick="prices()">' +
+          t.theology +
+          '</button><button class="primary secondary" onclick="prices()">' +
+          t.discussion +
+          '</button><hr><button class="quiet" onclick="limit(false)">' +
+          t.freeAllowance +
+          ' →</button><button class="quiet" onclick="limit(true)">' +
+          t.limitReply +
+          " →</button>",
+      );
+    }
+    function freeStudy() {
+      const t = c();
+      show("<h2>" + ref("Mark 1") + "</h2><p>" + t.contextSample + "</p>");
+    }
+    function limit(reply) {
+      const t = c();
+      show(
+        "<p>" +
+          (reply ? t.limitReply : t.limitEntry) +
+          '</p><button class="primary" onclick="prices()">' +
+          t.upgrade +
+          '</button><button class="primary secondary" onclick="closePreview()">' +
+          t.tomorrow +
+          "</button>",
+      );
+    }
+    function closePreview() {
+      document.getElementById("dialog").close();
+    }
+    function unlockPreview() {
+      proAccess = true;
+      document.getElementById("dialog").close();
+      render();
+    }
     function prices() {
       const t = c();
       show(
         "<h2>" +
           t.pricing +
-          '</h2><button class="primary ' +
+          "</h2><p>" +
+          t.freeAllowance +
+          "</p><p>" +
+          t.proAllowance +
+          '</p><button class="primary" onclick="unlockPreview()">' +
+          t.previewAccess +
+          '</button><button class="primary ' +
           (annual ? "secondary" : "") +
           '" onclick="annual=false;prices()">' +
           t.monthly +
