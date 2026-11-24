@@ -30,6 +30,7 @@ import type { PlaceLabel } from "../../components/ChurchScene";
 import LivingChurchScene from "../../components/LivingChurchScene";
 import ChurchEntrance from "../../components/ChurchEntrance";
 import OrthodoxEntrance from "../../components/OrthodoxEntrance";
+import HomeNotice from "../../components/HomeNotice";
 import { useApp } from "../../lib/state";
 import { churchCopy, type ChurchWord } from "../../lib/church-copy";
 import {
@@ -681,6 +682,9 @@ export default function Home() {
               </Text>
             </Animated.View>
           )}
+          {/* Something new (a message, a prayer, a reply): tap to open it,
+              or let it fade; it stays in Notifications either way. */}
+          <HomeNotice visible={focused && !entrance && !touring} />
         </View>
         {sceneFailed && (
           <ScrollView
