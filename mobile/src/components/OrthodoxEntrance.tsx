@@ -20,27 +20,41 @@ import { releaseIntroHandoff } from "../lib/intro-handoff";
 import type { Language } from "../lib/content";
 import { serif } from "./quiet-ui";
 
-// The entrance for an Orthodox church: a white church with a golden onion
-// dome at dusk. Tapping it swings the two doors open onto warm light and the
-// icon screen, then fades into the church. Drawn as images, not 3D.
+// A drawn church entrance, not 3D: tapping it swings the two doors open onto
+// warm light, then fades into the church.
+// - Orthodox: a white church with a golden onion dome and an icon above the door.
+// - Protestant: a simple modern church with glass doors, because grand stone
+//   doors feel foreign, even pretentious, to many Protestants.
 const ART = { width: 390, height: 844 };
-// Where the doorway sits in the artwork.
-const DOOR = { left: 150, top: 547, width: 45, height: 189 };
 const SKY = "#1E2238";
 const OPEN_MS = 1500;
 const FADE_MS = 700;
-
-const background = require("../../assets/church/orthodox-entrance/background.png");
-const leftLeaf = require("../../assets/church/orthodox-entrance/door-left.png");
-const rightLeaf = require("../../assets/church/orthodox-entrance/door-right.png");
+const CHURCHES = {
+  orthodox: {
+    // Where the doorway sits in the artwork.
+    door: { left: 150, top: 547, width: 45, height: 189 },
+    background: require("../../assets/church/orthodox-entrance/background.png"),
+    left: require("../../assets/church/orthodox-entrance/door-left.png"),
+    right: require("../../assets/church/orthodox-entrance/door-right.png"),
+  },
+  protestant: {
+    door: { left: 150, top: 596, width: 45, height: 140 },
+    background: require("../../assets/church/protestant-entrance/background.png"),
+    left: require("../../assets/church/protestant-entrance/door-left.png"),
+    right: require("../../assets/church/protestant-entrance/door-right.png"),
+  },
+};
 
 export default function OrthodoxEntrance({
   language,
   onEntered,
+  church = "orthodox",
 }: {
   language: Language;
   onEntered: () => void;
+  church?: keyof typeof CHURCHES;
 }) {
+  const { door: DOOR, background, left: leftLeaf, right: rightLeaf } = CHURCHES[church];
   const t = (key: Parameters<typeof churchCopy>[1]) =>
     churchCopy(language, key);
   const insets = useSafeAreaInsets();

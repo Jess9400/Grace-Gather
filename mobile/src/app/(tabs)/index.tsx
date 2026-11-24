@@ -63,6 +63,13 @@ import { StepCheckIn } from "../../components/SmallStep";
 import { useChurchPresence } from "../../lib/church-presence";
 import BrandMark from "../../components/BrandMark";
 
+// The same drawn entrance, with the simple modern Protestant church.
+function ProtestantEntrance(
+  props: Omit<React.ComponentProps<typeof OrthodoxEntrance>, "church">,
+) {
+  return <OrthodoxEntrance {...props} church="protestant" />;
+}
+
 const ROUTES: Record<Exclude<ChurchPlace, "wreath">, string> = {
   candles: "/candle",
   confession: "/(tabs)/confession",
@@ -429,7 +436,12 @@ export default function Home() {
         ]
       : places;
   // An Orthodox church has its own entrance: a white church with a golden dome.
-  const EntranceView = eastern ? OrthodoxEntrance : ChurchEntrance;
+  // Orthodox and Protestant members get their own drawn church; others the 3D doors.
+  const EntranceView = eastern
+    ? OrthodoxEntrance
+    : isProtestant(profile)
+      ? ProtestantEntrance
+      : ChurchEntrance;
   const open = (place: ChurchPlace, point?: { x: number; y: number }) => {
     if (place === "wreath") return setAboutAdvent((v) => !v);
     const go = () => router.push(ROUTES[place] as never);

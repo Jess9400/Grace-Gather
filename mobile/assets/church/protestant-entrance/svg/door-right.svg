@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="45" height="140" viewBox="195 596 45 140"><defs>
+<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1E2238"/><stop offset="0.55" stop-color="#4A3F58"/><stop offset="0.85" stop-color="#B9805A"/><stop offset="1" stop-color="#D89B62"/></linearGradient>
+<linearGradient id="wall" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F4EFE6"/><stop offset="1" stop-color="#DCD3C4"/></linearGradient>
+<linearGradient id="tower" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#E9E2D6"/><stop offset="1" stop-color="#D3C9B8"/></linearGradient>
+<linearGradient id="inside" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FBE3AE"/><stop offset="0.7" stop-color="#F2C474"/><stop offset="1" stop-color="#D99A4E"/></linearGradient>
+<linearGradient id="window" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FCE6B4"/><stop offset="1" stop-color="#EDB866"/></linearGradient>
+<radialGradient id="halo" cx="0.5" cy="0.5" r="0.5"><stop offset="0" stop-color="#FFD58A" stop-opacity="0.5"/><stop offset="1" stop-color="#FFD58A" stop-opacity="0"/></radialGradient>
+<linearGradient id="ground" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5A4536"/><stop offset="1" stop-color="#2A221D"/></linearGradient>
+<linearGradient id="glass" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFF3D6" stop-opacity="0.55"/><stop offset="0.5" stop-color="#FFE2A6" stop-opacity="0.28"/><stop offset="1" stop-color="#FFF3D6" stop-opacity="0.45"/></linearGradient>
+</defs><rect x="195" y="596" width="45" height="140" fill="url(#glass)"/>
+<rect x="196.5" y="597.5" width="42" height="137" fill="none" stroke="#3B3632" stroke-width="3"/>
+<path d="M203 612 L213 602 M205 628 L225 608" stroke="#FFFFFF" stroke-width="1.4" opacity="0.35"/>
+<rect x="200" y="640" width="3" height="46" rx="1.5" fill="#D9B974"/></svg>
