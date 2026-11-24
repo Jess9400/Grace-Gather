@@ -79,6 +79,6 @@ test('related verses exist in the Bibles they name', () => {
 });
 
 test('the verse screen falls back to these translations', () => {
-  const screen = readFileSync(root + 'mobile/src/app/verse/[id].tsx', 'utf8');
+  const screen = readFileSync(root + 'mobile/src/components/VerseStudy.tsx', 'utf8');
   assert.match(screen, /journalVerseStudy\(journalReference \?\? themeReferenceFor\(id\), lang\) \?\?\s+translatedStudy\(id, lang\)/);
 });

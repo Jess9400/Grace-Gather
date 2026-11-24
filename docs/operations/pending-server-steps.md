@@ -101,3 +101,10 @@ friend, without search and without being findable. No edge function.
 - [ ] **2. Check:** "Share my friend link" on Your people, open the link on a
   second account, confirm "Add … as a friend", and both see each other under
   Friends.
+
+
+## Study notebook and reading-plan invitations
+
+- [x] Applied `study_notebook_and_plan_invitations` and `study_invitation_peer_identity` to production on 25 November 2026. Confirmed RLS, no direct client read access, and no anonymous RPC access.
+- [x] Verified account note save/search/delete in the signed-in local preview and three-account consent/isolation behavior in disposable PostgreSQL.
+- [ ] On the next app build, test with two real accounts: invite an accepted friend, accept from their own Read together screen, explicitly share a note, confirm the other account can read it, and leave/unshare to revoke access. No extra Edge Function is required.

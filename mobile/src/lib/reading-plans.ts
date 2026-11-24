@@ -69,10 +69,10 @@ export function normalizePlanProgress(value: unknown): PlanProgress {
   const row =
     value && typeof value === "object" ? (value as Partial<PlanProgress>) : {};
   const days: Record<number, number> = {};
-  for (let i = 0; i < readingPlans.length; i++) {
+  for (let i = 0; i <= readingPlans.length; i++) {
     const n = Number(row.days?.[i] ?? 0);
     days[i] = Number.isInteger(n)
-      ? Math.min(readingPlans[i].length, Math.max(0, n))
+      ? Math.min(readingPlanLength(i), Math.max(0, n))
       : 0;
   }
   return {
@@ -83,9 +83,32 @@ export function normalizePlanProgress(value: unknown): PlanProgress {
     active:
       Number.isInteger(row.active) &&
       Number(row.active) >= 0 &&
-      Number(row.active) < readingPlans.length
+      Number(row.active) <= readingPlans.length
         ? Number(row.active)
         : null,
     days,
   };
+}
+
+// The final library item follows the actual selected edition's canon, rather
+// than imposing the Protestant 66-book ordering on Catholic/Orthodox readers.
+export const yearPlanIndex = readingPlans.length;
+export function readingPlanLength(plan: number) {
+  return plan === yearPlanIndex ? 365 : (readingPlans[plan]?.length ?? 0);
+}
+export function yearDayPassages(
+  books: { code: string; chapters: number }[],
+  day: number,
+): PlanPassage[] {
+  if (!Number.isInteger(day) || day < 0 || day >= 365) return [];
+  const all = books.flatMap((book) =>
+    Array.from({ length: book.chapters }, (_, i) => ({
+      book: book.code,
+      chapter: i + 1,
+    })),
+  );
+  return all.slice(
+    Math.floor((day * all.length) / 365),
+    Math.floor(((day + 1) * all.length) / 365),
+  );
 }
