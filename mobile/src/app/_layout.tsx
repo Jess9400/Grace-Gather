@@ -95,6 +95,7 @@ function Routes() {
                 "notifications",
                 "profile",
                 "study",
+                "pro",
                 "library",
                 "community",
                 "prayers",
