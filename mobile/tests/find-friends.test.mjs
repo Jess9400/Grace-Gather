@@ -31,3 +31,10 @@ test("a friend link adds someone you know, after showing whose link it is", () =
   // Making a new link turns the old one off.
   assert.match(page, /await friendInvite\("reset"\)/);
 });
+
+test("saving the find-me settings folds them into one line with a short Saved", () => {
+  assert.match(page, /setEditingFindable\(false\);\s*setSavedFlash\(true\);/);
+  assert.match(page, /setTimeout\(\(\) => setSavedFlash\(false\), 3000\)/);
+  assert.match(page, /c\("Friends can find you as \{name\}\."\)/);
+  assert.match(page, /onPress=\{\(\) => setEditingFindable\(true\)\}/);
+});

@@ -248,6 +248,21 @@ const words: Record<string, string[]> = {
     "Cerrar",
     "Закрыть",
   ],
+  "Friends can find you as {name}.": [
+    "Os amigos podem encontrar você como {name}.",
+    "Tus amigos pueden encontrarte como {name}.",
+    "Друзья могут найти вас по имени {name}.",
+  ],
+  "Search can't find you. Friends can still add you with your link.": [
+    "A busca não mostra você. Os amigos ainda podem adicionar você pelo seu link.",
+    "La búsqueda no te muestra. Tus amigos aún pueden agregarte con tu enlace.",
+    "В поиске вас не видно. Друзья всё равно могут добавить вас по ссылке.",
+  ],
+  "Change": [
+    "Alterar",
+    "Cambiar",
+    "Изменить",
+  ],
   "How friends find you": [
     "Como os amigos encontram você",
     "Cómo te encuentran tus amigos",
