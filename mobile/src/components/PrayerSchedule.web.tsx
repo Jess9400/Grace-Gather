@@ -2,6 +2,9 @@ import { useId } from "react";
 import { colors } from "./quiet-ui";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
 import type { PrayerScheduleProps } from "./PrayerSchedule";
+// The same system font as the other field labels on the page.
+const labelFont =
+  '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif';
 export default function PrayerSchedule({
   date,
   time,
@@ -38,7 +41,7 @@ export default function PrayerSchedule({
     <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr)", gap: 16, minWidth: 0 }}>
       <label
         htmlFor={`${id}-date`}
-        style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr)", gap: 8, minWidth: 0, color: colors.ink, fontSize: 13, fontWeight: 600 }}
+        style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr)", gap: 8, minWidth: 0, color: colors.ink, fontSize: 13, fontWeight: 600, fontFamily: labelFont }}
       >
         {dateLabel ?? tr("Prayer date")}
         <input
@@ -52,7 +55,7 @@ export default function PrayerSchedule({
       </label>
       <label
         htmlFor={`${id}-time`}
-        style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr)", gap: 8, minWidth: 0, color: colors.ink, fontSize: 13, fontWeight: 600 }}
+        style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr)", gap: 8, minWidth: 0, color: colors.ink, fontSize: 13, fontWeight: 600, fontFamily: labelFont }}
       >
         {timeLabel ?? tr("Prayer time")}
         <input
