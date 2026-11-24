@@ -93,7 +93,8 @@ first. Deploying the function before it would stop people joining gatherings.
 Members share a private link; whoever opens it and confirms becomes their
 friend, without search and without being findable. No edge function.
 
-- [ ] **1. Database migration:** apply
+- [x] **1. Database migration:** done 24 Nov 2026 by the owner in the SQL
+  Editor. Apply
   `supabase/migrations/20261124150000_friend_invite_links.sql` (adds
   `private.friend_directory.invite_token` and `public.friend_invite_command`).
   Until it is applied, "Share my friend link" shows "Could not complete this".
