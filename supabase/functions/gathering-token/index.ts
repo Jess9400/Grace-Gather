@@ -78,16 +78,21 @@ serve(async(req)=>{
   }catch(e){if((e as {code?:string}).code!=='not_found')throw e;}
   return json({muted,listeners:true,speakMode:'invited'});
  }
+ const speakerScope = {
+  host_id: g.host_id,
+  scope_kind: g.series_id ? 'series' : 'gathering',
+  scope_id: g.series_id ?? g.id,
+ };
  if(body.action==='speaker_link'){
   if(!host)return json({error:'host_required'},403);
-  // One private link per gathering, shared by every date of a weekly series.
-  let token=g.speaker_token as string|null;
-  if(!token){
-   token=crypto.randomUUID().replaceAll('-','');
-   const scope=service.from('gatherings').update({speaker_token:token}).eq('host_id',user.id);
-   const saved=g.series_id?await scope.eq('series_id',g.series_id).is('speaker_token',null):await scope.eq('id',g.id);if(saved.error)throw saved.error;
-  }
-  return json({speakerToken:token});
+  const links = service.from('gathering_speaker_links');
+  const created = await links.upsert(speakerScope, {
+   onConflict: 'host_id,scope_kind,scope_id', ignoreDuplicates: true,
+  });
+  if (created.error) throw created.error;
+  const link = await links.select('token').match(speakerScope).single();
+  if (link.error) throw link.error;
+  return json({speakerToken:link.data.token});
  }
  if(body.action==='guest'){
   if(!host||typeof body.participant!=='string'||body.participant===user.id)return json({error:'host_required'},403);
@@ -117,8 +122,12 @@ serve(async(req)=>{
  if(Date.now()<Date.parse(g.starts_at))return json({error:'not_started'},409);
  const reserved=await client.rpc('gathering_command',{p_action:'reserve',p_data:{id:g.id,invite:body.invite??''}});
  if(reserved.error)return json({error:['full','invite_required','not_allowed','unavailable'].find(x=>reserved.error!.message===x)??'join_failed'},409);
- if(!host&&typeof body.speaker==='string'&&g.speaker_token&&body.speaker===g.speaker_token){
+ if (!host && typeof body.speaker === 'string' && body.speaker) {
+  const link = await service.from('gathering_speaker_links').select('token').match(speakerScope).maybeSingle();
+  if (link.error) throw link.error;
+  if (link.data?.token === body.speaker) {
   const made=await service.from('memberships').update({guest_speaker:true,hand_raised:false}).eq('gathering_id',g.id).eq('user_id',user.id).eq('speech_revoked',false);if(made.error)throw made.error;
+  }
  }
  const membership=await service.from('memberships').select('can_speak,speech_revoked,guest_speaker').eq('gathering_id',g.id).eq('user_id',user.id).single();if(membership.error)throw membership.error;
  await server.createRoom({name:g.room_name,maxParticipants:g.capacity,emptyTimeout:120,departureTimeout:30});
