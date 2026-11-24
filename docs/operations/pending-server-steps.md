@@ -57,9 +57,10 @@ above the verse. English and Portuguese for now. No database change.
 
 ## "Mute everyone" returns people to listening (#235)
 
-In "Only people I allow" gatherings, Mute everyone now also takes speaking
-permission away, so people cannot switch their microphone back on until they
-raise a hand and the host allows them again. Found in a two-phone test on
+Mute everyone now takes speaking permission away in every gathering, so people
+cannot switch their microphone back on until they raise a hand and the host
+allows them, or the host chooses "Let everyone speak". An "Everyone" gathering
+becomes "Only people I allow" when muted. Found in a two-phone test on
 24 Nov 2026. Server-side: works on the current app build once deployed.
 
 - [ ] **1. Deploy the `gathering-token` edge function again** from the latest

@@ -806,10 +806,10 @@ const words: Record<string, string[]> = {
     "Все входят как слушатели. Люди поднимают руку, а вы решаете, кому дать слово.",
   ],
   speakEveryoneNote: [
-    "Anyone who joins can switch on their microphone. You can still mute everyone or make someone a listener.",
-    "Quem entrar pode ligar o microfone. Você ainda pode silenciar todos ou tornar alguém ouvinte.",
-    "Quien entre puede activar su micrófono. Aun así puedes silenciar a todos o hacer oyente a alguien.",
-    "Любой участник может включить микрофон. Вы всё равно можете выключить микрофоны всем или перевести кого-то в слушатели.",
+    "Anyone who joins can switch on their microphone. \"Mute everyone\" turns everyone into listeners until you let them speak again.",
+    "Quem entrar pode ligar o microfone. \"Silenciar todos\" deixa todos como ouvintes até você permitir que falem de novo.",
+    "Quien entre puede activar su micrófono. \"Silenciar a todos\" deja a todos como oyentes hasta que les permitas hablar de nuevo.",
+    "Любой участник может включить микрофон. «Выключить микрофоны всем» делает всех слушателями, пока вы снова не разрешите говорить.",
   ],
   speakInvitedNow: [
     "Only people you allow can speak.",
@@ -842,10 +842,10 @@ const words: Record<string, string[]> = {
     "Выключить микрофоны всем",
   ],
   mutedToListeners: [
-    "Everyone is muted and listening again. To speak, they raise a hand and you allow them.",
-    "Todos foram silenciados e voltaram a ouvir. Para falar, levantam a mão e você permite.",
-    "Todos fueron silenciados y vuelven a escuchar. Para hablar, levantan la mano y tú lo permites.",
-    "Микрофоны выключены, все снова слушатели. Чтобы говорить, нужно поднять руку, а вы дадите слово.",
+    "Everyone is muted and listening. To speak, they raise a hand and you allow them, or you choose \"Let everyone speak\".",
+    "Todos foram silenciados e estão ouvindo. Para falar, levantam a mão e você permite, ou escolha \"Deixar todos falarem\".",
+    "Todos fueron silenciados y están escuchando. Para hablar, levantan la mano y tú lo permites, o elige \"Dejar hablar a todos\".",
+    "Микрофоны выключены, все слушают. Чтобы говорить, нужно поднять руку, а вы дадите слово, или нажмите «Разрешить всем».",
   ],
   mutedEveryone: [
     "Everyone is muted. In this gathering anyone can switch their microphone on again.",

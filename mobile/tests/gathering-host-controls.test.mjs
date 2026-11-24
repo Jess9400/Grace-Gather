@@ -20,11 +20,12 @@ test("gatherings let only invited people speak unless the host opens the floor",
     assert.match(token.slice(start, start + 120), /if\(!host\)return json\(\{error:'host_required'\},403\)/);
   }
   assert.match(token, /if\(p\.identity===g\.host_id\)continue;/);
-  assert.match(token, /mutePublishedTrack\(g\.room_name,p\.identity,t\.sid,true\)/);
-  // In "Only people I allow" gatherings, Mute everyone also returns people to
-  // listening, in the room and for their next join, so they cannot unmute.
+  // Mute everyone means the same in every gathering: everyone but the host
+  // goes back to listening, in the room and for their next join, and the
+  // gathering becomes "Only people I allow" until the host opens it again.
   const mute = token.slice(token.indexOf("body.action==='mute_all'"), token.indexOf("if(['speaker','remove']"));
-  assert.match(mute, /const toListeners=speakMode\(g\)==='invited';/);
+  assert.match(mute, /update\(\{speak_mode:'invited'\}\)\.eq\('id',g\.id\)/);
+  assert.doesNotMatch(mute, /mutePublishedTrack/);
   assert.match(mute, /update\(\{can_speak:false,hand_raised:false\}\)\.eq\('gathering_id',g\.id\)\.neq\('user_id',g\.host_id\)/);
   assert.match(mute, /permission:\{canSubscribe:true,canPublish:false/);
 });

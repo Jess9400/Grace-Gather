@@ -271,6 +271,7 @@ export function AudioRoomProvider({ children }: { children: ReactNode }) {
         // Older servers only muted; newer ones also return people to listening.
         setNotice(result?.listeners ? "mutedToListeners" : "mutedEveryone");
         if (result?.listeners) setHands([]);
+        if (result?.speakMode === "invited") setSpeakMode("invited");
       }
       if (action === "speaker" && enabled)
         setHands((list) => list.filter((h) => h !== participant));
