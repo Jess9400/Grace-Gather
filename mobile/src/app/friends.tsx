@@ -79,6 +79,8 @@ function FriendsScreen({
     [hasName, setHasName] = useState(false),
     // Once saved, the settings fold into one line with a short "Saved".
     [editingFindable, setEditingFindable] = useState(false),
+    // Known once the server has answered, so the reminder below never flashes.
+    [directoryKnown, setDirectoryKnown] = useState(false),
     [savedFlash, setSavedFlash] = useState(false);
   useEffect(() => {
     if (!savedFlash) return;
@@ -139,6 +141,7 @@ function FriendsScreen({
           setLinks(data.links);
           setBlocked(data.blocked);
           setHasName(!!data.me);
+          setDirectoryKnown(true);
           // A first-time visitor starts from their profile name.
           setName(data.me?.name ?? profileName.current ?? "");
           setDiscoverable(data.me?.discoverable ?? false);
@@ -475,6 +478,22 @@ function FriendsScreen({
             )}
           </Text>
           <Notice text={notice ? c(notice) : ""} />
+          {/* First things first: without a public name nobody can find you. */}
+          {directoryKnown && !hasName && !invitation && (
+            <View style={s.findable}>
+              <Text style={s.findableTitle}>{c("You're not visible to others yet.")}</Text>
+              <Body small>
+                {c("Choose a public name so friends can find you and you can add them.")}
+              </Body>
+              <Button
+                title={c("Set up my profile for friends")}
+                onPress={() => {
+                  setFinding(true);
+                  setEditingFindable(true);
+                }}
+              />
+            </View>
+          )}
           {invitation && (
             <View style={s.findable}>
               {invitation === "unavailable" ? (

@@ -1325,6 +1325,26 @@
     "es": "Ora cuando puedas",
     "ru": "Молитесь, когда сможете"
   },
+  "Shared with the community. We'll let you know when someone prays for you.": {
+    "pt": "Compartilhado com a comunidade. Avisaremos quando alguém orar por você.",
+    "es": "Compartido con la comunidad. Te avisaremos cuando alguien ore por ti.",
+    "ru": "Просьба опубликована. Мы сообщим, когда кто-то помолится за вас."
+  },
+  "1 person prayed for you": {
+    "pt": "1 pessoa orou por você",
+    "es": "1 persona oró por ti",
+    "ru": "За вас помолился 1 человек"
+  },
+  "Be the first to pray for this.": {
+    "pt": "Seja o primeiro a orar por isso.",
+    "es": "Sé el primero en orar por esto.",
+    "ru": "Помолитесь первым."
+  },
+  "1 person has prayed": {
+    "pt": "1 pessoa orou",
+    "es": "1 persona ha orado",
+    "ru": "Помолился 1 человек"
+  },
   "{count} people prayed for you": {
     "pt": "{count} pessoas oraram por você",
     "es": "{count} personas oraron por ti",
