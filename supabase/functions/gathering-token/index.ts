@@ -30,7 +30,9 @@ serve(async(req)=>{
   const membership=await client.from('memberships').select('user_id,hand_raised,can_speak').eq('gathering_id',g.id);
   if(membership.error)throw membership.error;
   if(!host&&!membership.data.some(m=>m.user_id===user.id))return json({error:'not_allowed'},403);
-  return json({hands:host?membership.data.filter(m=>m.hand_raised).map(m=>m.user_id):[],endsAt:g.ends_at,speakMode:speakMode(g)});
+  // Each person also learns whether their own hand is still up, so a hand the
+  // host cleared (by allowing them, or by Mute everyone) goes down on their screen.
+  return json({hands:host?membership.data.filter(m=>m.hand_raised).map(m=>m.user_id):[],raised:membership.data.some(m=>m.user_id===user.id&&m.hand_raised),endsAt:g.ends_at,speakMode:speakMode(g)});
  }
  if(body.action==='speak_mode'){
   if(!host)return json({error:'host_required'},403);

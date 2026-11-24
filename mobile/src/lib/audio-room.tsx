@@ -142,7 +142,12 @@ export function AudioRoomProvider({ children }: { children: ReactNode }) {
         .on(RoomEvent.ActiveSpeakersChanged, update)
         .on(RoomEvent.TrackMuted, update)
         .on(RoomEvent.TrackUnmuted, update)
-        .on(RoomEvent.ParticipantPermissionsChanged, update)
+        .on(RoomEvent.ParticipantPermissionsChanged, (_previous, participant) => {
+          // Allowed to speak: the request is answered, so the hand goes down.
+          if (participant === room?.localParticipant && participant.permissions?.canPublish)
+            setRaised(false);
+          update();
+        })
         .on(RoomEvent.LocalTrackPublished, update)
         .on(RoomEvent.LocalTrackUnpublished, update)
         .on(RoomEvent.AudioPlaybackStatusChanged, update)
@@ -193,6 +198,7 @@ export function AudioRoomProvider({ children }: { children: ReactNode }) {
         const data = await audioCommand("state", { gatheringId: session.id });
         if (active) {
           setHands(data.hands ?? []);
+          if (typeof data.raised === "boolean") setRaised(data.raised);
           if (data.speakMode === "invited" || data.speakMode === "everyone")
             setSpeakMode(data.speakMode);
         }

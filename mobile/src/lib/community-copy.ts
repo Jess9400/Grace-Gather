@@ -818,22 +818,16 @@ const words: Record<string, string[]> = {
     "Говорить могут только те, кому вы дали слово.",
   ],
   speakEveryoneNow: [
-    "Everyone can switch on their microphone.",
-    "Todos podem ligar o microfone.",
-    "Todos pueden activar su micrófono.",
-    "Все могут включить микрофон.",
-  ],
-  speakSwitchInvited: [
-    "Only people I allow",
-    "Só quem eu permitir",
-    "Solo quien yo permita",
-    "Только с моего разрешения",
+    "Everyone can switch on their microphone, except people you made listeners.",
+    "Todos podem ligar o microfone, menos quem você tornou ouvinte.",
+    "Todos pueden activar su micrófono, salvo quienes hiciste oyentes.",
+    "Все могут включить микрофон, кроме тех, кого вы перевели в слушатели.",
   ],
   speakSwitchEveryone: [
     "Let everyone speak",
     "Deixar todos falarem",
     "Dejar hablar a todos",
-    "Разрешить всем",
+    "Дать слово всем",
   ],
   muteEveryone: [
     "Mute everyone",
@@ -845,7 +839,7 @@ const words: Record<string, string[]> = {
     "Everyone is muted and listening. To speak, they raise a hand and you allow them, or you choose \"Let everyone speak\".",
     "Todos foram silenciados e estão ouvindo. Para falar, levantam a mão e você permite, ou escolha \"Deixar todos falarem\".",
     "Todos fueron silenciados y están escuchando. Para hablar, levantan la mano y tú lo permites, o elige \"Dejar hablar a todos\".",
-    "Микрофоны выключены, все слушают. Чтобы говорить, нужно поднять руку, а вы дадите слово, или нажмите «Разрешить всем».",
+    "Микрофоны выключены, все слушают. Чтобы говорить, нужно поднять руку, а вы дадите слово, или нажмите «Дать слово всем».",
   ],
   mutedEveryone: [
     "Everyone is muted. In this gathering anyone can switch their microphone on again.",
