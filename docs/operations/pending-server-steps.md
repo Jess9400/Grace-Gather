@@ -82,7 +82,8 @@ guest in the room. Guests can switch their microphone on at any time.
 **Order matters:** the function reads the new columns, so apply the migration
 first. Deploying the function before it would stop people joining gatherings.
 
-- [ ] **1. Database migration:** apply
+- [x] **1. Database migration:** done 24 Nov 2026 by the owner in the SQL
+  Editor. Apply
   `supabase/migrations/20261124120000_gathering_guest_speakers.sql` (adds
   `memberships.guest_speaker` and `gatherings.speaker_token`). Idempotent.
 - [ ] **2. Then deploy `gathering-token`:**
