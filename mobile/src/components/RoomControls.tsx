@@ -3,7 +3,7 @@ import { View, Text, Share } from "react-native";
 import { useAudioRoom } from "../lib/audio-room";
 import { useApp } from "../lib/state";
 import { communityCopy } from "../lib/community-copy";
-import { gathering, gatheringLink } from "../lib/gatherings";
+import { gathering, gatheringLink, speakerInviteLink } from "../lib/gatherings";
 import { Button, Body, Row, Notice, colors } from "./community-ui";
 import { Disclosure, TextAction } from "./CommunityControls";
 export default function RoomControls() {
@@ -15,6 +15,13 @@ export default function RoomControls() {
     [error, setError] = useState("");
   const s = audio.session;
   if (!s) return null;
+  async function inviteGuest() {
+    try {
+      await Share.share({ message: await speakerInviteLink(s!.id) });
+    } catch {
+      setError("inviteError");
+    }
+  }
   async function invite() {
     try {
       const data = s!.access.host
@@ -77,9 +84,11 @@ export default function RoomControls() {
               {c(
                 p.identity === s.access.hostId
                   ? "host"
-                  : p.permissions?.canPublish
-                    ? "speaker"
-                    : "listener",
+                  : audio.guests.includes(p.identity)
+                    ? "guestSpeaker"
+                    : p.permissions?.canPublish
+                      ? "speaker"
+                      : "listener",
               )}
               {p.isSpeaking ? " · " + c("speaking") : ""}
               {audio.hands.includes(p.identity) ? " ✋" : ""}
@@ -91,7 +100,7 @@ export default function RoomControls() {
         <Button
           title={c("rejoin")}
           disabled={audio.busy}
-          onPress={() => void audio.join(s.id, s.invite)}
+          onPress={() => void audio.join(s.id, s.invite, s.speaker)}
         />
       ) : (
         <Row>
@@ -109,6 +118,13 @@ export default function RoomControls() {
             />
           )}
           <Button secondary title={c("invite")} onPress={() => void invite()} />
+          {s.access.host && (
+            <Button
+              secondary
+              title={c("inviteGuestSpeaker")}
+              onPress={() => void inviteGuest()}
+            />
+          )}
         </Row>
       )}
       {s.access.host && audio.connection === "connected" && (
@@ -197,6 +213,22 @@ export default function RoomControls() {
                       "speaker",
                       p.identity,
                       !p.permissions?.canPublish,
+                    )
+                  }
+                />
+                <Button
+                  secondary
+                  disabled={audio.busy}
+                  title={c(
+                    audio.guests.includes(p.identity)
+                      ? "endGuestSpeaker"
+                      : "makeGuestSpeaker",
+                  )}
+                  onPress={() =>
+                    void audio.command(
+                      "guest",
+                      p.identity,
+                      !audio.guests.includes(p.identity),
                     )
                   }
                 />

@@ -13,15 +13,17 @@ import RoomControls from "../../components/RoomControls";
 import GatheringSafetyReport from "../../components/GatheringSafetyReport";
 import SafetyFooter from "../../components/SafetyFooter";
 import { useAudioRoom } from "../../lib/audio-room";
-import { gathering, Gathering } from "../../lib/gatherings";
+import { gathering, Gathering, speakerInviteLink } from "../../lib/gatherings";
+import { Share } from "react-native";
 import { storyText } from "../../lib/discover";
 import { useApp } from "../../lib/state";
 import { communityCopy } from "../../lib/community-copy";
 export default function GatheringPage() {
   const now = useClock();
-  const { id, invite } = useLocalSearchParams<{
+  const { id, invite, speaker } = useLocalSearchParams<{
       id: string;
       invite?: string;
+      speaker?: string;
     }>(),
     { profile } = useApp(),
     audio = useAudioRoom(),
@@ -102,6 +104,17 @@ export default function GatheringPage() {
                   <>
                     <Button
                       secondary
+                      disabled={actionBusy}
+                      title={c("inviteGuestSpeaker")}
+                      onPress={() =>
+                        void speakerInviteLink(id)
+                          .then((message) => Share.share({ message }))
+                          .catch(() => {})
+                      }
+                    />
+                    <Body small>{c("guestSpeakerNote")}</Body>
+                    <Button
+                      secondary
                       title={c("cancelSession")}
                       onPress={() => setPendingCancel("cancel")}
                     />
@@ -164,7 +177,7 @@ export default function GatheringPage() {
                         : "joinMuted",
                   )}
                   disabled={audio.busy || Date.parse(item.starts_at) > now}
-                  onPress={() => void audio.join(id, invite)}
+                  onPress={() => void audio.join(id, invite, speaker)}
                 />
               )}
             </>
