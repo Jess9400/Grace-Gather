@@ -87,3 +87,16 @@ first. Deploying the function before it would stop people joining gatherings.
   guest speaker" and sends the link; the second phone joins with it, shows
   "Guest speaker" and can unmute at any time, even after "Mute everyone".
   "Stop being a guest speaker" and "Make listener" take that away.
+
+## Friend links (#242)
+
+Members share a private link; whoever opens it and confirms becomes their
+friend, without search and without being findable. No edge function.
+
+- [ ] **1. Database migration:** apply
+  `supabase/migrations/20261124150000_friend_invite_links.sql` (adds
+  `private.friend_directory.invite_token` and `public.friend_invite_command`).
+  Until it is applied, "Share my friend link" shows "Could not complete this".
+- [ ] **2. Check:** "Share my friend link" on Your people, open the link on a
+  second account, confirm "Add … as a friend", and both see each other under
+  Friends.

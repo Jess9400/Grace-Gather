@@ -183,6 +183,71 @@ const words: Record<string, string[]> = {
     "Tu nombre público",
     "Ваше публичное имя",
   ],
+  "Share my friend link": [
+    "Compartilhar meu link de amizade",
+    "Compartir mi enlace de amistad",
+    "Поделиться ссылкой для друзей",
+  ],
+  "Make a new friend link (the old one stops working)": [
+    "Criar um novo link (o antigo deixa de funcionar)",
+    "Crear un enlace nuevo (el anterior deja de funcionar)",
+    "Создать новую ссылку (старая перестанет работать)",
+  ],
+  "Save a public name first, then share your link.": [
+    "Primeiro salve um nome público e depois compartilhe seu link.",
+    "Primero guarda un nombre público y luego comparte tu enlace.",
+    "Сначала сохраните публичное имя, потом поделитесь ссылкой.",
+  ],
+  "New link made. The old one no longer works.": [
+    "Novo link criado. O antigo não funciona mais.",
+    "Enlace nuevo creado. El anterior ya no funciona.",
+    "Новая ссылка готова. Старая больше не работает.",
+  ],
+  "Add me as a friend on Grace & Gather:": [
+    "Me adicione como amigo no Grace & Gather:",
+    "Agrégame como amigo en Grace & Gather:",
+    "Добавьте меня в друзья в Grace & Gather:",
+  ],
+  "This friend link no longer works. Ask for a new one.": [
+    "Este link de amizade não funciona mais. Peça um novo.",
+    "Este enlace de amistad ya no funciona. Pide uno nuevo.",
+    "Эта ссылка больше не работает. Попросите новую.",
+  ],
+  "This is your own friend link. Share it with people you know.": [
+    "Este é o seu próprio link de amizade. Compartilhe com pessoas que você conhece.",
+    "Este es tu propio enlace de amistad. Compártelo con personas que conoces.",
+    "Это ваша собственная ссылка. Поделитесь ею со знакомыми.",
+  ],
+  "You are already friends with {name}.": [
+    "Você e {name} já são amigos.",
+    "Tú y {name} ya son amigos.",
+    "Вы с {name} уже друзья.",
+  ],
+  "{name} invited you to be friends.": [
+    "{name} convidou você para serem amigos.",
+    "{name} te invitó a ser amigos.",
+    "{name} приглашает вас в друзья.",
+  ],
+  "Choose a public name first. {name} will see it.": [
+    "Primeiro escolha um nome público. {name} vai vê-lo.",
+    "Primero elige un nombre público. {name} lo verá.",
+    "Сначала выберите публичное имя — {name} его увидит.",
+  ],
+  "Add {name} as a friend": [
+    "Adicionar {name} como amigo",
+    "Agregar a {name} como amigo",
+    "Добавить {name} в друзья",
+  ],
+  "You are now friends.": [
+    "Agora vocês são amigos.",
+    "Ahora son amigos.",
+    "Теперь вы друзья.",
+  ],
+  "Close": [
+    "Fechar",
+    "Cerrar",
+    "Закрыть",
+  ],
   "How friends find you": [
     "Como os amigos encontram você",
     "Cómo te encuentran tus amigos",

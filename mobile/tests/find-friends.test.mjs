@@ -19,3 +19,15 @@ test("chat reports live in the Admin dashboard, not on Your people", () => {
   assert.doesNotMatch(page, /Chat reports/);
   assert.match(readFileSync(root + "src/app/admin/index.tsx", "utf8"), /queue === "chats"/);
 });
+
+test("a friend link adds someone you know, after showing whose link it is", () => {
+  // Shared from Your people, with the person's private token.
+  assert.match(page, /c\("Share my friend link"\)/);
+  assert.match(page, /friendLinkUrl\(token\)/);
+  assert.match(readFileSync(root + "src/lib/friends.ts", "utf8"), /friends\?view=friends&add=" \+\s*encodeURIComponent\(token\)/);
+  // Opening it previews the name first; adding needs a tap and a public name.
+  assert.match(page, /friendInvite\("preview", \{ token: params\.add \}\)/);
+  assert.match(page, /if \(!hasName\) await friends\("directory", \{ name, discoverable \}\);\s*await friendInvite\("accept", \{ token: params\.add \}\);/);
+  // Making a new link turns the old one off.
+  assert.match(page, /await friendInvite\("reset"\)/);
+});

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
-import { Pressable, StyleSheet, Switch, Text, View } from "react-native";
+import { Pressable, Share, StyleSheet, Switch, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import {
   Screen,
@@ -24,6 +24,8 @@ import { useCommunity } from "../lib/discussion-state";
 import {
   friends,
   markFriendMessagesRead,
+  friendInvite,
+  friendLinkUrl,
   type Friend,
   type Message,
 } from "../lib/friends";
@@ -93,6 +95,8 @@ function FriendsScreen({
     view?: string;
     from?: string;
     chat?: string;
+    // A friend link: the token of the member who shared it.
+    add?: string;
   }>();
   const openedFromNotice = useRef("");
   const linkedVerse = params.verse ? discussionVerseId(params.verse) : null,
@@ -103,7 +107,7 @@ function FriendsScreen({
       : null,
   );
   const [view, setView] = useState<"discussions" | "friends">(
-      params.view === "friends" || params.view === "find"
+      params.view === "friends" || params.view === "find" || !!params.add
         ? "friends"
         : "discussions",
     ),
@@ -226,6 +230,40 @@ function FriendsScreen({
     } finally {
       setBusy(false);
     }
+  }
+  // Someone opened a friend link: show whose it is before adding them.
+  const [invitation, setInvitation] = useState<
+    { name: string; self: boolean; friends: boolean } | "unavailable" | null
+  >(null);
+  useEffect(() => {
+    if (!signedIn || !params.add) return;
+    let alive = true;
+    friendInvite("preview", { token: params.add })
+      .then((data) => alive && setInvitation(data))
+      .catch(() => alive && setInvitation("unavailable"));
+    return () => {
+      alive = false;
+    };
+  }, [signedIn, params.add]);
+  const closeInvitation = () => {
+    setInvitation(null);
+    router.setParams({ add: undefined });
+  };
+  async function shareFriendLink(reset = false) {
+    if (!hasName) {
+      setFinding(true);
+      setNotice("Save a public name first, then share your link.");
+      return;
+    }
+    await run(async () => {
+      const { token } = reset
+        ? await friendInvite("reset")
+        : await friendInvite("link");
+      if (reset) setNotice("New link made. The old one no longer works.");
+      await Share.share({
+        message: c("Add me as a friend on Grace & Gather:") + " " + friendLinkUrl(token),
+      });
+    });
   }
   async function act(action: string, data: Record<string, unknown>) {
     await friends(action, data);
@@ -429,6 +467,47 @@ function FriendsScreen({
             )}
           </Text>
           <Notice text={notice ? c(notice) : ""} />
+          {invitation && (
+            <View style={s.findable}>
+              {invitation === "unavailable" ? (
+                <Body>{c("This friend link no longer works. Ask for a new one.")}</Body>
+              ) : invitation.self ? (
+                <Body>{c("This is your own friend link. Share it with people you know.")}</Body>
+              ) : invitation.friends ? (
+                <Body>{c("You are already friends with {name}.").replace("{name}", invitation.name)}</Body>
+              ) : (
+                <>
+                  <Text style={s.findableTitle}>
+                    {c("{name} invited you to be friends.").replace("{name}", invitation.name)}
+                  </Text>
+                  {!hasName && (
+                    <>
+                      <Body small>{c("Choose a public name first. {name} will see it.").replace("{name}", invitation.name)}</Body>
+                      <Field
+                        label={c("Your public name")}
+                        value={name}
+                        onChangeText={setName}
+                        maxLength={40}
+                      />
+                    </>
+                  )}
+                  <Button
+                    title={c("Add {name} as a friend").replace("{name}", invitation.name)}
+                    disabled={busy || (!hasName && name.trim().length < 2)}
+                    onPress={() =>
+                      void run(async () => {
+                        if (!hasName) await friends("directory", { name, discoverable });
+                        await friendInvite("accept", { token: params.add });
+                        await load();
+                        setInvitation({ ...invitation, friends: true });
+                      }).then((ok) => ok && setNotice("You are now friends."))
+                    }
+                  />
+                </>
+              )}
+              <TextAction title={c("Close")} onPress={closeInvitation} />
+            </View>
+          )}
           {pending.map((l) => (
             <Card key={l.id}>
               <Body>{l.name}</Body>
@@ -494,6 +573,13 @@ function FriendsScreen({
           >
             <Text style={s.findText}>{c("Find friends")}</Text>
           </Pressable>
+          {/* A private link is the easiest way to add someone you know. */}
+          <Button
+            secondary
+            disabled={busy}
+            title={c("Share my friend link")}
+            onPress={() => void shareFriendLink()}
+          />
           {finding && (
             <>
               {/* How others find you, in plain view: a name and one switch. */}
@@ -530,6 +616,14 @@ function FriendsScreen({
                     }).then((ok) => ok && setNotice("Saved"))
                   }
                 />
+                {hasName && (
+                  <TextAction
+                    icon="refresh"
+                    title={c("Make a new friend link (the old one stops working)")}
+                    disabled={busy}
+                    onPress={() => void shareFriendLink(true)}
+                  />
+                )}
               </View>
               {!hasName && (
                 <Body small>
