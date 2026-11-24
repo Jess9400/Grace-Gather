@@ -15,6 +15,8 @@ import { useInterfaceCopy } from "../lib/use-interface-copy";
 import ModeratorPushListener from "../components/ModeratorPushListener";
 import AppRatingListener from "../components/AppRatingListener";
 import IntroHandoff from "../components/IntroHandoff";
+import { useVerseWidget } from "../lib/use-verse-widget";
+
 function Routes() {
   const {
     ready,
@@ -25,6 +27,8 @@ function Routes() {
     retryProfile,
   } = useApp();
   const signedIn = useSignedIn();
+  const widgetProfileReady = signedIn && ready && profileReady && !profileUnavailable && hasCompletedOnboarding(profile);
+  useVerseWidget(signedIn === false ? null : widgetProfileReady ? profile.edition : undefined);
   const legacy = useSegments().some((s) => s === "confession");
   const tr = useInterfaceCopy();
   if (error)

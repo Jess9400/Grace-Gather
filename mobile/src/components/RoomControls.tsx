@@ -1,3 +1,5 @@
+import { CelestialAvatar } from "./MemberAvatar";
+import { avatarVariant } from "../lib/avatar";
 import { useState } from "react";
 import { View, Text, Share, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -151,9 +153,7 @@ export default function RoomControls() {
                     alignItems: "center",
                   }}
                 >
-                  <Text style={{ color: colors.ink, fontSize: 22 }}>
-                    {(p.name || c("member")).slice(0, 1).toUpperCase()}
-                  </Text>
+                  <CelestialAvatar variant={avatarVariant(p.identity)} size={50} />
                 </View>
                 <View
                   style={{
