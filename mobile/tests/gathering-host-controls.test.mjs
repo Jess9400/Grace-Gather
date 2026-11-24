@@ -35,10 +35,14 @@ test("gatherings let only invited people speak unless the host opens the floor",
 
 test("the host sees raised hands, Mute everyone and the speaking rule in the room", () => {
   const room = read("mobile/src/components/RoomControls.tsx");
-  assert.match(room, /audio\.hands\.includes\(p\.identity\)\)/);
+  // Raised hands come first, each with its own "Allow speaking".
+  assert.match(room, /!p\.isLocal && audio\.hands\.includes\(p\.identity\)/);
+  assert.match(room, /audio\.command\("speaker", p\.identity, true\)/);
+  // Every person shows an icon for their state, with a short key.
+  assert.match(room, /hand: "hand-left",\s*micOn: "mic",\s*micOff: "mic-off",\s*listening: "headset"/);
   assert.match(room, /audio\.command\("mute_all"\)/);
   // Mute everyone closes the floor; the one switch left opens it again.
-  assert.match(room, /audio\.speakMode === "invited" && \(\s*<Button[\s\S]{0,160}audio\.command\("speak_mode", undefined, true\)/);
+  assert.match(room, /audio\.speakMode === "invited" && \(\s*<Button[\s\S]{0,200}audio\.command\("speak_mode", undefined, true\)/);
   // A listener's hand follows the server: cleared by the host, it goes down.
   assert.match(read("supabase/functions/gathering-token/index.ts"), /raised:membership\.data\.some\(m=>m\.user_id===user\.id&&m\.hand_raised\)/);
   const audio = read("mobile/src/lib/audio-room.tsx");
@@ -76,9 +80,26 @@ test("guest speakers can always speak, and the host controls who is one", () => 
   // Making someone a listener also ends their guest status.
   assert.match(token, /speech_revoked:true,hand_raised:false,guest_speaker:false/);
   const room = read("mobile/src/components/RoomControls.tsx");
-  assert.match(room, /audio\.guests\.includes\(p\.identity\)\s*\?\s*"guestSpeaker"/);
+  assert.match(room, /audio\.guests\.includes\(p\.identity\)\s*\?\s*\{ icon: "ribbon" as Icon, label: c\("guestSpeaker"\) \}/);
   assert.match(room, /audio\.command\(\s*"guest",/);
   assert.match(room, /c\("inviteGuestSpeaker"\)/);
   assert.match(read("mobile/src/app/gathering/[id].tsx"), /audio\.join\(id, invite, speaker\)/);
   assert.match(read("mobile/src/lib/gatherings.ts"), /speaker=" \+ encodeURIComponent\(speaker\)/);
+});
+
+test("the create form explains its fields and says what is missing", () => {
+  const create = read("mobile/src/app/gathering/create.tsx");
+  // The button is never silently disabled by the rules; it lists what is missing.
+  assert.match(create, /disabled=\{busy\}/);
+  assert.match(create, /if \(!missing\.length\) void create\(\);/);
+  for (const key of ["needTitle", "needDescription", "needTopic", "needHostName", "needDateTime", "needCapacity", "needDuration"])
+    assert.match(create, new RegExp(`"${key}"`), key);
+  // Field explanations, the description counter and topic suggestions.
+  for (const key of ["titleHint", "descriptionHint", "descriptionCount", "topicHint", "hostNameHint", "topicPrayer"])
+    assert.match(create, new RegExp(`"${key}"`), key);
+  // Server messages are shown in the reader's language, next to the button.
+  assert.match(create, /setError\(c\(serverProblem\(\(e as Error\)\.message\)\)\)/);
+  const copy = read("mobile/src/lib/community-copy.ts");
+  for (const key of ["micOff", "listenOnly", "tapPersonHint", "fixBeforeCreate", "badTimezone", "needFutureTime", "dailyLimit", "createFailed"])
+    assert.match(copy, new RegExp(`\\n  ${key}: \\[`), key);
 });
