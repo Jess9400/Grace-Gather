@@ -263,6 +263,21 @@ const words: Record<string, string[]> = {
     "Cambiar",
     "Изменить",
   ],
+  "You're not visible to others yet.": [
+    "Você ainda não está visível para outras pessoas.",
+    "Todavía no eres visible para otras personas.",
+    "Пока вас не видно другим.",
+  ],
+  "Choose a public name so friends can find you and you can add them.": [
+    "Escolha um nome público para que os amigos encontrem você e você possa adicioná-los.",
+    "Elige un nombre público para que tus amigos te encuentren y puedas agregarlos.",
+    "Выберите публичное имя, чтобы друзья могли вас найти, а вы — добавлять их.",
+  ],
+  "Set up my profile for friends": [
+    "Configurar meu perfil para amigos",
+    "Configurar mi perfil para amigos",
+    "Настроить профиль для друзей",
+  ],
   "How friends find you": [
     "Como os amigos encontram você",
     "Cómo te encuentran tus amigos",

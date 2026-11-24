@@ -72,15 +72,15 @@ export default function AccountMenuContent({
         onNavigate={onNavigate}
       />
       <AccountMenuRow
-        title={jc(profile.language, "pay")}
-        icon="leaf-outline"
-        route="/giving"
-        onNavigate={onNavigate}
-      />
-      <AccountMenuRow
         title={friendCopy(profile.language, "Friends & chats")}
         icon="people-outline"
         route={{ pathname: "/friends", params: { view: "friends" } }}
+        onNavigate={onNavigate}
+      />
+      <AccountMenuRow
+        title={jc(profile.language, "pay")}
+        icon="leaf-outline"
+        route="/giving"
         onNavigate={onNavigate}
       />
       <AccountMenuRow
