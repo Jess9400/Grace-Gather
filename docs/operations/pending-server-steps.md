@@ -73,3 +73,26 @@ becomes "Only people I allow" when muted. Found in a two-phone test on
 - [ ] **2. Two-phone check:** in an "Only people I allow" gathering, allow the
   second phone to speak, tap Mute everyone, and confirm the second phone shows
   only "Raise hand" until allowed again.
+
+## Guest speakers (#236)
+
+Hosts can invite guest speakers through a private link, or mark someone as a
+guest in the room. Guests can switch their microphone on at any time.
+
+**Order matters:** the function reads the new columns, so apply the migration
+first. Deploying the function before it would stop people joining gatherings.
+
+- [x] **1. Database migration:** done 24 Nov 2026 by the owner in the SQL
+  Editor. Apply
+  `supabase/migrations/20261124120000_gathering_guest_speakers.sql` (adds
+  `memberships.guest_speaker` and `gatherings.speaker_token`). Idempotent.
+- [ ] **2. Then deploy `gathering-token`:**
+
+  ```bash
+  npx supabase functions deploy gathering-token --no-verify-jwt --project-ref <project-ref>
+  ```
+
+- [ ] **3. Two-phone check on the next app build:** the host taps "Invite a
+  guest speaker" and sends the link; the second phone joins with it, shows
+  "Guest speaker" and can unmute at any time, even after "Mute everyone".
+  "Stop being a guest speaker" and "Make listener" take that away.

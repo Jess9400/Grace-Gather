@@ -25,6 +25,7 @@ interface Access {
 interface Session {
   id: string;
   invite?: string;
+  speaker?: string;
   access: Access;
   room: Room;
 }
@@ -34,6 +35,8 @@ interface AudioContext {
   connection: string;
   notice: string;
   hands: string[];
+  /** Guest speakers: they may switch their microphone on whenever they like. */
+  guests: string[];
   /** Who may switch on their microphone: everyone, or only people the host allows. */
   speakMode: "everyone" | "invited";
   raised: boolean;
@@ -41,7 +44,7 @@ interface AudioContext {
   canSpeak: boolean;
   busy: boolean;
   playbackBlocked: boolean;
-  join: (id: string, invite?: string) => Promise<void>;
+  join: (id: string, invite?: string, speaker?: string) => Promise<void>;
   leave: () => Promise<void>;
   mic: () => Promise<void>;
   hand: () => Promise<void>;
@@ -60,6 +63,7 @@ export function AudioRoomProvider({ children }: { children: ReactNode }) {
     [connection, setConnection] = useState("disconnected"),
     [notice, setNotice] = useState(""),
     [hands, setHands] = useState<string[]>([]),
+    [guests, setGuests] = useState<string[]>([]),
     [speakMode, setSpeakMode] = useState<"everyone" | "invited">("everyone"),
     [raised, setRaised] = useState(false),
     [busy, setBusy] = useState(false),
@@ -75,6 +79,7 @@ export function AudioRoomProvider({ children }: { children: ReactNode }) {
     setConnection("disconnected");
     setRaised(false);
     setHands([]);
+    setGuests([]);
     cleanup.current();
     cleanup.current = () => {};
     if (old) {
@@ -86,7 +91,7 @@ export function AudioRoomProvider({ children }: { children: ReactNode }) {
     }
     if (old) void gathering("leave", { id: old.id }).catch(() => {});
   }
-  async function join(id: string, invite?: string) {
+  async function join(id: string, invite?: string, speaker?: string) {
     if (busy) return;
     if (
       current.current?.id === id &&
@@ -104,6 +109,7 @@ export function AudioRoomProvider({ children }: { children: ReactNode }) {
       const access: Access = await audioCommand("join", {
         gatheringId: id,
         invite,
+        speaker,
       });
       if (version !== generation.current) return;
       setSpeakMode(access.speakMode === "invited" ? "invited" : "everyone");
@@ -121,7 +127,7 @@ export function AudioRoomProvider({ children }: { children: ReactNode }) {
           noiseSuppression: true,
         },
       });
-      const s = { id, invite, access, room };
+      const s = { id, invite, speaker, access, room };
       current.current = s;
       setSession(s);
       const detach = platform.attachAudio(room);
@@ -199,6 +205,7 @@ export function AudioRoomProvider({ children }: { children: ReactNode }) {
         if (active) {
           setHands(data.hands ?? []);
           if (typeof data.raised === "boolean") setRaised(data.raised);
+          if (Array.isArray(data.guests)) setGuests(data.guests);
           if (data.speakMode === "invited" || data.speakMode === "everyone")
             setSpeakMode(data.speakMode);
         }
@@ -279,6 +286,14 @@ export function AudioRoomProvider({ children }: { children: ReactNode }) {
         if (result?.listeners) setHands([]);
         if (result?.speakMode === "invited") setSpeakMode("invited");
       }
+      if (action === "guest")
+        setGuests((list) =>
+          enabled
+            ? [...new Set([...list, participant!])]
+            : list.filter((g) => g !== participant),
+        );
+      if (action === "speaker" && !enabled)
+        setGuests((list) => list.filter((g) => g !== participant));
       if (action === "speaker" && enabled)
         setHands((list) => list.filter((h) => h !== participant));
       if (action === "close") {
@@ -304,6 +319,7 @@ export function AudioRoomProvider({ children }: { children: ReactNode }) {
         connection,
         notice,
         hands,
+        guests,
         speakMode,
         raised,
         busy,

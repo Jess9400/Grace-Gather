@@ -3,7 +3,8 @@ import { serve,identity,json,env } from '../_shared/http.ts';
 const configured=()=>['LIVEKIT_URL','LIVEKIT_API_KEY','LIVEKIT_API_SECRET'].every(k=>!!Deno.env.get(k));
 // Before the speak_mode column exists every participant may speak, as before.
 const speakMode=(g:{speak_mode?:string})=>g.speak_mode==='invited'?'invited':'everyone';
-const mayPublish=(mode:string,m:{can_speak?:boolean|null,speech_revoked?:boolean|null})=>mode==='everyone'?!m.speech_revoked:m.can_speak===true&&!m.speech_revoked;
+const mayPublish=(mode:string,m:{can_speak?:boolean|null,speech_revoked?:boolean|null,guest_speaker?:boolean|null})=>m.speech_revoked?false:m.guest_speaker===true||(mode==='everyone'||m.can_speak===true);
+const publishing=(canPublish:boolean)=>({permission:{canSubscribe:true,canPublish,canPublishSources:[TrackSource.MICROPHONE],canPublishData:false}});
 serve(async(req)=>{
  if(req.method==='GET')return json({configured:configured(),audioOnly:true,missing:['LIVEKIT_URL','LIVEKIT_API_KEY','LIVEKIT_API_SECRET'].filter(k=>!Deno.env.get(k))});
  const {user,client,service}=await identity(req);const body=await req.json();
@@ -32,7 +33,9 @@ serve(async(req)=>{
   if(!host&&!membership.data.some(m=>m.user_id===user.id))return json({error:'not_allowed'},403);
   // Each person also learns whether their own hand is still up, so a hand the
   // host cleared (by allowing them, or by Mute everyone) goes down on their screen.
-  return json({hands:host?membership.data.filter(m=>m.hand_raised).map(m=>m.user_id):[],raised:membership.data.some(m=>m.user_id===user.id&&m.hand_raised),endsAt:g.ends_at,speakMode:speakMode(g)});
+  // Everyone in the room sees who the guest speakers are.
+  const guests=await service.from('memberships').select('user_id').eq('gathering_id',g.id).eq('guest_speaker',true);if(guests.error)throw guests.error;
+  return json({hands:host?membership.data.filter(m=>m.hand_raised).map(m=>m.user_id):[],raised:membership.data.some(m=>m.user_id===user.id&&m.hand_raised),guests:(guests.data??[]).map(m=>m.user_id),endsAt:g.ends_at,speakMode:speakMode(g)});
  }
  if(body.action==='speak_mode'){
   if(!host)return json({error:'host_required'},403);
@@ -40,30 +43,60 @@ serve(async(req)=>{
   // A weekly series keeps one rule: this gathering and the later ones in it.
   const scope=service.from('gatherings').update({speak_mode:mode}).eq('host_id',user.id);
   const saved=g.series_id?await scope.eq('series_id',g.series_id).gte('starts_at',g.starts_at):await scope.eq('id',g.id);if(saved.error)throw saved.error;
-  const members=await service.from('memberships').select('user_id,can_speak,speech_revoked').eq('gathering_id',g.id);if(members.error)throw members.error;
+  const members=await service.from('memberships').select('user_id,can_speak,speech_revoked,guest_speaker').eq('gathering_id',g.id);if(members.error)throw members.error;
   for(const m of members.data??[]){
    if(m.user_id===g.host_id)continue;
-   try{await server.updateParticipant(g.room_name,m.user_id,{permission:{canSubscribe:true,canPublish:mayPublish(mode,m),canPublishSources:[TrackSource.MICROPHONE],canPublishData:false}});}
+   try{await server.updateParticipant(g.room_name,m.user_id,publishing(mayPublish(mode,m)));}
    catch{/* Not in the room right now: their next join follows the new rule. */}
   }
   return json({speakMode:mode});
  }
  if(body.action==='mute_all'){
   if(!host)return json({error:'host_required'},403);
-  // One meaning in every gathering: everyone but the host goes back to
-  // listening, and only people the host allows may speak, until the host
-  // chooses "Let everyone speak" again. Raised hands start over.
+  // One meaning in every gathering: everyone but the host and guest speakers
+  // goes back to listening, and only people the host allows may speak, until
+  // the host opens the floor again. Guests are muted too but stay guests, so
+  // they may switch back on. Raised hands start over.
   const mode=await service.from('gatherings').update({speak_mode:'invited'}).eq('id',g.id);if(mode.error)throw mode.error;
   const r=await service.from('memberships').update({can_speak:false,hand_raised:false}).eq('gathering_id',g.id).neq('user_id',g.host_id);if(r.error)throw r.error;
+  const guestRows=await service.from('memberships').select('user_id').eq('gathering_id',g.id).eq('guest_speaker',true).eq('speech_revoked',false);if(guestRows.error)throw guestRows.error;
+  const guests=new Set((guestRows.data??[]).map(m=>m.user_id));
   let muted=0;
   try{
    for(const p of await server.listParticipants(g.room_name)){
     if(p.identity===g.host_id)continue;
+    if(guests.has(p.identity)){
+     for(const t of p.tracks){
+      if(t.source!==TrackSource.MICROPHONE||t.muted)continue;
+      await server.mutePublishedTrack(g.room_name,p.identity,t.sid,true);muted++;
+     }
+     continue;
+    }
     // Taking away the right to publish also stops a microphone that is on.
-    await server.updateParticipant(g.room_name,p.identity,{permission:{canSubscribe:true,canPublish:false,canPublishSources:[TrackSource.MICROPHONE],canPublishData:false}});muted++;
+    await server.updateParticipant(g.room_name,p.identity,publishing(false));muted++;
    }
   }catch(e){if((e as {code?:string}).code!=='not_found')throw e;}
   return json({muted,listeners:true,speakMode:'invited'});
+ }
+ if(body.action==='speaker_link'){
+  if(!host)return json({error:'host_required'},403);
+  // One private link per gathering, shared by every date of a weekly series.
+  let token=g.speaker_token as string|null;
+  if(!token){
+   token=crypto.randomUUID().replaceAll('-','');
+   const scope=service.from('gatherings').update({speaker_token:token}).eq('host_id',user.id);
+   const saved=g.series_id?await scope.eq('series_id',g.series_id).is('speaker_token',null):await scope.eq('id',g.id);if(saved.error)throw saved.error;
+  }
+  return json({speakerToken:token});
+ }
+ if(body.action==='guest'){
+  if(!host||typeof body.participant!=='string'||body.participant===user.id)return json({error:'host_required'},403);
+  const enabled=body.enabled===true;
+  const row=await service.from('memberships').update(enabled?{guest_speaker:true,speech_revoked:false,hand_raised:false}:{guest_speaker:false}).eq('gathering_id',g.id).eq('user_id',body.participant).select('can_speak,speech_revoked,guest_speaker').maybeSingle();
+  if(row.error)throw row.error;if(!row.data)return json({error:'participant_missing'},404);
+  try{await server.updateParticipant(g.room_name,body.participant,publishing(mayPublish(speakMode(g),row.data)));}
+  catch{/* Not in the room right now: their next join follows the new rule. */}
+  return json({updated:true});
  }
  if(['speaker','remove'].includes(body.action)){
   if(!host||typeof body.participant!=='string'||body.participant===user.id)return json({error:'host_required'},403);
@@ -75,7 +108,8 @@ serve(async(req)=>{
   }else{
    const enabled=body.enabled===true;
    await server.updateParticipant(g.room_name,body.participant,{permission:{canSubscribe:true,canPublish:enabled,canPublishSources:[TrackSource.MICROPHONE],canPublishData:false}});
-   const r=await service.from('memberships').update({can_speak:enabled,speech_revoked:!enabled,hand_raised:false}).eq('gathering_id',g.id).eq('user_id',body.participant);if(r.error)throw r.error;
+   // Making someone a listener also ends their guest status.
+   const r=await service.from('memberships').update(enabled?{can_speak:true,speech_revoked:false,hand_raised:false}:{can_speak:false,speech_revoked:true,hand_raised:false,guest_speaker:false}).eq('gathering_id',g.id).eq('user_id',body.participant);if(r.error)throw r.error;
   }
   return json({updated:true});
  }
@@ -83,13 +117,16 @@ serve(async(req)=>{
  if(Date.now()<Date.parse(g.starts_at))return json({error:'not_started'},409);
  const reserved=await client.rpc('gathering_command',{p_action:'reserve',p_data:{id:g.id,invite:body.invite??''}});
  if(reserved.error)return json({error:['full','invite_required','not_allowed','unavailable'].find(x=>reserved.error!.message===x)??'join_failed'},409);
- const membership=await service.from('memberships').select('can_speak,speech_revoked').eq('gathering_id',g.id).eq('user_id',user.id).single();if(membership.error)throw membership.error;
+ if(!host&&typeof body.speaker==='string'&&g.speaker_token&&body.speaker===g.speaker_token){
+  const made=await service.from('memberships').update({guest_speaker:true,hand_raised:false}).eq('gathering_id',g.id).eq('user_id',user.id).eq('speech_revoked',false);if(made.error)throw made.error;
+ }
+ const membership=await service.from('memberships').select('can_speak,speech_revoked,guest_speaker').eq('gathering_id',g.id).eq('user_id',user.id).single();if(membership.error)throw membership.error;
  await server.createRoom({name:g.room_name,maxParticipants:g.capacity,emptyTimeout:120,departureTimeout:30});
  const profile=await service.from('profiles').select('name').eq('id',user.id).maybeSingle();const name=host?g.host_name:profile.data?.name?.trim()||'Community member';
  // The gathering's rule decides who may unmute: everyone, or only people the
  // host allowed. The host can still remove people or change who speaks.
  const canSpeak=host||mayPublish(speakMode(g),membership.data);
- const token=new AccessToken(env('LIVEKIT_API_KEY'),env('LIVEKIT_API_SECRET'),{identity:user.id,name:name.slice(0,60),ttl:Math.min(300,Math.max(1,Math.floor((Date.parse(g.ends_at)-Date.now())/1000))),metadata:JSON.stringify({role:host?'host':canSpeak?'speaker':'listener'})});
+ const token=new AccessToken(env('LIVEKIT_API_KEY'),env('LIVEKIT_API_SECRET'),{identity:user.id,name:name.slice(0,60),ttl:Math.min(300,Math.max(1,Math.floor((Date.parse(g.ends_at)-Date.now())/1000))),metadata:JSON.stringify({role:host?'host':membership.data.guest_speaker&&!membership.data.speech_revoked?'guest':canSpeak?'speaker':'listener'})});
  token.addGrant({roomJoin:true,room:g.room_name,canSubscribe:true,canPublish:canSpeak,canPublishSources:[TrackSource.MICROPHONE],canPublishData:false});
  return json({token:await token.toJwt(),url:env('LIVEKIT_URL'),endsAt:g.ends_at,host,hostId:g.host_id,canSpeak,title:g.title,speakMode:speakMode(g)});
 });
