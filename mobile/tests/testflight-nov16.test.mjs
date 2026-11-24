@@ -30,6 +30,19 @@ test("tapping the candle brings its choices into view", () => {
   assert.match(room, /scrollToEnd\(\{ animated: true \}\)/);
 });
 
+test("iOS enters a dedicated writing viewport before focusing the journal field", () => {
+  const diary = read("src/components/DiaryPage.tsx");
+  assert.match(diary, /iphone && !writing \? \([\s\S]*?<Pressable[\s\S]*?onPress=\{\(\) => setWriting\(true\)\}/);
+  assert.match(diary, /autoFocus=\{iphone\}/);
+  assert.match(diary, /onBlur=\{iphone \? undefined/);
+  assert.match(diary, /iphoneInput: \{ flex: 1, minHeight: 0/);
+  const screen = read("src/components/quiet-ui.tsx");
+  const editor = screen.split('if (compact && Platform.OS === "ios")')[1]?.split("if (strip && place)")[0];
+  assert.ok(editor);
+  assert.doesNotMatch(editor, /<ScrollView/);
+  assert.match(editor, /<KeyboardAvoidingView[\s\S]*?\{children\}[\s\S]*?\{footer\}[\s\S]*?<\/KeyboardAvoidingView>/);
+});
+
 test("a long journal entry scrolls inside the letter while writing", () => {
   const diary = read("src/components/DiaryPage.tsx");
   assert.match(diary, /paperWriting: \{ flex: 1/);
