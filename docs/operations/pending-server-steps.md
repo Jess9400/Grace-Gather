@@ -55,7 +55,7 @@ above the verse. English and Portuguese for now. No database change.
 - [ ] Deploy `llm-journey` after merging the community-first action rules. Use the deployment command above. No database migration is needed.
 - [ ] Release the matching app update for live availability checks. Verify that an eligible burden offers listening, an empty listening room offers the mapped independent step, and gratitude opens Pay it Forward.
 
-## "Mute everyone" returns people to listening (#233)
+## "Mute everyone" returns people to listening (#235)
 
 In "Only people I allow" gatherings, Mute everyone now also takes speaking
 permission away, so people cannot switch their microphone back on until they
