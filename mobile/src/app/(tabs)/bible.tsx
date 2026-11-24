@@ -234,6 +234,7 @@ function BibleReader({ collection }: { collection: CollectionId | null }) {
         ]}
       >
         {!strip && <Brand />}
+        <Pressable accessibilityRole="button" accessibilityLabel="Preview Grace & Gather Pro" onPress={() => router.push("/pro")} style={{alignSelf:"flex-end",flexDirection:"row",gap:6,alignItems:"center",paddingHorizontal:12,paddingVertical:7,borderRadius:20,backgroundColor:colors.pale,shadowColor:colors.gold,shadowOpacity:0.35,shadowRadius:8,marginBottom:8}}><Ionicons name="sparkles" size={12} color={colors.goldInk}/><Text style={{color:colors.goldInk,fontSize:12,fontWeight:"700",letterSpacing:1}}>PRO</Text></Pressable>
         <View style={s.searchBar}>
           <Ionicons
             name="search-outline"
