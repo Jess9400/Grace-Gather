@@ -1,6 +1,6 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, Share, StyleSheet, Switch, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import {
   Screen,
@@ -11,6 +11,7 @@ import {
   Card,
   Notice,
   colors,
+  switchColors,
 } from "../components/quiet-ui";
 import { TextAction, Disclosure } from "../components/CommunityControls";
 import ChatThread from "../components/ChatThread";
@@ -23,6 +24,8 @@ import { useCommunity } from "../lib/discussion-state";
 import {
   friends,
   markFriendMessagesRead,
+  friendInvite,
+  friendLinkUrl,
   type Friend,
   type Message,
 } from "../lib/friends";
@@ -64,11 +67,26 @@ function FriendsScreen({
 }) {
   const { profile } = useApp(),
     c = (key: string) => friendCopy(profile.language, key);
+  // Read inside the focus effect without restarting it on every rename.
+  const profileName = useRef(profile.name);
+  useEffect(() => {
+    profileName.current = profile.name;
+  }, [profile.name]);
   const [links, setLinks] = useState<Friend[]>([]),
     [blocked, setBlocked] = useState<{ peer: string; name: string }[]>([]);
   const [name, setName] = useState(""),
     [discoverable, setDiscoverable] = useState(false),
-    [hasName, setHasName] = useState(false);
+    [hasName, setHasName] = useState(false),
+    // Once saved, the settings fold into one line with a short "Saved".
+    [editingFindable, setEditingFindable] = useState(false),
+    // Known once the server has answered, so the reminder below never flashes.
+    [directoryKnown, setDirectoryKnown] = useState(false),
+    [savedFlash, setSavedFlash] = useState(false);
+  useEffect(() => {
+    if (!savedFlash) return;
+    const timer = setTimeout(() => setSavedFlash(false), 3000);
+    return () => clearTimeout(timer);
+  }, [savedFlash]);
   const [query, setQuery] = useState(""),
     [results, setResults] = useState<{ peer: string; name: string }[] | null>(
       null,
@@ -78,9 +96,6 @@ function FriendsScreen({
     [older, setOlder] = useState(false);
   const [notice, setNotice] = useState(""),
     [busy, setBusy] = useState(false);
-  const [reports, setReports] = useState<
-    { id: string; body: string; reason: string }[] | null
-  >(null);
   // A verse's "Open a public discussion" and Bible study arrive with a verse
   // and/or compose=1; a link to one discussion arrives with its id.
   const params = useLocalSearchParams<{
@@ -90,6 +105,8 @@ function FriendsScreen({
     view?: string;
     from?: string;
     chat?: string;
+    // A friend link: the token of the member who shared it.
+    add?: string;
   }>();
   const openedFromNotice = useRef("");
   const linkedVerse = params.verse ? discussionVerseId(params.verse) : null,
@@ -100,7 +117,7 @@ function FriendsScreen({
       : null,
   );
   const [view, setView] = useState<"discussions" | "friends">(
-      params.view === "friends" || params.view === "find"
+      params.view === "friends" || params.view === "find" || !!params.add
         ? "friends"
         : "discussions",
     ),
@@ -124,7 +141,9 @@ function FriendsScreen({
           setLinks(data.links);
           setBlocked(data.blocked);
           setHasName(!!data.me);
-          setName(data.me?.name ?? "");
+          setDirectoryKnown(true);
+          // A first-time visitor starts from their profile name.
+          setName(data.me?.name ?? profileName.current ?? "");
           setDiscoverable(data.me?.discoverable ?? false);
           const friend = data.links.find(
             (link: Friend) =>
@@ -162,20 +181,13 @@ function FriendsScreen({
             setHasName(!!data.me);
           })
           .catch(() => {});
-        if (moderator)
-          void friends("reports")
-            .then((open) => {
-              if (alive) setReports(open);
-            })
-            .catch(() => {});
       };
-      if (moderator) quiet();
       const timer = setInterval(quiet, 20000);
       return () => {
         alive = false;
         clearInterval(timer);
       };
-    }, [signedIn, moderator, params.chat]),
+    }, [signedIn, params.chat]),
   );
   // Refresh only while this conversation screen is focused; preserve older history and the draft.
   useFocusEffect(
@@ -229,6 +241,40 @@ function FriendsScreen({
     } finally {
       setBusy(false);
     }
+  }
+  // Someone opened a friend link: show whose it is before adding them.
+  const [invitation, setInvitation] = useState<
+    { name: string; self: boolean; friends: boolean } | "unavailable" | null
+  >(null);
+  useEffect(() => {
+    if (!signedIn || !params.add) return;
+    let alive = true;
+    friendInvite("preview", { token: params.add })
+      .then((data) => alive && setInvitation(data))
+      .catch(() => alive && setInvitation("unavailable"));
+    return () => {
+      alive = false;
+    };
+  }, [signedIn, params.add]);
+  const closeInvitation = () => {
+    setInvitation(null);
+    router.setParams({ add: undefined });
+  };
+  async function shareFriendLink(reset = false) {
+    if (!hasName) {
+      setFinding(true);
+      setNotice("Save a public name first, then share your link.");
+      return;
+    }
+    await run(async () => {
+      const { token } = reset
+        ? await friendInvite("reset")
+        : await friendInvite("link");
+      if (reset) setNotice("New link made. The old one no longer works.");
+      await Share.share({
+        message: c("Add me as a friend on Grace & Gather:") + " " + friendLinkUrl(token),
+      });
+    });
   }
   async function act(action: string, data: Record<string, unknown>) {
     await friends(action, data);
@@ -432,6 +478,63 @@ function FriendsScreen({
             )}
           </Text>
           <Notice text={notice ? c(notice) : ""} />
+          {/* First things first: without a public name nobody can find you. */}
+          {directoryKnown && !hasName && !invitation && (
+            <View style={s.findable}>
+              <Text style={s.findableTitle}>{c("You're not visible to others yet.")}</Text>
+              <Body small>
+                {c("Choose a public name so friends can find you and you can add them.")}
+              </Body>
+              <Button
+                title={c("Set up my profile for friends")}
+                onPress={() => {
+                  setFinding(true);
+                  setEditingFindable(true);
+                }}
+              />
+            </View>
+          )}
+          {invitation && (
+            <View style={s.findable}>
+              {invitation === "unavailable" ? (
+                <Body>{c("This friend link no longer works. Ask for a new one.")}</Body>
+              ) : invitation.self ? (
+                <Body>{c("This is your own friend link. Share it with people you know.")}</Body>
+              ) : invitation.friends ? (
+                <Body>{c("You are already friends with {name}.").replace("{name}", invitation.name)}</Body>
+              ) : (
+                <>
+                  <Text style={s.findableTitle}>
+                    {c("{name} invited you to be friends.").replace("{name}", invitation.name)}
+                  </Text>
+                  {!hasName && (
+                    <>
+                      <Body small>{c("Choose a public name first. {name} will see it.").replace("{name}", invitation.name)}</Body>
+                      <Field
+                        label={c("Your public name")}
+                        value={name}
+                        onChangeText={setName}
+                        maxLength={40}
+                      />
+                    </>
+                  )}
+                  <Button
+                    title={c("Add {name} as a friend").replace("{name}", invitation.name)}
+                    disabled={busy || (!hasName && name.trim().length < 2)}
+                    onPress={() =>
+                      void run(async () => {
+                        if (!hasName) await friends("directory", { name, discoverable });
+                        await friendInvite("accept", { token: params.add });
+                        await load();
+                        setInvitation({ ...invitation, friends: true });
+                      }).then((ok) => ok && setNotice("You are now friends."))
+                    }
+                  />
+                </>
+              )}
+              <TextAction title={c("Close")} onPress={closeInvitation} />
+            </View>
+          )}
           {pending.map((l) => (
             <Card key={l.id}>
               <Body>{l.name}</Body>
@@ -497,41 +600,81 @@ function FriendsScreen({
           >
             <Text style={s.findText}>{c("Find friends")}</Text>
           </Pressable>
+          {/* A private link is the easiest way to add someone you know. */}
+          <Button
+            secondary
+            disabled={busy}
+            title={c("Share my friend link")}
+            onPress={() => void shareFriendLink()}
+          />
           {finding && (
             <>
-              <Disclosure title={c("Friend search settings")}>
-                <Body small>
-                  {c(
-                    "Only your chosen name appears in search. Your email stays private.",
+              {hasName && !editingFindable ? (
+                <View style={[s.findable, s.findableRow]}>
+                  <Text style={s.findableLabel}>
+                    {(discoverable
+                      ? c("Friends can find you as {name}.")
+                      : c("Search can't find you. Friends can still add you with your link.")
+                    ).replace("{name}", name)}
+                  </Text>
+                  {savedFlash ? (
+                    <Text style={s.saved}>{c("Saved")} ✓</Text>
+                  ) : (
+                    <TextAction
+                      title={c("Change")}
+                      onPress={() => setEditingFindable(true)}
+                    />
                   )}
-                </Body>
-                <Field
-                  label={c("Your public name")}
-                  value={name}
-                  onChangeText={setName}
-                  maxLength={40}
-                />
-                <Pressable
-                  accessibilityRole="checkbox"
-                  accessibilityState={{ checked: discoverable }}
-                  onPress={() => setDiscoverable(!discoverable)}
-                  style={{ minHeight: 44, justifyContent: "center" }}
-                >
-                  <Body>
-                    {discoverable ? "☑ " : "☐ "}
-                    {c("Let members find me by this name")}
+                </View>
+              ) : (
+                // How others find you, in plain view: a name and one switch.
+                <View style={s.findable}>
+                  <Text style={s.findableTitle}>{c("How friends find you")}</Text>
+                  <Field
+                    label={c("Your public name")}
+                    value={name}
+                    onChangeText={setName}
+                    maxLength={40}
+                  />
+                  <View style={s.findableRow}>
+                    <Text style={s.findableLabel}>
+                      {c("Let members find me by this name")}
+                    </Text>
+                    <Switch
+                      {...switchColors}
+                      accessibilityLabel={c("Let members find me by this name")}
+                      value={discoverable}
+                      onValueChange={setDiscoverable}
+                    />
+                  </View>
+                  <Body small>
+                    {c(
+                      "Only your chosen name appears in search. Your email stays private.",
+                    )}
                   </Body>
-                </Pressable>
-                <Button
-                  title={c("Save")}
-                  disabled={busy || name.trim().length < 2}
-                  onPress={() =>
-                    void run(async () => {
-                      await act("directory", { name, discoverable });
-                    }).then((ok) => ok && setNotice("Saved"))
-                  }
-                />
-              </Disclosure>
+                  <Button
+                    title={c("Save")}
+                    disabled={busy || name.trim().length < 2}
+                    onPress={() =>
+                      void run(async () => {
+                        await act("directory", { name, discoverable });
+                      }).then((ok) => {
+                        if (!ok) return;
+                        setEditingFindable(false);
+                        setSavedFlash(true);
+                      })
+                    }
+                  />
+                  {hasName && (
+                    <TextAction
+                      icon="refresh"
+                      title={c("Make a new friend link (the old one stops working)")}
+                      disabled={busy}
+                      onPress={() => void shareFriendLink(true)}
+                    />
+                  )}
+                </View>
+              )}
               {!hasName && (
                 <Body small>
                   {c(
@@ -556,7 +699,13 @@ function FriendsScreen({
                   )
                 }
               />
-              {results?.length === 0 && <Body>{c("No members found.")}</Body>}
+              {results?.length === 0 && (
+                <Body>
+                  {c(
+                    "No one found with that name. They may not have turned on “Let members find me” yet.",
+                  )}
+                </Body>
+              )}
               {results?.map((p) => {
                 const existing = links.find((l) => l.peer === p.peer);
                 return (
@@ -605,25 +754,6 @@ function FriendsScreen({
                     void run(() => act("unblock", { peer: p.peer }))
                   }
                 />
-              ))}
-            </Disclosure>
-          )}
-          {moderator && (
-            <Disclosure title={c("Chat reports")}>
-              {reports?.map((r) => (
-                <Card key={r.id}>
-                  <Body>{r.body}</Body>
-                  <Body small>{r.reason}</Body>
-                  <Button
-                    title={c("Resolve")}
-                    onPress={() =>
-                      void run(async () => {
-                        await friends("resolve_report", { id: r.id });
-                        setReports(await friends("reports"));
-                      })
-                    }
-                  />
-                </Card>
               ))}
             </Disclosure>
           )}
@@ -724,4 +854,16 @@ const s = StyleSheet.create({
   },
   findText: { fontSize: 15, fontWeight: "600", color: colors.ink },
   note: { fontSize: 13, lineHeight: 19, color: colors.muted },
+  findable: {
+    gap: 10,
+    padding: 16,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: colors.line,
+    backgroundColor: colors.white,
+  },
+  findableTitle: { fontSize: 16, fontWeight: "600", color: colors.ink },
+  findableRow: { flexDirection: "row", alignItems: "center", gap: 12 },
+  findableLabel: { flex: 1, fontSize: 15, lineHeight: 21, color: colors.ink },
+  saved: { fontSize: 15, fontWeight: "600", color: colors.goldInk },
 });

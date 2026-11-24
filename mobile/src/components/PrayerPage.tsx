@@ -187,17 +187,22 @@ function PrayerRoom({
         <Body small>
           {p.scheduled ? format(p.starts_at) : tr("Pray whenever you can")}
         </Body>
-        <Body>
-          {p.own
-            ? tr("{count} people prayed for you").replace(
-                "{count}",
-                String(p.count),
-              )
-            : tr("{count} people have prayed").replace(
-                "{count}",
-                String(p.count),
-              )}
-        </Body>
+        {/* Never "0 people prayed": a quiet line until the first prayer. */}
+        {(!p.own || p.status === "approved") && (
+          <Body>
+            {p.own
+              ? p.count === 0
+                ? tr("Shared with the community. We'll let you know when someone prays for you.")
+                : p.count === 1
+                  ? tr("1 person prayed for you")
+                  : tr("{count} people prayed for you").replace("{count}", String(p.count))
+              : p.count === 0
+                ? tr("Be the first to pray for this.")
+                : p.count === 1
+                  ? tr("1 person has prayed")
+                  : tr("{count} people have prayed").replace("{count}", String(p.count))}
+          </Body>
+        )}
         {p.own && (
           <>
             <Body small>{tr(p.status)}</Body>
@@ -468,7 +473,7 @@ function PrayerRoom({
               ? data?.mine
               : tab === "review"
                 ? data?.review
-                : data?.requests
+                : data?.requests.filter((p) => !p.own)
             )?.slice().sort((a, b) => tab === "review" ? Number(priorityIds.includes(b.id)) - Number(priorityIds.includes(a.id)) : 0).map((p) => card(p, tab === "review"))}
           {data &&
             tab !== "notifications" &&
@@ -477,7 +482,7 @@ function PrayerRoom({
                 ? data.mine
                 : tab === "review"
                   ? data.review
-                  : data.requests
+                  : data.requests.filter((p) => !p.own)
             ).length && <Body>{tr("No prayer requests here yet.")}</Body>}
         </>
       )}
