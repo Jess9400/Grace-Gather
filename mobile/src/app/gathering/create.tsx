@@ -42,7 +42,24 @@ export default function CreateGathering() {
     [minutes, setMinutes] = useState("60"),
     [busy, setBusy] = useState(false),
     [error, setError] = useState(""),
-    [configured, setConfigured] = useState<boolean | null>(null);
+    [configured, setConfigured] = useState<boolean | null>(null),
+    [tried, setTried] = useState(false);
+  // Everything still needed before the server can accept the gathering.
+  const missing = [
+    title.trim().length < 3 && "needTitle",
+    description.trim().length < 10 && "needDescription",
+    !topic.trim() && "needTopic",
+    !name.trim() && "needHostName",
+    !now && (!date || !time) && "needDateTime",
+    !now &&
+      weekly &&
+      (!Number.isInteger(Number(occurrences)) ||
+        Number(occurrences) < 2 ||
+        Number(occurrences) > 52) &&
+      "needSessions",
+    !(Number(capacity) >= 2 && Number(capacity) <= 100) && "needCapacity",
+    !(Number(minutes) >= 15 && Number(minutes) <= 180) && "needDuration",
+  ].filter((k): k is string => !!k);
   useEffect(() => {
     void backend?.functions
       .invoke("gathering-token", { method: "GET" })
@@ -77,8 +94,7 @@ export default function CreateGathering() {
         params: { id: result.id },
       });
     } catch (e) {
-      const message = (e as Error).message;
-      setError(message === "hosts_only" ? c("hosts_only") : message);
+      setError(c(serverProblem((e as Error).message)));
     } finally {
       submitting.current = false;
       setBusy(false);
@@ -88,13 +104,13 @@ export default function CreateGathering() {
     <Screen back keyboardAware>
       <Heading>{c("createGathering")}</Heading>
       <Body small>{c("createIntro")}</Body>
-      <Notice text={error} />
       <Field
         label={c("title")}
         value={title}
         onChangeText={setTitle}
         maxLength={120}
       />
+      <Body small>{c("titleHint")}</Body>
       <Field
         label={c("description")}
         value={description}
@@ -102,18 +118,37 @@ export default function CreateGathering() {
         multiline
         maxLength={1000}
       />
+      {/* The ten-character minimum is visible while typing, not discovered later. */}
+      <Body small>
+        {c("descriptionHint")}
+        {description.trim().length < 10
+          ? " " + c("descriptionCount").replace("{n}", String(description.trim().length))
+          : ""}
+      </Body>
       <Field
         label={c("topic")}
         value={topic}
         onChangeText={setTopic}
         maxLength={60}
       />
+      <Body small>{c("topicHint")}</Body>
+      <Row>
+        {["topicPrayer", "topicBible", "topicWorship", "topicSupport", "topicTestimony"].map((key) => (
+          <Chip
+            key={key}
+            title={c(key)}
+            selected={topic === c(key)}
+            onPress={() => setTopic(c(key))}
+          />
+        ))}
+      </Row>
       <Field
         label={c("hostName")}
         value={name}
         onChangeText={setName}
         maxLength={60}
       />
+      <Body small>{c("hostNameHint")}</Body>
       <Body small>{c("language")}</Body>
       <Row>
         {Object.entries(languages).map(([key, name]) => (
@@ -179,14 +214,15 @@ export default function CreateGathering() {
           />
         </>
       )}
-      <Field
-        label={c("timezone")}
-        value={zone}
-        onChangeText={setZone}
-        autoCapitalize="none"
-        placeholder="America/Sao_Paulo"
-      />
-      <Disclosure title={c("timezoneDetails")}>
+      {/* The phone's own time zone is almost always right; changing it is tucked away. */}
+      <Disclosure title={c("timezone") + ": " + zone}>
+        <Field
+          label={c("timezone")}
+          value={zone}
+          onChangeText={setZone}
+          autoCapitalize="none"
+          placeholder="America/Sao_Paulo"
+        />
         <Body small>{c("timezoneNote")}</Body>
       </Disclosure>
       <Row>
@@ -237,28 +273,36 @@ export default function CreateGathering() {
         maxLength={3}
       />
       <Body small>{c("gatheringReminderNote")}</Body>
+      {/* Problems are listed right above the button, where the tap happened. */}
+      {tried && missing.length > 0 && (
+        <Notice
+          text={[c("fixBeforeCreate"), ...missing.map((k) => "• " + c(k))].join("\n")}
+        />
+      )}
+      <Notice text={error} />
       <Button
         title={busy ? tr("Saving…") : c("createGathering")}
         loading={busy}
-        disabled={
-          busy ||
-          title.trim().length < 3 ||
-          description.trim().length < 10 ||
-          !topic.trim() ||
-          !name.trim() ||
-          (!now && (!date || !time)) ||
-          Number(capacity) < 2 ||
-          Number(capacity) > 100 ||
-          Number(minutes) < 15 ||
-          Number(minutes) > 180 ||
-          (!now &&
-            weekly &&
-            (!Number.isInteger(Number(occurrences)) ||
-              Number(occurrences) < 2 ||
-              Number(occurrences) > 52))
-        }
-        onPress={() => void create()}
+        disabled={busy}
+        onPress={() => {
+          setTried(true);
+          setError("");
+          if (!missing.length) void create();
+        }}
       />
     </Screen>
   );
+}
+
+// The server explains problems in English; show them in the reader's language.
+function serverProblem(message: string) {
+  if (message === "hosts_only") return "hosts_only";
+  if (/timezone/i.test(message)) return "badTimezone";
+  if (/future date|clocks change|requested format/i.test(message)) return "needFutureTime";
+  if (/Daily gathering limit/i.test(message)) return "dailyLimit";
+  if (/title|description/i.test(message)) return "needDescription";
+  if (/duration/i.test(message)) return "needDuration";
+  if (/weekly/i.test(message)) return "needSessions";
+  if (/topic|capacity|language|visibility/i.test(message)) return "needTopic";
+  return "createFailed";
 }
