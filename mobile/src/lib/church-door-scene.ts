@@ -258,8 +258,8 @@ function buildModernDoorway(mesh: MeshBuilder) {
   const frame: Material = { color: [0.09, 0.085, 0.08], kind: KIND.iron };
   const F = 0.08; // frame width
   // Wall around a rectangular opening, with a recessed reveal.
-  mesh.box(-3.9 - OPENING / 2, 1.0, 0.04, 6.4, 5.4, 0.12, wall);
-  mesh.box(3.9 + OPENING / 2, 1.0, 0.04, 6.4, 5.4, 0.12, wall);
+  for (const side of [-1, 1])
+    mesh.box(side * (OPENING + F + 3.2), 1.0, 0.04, 6.4, 5.4, 0.12, wall);
   mesh.box(0, (TOP + F + 3.7) / 2, 0.04, 2 * (OPENING + F) + 0.02, 3.7 - TOP - F, 0.12, wall);
   for (const side of [-1, 1])
     mesh.box(side * (OPENING + F + 0.03), (SILL + TOP) / 2, -0.2, 0.06, TOP - SILL + 2 * F, 0.44, reveal);
@@ -268,8 +268,8 @@ function buildModernDoorway(mesh: MeshBuilder) {
   for (const side of [-1, 1])
     mesh.box(side * (OPENING + F / 2), (SILL + TOP) / 2, DOOR_Z, F, TOP - SILL, 0.12, frame);
   mesh.box(0, TOP + F / 2, DOOR_Z, 2 * (OPENING + F), F, 0.12, frame);
-  // Flat canopy and a plain cross above it.
-  mesh.box(0, TOP + 0.36, 0.42, 2.3, 0.07, 0.9, frame);
+  // A slim flat canopy and a plain cross above it.
+  mesh.box(0, TOP + 0.24, 0.16, 1.9, 0.045, 0.44, frame);
   mesh.box(0, 2.08, 0.13, 0.06, 0.52, 0.04, reveal);
   mesh.box(0, 2.2, 0.13, 0.3, 0.06, 0.04, reveal);
   // Smooth concrete steps and pavement.
