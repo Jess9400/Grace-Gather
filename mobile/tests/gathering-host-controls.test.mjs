@@ -63,7 +63,12 @@ test("guest speakers can always speak, and the host controls who is one", () => 
     assert.match(token.slice(start, start + 140), /if\(!host/);
   }
   // A valid link makes a guest on joining, unless the host made them a listener.
-  assert.match(token, /body\.speaker===g\.speaker_token\)\{[\s\S]{0,200}\.eq\('speech_revoked',false\)/);
+  assert.match(token, /link\.data\?\.token === body\.speaker\) \{[\s\S]{0,200}\.eq\('speech_revoked',false\)/);
+  assert.doesNotMatch(token, /g\.speaker_token|update\(\{speaker_token/);
+  const linkMigration = read("supabase/migrations/20261124091526_private_gathering_speaker_links.sql");
+  assert.match(linkMigration, /enable row level security/);
+  assert.match(linkMigration, /revoke all .* from public, anon, authenticated, service_role/);
+  assert.match(linkMigration, /grant select, insert .* to service_role/);
   // Mute everyone mutes guests but leaves them guests; others become listeners.
   const mute = token.slice(token.indexOf("body.action==='mute_all'"), token.indexOf("body.action==='speaker_link'"));
   assert.match(mute, /if\(guests\.has\(p\.identity\)\)\{[\s\S]{0,240}mutePublishedTrack/);
