@@ -53,7 +53,7 @@ import {
   type OpenStudyNote,
   type OpenStudyNotes,
 } from "../../lib/open-study-notes";
-type Layer = "simple" | "deeper" | "theology";
+type Layer = "simple" | "deeper" | "theology" | "sources";
 // The fuller study notes add these to the basic explanation. Every claim in
 // them is drawn from the sources they list.
 interface RichStudy {
@@ -193,7 +193,9 @@ function SourcedStudyNote({
   }[lang];
   return (
     <>
-      <Section title={noteTitle(note.title) ? `${heading} · ${note.title}` : heading}>
+      <Section
+        title={noteTitle(note.title) ? `${heading} · ${note.title}` : heading}
+      >
         {note.text}
       </Section>
       <Sources
@@ -201,7 +203,9 @@ function SourcedStudyNote({
         sources={[
           source,
           { label: notice },
-          ...(note.reviewLevel === "Professional" ? [] : [{ label: reviewNotice }]),
+          ...(note.reviewLevel === "Professional"
+            ? []
+            : [{ label: reviewNotice }]),
           {
             label: "CC BY-SA 4.0",
             url: "https://creativecommons.org/licenses/by-sa/4.0/",
@@ -351,9 +355,14 @@ function Invitation({
 }
 export default function VerseStudy() {
   // "journal" is the theme verse reference a saved journal entry passes along.
-  const { id: route, journal } = useLocalSearchParams<{
+  const {
+    id: route,
+    journal,
+    panel,
+  } = useLocalSearchParams<{
     id: string;
     journal?: string;
+    panel?: string;
   }>();
   // Addresses use "~" in place of ":" (see verse-route); old links still work.
   const id = fromVerseRoute(route);
@@ -403,13 +412,32 @@ export default function VerseStudy() {
         )}
       </SafeAreaView>
     );
-  return <StudyPage key={id} id={id} journal={journal} />;
+  return (
+    <StudyPage
+      key={`${id}:${panel ?? ""}`}
+      id={id}
+      journal={journal}
+      panel={panel}
+    />
+  );
 }
-function StudyPage({ id, journal }: { id: string; journal?: string }) {
+function StudyPage({
+  id,
+  journal,
+  panel,
+}: {
+  id: string;
+  journal?: string;
+  panel?: string;
+}) {
   const tr = useInterfaceCopy();
   const { profile } = useApp(),
     lang = profile.language;
-  const [layer, setLayer] = useState<Layer | null>(null);
+  const [layer, setLayer] = useState<Layer | null>(() =>
+    ["deeper", "theology", "sources"].includes(panel ?? "")
+      ? (panel as Layer)
+      : null,
+  );
   const [chapterOpen, setChapterOpen] = useState(false);
   const [sourcesOpen, setSourcesOpen] = useState(false);
   const [notesAttempt, setNotesAttempt] = useState(0);
@@ -483,10 +511,8 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
   }, [id, lookForEnglish]);
   const english = englishNotes?.key === id ? englishNotes.notes : null;
   const englishAvailable =
-    lookForEnglish &&
-    !!(english?.detail || english?.overview);
-  const openNotes =
-    showEnglish && englishAvailable ? english : ownNotes;
+    lookForEnglish && !!(english?.detail || english?.overview);
+  const openNotes = showEnglish && englishAvailable ? english : ownNotes;
   const englishOffer = {
     en: "",
     pt: "Este versículo ainda não tem explicação em português, mas há uma em inglês.",
@@ -575,6 +601,52 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
   const question =
     explanation?.question ??
     tr("What do I notice here, and what question will I carry with me?");
+  const sourceContent = (
+    <View style={{ gap: 14 }}>
+      {notesStatus}
+      {openNotes?.detail && (
+        <SourcedStudyNote
+          note={openNotes.detail}
+          heading={openHeading}
+          lang={lang}
+        />
+      )}
+      {openNotes?.overview && (
+        <SourcedStudyNote
+          note={openNotes.overview}
+          heading={overviewHeading}
+          lang={lang}
+        />
+      )}
+      {rich.sources && <Sources title={tr("Sources")} sources={rich.sources} />}
+      {verse.notes.map((note, i) => (
+        <Body small key={i}>
+          {note}
+        </Body>
+      ))}
+      <Body small>
+        {study
+          ? tr(
+              "Editorial reflections, separate from Scripture, in English and awaiting theological review. They cover only the passages named and are not endorsed by a church.",
+            )
+          : explanation
+            ? tr(
+                "Editorial reflections for this verse, separate from Scripture. They await theological review and are not endorsed by a church.",
+              )
+            : q(lang, "studyLimited")}
+      </Body>
+      {!!psalmNumbering && <Body small>{psalmNumbering}</Body>}
+      <External title={tr("Read the source passage")} url={verse.sourceUrl} />
+      {study?.guide && (
+        <External
+          title={tr("Further reading at BibleProject")}
+          url={study.guide}
+        />
+      )}
+      <Body small>{verse.attribution}</Body>
+      <External title={tr("License and attribution")} url={verse.licenseUrl} />
+    </View>
+  );
   const options = [
     {
       id: "simple" as const,
@@ -585,11 +657,6 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
       id: "deeper" as const,
       icon: "layers-outline" as const,
       hint: tr("Context, meaning and daily life"),
-    },
-    {
-      id: "theology" as const,
-      icon: "sparkles-outline" as const,
-      hint: tr("Explore questions of faith"),
     },
   ];
   return (
@@ -693,11 +760,24 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
           ))}
         </View>
         <StudyDiscussionActions id={id} reference={verse.reference} />
-        <StudyAction
-          icon="library-outline"
-          title={studyWorkspaceCopy[lang].words + " · Pro"}
-          onPress={() => router.push({ pathname: "/pro", params: { verse: toVerseRoute(id) } })}
-        />
+        <Pressable
+          accessibilityRole="button"
+          onPress={() =>
+            router.push({
+              pathname: "/pro",
+              params: { verse: toVerseRoute(id), tab: "2" },
+            })
+          }
+          style={s.proEntry}
+        >
+          <Ionicons name="sparkles" size={27} color={colors.goldInk} />
+          <View style={{ flex: 1, gap: 5 }}>
+            <Text style={s.optionTitle}>{studyWorkspaceCopy[lang].words}</Text>
+            <Text style={s.optionHint}>{studyWorkspaceCopy[lang].proHint}</Text>
+          </View>
+          <Text style={s.proTag}>PRO</Text>
+          <Ionicons name="chevron-forward" size={19} color={colors.goldInk} />
+        </Pressable>
         <View style={s.further}>
           <Pressable
             accessibilityRole="button"
@@ -712,42 +792,7 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
               color={colors.muted}
             />
           </Pressable>
-          {sourcesOpen && (
-            <View style={{ gap: 14 }}>
-              {verse.notes.map((note, i) => (
-                <Body small key={i}>
-                  {note}
-                </Body>
-              ))}
-              <Body small>
-                {study
-                  ? tr(
-                      "Editorial reflections, separate from Scripture, in English and awaiting theological review. They cover only the passages named and are not endorsed by a church.",
-                    )
-                  : explanation
-                    ? tr(
-                        "Editorial reflections for this verse, separate from Scripture. They await theological review and are not endorsed by a church.",
-                      )
-                    : q(lang, "studyLimited")}
-              </Body>
-              {!!psalmNumbering && <Body small>{psalmNumbering}</Body>}
-              <External
-                title={tr("Read the source passage")}
-                url={verse.sourceUrl}
-              />
-              {study?.guide && (
-                <External
-                  title={tr("Further reading at BibleProject")}
-                  url={study.guide}
-                />
-              )}
-              <Body small>{verse.attribution}</Body>
-              <External
-                title={tr("License and attribution")}
-                url={verse.licenseUrl}
-              />
-            </View>
-          )}
+          {sourcesOpen && sourceContent}
         </View>
       </ScrollView>
       <Modal
@@ -769,7 +814,13 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
                 <Text style={s.backText}>{tr("Back")}</Text>
               </Pressable>
               <View style={{ flex: 1, gap: 5 }}>
-                <Text style={s.sheetMode}>{layer ? q(lang, layer) : ""}</Text>
+                <Text style={s.sheetMode}>
+                  {layer === "sources"
+                    ? tr("Sources and study notes")
+                    : layer
+                      ? q(lang, layer)
+                      : ""}
+                </Text>
                 <Text style={s.sheetReference}>{verse.reference}</Text>
               </View>
             </View>
@@ -784,7 +835,9 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
                 </Text>
                 <Text style={s.edition}>{verse.editionName}</Text>
               </View>
-              {layer === "simple" ? (
+              {layer === "sources" ? (
+                sourceContent
+              ) : layer === "simple" ? (
                 <>
                   {explanation?.simple ? (
                     <Section title={tr("In simple words")}>
@@ -793,7 +846,9 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
                   ) : openNotes?.detail || openNotes?.overview ? (
                     <SourcedStudyNote
                       note={(openNotes.overview ?? openNotes.detail)!}
-                      heading={openNotes.overview ? overviewHeading : openHeading}
+                      heading={
+                        openNotes.overview ? overviewHeading : openHeading
+                      }
                       lang={lang}
                     />
                   ) : notesLoading ? (
@@ -844,8 +899,7 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
                 <>
                   {notesStatus}
                   {(explanation ||
-                    (!openNotes?.detail &&
-                      !openNotes?.overview)) && (
+                    (!openNotes?.detail && !openNotes?.overview)) && (
                     <Section title={tr("The story around these words")}>
                       {explanation?.context ??
                         verse.context?.[lang] ??
@@ -860,8 +914,7 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
                     <KeyWords title={tr("Key words")} words={rich.words} />
                   )}
                   {(explanation ||
-                    (!openNotes?.detail &&
-                      !openNotes?.overview)) && (
+                    (!openNotes?.detail && !openNotes?.overview)) && (
                     <Section title={tr("What it means")} tint>
                       {explanation?.meaning ??
                         tr(
@@ -1030,6 +1083,22 @@ function StudyAction({
   );
 }
 const s = StyleSheet.create({
+  proEntry: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 14,
+    padding: 22,
+    borderRadius: 20,
+    backgroundColor: colors.pale,
+    borderWidth: 1,
+    borderColor: colors.gold,
+  },
+  proTag: {
+    color: colors.goldInk,
+    fontSize: 12,
+    fontWeight: "700",
+    letterSpacing: 1,
+  },
   safe: { flex: 1, backgroundColor: colors.paper },
   page: {
     padding: 22,

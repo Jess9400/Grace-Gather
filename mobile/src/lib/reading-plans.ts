@@ -17,6 +17,23 @@ export const readingPlans: PlanPassage[][] = [
     { book: "ROM", chapter: 12 },
     { book: "1JN", chapter: 4, from: 7, to: 21 },
   ],
+  Array.from({ length: 21 }, (_, i) => ({ book: "JHN", chapter: i + 1 })),
+  Array.from({ length: 24 }, (_, i) => ({ book: "LUK", chapter: i + 1 })),
+  Array.from({ length: 28 }, (_, i) => ({ book: "ACT", chapter: i + 1 })),
+  [37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50].map((chapter) => ({
+    book: "GEN",
+    chapter,
+  })),
+  [1, 2, 3, 4].map((chapter) => ({ book: "PHP", chapter })),
+  [1, 2, 3, 4, 5, 6].map((chapter) => ({ book: "EPH", chapter })),
+  [
+    { book: "LUK", chapter: 15 },
+    { book: "MAT", chapter: 18, from: 21, to: 35 },
+    { book: "GEN", chapter: 45 },
+    { book: "COL", chapter: 3 },
+    { book: "ROM", chapter: 12 },
+  ],
+  [1, 2, 3, 4].map((chapter) => ({ book: "JON", chapter })),
 ];
 // These Psalms use Hebrew numbering. Catholic and Orthodox editions must use
 // their own verified numbering, including Psalm 23 -> 22.
@@ -45,6 +62,7 @@ export function planPassage(
 }
 export type PlanProgress = {
   active: number | null;
+  devotionalDay: number | null;
   days: Record<number, number>;
 };
 export function normalizePlanProgress(value: unknown): PlanProgress {
@@ -58,6 +76,10 @@ export function normalizePlanProgress(value: unknown): PlanProgress {
       : 0;
   }
   return {
+    devotionalDay:
+      Number.isInteger(row.devotionalDay) && Number(row.devotionalDay) >= 0
+        ? Math.min(7, Number(row.devotionalDay))
+        : null,
     active:
       Number.isInteger(row.active) &&
       Number(row.active) >= 0 &&

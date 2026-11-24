@@ -20,3 +20,12 @@ The TBESH header identifies short glosses as Tyndale scholars' work but includes
 No paid commentary, billing or journal limits are enabled. Dictionary results are not automatically aligned to translated verse words. Existing incomplete full-Bible collections and source coverage remain incomplete, including Portuguese/Spanish Catholic collections. Missing plan passages show an unavailable message and cannot be marked read. Do not market this as complete professional theology coverage.
 
 TypeScript, lint, lexical/progress/Psalm regression tests and web export validate this implementation. Physical iPhone reading, keyboard, accessibility and large-text checks remain before the next store update. No new backend deployment is required.
+
+## Study workspace follow-up
+
+- Shared back/Home navigation, more visible Pro entry points and direct opening of Study tools from a verse.
+- Simple and Deeper remain on the verse page; Theology is reached through Pro tools. No subscription gate or pricing change in this update.
+- Today shows the daily devotional and active reading only. Reading plans contains fourteen Scripture-based plans and a separate seven-day devotional plan. The devotional pairs Scripture, a reflection, prayer and one concrete action; progress is stored with existing account-scoped device progress.
+- Historical context and sources open the corresponding reading panel directly, preserving the selected verse. With no supplied verse, tools start at Genesis 1:1 in the selected edition; Choose a passage opens the reader. Existing edition/source coverage limitations still apply. Source attribution and missing-content notices remain visible; no material is generated or invented to fill gaps.
+- Public discussion uses the same tool-list row style and remains free.
+- Added localized titles/actions in EN/PT/ES/RU. Added plan passage-bound and devotional progress regression coverage. Typecheck, lint and all 24 Bible/study tests pass.
