@@ -36,7 +36,15 @@ const listeners = new Set<() => void>();
 export function refreshPrayerBadges() {
   listeners.forEach((fn) => fn());
 }
-export function usePrayerUnread() {
+export type UnreadCounts = {
+  prayers: number;
+  gatherings: number;
+  messages: number;
+  activity: number;
+  moderation: number;
+};
+/** Unread counts per kind, or null until the first answer for this account. */
+export function useUnreadCounts(): UnreadCounts | null {
   const { userId } = useCommunity();
   const [count, setCount] = useState({
     userId: "",
@@ -97,8 +105,14 @@ export function usePrayerUnread() {
       sub.remove();
     };
   }, [userId]);
-  return count.userId === userId
-    ? count.prayers + count.gatherings + count.messages + count.activity + count.moderation
+  if (!userId || count.userId !== userId) return null;
+  const { userId: _owner, ...counts } = count;
+  return counts;
+}
+export function usePrayerUnread() {
+  const counts = useUnreadCounts();
+  return counts
+    ? counts.prayers + counts.gatherings + counts.messages + counts.activity + counts.moderation
     : 0;
 }
 export function usePrayers() {

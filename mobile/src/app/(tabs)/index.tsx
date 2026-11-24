@@ -30,6 +30,7 @@ import type { PlaceLabel } from "../../components/ChurchScene";
 import LivingChurchScene from "../../components/LivingChurchScene";
 import ChurchEntrance from "../../components/ChurchEntrance";
 import OrthodoxEntrance from "../../components/OrthodoxEntrance";
+import HomeNotice from "../../components/HomeNotice";
 import { useApp } from "../../lib/state";
 import { churchCopy, type ChurchWord } from "../../lib/church-copy";
 import {
@@ -62,6 +63,14 @@ import { firstChurchVisit } from "../../lib/church-tools";
 import { StepCheckIn } from "../../components/SmallStep";
 import { useChurchPresence } from "../../lib/church-presence";
 import BrandMark from "../../components/BrandMark";
+
+// The same church entrance with plain modern doors in a smooth wall, for
+// Protestants, to whom stone arches and iron-strapped doors feel pretentious.
+function ProtestantEntrance(
+  props: Omit<React.ComponentProps<typeof ChurchEntrance>, "modern">,
+) {
+  return <ChurchEntrance {...props} modern />;
+}
 
 const ROUTES: Record<Exclude<ChurchPlace, "wreath">, string> = {
   candles: "/candle",
@@ -429,7 +438,13 @@ export default function Home() {
         ]
       : places;
   // An Orthodox church has its own entrance: a white church with a golden dome.
-  const EntranceView = eastern ? OrthodoxEntrance : ChurchEntrance;
+  // Russian Orthodox members get the drawn Orthodox church; Protestants the
+  // same doorway as everyone else, with modern doors.
+  const EntranceView = eastern
+    ? OrthodoxEntrance
+    : isProtestant(profile)
+      ? ProtestantEntrance
+      : ChurchEntrance;
   const open = (place: ChurchPlace, point?: { x: number; y: number }) => {
     if (place === "wreath") return setAboutAdvent((v) => !v);
     const go = () => router.push(ROUTES[place] as never);
@@ -669,6 +684,9 @@ export default function Home() {
               </Text>
             </Animated.View>
           )}
+          {/* Something new (a message, a prayer, a reply): tap to open it,
+              or let it fade; it stays in Notifications either way. */}
+          <HomeNotice visible={focused && !entrance && !touring} />
         </View>
         {sceneFailed && (
           <ScrollView

@@ -1345,6 +1345,31 @@
     "es": "1 persona ha orado",
     "ru": "Помолился 1 человек"
   },
+  "You have a new message": {
+    "pt": "Você tem uma nova mensagem",
+    "es": "Tienes un mensaje nuevo",
+    "ru": "Новое сообщение"
+  },
+  "New prayer notification": {
+    "pt": "Nova notificação de oração",
+    "es": "Nueva notificación de oración",
+    "ru": "Новое уведомление о молитве"
+  },
+  "New reply in a discussion": {
+    "pt": "Nova resposta em uma discussão",
+    "es": "Nueva respuesta en una conversación",
+    "ru": "Новый ответ в обсуждении"
+  },
+  "A gathering is coming up": {
+    "pt": "Um encontro está chegando",
+    "es": "Se acerca un encuentro",
+    "ru": "Скоро встреча"
+  },
+  "Opens the notification": {
+    "pt": "Abre a notificação",
+    "es": "Abre la notificación",
+    "ru": "Открывает уведомление"
+  },
   "{count} people prayed for you": {
     "pt": "{count} pessoas oraram por você",
     "es": "{count} personas oraron por ti",
