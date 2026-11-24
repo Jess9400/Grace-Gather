@@ -183,6 +183,16 @@ const words: Record<string, string[]> = {
     "Tu nombre público",
     "Ваше публичное имя",
   ],
+  "How friends find you": [
+    "Como os amigos encontram você",
+    "Cómo te encuentran tus amigos",
+    "Как вас найти друзьям",
+  ],
+  "No one found with that name. They may not have turned on “Let members find me” yet.": [
+    "Ninguém encontrado com esse nome. Talvez a pessoa ainda não tenha ativado “Permitir que membros me encontrem”.",
+    "No se encontró a nadie con ese nombre. Puede que aún no haya activado “Permitir que otros me encuentren”.",
+    "Никого не нашли с таким именем. Возможно, человек ещё не включил «Разрешить находить меня».",
+  ],
   "Friend search settings": [
     "Configurar busca de amigos",
     "Ajustes de búsqueda de amigos",
