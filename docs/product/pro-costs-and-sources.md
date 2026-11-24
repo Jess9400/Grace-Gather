@@ -89,3 +89,13 @@ Ask each supplier for the exact edition, languages, regions, app embeds, per-ver
 - https://www.thomasnelsonbibles.com/permissions/
 - https://www.oca.org/contact
 - https://www.goarch.org/-/terms-of-use
+
+## Theology launch cost decision
+
+A professional study package across all four languages and three traditions does not have a verified public all-in price. STEPBible provides scholarly word-study datasets at $0 license fee for eligible CC BY 4.0 content. API.Bible's published $25/month Lockman bundle covers selected English/Spanish translations for 0–1K monthly users and requires its Pro Commercial plan. It is not a theology/commentary package and does not cover the full parity requirement. Confirm the API plan fee and selected translation royalties before purchase.
+
+NET translator notes, ESV Study Bible, Ignatius Catholic Study Bible and Orthodox Study Bible notes remain quote-required for commercial in-app redistribution, translation and AI use. Authoring, theological review and native-language editorial review have no supplier quotes yet. Retail subscriptions or books do not confer in-app redistribution rights.
+
+For illustration, 100 annual Pro subscribers and 100 fully active Free users at the modeled maximum produce $400 monthly-equivalent sales. Apple at 15% is $60. To retain $140 (35%), all operating expenses must fit $200. Model inference is $76.56. Reserving $25 for Supabase Pro and $25 for just the published Lockman bundle leaves $73.44 for the additional API plan fee, all commentary licenses, translation, editorial staff, moderation, audio, storage, email, refunds and other overhead. This is a spending ceiling, not evidence the required suppliers can deliver at that price. Below roughly 100 subscribers, fixed license/editorial costs become still harder to absorb. Launching the full professional-content package at $5/$48 cannot be approved as a proven 35% margin until those quotes arrive.
+
+Public discussions, including creation and replies from a Bible verse, are Free. They must not be included in Pro-only entitlement checks.

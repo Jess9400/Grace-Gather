@@ -49,7 +49,7 @@ Greek for the New Testament, Hebrew and Aramaic for relevant Old Testament passa
 ## Access and limit flows added 24 November
 
 - Free verse options are Simple and Deep. Theology displays “Theology · Pro” and opens the Pro workspace. The Bible verse also links to the workspace so free members can browse its tools.
-- Creating/opening a public discussion from the verse is proposed as a Pro action, interpreting the owner's request to gate both that action and Theology. Discover's existing public discussion feed stays available. Confirm the broader community policy before implementing live entitlement checks.
+- Opening, creating, joining and replying to public discussions is Free, including the verse’s “Open a public discussion” action. Theology is Pro. The prototype and future server checks must not put discussions behind a subscription.
 - Free members can browse Pro plan/tool descriptions. Starting a reading plan, opening a devotional or using a study tool opens the upgrade sheet. A clearly labeled prototype-access control lets reviewers inspect the unlocked samples.
 - After 1 guided entry or 1 follow-up today, show the corresponding localized message with “Come back tomorrow” and “Upgrade to Pro”. Preserve the draft, saved entry and visible conversation. Upgrade returns to the interrupted action after verified purchase. Limit status must come from the server and not the device clock.
 - Pro receives 2 guided journal entries and 2 follow-up replies TOTAL each day, across entries. This interpretation needs confirmation if the owner intends 2 replies per entry.

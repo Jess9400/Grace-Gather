@@ -186,7 +186,7 @@ export default function Pro() {
           <Button
             title={c.discussion}
             secondary
-            onPress={() => setPricing(true)}
+            onPress={() => router.push("/explore?category=discussions")}
           />
           <Button
             title={c.limitEntry}
