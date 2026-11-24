@@ -29,13 +29,19 @@ test("Home announces only what is new, most personal first", () => {
   assert.equal(freshNotice({ ...zero, activity: 1 }, { ...zero, activity: 0 }), "activity");
 });
 
-test("the notice opens the right page and fades, and Notifications keeps it", () => {
+test("the notice names the newest item, opens it, and marks it read when opened", () => {
   const notice = readFileSync(root + "src/components/HomeNotice.tsx", "utf8");
-  assert.match(notice, /messages: \{[\s\S]{0,140}href: \{ pathname: "\/friends", params: \{ view: "friends" \} \}/);
+  // Exact destinations, from the same calls the Notifications page uses.
+  assert.match(notice, /rpc\("friend_unread_list"\)/);
+  assert.match(notice, /params: \{ view: "friends", chat: chat\.link_id \}/);
+  assert.match(notice, /href: activityDestination\(group\.item\)/);
+  assert.match(notice, /activity_mark_read", \{ p_id: id \}/);
+  assert.match(notice, /pathname: "\/gathering\/\[id\]", params: \{ id: item\.gathering_id \}/);
+  assert.match(notice, /gathering_notifications", \{ p_read: item\.id \}/);
+  assert.match(notice, /prayer_command", \{ p_action: "read", p_id: notice\.id/);
+  // Read only when the person goes there; otherwise it simply fades.
+  assert.match(notice, /onPress=\{\(\) => \{[\s\S]{0,400}item\s*\.markRead\(\)[\s\S]{0,200}router\.push\(item\?\.href \?\? notice\.href\)/);
   assert.match(notice, /const SHOWN_MS = 6000;/);
-  assert.match(notice, /router\.push\(notice\.href\)/);
-  // Nothing here marks anything read.
-  assert.doesNotMatch(notice, /mark|read\(/i);
   const home = readFileSync(root + "src/app/(tabs)/index.tsx", "utf8");
   assert.match(home, /<HomeNotice visible=\{focused && !entrance && !touring\} \/>/);
 });

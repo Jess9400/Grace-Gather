@@ -1370,6 +1370,26 @@
     "es": "Abre la notificación",
     "ru": "Открывает уведомление"
   },
+  "New message from {name}": {
+    "pt": "Nova mensagem de {name}",
+    "es": "Nuevo mensaje de {name}",
+    "ru": "Новое сообщение от {name}"
+  },
+  "Someone responded to your confession": {
+    "pt": "Alguém respondeu à sua confissão",
+    "es": "Alguien respondió a tu confesión",
+    "ru": "Кто-то ответил на вашу исповедь"
+  },
+  "Someone thanked you for offering comfort": {
+    "pt": "Alguém agradeceu pelo conforto que você ofereceu",
+    "es": "Alguien te agradeció el consuelo que ofreciste",
+    "ru": "Вас поблагодарили за поддержку"
+  },
+  "Gathering reminder: {title}": {
+    "pt": "Lembrete de encontro: {title}",
+    "es": "Recordatorio de encuentro: {title}",
+    "ru": "Напоминание о встрече: {title}"
+  },
   "{count} people prayed for you": {
     "pt": "{count} pessoas oraram por você",
     "es": "{count} personas oraron por ti",
