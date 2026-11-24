@@ -34,6 +34,7 @@ import {
   ensureCollection,
   studyCollectionFor,
   chapterRows,
+  getReadingVerse,
   type ReadingVerse,
 } from "../lib/bible";
 import { fromVerseRoute, toVerseRoute } from "../lib/verse-route";
@@ -58,11 +59,11 @@ const devotionalPassages: PlanPassage[] = [
 ];
 export default function StudyWorkspace() {
   const { profile } = useApp();
-  const params = useLocalSearchParams<{ verse?: string }>();
+  const params = useLocalSearchParams<{ verse?: string; tab?: string }>();
   const verseId = params.verse ? fromVerseRoute(params.verse) : null;
   const c = copy[profile.language];
   const collection = studyCollectionFor(profile);
-  const [tab, setTab] = useState(0);
+  const [tab, setTab] = useState(params.tab === "2" ? 2 : 0);
   const [progress, setProgress] = useState<PlanProgress>(
     normalizePlanProgress(null),
   );
@@ -74,6 +75,7 @@ export default function StudyWorkspace() {
   const writeLock = useRef(false);
   const [detail, setDetail] = useState<number | null>(null);
   const [devotional, setDevotional] = useState(false);
+  const [devotionalPlanMode, setDevotionalPlanMode] = useState(false);
   const [words, setWords] = useState(false);
   const [reading, setReading] = useState<ReadingVerse[]>([]);
   const [loading, setLoading] = useState(false);
@@ -96,7 +98,10 @@ export default function StudyWorkspace() {
     Math.floor(
       Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) / 86400000,
     ) % 7;
-  const daily = c.devotionals[dailyIndex];
+  const devotionalIndex = devotionalPlanMode
+    ? Math.min(progress.devotionalDay ?? 0, 6)
+    : dailyIndex;
+  const daily = c.devotionals[devotionalIndex];
   useEffect(() => {
     let active = true;
     storage
@@ -174,11 +179,15 @@ export default function StudyWorkspace() {
     );
     if (passage) void loadReading(passage);
   };
-  const openDevotional = () => {
+  const openDevotional = (asPlan = false) => {
+    setDevotionalPlanMode(asPlan);
     setWords(false);
     setDetail(null);
     setDevotional(true);
-    const passage = { ...devotionalPassages[dailyIndex] };
+    const index = asPlan
+      ? Math.min(progress.devotionalDay ?? 0, 6)
+      : dailyIndex;
+    const passage = { ...devotionalPassages[index] };
     if (
       passage.book === "PSA" &&
       ["dra", "brenton", "synodal"].includes(collection ?? "")
@@ -193,16 +202,32 @@ export default function StudyWorkspace() {
     setWords(false);
     setReading([]);
   };
-  const openContext = () => {
-    if (verseId)
+  const openContext = async (panel: "deeper" | "sources" | "theology") => {
+    let selected = verseId;
+    if (!selected && collection) {
+      setLoading(true);
+      setReadError(false);
+      try {
+        await ensureCollection(collection);
+        const index = collections[collection].index.books.findIndex(
+          (book) => book.code === "GEN",
+        );
+        selected = chapterRows(index, 1, collection)[0]?.id ?? null;
+      } catch {
+        setReadError(true);
+      } finally {
+        setLoading(false);
+      }
+    }
+    if (selected)
       router.push({
         pathname: "/verse/[id]",
-        params: { id: toVerseRoute(verseId) },
+        params: { id: toVerseRoute(selected), panel },
       });
     else router.push("/(tabs)/bible");
   };
   return (
-    <Screen home place="bible">
+    <Screen back home place="bible">
       <View style={s.row}>
         <Heading>{c.study}</Heading>
         <Text style={s.gold}>✧ PRO</Text>
@@ -223,7 +248,10 @@ export default function StudyWorkspace() {
       </View>
       {tab === 0 && (
         <>
-          <Pressable accessibilityRole="button" onPress={openDevotional}>
+          <Pressable
+            accessibilityRole="button"
+            onPress={() => openDevotional()}
+          >
             <Card>
               <View style={s.row}>
                 <Ionicons
@@ -233,8 +261,8 @@ export default function StudyWorkspace() {
                 />
                 <Text style={s.gold}>{c.daily}</Text>
               </View>
-              <Heading>{daily[0]}</Heading>
-              <Body>{daily[1]}</Body>
+              <Heading>{c.devotionals[dailyIndex][0]}</Heading>
+              <Body>{c.devotionals[dailyIndex][1]}</Body>
               <Text style={s.gold}>{c.open} →</Text>
             </Card>
           </Pressable>
@@ -261,10 +289,34 @@ export default function StudyWorkspace() {
               />
             </Card>
           )}
-          <Text style={s.title}>{c.library}</Text>
+          {progress.active === null && (
+            <Button
+              secondary
+              title={c.library + " →"}
+              onPress={() => setTab(1)}
+            />
+          )}
+          <Body small>{c.devotionalDescription}</Body>
         </>
       )}
-      {tab !== 2 && (
+      {tab === 1 && (
+        <Pressable
+          accessibilityRole="button"
+          onPress={() => openDevotional(true)}
+        >
+          <Card>
+            <Text style={s.gold}>
+              {c.daily} · 7 {c.days}
+            </Text>
+            <Text style={s.title}>{c.devotionalPlan}</Text>
+            <Body>{c.devotionalDescription}</Body>
+            <Text style={s.gold}>
+              {progress.devotionalDay === null ? c.start : c.continue} →
+            </Text>
+          </Card>
+        </Pressable>
+      )}
+      {tab === 1 && (
         <View style={s.grid}>
           {c.planTitles.map((title, index) => (
             <Pressable
@@ -275,7 +327,7 @@ export default function StudyWorkspace() {
             >
               <View style={s.art}>
                 <Ionicons
-                  name={icons[index]}
+                  name={icons[index % icons.length]}
                   size={38}
                   color={colors.goldInk}
                 />
@@ -290,6 +342,12 @@ export default function StudyWorkspace() {
       )}
       {tab === 2 && (
         <>
+          <Body small>
+            {c.passage}:{" "}
+            {verseId
+              ? (getReadingVerse(verseId)?.reference ?? verseId)
+              : "Genesis 1:1"}
+          </Body>
           <Pressable
             accessibilityRole="button"
             onPress={() => {
@@ -307,11 +365,15 @@ export default function StudyWorkspace() {
             <Text style={[s.title, s.grow]}>{c.original}</Text>
             <Text style={s.gold}>›</Text>
           </Pressable>
-          {[c.context, c.sources].map((title) => (
+          {[c.theologyTool, c.context, c.sources].map((title, index) => (
             <Pressable
               key={title}
               accessibilityRole="button"
-              onPress={openContext}
+              onPress={() =>
+                void openContext(
+                  (["theology", "deeper", "sources"] as const)[index],
+                )
+              }
               style={s.tool}
             >
               <Ionicons
@@ -323,12 +385,26 @@ export default function StudyWorkspace() {
               <Text style={s.gold}>›</Text>
             </Pressable>
           ))}
-          {!verseId && <Body small>{c.choosePassage}</Body>}
-          <Button
-            secondary
-            title={c.discussion}
+          {loading && <ActivityIndicator color={colors.goldInk} />}
+          {readError && <Body>{c.unavailable}</Body>}
+          <Pressable
+            accessibilityRole="button"
+            onPress={() => router.push("/(tabs)/bible")}
+            style={s.tool}
+          >
+            <Ionicons name="book-outline" size={25} color={colors.goldInk} />
+            <Text style={[s.title, s.grow]}>{c.passage}</Text>
+            <Text style={s.gold}>›</Text>
+          </Pressable>
+          <Pressable
+            accessibilityRole="button"
             onPress={() => router.push("/explore?category=discussions")}
-          />
+            style={s.tool}
+          >
+            <Ionicons name="people-outline" size={25} color={colors.goldInk} />
+            <Text style={[s.title, s.grow]}>{c.discussion}</Text>
+            <Text style={s.gold}>›</Text>
+          </Pressable>
         </>
       )}
       {progressError && (
@@ -393,7 +469,44 @@ export default function StudyWorkspace() {
                       <Body>{daily[1]}</Body>
                       <Text style={s.title}>{c.pray}</Text>
                       <Body>{daily[2]}</Body>
-                      <Body small>{c.originalDevotional}</Body>
+                      <Text style={s.title}>{c.action}</Text>
+                      <Body>{c.devotionalActions[devotionalIndex]}</Body>
+                      {devotionalPlanMode && (
+                        <Button
+                          title={
+                            progress.devotionalDay === null
+                              ? c.start
+                              : progress.devotionalDay >= 7
+                                ? c.completePlan
+                                : c.complete
+                          }
+                          loading={saving}
+                          disabled={
+                            !owner ||
+                            !progressReady ||
+                            loading ||
+                            readError ||
+                            progress.devotionalDay === 7
+                          }
+                          onPress={() =>
+                            void saveProgress({
+                              ...progress,
+                              devotionalDay:
+                                progress.devotionalDay === null
+                                  ? 0
+                                  : progress.devotionalDay + 1,
+                            }).then((saved) => {
+                              if (saved) close();
+                            })
+                          }
+                        />
+                      )}
+                      <Body small>
+                        {c.originalDevotional}
+                        {devotionalPlanMode
+                          ? ` · ${devotionalIndex + 1}/7`
+                          : ""}
+                      </Body>
                     </>
                   ) : (
                     detail !== null && (
@@ -419,6 +532,7 @@ export default function StudyWorkspace() {
                           }
                           onPress={() => {
                             void saveProgress({
+                              ...progress,
                               active: detail,
                               days: {
                                 ...progress.days,

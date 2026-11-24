@@ -38,3 +38,25 @@ test('persisted reading progress tolerates invalid and older values',()=>{
  assert.equal(value.days[0],16);assert.equal(value.days[1],0);assert.equal(value.days[2],0);
  assert.equal(normalizePlanProgress({active:999}).active,null);
 });
+test('all fourteen reading plans have localized titles and valid passage bounds',()=>{
+ const {readingPlans}=client('reading-plans.ts');
+ const copy=JSON.parse(readFileSync(new URL('../src/lib/pro-study-preview.json',import.meta.url),'utf8'));
+ assert.equal(readingPlans.length,14);
+ for(const language of ['en','pt','es','ru']){
+  assert.equal(copy[language].planTitles.length,readingPlans.length);
+  assert.equal(copy[language].devotionalActions.length,7);
+ }
+ for(const plan of readingPlans) for(const passage of plan){
+  const book=JSON.parse(readFileSync(new URL(`../src/generated/bible/${passage.book}.json`,import.meta.url),'utf8'));
+  const verses=book.chapters[passage.chapter];
+  assert.ok(verses?.length,`${passage.book} ${passage.chapter}`);
+  if(passage.from) assert.ok(passage.from<=verses.length);
+  if(passage.to) assert.ok(passage.to<=verses.length);
+ }
+});
+test('devotional plan progress survives older saves and clamps invalid values',()=>{
+ assert.equal(normalizePlanProgress({}).devotionalDay,null);
+ assert.equal(normalizePlanProgress({devotionalDay:3}).devotionalDay,3);
+ assert.equal(normalizePlanProgress({devotionalDay:99}).devotionalDay,7);
+ assert.equal(normalizePlanProgress({devotionalDay:-1}).devotionalDay,null);
+});

@@ -38,7 +38,15 @@
       "The Sermon on the Mount",
       "Faith in action",
       "The story of Ruth",
-      "Love in daily life"
+      "Love in daily life",
+      "Walk through John",
+      "The Gospel of Luke",
+      "The early Church",
+      "Joseph: hope through hardship",
+      "Joy with Philippians",
+      "Life together in Ephesians",
+      "Learning forgiveness",
+      "Jonah: mercy beyond ourselves"
     ],
     "devotionals": [
       [
@@ -144,7 +152,23 @@
     "originalDevotional": "Grace & Gather reflection",
     "localProgress": "Reading progress is saved on this device for your account.",
     "choosePassage": "Choose a verse in Bible Study to explore its context and notes.",
-    "readPassage": "Read passage"
+    "readPassage": "Read passage",
+    "proHint": "Theology, original words & study notes",
+    "devotionalPlan": "Seven days with God",
+    "devotionalDescription": "Verse · Reflection · One action",
+    "tryToday": "Try today",
+    "theologyTool": "Theology",
+    "passage": "Choose a passage",
+    "action": "One action for today",
+    "devotionalActions": [
+      "Send one encouraging message to someone who needs hope.",
+      "Set aside five quiet minutes without a task to finish.",
+      "Thank someone for one specific kindness.",
+      "Ask someone you trust for perspective on one decision.",
+      "Listen to someone without interrupting or offering advice.",
+      "Take the smallest practical step toward something you have postponed.",
+      "Write down one worry, then set it aside for a quiet minute."
+    ]
   },
   "pt": {
     "study": "Estudo bíblico",
@@ -185,7 +209,15 @@
       "O Sermão da Montanha",
       "Fé em ação",
       "A história de Rute",
-      "O amor no dia a dia"
+      "O amor no dia a dia",
+      "Caminhe por João",
+      "O Evangelho de Lucas",
+      "A Igreja primitiva",
+      "José: esperança nas dificuldades",
+      "Alegria em Filipenses",
+      "Vida em comunidade em Efésios",
+      "Aprendendo a perdoar",
+      "Jonas: misericórdia para todos"
     ],
     "devotionals": [
       [
@@ -296,7 +328,23 @@
     "originalDevotional": "Reflexão do Grace & Gather",
     "localProgress": "O progresso da leitura fica salvo neste dispositivo para sua conta.",
     "choosePassage": "Escolha um versículo no Estudo bíblico para explorar o contexto e as notas.",
-    "readPassage": "Ler passagem"
+    "readPassage": "Ler passagem",
+    "proHint": "Teologia, palavras originais e notas de estudo",
+    "devotionalPlan": "Sete dias com Deus",
+    "devotionalDescription": "Versículo · Reflexão · Uma ação",
+    "tryToday": "Experimente hoje",
+    "theologyTool": "Teologia",
+    "passage": "Escolha uma passagem",
+    "action": "Uma ação para hoje",
+    "devotionalActions": [
+      "Envie uma mensagem de encorajamento a alguém.",
+      "Reserve cinco minutos de descanso, sem tarefas.",
+      "Agradeça a alguém por uma gentileza específica.",
+      "Peça a alguém de confiança uma opinião sobre uma decisão.",
+      "Ouça alguém sem interromper nem dar conselhos.",
+      "Dê um pequeno passo em algo que vem adiando.",
+      "Anote uma preocupação e faça um minuto de silêncio."
+    ]
   },
   "es": {
     "study": "Estudio bíblico",
@@ -337,7 +385,15 @@
       "El Sermón del Monte",
       "Fe en acción",
       "La historia de Rut",
-      "El amor en la vida diaria"
+      "El amor en la vida diaria",
+      "Recorre Juan",
+      "El Evangelio de Lucas",
+      "La Iglesia primitiva",
+      "José: esperanza en las dificultades",
+      "Alegría en Filipenses",
+      "Vida en comunidad en Efesios",
+      "Aprender a perdonar",
+      "Jonás: misericordia para todos"
     ],
     "devotionals": [
       [
@@ -443,7 +499,23 @@
     "originalDevotional": "Reflexión de Grace & Gather",
     "localProgress": "El progreso de lectura se guarda en este dispositivo para tu cuenta.",
     "choosePassage": "Elige un versículo en Estudio bíblico para explorar su contexto y notas.",
-    "readPassage": "Leer pasaje"
+    "readPassage": "Leer pasaje",
+    "proHint": "Teología, palabras originales y notas de estudio",
+    "devotionalPlan": "Siete días con Dios",
+    "devotionalDescription": "Versículo · Reflexión · Una acción",
+    "tryToday": "Prueba hoy",
+    "theologyTool": "Teología",
+    "passage": "Elige un pasaje",
+    "action": "Una acción para hoy",
+    "devotionalActions": [
+      "Envía un mensaje de ánimo a alguien.",
+      "Reserva cinco minutos de descanso sin tareas.",
+      "Agradece a alguien una amabilidad concreta.",
+      "Pide a alguien de confianza su perspectiva sobre una decisión.",
+      "Escucha a alguien sin interrumpir ni dar consejos.",
+      "Da un pequeño paso en algo que has pospuesto.",
+      "Anota una preocupación y guarda un minuto de silencio."
+    ]
   },
   "ru": {
     "study": "Изучение Библии",
@@ -484,7 +556,15 @@
       "Нагорная проповедь",
       "Вера в действии",
       "История Руфи",
-      "Любовь в повседневности"
+      "Любовь в повседневности",
+      "Путь по Евангелию от Иоанна",
+      "Евангелие от Луки",
+      "Ранняя Церковь",
+      "Иосиф: надежда в трудностях",
+      "Радость в Послании к Филиппийцам",
+      "Жизнь вместе: Ефесянам",
+      "Учимся прощению",
+      "Иона: милосердие для всех"
     ],
     "devotionals": [
       [
@@ -595,6 +675,22 @@
     "originalDevotional": "Размышление Grace & Gather",
     "localProgress": "Прогресс чтения сохраняется на этом устройстве для вашей учётной записи.",
     "choosePassage": "Выберите стих в разделе изучения Библии, чтобы открыть контекст и заметки.",
-    "readPassage": "Читать отрывок"
+    "readPassage": "Читать отрывок",
+    "proHint": "Богословие, слова оригинала и примечания",
+    "devotionalPlan": "Семь дней с Богом",
+    "devotionalDescription": "Стих · Размышление · Одно действие",
+    "tryToday": "Попробовать сегодня",
+    "theologyTool": "Богословие",
+    "passage": "Выберите отрывок",
+    "action": "Одно действие на сегодня",
+    "devotionalActions": [
+      "Отправьте кому-нибудь слова поддержки.",
+      "Отдохните пять минут без дел.",
+      "Поблагодарите кого-нибудь за конкретную доброту.",
+      "Попросите совета о решении у человека, которому доверяете.",
+      "Выслушайте человека, не перебивая и не давая советов.",
+      "Сделайте маленький шаг в деле, которое откладывали.",
+      "Запишите одну тревогу и побудьте минуту в тишине."
+    ]
   }
 }
