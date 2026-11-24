@@ -267,7 +267,11 @@ export function AudioRoomProvider({ children }: { children: ReactNode }) {
       });
       if (action === "speak_mode")
         setSpeakMode(result?.speakMode === "invited" ? "invited" : "everyone");
-      if (action === "mute_all") setNotice("mutedEveryone");
+      if (action === "mute_all") {
+        // Older servers only muted; newer ones also return people to listening.
+        setNotice(result?.listeners ? "mutedToListeners" : "mutedEveryone");
+        if (result?.listeners) setHands([]);
+      }
       if (action === "speaker" && enabled)
         setHands((list) => list.filter((h) => h !== participant));
       if (action === "close") {

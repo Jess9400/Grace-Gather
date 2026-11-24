@@ -48,17 +48,29 @@ serve(async(req)=>{
  }
  if(body.action==='mute_all'){
   if(!host)return json({error:'host_required'},403);
+  // "Only people I allow": muting everyone also returns them to listening, so
+  // nobody can switch back on until they raise a hand and are allowed again.
+  // "Everyone": a quick mute that people may undo themselves.
+  const toListeners=speakMode(g)==='invited';
+  if(toListeners){
+   const r=await service.from('memberships').update({can_speak:false,hand_raised:false}).eq('gathering_id',g.id).neq('user_id',g.host_id);if(r.error)throw r.error;
+  }
   let muted=0;
   try{
    for(const p of await server.listParticipants(g.room_name)){
     if(p.identity===g.host_id)continue;
+    if(toListeners){
+     // Taking away the right to publish also stops a microphone that is on.
+     await server.updateParticipant(g.room_name,p.identity,{permission:{canSubscribe:true,canPublish:false,canPublishSources:[TrackSource.MICROPHONE],canPublishData:false}});muted++;
+     continue;
+    }
     for(const t of p.tracks){
      if(t.source!==TrackSource.MICROPHONE||t.muted)continue;
      await server.mutePublishedTrack(g.room_name,p.identity,t.sid,true);muted++;
     }
    }
   }catch(e){if((e as {code?:string}).code!=='not_found')throw e;}
-  return json({muted});
+  return json({muted,listeners:toListeners});
  }
  if(['speaker','remove'].includes(body.action)){
   if(!host||typeof body.participant!=='string'||body.participant===user.id)return json({error:'host_required'},403);

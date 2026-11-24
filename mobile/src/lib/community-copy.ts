@@ -841,11 +841,17 @@ const words: Record<string, string[]> = {
     "Silenciar a todos",
     "Выключить микрофоны всем",
   ],
+  mutedToListeners: [
+    "Everyone is muted and listening again. To speak, they raise a hand and you allow them.",
+    "Todos foram silenciados e voltaram a ouvir. Para falar, levantam a mão e você permite.",
+    "Todos fueron silenciados y vuelven a escuchar. Para hablar, levantan la mano y tú lo permites.",
+    "Микрофоны выключены, все снова слушатели. Чтобы говорить, нужно поднять руку, а вы дадите слово.",
+  ],
   mutedEveryone: [
-    "Everyone is muted. People you allow can switch their microphone on again.",
-    "Todos foram silenciados. Quem você permitir pode ligar o microfone de novo.",
-    "Todos fueron silenciados. Quien tú permitas puede volver a activar su micrófono.",
-    "Микрофоны выключены. Те, кому вы дали слово, могут снова включить свой.",
+    "Everyone is muted. In this gathering anyone can switch their microphone on again.",
+    "Todos foram silenciados. Neste encontro, qualquer pessoa pode ligar o microfone de novo.",
+    "Todos fueron silenciados. En este encuentro, cualquiera puede volver a activar su micrófono.",
+    "Микрофоны выключены. На этой встрече любой может снова включить свой микрофон.",
   ],
   invalid_action: [
     "This control needs a server update. Please try again later.",

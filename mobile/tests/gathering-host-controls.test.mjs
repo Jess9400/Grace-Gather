@@ -21,6 +21,12 @@ test("gatherings let only invited people speak unless the host opens the floor",
   }
   assert.match(token, /if\(p\.identity===g\.host_id\)continue;/);
   assert.match(token, /mutePublishedTrack\(g\.room_name,p\.identity,t\.sid,true\)/);
+  // In "Only people I allow" gatherings, Mute everyone also returns people to
+  // listening, in the room and for their next join, so they cannot unmute.
+  const mute = token.slice(token.indexOf("body.action==='mute_all'"), token.indexOf("if(['speaker','remove']"));
+  assert.match(mute, /const toListeners=speakMode\(g\)==='invited';/);
+  assert.match(mute, /update\(\{can_speak:false,hand_raised:false\}\)\.eq\('gathering_id',g\.id\)\.neq\('user_id',g\.host_id\)/);
+  assert.match(mute, /permission:\{canSubscribe:true,canPublish:false/);
 });
 
 test("the host sees raised hands, Mute everyone and the speaking rule in the room", () => {
@@ -31,6 +37,6 @@ test("the host sees raised hands, Mute everyone and the speaking rule in the roo
   const create = read("mobile/src/app/gathering/create.tsx");
   assert.match(create, /c\("whoCanSpeak"\)/);
   const copy = read("mobile/src/lib/community-copy.ts");
-  for (const key of ["whoCanSpeak", "speakInvited", "speakEveryone", "muteEveryone", "mutedEveryone", "speakInvitedNow", "speakEveryoneNow"])
+  for (const key of ["whoCanSpeak", "speakInvited", "speakEveryone", "muteEveryone", "mutedEveryone", "mutedToListeners", "speakInvitedNow", "speakEveryoneNow"])
     assert.match(copy, new RegExp(`\\n  ${key}: \\[`), key);
 });
