@@ -1,6 +1,6 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Switch, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import {
   Screen,
@@ -11,6 +11,7 @@ import {
   Card,
   Notice,
   colors,
+  switchColors,
 } from "../components/quiet-ui";
 import { TextAction, Disclosure } from "../components/CommunityControls";
 import ChatThread from "../components/ChatThread";
@@ -64,6 +65,11 @@ function FriendsScreen({
 }) {
   const { profile } = useApp(),
     c = (key: string) => friendCopy(profile.language, key);
+  // Read inside the focus effect without restarting it on every rename.
+  const profileName = useRef(profile.name);
+  useEffect(() => {
+    profileName.current = profile.name;
+  }, [profile.name]);
   const [links, setLinks] = useState<Friend[]>([]),
     [blocked, setBlocked] = useState<{ peer: string; name: string }[]>([]);
   const [name, setName] = useState(""),
@@ -78,9 +84,6 @@ function FriendsScreen({
     [older, setOlder] = useState(false);
   const [notice, setNotice] = useState(""),
     [busy, setBusy] = useState(false);
-  const [reports, setReports] = useState<
-    { id: string; body: string; reason: string }[] | null
-  >(null);
   // A verse's "Open a public discussion" and Bible study arrive with a verse
   // and/or compose=1; a link to one discussion arrives with its id.
   const params = useLocalSearchParams<{
@@ -124,7 +127,8 @@ function FriendsScreen({
           setLinks(data.links);
           setBlocked(data.blocked);
           setHasName(!!data.me);
-          setName(data.me?.name ?? "");
+          // A first-time visitor starts from their profile name.
+          setName(data.me?.name ?? profileName.current ?? "");
           setDiscoverable(data.me?.discoverable ?? false);
           const friend = data.links.find(
             (link: Friend) =>
@@ -162,20 +166,13 @@ function FriendsScreen({
             setHasName(!!data.me);
           })
           .catch(() => {});
-        if (moderator)
-          void friends("reports")
-            .then((open) => {
-              if (alive) setReports(open);
-            })
-            .catch(() => {});
       };
-      if (moderator) quiet();
       const timer = setInterval(quiet, 20000);
       return () => {
         alive = false;
         clearInterval(timer);
       };
-    }, [signedIn, moderator, params.chat]),
+    }, [signedIn, params.chat]),
   );
   // Refresh only while this conversation screen is focused; preserve older history and the draft.
   useFocusEffect(
@@ -499,29 +496,31 @@ function FriendsScreen({
           </Pressable>
           {finding && (
             <>
-              <Disclosure title={c("Friend search settings")}>
-                <Body small>
-                  {c(
-                    "Only your chosen name appears in search. Your email stays private.",
-                  )}
-                </Body>
+              {/* How others find you, in plain view: a name and one switch. */}
+              <View style={s.findable}>
+                <Text style={s.findableTitle}>{c("How friends find you")}</Text>
                 <Field
                   label={c("Your public name")}
                   value={name}
                   onChangeText={setName}
                   maxLength={40}
                 />
-                <Pressable
-                  accessibilityRole="checkbox"
-                  accessibilityState={{ checked: discoverable }}
-                  onPress={() => setDiscoverable(!discoverable)}
-                  style={{ minHeight: 44, justifyContent: "center" }}
-                >
-                  <Body>
-                    {discoverable ? "☑ " : "☐ "}
+                <View style={s.findableRow}>
+                  <Text style={s.findableLabel}>
                     {c("Let members find me by this name")}
-                  </Body>
-                </Pressable>
+                  </Text>
+                  <Switch
+                    {...switchColors}
+                    accessibilityLabel={c("Let members find me by this name")}
+                    value={discoverable}
+                    onValueChange={setDiscoverable}
+                  />
+                </View>
+                <Body small>
+                  {c(
+                    "Only your chosen name appears in search. Your email stays private.",
+                  )}
+                </Body>
                 <Button
                   title={c("Save")}
                   disabled={busy || name.trim().length < 2}
@@ -531,7 +530,7 @@ function FriendsScreen({
                     }).then((ok) => ok && setNotice("Saved"))
                   }
                 />
-              </Disclosure>
+              </View>
               {!hasName && (
                 <Body small>
                   {c(
@@ -556,7 +555,13 @@ function FriendsScreen({
                   )
                 }
               />
-              {results?.length === 0 && <Body>{c("No members found.")}</Body>}
+              {results?.length === 0 && (
+                <Body>
+                  {c(
+                    "No one found with that name. They may not have turned on “Let members find me” yet.",
+                  )}
+                </Body>
+              )}
               {results?.map((p) => {
                 const existing = links.find((l) => l.peer === p.peer);
                 return (
@@ -605,25 +610,6 @@ function FriendsScreen({
                     void run(() => act("unblock", { peer: p.peer }))
                   }
                 />
-              ))}
-            </Disclosure>
-          )}
-          {moderator && (
-            <Disclosure title={c("Chat reports")}>
-              {reports?.map((r) => (
-                <Card key={r.id}>
-                  <Body>{r.body}</Body>
-                  <Body small>{r.reason}</Body>
-                  <Button
-                    title={c("Resolve")}
-                    onPress={() =>
-                      void run(async () => {
-                        await friends("resolve_report", { id: r.id });
-                        setReports(await friends("reports"));
-                      })
-                    }
-                  />
-                </Card>
               ))}
             </Disclosure>
           )}
@@ -724,4 +710,15 @@ const s = StyleSheet.create({
   },
   findText: { fontSize: 15, fontWeight: "600", color: colors.ink },
   note: { fontSize: 13, lineHeight: 19, color: colors.muted },
+  findable: {
+    gap: 10,
+    padding: 16,
+    borderRadius: 20,
+    borderWidth: 1,
+    borderColor: colors.line,
+    backgroundColor: colors.white,
+  },
+  findableTitle: { fontSize: 16, fontWeight: "600", color: colors.ink },
+  findableRow: { flexDirection: "row", alignItems: "center", gap: 12 },
+  findableLabel: { flex: 1, fontSize: 15, lineHeight: 21, color: colors.ink },
 });
