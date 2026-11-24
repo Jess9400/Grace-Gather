@@ -20,6 +20,7 @@ import {
   colors,
   serif,
 } from "../../components/quiet-ui";
+import studyWorkspaceCopy from "../../lib/pro-study-preview.json";
 import ChapterWindow from "../../components/ChapterWindow";
 import {
   getReadingVerse,
@@ -44,7 +45,7 @@ import {
 } from "../../lib/journal-verse-studies";
 import { translatedStudy } from "../../lib/bible-study-translations";
 import { useApp } from "../../lib/state";
-import { fromVerseRoute } from "../../lib/verse-route";
+import { fromVerseRoute, toVerseRoute } from "../../lib/verse-route";
 import { q } from "../../lib/quiet-copy";
 import { useReducedMotion } from "../../lib/use-reduced-motion";
 import {
@@ -692,6 +693,11 @@ function StudyPage({ id, journal }: { id: string; journal?: string }) {
           ))}
         </View>
         <StudyDiscussionActions id={id} reference={verse.reference} />
+        <StudyAction
+          icon="library-outline"
+          title={studyWorkspaceCopy[lang].words + " · Pro"}
+          onPress={() => router.push({ pathname: "/pro", params: { verse: toVerseRoute(id) } })}
+        />
         <View style={s.further}>
           <Pressable
             accessibilityRole="button"

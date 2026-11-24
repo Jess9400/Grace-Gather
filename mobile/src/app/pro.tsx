@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -6,8 +6,9 @@ import {
   StyleSheet,
   Modal,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import {
   Screen,
@@ -18,42 +19,26 @@ import {
   colors,
   serif,
 } from "../components/quiet-ui";
+import StepBibleSearch from "../components/StepBibleSearch";
 import { useApp } from "../lib/state";
+import * as storage from "../lib/storage";
+import {
+  readingPlans,
+  planPassage,
+  normalizePlanProgress,
+  type PlanProgress,
+  type PlanPassage,
+} from "../lib/reading-plans";
+import {
+  collections,
+  ensureCollection,
+  studyCollectionFor,
+  chapterRows,
+  type ReadingVerse,
+} from "../lib/bible";
+import { fromVerseRoute, toVerseRoute } from "../lib/verse-route";
 import copy from "../lib/pro-study-preview.json";
 
-const languages = ["en", "pt", "es", "ru"] as const;
-const traditionIds = ["catholic", "protestant", "orthodox", "exploring"];
-const references = [
-  "Romans 15:13",
-  "Matthew 11:28",
-  "Psalm 107:1",
-  "James 1:5",
-  "James 1:19",
-  "Zechariah 4:10",
-  "Philippians 4:6–7",
-];
-const planReadings = [
-  Array.from({ length: 16 }, (_, i) => `Mark ${i + 1}`),
-  [
-    "Psalm 23",
-    "Psalm 46",
-    "Psalm 62",
-    "Psalm 91",
-    "Psalm 121",
-    "Psalm 130",
-    "Psalm 139",
-  ],
-  ["Matthew 5", "Matthew 6", "Matthew 7"],
-  ["James 1", "James 2", "James 3", "James 4", "James 5"],
-  ["Ruth 1", "Ruth 2", "Ruth 3", "Ruth 4"],
-  [
-    "1 Corinthians 13",
-    "John 13:1–17",
-    "Luke 10:25–37",
-    "Romans 12",
-    "1 John 4:7–21",
-  ],
-];
 const icons = [
   "book-outline",
   "musical-notes-outline",
@@ -62,256 +47,303 @@ const icons = [
   "leaf-outline",
   "heart-outline",
 ] as const;
-export default function Pro() {
+const devotionalPassages: PlanPassage[] = [
+  { book: "ROM", chapter: 15, from: 13, to: 13 },
+  { book: "MAT", chapter: 11, from: 28, to: 28 },
+  { book: "PSA", chapter: 107, from: 1, to: 1 },
+  { book: "JAS", chapter: 1, from: 5, to: 5 },
+  { book: "JAS", chapter: 1, from: 19, to: 19 },
+  { book: "ZEC", chapter: 4, from: 10, to: 10 },
+  { book: "PHP", chapter: 4, from: 6, to: 7 },
+];
+export default function StudyWorkspace() {
   const { profile } = useApp();
-  const [language, setLanguage] = useState<(typeof languages)[number]>(
-    profile.language,
-  );
-  const [tradition, setTradition] = useState(
-    Math.max(0, traditionIds.indexOf(profile.tradition)),
-  );
+  const params = useLocalSearchParams<{ verse?: string }>();
+  const verseId = params.verse ? fromVerseRoute(params.verse) : null;
+  const c = copy[profile.language];
+  const collection = studyCollectionFor(profile);
   const [tab, setTab] = useState(0);
-  const [active, setActive] = useState<number | null>(null);
-  const [days, setDays] = useState<Record<number, number>>({});
+  const [progress, setProgress] = useState<PlanProgress>(
+    normalizePlanProgress(null),
+  );
+  const [owner, setOwner] = useState<string | null>(null);
+  const [progressAttempt, setProgressAttempt] = useState(0);
+  const [progressReady, setProgressReady] = useState(false);
+  const [progressError, setProgressError] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const writeLock = useRef(false);
   const [detail, setDetail] = useState<number | null>(null);
   const [devotional, setDevotional] = useState(false);
-  const [tool, setTool] = useState<number | null>(null);
-  const [word, setWord] = useState(0);
-  const [pricing, setPricing] = useState(false);
-  const [previewAccess, setPreviewAccess] = useState(false);
-  const [limit, setLimit] = useState<string | null>(null);
-  const [annual, setAnnual] = useState(false);
-  const c = copy[language];
-  const ref = (value: string) =>
-    value.replace(
-      /^(1 Corinthians|1 John|[A-Za-z]+)/,
-      (book) => c.books[book as keyof typeof c.books] ?? book,
+  const [words, setWords] = useState(false);
+  const [reading, setReading] = useState<ReadingVerse[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [readError, setReadError] = useState(false);
+  const readSequence = useRef(0);
+  const invalidateReadings = useCallback(() => {
+    readSequence.current++;
+  }, []);
+  const [date, setDate] = useState(() => new Date());
+  useEffect(() => {
+    const midnight = new Date();
+    midnight.setHours(24, 0, 0, 0);
+    const timer = setTimeout(
+      () => setDate(new Date()),
+      Math.max(1000, midnight.getTime() - Date.now()),
     );
-  const date = new Date();
+    return () => clearTimeout(timer);
+  }, [date]);
   const dailyIndex =
     Math.floor(
       Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) / 86400000,
     ) % 7;
   const daily = c.devotionals[dailyIndex];
+  useEffect(() => {
+    let active = true;
+    storage
+      .getItem("profile-owner")
+      .then(async (id) => {
+        const value = id ? await storage.getItem(`study-plans:${id}`) : null;
+        if (active) {
+          setOwner(id);
+          setProgress(normalizePlanProgress(value ? JSON.parse(value) : null));
+          setProgressReady(true);
+        }
+      })
+      .catch(() => {
+        if (active) {
+          setProgressError(true);
+          setProgressReady(true);
+        }
+      });
+    return () => {
+      active = false;
+      invalidateReadings();
+    };
+  }, [progressAttempt, invalidateReadings]);
+  const saveProgress = async (next: PlanProgress) => {
+    if (!owner || writeLock.current) return false;
+    writeLock.current = true;
+    setSaving(true);
+    setProgressError(false);
+    try {
+      await storage.setItem(`study-plans:${owner}`, JSON.stringify(next));
+      setProgress(next);
+      return true;
+    } catch {
+      setProgressError(true);
+      return false;
+    } finally {
+      writeLock.current = false;
+      setSaving(false);
+    }
+  };
+  const loadReading = async (passage: PlanPassage) => {
+    const ticket = ++readSequence.current;
+    setReading([]);
+    setLoading(true);
+    setReadError(false);
+    try {
+      if (!collection) throw Error("No collection");
+      await ensureCollection(collection);
+      const book = collections[collection].index.books.findIndex(
+        (b) => b.code === passage.book,
+      );
+      const rows = chapterRows(book, passage.chapter, collection).filter(
+        (v) =>
+          (!passage.from || Number(v.id.split(".").pop()) >= passage.from) &&
+          (!passage.to || Number(v.id.split(".").pop()) <= passage.to),
+      );
+      if (ticket === readSequence.current) {
+        setReading(rows);
+        setReadError(rows.length === 0);
+      }
+    } catch {
+      if (ticket === readSequence.current) setReadError(true);
+    } finally {
+      if (ticket === readSequence.current) setLoading(false);
+    }
+  };
+  const openPlan = (index: number) => {
+    setWords(false);
+    setDevotional(false);
+    setDetail(index);
+    const passage = planPassage(
+      index,
+      Math.min(progress.days[index] ?? 0, readingPlans[index].length - 1),
+      collection ?? "",
+    );
+    if (passage) void loadReading(passage);
+  };
+  const openDevotional = () => {
+    setWords(false);
+    setDetail(null);
+    setDevotional(true);
+    const passage = { ...devotionalPassages[dailyIndex] };
+    if (
+      passage.book === "PSA" &&
+      ["dra", "brenton", "synodal"].includes(collection ?? "")
+    )
+      passage.chapter = 106;
+    void loadReading(passage);
+  };
   const close = () => {
+    readSequence.current++;
     setDetail(null);
     setDevotional(false);
-    setTool(null);
-    setPricing(false);
-    setLimit(null);
+    setWords(false);
+    setReading([]);
+  };
+  const openContext = () => {
+    if (verseId)
+      router.push({
+        pathname: "/verse/[id]",
+        params: { id: toVerseRoute(verseId) },
+      });
+    else router.push("/(tabs)/bible");
   };
   return (
-    <Screen home>
-      <Pressable
-        accessibilityRole="button"
-        onPress={() => router.back()}
-        style={s.row}
-      >
-        <Ionicons name="chevron-back" size={22} color={colors.ink} />
-        <Body>{c.study}</Body>
-      </Pressable>
+    <Screen home place="bible">
       <View style={s.row}>
+        <Heading>{c.study}</Heading>
         <Text style={s.gold}>✧ PRO</Text>
-        <Body small>{c.preview}</Body>
       </View>
-      <Heading>{c.heading}</Heading>
-      <Body small>{c.freeAllowance}</Body>
-      <Body small>{c.proAllowance}</Body>
-      <Button title={c.freeVerse} secondary onPress={() => setTab(3)} />
       <Body>{c.intro}</Body>
-      <View style={s.row}>
-        {languages.map((l) => (
-          <Pressable
-            key={l}
-            accessibilityRole="button"
-            accessibilityState={{ selected: language === l }}
-            onPress={() => setLanguage(l)}
-            style={[s.chip, language === l && s.selected]}
-          >
-            <Text style={s.text}>{l.toUpperCase()}</Text>
-          </Pressable>
-        ))}
-      </View>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={s.row}
-      >
-        {c.traditionNames.map((name, i) => (
-          <Pressable
-            key={name}
-            accessibilityRole="button"
-            accessibilityState={{ selected: tradition === i }}
-            onPress={() => setTradition(i)}
-            style={[s.chip, tradition === i && s.selected]}
-          >
-            <Text style={s.text}>{name}</Text>
-          </Pressable>
-        ))}
-      </ScrollView>
       <View style={s.tabs}>
-        {[c.today, c.plans, c.words].map((name, i) => (
+        {[c.today, c.plans, c.words].map((title, index) => (
           <Pressable
-            key={name}
+            key={title}
             accessibilityRole="tab"
-            accessibilityState={{ selected: tab === i }}
-            onPress={() => setTab(i)}
-            style={[s.tab, tab === i && s.tabActive]}
+            accessibilityState={{ selected: tab === index }}
+            onPress={() => setTab(index)}
+            style={[s.tab, tab === index && s.tabActive]}
           >
-            <Text style={[s.text, tab === i && s.gold]}>{name}</Text>
+            <Text style={[s.text, tab === index && s.gold]}>{title}</Text>
           </Pressable>
         ))}
       </View>
-      {tab === 3 && (
-        <Card>
-          <Heading>{ref("Mark 1")}</Heading>
-          {[c.simple, c.deep].map((title) => (
-            <Button
-              key={title}
-              secondary
-              title={title}
-              onPress={() => {
-                setTool(1);
-              }}
-            />
-          ))}
-          <Button
-            title={c.theology}
-            secondary
-            onPress={() => {
-              setTab(2);
-              setPricing(true);
-            }}
-          />
-          <Button
-            title={c.discussion}
-            secondary
-            onPress={() => router.push("/explore?category=discussions")}
-          />
-          <Button
-            title={c.limitEntry}
-            secondary
-            onPress={() => setLimit(c.limitEntry)}
-          />
-          <Button
-            title={c.limitReply}
-            secondary
-            onPress={() => setLimit(c.limitReply)}
-          />
-        </Card>
-      )}
       {tab === 0 && (
         <>
-          <Pressable
-            accessibilityRole="button"
-            onPress={() =>
-              previewAccess ? setDevotional(true) : setPricing(true)
-            }
-          >
+          <Pressable accessibilityRole="button" onPress={openDevotional}>
             <Card>
               <View style={s.row}>
                 <Ionicons
                   name="sunny-outline"
-                  size={30}
+                  size={28}
                   color={colors.goldInk}
                 />
                 <Text style={s.gold}>{c.daily}</Text>
               </View>
               <Heading>{daily[0]}</Heading>
-              <Body small>{ref(references[dailyIndex])}</Body>
               <Body>{daily[1]}</Body>
               <Text style={s.gold}>{c.open} →</Text>
             </Card>
           </Pressable>
-          {active !== null && (
+          {!progressReady && <ActivityIndicator color={colors.goldInk} />}
+          {progress.active !== null && (
             <Card>
               <Body small>{c.selected}</Body>
-              <Text style={s.title}>{c.planTitles[active]}</Text>
+              <Text style={s.title}>{c.planTitles[progress.active]}</Text>
               <Body>
-                {c.day} {(days[active] ?? 0) + 1} /{" "}
-                {planReadings[active].length}
+                {Math.min(
+                  (progress.days[progress.active] ?? 0) + 1,
+                  readingPlans[progress.active].length,
+                )}{" "}
+                / {readingPlans[progress.active].length}
               </Body>
               <Button
-                title={c.continue}
-                onPress={() =>
-                  previewAccess ? setDetail(active) : setPricing(true)
+                title={
+                  (progress.days[progress.active] ?? 0) >=
+                  readingPlans[progress.active].length
+                    ? c.completePlan
+                    : c.continue
                 }
+                onPress={() => openPlan(progress.active!)}
               />
             </Card>
           )}
           <Text style={s.title}>{c.library}</Text>
         </>
       )}
-      {(tab === 0 || tab === 1) && (
+      {tab !== 2 && (
         <View style={s.grid}>
-          {c.planTitles.map((name, i) => (
+          {c.planTitles.map((title, index) => (
             <Pressable
-              key={name}
+              key={title}
               accessibilityRole="button"
-              onPress={() => (previewAccess ? setDetail(i) : setPricing(true))}
+              onPress={() => openPlan(index)}
               style={s.plan}
             >
               <View style={s.art}>
-                <Ionicons name={icons[i]} size={38} color={colors.goldInk} />
+                <Ionicons
+                  name={icons[index]}
+                  size={38}
+                  color={colors.goldInk}
+                />
               </View>
-              <Text style={s.title}>{name}</Text>
+              <Text style={s.title}>{title}</Text>
               <Body small>
-                {planReadings[i].length} · {c.days} · 5–10 min
+                {readingPlans[index].length} {c.days} · 5–10 min
               </Body>
-              <Text style={s.gold}>↗</Text>
             </Pressable>
           ))}
         </View>
       )}
       {tab === 2 && (
         <>
-          {[c.original, c.context, c.compare, c.sources, c.reason].map(
-            (name, i) => (
-              <Pressable
-                key={name}
-                accessibilityRole="button"
-                onPress={() => (previewAccess ? setTool(i) : setPricing(true))}
-                style={s.tool}
-              >
-                <Ionicons
-                  name={
-                    (
-                      [
-                        "language-outline",
-                        "time-outline",
-                        "git-compare-outline",
-                        "library-outline",
-                        "chatbubble-outline",
-                      ] as const
-                    )[i]
-                  }
-                  size={25}
-                  color={colors.goldInk}
-                />
-                <Text style={[s.title, s.grow]}>{name}</Text>
-                <Ionicons
-                  name="chevron-forward"
-                  size={18}
-                  color={colors.muted}
-                />
-              </Pressable>
-            ),
-          )}
-          <Body small>{c.traditionNotes[tradition]}</Body>
+          <Pressable
+            accessibilityRole="button"
+            onPress={() => {
+              setWords(true);
+              setDetail(null);
+              setDevotional(false);
+            }}
+            style={s.tool}
+          >
+            <Ionicons
+              name="language-outline"
+              size={25}
+              color={colors.goldInk}
+            />
+            <Text style={[s.title, s.grow]}>{c.original}</Text>
+            <Text style={s.gold}>›</Text>
+          </Pressable>
+          {[c.context, c.sources].map((title) => (
+            <Pressable
+              key={title}
+              accessibilityRole="button"
+              onPress={openContext}
+              style={s.tool}
+            >
+              <Ionicons
+                name="library-outline"
+                size={25}
+                color={colors.goldInk}
+              />
+              <Text style={[s.title, s.grow]}>{title}</Text>
+              <Text style={s.gold}>›</Text>
+            </Pressable>
+          ))}
+          {!verseId && <Body small>{c.choosePassage}</Body>}
+          <Button
+            secondary
+            title={c.discussion}
+            onPress={() => router.push("/explore?category=discussions")}
+          />
         </>
       )}
-      <Body small>
-        {c.sample} · {c.notice}
-      </Body>
-      <Button title={c.pricing} secondary onPress={() => setPricing(true)} />
+      {progressError && (
+        <Button
+          secondary
+          title={c.retry}
+          onPress={() => {
+            setProgressReady(false);
+            setProgressError(false);
+            setProgressAttempt(progressAttempt + 1);
+          }}
+        />
+      )}
       <Modal
-        visible={
-          detail !== null ||
-          devotional ||
-          tool !== null ||
-          pricing ||
-          limit !== null
-        }
+        visible={detail !== null || devotional || words}
         transparent
         animationType="fade"
         onRequestClose={close}
@@ -319,143 +351,99 @@ export default function Pro() {
         <View style={s.shade}>
           <View style={s.sheet}>
             <ScrollView contentContainerStyle={s.sheetContent}>
-              {devotional && (
+              {words ? (
                 <>
-                  <Text style={s.gold}>{c.daily}</Text>
-                  <Heading>{daily[0]}</Heading>
-                  <Body>{ref(references[dailyIndex])}</Body>
-                  <Text style={s.title}>{c.reflect}</Text>
-                  <Body>{daily[1]}</Body>
-                  <Text style={s.title}>{c.pray}</Text>
-                  <Body>{daily[2]}</Body>
-                  <Body small>{c.traditionNotes[tradition]}</Body>
+                  <Heading>{c.original}</Heading>
+                  <StepBibleSearch language={profile.language} />
                 </>
-              )}
-              {detail !== null && (
-                <>
-                  <Heading>{c.planTitles[detail]}</Heading>
-                  <Body small>
-                    {c.sample} · {planReadings[detail].length} {c.days}
-                  </Body>
-                  <Text style={s.reading}>
-                    {ref(
-                      planReadings[detail][
-                        Math.min(
-                          days[detail] ?? 0,
-                          planReadings[detail].length - 1,
-                        )
-                      ],
-                    )}
-                  </Text>
-                  <Body>{c.question}</Body>
-                  <Body small>{c.traditionNotes[tradition]}</Body>
-                  <Button
-                    title={active === detail ? c.complete : c.start}
-                    disabled={
-                      (days[detail] ?? 0) >= planReadings[detail].length
-                    }
-                    onPress={() => {
-                      setActive(detail);
-                      if (active === detail)
-                        setDays({ ...days, [detail]: (days[detail] ?? 0) + 1 });
-                    }}
-                  />
-                </>
-              )}
-              {tool !== null && (
+              ) : (
                 <>
                   <Heading>
-                    {
-                      [c.original, c.context, c.compare, c.sources, c.reason][
-                        tool
-                      ]
-                    }
+                    {detail !== null ? c.planTitles[detail] : daily[0]}
                   </Heading>
-                  {tool === 0 ? (
+                  {loading && <ActivityIndicator color={colors.goldInk} />}
+                  {readError && <Body>{c.unavailable}</Body>}
+                  {reading.length > 0 && (
                     <>
-                      {c.lexicon.map((entry, i) => (
-                        <Button
-                          key={entry[0]}
-                          title={entry[0]}
-                          secondary={word !== i}
-                          onPress={() => setWord(i)}
-                        />
+                      <Body small>{reading[0].editionName}</Body>
+                      {reading.map((verse) => (
+                        <Pressable
+                          key={verse.id}
+                          accessibilityRole="button"
+                          onPress={() => {
+                            close();
+                            router.push({
+                              pathname: "/verse/[id]",
+                              params: { id: toVerseRoute(verse.id) },
+                            });
+                          }}
+                        >
+                          <Body small>{verse.reference}</Body>
+                          <Text selectable style={s.reading}>
+                            {verse.text}
+                          </Text>
+                        </Pressable>
                       ))}
-                      <Text style={s.reading}>{c.lexicon[word][0]}</Text>
-                      <Body small>{c.lexicon[word][1]}</Body>
-                      <Body>{c.lexicon[word][2]}</Body>
-                    </>
-                  ) : tool === 1 ? (
-                    <>
-                      <Text style={s.reading}>{ref("Mark 1")}</Text>
-                      <Body>{c.contextSample}</Body>
-                    </>
-                  ) : tool === 2 ? (
-                    <>
-                      {c.traditionNames.map((name, i) => (
-                        <View key={name}>
-                          <Text style={s.title}>{name}</Text>
-                          <Body>{c.traditionNotes[i]}</Body>
-                        </View>
-                      ))}
-                    </>
-                  ) : tool === 3 ? (
-                    <>
-                      <Body>STEPBible · CC BY 4.0</Body>
-                      <Body>
-                        NET Bible · Crossway · Ignatius · Orthodox Study Bible
-                      </Body>
-                      <Body>{c.notice}</Body>
-                    </>
-                  ) : (
-                    <>
-                      <Text style={s.reading}>{ref("Mark 1")}</Text>
-                      <Body>{c.question}</Body>
-                      <Body>{c.contextSample}</Body>
-                      <Body>{c.notice}</Body>
+                      <Body small>{reading[0].attribution}</Body>
                     </>
                   )}
-                  <Text style={s.gold}>{c.sample}</Text>
-                </>
-              )}
-              {limit !== null && (
-                <>
-                  <Body>{limit}</Body>
-                  <Button
-                    title={c.upgrade}
-                    onPress={() => {
-                      setLimit(null);
-                      setPricing(true);
-                    }}
-                  />
-                  <Button title={c.tomorrow} secondary onPress={close} />
-                </>
-              )}
-              {pricing && (
-                <>
-                  <Heading>{c.pricing}</Heading>
-                  <Body>{c.freeAllowance}</Body>
-                  <Body>{c.proAllowance}</Body>
-                  <Button
-                    title={c.previewAccess}
-                    onPress={() => {
-                      setPreviewAccess(true);
-                      setPricing(false);
-                      setTab(0);
-                    }}
-                  />
-                  {[false, true].map((value) => (
-                    <Button
-                      key={String(value)}
-                      secondary={annual !== value}
-                      title={value ? c.annual : c.monthly}
-                      onPress={() => setAnnual(value)}
-                    />
-                  ))}
-                  <Text style={s.title}>{c.trial}</Text>
-                  <Body small>
-                    {c.preview} · {c.notice}
-                  </Body>
+                  {devotional ? (
+                    <>
+                      <Text style={s.title}>{c.reflect}</Text>
+                      <Body>{daily[1]}</Body>
+                      <Text style={s.title}>{c.pray}</Text>
+                      <Body>{daily[2]}</Body>
+                      <Body small>{c.originalDevotional}</Body>
+                    </>
+                  ) : (
+                    detail !== null && (
+                      <>
+                        <Body>{c.question}</Body>
+                        <Button
+                          title={
+                            progress.active !== detail
+                              ? c.start
+                              : (progress.days[detail] ?? 0) >=
+                                  readingPlans[detail].length
+                                ? c.completePlan
+                                : c.complete
+                          }
+                          loading={saving}
+                          disabled={
+                            !progressReady ||
+                            !owner ||
+                            loading ||
+                            readError ||
+                            (progress.days[detail] ?? 0) >=
+                              readingPlans[detail].length
+                          }
+                          onPress={() => {
+                            void saveProgress({
+                              active: detail,
+                              days: {
+                                ...progress.days,
+                                [detail]:
+                                  (progress.days[detail] ?? 0) +
+                                  (progress.active === detail ? 1 : 0),
+                              },
+                            }).then((saved) => {
+                              if (saved) close();
+                            });
+                          }}
+                        />
+                        <Body small>{c.localProgress}</Body>
+                        {progressError && (
+                          <Button
+                            secondary
+                            title={c.retry}
+                            onPress={() =>
+                              setProgressAttempt(progressAttempt + 1)
+                            }
+                          />
+                        )}
+                      </>
+                    )
+                  )}
                 </>
               )}
               <Button title={c.close} secondary onPress={close} />
@@ -470,20 +458,12 @@ const s = StyleSheet.create({
   row: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 10,
-    flexWrap: "wrap",
+    justifyContent: "space-between",
+    gap: 12,
   },
   text: { color: colors.ink, fontSize: 14 },
   gold: { color: colors.goldInk, fontSize: 13, letterSpacing: 0.5 },
   title: { color: colors.ink, fontSize: 18, fontWeight: "600" },
-  chip: {
-    borderRadius: 20,
-    borderWidth: 1,
-    borderColor: colors.line,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-  },
-  selected: { backgroundColor: colors.pale, borderColor: colors.goldInk },
   tabs: {
     flexDirection: "row",
     borderBottomWidth: 1,
@@ -502,7 +482,7 @@ const s = StyleSheet.create({
     width: "47%",
     flexGrow: 1,
     backgroundColor: colors.white,
-    borderRadius: 18,
+    borderRadius: 19,
     padding: 16,
     gap: 10,
   },
@@ -528,7 +508,12 @@ const s = StyleSheet.create({
     padding: 20,
     backgroundColor: "#0009",
   },
-  sheet: { maxHeight: "85%", borderRadius: 24, backgroundColor: colors.paper },
+  sheet: { maxHeight: "88%", borderRadius: 24, backgroundColor: colors.paper },
   sheetContent: { padding: 24, gap: 20 },
-  reading: { fontFamily: serif, fontSize: 28, color: colors.ink },
+  reading: {
+    fontFamily: serif,
+    fontSize: 23,
+    lineHeight: 35,
+    color: colors.ink,
+  },
 });
