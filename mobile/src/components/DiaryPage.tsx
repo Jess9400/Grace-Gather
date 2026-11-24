@@ -1,6 +1,6 @@
-import { useRef, useState } from "react";
-import { View, Text, TextInput, StyleSheet, Platform, useWindowDimensions } from "react-native";
-import { router } from "expo-router";
+import { useCallback, useRef, useState } from "react";
+import { View, Text, TextInput, StyleSheet, Platform, Pressable, useWindowDimensions } from "react-native";
+import { router, useFocusEffect } from "expo-router";
 import { randomUUID } from "expo-crypto";
 import { Screen, Button, Notice, colors, letter, serif } from "./quiet-ui";
 import Recorder from "./QuietRecorder";
@@ -37,6 +37,10 @@ export default function Diary() {
   const [paperHeight, setPaperHeight] = useState(0);
   // Leave room for three writing lines before showing the date and salutation.
   const showLetterHeading = !writing || !paperHeight || paperHeight >= 100 + 105 * fontScale;
+  const iphone = Platform.OS === "ios";
+  useFocusEffect(useCallback(() => () => {
+    if (iphone) setWriting(false);
+  }, [iphone]));
   const useAI = profile.journalAIConsentVersion === AI_CONSENT_VERSION;
   const lang = profile.language;
   // Editing a saved prayer, opened from its Edit button.
@@ -153,6 +157,7 @@ export default function Diary() {
       home
       place="pews"
       compact={writing}
+      onCompactBack={iphone ? () => setWriting(false) : undefined}
       // "I'm done writing" never needs a scroll to find: it rests at the
       // bottom of the screen, and on the keyboard while typing.
       footer={
@@ -246,19 +251,35 @@ export default function Diary() {
           </>
         )}
         <View style={writing && s.writingArea}>
-          <TextInput
-            accessibilityLabel={copy(lang, "entryLabel")}
-            multiline
-            scrollEnabled
-            maxLength={30000}
-            value={draft.text}
-            onChangeText={(text) => update({ text })}
-            placeholder={copy(lang, "prompt")}
-            placeholderTextColor={letter.muted}
-            onFocus={() => setWriting(true)}
-            onBlur={() => setWriting(false)}
-            style={[s.input, writing && s.inputWriting]}
-          />
+          {iphone && !writing ? (
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={copy(lang, "entryLabel")}
+              disabled={busy || recording}
+              onPress={() => setWriting(true)}
+              style={{ minHeight: 280 }}
+            >
+              <Text numberOfLines={9} style={[s.preview, !draft.text && { color: letter.muted }]}>
+                {draft.text || copy(lang, "prompt")}
+              </Text>
+            </Pressable>
+          ) : (
+            <TextInput
+              accessibilityLabel={copy(lang, "entryLabel")}
+              multiline
+              scrollEnabled
+              autoFocus={iphone}
+              editable={!busy}
+              maxLength={30000}
+              value={draft.text}
+              onChangeText={(text) => update({ text })}
+              placeholder={copy(lang, "prompt")}
+              placeholderTextColor={letter.muted}
+              onFocus={iphone ? undefined : () => setWriting(true)}
+              onBlur={iphone ? undefined : () => setWriting(false)}
+              style={[s.input, writing && (iphone ? s.iphoneInput : s.inputWriting)]}
+            />
+          )}
         </View>
       </View>
       <Notice text={error} />
@@ -313,6 +334,8 @@ const s = StyleSheet.create({
     color: letter.ink,
     marginBottom: 16,
   },
+  preview: { color: letter.ink, fontFamily: serif, fontSize: 21, lineHeight: 35 },
+  iphoneInput: { flex: 1, minHeight: 0, paddingBottom: 10 },
   input: {
     color: letter.ink,
     fontFamily: serif,

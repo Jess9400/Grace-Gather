@@ -9,7 +9,7 @@ import MemberAvatar from "./MemberAvatar";
 import BrandMark from "./BrandMark";
 
 /** Persistent navigation for pages opened on top of the main tabs. */
-export default function ScreenNav({ home = false, dirty = false }: { home?: boolean; dirty?: boolean }) {
+export default function ScreenNav({ home = false, dirty = false, onBack }: { home?: boolean; dirty?: boolean; onBack?: () => void }) {
   const tr = useInterfaceCopy();
   const { profile } = useApp();
   const pathname = usePathname();
@@ -25,7 +25,7 @@ export default function ScreenNav({ home = false, dirty = false }: { home?: bool
     <>
     <View style={styles.bar}>
       <Pressable accessibilityRole="button" accessibilityLabel={tr("Back")}
-        onPress={() => leave(() => router.canGoBack() ? router.back() : router.replace("/(tabs)"))}
+        onPress={() => leave(onBack ?? (() => router.canGoBack() ? router.back() : router.replace("/(tabs)")))}
         style={({ pressed }) => [styles.control, pressed && styles.pressed]}>
         <Ionicons name="chevron-back" size={24} color="#F4EBDA" />
       </Pressable>

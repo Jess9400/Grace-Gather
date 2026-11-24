@@ -111,6 +111,7 @@ export function Screen({
   scrollToEndKey,
   keyboard = false,
   compact = false,
+  onCompactBack,
   header = true,
   centered = false,
   home = false,
@@ -125,6 +126,7 @@ export function Screen({
   // A room hides its church picture (e.g. while someone is writing), giving
   // the page the whole screen above the keyboard.
   compact?: boolean;
+  onCompactBack?: () => void;
   header?: boolean;
   centered?: boolean;
   home?: boolean;
@@ -138,6 +140,22 @@ export function Screen({
   const tr = useInterfaceCopy();
   const insets = useSafeAreaInsets();
   const strip = useRoomStrip(place ?? "bible") && !!place;
+  // Start iPhone editing in a fresh, bounded viewport. A UIScrollView can
+  // retain its previous contentOffset even after page scrolling is disabled.
+  // Only the text view should pan or reveal the caret while writing.
+  if (compact && Platform.OS === "ios")
+    return (
+      <KeyboardAvoidingView behavior="padding" style={s.safe}>
+        <SafeAreaView style={s.safe} edges={["top", "left", "right", "bottom"]}>
+          <Backdrop />
+          {back && <ScreenNav home={home} onBack={onCompactBack} />}
+          <View style={[s.page, { flex: 1, minHeight: 0, paddingVertical: 4 }]}>
+            {children}
+          </View>
+          {footer}
+        </SafeAreaView>
+      </KeyboardAvoidingView>
+    );
   if (strip && place)
     return (
       <SafeAreaView style={s.safe} edges={["left", "right"]}>
