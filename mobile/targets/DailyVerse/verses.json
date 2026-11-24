@@ -1,0 +1,730 @@
+{
+  "web": {
+    "name": "World English Bible · Protestant edition",
+    "verses": [
+      {
+        "reference": "Matthew 11:28",
+        "text": "Come to me, all you who labor and are heavily burdened, and I will give you rest."
+      },
+      {
+        "reference": "1 Thessalonians 5:18",
+        "text": "In everything give thanks, for this is the will of God in Christ Jesus toward you."
+      },
+      {
+        "reference": "John 15:9",
+        "text": "Even as the Father has loved me, I also have loved you. Remain in my love."
+      },
+      {
+        "reference": "Proverbs 3:5",
+        "text": "Trust in the LORD with all your heart, and don’t lean on your own understanding."
+      },
+      {
+        "reference": "Proverbs 3:6",
+        "text": "In all your ways acknowledge him, and he will make your paths straight."
+      },
+      {
+        "reference": "Proverbs 4:23",
+        "text": "Keep your heart with all diligence, for out of it is the wellspring of life."
+      },
+      {
+        "reference": "Proverbs 11:2",
+        "text": "When pride comes, then comes shame, but with humility comes wisdom."
+      },
+      {
+        "reference": "Proverbs 11:25",
+        "text": "The liberal soul shall be made fat. He who waters shall be watered also himself."
+      },
+      {
+        "reference": "Proverbs 12:25",
+        "text": "Anxiety in a man’s heart weighs it down, but a kind word makes it glad."
+      },
+      {
+        "reference": "Proverbs 15:1",
+        "text": "A gentle answer turns away wrath, but a harsh word stirs up anger."
+      },
+      {
+        "reference": "Proverbs 15:13",
+        "text": "A glad heart makes a cheerful face, but an aching heart breaks the spirit."
+      },
+      {
+        "reference": "Proverbs 16:3",
+        "text": "Commit your deeds to the LORD, and your plans shall succeed."
+      },
+      {
+        "reference": "Proverbs 16:9",
+        "text": "A man’s heart plans his course, but the LORD directs his steps."
+      },
+      {
+        "reference": "Proverbs 16:24",
+        "text": "Pleasant words are a honeycomb, sweet to the soul, and health to the bones."
+      },
+      {
+        "reference": "Proverbs 17:17",
+        "text": "A friend loves at all times; and a brother is born for adversity."
+      },
+      {
+        "reference": "Proverbs 18:10",
+        "text": "The LORD’s name is a strong tower: the righteous run to him, and are safe."
+      },
+      {
+        "reference": "Proverbs 19:17",
+        "text": "He who has pity on the poor lends to the LORD; he will reward him."
+      },
+      {
+        "reference": "Proverbs 21:21",
+        "text": "He who follows after righteousness and kindness finds life, righteousness, and honor."
+      },
+      {
+        "reference": "Proverbs 27:17",
+        "text": "Iron sharpens iron; so a man sharpens his friend’s countenance."
+      },
+      {
+        "reference": "Isaiah 12:3",
+        "text": "Therefore with joy you will draw water out of the wells of salvation."
+      },
+      {
+        "reference": "Isaiah 26:4",
+        "text": "Trust in the LORD forever; for in the LORD, the LORD, is an everlasting Rock."
+      },
+      {
+        "reference": "Isaiah 40:8",
+        "text": "The grass withers, the flower fades; but the word of our God stands forever.”"
+      },
+      {
+        "reference": "Isaiah 40:29",
+        "text": "He gives power to the weak. He increases the strength of him who has no might."
+      },
+      {
+        "reference": "Isaiah 55:6",
+        "text": "Seek the LORD while he may be found. Call on him while he is near."
+      }
+    ]
+  },
+  "dra": {
+    "name": "Douay-Rheims · 1899",
+    "verses": [
+      {
+        "reference": "Matthew 11:28",
+        "text": "Come to me, all you that labour, and are burdened, and I will refresh you."
+      },
+      {
+        "reference": "1 Thessalonians 5:18",
+        "text": "In all things give thanks; for this is the will of God in Christ Jesus concerning you all."
+      },
+      {
+        "reference": "John 15:9",
+        "text": "As the Father hath loved me, I also have loved you. Abide in my love."
+      },
+      {
+        "reference": "Proverbs 3:5",
+        "text": "Have confidence in the Lord with all thy heart, and lean not upon thy own prudence."
+      },
+      {
+        "reference": "Proverbs 3:6",
+        "text": "In all thy ways think on him, and he will direct thy steps."
+      },
+      {
+        "reference": "Proverbs 4:23",
+        "text": "With all watchfulness keep thy heart, because life issueth out from it."
+      },
+      {
+        "reference": "Proverbs 11:2",
+        "text": "Where pride is, there also shall be reproach: but where humility is, there also is wisdom."
+      },
+      {
+        "reference": "Proverbs 15:1",
+        "text": "A mild answer breaketh wrath: but a harsh word stirreth up fury."
+      },
+      {
+        "reference": "Proverbs 15:13",
+        "text": "A glad heart maketh a cheerful countenance: but by grief of mind the spirit is cast down."
+      },
+      {
+        "reference": "Proverbs 16:3",
+        "text": "Lay open thy works to the Lord: and thy thoughts shall be directed."
+      },
+      {
+        "reference": "Proverbs 16:9",
+        "text": "The heart of man disposeth his way: but the Lord must direct his steps."
+      },
+      {
+        "reference": "Proverbs 16:24",
+        "text": "Well ordered words are as a honeycomb: sweet to the soul, and health to the bones."
+      },
+      {
+        "reference": "Proverbs 17:17",
+        "text": "He that is a friend loveth at all times: and a brother is proved in distress."
+      },
+      {
+        "reference": "Proverbs 18:10",
+        "text": "The name of the Lord is a strong tower: the just runneth to it, and shall be exalted."
+      },
+      {
+        "reference": "Proverbs 19:17",
+        "text": "He that hath mercy on the poor, lendeth to the Lord: and he will repay him."
+      },
+      {
+        "reference": "Proverbs 21:21",
+        "text": "He that followeth justice and mercy, shall find life, justice, and glory."
+      },
+      {
+        "reference": "Proverbs 27:17",
+        "text": "Iron sharpeneth iron, so a man sharpeneth the countenance of his friend."
+      },
+      {
+        "reference": "Isaiah 12:3",
+        "text": "You shall draw waters with joy out of the saviour’s fountains:"
+      },
+      {
+        "reference": "Isaiah 26:4",
+        "text": "You have hoped in the Lord for evermore, in the Lord God mighty for ever."
+      },
+      {
+        "reference": "Isaiah 55:6",
+        "text": "Seek ye the Lord, while he may be found: call upon him, while he is near."
+      }
+    ]
+  },
+  "brenton": {
+    "name": "Brenton Septuagint · Old Testament",
+    "verses": [
+      {
+        "reference": "Psalm 106:1 (Septuagint)",
+        "text": "Alleluia. Give thanks to the Lord, for he is good; for his mercy endures for ever."
+      },
+      {
+        "reference": "Psalm 33:19 (Septuagint)",
+        "text": "The Lord is near to them that are of a contrite heart; and will save the lowly in spirit."
+      },
+      {
+        "reference": "Proverbs 3:5",
+        "text": "Trust in God with all thine heart; and be not exalted in thine own wisdom."
+      },
+      {
+        "reference": "Proverbs 3:6",
+        "text": "In all thy ways acquaint thyself with her, that she may rightly direct thy paths."
+      },
+      {
+        "reference": "Proverbs 4:23",
+        "text": "Keep thine heart with the utmost care; for out of these are the issues of life."
+      },
+      {
+        "reference": "Proverbs 11:25",
+        "text": "Every sincere soul is blessed: but a passionate man is not graceful."
+      },
+      {
+        "reference": "Proverbs 12:25",
+        "text": "A terrible word troubles the heart of a righteous man; but a good message rejoices him."
+      },
+      {
+        "reference": "Proverbs 16:24",
+        "text": "Good words are honeycombs, and the sweetness thereof is a healing of the soul."
+      },
+      {
+        "reference": "Proverbs 18:10",
+        "text": "The name of the Lord is of great strength; and the righteous running to it are exalted."
+      },
+      {
+        "reference": "Proverbs 21:21",
+        "text": "The way of righteousness and mercy will find life and glory."
+      },
+      {
+        "reference": "Proverbs 27:17",
+        "text": "Iron sharpens iron; and a man sharpens his friend's countenance."
+      },
+      {
+        "reference": "Esaias 12:3",
+        "text": "Draw ye therefore water with joy out of the wells of salvation."
+      },
+      {
+        "reference": "Esaias 26:4",
+        "text": "they have trusted with confidence for ever, the great, the eternal God;"
+      },
+      {
+        "reference": "Esaias 40:8",
+        "text": "but the word of our God abides for ever."
+      },
+      {
+        "reference": "Esaias 40:29",
+        "text": "He gives strength to the hungry, and sorrow to them that are not suffering."
+      },
+      {
+        "reference": "Esaias 55:6",
+        "text": "Seek ye the Lord, and when ye find him, call upon him; and when he shall draw nigh to you,"
+      }
+    ]
+  },
+  "blivre": {
+    "name": "Bíblia Livre · fevereiro de 2018",
+    "verses": [
+      {
+        "reference": "Mateus 11:28",
+        "text": "Vinde a mim todos vós que estais cansados e sobrecarregados, e eu vos farei descansar."
+      },
+      {
+        "reference": "Romanos 15:33",
+        "text": "E o Deus da paz esteja com todos vós. Amém!"
+      },
+      {
+        "reference": "Salmos 107:1",
+        "text": "Agradecei ao SENHOR, porque ele é bom; porque sua bondade dura para sempre."
+      },
+      {
+        "reference": "Mateus 5:4",
+        "text": "Benditos são os que choram, porque eles serão consolados."
+      },
+      {
+        "reference": "Provérbios 3:5",
+        "text": "Confia no SENHOR com todo o teu coração; e não te apoies em teu próprio entendimento."
+      },
+      {
+        "reference": "Provérbios 3:6",
+        "text": "Dá reconhecimento a ele em todas os teus caminhos; e ele endireitará tuas veredas."
+      },
+      {
+        "reference": "Provérbios 11:2",
+        "text": "Quando vem a arrogância, vem também a desonra; mas com os humildes está a sabedoria."
+      },
+      {
+        "reference": "Provérbios 11:25",
+        "text": "A alma generosa prosperará, e aquele que saciar também será saciado."
+      },
+      {
+        "reference": "Provérbios 12:25",
+        "text": "A ansiedade no coração do homem o abate; mas uma boa palavra o alegra."
+      },
+      {
+        "reference": "Provérbios 15:1",
+        "text": "A resposta suave desvia o furor, mas a palavra pesada faz a ira aumentar."
+      },
+      {
+        "reference": "Provérbios 15:13",
+        "text": "O coração alegre anima o rosto, mas pela dor do coração o espírito se abate."
+      },
+      {
+        "reference": "Provérbios 16:3",
+        "text": "Confia tuas obras ao SENHOR, e teus pensamentos serão firmados."
+      },
+      {
+        "reference": "Provérbios 16:9",
+        "text": "O coração do homem planeja seu caminho, mas é o SENHOR que dirige seus passos."
+      },
+      {
+        "reference": "Provérbios 16:24",
+        "text": "Favo de mel são as palavras suaves: doces para a alma, e remédio para os ossos."
+      },
+      {
+        "reference": "Provérbios 17:17",
+        "text": "O amigo ama em todo tempo, e o irmão nasce para ajudar na angústia."
+      },
+      {
+        "reference": "Provérbios 18:10",
+        "text": "O nome do SENHOR é uma torre forte; o justo correrá até ele, e ficará seguro."
+      },
+      {
+        "reference": "Provérbios 19:17",
+        "text": "Quem faz misericórdia ao pobre empresta ao SENHOR; e ele lhe pagará sua recompensa."
+      },
+      {
+        "reference": "Provérbios 21:21",
+        "text": "Quem segue a justiça e a bondade achará vida, justiça e honra."
+      },
+      {
+        "reference": "Provérbios 27:17",
+        "text": "O ferro é afiado com ferro; assim também o homem afia o rosto de seu amigo."
+      },
+      {
+        "reference": "Isaías 12:3",
+        "text": "E alegremente tirareis águas das fontes da salvação."
+      },
+      {
+        "reference": "Isaías 26:4",
+        "text": "Confiai no SENHOR para sempre, pois no SENHOR DEUS está a rocha eterna."
+      },
+      {
+        "reference": "Isaías 40:8",
+        "text": "A erva se seca, as flores caem; porém a palavra do nosso Deus continua firme para sempre."
+      },
+      {
+        "reference": "Isaías 40:29",
+        "text": "Ele dá força ao cansado, e multiplica as forças daquele que não tem vigor."
+      },
+      {
+        "reference": "Isaías 55:6",
+        "text": "Buscai ao SENHOR enquanto se pode achar; invocai-o enquanto ele está perto."
+      }
+    ]
+  },
+  "rv1909": {
+    "name": "Reina-Valera · 1909",
+    "verses": [
+      {
+        "reference": "Mateo 11:28",
+        "text": "Venid á mí todos los que estáis trabajados y cargados, que yo os haré descansar."
+      },
+      {
+        "reference": "1 Tesalonicenses 5:18",
+        "text": "Dad gracias en todo; porque esta es la voluntad de Dios para con vosotros en Cristo Jesús."
+      },
+      {
+        "reference": "Juan 15:9",
+        "text": "Como el Padre me amó, también yo os he amado: estad en mi amor."
+      },
+      {
+        "reference": "Salmos 34:18",
+        "text": "Cercano está Jehová á los quebrantados de corazón; y salvará á los contritos de espíritu."
+      },
+      {
+        "reference": "Proverbios 3:5",
+        "text": "Fíate de Jehová de todo tu corazón, y no estribes en tu prudencia."
+      },
+      {
+        "reference": "Proverbios 3:6",
+        "text": "Reconócelo en todos tus caminos, y él enderezará tus veredas."
+      },
+      {
+        "reference": "Proverbios 4:23",
+        "text": "Sobre toda cosa guardada guarda tu corazón; porque de él mana la vida."
+      },
+      {
+        "reference": "Proverbios 11:2",
+        "text": "Cuando viene la soberbia, viene también la deshonra: mas con los humildes es la sabiduría."
+      },
+      {
+        "reference": "Proverbios 11:25",
+        "text": "El alma liberal será engordada: y el que saciare, él también será saciado."
+      },
+      {
+        "reference": "Proverbios 12:25",
+        "text": "El cuidado congojoso en el corazón del hombre, lo abate; mas la buena palabra lo alegra."
+      },
+      {
+        "reference": "Proverbios 15:1",
+        "text": "LA blanda respuesta quita la ira: mas la palabra áspera hace subir el furor."
+      },
+      {
+        "reference": "Proverbios 15:13",
+        "text": "El corazón alegre hermosea el rostro: mas por el dolor de corazón el espíritu se abate."
+      },
+      {
+        "reference": "Proverbios 16:3",
+        "text": "Encomienda á Jehová tus obras, y tus pensamientos serán afirmados."
+      },
+      {
+        "reference": "Proverbios 16:9",
+        "text": "El corazón del hombre piensa su camino: mas Jehová endereza sus pasos."
+      },
+      {
+        "reference": "Proverbios 16:24",
+        "text": "Panal de miel son los dichos suaves: suavidad al alma y medicina á los huesos."
+      },
+      {
+        "reference": "Proverbios 17:17",
+        "text": "En todo tiempo ama el amigo; y el hermano para la angustia es nacido."
+      },
+      {
+        "reference": "Proverbios 18:10",
+        "text": "Torre fuerte es el nombre de Jehová: á él correrá el justo, y será levantado."
+      },
+      {
+        "reference": "Proverbios 19:17",
+        "text": "A Jehová empresta el que da al pobre, y él le dará su paga."
+      },
+      {
+        "reference": "Proverbios 21:21",
+        "text": "El que sigue la justicia y la misericordia, hallará la vida, la justicia, y la honra."
+      },
+      {
+        "reference": "Proverbios 27:17",
+        "text": "Hierro con hierro se aguza; y el hombre aguza el rostro de su amigo."
+      },
+      {
+        "reference": "Isaías 12:3",
+        "text": "Sacaréis aguas con gozo de las fuentes de la salud."
+      },
+      {
+        "reference": "Isaías 40:8",
+        "text": "Sécase la hierba, cáese la flor: mas la palabra del Dios nuestro permanece para siempre."
+      },
+      {
+        "reference": "Isaías 40:29",
+        "text": "El da esfuerzo al cansado, y multiplica las fuerzas al que no tiene ningunas."
+      },
+      {
+        "reference": "Isaías 55:6",
+        "text": "Buscad á Jehová mientras puede ser hallado, llamadle en tanto que está cercano."
+      }
+    ]
+  },
+  "synodal": {
+    "name": "Синодальный перевод",
+    "verses": [
+      {
+        "reference": "От Матфея 11:28",
+        "text": "Придите ко Мне все труждающиеся и обремененные, и Я успокою вас;"
+      },
+      {
+        "reference": "1 Фессалоникийцам 5:18",
+        "text": "За все благодарите: ибо такова о вас воля Божия во Христе Иисусе."
+      },
+      {
+        "reference": "От Иоанна 15:9",
+        "text": "Как возлюбил Меня Отец, и Я возлюбил вас; пребудьте в любви Моей."
+      },
+      {
+        "reference": "От Иоанна 11:35",
+        "text": "Иисус прослезился."
+      },
+      {
+        "reference": "Притчи Соломона 3:5",
+        "text": "Надейся на Господа всем сердцем твоим, и не полагайся на разум твой."
+      },
+      {
+        "reference": "Притчи Соломона 3:6",
+        "text": "Во всех путях твоих познавай Его, и Он направит стези твои."
+      },
+      {
+        "reference": "Притчи Соломона 4:23",
+        "text": "Больше всего хранимого храни сердце твое, потому что из него источники жизни."
+      },
+      {
+        "reference": "Притчи Соломона 11:2",
+        "text": "Придет гордость, придет и посрамление; но со смиренными - мудрость."
+      },
+      {
+        "reference": "Притчи Соломона 11:25",
+        "text": "Благотворительная душа будет насыщена, и кто напояет других, тот и сам напоен будет."
+      },
+      {
+        "reference": "Притчи Соломона 12:25",
+        "text": "Тоска на сердце человека подавляет его, а доброе слово развеселяет его."
+      },
+      {
+        "reference": "Притчи Соломона 15:13",
+        "text": "Веселое сердце делает лице веселым, а при сердечной скорби дух унывает."
+      },
+      {
+        "reference": "Притчи Соломона 16:3",
+        "text": "Предай Господу дела твои, и предприятия твои совершатся."
+      },
+      {
+        "reference": "Притчи Соломона 16:9",
+        "text": "Сердце человека обдумывает свой путь, но Господь управляет шествием его."
+      },
+      {
+        "reference": "Притчи Соломона 16:24",
+        "text": "Приятная речь - сотовый мед, сладка для души и целебна для костей."
+      },
+      {
+        "reference": "Притчи Соломона 17:17",
+        "text": "Друг любит во всякое время и, как брат, явится во время несчастья."
+      },
+      {
+        "reference": "Притчи Соломона 18:10",
+        "text": "Имя Господа - крепкая башня: убегает в нее праведник - и безопасен."
+      },
+      {
+        "reference": "Притчи Соломона 19:17",
+        "text": "Благотворящий бедному дает взаймы Господу, и Он воздаст ему за благодеяние его."
+      },
+      {
+        "reference": "Притчи Соломона 21:21",
+        "text": "Соблюдающий правду и милость найдет жизнь, правду и славу."
+      },
+      {
+        "reference": "Притчи Соломона 27:17",
+        "text": "Железо железо острит, и человек изощряет взгляд друга своего."
+      },
+      {
+        "reference": "Книга пророка Исаии 12:3",
+        "text": "И в радости будете почерпать воду из источников спасения,"
+      },
+      {
+        "reference": "Книга пророка Исаии 26:4",
+        "text": "Уповайте на Господа вовеки, ибо Господь Бог есть твердыня вечная:"
+      },
+      {
+        "reference": "Книга пророка Исаии 40:8",
+        "text": "Трава засыхает, цвет увядает, а слово Бога нашего пребудет вечно."
+      },
+      {
+        "reference": "Книга пророка Исаии 40:29",
+        "text": "Он дает утомленному силу, и изнемогшему дарует крепость."
+      },
+      {
+        "reference": "Книга пророка Исаии 55:6",
+        "text": "Ищите Господа, когда можно найти Его; призывайте Его, когда Он близко."
+      }
+    ]
+  },
+  "figueiredo": {
+    "name": "Figueiredo · 1866",
+    "verses": [
+      {
+        "reference": "Mateus 11:28",
+        "text": "Vinde a mim todos os que andais em trabalho, e vos achais carregados, e eu vos alliviarei."
+      },
+      {
+        "reference": "1 Tessalonicenses 5:18",
+        "text": "Em tudo dai graças: porque esta he a vontade de Deos em Jesu Christo para com todos vós."
+      },
+      {
+        "reference": "João 15:9",
+        "text": "Como meu Pai me amou, assim vos amei eu. Permanecei no meu amor."
+      },
+      {
+        "reference": "Mateus 5:5",
+        "text": "Bemaventurados os que chorão: porque elles serão consolados."
+      },
+      {
+        "reference": "1 Pedro 5:7",
+        "text": "Remettendo para elle todas as vossas inquietações, porque elle tem cuidado de vós."
+      },
+      {
+        "reference": "Tiago 5:13",
+        "text": "Está triste algum de vós? ore: Está alegre? cante louvores a Deos."
+      },
+      {
+        "reference": "1 Tessalonicenses 5:11",
+        "text": "Pelo que consolai-vos mutuamente: e edificai-vos huns aos outros, como ainda o fazeis."
+      },
+      {
+        "reference": "Salmo 146:3 (Figueiredo)",
+        "text": "O que sara aos attribulados de coração: e liga as suas fracturas."
+      },
+      {
+        "reference": "Salmo 114:1 (Figueiredo)",
+        "text": "Amei, porque o Senhor ouvirá a voz da minha oração."
+      },
+      {
+        "reference": "Salmo 138:23 (Figueiredo)",
+        "text": "Prova-me, ó Deos, e sonda o meu coração: pergunta-me, e conhece as minhas varedas."
+      },
+      {
+        "reference": "João 11:35",
+        "text": "Então chorou Jesus."
+      },
+      {
+        "reference": "Salmo 39:2 (Figueiredo)",
+        "text": "Aguardei com expectação ao Senhor, e me attendeo."
+      },
+      {
+        "reference": "Salmo 24:16 (Figueiredo)",
+        "text": "Olha para mim, e tem misericordia de mim: porque eu sou só e pobre."
+      },
+      {
+        "reference": "João 14:18",
+        "text": "Não vos hei de deixar orfãos: eu hei de vir a vós."
+      },
+      {
+        "reference": "Salmo 138:10 (Figueiredo)",
+        "text": "Ainda lá me guiará a tua mão: e me susterá a tua direita."
+      },
+      {
+        "reference": "Salmo 55:4 (Figueiredo)",
+        "text": "Na altura do dia temerei: mas eu em ti esperarei."
+      },
+      {
+        "reference": "Lamentações 3:23",
+        "text": "Novas misericordias recrescem cada manhãa, grande he a tua fidelidade."
+      },
+      {
+        "reference": "Salmo 22:2 (Figueiredo)",
+        "text": "em hum lugar de pastos alli me collocou. Elle me conduzio junto a huma agua de refeição:"
+      },
+      {
+        "reference": "Salmo 50:12 (Figueiredo)",
+        "text": "Cria em mim, ó Deos, hum coração puro: e renova nas minhas entranhas hum espirito recto."
+      },
+      {
+        "reference": "Salmo 102:12 (Figueiredo)",
+        "text": "Quanto dista o Oriente do Occidente: tanto elle tem apartado de nós as nossas maldades."
+      },
+      {
+        "reference": "Salmo 125:5 (Figueiredo)",
+        "text": "Os que semeião em lagrimas, com regozijo seifarão."
+      }
+    ]
+  },
+  "torresamat": {
+    "name": "Torres Amat · 1884",
+    "verses": [
+      {
+        "reference": "Mateo 11:28",
+        "text": "Venid á mí todos los que andais agobiados con trabajos, y cargas, que yo os aliviaré."
+      },
+      {
+        "reference": "Juan 15:9",
+        "text": "Al modo que mi Padre me amó, así os he amado yo. Perseverad en mi amor."
+      },
+      {
+        "reference": "Mateo 5:5",
+        "text": "Bienaventurados los que lloran: porque ellos serán consolados."
+      },
+      {
+        "reference": "Santiago 5:13",
+        "text": "¿Hay entre vosotros alguno que esté triste? haga oracion: ¿Está contento? cante salmos."
+      },
+      {
+        "reference": "1 Tesalonicenses 5:11",
+        "text": "Por lo cual consolaos mútuamente, y edificaos los unos á los otros, como ya lo haceis."
+      },
+      {
+        "reference": "Salmo 146:3 (Torres Amat)",
+        "text": "Él es quien sana á los de corazon contrito, y venda sus heridas."
+      },
+      {
+        "reference": "Salmo 114:1 (Torres Amat)",
+        "text": "Amé al Señor, seguro de que oirá la voz de mi oracion."
+      },
+      {
+        "reference": "Salmo 138:23 (Torres Amat)",
+        "text": "Pruébame, oh Dios mio, y sondea mi corazon: examíname y reconoce mis pasos."
+      },
+      {
+        "reference": "Juan 11:35",
+        "text": "Entonces á Jesus se le arrasaron los ojos en lágrimas."
+      },
+      {
+        "reference": "Salmo 39:2 (Torres Amat)",
+        "text": "Con ansia suma estuve aguardando al Señor, y por fin inclinó á mí sus oidos,"
+      },
+      {
+        "reference": "Salmo 24:16 (Torres Amat)",
+        "text": "Vuelve, Señor, hácia mí tu vista, y ten de mí compasion; porque me veo solo y pobre."
+      },
+      {
+        "reference": "Juan 14:18",
+        "text": "No os dejaré huérfanos: yo volveré á vosotros."
+      },
+      {
+        "reference": "Salmo 138:10 (Torres Amat)",
+        "text": "Allá igualmente me conducirá tu mano, y me hallaré bajo del poder de tu diestra."
+      },
+      {
+        "reference": "Salmo 55:4 (Torres Amat)",
+        "text": "Desde que apunta el dia estoy temiendo; pero yo confío en tí."
+      },
+      {
+        "reference": "Lamentaciones 3:23",
+        "text": "Cada dia las hay nuevas desde muy de mañana: grande es, oh Señor, tu fidelidad."
+      },
+      {
+        "reference": "Salmo 50:12 (Torres Amat)",
+        "text": "Crea en mí, oh Dios, un corazon puro, y renueva en mis entrañas el espíritu de rectitud."
+      },
+      {
+        "reference": "Salmo 102:12 (Torres Amat)",
+        "text": "Cuanto dista el Oriente del Occidente, tan lejos ha echado de nosotros nuestras maldades."
+      },
+      {
+        "reference": "Salmo 125:5 (Torres Amat)",
+        "text": "Aquellos que sembraban con lágrimas, segarán llenos de júbilo."
+      },
+      {
+        "reference": "Salmo 72:24 (Torres Amat)",
+        "text": "Tú me asistes de la mano derecha, y guiásteme segun tu voluntad, y me acogiste con gloria."
+      }
+    ]
+  }
+}

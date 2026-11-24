@@ -13,6 +13,7 @@ const describeCameraUsage: ConfigPlugin = (config) =>
       "Live audio in gatherings may connect through your local network.";
     return mod;
   });
+const bundleIdentifier = process.env.APPLE_BUNDLE_ID || "com.awaychurch.preview";
 const appConfig = ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   name: "Grace & Gather",
@@ -21,10 +22,16 @@ const appConfig = ({ config }: ConfigContext): ExpoConfig => ({
   plugins: [
     ...(config.plugins ?? []),
     "@react-native-community/datetimepicker",
+    "@bacons/apple-targets",
   ],
   ios: {
     ...config.ios,
-    bundleIdentifier: process.env.APPLE_BUNDLE_ID || "com.awaychurch.preview",
+    bundleIdentifier,
+    appleTeamId: process.env.APPLE_TEAM_ID || "G33RFPTNBA",
+    entitlements: {
+      ...config.ios?.entitlements,
+      "com.apple.security.application-groups": [`group.${bundleIdentifier}.dailyverse`],
+    },
   },
   android: {
     ...config.android,
