@@ -592,6 +592,7 @@ export default function StudyWorkspace() {
           {active !== null && (
             <Pressable
               accessibilityRole="button"
+              accessibilityLabel={`${c.continue}: ${c.planTitles[active]}, ${dayOf(active)}`}
               onPress={() => openPlan(active)}
               style={s.activeStrip}
             >
@@ -600,7 +601,11 @@ export default function StudyWorkspace() {
                 {c.planTitles[active]}
                 <Text style={s.small}> · {dayOf(active)}</Text>
               </Text>
-              <Text style={s.gold}>{c.continue}</Text>
+              <Ionicons
+                name="chevron-forward"
+                size={18}
+                color={colors.goldInk}
+              />
             </Pressable>
           )}
           <ScrollView
@@ -643,9 +648,11 @@ export default function StudyWorkspace() {
                   7 {c.days} · {c.devotionalDescription}
                 </Text>
               </View>
-              <Text style={s.gold}>
-                {progress.devotionalDay === null ? c.start : c.continue}
-              </Text>
+              <Ionicons
+                name="chevron-forward"
+                size={18}
+                color={colors.goldInk}
+              />
             </Pressable>
           )}
           <View style={s.grid}>
@@ -667,6 +674,11 @@ export default function StudyWorkspace() {
                 </Pressable>
               ) : null,
             )}
+            {/* Keeps a lone last plan the same width as the others. */}
+            {c.planTitles.filter((_, index) => planMatches(index, filter))
+              .length %
+              2 ===
+              1 && <View style={[s.plan, s.planSpacer]} />}
           </View>
         </>
       )}
@@ -1204,6 +1216,7 @@ const s = StyleSheet.create({
     borderColor: "transparent",
   },
   planActive: { borderColor: colors.gold },
+  planSpacer: { backgroundColor: "transparent" },
   planTitle: { color: colors.ink, fontSize: 15, fontWeight: "600" },
   anchor: { gap: 12 },
   passagePill: {
