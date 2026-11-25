@@ -31,6 +31,7 @@ import {
   type CollectionId,
 } from "../lib/bible";
 import type { Language } from "../lib/content";
+import VerseNotes from "./VerseNotes";
 import labels from "../lib/original-study-copy.json";
 import studyCopy from "../lib/pro-study-preview.json";
 import { useReducedMotion } from "../lib/use-reduced-motion";
@@ -386,7 +387,20 @@ export default function DailyDevotional({
                     />
                   </>
                 ))}
-              {step === 1 && <Body>{selected?.[language][1]}</Body>}
+              {step === 1 && (
+                <>
+                  <Body>{selected?.[language][1]}</Body>
+                  {selected && verse && (
+                    <VerseNotes
+                      verse={verse.id}
+                      reference={verse.reference}
+                      kind="devotional"
+                      contextId={selected.id}
+                      language={language}
+                    />
+                  )}
+                </>
+              )}
               {step === 2 && (
                 <Body>
                   {selected?.[language][3] ??

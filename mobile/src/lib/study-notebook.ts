@@ -1,5 +1,8 @@
 import { requireUser } from "./backend";
 export type StudyNote = {
+  id?: string;
+  kind?: "personal" | "plan" | "devotional";
+  context_id?: string;
   verse: string;
   reference: string;
   body: string;
@@ -30,3 +33,11 @@ export async function studyNotebook<T>(
   if (result.error) throw result.error;
   return result.data as T;
 }
+
+export type StudyComment = {
+  id: string;
+  body: string;
+  mine: boolean;
+  name: string;
+  created_at: string;
+};

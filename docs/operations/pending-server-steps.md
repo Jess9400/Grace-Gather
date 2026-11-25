@@ -133,3 +133,11 @@ follow the account to a new phone or the web. No edge function.
 - [ ] Next phone build: check Greek/Hebrew glyphs, RTL Hebrew word order, word selection and concordance scrolling, then confirm history on a second device.
 
 Original texts and concordance are versioned static assets deployed with the web build; no paid API or new AI calls are used. Native apps download only the selected chapter and a small concordance shard. Longer lexical definitions remain excluded under their separate permission notice. Full unverified verse-by-verse denominational coverage is not claimed.
+
+## Pro shared study notes and Ask AI (draft #255)
+
+- [x] Deployed `20261125185506_study_context_notes_and_comments.sql` and `20261125190219_study_personal_note_legacy_sync.sql`. Context notes and private comments have no direct client access. Invitations and comments create generic activity notices and use the existing member push queue; expired/blocked/revoked sharing is checked again before sending.
+- [x] Local SQL tests cover context separation, opt-in sharing, comments from both participants, third-party denial, notification recipients, push eligibility, revocation, and compatibility with older clients. Personal note saves/deletes also update/delete the legacy copy.
+- [x] Browser confirmed both active plans, blank dictionary search, Hebrew lookup, a real contextual AI answer, and separate notebook tabs. Ask AI uses the already deployed `bible-study` function with existing consent and server allowances; no new unbounded AI endpoint.
+- [ ] Test on two devices after the app update: invite/accept, save a plan note, explicitly Share, open it under the plan or notebook → Reading plans, comment both ways, and check phone delivery. SQL verifies queue eligibility, not actual APNs delivery.
+- [ ] Public handoff copies only the author's own shared note into the normal discussion composer; review and Post remain explicit. Partner comments remain private. Verify the final composer on a device without posting private test content.

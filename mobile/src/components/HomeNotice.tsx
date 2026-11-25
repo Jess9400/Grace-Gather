@@ -1,25 +1,49 @@
+import { collaborationCopy } from "../lib/study-collaboration-copy";
 import { useEffect, useRef, useState } from "react";
 import { Animated, Pressable, StyleSheet, Text } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { router, type Href } from "expo-router";
-import { refreshPrayerBadges, useUnreadCounts, type UnreadCounts } from "../lib/prayers";
+import {
+  refreshPrayerBadges,
+  useUnreadCounts,
+  type UnreadCounts,
+} from "../lib/prayers";
 import { backend } from "../lib/backend";
 import { useApp } from "../lib/state";
-import { activityDestination, groupUnreadActivity, type ActivityItem } from "../lib/activity-notices";
+import {
+  activityDestination,
+  groupUnreadActivity,
+  type ActivityItem,
+} from "../lib/activity-notices";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
 import { freshNotice, type NoticeKind } from "../lib/home-notice";
 import { track } from "../lib/analytics";
 
 type Kind = NoticeKind;
-const NOTICE: Record<Kind, { text: string; icon: keyof typeof Ionicons.glyphMap; href: Href }> = {
+const NOTICE: Record<
+  Kind,
+  { text: string; icon: keyof typeof Ionicons.glyphMap; href: Href }
+> = {
   messages: {
     text: "You have a new message",
     icon: "chatbubble-ellipses-outline",
     href: { pathname: "/friends", params: { view: "friends" } },
   },
-  prayers: { text: "New prayer notification", icon: "heart-outline", href: "/notifications" },
-  activity: { text: "New reply in a discussion", icon: "chatbubbles-outline", href: "/notifications" },
-  gatherings: { text: "A gathering is coming up", icon: "calendar-outline", href: "/notifications" },
+  prayers: {
+    text: "New prayer notification",
+    icon: "heart-outline",
+    href: "/notifications",
+  },
+  activity: {
+    text: "New reply in a discussion",
+    icon: "chatbubbles-outline",
+    href: "/notifications",
+  },
+  gatherings: {
+    text: "A gathering is coming up",
+    icon: "calendar-outline",
+    href: "/notifications",
+  },
 };
 const SHOWN_MS = 6000;
 // What has already been announced in this app session, so leaving Home and
@@ -43,31 +67,51 @@ async function newestItem(
   const db = backend;
   if (kind === "messages") {
     const { data, error } = await db.rpc("friend_unread_list");
-    const chats = (error ? [] : (data ?? [])) as { link_id: string; name: string; latest_at: string }[];
-    const chat = chats.sort((a, b) => b.latest_at.localeCompare(a.latest_at))[0];
+    const chats = (error ? [] : (data ?? [])) as {
+      link_id: string;
+      name: string;
+      latest_at: string;
+    }[];
+    const chat = chats.sort((a, b) =>
+      b.latest_at.localeCompare(a.latest_at),
+    )[0];
     // Opening the chat marks its messages read.
     return chat
       ? {
           text: tr("New message from {name}").replace("{name}", chat.name),
-          href: { pathname: "/friends", params: { view: "friends", chat: chat.link_id } },
+          href: {
+            pathname: "/friends",
+            params: { view: "friends", chat: chat.link_id },
+          },
         }
       : null;
   }
   if (kind === "activity") {
     const first = await db.rpc("activity_snapshot_v2");
-    const { data, error } = first.error?.code === "PGRST202" ? await db.rpc("activity_snapshot") : first;
-    const group = error ? undefined : groupUnreadActivity((data?.items ?? []) as ActivityItem[])[0];
+    const { data, error } =
+      first.error?.code === "PGRST202"
+        ? await db.rpc("activity_snapshot")
+        : first;
+    const group = error
+      ? undefined
+      : groupUnreadActivity((data?.items ?? []) as ActivityItem[])[0];
     if (!group) return null;
     return {
-      text: tr(
-        group.item.kind === "discussion_reply"
-          ? "New reply in a discussion"
-          : group.item.kind === "confession_thanks"
-            ? "Someone thanked you for offering comfort"
-            : "Someone responded to your confession",
-      ),
+      text: group.item.kind.startsWith("study_")
+        ? collaborationCopy(language as import("../lib/content").Language)
+            .inviteNotice
+        : tr(
+            group.item.kind === "discussion_reply"
+              ? "New reply in a discussion"
+              : group.item.kind === "confession_thanks"
+                ? "Someone thanked you for offering comfort"
+                : "Someone responded to your confession",
+          ),
       href: activityDestination(group.item),
-      markRead: () => Promise.all(group.ids.map((id) => db.rpc("activity_mark_read", { p_id: id }))),
+      markRead: () =>
+        Promise.all(
+          group.ids.map((id) => db.rpc("activity_mark_read", { p_id: id })),
+        ),
     };
   }
   if (kind === "gatherings") {
@@ -80,11 +124,13 @@ async function newestItem(
     }[];
     const item = items.find((value) => !value.is_read);
     if (!item) return null;
-    const title = item.title?.[language] ?? Object.values(item.title ?? {})[0] ?? "";
+    const title =
+      item.title?.[language] ?? Object.values(item.title ?? {})[0] ?? "";
     return {
       text: tr("Gathering reminder: {title}").replace("{title}", title),
       href: { pathname: "/gathering/[id]", params: { id: item.gathering_id } },
-      markRead: () => Promise.resolve(db.rpc("gathering_notifications", { p_read: item.id })),
+      markRead: () =>
+        Promise.resolve(db.rpc("gathering_notifications", { p_read: item.id })),
     };
   }
   const { data, error } = await db.rpc("prayer_snapshot");
@@ -97,7 +143,10 @@ async function newestItem(
   }[];
   // An invitation already prayed for is not news.
   const notice = notices
-    .filter((value) => !value.is_read && !(value.kind !== "prayed" && value.request?.prayed))
+    .filter(
+      (value) =>
+        !value.is_read && !(value.kind !== "prayed" && value.request?.prayed),
+    )
     .sort((a, b) => b.created_at.localeCompare(a.created_at))[0];
   if (!notice) return null;
   return {
@@ -109,9 +158,17 @@ async function newestItem(
           : "A prayer invitation",
     ),
     // Your own request lives under My requests; others under Pray for others.
-    href: notice.request?.own ? { pathname: "/prayers", params: { tab: "mine" } } : "/prayers",
+    href: notice.request?.own
+      ? { pathname: "/prayers", params: { tab: "mine" } }
+      : "/prayers",
     markRead: () =>
-      Promise.resolve(db.rpc("prayer_command", { p_action: "read", p_id: notice.id, p_data: {} })),
+      Promise.resolve(
+        db.rpc("prayer_command", {
+          p_action: "read",
+          p_id: notice.id,
+          p_data: {},
+        }),
+      ),
   };
 }
 
@@ -158,11 +215,17 @@ export default function HomeNotice({ visible }: { visible: boolean }) {
   useEffect(() => {
     if (!kind) return;
     opacity.setValue(0);
-    Animated.timing(opacity, { toValue: 1, duration: 300, useNativeDriver: true }).start();
+    Animated.timing(opacity, {
+      toValue: 1,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
     hide.current = setTimeout(() => {
-      Animated.timing(opacity, { toValue: 0, duration: 600, useNativeDriver: true }).start(() =>
-        setKind(null),
-      );
+      Animated.timing(opacity, {
+        toValue: 0,
+        duration: 600,
+        useNativeDriver: true,
+      }).start(() => setKind(null));
     }, SHOWN_MS);
     return () => {
       if (hide.current) clearTimeout(hide.current);

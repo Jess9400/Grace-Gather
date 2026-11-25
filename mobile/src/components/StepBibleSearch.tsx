@@ -8,16 +8,27 @@ import {
 } from "react-native";
 import { Body, colors, External } from "./quiet-ui";
 import { findStepWords, loadStepWords, type StepWord } from "../lib/stepbible";
+import StudyAskAI from "./StudyAskAI";
+import { StudyAction } from "./StudyControls";
+import { collaborationCopy } from "../lib/study-collaboration-copy";
+import type { ReadingVerse } from "../lib/bible";
 import source from "../generated/stepbible/source.json";
 import copy from "../lib/pro-study-preview.json";
 import type { Language } from "../lib/content";
-export default function StepBibleSearch({ language }: { language: Language }) {
+export default function StepBibleSearch({
+  language,
+  verse,
+}: {
+  language: Language;
+  verse?: ReadingVerse | null;
+}) {
   const c = copy[language];
   const [rows, setRows] = useState<StepWord[] | null>(null);
   const [failed, setFailed] = useState(false);
   const [attempt, setAttempt] = useState(0);
   const [showSource, setShowSource] = useState(false);
-  const [query, setQuery] = useState("G3056");
+  const [query, setQuery] = useState("");
+  const [ask, setAsk] = useState<StepWord | null>(null);
   const [selected, setSelected] = useState<string | null>(null);
   useEffect(() => {
     let active = true;
@@ -38,6 +49,14 @@ export default function StepBibleSearch({ language }: { language: Language }) {
   );
   return (
     <View style={{ gap: 16 }}>
+      {ask && (
+        <StudyAskAI
+          verse={verse}
+          word={ask}
+          language={language}
+          onClose={() => setAsk(null)}
+        />
+      )}
       <TextInput
         accessibilityLabel={c.searchWords}
         placeholder={c.searchWords}
@@ -98,6 +117,11 @@ export default function StepBibleSearch({ language }: { language: Language }) {
                 {row.language} · {row.grammar}
               </Body>
               <Body small>{c.lexicalContext}</Body>
+              <StudyAction
+                secondary
+                title={collaborationCopy(language).askAI}
+                onPress={() => setAsk(row)}
+              />
             </>
           )}
         </Pressable>

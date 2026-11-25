@@ -62,6 +62,7 @@ export function planPassage(
 }
 export type PlanProgress = {
   active: number | null;
+  started?: number[];
   devotionalDay: number | null;
   days: Record<number, number>;
 };
@@ -86,6 +87,15 @@ export function normalizePlanProgress(value: unknown): PlanProgress {
       Number(row.active) <= readingPlans.length
         ? Number(row.active)
         : null,
+    started: [
+      ...new Set([
+        ...(Array.isArray(row.started) ? row.started : []),
+        ...(Number.isInteger(row.active) ? [Number(row.active)] : []),
+        ...Object.keys(days)
+          .map(Number)
+          .filter((i) => days[i] > 0),
+      ]),
+    ].filter((i) => Number.isInteger(i) && i >= 0 && i <= readingPlans.length),
     days,
   };
 }

@@ -67,12 +67,20 @@ export function mergePlanProgress(
       ? (remote.active ?? local.active)
       : (local.active ?? remote.active),
     devotionalDay: devotional.length ? Math.max(...devotional) : null,
+    started: [
+      ...new Set([
+        ...(local.started ?? []),
+        ...(remote.started ?? []),
+        ...[local.active, remote.active].filter((n): n is number => n !== null),
+      ]),
+    ].sort((a, b) => a - b),
     days,
   };
 }
 export function samePlanProgress(a: PlanProgress, b: PlanProgress) {
   return (
     a.active === b.active &&
+    JSON.stringify(a.started ?? []) === JSON.stringify(b.started ?? []) &&
     a.devotionalDay === b.devotionalDay &&
     [...new Set([...Object.keys(a.days), ...Object.keys(b.days)])].every(
       (key) => (a.days[Number(key)] ?? 0) === (b.days[Number(key)] ?? 0),

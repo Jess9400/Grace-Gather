@@ -37,7 +37,8 @@ import {
   localDevotionalDate,
 } from "../lib/devotional-calendar";
 import OriginalScripture from "../components/OriginalScripture";
-import StudyTraditions from "../components/StudyTraditions";
+import StudyAskAI from "../components/StudyAskAI";
+import { collaborationCopy } from "../lib/study-collaboration-copy";
 import originalCopy from "../lib/original-study-copy.json";
 import { useApp } from "../lib/state";
 import { useReducedMotion } from "../lib/use-reduced-motion";
@@ -68,6 +69,7 @@ import { data } from "../lib/content";
 import StudyArtwork, { studyGlyph } from "../components/StudyArtwork";
 import StudyPassagePicker from "../components/StudyPassagePicker";
 import { StudyPage } from "../components/VerseStudy";
+import PlanSharedNotes from "../components/PlanSharedNotes";
 import VerseNotes from "../components/VerseNotes";
 import StudyNotebook from "../components/StudyNotebook";
 import ReadingTogether from "../components/ReadingTogether";
@@ -81,8 +83,6 @@ import {
   type TodayRecord,
 } from "../lib/study-progress";
 import { readAccountStudy, saveAccountStudy } from "../lib/study-progress-sync";
-import { setStudyDiscussionTopic } from "../lib/study-discussion-draft";
-import { discussionVerseId } from "../lib/bible";
 import workspaceCopy from "../lib/study-workspace-copy.json";
 import copy from "../lib/pro-study-preview.json";
 
@@ -175,7 +175,11 @@ function ScriptureText({
 }
 export default function StudyWorkspace() {
   const { profile } = useApp();
-  const params = useLocalSearchParams<{ verse?: string; tab?: string }>();
+  const params = useLocalSearchParams<{
+    verse?: string;
+    tab?: string;
+    together?: string;
+  }>();
   const initialVerse = params.verse ? fromVerseRoute(params.verse) : null;
   const [selectedVerse, setSelectedVerse] = useState<ReadingVerse | null>(null);
   const [picker, setPicker] = useState(false);
@@ -188,6 +192,16 @@ export default function StudyWorkspace() {
   const [together, setTogether] = useState<{ plan: number | null } | null>(
     null,
   );
+
+  useEffect(() => {
+    let live = true;
+    void Promise.resolve().then(() => {
+      if (live && params.together) setTogether({ plan: null });
+    });
+    return () => {
+      live = false;
+    };
+  }, [params.together]);
   const [dailyCompleted, setDailyCompleted] = useState(0);
   const [noteCount, setNoteCount] = useState<number | null>(null);
   const [noteRevision, setNoteRevision] = useState(0);
@@ -285,7 +299,7 @@ export default function StudyWorkspace() {
   >(null);
   const [words, setWords] = useState(false);
   const [original, setOriginal] = useState(false);
-  const [traditions, setTraditions] = useState(false);
+  const [askAI, setAskAI] = useState(false);
   const [reading, setReading] = useState<ReadingVerse[]>([]);
   const [readingPassages, setReadingPassages] = useState<PlanPassage[]>([]);
   // The guided devotional's step: Read, Reflect, Pray, One action.
@@ -489,7 +503,7 @@ export default function StudyWorkspace() {
   const openPlan = (index: number) => {
     setWords(false);
     setOriginal(false);
-    setTraditions(false);
+
     setDevotional(false);
     setFinished(null);
     setPlanIntro(true);
@@ -501,7 +515,7 @@ export default function StudyWorkspace() {
     if (planDone(index)) return openPlan(index);
     setWords(false);
     setOriginal(false);
-    setTraditions(false);
+
     setDevotional(false);
     setFinished(null);
     setPlanIntro(false);
@@ -518,7 +532,7 @@ export default function StudyWorkspace() {
     setDevotionalPlanMode(asPlan);
     setWords(false);
     setOriginal(false);
-    setTraditions(false);
+
     setDetail(null);
     setDevotional(true);
     const index = asPlan
@@ -533,7 +547,7 @@ export default function StudyWorkspace() {
     setDevotional(false);
     setWords(false);
     setOriginal(false);
-    setTraditions(false);
+
     setReading([]);
   };
   const studyVerse = (verse: ReadingVerse) => {
@@ -557,18 +571,7 @@ export default function StudyWorkspace() {
     setSelectedVerse(verse);
     setPicker(false);
   };
-  const openDiscussion = () => {
-    if (!selectedVerse) return;
-    setStudyDiscussionTopic(selectedVerse.reference);
-    router.push({
-      pathname: "/friends",
-      params: {
-        compose: "1",
-        view: "discussions",
-        verse: discussionVerseId(selectedVerse.id) ?? undefined,
-      },
-    });
-  };
+
   const stats = studyStats(
     progress,
     collection ? collections[collection].index.books : [],
@@ -628,18 +631,7 @@ export default function StudyWorkspace() {
       onPress: () => {
         setOriginal(true);
         setWords(false);
-        setTraditions(false);
-        setDetail(null);
-        setDevotional(false);
-      },
-    },
-    {
-      title: originalCopy[profile.language].theology,
-      icon: "people-outline",
-      onPress: () => {
-        setTraditions(true);
-        setOriginal(false);
-        setWords(false);
+
         setDetail(null);
         setDevotional(false);
       },
@@ -657,14 +649,21 @@ export default function StudyWorkspace() {
       needsVerse: true,
     },
     {
-      title: c.toolDiscuss,
+      title: collaborationCopy(profile.language).askAI,
       icon: "chatbubbles-outline",
-      onPress: openDiscussion,
+      onPress: () => setAskAI(true),
       needsVerse: true,
     },
   ];
   return (
     <Screen back home place="bible">
+      {askAI && (
+        <StudyAskAI
+          verse={selectedVerse}
+          language={profile.language}
+          onClose={() => setAskAI(false)}
+        />
+      )}
       <View style={s.titleRow}>
         <View style={s.grow}>
           <Text style={s.date}>
@@ -708,43 +707,51 @@ export default function StudyWorkspace() {
             onReadCount={setDailyCompleted}
           />
           {!progressReady && <ActivityIndicator color={colors.goldInk} />}
-          {progressReady && active !== null && (
-            <Pressable
-              accessibilityRole="button"
-              accessibilityLabel={`${c.continue}: ${c.planTitles[active]}, ${dayOf(active)}`}
-              onPress={() => openPlanReading(active)}
-              style={s.continue}
-            >
-              <View style={s.cover}>
-                <Ionicons
-                  name={studyGlyph(active)}
-                  size={24}
-                  color={colors.goldInk}
-                />
-              </View>
-              <View style={s.grow}>
-                <Text style={s.gold}>
-                  {planDone(active) ? c.completePlan : c.continue}
-                </Text>
-                <Text style={s.title}>{c.planTitles[active]}</Text>
-                <Text style={s.small}>{dayOf(active)}</Text>
-                <View style={s.bar}>
-                  <View
-                    style={[
-                      s.barFill,
-                      {
-                        width: `${Math.round(((progress.days[active] ?? 0) / readingPlanLength(active)) * 100)}%`,
-                      },
-                    ]}
-                  />
-                </View>
-              </View>
-              <View style={s.go}>
-                <Ionicons name="arrow-forward" size={18} color={colors.paper} />
-              </View>
-            </Pressable>
-          )}
-          {progressReady && active === null && (
+          {progressReady &&
+            (progress.started ?? (active !== null ? [active] : []))
+              .filter((index) => !planDone(index))
+              .map((active) => (
+                <Pressable
+                  accessibilityRole="button"
+                  key={active}
+                  accessibilityLabel={`${c.continue}: ${c.planTitles[active]}, ${dayOf(active)}`}
+                  onPress={() => openPlanReading(active)}
+                  style={s.continue}
+                >
+                  <View style={s.cover}>
+                    <Ionicons
+                      name={studyGlyph(active)}
+                      size={24}
+                      color={colors.goldInk}
+                    />
+                  </View>
+                  <View style={s.grow}>
+                    <Text style={s.gold}>
+                      {planDone(active) ? c.completePlan : c.continue}
+                    </Text>
+                    <Text style={s.title}>{c.planTitles[active]}</Text>
+                    <Text style={s.small}>{dayOf(active)}</Text>
+                    <View style={s.bar}>
+                      <View
+                        style={[
+                          s.barFill,
+                          {
+                            width: `${Math.round(((progress.days[active] ?? 0) / readingPlanLength(active)) * 100)}%`,
+                          },
+                        ]}
+                      />
+                    </View>
+                  </View>
+                  <View style={s.go}>
+                    <Ionicons
+                      name="arrow-forward"
+                      size={18}
+                      color={colors.paper}
+                    />
+                  </View>
+                </Pressable>
+              ))}
+          {progressReady && !progress.started?.length && active === null && (
             <Card>
               <View style={s.row}>
                 <Text style={s.title}>{c.startWithPlan}</Text>
@@ -1043,9 +1050,7 @@ export default function StudyWorkspace() {
         />
       )}
       <Modal
-        visible={
-          detail !== null || devotional || words || original || traditions
-        }
+        visible={detail !== null || devotional || words || original}
         transparent
         animationType={reducedMotion ? "none" : "slide"}
         onRequestClose={close}
@@ -1070,17 +1075,15 @@ export default function StudyWorkspace() {
                 title={
                   original
                     ? originalCopy[profile.language].title
-                    : traditions
-                      ? originalCopy[profile.language].theology
-                      : words
-                        ? c.original
-                        : devotional
-                          ? devotionalPlanMode
-                            ? c.devotionalPlan
-                            : c.daily
-                          : detail !== null && !planIntro
-                            ? c.planTitles[detail]
-                            : c.plans
+                    : words
+                      ? c.original
+                      : devotional
+                        ? devotionalPlanMode
+                          ? c.devotionalPlan
+                          : c.daily
+                        : detail !== null && !planIntro
+                          ? c.planTitles[detail]
+                          : c.plans
                 }
                 closeLabel={c.close}
                 onClose={close}
@@ -1095,17 +1098,16 @@ export default function StudyWorkspace() {
               }
               contentContainerStyle={s.sheetContent}
             >
-              {words && <StepBibleSearch language={profile.language} />}
+              {words && (
+                <StepBibleSearch
+                  language={profile.language}
+                  verse={selectedVerse}
+                />
+              )}
               {original && (
                 <OriginalScripture
                   verse={selectedVerse}
                   language={profile.language}
-                />
-              )}
-              {traditions && (
-                <StudyTraditions
-                  language={profile.language}
-                  tradition={profile.tradition}
                 />
               )}
               {devotional && (
@@ -1171,6 +1173,8 @@ export default function StudyWorkspace() {
                       <Text style={s.reflectText}>{daily[1]}</Text>
                       {reading.length > 0 && (
                         <VerseNotes
+                          kind="devotional"
+                          contextId={`course-day-${devotionalIndex + 1}`}
                           verse={reading[0].id}
                           reference={passageLabel(reading, readingPassages)}
                           language={profile.language}
@@ -1217,23 +1221,22 @@ export default function StudyWorkspace() {
                   </Body>
                   <Text style={s.gold}>{n.aboutPlan}</Text>
                   <Body>{n.planDescriptions[detail]}</Body>
-                  {progress.active !== null && progress.active !== detail && (
-                    <Body small>
-                      {c.switchNotice.replace(
-                        "{plan}",
-                        c.planTitles[progress.active],
-                      )}
-                    </Body>
-                  )}
                   <Button
                     wide
-                    title={progress.active === detail ? c.continue : c.start}
+                    title={
+                      (progress.started ?? []).includes(detail)
+                        ? c.continue
+                        : c.start
+                    }
                     disabled={!owner || saving || !progressReady || !collection}
                     loading={saving}
                     onPress={() =>
                       void saveProgress({
                         ...progress,
                         active: detail,
+                        started: [
+                          ...new Set([...(progress.started ?? []), detail]),
+                        ],
                       }).then((saved) => {
                         if (saved) {
                           setPlanIntro(false);
@@ -1283,10 +1286,24 @@ export default function StudyWorkspace() {
                       <Body small>{reading[0].attribution}</Body>
                       <Text style={s.sectionLabel}>{c.question}</Text>
                       <VerseNotes
+                        kind="plan"
+                        contextId={String(detail)}
                         verse={reading[0].id}
                         reference={passageLabel(reading, readingPassages)}
                         language={profile.language}
                         onSaved={() => setNoteRevision((n) => n + 1)}
+                      />
+                      <PlanSharedNotes
+                        onManage={() => {
+                          const plan = detail;
+                          close();
+                          setTogether({ plan });
+                        }}
+                        onPublic={close}
+                        plan={detail}
+                        verse={reading[0].id}
+                        reference={passageLabel(reading, readingPassages)}
+                        language={profile.language}
                       />
                       <Body small>{c.localProgress}</Body>
                     </>
@@ -1379,12 +1396,13 @@ export default function StudyWorkspace() {
                       planDone(detail)
                     }
                     onPress={() => {
-                      const done =
-                        (progress.days[detail] ?? 0) +
-                        (progress.active === detail ? 1 : 0);
+                      const done = (progress.days[detail] ?? 0) + 1;
                       void saveProgress({
                         ...progress,
                         active: detail,
+                        started: [
+                          ...new Set([...(progress.started ?? []), detail]),
+                        ],
                         days: { ...progress.days, [detail]: done },
                       }).then((saved) => {
                         if (!saved) return;
@@ -1463,6 +1481,7 @@ export default function StudyWorkspace() {
         <ReadingTogether
           language={profile.language}
           plan={together.plan}
+          initialInvitation={params.together}
           onClose={() => setTogether(null)}
           onReadPlan={(plan) => {
             setTogether(null);

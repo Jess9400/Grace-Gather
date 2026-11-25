@@ -31,7 +31,7 @@ No recurring automation, paid content generation, or unreviewed daily AI publish
 - Concordance uses lexical IDs, preserving disambiguated senses; results are paginated and lead back to the source passage. Generic base Strong's IDs can also aggregate senses.
 - Parallel reading uses explicit edition labels. Marked differences in source verse divisions prevent an asserted exact pairing. Where an automatic mapping is unavailable, the reader can independently choose the source passage. Russian pairing remains limited by the existing verified mapping, not guessed from an identical number.
 - Existing professional and clearly labelled community reference notes remain available in Context, respecting source coverage and language fallback. Geography links lead to OpenBible reference maps, not invented in-app maps.
-- Christian perspectives gives attributed approaches from Dei Verbum §12, Westminster 1.9 and OCA's teaching on biblical interpretation. These are not fabricated verse-specific Catholic/Protestant/Orthodox commentaries. The existing verse-specific material remains where available. Full multilingual theological coverage still needs licensed/reviewed sources.
+- Removed the generic Christian perspectives tile after feedback: it repeated the same information for every passage. The existing passage-specific Theology tool remains. Full multilingual theological coverage still needs licensed/reviewed sources.
 - Sources remain expandable footnotes.
 
 ## Sources and reproducibility
@@ -45,3 +45,14 @@ Static files are sharded by chapter and Strong's hundreds. Native only fetches t
 ## Validation
 
 TypeScript, Expo lint, web export, existing reader/study tests, seven new corpus/calendar tests, disposable PostgreSQL two-account tests and signed-in browser checks. The live backend was checked for the new private history table's permissions. No simulator or new TestFlight build requested.
+
+
+## Shared study and contextual questions
+
+The dictionary no longer starts at G3056. Ask AI replaces Discuss in the Pro tool grid and is available from a dictionary entry or tapped original-language word. It sends the selected passage, actual lexical entry and a bounded conversation to the existing Bible study service after permission. It does not browse live sources or replace scholarly review.
+
+Notes use separate personal / devotional / reading-plan contexts, so the same verse can hold independent notes. Existing notes migrate as personal because their original writing context cannot be safely inferred. Notebook search has three sections; Reading plans includes private plan notes and explicitly shared snapshots, with author and plan labels. Devotional reflection and each plan reading contain their own editor.
+
+Accepted reading partners can explicitly share a saved note, then comment in its private thread. Threads are available inside Read together, the plan reading, and Notebook → Reading plans. Leaving/unsharing revokes access and removes the corresponding shared threads, while private originals remain. Public-discussion handoff includes only the author's own note, requires preview/post through the normal composer, and excludes partner comments. Both participants still opt in by invitation/acceptance; existing Pro entitlement enforcement is deferred with pricing.
+
+Today retains and shows all started, unfinished plans, not just the most recently opened plan. Account merges preserve all starts and each plan's furthest completed day.

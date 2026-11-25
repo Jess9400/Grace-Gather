@@ -1,3 +1,5 @@
+import StudyAskAI from "./StudyAskAI";
+import { collaborationCopy } from "../lib/study-collaboration-copy";
 import { useEffect, useMemo, useState } from "react";
 import {
   View,
@@ -87,6 +89,7 @@ export default function OriginalScripture({
   const [attempt, setAttempt] = useState(0);
   const [picker, setPicker] = useState(false);
   const [word, setWord] = useState<OriginalWord | null>(null);
+  const [askWord, setAskWord] = useState<StepWord | null>(null);
   const [lexicon, setLexicon] = useState<StepWord[]>([]);
   const [strong, setStrong] = useState<string | null>(null);
   const [refs, setRefs] = useState<string[]>([]);
@@ -206,6 +209,21 @@ export default function OriginalScripture({
   };
   return (
     <View style={s.stack}>
+      {askWord && (
+        <StudyAskAI
+          verse={
+            translation ??
+            (mapped?.book === ref.book &&
+            mapped.chapter === ref.chapter &&
+            mapped.verse === ref.verse
+              ? verse
+              : null)
+          }
+          word={askWord}
+          language={language}
+          onClose={() => setAskWord(null)}
+        />
+      )}
       {verse && !mapped && <Body small>{c.missing}</Body>}
       <Text style={s.label}>{hebrew ? c.hebrew : c.greek}</Text>
       <Pressable
@@ -335,6 +353,11 @@ export default function OriginalScripture({
                   {row.word} · {row.id}
                 </Body>
                 <Body>{row.gloss}</Body>
+                <StudyLink
+                  title={collaborationCopy(language).askAI}
+                  icon="chatbubbles-outline"
+                  onPress={() => setAskWord(row)}
+                />
               </View>
             ))
           ) : (

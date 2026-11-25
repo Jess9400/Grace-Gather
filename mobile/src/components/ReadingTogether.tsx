@@ -1,3 +1,4 @@
+import SharedNoteThread from "./SharedNoteThread";
 import { Ionicons } from "@expo/vector-icons";
 import { StudyAction as Button, StudyHeader } from "./StudyControls";
 import { useCallback, useEffect, useState } from "react";
@@ -26,6 +27,7 @@ import proCopy from "../lib/pro-study-preview.json";
 export default function ReadingTogether(props: {
   language: Language;
   plan: number | null;
+  initialInvitation?: string;
   onClose: () => void;
   onReadPlan: (plan: number) => void;
 }) {
@@ -35,11 +37,13 @@ export default function ReadingTogether(props: {
 function Together({
   language,
   plan,
+  initialInvitation,
   onClose,
   onReadPlan,
 }: {
   language: Language;
   plan: number | null;
+  initialInvitation?: string;
   onClose: () => void;
   onReadPlan: (plan: number) => void;
 }) {
@@ -81,6 +85,17 @@ function Together({
       .then(([rows, f]) => {
         if (active) {
           setInvites(rows);
+          const invited = rows.find(
+            (row) => row.id === initialInvitation && row.status === "accepted",
+          );
+          if (invited) {
+            setSelected(invited);
+            void studyNotebook<SharedStudyNote[]>("shared", {
+              invitation: invited.id,
+            })
+              .then(setNotes)
+              .catch(() => setError(true));
+          }
           setPeers(
             (f.links as Friend[]).filter(
               (friend) => friend.status === "accepted",
@@ -97,7 +112,7 @@ function Together({
     return () => {
       active = false;
     };
-  }, []);
+  }, [initialInvitation]);
   useEffect(() => {
     let active = true;
     const timer = setInterval(() => {
@@ -189,6 +204,12 @@ function Together({
                       {note.reference} · {note.name}
                     </Text>
                     <Body>{note.body}</Body>
+                    <SharedNoteThread
+                      note={note}
+                      invitation={selected.id}
+                      language={language}
+                      onPublic={onClose}
+                    />
                     {note.mine && (
                       <Button
                         secondary
@@ -232,13 +253,15 @@ function Together({
                   <Pressable
                     accessibilityRole="button"
                     disabled={busy}
-                    key={note.verse}
+                    key={note.id ?? note.verse}
                     style={s.note}
                     onPress={() =>
                       void run(async () => {
                         await studyNotebook("share", {
                           invitation: selected.id,
                           verse: note.verse,
+                          kind: note.kind,
+                          context: note.context_id,
                         });
                         await open(selected);
                       })
@@ -371,6 +394,7 @@ function Together({
                               await studyNotebook("invite", {
                                 peer: peer.peer,
                                 plan,
+                                initialInvitation,
                               });
                               await load();
                             })

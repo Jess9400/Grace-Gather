@@ -116,3 +116,13 @@ test('progress from two devices combines without losing a day read',()=>{
  const older=mergeToday(today,{day:'2026-11-20',done:[0,1,2],days:[]});
  assert.deepEqual(plain(older.done),[0],'yesterday\'s ticks never fill today');
 });
+
+test('multiple plans survive older saves and device sync without replacing each other',()=>{
+ const {mergePlanProgress}=client('study-progress.ts');
+ const first=normalizePlanProgress({active:2,days:{0:1,2:1}});
+ assert.deepEqual(Array.from(first.started).sort(),[0,2]);
+ const next=normalizePlanProgress({...first,active:1,started:[...first.started,1]});
+ const merged=mergePlanProgress(first,next,true);
+ assert.deepEqual(Array.from(merged.started),[0,1,2]);
+ assert.equal(merged.days[0],1);assert.equal(merged.days[2],1);
+});

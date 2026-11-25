@@ -24,3 +24,7 @@ test('activity opens the actual discussion or the relevant private confession it
       { pathname: '/confession', params: { view: 'detail', item: 'item-1' } });
   }
 });
+
+test('reading invitations and shared note comments open Pro collaboration, not confession or friends',()=>{
+ for(const kind of ['study_invitation','study_comment']) assert.deepEqual(activityDestination({kind,target:'invite-1'}),{pathname:'/pro',params:{together:'invite-1'}});
+});

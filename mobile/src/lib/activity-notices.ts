@@ -1,6 +1,11 @@
 export type ActivityItem = {
   id: string;
-  kind: "confession_reply" | "discussion_reply" | "confession_thanks";
+  kind:
+    | "confession_reply"
+    | "discussion_reply"
+    | "confession_thanks"
+    | "study_invitation"
+    | "study_comment";
   target: string;
   is_read: boolean;
 };
@@ -19,9 +24,19 @@ export function groupUnreadActivity(items: ActivityItem[]) {
   return [...groups.values()];
 }
 
-export function activityDestination(item: Pick<ActivityItem, "kind" | "target">) {
+export function activityDestination(
+  item: Pick<ActivityItem, "kind" | "target">,
+) {
+  if (item.kind === "study_invitation" || item.kind === "study_comment")
+    return { pathname: "/pro" as const, params: { together: item.target } };
   if (item.kind === "discussion_reply") {
-    return { pathname: "/friends" as const, params: { topic: item.target, from: "discover" } };
+    return {
+      pathname: "/friends" as const,
+      params: { topic: item.target, from: "discover" },
+    };
   }
-  return { pathname: "/confession" as const, params: { view: "detail", item: item.target } };
+  return {
+    pathname: "/confession" as const,
+    params: { view: "detail", item: item.target },
+  };
 }
