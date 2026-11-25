@@ -92,10 +92,11 @@ async function newestItem(
     kind: string;
     is_read: boolean;
     created_at: string;
-    request?: { own?: boolean };
+    request?: { own?: boolean; prayed?: boolean };
   }[];
+  // An invitation already prayed for is not news.
   const notice = notices
-    .filter((value) => !value.is_read)
+    .filter((value) => !value.is_read && !(value.kind !== "prayed" && value.request?.prayed))
     .sort((a, b) => b.created_at.localeCompare(a.created_at))[0];
   if (!notice) return null;
   return {
