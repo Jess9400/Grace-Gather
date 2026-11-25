@@ -587,6 +587,12 @@ export default function StudyWorkspace() {
     day: "numeric",
   }).format(date);
   const stepLabels = [c.readStep, c.reflect, c.pray, c.action];
+  const stepIcons = [
+    "book-outline",
+    "leaf-outline",
+    "flame-outline",
+    "footsteps-outline",
+  ] as const;
   // The last seven days, oldest first, for the gentle "Your week" row.
   const week = Array.from({ length: 7 }, (_, index) => {
     const day = new Date(date);
@@ -1144,7 +1150,15 @@ export default function StudyWorkspace() {
                       />
                     ))}
                   </View>
-                  <Text style={s.sectionLabel}>{stepLabels[devStep]}</Text>
+                  {/* A small gold label, then the words themselves, large. */}
+                  <View style={s.labelRow}>
+                    <Ionicons
+                      name={stepIcons[devStep]}
+                      size={16}
+                      color={colors.goldInk}
+                    />
+                    <Text style={s.sectionLabel}>{stepLabels[devStep]}</Text>
+                  </View>
                   {devStep === 0 && (
                     <>
                       {loading && <ActivityIndicator color={colors.goldInk} />}
@@ -1165,7 +1179,7 @@ export default function StudyWorkspace() {
                   )}
                   {devStep === 1 && (
                     <>
-                      <Text style={s.sectionText}>{daily[1]}</Text>
+                      <Text style={s.reflectText}>{daily[1]}</Text>
                       {reading.length > 0 && (
                         <VerseNotes
                           verse={reading[0].id}
@@ -1191,13 +1205,13 @@ export default function StudyWorkspace() {
                       </Pressable>
                     </>
                   )}
-                  {devStep === 2 && (
-                    <Text style={[s.sectionText, s.prayer]}>{daily[2]}</Text>
-                  )}
+                  {devStep === 2 && <Text style={s.prayer}>{daily[2]}</Text>}
                   {devStep === 3 && (
                     <>
                       <Card>
-                        <Body>{c.devotionalActions[devotionalIndex]}</Body>
+                        <Text style={s.actionText}>
+                          {c.devotionalActions[devotionalIndex]}
+                        </Text>
                       </Card>
                       <Body small>{c.originalDevotional}</Body>
                     </>
@@ -1786,12 +1800,26 @@ const s = StyleSheet.create({
     letterSpacing: 1.2,
     textTransform: "uppercase",
   },
-  sectionText: { color: colors.ink, fontSize: 17, lineHeight: 26 },
+  labelRow: { flexDirection: "row", alignItems: "center", gap: 8 },
+  reflectText: {
+    color: colors.ink,
+    fontFamily: serif,
+    fontSize: 24,
+    lineHeight: 35,
+  },
   prayer: {
+    color: colors.green,
     fontFamily: serif,
     fontStyle: "italic",
-    fontSize: 19,
-    lineHeight: 28,
+    fontSize: 27,
+    lineHeight: 40,
+    paddingVertical: 12,
+  },
+  actionText: {
+    color: colors.ink,
+    fontFamily: serif,
+    fontSize: 21,
+    lineHeight: 31,
   },
   reading: {
     fontFamily: serif,
