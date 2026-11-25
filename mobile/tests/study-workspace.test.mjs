@@ -96,3 +96,23 @@ test('plan filters cover every plan and match their shelves',()=>{
  assert.ok(planMatches(4,'stories'));
  for(const filter of planFilters.slice(2)) assert.ok(planGroups.some(group=>group===filter),filter);
 });
+
+test('progress from two devices combines without losing a day read',()=>{
+ const {mergePlanProgress,samePlanProgress,normalizeToday,mergeToday}=client('study-progress.ts');
+ const phone=normalizePlanProgress({active:0,devotionalDay:2,days:{0:5,3:1}});
+ const web=normalizePlanProgress({active:4,devotionalDay:null,days:{0:3,4:2}});
+ const merged=mergePlanProgress(phone,web,true);
+ assert.equal(merged.days[0],5);assert.equal(merged.days[3],1);assert.equal(merged.days[4],2);
+ assert.equal(merged.devotionalDay,2);
+ assert.equal(merged.active,4,'the device that changed it last picks the current plan');
+ assert.equal(mergePlanProgress(phone,web,false).active,0);
+ assert.ok(samePlanProgress(merged,mergePlanProgress(merged,phone,false)));
+ assert.ok(!samePlanProgress(merged,phone));
+ const plain=(x)=>JSON.parse(JSON.stringify(x));
+ const today=normalizeToday({day:'2026-11-25',done:[0,7,'x'],days:['2026-11-24','bad']});
+ assert.deepEqual(plain(today),{day:'2026-11-25',done:[0],days:['2026-11-24']});
+ const both=mergeToday(today,{day:'2026-11-25',done:[1,2],days:['2026-11-25']});
+ assert.deepEqual(plain(both),{day:'2026-11-25',done:[0,1,2],days:['2026-11-24','2026-11-25']});
+ const older=mergeToday(today,{day:'2026-11-20',done:[0,1,2],days:[]});
+ assert.deepEqual(plain(older.done),[0],'yesterday\'s ticks never fill today');
+});

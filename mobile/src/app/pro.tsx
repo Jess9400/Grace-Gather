@@ -64,7 +64,15 @@ import VerseNotes from "../components/VerseNotes";
 import StudyNotebook from "../components/StudyNotebook";
 import ReadingTogether from "../components/ReadingTogether";
 import { studyNotebook } from "../lib/study-notebook";
-import { studyStats } from "../lib/study-progress";
+import {
+  studyStats,
+  mergePlanProgress,
+  samePlanProgress,
+  normalizeToday,
+  mergeToday,
+  type TodayRecord,
+} from "../lib/study-progress";
+import { readAccountStudy, saveAccountStudy } from "../lib/study-progress-sync";
 import { setStudyDiscussionTopic } from "../lib/study-discussion-draft";
 import { discussionVerseId } from "../lib/bible";
 import workspaceCopy from "../lib/study-workspace-copy.json";
@@ -109,7 +117,8 @@ function dayIndex(date: Date) {
   );
 }
 function dayKey(date: Date) {
-  return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
 }
 function chapterOf(reference: string) {
   return reference.replace(/:\d+$/, "");
@@ -195,6 +204,8 @@ export default function StudyWorkspace() {
     licenseUrl: edition!.licenseUrl,
   }));
   const collection = studyCollectionFor(profile);
+  // Each Bible edition keeps its own plan progress (their Psalms differ).
+  const plansScope = `plans-${profile.edition}`;
   useEffect(() => {
     let active = true;
     async function load() {
@@ -334,6 +345,40 @@ export default function StudyWorkspace() {
           setProgress(normalizePlanProgress(value ? JSON.parse(value) : null));
           setProgressReady(true);
         }
+        if (!id) return;
+        // Then bring in what the account holds, from other devices.
+        const remote = await readAccountStudy(plansScope).catch(
+          () => undefined,
+        );
+        if (remote === undefined || !active) return;
+        // Read this device again, in case a day was marked meanwhile.
+        const latest =
+          (await storage.getItem(`study-plans:${id}:${profile.edition}`)) ??
+          (await storage.getItem(`study-plans:${id}`));
+        const mine = latest ? JSON.parse(latest) : null;
+        const theirs = remote?.state as { updatedAt?: string } | undefined;
+        const mineAt =
+          typeof mine?.updatedAt === "string" ? mine.updatedAt : "";
+        const theirAt =
+          typeof theirs?.updatedAt === "string" ? theirs.updatedAt : "";
+        const local = normalizePlanProgress(mine);
+        const account = normalizePlanProgress(theirs ?? null);
+        const merged = mergePlanProgress(local, account, theirAt > mineAt);
+        const stamped = {
+          ...merged,
+          updatedAt: theirAt > mineAt ? theirAt : mineAt || theirAt,
+        };
+        if (!active) return;
+        setProgress(merged);
+        if (!samePlanProgress(merged, local))
+          await storage
+            .setItem(
+              `study-plans:${id}:${profile.edition}`,
+              JSON.stringify(stamped),
+            )
+            .catch(() => {});
+        if (!remote || !samePlanProgress(merged, account))
+          await saveAccountStudy(plansScope, stamped).catch(() => {});
       })
       .catch(() => {
         if (active) {
@@ -345,29 +390,36 @@ export default function StudyWorkspace() {
       active = false;
       invalidateReadings();
     };
-  }, [progressAttempt, invalidateReadings, profile.edition]);
+  }, [progressAttempt, invalidateReadings, profile.edition, plansScope]);
   useEffect(() => {
     let active = true;
     if (!owner) return;
-    storage
-      .getItem(`study-today:${owner}`)
-      .then((value) => {
-        const saved = value ? JSON.parse(value) : null;
-        if (!active) return;
-        setSteps(
-          saved?.day === today && Array.isArray(saved.done)
-            ? saved.done.filter((step: unknown) =>
-                [0, 1, 2].includes(step as number),
-              )
-            : [],
+    const show = (record: TodayRecord) => {
+      setSteps(record.day === today ? record.done : []);
+      setQuietDays(record.days);
+    };
+    async function load(id: string) {
+      const read = async () =>
+        normalizeToday(
+          JSON.parse((await storage.getItem(`study-today:${id}`)) ?? "null"),
         );
-        setQuietDays(
-          Array.isArray(saved?.days)
-            ? saved.days.filter((day: unknown) => typeof day === "string")
-            : [],
-        );
-      })
-      .catch(() => {});
+      const local = await read();
+      if (active) show(local);
+      // Then bring in the account's record from other devices.
+      const remote = await readAccountStudy("today").catch(() => undefined);
+      if (remote === undefined || !active) return;
+      const latest = await read();
+      const account = normalizeToday(remote?.state ?? null);
+      const merged = mergeToday(latest, account);
+      if (!active) return;
+      show(merged);
+      const text = JSON.stringify(merged);
+      if (text !== JSON.stringify(latest))
+        await storage.setItem(`study-today:${id}`, text).catch(() => {});
+      if (!remote || text !== JSON.stringify(account))
+        await saveAccountStudy("today", merged).catch(() => {});
+    }
+    void load(owner).catch(() => {});
     return () => {
       active = false;
     };
@@ -379,13 +431,12 @@ export default function StudyWorkspace() {
         : quietDays;
     setSteps(nextSteps);
     setQuietDays(nextDays);
-    if (owner)
-      storage
-        .setItem(
-          `study-today:${owner}`,
-          JSON.stringify({ day: today, done: nextSteps, days: nextDays }),
-        )
-        .catch(() => {});
+    if (!owner) return;
+    const record: TodayRecord = { day: today, done: nextSteps, days: nextDays };
+    storage
+      .setItem(`study-today:${owner}`, JSON.stringify(record))
+      .catch(() => {});
+    saveAccountStudy("today", record).catch(() => {});
   };
   const saveProgress = async (next: PlanProgress) => {
     if (!owner || writeLock.current) return false;
@@ -393,11 +444,14 @@ export default function StudyWorkspace() {
     setSaving(true);
     setProgressError(false);
     try {
+      const stamped = { ...next, updatedAt: new Date().toISOString() };
       await storage.setItem(
         `study-plans:${owner}:${profile.edition}`,
-        JSON.stringify(next),
+        JSON.stringify(stamped),
       );
       setProgress(next);
+      // The account copy follows; if offline, the next visit catches up.
+      saveAccountStudy(plansScope, stamped).catch(() => {});
       return true;
     } catch {
       setProgressError(true);
