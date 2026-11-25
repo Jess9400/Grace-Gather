@@ -32,6 +32,10 @@ import {
 } from "../components/quiet-ui";
 import StepBibleSearch from "../components/StepBibleSearch";
 import DailyDevotional from "../components/DailyDevotional";
+import {
+  devotionalForDate,
+  localDevotionalDate,
+} from "../lib/devotional-calendar";
 import OriginalScripture from "../components/OriginalScripture";
 import StudyTraditions from "../components/StudyTraditions";
 import originalCopy from "../lib/original-study-copy.json";
@@ -112,14 +116,6 @@ function devotionalPassage(index: number, collection: string | null) {
     passage.chapter = 106;
   return passage;
 }
-// Which of the seven devotionals belongs to a calendar day.
-function dayIndex(date: Date) {
-  return (
-    Math.floor(
-      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) / 86400000,
-    ) % 7
-  );
-}
 function dayKey(date: Date) {
   const pad = (n: number) => String(n).padStart(2, "0");
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
@@ -192,6 +188,7 @@ export default function StudyWorkspace() {
   const [together, setTogether] = useState<{ plan: number | null } | null>(
     null,
   );
+  const [dailyCompleted, setDailyCompleted] = useState(0);
   const [noteCount, setNoteCount] = useState<number | null>(null);
   const [noteRevision, setNoteRevision] = useState(0);
   const [planIntro, setPlanIntro] = useState(true);
@@ -217,12 +214,21 @@ export default function StudyWorkspace() {
         if (collection) await ensureCollection(collection);
         const provided = initialVerse ? getReadingVerse(initialVerse) : null;
         // With no verse chosen, Study opens on today's devotional verse.
-        const todays = collection
-          ? passageRows(
-              collection,
-              devotionalPassage(dayIndex(new Date()), collection),
-            )[0]
-          : null;
+        const calendarEntry = devotionalForDate(
+          localDevotionalDate(new Date()),
+        );
+        const [book, chapter, verse] = (calendarEntry?.reference ?? "").split(
+          ".",
+        );
+        const todays =
+          collection && calendarEntry
+            ? passageRows(collection, {
+                book,
+                chapter: Number(chapter),
+                from: Number(verse),
+                to: Number(verse),
+              })[0]
+            : null;
         const fallback = collection ? chapterRows(0, 1, collection)[0] : null;
         const chosen =
           provided ??
@@ -303,7 +309,7 @@ export default function StudyWorkspace() {
     );
     return () => clearTimeout(timer);
   }, [date]);
-  const dailyIndex = dayIndex(date);
+  const dailyIndex = 0; // Only the explicitly chosen seven-day course uses this index.
   const devotionalIndex = devotionalPlanMode
     ? Math.min(progress.devotionalDay ?? 0, 6)
     : (devotionalPreviewIndex ?? dailyIndex);
@@ -699,6 +705,7 @@ export default function StudyWorkspace() {
             language={profile.language}
             collection={collection}
             onFinished={() => saveToday([0, 1, 2], true)}
+            onReadCount={setDailyCompleted}
           />
           {!progressReady && <ActivityIndicator color={colors.goldInk} />}
           {progressReady && active !== null && (
@@ -807,12 +814,12 @@ export default function StudyWorkspace() {
               </View>
             </View>
           )}
-          {stats.readings > 0 && (
+          {stats.readings + dailyCompleted > 0 && (
             <>
               <Text style={s.title}>{n.progress}</Text>
               <View style={s.stats}>
                 {[
-                  [stats.readings, n.readings],
+                  [stats.readings + dailyCompleted, n.readings],
                   [stats.books, n.booksRead],
                   [noteCount ?? "—", n.notesCount],
                 ].map(([value, label]) => (

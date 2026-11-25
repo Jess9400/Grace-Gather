@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import {
   View,
   Text,
@@ -39,10 +39,12 @@ export default function DailyDevotional({
   language,
   collection,
   onFinished,
+  onReadCount,
 }: {
   language: Language;
   collection: CollectionId | null;
   onFinished: () => void;
+  onReadCount: Dispatch<SetStateAction<number>>;
 }) {
   const c = labels[language],
     study = studyCopy[language];
@@ -81,6 +83,7 @@ export default function DailyDevotional({
       .then((rows) => {
         if (live) {
           setHistory(rows);
+          onReadCount(rows.filter((row) => row.completedAt).length);
           setHistoryError(false);
         }
       })
@@ -90,7 +93,7 @@ export default function DailyDevotional({
     return () => {
       live = false;
     };
-  }, [attempt]);
+  }, [attempt, onReadCount]);
   useEffect(() => {
     let live = true;
     if (!item) return;
@@ -129,6 +132,11 @@ export default function DailyDevotional({
   }, [item, collection, language, attempt]);
   const record = async (entry: Devotional, bits = 0) => {
     const row = await recordDevotional(entry.id, bits);
+    if (
+      row.completedAt &&
+      !history.some((old) => old.id === entry.id && old.completedAt)
+    )
+      onReadCount((count) => count + 1);
     setHistory((old) => [...old.filter((r) => r.id !== entry.id), row]);
     return row;
   };
