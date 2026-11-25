@@ -119,7 +119,7 @@ function NoteEditor({
             {!ready && (
               <Button
                 secondary
-                title={c.search}
+                title={c.tryAgain}
                 onPress={() => {
                   setError("");
                   setAttempt((n) => n + 1);

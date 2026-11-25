@@ -59,7 +59,8 @@
     "yearMinutes": "About 15–20 min/day",
     "moreDevotionals": "More devotionals",
     "inviteAction": "Invite",
-    "cancelInvite": "Cancel invitation"
+    "cancelInvite": "Cancel invitation",
+    "tryAgain": "Try again"
   },
   "pt": {
     "back": "Voltar",
@@ -121,7 +122,8 @@
     "yearMinutes": "Cerca de 15–20 min/dia",
     "moreDevotionals": "Mais devocionais",
     "inviteAction": "Convidar",
-    "cancelInvite": "Cancelar convite"
+    "cancelInvite": "Cancelar convite",
+    "tryAgain": "Tentar novamente"
   },
   "es": {
     "back": "Volver",
@@ -183,7 +185,8 @@
     "yearMinutes": "Unos 15–20 min/día",
     "moreDevotionals": "Más devocionales",
     "inviteAction": "Invitar",
-    "cancelInvite": "Cancelar invitación"
+    "cancelInvite": "Cancelar invitación",
+    "tryAgain": "Intentar de nuevo"
   },
   "ru": {
     "back": "Назад",
@@ -245,6 +248,7 @@
     "yearMinutes": "Около 15–20 минут в день",
     "moreDevotionals": "Другие размышления",
     "inviteAction": "Пригласить",
-    "cancelInvite": "Отменить приглашение"
+    "cancelInvite": "Отменить приглашение",
+    "tryAgain": "Повторить"
   }
 }

@@ -18,6 +18,7 @@ import {
   Modal,
   ScrollView,
   ActivityIndicator,
+  type ScrollViewInstance,
 } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
@@ -99,6 +100,70 @@ function devotionalPassage(index: number, collection: string | null) {
     passage.chapter = 106;
   return passage;
 }
+// Which of the seven devotionals belongs to a calendar day.
+function dayIndex(date: Date) {
+  return (
+    Math.floor(
+      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) / 86400000,
+    ) % 7
+  );
+}
+function dayKey(date: Date) {
+  return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+}
+function chapterOf(reference: string) {
+  return reference.replace(/:\d+$/, "");
+}
+// "Mark 1", "Philippians 4:6–7" or "Genesis 1, Genesis 2" for a reading.
+function passageLabel(verses: ReadingVerse[], passages: PlanPassage[]) {
+  const chapters = [...new Set(verses.map((v) => chapterOf(v.reference)))];
+  if (chapters.length > 3)
+    return `${chapters[0]} – ${chapters[chapters.length - 1]}`;
+  if (chapters.length > 1) return chapters.join(", ");
+  if (!passages[0]?.from) return chapters[0];
+  return verses.length > 1
+    ? `${chapters[0]}:${passages[0].from}–${verses[verses.length - 1].id.split(".").pop()}`
+    : verses[0].reference;
+}
+// Scripture as running text with small verse numbers, one block per chapter.
+// Tapping a verse opens it in Study.
+function ScriptureText({
+  verses,
+  onVerse,
+}: {
+  verses: ReadingVerse[];
+  onVerse: (verse: ReadingVerse) => void;
+}) {
+  const groups: ReadingVerse[][] = [];
+  for (const verse of verses) {
+    const last = groups[groups.length - 1];
+    if (last && chapterOf(last[0].reference) === chapterOf(verse.reference))
+      last.push(verse);
+    else groups.push([verse]);
+  }
+  return (
+    <View style={s.passage}>
+      {groups.map((group) => (
+        <View key={group[0].id} style={s.passage}>
+          {groups.length > 1 && (
+            <Text style={s.chapterLabel}>{chapterOf(group[0].reference)}</Text>
+          )}
+          <Text style={s.reading}>
+            {group.map((verse) => (
+              <Text key={verse.id} onPress={() => onVerse(verse)}>
+                <Text style={s.verseNumber}>
+                  {verse.id.split(".").pop()}
+                  {"\u00A0"}
+                </Text>
+                {verse.text}{" "}
+              </Text>
+            ))}
+          </Text>
+        </View>
+      ))}
+    </View>
+  );
+}
 export default function StudyWorkspace() {
   const { profile } = useApp();
   const params = useLocalSearchParams<{ verse?: string; tab?: string }>();
@@ -136,9 +201,17 @@ export default function StudyWorkspace() {
       try {
         if (collection) await ensureCollection(collection);
         const provided = initialVerse ? getReadingVerse(initialVerse) : null;
+        // With no verse chosen, Study opens on today's devotional verse.
+        const todays = collection
+          ? passageRows(
+              collection,
+              devotionalPassage(dayIndex(new Date()), collection),
+            )[0]
+          : null;
         const fallback = collection ? chapterRows(0, 1, collection)[0] : null;
         const chosen =
           provided ??
+          todays ??
           fallback ??
           (edition?.passages[0]
             ? {
@@ -191,6 +264,12 @@ export default function StudyWorkspace() {
   >(null);
   const [words, setWords] = useState(false);
   const [reading, setReading] = useState<ReadingVerse[]>([]);
+  const [readingPassages, setReadingPassages] = useState<PlanPassage[]>([]);
+  // The guided devotional's step: Read, Reflect, Pray, One action.
+  const [devStep, setDevStep] = useState(0);
+  // The plan day just marked read, for the "Day 3 done" moment.
+  const [finished, setFinished] = useState<number | null>(null);
+  const sheetScroll = useRef<ScrollViewInstance>(null);
   const [loading, setLoading] = useState(false);
   const [readError, setReadError] = useState(false);
   const readSequence = useRef(0);
@@ -207,19 +286,18 @@ export default function StudyWorkspace() {
     );
     return () => clearTimeout(timer);
   }, [date]);
-  const dailyIndex =
-    Math.floor(
-      Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()) / 86400000,
-    ) % 7;
+  const dailyIndex = dayIndex(date);
   const devotionalIndex = devotionalPlanMode
     ? Math.min(progress.devotionalDay ?? 0, 6)
     : (devotionalPreviewIndex ?? dailyIndex);
   const daily = c.devotionals[devotionalIndex];
   const [filter, setFilter] = useState<PlanFilter>("all");
   const reducedMotion = useReducedMotion();
-  // Read · Reflect · Pray ticks for today's devotional, kept on this device.
-  const today = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+  // Today's Read · Reflect · Pray, and the days with a finished reading,
+  // kept on this device for the account.
+  const today = dayKey(date);
   const [steps, setSteps] = useState<number[]>([]);
+  const [quietDays, setQuietDays] = useState<string[]>([]);
   // Today's devotional verse, shown on its card before it is opened.
   const [dailyVerse, setDailyVerse] = useState<ReadingVerse[]>([]);
   useEffect(() => {
@@ -275,36 +353,40 @@ export default function StudyWorkspace() {
       .getItem(`study-today:${owner}`)
       .then((value) => {
         const saved = value ? JSON.parse(value) : null;
-        if (active)
-          setSteps(
-            saved?.day === today && Array.isArray(saved.done)
-              ? saved.done.filter((step: unknown) =>
-                  [0, 1, 2].includes(step as number),
-                )
-              : [],
-          );
+        if (!active) return;
+        setSteps(
+          saved?.day === today && Array.isArray(saved.done)
+            ? saved.done.filter((step: unknown) =>
+                [0, 1, 2].includes(step as number),
+              )
+            : [],
+        );
+        setQuietDays(
+          Array.isArray(saved?.days)
+            ? saved.days.filter((day: unknown) => typeof day === "string")
+            : [],
+        );
       })
       .catch(() => {});
     return () => {
       active = false;
     };
   }, [owner, today]);
-  const saveSteps = (next: number[]) => {
-    setSteps(next);
+  const saveToday = (nextSteps: number[], finishedToday = false) => {
+    const nextDays =
+      finishedToday && !quietDays.includes(today)
+        ? [...quietDays, today].slice(-30)
+        : quietDays;
+    setSteps(nextSteps);
+    setQuietDays(nextDays);
     if (owner)
       storage
         .setItem(
           `study-today:${owner}`,
-          JSON.stringify({ day: today, done: next }),
+          JSON.stringify({ day: today, done: nextSteps, days: nextDays }),
         )
         .catch(() => {});
   };
-  const toggleStep = (step: number) =>
-    saveSteps(
-      steps.includes(step)
-        ? steps.filter((s) => s !== step)
-        : [...steps, step].sort(),
-    );
   const saveProgress = async (next: PlanProgress) => {
     if (!owner || writeLock.current) return false;
     writeLock.current = true;
@@ -338,6 +420,7 @@ export default function StudyWorkspace() {
       );
       if (ticket === readSequence.current) {
         setReading(rows);
+        setReadingPassages(Array.isArray(passages) ? passages : [passages]);
         setReadError(rows.length === 0);
       }
     } catch {
@@ -362,14 +445,27 @@ export default function StudyWorkspace() {
   const openPlan = (index: number) => {
     setWords(false);
     setDevotional(false);
+    setFinished(null);
     setPlanIntro(true);
     setDetail(index);
     setReading([]);
   };
+  // The current plan opens straight on today's reading.
+  const openPlanReading = (index: number) => {
+    if (planDone(index)) return openPlan(index);
+    setWords(false);
+    setDevotional(false);
+    setFinished(null);
+    setPlanIntro(false);
+    setDetail(index);
+    readPlanDay(index);
+  };
   const openDevotional = (
     asPlan = false,
     previewIndex: number | null = null,
+    startStep = 0,
   ) => {
+    setDevStep(startStep);
     setDevotionalPreviewIndex(previewIndex);
     setDevotionalPlanMode(asPlan);
     setWords(false);
@@ -382,10 +478,28 @@ export default function StudyWorkspace() {
   };
   const close = () => {
     readSequence.current++;
+    setFinished(null);
     setDetail(null);
     setDevotional(false);
     setWords(false);
     setReading([]);
+  };
+  const studyVerse = (verse: ReadingVerse) => {
+    close();
+    setSelectedVerse(verse);
+    setTab(2);
+  };
+  const todayDevotional =
+    !devotionalPlanMode && devotionalPreviewIndex === null;
+  const goToStep = (step: number) => {
+    setDevStep(step);
+    sheetScroll.current?.scrollTo({ y: 0, animated: false });
+  };
+  // Moving on from Read, Reflect or Pray ticks it on today's card.
+  const nextStep = () => {
+    if (todayDevotional && devStep < 3 && !steps.includes(devStep))
+      saveToday([...steps, devStep].sort());
+    goToStep(devStep + 1);
   };
   const chooseVerse = (verse: ReadingVerse) => {
     setSelectedVerse(verse);
@@ -413,6 +527,24 @@ export default function StudyWorkspace() {
     c.dayOf
       .replace("{day}", String(planDay(index)))
       .replace("{total}", String(readingPlanLength(index)));
+  const longDate = new Intl.DateTimeFormat(profile.language, {
+    weekday: "long",
+    month: "long",
+    day: "numeric",
+  }).format(date);
+  const stepLabels = [c.readStep, c.reflect, c.pray, c.action];
+  // The last seven days, oldest first, for the gentle "Your week" row.
+  const week = Array.from({ length: 7 }, (_, index) => {
+    const day = new Date(date);
+    day.setDate(day.getDate() - (6 - index));
+    return {
+      key: dayKey(day),
+      letter: new Intl.DateTimeFormat(profile.language, {
+        weekday: "narrow",
+      }).format(day),
+      done: quietDays.includes(dayKey(day)),
+    };
+  });
   const planDone = (index: number) =>
     (progress.days[index] ?? 0) >= readingPlanLength(index);
   const active = progress.active;
@@ -502,9 +634,7 @@ export default function StudyWorkspace() {
             <Heading>{c.devotionals[dailyIndex][0]}</Heading>
             {dailyVerse.length > 0 && (
               <View style={s.quote}>
-                <Text style={s.quoteText} numberOfLines={5}>
-                  “{verseQuote}”
-                </Text>
+                <Text style={s.quoteText}>“{verseQuote}”</Text>
                 <Text style={s.quoteRef}>{verseReference}</Text>
               </View>
             )}
@@ -515,10 +645,10 @@ export default function StudyWorkspace() {
                 return (
                   <Pressable
                     key={step}
-                    accessibilityRole="checkbox"
+                    accessibilityRole="button"
                     accessibilityState={{ checked: done }}
                     accessibilityLabel={step}
-                    onPress={() => toggleStep(index)}
+                    onPress={() => openDevotional(false, null, index)}
                     style={[s.step, done && s.stepDone]}
                   >
                     {done ? (
@@ -551,7 +681,7 @@ export default function StudyWorkspace() {
             <Pressable
               accessibilityRole="button"
               accessibilityLabel={`${c.continue}: ${c.planTitles[active]}, ${dayOf(active)}`}
-              onPress={() => openPlan(active)}
+              onPress={() => openPlanReading(active)}
               style={s.continue}
             >
               <View style={s.cover}>
@@ -619,6 +749,40 @@ export default function StudyWorkspace() {
               ))}
             </Card>
           )}
+          {quietDays.length > 0 && (
+            <View
+              style={s.weekRow}
+              accessible
+              accessibilityLabel={`${c.yourWeek}: ${c.weekSummary.replace(
+                "{count}",
+                String(week.filter((day) => day.done).length),
+              )}`}
+            >
+              <Text style={s.gold}>{c.yourWeek}</Text>
+              <View style={s.weekDays}>
+                {week.map((day) => (
+                  <View
+                    key={day.key}
+                    style={[
+                      s.weekDay,
+                      day.done && s.weekDayDone,
+                      day.key === today && s.weekToday,
+                    ]}
+                  >
+                    {day.done ? (
+                      <Ionicons
+                        name="checkmark"
+                        size={14}
+                        color={colors.paper}
+                      />
+                    ) : (
+                      <Text style={s.weekLetter}>{day.letter}</Text>
+                    )}
+                  </View>
+                ))}
+              </View>
+            </View>
+          )}
           {stats.readings > 0 && (
             <>
               <Text style={s.title}>{n.progress}</Text>
@@ -656,7 +820,7 @@ export default function StudyWorkspace() {
             <Pressable
               accessibilityRole="button"
               accessibilityLabel={`${c.continue}: ${c.planTitles[active]}, ${dayOf(active)}`}
-              onPress={() => openPlan(active)}
+              onPress={() => openPlanReading(active)}
               style={s.activeStrip}
             >
               <View style={s.activeDot} />
@@ -864,228 +1028,325 @@ export default function StudyWorkspace() {
             <View style={s.grab} />
             <View style={{ paddingHorizontal: 22, paddingTop: 6 }}>
               <StudyHeader
-                title={words ? c.original : detail !== null ? c.plans : c.daily}
+                title={
+                  words
+                    ? c.original
+                    : devotional
+                      ? devotionalPlanMode
+                        ? c.devotionalPlan
+                        : c.daily
+                      : detail !== null && !planIntro
+                        ? c.planTitles[detail]
+                        : c.plans
+                }
                 closeLabel={c.close}
                 onClose={close}
               />
             </View>
-            <ScrollView contentContainerStyle={s.sheetContent}>
-              {words ? (
+            <ScrollView
+              ref={sheetScroll}
+              contentContainerStyle={s.sheetContent}
+            >
+              {words && <StepBibleSearch language={profile.language} />}
+              {devotional && (
                 <>
-                  <StepBibleSearch language={profile.language} />
-                </>
-              ) : (
-                <>
-                  {detail !== null ? (
-                    <StudyArtwork hero animated variant={detail} />
-                  ) : (
-                    <View style={s.eyebrow}>
-                      <Ionicons
-                        name="sunny-outline"
-                        size={17}
-                        color={colors.gold}
+                  <View style={s.eyebrow}>
+                    <Ionicons
+                      name="sunny-outline"
+                      size={17}
+                      color={colors.gold}
+                    />
+                    <Text style={s.gold}>
+                      {devotionalPlanMode
+                        ? c.dayOf
+                            .replace("{day}", String(devotionalIndex + 1))
+                            .replace("{total}", "7")
+                        : longDate}
+                    </Text>
+                  </View>
+                  <Heading>{daily[0]}</Heading>
+                  <View
+                    style={s.stepper}
+                    accessible
+                    accessibilityLabel={`${c.stepOf
+                      .replace("{step}", String(devStep + 1))
+                      .replace("{total}", "4")}: ${stepLabels[devStep]}`}
+                  >
+                    {stepLabels.map((label, index) => (
+                      <View
+                        key={label}
+                        style={[s.stepBar, index <= devStep && s.stepBarOn]}
                       />
-                      <Text style={s.gold}>
-                        {new Intl.DateTimeFormat(profile.language, {
-                          weekday: "long",
-                          month: "long",
-                          day: "numeric",
-                        }).format(date)}
-                      </Text>
-                    </View>
-                  )}
-                  <Heading>
-                    {detail !== null ? c.planTitles[detail] : daily[0]}
-                  </Heading>
-                  {detail !== null && planIntro ? (
-                    <>
-                      <Body small>
-                        {readingPlanLength(detail)} {c.days} ·{" "}
-                        {detail === yearPlanIndex ? n.yearMinutes : "5–10 min"}
-                      </Body>
-                      <Text style={s.gold}>{n.aboutPlan}</Text>
-                      <Body>{n.planDescriptions[detail]}</Body>
-                      <Button
-                        wide
-                        title={
-                          progress.active === detail ? c.continue : c.start
-                        }
-                        disabled={
-                          !owner || saving || !progressReady || !collection
-                        }
-                        loading={saving}
-                        onPress={() =>
-                          void saveProgress({
-                            ...progress,
-                            active: detail,
-                          }).then((saved) => {
-                            if (saved) {
-                              setPlanIntro(false);
-                              readPlanDay(detail);
-                            }
-                          })
-                        }
-                      />
-                      {!collection && <Body>{c.unavailable}</Body>}
-                      <Button
-                        secondary
-                        title={n.readingTogether}
-                        onPress={() => {
-                          const plan = detail;
-                          close();
-                          setTogether({ plan });
-                        }}
-                      />
-                    </>
-                  ) : (
+                    ))}
+                  </View>
+                  <Text style={s.sectionLabel}>{stepLabels[devStep]}</Text>
+                  {devStep === 0 && (
                     <>
                       {loading && <ActivityIndicator color={colors.goldInk} />}
                       {readError && <Body>{c.unavailable}</Body>}
                       {reading.length > 0 && (
                         <>
-                          <Body small>{reading[0].editionName}</Body>
-                          {reading.map((verse) => (
-                            <Pressable
-                              key={verse.id}
-                              accessibilityRole="button"
-                              onPress={() => {
-                                close();
-                                setSelectedVerse(verse);
-                                setTab(2);
-                              }}
-                            >
-                              <Body small>{verse.reference}</Body>
-                              <Text selectable style={s.reading}>
-                                {verse.text}
-                              </Text>
-                            </Pressable>
-                          ))}
+                          <Text style={s.gold}>
+                            {passageLabel(reading, readingPassages)}
+                          </Text>
+                          <ScriptureText
+                            verses={reading}
+                            onVerse={studyVerse}
+                          />
                           <Body small>{reading[0].attribution}</Body>
                         </>
                       )}
-                      {devotional ? (
-                        <>
-                          <View style={s.section}>
-                            <Text style={s.sectionLabel}>{c.reflect}</Text>
-                            <Text style={s.sectionText}>{daily[1]}</Text>
-                          </View>
-                          <View style={s.section}>
-                            <Text style={s.sectionLabel}>{c.pray}</Text>
-                            <Text style={[s.sectionText, s.prayer]}>
-                              {daily[2]}
-                            </Text>
-                          </View>
-                          <Card>
-                            <Text style={s.gold}>{c.action}</Text>
-                            <Body>{c.devotionalActions[devotionalIndex]}</Body>
-                          </Card>
-                          {!devotionalPlanMode && (
-                            <Button
-                              wide
-                              title={
-                                steps.length === 3 ? c.doneToday : c.markDone
-                              }
-                              disabled={steps.length === 3}
-                              onPress={() => {
-                                saveSteps([0, 1, 2]);
-                                close();
-                              }}
-                            />
-                          )}
-                          {devotionalPlanMode && (
-                            <Button
-                              wide
-                              title={
-                                progress.devotionalDay === null
-                                  ? c.start
-                                  : progress.devotionalDay >= 7
-                                    ? c.completePlan
-                                    : c.complete
-                              }
-                              loading={saving}
-                              disabled={
-                                !owner ||
-                                !progressReady ||
-                                loading ||
-                                readError ||
-                                progress.devotionalDay === 7
-                              }
-                              onPress={() =>
-                                void saveProgress({
-                                  ...progress,
-                                  devotionalDay:
-                                    progress.devotionalDay === null
-                                      ? 0
-                                      : progress.devotionalDay + 1,
-                                }).then((saved) => {
-                                  if (saved) close();
-                                })
-                              }
-                            />
-                          )}
-                          <Body small>
-                            {c.originalDevotional}
-                            {devotionalPlanMode
-                              ? ` · ${devotionalIndex + 1}/7`
-                              : ""}
-                          </Body>
-                        </>
-                      ) : (
-                        detail !== null && (
-                          <>
-                            <Body>{c.question}</Body>
-                            <Button
-                              wide
-                              title={
-                                progress.active !== detail
-                                  ? c.start
-                                  : (progress.days[detail] ?? 0) >=
-                                      readingPlanLength(detail)
-                                    ? c.completePlan
-                                    : c.complete
-                              }
-                              loading={saving}
-                              disabled={
-                                !progressReady ||
-                                !owner ||
-                                loading ||
-                                readError ||
-                                (progress.days[detail] ?? 0) >=
-                                  readingPlanLength(detail)
-                              }
-                              onPress={() => {
-                                void saveProgress({
-                                  ...progress,
-                                  active: detail,
-                                  days: {
-                                    ...progress.days,
-                                    [detail]:
-                                      (progress.days[detail] ?? 0) +
-                                      (progress.active === detail ? 1 : 0),
-                                  },
-                                }).then((saved) => {
-                                  if (saved) close();
-                                });
-                              }}
-                            />
-                            <Body small>{c.localProgress}</Body>
-                            {progressError && (
-                              <Button
-                                secondary
-                                title={c.retry}
-                                onPress={() =>
-                                  setProgressAttempt(progressAttempt + 1)
-                                }
-                              />
-                            )}
-                          </>
-                        )
+                    </>
+                  )}
+                  {devStep === 1 && (
+                    <>
+                      <Text style={s.sectionText}>{daily[1]}</Text>
+                      {reading.length > 0 && (
+                        <VerseNotes
+                          verse={reading[0].id}
+                          reference={passageLabel(reading, readingPassages)}
+                          language={profile.language}
+                          onSaved={() => setNoteRevision((n) => n + 1)}
+                        />
                       )}
+                      <Pressable
+                        accessibilityRole="button"
+                        onPress={() => {
+                          close();
+                          router.push("/diary");
+                        }}
+                        style={s.textLink}
+                      >
+                        <Ionicons
+                          name="create-outline"
+                          size={17}
+                          color={colors.goldInk}
+                        />
+                        <Text style={s.gold}>{c.journalInstead}</Text>
+                      </Pressable>
+                    </>
+                  )}
+                  {devStep === 2 && (
+                    <Text style={[s.sectionText, s.prayer]}>{daily[2]}</Text>
+                  )}
+                  {devStep === 3 && (
+                    <>
+                      <Card>
+                        <Body>{c.devotionalActions[devotionalIndex]}</Body>
+                      </Card>
+                      <Body small>{c.originalDevotional}</Body>
                     </>
                   )}
                 </>
               )}
+              {detail !== null && planIntro && (
+                <>
+                  <StudyArtwork hero animated variant={detail} />
+                  <Heading>{c.planTitles[detail]}</Heading>
+                  <Body small>
+                    {readingPlanLength(detail)} {c.days} ·{" "}
+                    {detail === yearPlanIndex ? n.yearMinutes : "5–10 min"}
+                  </Body>
+                  <Text style={s.gold}>{n.aboutPlan}</Text>
+                  <Body>{n.planDescriptions[detail]}</Body>
+                  {progress.active !== null && progress.active !== detail && (
+                    <Body small>
+                      {c.switchNotice.replace(
+                        "{plan}",
+                        c.planTitles[progress.active],
+                      )}
+                    </Body>
+                  )}
+                  <Button
+                    wide
+                    title={progress.active === detail ? c.continue : c.start}
+                    disabled={!owner || saving || !progressReady || !collection}
+                    loading={saving}
+                    onPress={() =>
+                      void saveProgress({
+                        ...progress,
+                        active: detail,
+                      }).then((saved) => {
+                        if (saved) {
+                          setPlanIntro(false);
+                          readPlanDay(detail);
+                        }
+                      })
+                    }
+                  />
+                  {!collection && <Body>{c.unavailable}</Body>}
+                  <Button
+                    secondary
+                    title={n.readingTogether}
+                    onPress={() => {
+                      const plan = detail;
+                      close();
+                      setTogether({ plan });
+                    }}
+                  />
+                </>
+              )}
+              {detail !== null && !planIntro && finished !== null && (
+                <View style={s.finished}>
+                  <View style={s.finishedMark}>
+                    <Ionicons name="checkmark" size={30} color={colors.paper} />
+                  </View>
+                  <Heading>
+                    {c.dayDone.replace("{day}", String(finished))}
+                  </Heading>
+                  <Body>
+                    {finished >= readingPlanLength(detail)
+                      ? c.planFinished
+                      : c.nextTomorrow.replace("{day}", String(finished + 1))}
+                  </Body>
+                </View>
+              )}
+              {detail !== null && !planIntro && finished === null && (
+                <>
+                  <Text style={s.gold}>{dayOf(detail)}</Text>
+                  {loading && <ActivityIndicator color={colors.goldInk} />}
+                  {readError && <Body>{c.unavailable}</Body>}
+                  {reading.length > 0 && (
+                    <>
+                      <Heading>
+                        {passageLabel(reading, readingPassages)}
+                      </Heading>
+                      <ScriptureText verses={reading} onVerse={studyVerse} />
+                      <Body small>{reading[0].attribution}</Body>
+                      <Text style={s.sectionLabel}>{c.question}</Text>
+                      <VerseNotes
+                        verse={reading[0].id}
+                        reference={passageLabel(reading, readingPassages)}
+                        language={profile.language}
+                        onSaved={() => setNoteRevision((n) => n + 1)}
+                      />
+                      <Body small>{c.localProgress}</Body>
+                    </>
+                  )}
+                  {progressError && (
+                    <Button
+                      secondary
+                      title={c.retry}
+                      onPress={() => setProgressAttempt(progressAttempt + 1)}
+                    />
+                  )}
+                </>
+              )}
             </ScrollView>
+            {devotional && (
+              <View style={s.sheetFooter}>
+                {devStep > 0 && (
+                  <Button
+                    secondary
+                    title={c.back}
+                    onPress={() => goToStep(devStep - 1)}
+                  />
+                )}
+                <View style={s.grow}>
+                  {devStep < 3 ? (
+                    <Button wide title={c.next} onPress={nextStep} />
+                  ) : devotionalPlanMode ? (
+                    <Button
+                      wide
+                      title={
+                        (progress.devotionalDay ?? 0) >= 7
+                          ? c.completePlan
+                          : c.markDay.replace(
+                              "{day}",
+                              String(devotionalIndex + 1),
+                            )
+                      }
+                      loading={saving}
+                      disabled={
+                        !owner ||
+                        !progressReady ||
+                        (progress.devotionalDay ?? 0) >= 7
+                      }
+                      onPress={() =>
+                        void saveProgress({
+                          ...progress,
+                          devotionalDay: Math.min(
+                            (progress.devotionalDay ?? 0) + 1,
+                            7,
+                          ),
+                        }).then((saved) => {
+                          if (saved) {
+                            saveToday(steps, true);
+                            close();
+                          }
+                        })
+                      }
+                    />
+                  ) : (
+                    <Button
+                      wide
+                      title={c.markDone}
+                      onPress={() => {
+                        if (todayDevotional) saveToday([0, 1, 2], true);
+                        close();
+                      }}
+                    />
+                  )}
+                </View>
+              </View>
+            )}
+            {detail !== null && !planIntro && finished === null && (
+              <View style={s.sheetFooter}>
+                <View style={s.grow}>
+                  <Button
+                    wide
+                    title={
+                      progress.active !== detail
+                        ? c.start
+                        : planDone(detail)
+                          ? c.completePlan
+                          : c.markDay.replace("{day}", String(planDay(detail)))
+                    }
+                    loading={saving}
+                    disabled={
+                      !progressReady ||
+                      !owner ||
+                      loading ||
+                      readError ||
+                      planDone(detail)
+                    }
+                    onPress={() => {
+                      const done =
+                        (progress.days[detail] ?? 0) +
+                        (progress.active === detail ? 1 : 0);
+                      void saveProgress({
+                        ...progress,
+                        active: detail,
+                        days: { ...progress.days, [detail]: done },
+                      }).then((saved) => {
+                        if (!saved) return;
+                        saveToday(steps, true);
+                        setFinished(done);
+                        sheetScroll.current?.scrollTo({
+                          y: 0,
+                          animated: false,
+                        });
+                      });
+                    }}
+                  />
+                </View>
+              </View>
+            )}
+            {detail !== null && !planIntro && finished !== null && (
+              <View style={[s.sheetFooter, s.footerStack]}>
+                <Button wide title={c.close} onPress={close} />
+                {finished < readingPlanLength(detail) && (
+                  <Button
+                    secondary
+                    title={c.readNext.replace("{day}", String(finished + 1))}
+                    onPress={() => {
+                      setFinished(null);
+                      readPlanDay(detail);
+                    }}
+                  />
+                )}
+              </View>
+            )}
           </View>
         </View>
       </Modal>
@@ -1281,7 +1542,7 @@ const s = StyleSheet.create({
   },
   chips: { gap: 8, paddingVertical: 2 },
   chip: {
-    minHeight: 36,
+    minHeight: 44,
     paddingHorizontal: 14,
     borderRadius: 999,
     borderWidth: 1,
@@ -1393,7 +1654,63 @@ const s = StyleSheet.create({
     borderRadius: 2,
     backgroundColor: "#F4EBDA40",
   },
-  sheetContent: { padding: 22, paddingBottom: 44, gap: 20 },
+  sheetContent: { padding: 22, paddingBottom: 32, gap: 20 },
+  sheetFooter: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    paddingHorizontal: 22,
+    paddingTop: 12,
+    paddingBottom: 30,
+    borderTopWidth: 1,
+    borderColor: colors.line,
+  },
+  footerStack: { flexDirection: "column", alignItems: "stretch", gap: 4 },
+  stepper: { flexDirection: "row", gap: 6 },
+  stepBar: {
+    flex: 1,
+    height: 4,
+    borderRadius: 2,
+    backgroundColor: "#F4EBDA26",
+  },
+  stepBarOn: { backgroundColor: colors.gold },
+  finished: { alignItems: "center", gap: 14, paddingVertical: 24 },
+  finishedMark: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: colors.gold,
+  },
+  passage: { gap: 14 },
+  chapterLabel: { color: colors.goldInk, fontSize: 13, letterSpacing: 0.5 },
+  verseNumber: {
+    color: colors.goldInk,
+    fontFamily: undefined,
+    fontSize: 13,
+    lineHeight: 35,
+  },
+  weekRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 12,
+    paddingHorizontal: 4,
+  },
+  weekDays: { flexDirection: "row", gap: 6 },
+  weekDay: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 1,
+    borderColor: "#F4EBDA2E",
+  },
+  weekDayDone: { backgroundColor: colors.gold, borderColor: colors.gold },
+  weekToday: { borderColor: colors.goldInk },
+  weekLetter: { color: colors.muted, fontSize: 12 },
   section: { gap: 6 },
   sectionLabel: {
     color: colors.goldInk,

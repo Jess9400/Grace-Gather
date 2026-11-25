@@ -196,7 +196,19 @@
     "inProgress": "In progress",
     "changePassage": "Change passage",
     "markDone": "Mark today done",
-    "doneToday": "Done for today"
+    "doneToday": "Done for today",
+    "dayDone": "Day {day} done",
+    "nextTomorrow": "Day {day} will be here tomorrow.",
+    "readNext": "Read day {day} now",
+    "planFinished": "You finished this plan.",
+    "markDay": "Mark day {day} read",
+    "switchNotice": "This becomes your current plan. Your place in “{plan}” is kept.",
+    "next": "Next",
+    "back": "Back",
+    "stepOf": "Step {step} of {total}",
+    "journalInstead": "Write in my journal instead",
+    "yourWeek": "Your week",
+    "weekSummary": "{count} of the last 7 days"
   },
   "pt": {
     "study": "Estudo bíblico",
@@ -395,7 +407,19 @@
     "inProgress": "Em andamento",
     "changePassage": "Trocar passagem",
     "markDone": "Concluir o dia",
-    "doneToday": "Concluído por hoje"
+    "doneToday": "Concluído por hoje",
+    "dayDone": "Dia {day} concluído",
+    "nextTomorrow": "O dia {day} estará aqui amanhã.",
+    "readNext": "Ler o dia {day} agora",
+    "planFinished": "Você concluiu este plano.",
+    "markDay": "Marcar o dia {day} como lido",
+    "switchNotice": "Este passa a ser o seu plano atual. Seu lugar em “{plan}” fica guardado.",
+    "next": "Próximo",
+    "back": "Voltar",
+    "stepOf": "Passo {step} de {total}",
+    "journalInstead": "Escrever no meu diário",
+    "yourWeek": "Sua semana",
+    "weekSummary": "{count} dos últimos 7 dias"
   },
   "es": {
     "study": "Estudio bíblico",
@@ -594,7 +618,19 @@
     "inProgress": "En curso",
     "changePassage": "Cambiar pasaje",
     "markDone": "Marcar hoy como hecho",
-    "doneToday": "Hecho por hoy"
+    "doneToday": "Hecho por hoy",
+    "dayDone": "Día {day} completado",
+    "nextTomorrow": "El día {day} estará aquí mañana.",
+    "readNext": "Leer el día {day} ahora",
+    "planFinished": "Terminaste este plan.",
+    "markDay": "Marcar el día {day} como leído",
+    "switchNotice": "Este será tu plan actual. Tu lugar en “{plan}” se guarda.",
+    "next": "Siguiente",
+    "back": "Atrás",
+    "stepOf": "Paso {step} de {total}",
+    "journalInstead": "Escribir en mi diario",
+    "yourWeek": "Tu semana",
+    "weekSummary": "{count} de los últimos 7 días"
   },
   "ru": {
     "study": "Изучение Библии",
@@ -793,6 +829,18 @@
     "inProgress": "В процессе",
     "changePassage": "Сменить отрывок",
     "markDone": "Отметить день",
-    "doneToday": "На сегодня всё"
+    "doneToday": "На сегодня всё",
+    "dayDone": "День {day} пройден",
+    "nextTomorrow": "День {day} будет ждать вас завтра.",
+    "readNext": "Читать день {day} сейчас",
+    "planFinished": "Вы завершили этот план.",
+    "markDay": "Отметить день {day} прочитанным",
+    "switchNotice": "Этот план станет текущим. Ваше место в «{plan}» сохранится.",
+    "next": "Далее",
+    "back": "Назад",
+    "stepOf": "Шаг {step} из {total}",
+    "journalInstead": "Написать в дневнике",
+    "yourWeek": "Ваша неделя",
+    "weekSummary": "{count} из последних 7 дней"
   }
 }
