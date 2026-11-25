@@ -38,6 +38,7 @@ import {
 } from "../lib/study-discussion-draft";
 import { CelestialAvatar } from "../components/MemberAvatar";
 import { avatarVariant } from "../lib/avatar";
+import { track } from "../lib/analytics";
 
 // "Your people": discussions anyone can start and join, and 1:1 chats with
 // friends. Every link to discussions in the app leads here.
@@ -274,6 +275,7 @@ function FriendsScreen({
       await Share.share({
         message: c("Add me as a friend on Grace & Gather:") + " " + friendLinkUrl(token),
       });
+      track("friend_link_shared", { newLink: reset });
     });
   }
   async function act(action: string, data: Record<string, unknown>) {
@@ -525,6 +527,7 @@ function FriendsScreen({
                       void run(async () => {
                         if (!hasName) await friends("directory", { name, discoverable });
                         await friendInvite("accept", { token: params.add });
+                        track("friend_added", { via: "link" });
                         await load();
                         setInvitation({ ...invitation, friends: true });
                       }).then((ok) => ok && setNotice("You are now friends."))
@@ -679,6 +682,7 @@ function FriendsScreen({
                         onPress={() =>
                           void run(async () => {
                             await act("request", { peer: p.peer });
+                            track("friend_request_sent");
                           }).then((ok) => ok && setNotice("Request sent"))
                         }
                       />

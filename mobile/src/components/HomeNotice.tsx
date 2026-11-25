@@ -8,6 +8,7 @@ import { useApp } from "../lib/state";
 import { activityDestination, groupUnreadActivity, type ActivityItem } from "../lib/activity-notices";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
 import { freshNotice, type NoticeKind } from "../lib/home-notice";
+import { track } from "../lib/analytics";
 
 type Kind = NoticeKind;
 const NOTICE: Record<Kind, { text: string; icon: keyof typeof Ionicons.glyphMap; href: Href }> = {
@@ -178,6 +179,7 @@ export default function HomeNotice({ visible }: { visible: boolean }) {
         accessibilityHint={tr("Opens the notification")}
         onPress={() => {
           setKind(null);
+          track("home_notice_opened", { kind });
           // Going to the item counts as reading it; the Notifications page
           // keeps anything else, and the general notice marks nothing.
           if (item?.markRead)

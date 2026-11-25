@@ -11,6 +11,7 @@ import * as platform from "./audio/platform";
 import { audioCommand, gathering } from "./gatherings";
 import { Localized } from "./content";
 import { backend } from "./backend";
+import { track } from "./analytics";
 interface Access {
   token: string;
   url: string;
@@ -163,6 +164,7 @@ export function AudioRoomProvider({ children }: { children: ReactNode }) {
         room?.removeAllListeners();
       };
       await room.connect(access.url, access.token, { autoSubscribe: true });
+      track("gathering_joined", { host: access.host, speaker: access.canSpeak, guest: !!speaker });
       if (version !== generation.current) {
         await room.disconnect(true);
         return;

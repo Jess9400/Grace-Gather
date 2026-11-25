@@ -27,6 +27,7 @@ import { usePrayers, type Prayer } from "../lib/prayers";
 import { prayerTime } from "../lib/prayer-time";
 import { useApp } from "../lib/state";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
+import { track } from "../lib/analytics";
 export default function PrayerPage({
   mode = "requests",
 }: {
@@ -46,6 +47,7 @@ function PrayerRoom({
     (data?.notices ?? []).filter((n) => !n.is_read && n.kind !== "prayed" && n.request?.id === id);
   async function pray(id: string) {
     if (!(await act("pray", id))) return;
+    track("prayed_for_someone");
     for (const n of answered(id)) await act("read", n.id);
   }
   // Invitations already answered (prayed for earlier, or elsewhere) clear themselves.
@@ -186,6 +188,7 @@ function PrayerRoom({
         starts_at: when,
       })
     ) {
+      track("prayer_request_created", { scheduled: !!when, anonymous });
       setWriting(false);
       setTheme("");
       setReason("");

@@ -1390,6 +1390,16 @@
     "es": "Recordatorio de encuentro: {title}",
     "ru": "Напоминание о встрече: {title}"
   },
+  "Share anonymous usage data": {
+    "pt": "Compartilhar dados de uso anônimos",
+    "es": "Compartir datos de uso anónimos",
+    "ru": "Делиться анонимной статистикой"
+  },
+  "Helps us see which parts of Grace & Gather help people, such as whether journal entries are saved. Never what you write, pray or say.": {
+    "pt": "Ajuda a ver quais partes do Grace & Gather ajudam as pessoas, como se as entradas do diário são salvas. Nunca o que você escreve, ora ou diz.",
+    "es": "Nos ayuda a ver qué partes de Grace & Gather ayudan a las personas, como si se guardan las entradas del diario. Nunca lo que escribes, oras o dices.",
+    "ru": "Помогает понять, какие части Grace & Gather полезны людям, например сохраняются ли записи в дневнике. Никогда — что вы пишете, о чём молитесь или говорите."
+  },
   "{count} people prayed for you": {
     "pt": "{count} pessoas oraram por você",
     "es": "{count} personas oraron por ti",

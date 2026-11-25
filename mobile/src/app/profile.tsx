@@ -5,7 +5,8 @@ import { q } from "../lib/quiet-copy";
 import Disclosure from "../components/Disclosure";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
 import { useEffect, useState } from "react";
-import { Alert, Platform, StyleSheet, Text, View } from "react-native";
+import { Alert, Platform, StyleSheet, Switch, Text, View } from "react-native";
+import { analyticsAvailable, shareUsageData, usageDataShared } from "../lib/analytics";
 import { router } from "expo-router";
 import {
   Screen,
@@ -19,6 +20,7 @@ import {
   External,
   colors,
   serif,
+  switchColors,
 } from "../components/quiet-ui";
 import { APP_REVIEW_URL } from "../lib/app-rating";
 import SignInForm from "../components/SignInForm";
@@ -57,6 +59,7 @@ function tellAndWait(message: string) {
 }
 export default function Profile() {
   const tr = useInterfaceCopy();
+  const [usageShared, setUsageShared] = useState(usageDataShared);
   const { userId } = useCommunity();
   const { clear } = useQuiet();
   const { profile, reset } = useApp(),
@@ -227,6 +230,30 @@ export default function Profile() {
             title={l("restore")}
             onPress={() => router.push("/restore")}
           />
+        </Card>
+      )}
+      {/* Anonymous usage data, which anyone can switch off. */}
+      {analyticsAvailable() && (
+        <Card>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
+            <View style={{ flex: 1, gap: 4 }}>
+              <Subheading>{tr("Share anonymous usage data")}</Subheading>
+              <Body small>
+                {tr(
+                  "Helps us see which parts of Grace & Gather help people, such as whether journal entries are saved. Never what you write, pray or say.",
+                )}
+              </Body>
+            </View>
+            <Switch
+              {...switchColors}
+              accessibilityLabel={tr("Share anonymous usage data")}
+              value={usageShared}
+              onValueChange={(on) => {
+                setUsageShared(on);
+                void shareUsageData(on);
+              }}
+            />
+          </View>
         </Card>
       )}
       <Disclosure title={tr("Delete data or account")}>
