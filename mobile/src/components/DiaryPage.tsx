@@ -18,6 +18,7 @@ import { journalCopy } from "../lib/journal-library-copy";
 import { backend } from "../lib/backend";
 import JournalAIPermissionDialog from "./JournalAIPermissionDialog";
 import SafetyFooter from "./SafetyFooter";
+import { track } from "../lib/analytics";
 export default function Diary() {
   const { profile, saveEntry, entries } = useApp(),
     { draft, update, clear } = useQuiet();
@@ -140,6 +141,8 @@ export default function Diary() {
       const response = await resolveJournalResponse(entry, settings, entries);
       if (response.verse || entry.safety)
         await saveEntry({ ...entry, response }, true);
+      // Only that an entry was saved, never what it says.
+      track("journal_entry_saved", { ai: entry.guidance === "ai", voice: !!entry.audio, edited: changed });
       router.push({ pathname: "/entry/[id]", params: { id: entry.id } });
       // The saved page is finished. Whoever comes back here, by Back or by
       // "Talk to God", finds a fresh page; editing goes through Edit.

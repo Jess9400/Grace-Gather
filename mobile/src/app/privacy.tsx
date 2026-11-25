@@ -41,6 +41,10 @@ const policy = {
       "Microphone access is requested when you record. Local reminders and gathering push notifications require permission. Optional email updates require consent and a verified address. No precise location, advertising identifier or contact list is requested. External publishers and charities apply their own privacy policies. Audio gatherings, when configured, use LiveKit; other participants can hear anything you choose to say.",
     ],
     [
+      "Usage analytics",
+      "To improve the app, we count anonymous usage events with PostHog (servers in the EU), for example that onboarding was finished, a journal entry was saved or a candle was lit. These events never include what you write, pray, record or say, your name or your email; they are linked to your account only by an anonymous ID. We do not record your screen or sell this data. You can switch it off in Profile under “Share anonymous usage data”.",
+    ],
+    [
       "Care and moderation",
       "Grace & Gather is a spiritual wellbeing app, not therapy or emergency care. Journal entries are not monitored. Community harassment, hate, spam, unsafe medical advice and disclosure of another person’s private information are prohibited. Use Report or Block, or contact support. Resources and book suggestions do not promise recovery.",
     ],
@@ -77,6 +81,10 @@ const policy = {
     [
       "Suas escolhas",
       "Pedimos acesso ao microfone ao gravar. Lembretes e notificações exigem permissão. Atualizações opcionais por email exigem consentimento e endereço verificado. Não solicitamos localização precisa, identificador de publicidade ou contatos. Sites externos têm suas próprias políticas. Encontros de áudio, quando configurados, usam LiveKit; outros participantes ouvem o que você decidir compartilhar.",
+    ],
+    [
+      "Estatísticas de uso",
+      "Para melhorar o app, contamos eventos de uso anônimos com o PostHog (servidores na UE), por exemplo que o cadastro foi concluído, uma entrada do diário foi salva ou uma vela foi acesa. Esses eventos nunca incluem o que você escreve, ora, grava ou diz, seu nome ou seu e-mail; ficam ligados à sua conta apenas por um identificador anônimo. Não gravamos sua tela nem vendemos esses dados. Você pode desativar em Perfil, em “Compartilhar dados de uso anônimos”.",
     ],
     [
       "Cuidado e moderação",
@@ -117,6 +125,10 @@ const policy = {
       "Pedimos permiso de micrófono al grabar. Recordatorios y notificaciones requieren permiso. Las novedades opcionales por correo requieren consentimiento y una dirección verificada. No pedimos ubicación precisa, identificador publicitario ni contactos. Los sitios externos tienen sus propias políticas. Las reuniones de audio usan LiveKit cuando está configurado; los participantes oyen lo que decidas compartir.",
     ],
     [
+      "Estadísticas de uso",
+      "Para mejorar la app, contamos eventos de uso anónimos con PostHog (servidores en la UE), por ejemplo que se terminó el registro, se guardó una entrada del diario o se encendió una vela. Estos eventos nunca incluyen lo que escribes, oras, grabas o dices, tu nombre ni tu correo; se vinculan a tu cuenta solo mediante un identificador anónimo. No grabamos tu pantalla ni vendemos estos datos. Puedes desactivarlo en Perfil, en “Compartir datos de uso anónimos”.",
+    ],
+    [
       "Cuidado y moderación",
       "Grace & Gather es una app de bienestar espiritual, no terapia ni atención de emergencia. No se supervisa el diario. Se prohíben acoso, odio, spam, consejos médicos peligrosos y datos privados ajenos. Usa Denunciar o Bloquear, o contacta con ayuda. Los recursos y libros no prometen recuperación.",
     ],
@@ -153,6 +165,10 @@ const policy = {
     [
       "Ваш выбор",
       "Доступ к микрофону запрашивается, когда вы начинаете запись. Для напоминаний и уведомлений нужно ваше разрешение. Письма с новостями необязательны: для них нужны ваше согласие и подтверждённый адрес. Точная геолокация, рекламный идентификатор и список контактов не запрашиваются. У внешних сайтов свои политики конфиденциальности. Аудиовстречи, если они подключены, проходят через LiveKit; другие участники слышат всё, что вы решите сказать.",
+    ],
+    [
+      "Статистика использования",
+      "Чтобы улучшать приложение, мы считаем анонимные события использования с помощью PostHog (серверы в ЕС): например, что регистрация завершена, запись в дневнике сохранена или свеча зажжена. Эти события никогда не содержат того, что вы пишете, о чём молитесь, что записываете или говорите, а также вашего имени и электронной почты; с аккаунтом они связаны только анонимным идентификатором. Мы не записываем ваш экран и не продаём эти данные. Отключить можно в Профиле: «Делиться анонимной статистикой».",
     ],
     [
       "Забота и модерация",

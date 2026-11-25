@@ -31,7 +31,7 @@ test("praying for a request clears its notifications without Mark read", () => {
   const page = read("src/components/PrayerPage.tsx");
   // Tapping "I prayed for you" also marks that request's invitations read.
   assert.match(page, /onPress=\{\(\) => void pray\(p\.id\)\}/);
-  assert.match(page, /if \(!\(await act\("pray", id\)\)\) return;\s*for \(const n of answered\(id\)\) await act\("read", n\.id\);/);
+  assert.match(page, /if \(!\(await act\("pray", id\)\)\) return;\s*(?:track\("prayed_for_someone"\);\s*)?for \(const n of answered\(id\)\) await act\("read", n\.id\);/);
   // Invitations already prayed for clear themselves; "someone prayed for you" stays until read.
   assert.match(page, /!n\.is_read && n\.kind !== "prayed" && n\.request\?\.prayed && !cleared\.current\.has\(n\.id\)/);
   assert.match(read("src/components/HomeNotice.tsx"), /!\(value\.kind !== "prayed" && value\.request\?\.prayed\)/);

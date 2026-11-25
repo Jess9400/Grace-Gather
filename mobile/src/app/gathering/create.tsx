@@ -18,6 +18,7 @@ import { communityCopy } from "../../lib/community-copy";
 import PrayerSchedule from "../../components/PrayerSchedule";
 import { Disclosure } from "../../components/CommunityControls";
 import { useInterfaceCopy } from "../../lib/use-interface-copy";
+import { track } from "../../lib/analytics";
 export default function CreateGathering() {
   const submitting = useRef(false);
   const tr = useInterfaceCopy();
@@ -86,6 +87,7 @@ export default function CreateGathering() {
         repeat: !now && weekly ? "weekly" : "none",
         occurrences: !now && weekly ? Number(occurrences) : 1,
       });
+      track("gathering_created", { weekly: !now && weekly, startNow: now, everyoneSpeaks, visibility });
       // New gatherings let only invited people speak; open the floor if chosen.
       if (everyoneSpeaks && configured)
         await audioCommand("speak_mode", { gatheringId: result.id, enabled: true }).catch(() => {});

@@ -63,6 +63,7 @@ import { firstChurchVisit } from "../../lib/church-tools";
 import { StepCheckIn } from "../../components/SmallStep";
 import { useChurchPresence } from "../../lib/church-presence";
 import BrandMark from "../../components/BrandMark";
+import { track } from "../../lib/analytics";
 
 // The same church entrance with plain modern doors in a smooth wall, for
 // Protestants, to whom stone arches and iron-strapped doors feel pretentious.
@@ -942,6 +943,7 @@ export default function Home() {
           onEntered={() => {
             markEntered();
             setEntrance(false);
+            track("church_entered");
             // Only the first visit's tour waits behind the doors.
             if (!firstTour) setTour(false);
           }}

@@ -16,6 +16,10 @@ import ModeratorPushListener from "../components/ModeratorPushListener";
 import AppRatingListener from "../components/AppRatingListener";
 import IntroHandoff from "../components/IntroHandoff";
 import { useVerseWidget } from "../lib/use-verse-widget";
+import { useEffect } from "react";
+import type { Session } from "@supabase/supabase-js";
+import { backend } from "../lib/backend";
+import { identifyAccount, startAnalytics } from "../lib/analytics";
 
 function Routes() {
   const {
@@ -133,9 +137,40 @@ function Routes() {
     </>
   );
 }
+// Links analytics to the signed-in account's anonymous ID, and forgets it on
+// sign-out. Guests and anonymous sessions stay unnamed.
+function AnalyticsAccount() {
+  useEffect(() => {
+    // Starts analytics as the app opens, so app opens are counted too.
+    startAnalytics();
+    if (!backend) return;
+    const name = (session: Session | null) => {
+      const user = session?.user;
+      return user && !user.is_anonymous ? user.id : null;
+    };
+    void backend.auth
+      .getSession()
+      .then(({ data }) => {
+        const id = name(data.session);
+        if (id) identifyAccount(id);
+      })
+      .catch(() => {});
+    const { data } = backend.auth.onAuthStateChange((event, session) => {
+      if (event === "SIGNED_OUT") identifyAccount(null);
+      else if (event === "SIGNED_IN") {
+        const id = name(session);
+        if (id) identifyAccount(id);
+      }
+    });
+    return () => data.subscription.unsubscribe();
+  }, []);
+  return null;
+}
+
 export default function Layout() {
   return (
     <AppProvider>
+      <AnalyticsAccount />
       <QuietProvider>
         <CommunityProvider>
           <AudioRoomProvider>

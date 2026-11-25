@@ -41,6 +41,7 @@ import CommunityAIPermission from "../components/CommunityAIPermission";
 import OnboardingNotifications from "../components/OnboardingNotifications";
 import CountryPicker from "../components/CountryPicker";
 import { Disclosure } from "../components/QuietControls";
+import { track } from "../lib/analytics";
 
 const TRADITIONS: Tradition[] = ["catholic", "protestant", "orthodox"];
 const chosen = (p: Profile) =>
@@ -86,6 +87,7 @@ export default function Onboarding() {
         traditionQuestionVersion: TRADITION_QUESTION_VERSION,
         termsVersion: TERMS_VERSION,
       });
+      track("onboarding_completed", { tradition: p.tradition, language: p.language });
       router.replace("/(tabs)");
     } catch {
       setError(t("pSaveError"));
