@@ -31,6 +31,7 @@ import {
 } from "../components/quiet-ui";
 import StepBibleSearch from "../components/StepBibleSearch";
 import { useApp } from "../lib/state";
+import { useReducedMotion } from "../lib/use-reduced-motion";
 import * as storage from "../lib/storage";
 import {
   planPassage,
@@ -215,6 +216,10 @@ export default function StudyWorkspace() {
     : (devotionalPreviewIndex ?? dailyIndex);
   const daily = c.devotionals[devotionalIndex];
   const [filter, setFilter] = useState<PlanFilter>("all");
+  const reducedMotion = useReducedMotion();
+  // Read · Reflect · Pray ticks for today's devotional, kept on this device.
+  const today = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+  const [steps, setSteps] = useState<number[]>([]);
   // Today's devotional verse, shown on its card before it is opened.
   const [dailyVerse, setDailyVerse] = useState<ReadingVerse[]>([]);
   useEffect(() => {
@@ -263,6 +268,43 @@ export default function StudyWorkspace() {
       invalidateReadings();
     };
   }, [progressAttempt, invalidateReadings, profile.edition]);
+  useEffect(() => {
+    let active = true;
+    if (!owner) return;
+    storage
+      .getItem(`study-today:${owner}`)
+      .then((value) => {
+        const saved = value ? JSON.parse(value) : null;
+        if (active)
+          setSteps(
+            saved?.day === today && Array.isArray(saved.done)
+              ? saved.done.filter((step: unknown) =>
+                  [0, 1, 2].includes(step as number),
+                )
+              : [],
+          );
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, [owner, today]);
+  const saveSteps = (next: number[]) => {
+    setSteps(next);
+    if (owner)
+      storage
+        .setItem(
+          `study-today:${owner}`,
+          JSON.stringify({ day: today, done: next }),
+        )
+        .catch(() => {});
+  };
+  const toggleStep = (step: number) =>
+    saveSteps(
+      steps.includes(step)
+        ? steps.filter((s) => s !== step)
+        : [...steps, step].sort(),
+    );
   const saveProgress = async (next: PlanProgress) => {
     if (!owner || writeLock.current) return false;
     writeLock.current = true;
@@ -467,21 +509,42 @@ export default function StudyWorkspace() {
               </View>
             )}
             <Body>{c.devotionals[dailyIndex][1]}</Body>
-            <View
-              style={s.steps}
-              accessible
-              accessibilityLabel={[c.readStep, c.reflect, c.pray].join(", ")}
-            >
-              {[c.readStep, c.reflect, c.pray].map((step) => (
-                <View key={step} style={s.step}>
-                  <View style={s.stepDot} />
-                  <Text style={s.stepText} numberOfLines={1}>
-                    {step}
-                  </Text>
-                </View>
-              ))}
+            <View style={s.steps}>
+              {[c.readStep, c.reflect, c.pray].map((step, index) => {
+                const done = steps.includes(index);
+                return (
+                  <Pressable
+                    key={step}
+                    accessibilityRole="checkbox"
+                    accessibilityState={{ checked: done }}
+                    accessibilityLabel={step}
+                    onPress={() => toggleStep(index)}
+                    style={[s.step, done && s.stepDone]}
+                  >
+                    {done ? (
+                      <Ionicons
+                        name="checkmark"
+                        size={15}
+                        color={colors.paper}
+                      />
+                    ) : (
+                      <View style={s.stepRing} />
+                    )}
+                    <Text
+                      style={[s.stepText, done && s.stepTextDone]}
+                      numberOfLines={1}
+                    >
+                      {step}
+                    </Text>
+                  </Pressable>
+                );
+              })}
             </View>
-            <Button title={c.open} onPress={() => openDevotional()} />
+            <Button
+              wide
+              title={steps.length === 3 ? c.doneToday : c.open}
+              onPress={() => openDevotional()}
+            />
           </Card>
           {!progressReady && <ActivityIndicator color={colors.goldInk} />}
           {progressReady && active !== null && (
@@ -787,12 +850,19 @@ export default function StudyWorkspace() {
       <Modal
         visible={detail !== null || devotional || words}
         transparent
-        animationType="fade"
+        animationType={reducedMotion ? "none" : "slide"}
         onRequestClose={close}
       >
         <View style={s.shade}>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel={c.close}
+            onPress={close}
+            style={s.grow}
+          />
           <View style={s.sheet}>
-            <View style={{ paddingHorizontal: 20, paddingTop: 16 }}>
+            <View style={s.grab} />
+            <View style={{ paddingHorizontal: 22, paddingTop: 6 }}>
               <StudyHeader
                 title={words ? c.original : detail !== null ? c.plans : c.daily}
                 closeLabel={c.close}
@@ -806,7 +876,24 @@ export default function StudyWorkspace() {
                 </>
               ) : (
                 <>
-                  <StudyArtwork hero animated variant={detail ?? dailyIndex} />
+                  {detail !== null ? (
+                    <StudyArtwork hero animated variant={detail} />
+                  ) : (
+                    <View style={s.eyebrow}>
+                      <Ionicons
+                        name="sunny-outline"
+                        size={17}
+                        color={colors.gold}
+                      />
+                      <Text style={s.gold}>
+                        {new Intl.DateTimeFormat(profile.language, {
+                          weekday: "long",
+                          month: "long",
+                          day: "numeric",
+                        }).format(date)}
+                      </Text>
+                    </View>
+                  )}
                   <Heading>
                     {detail !== null ? c.planTitles[detail] : daily[0]}
                   </Heading>
@@ -819,6 +906,7 @@ export default function StudyWorkspace() {
                       <Text style={s.gold}>{n.aboutPlan}</Text>
                       <Body>{n.planDescriptions[detail]}</Body>
                       <Button
+                        wide
                         title={
                           progress.active === detail ? c.continue : c.start
                         }
@@ -877,14 +965,36 @@ export default function StudyWorkspace() {
                       )}
                       {devotional ? (
                         <>
-                          <Text style={s.title}>{c.reflect}</Text>
-                          <Body>{daily[1]}</Body>
-                          <Text style={s.title}>{c.pray}</Text>
-                          <Body>{daily[2]}</Body>
-                          <Text style={s.title}>{c.action}</Text>
-                          <Body>{c.devotionalActions[devotionalIndex]}</Body>
+                          <View style={s.section}>
+                            <Text style={s.sectionLabel}>{c.reflect}</Text>
+                            <Text style={s.sectionText}>{daily[1]}</Text>
+                          </View>
+                          <View style={s.section}>
+                            <Text style={s.sectionLabel}>{c.pray}</Text>
+                            <Text style={[s.sectionText, s.prayer]}>
+                              {daily[2]}
+                            </Text>
+                          </View>
+                          <Card>
+                            <Text style={s.gold}>{c.action}</Text>
+                            <Body>{c.devotionalActions[devotionalIndex]}</Body>
+                          </Card>
+                          {!devotionalPlanMode && (
+                            <Button
+                              wide
+                              title={
+                                steps.length === 3 ? c.doneToday : c.markDone
+                              }
+                              disabled={steps.length === 3}
+                              onPress={() => {
+                                saveSteps([0, 1, 2]);
+                                close();
+                              }}
+                            />
+                          )}
                           {devotionalPlanMode && (
                             <Button
+                              wide
                               title={
                                 progress.devotionalDay === null
                                   ? c.start
@@ -925,6 +1035,7 @@ export default function StudyWorkspace() {
                           <>
                             <Body>{c.question}</Body>
                             <Button
+                              wide
                               title={
                                 progress.active !== detail
                                   ? c.start
@@ -1090,7 +1201,7 @@ const s = StyleSheet.create({
   steps: { flexDirection: "row", gap: 8 },
   step: {
     flex: 1,
-    minHeight: 36,
+    minHeight: 42,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
@@ -1100,13 +1211,16 @@ const s = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#C9A45C66",
   },
-  stepDot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-    backgroundColor: colors.gold,
+  stepDone: { backgroundColor: colors.gold, borderColor: colors.gold },
+  stepRing: {
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    borderWidth: 1.5,
+    borderColor: colors.gold,
   },
-  stepText: { color: colors.ink, fontSize: 13 },
+  stepText: { color: colors.ink, fontSize: 14 },
+  stepTextDone: { color: colors.paper, fontWeight: "600" },
   continue: {
     flexDirection: "row",
     alignItems: "center",
@@ -1260,14 +1374,39 @@ const s = StyleSheet.create({
     minHeight: 44,
   },
   grow: { flex: 1 },
-  shade: {
-    flex: 1,
-    justifyContent: "center",
-    padding: 20,
-    backgroundColor: "#0009",
+  shade: { flex: 1, justifyContent: "flex-end", backgroundColor: "#0A0806A6" },
+  sheet: {
+    maxHeight: "90%",
+    borderTopLeftRadius: 28,
+    borderTopRightRadius: 28,
+    borderTopWidth: 1,
+    borderColor: "#C9A45C4D",
+    backgroundColor: colors.paper,
   },
-  sheet: { maxHeight: "88%", borderRadius: 24, backgroundColor: colors.paper },
-  sheetContent: { padding: 24, gap: 20 },
+  grab: {
+    alignSelf: "center",
+    width: 40,
+    height: 4,
+    marginTop: 10,
+    borderRadius: 2,
+    backgroundColor: "#F4EBDA40",
+  },
+  sheetContent: { padding: 22, paddingBottom: 44, gap: 20 },
+  section: { gap: 6 },
+  sectionLabel: {
+    color: colors.goldInk,
+    fontSize: 12,
+    fontWeight: "600",
+    letterSpacing: 1.2,
+    textTransform: "uppercase",
+  },
+  sectionText: { color: colors.ink, fontSize: 17, lineHeight: 26 },
+  prayer: {
+    fontFamily: serif,
+    fontStyle: "italic",
+    fontSize: 19,
+    lineHeight: 28,
+  },
   reading: {
     fontFamily: serif,
     fontSize: 23,

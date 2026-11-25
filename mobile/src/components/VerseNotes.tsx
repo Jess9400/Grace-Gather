@@ -1,7 +1,7 @@
 import { StudyAction as Button } from "./StudyControls";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, TextInput, View, StyleSheet } from "react-native";
-import { Body, Card, colors } from "./quiet-ui";
+import { Body, LetterSurface, letter, serif } from "./quiet-ui";
 import { useCommunity } from "../lib/discussion-state";
 import type { Language } from "../lib/content";
 import { studyNotebook, type StudyNote } from "../lib/study-notebook";
@@ -72,72 +72,84 @@ function NoteEditor({
       setBusy(false);
     }
   }
+  // A note is the reader's own writing, so it sits on the cream letter page.
   return (
-    <Card>
-      <Body>{c.notes}</Body>
-      <Body small>{c.privateNotice}</Body>
-      {!ready && !error && <ActivityIndicator color={colors.goldInk} />}
-      {ready && (
-        <>
-          <TextInput
-            multiline
-            editable={!busy}
-            textAlignVertical="top"
-            accessibilityLabel={c.notes}
-            placeholder={c.placeholder}
-            placeholderTextColor={colors.muted}
-            value={body}
-            onChangeText={(value) => {
-              setBody(value);
-              setSaved(false);
-            }}
-            maxLength={20000}
-            style={s.input}
-          />
-          <Button
-            title={c.save}
-            disabled={!body.trim() || body.trim() === savedBody || busy}
-            loading={busy}
-            onPress={() => void save()}
-          />
-          {!!savedBody && (
-            <Button
-              secondary
-              title={c.remove}
-              disabled={busy}
-              onPress={() => void save(true)}
-            />
-          )}
-        </>
-      )}
-      {saved && <Body small>{c.saved}</Body>}
-      {!!error && (
-        <View>
-          <Body small>{error}</Body>
-          {!ready && (
-            <Button
-              secondary
-              title={c.search}
-              onPress={() => {
-                setError("");
-                setAttempt((n) => n + 1);
+    <LetterSurface>
+      <View style={s.page}>
+        <Body>{c.notes}</Body>
+        <Body small>{c.privateNotice}</Body>
+        {!ready && !error && <ActivityIndicator color={letter.gold} />}
+        {ready && (
+          <>
+            <TextInput
+              multiline
+              editable={!busy}
+              textAlignVertical="top"
+              accessibilityLabel={c.notes}
+              placeholder={c.placeholder}
+              placeholderTextColor={letter.muted}
+              value={body}
+              onChangeText={(value) => {
+                setBody(value);
+                setSaved(false);
               }}
+              maxLength={20000}
+              style={s.input}
             />
-          )}
-        </View>
-      )}
-    </Card>
+            <Button
+              title={c.save}
+              disabled={!body.trim() || body.trim() === savedBody || busy}
+              loading={busy}
+              onPress={() => void save()}
+            />
+            {!!savedBody && (
+              <Button
+                secondary
+                title={c.remove}
+                disabled={busy}
+                onPress={() => void save(true)}
+              />
+            )}
+          </>
+        )}
+        {saved && <Body small>{c.saved}</Body>}
+        {!!error && (
+          <View>
+            <Body small>{error}</Body>
+            {!ready && (
+              <Button
+                secondary
+                title={c.search}
+                onPress={() => {
+                  setError("");
+                  setAttempt((n) => n + 1);
+                }}
+              />
+            )}
+          </View>
+        )}
+      </View>
+    </LetterSurface>
   );
 }
 const s = StyleSheet.create({
+  page: {
+    gap: 12,
+    padding: 20,
+    borderRadius: 20,
+    backgroundColor: letter.paper,
+  },
   input: {
-    minHeight: 110,
-    maxHeight: 260,
-    padding: 16,
-    fontSize: 17,
-    lineHeight: 26,
-    color: colors.ink,
-    backgroundColor: colors.pale,
-    borderRadius: 15,
+    minHeight: 120,
+    maxHeight: 280,
+    paddingVertical: 12,
+    paddingHorizontal: 2,
+    fontFamily: serif,
+    fontSize: 19,
+    lineHeight: 28,
+    color: letter.ink,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: letter.line,
   },
 });

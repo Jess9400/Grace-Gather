@@ -194,7 +194,9 @@
     "toolContext": "Context",
     "toolDiscuss": "Discuss",
     "inProgress": "In progress",
-    "changePassage": "Change passage"
+    "changePassage": "Change passage",
+    "markDone": "Mark today done",
+    "doneToday": "Done for today"
   },
   "pt": {
     "study": "Estudo bíblico",
@@ -391,7 +393,9 @@
     "toolContext": "Contexto",
     "toolDiscuss": "Conversar",
     "inProgress": "Em andamento",
-    "changePassage": "Trocar passagem"
+    "changePassage": "Trocar passagem",
+    "markDone": "Concluir o dia",
+    "doneToday": "Concluído por hoje"
   },
   "es": {
     "study": "Estudio bíblico",
@@ -588,7 +592,9 @@
     "toolContext": "Contexto",
     "toolDiscuss": "Conversar",
     "inProgress": "En curso",
-    "changePassage": "Cambiar pasaje"
+    "changePassage": "Cambiar pasaje",
+    "markDone": "Marcar hoy como hecho",
+    "doneToday": "Hecho por hoy"
   },
   "ru": {
     "study": "Изучение Библии",
@@ -785,6 +791,8 @@
     "toolContext": "Контекст",
     "toolDiscuss": "Обсудить",
     "inProgress": "В процессе",
-    "changePassage": "Сменить отрывок"
+    "changePassage": "Сменить отрывок",
+    "markDone": "Отметить день",
+    "doneToday": "На сегодня всё"
   }
 }
