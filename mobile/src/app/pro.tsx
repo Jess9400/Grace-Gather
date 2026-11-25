@@ -31,6 +31,10 @@ import {
   serif,
 } from "../components/quiet-ui";
 import StepBibleSearch from "../components/StepBibleSearch";
+import DailyDevotional from "../components/DailyDevotional";
+import OriginalScripture from "../components/OriginalScripture";
+import StudyTraditions from "../components/StudyTraditions";
+import originalCopy from "../lib/original-study-copy.json";
 import { useApp } from "../lib/state";
 import { useReducedMotion } from "../lib/use-reduced-motion";
 import * as storage from "../lib/storage";
@@ -274,6 +278,8 @@ export default function StudyWorkspace() {
     number | null
   >(null);
   const [words, setWords] = useState(false);
+  const [original, setOriginal] = useState(false);
+  const [traditions, setTraditions] = useState(false);
   const [reading, setReading] = useState<ReadingVerse[]>([]);
   const [readingPassages, setReadingPassages] = useState<PlanPassage[]>([]);
   // The guided devotional's step: Read, Reflect, Pray, One action.
@@ -309,28 +315,6 @@ export default function StudyWorkspace() {
   const today = dayKey(date);
   const [steps, setSteps] = useState<number[]>([]);
   const [quietDays, setQuietDays] = useState<string[]>([]);
-  // Today's devotional verse, shown on its card before it is opened.
-  const [dailyVerse, setDailyVerse] = useState<ReadingVerse[]>([]);
-  useEffect(() => {
-    let active = true;
-    async function load() {
-      try {
-        if (!collection) throw Error("No collection");
-        await ensureCollection(collection);
-        const rows = passageRows(
-          collection,
-          devotionalPassage(dailyIndex, collection),
-        );
-        if (active) setDailyVerse(rows);
-      } catch {
-        if (active) setDailyVerse([]);
-      }
-    }
-    void load();
-    return () => {
-      active = false;
-    };
-  }, [collection, dailyIndex]);
   useEffect(() => {
     let active = true;
     storage
@@ -498,6 +482,8 @@ export default function StudyWorkspace() {
   };
   const openPlan = (index: number) => {
     setWords(false);
+    setOriginal(false);
+    setTraditions(false);
     setDevotional(false);
     setFinished(null);
     setPlanIntro(true);
@@ -508,6 +494,8 @@ export default function StudyWorkspace() {
   const openPlanReading = (index: number) => {
     if (planDone(index)) return openPlan(index);
     setWords(false);
+    setOriginal(false);
+    setTraditions(false);
     setDevotional(false);
     setFinished(null);
     setPlanIntro(false);
@@ -523,6 +511,8 @@ export default function StudyWorkspace() {
     setDevotionalPreviewIndex(previewIndex);
     setDevotionalPlanMode(asPlan);
     setWords(false);
+    setOriginal(false);
+    setTraditions(false);
     setDetail(null);
     setDevotional(true);
     const index = asPlan
@@ -536,6 +526,8 @@ export default function StudyWorkspace() {
     setDetail(null);
     setDevotional(false);
     setWords(false);
+    setOriginal(false);
+    setTraditions(false);
     setReading([]);
   };
   const studyVerse = (verse: ReadingVerse) => {
@@ -608,11 +600,6 @@ export default function StudyWorkspace() {
   const planDone = (index: number) =>
     (progress.days[index] ?? 0) >= readingPlanLength(index);
   const active = progress.active;
-  const verseQuote = dailyVerse.map((verse) => verse.text).join(" ");
-  const verseReference =
-    dailyVerse.length > 1
-      ? `${dailyVerse[0].reference}–${dailyVerse[dailyVerse.length - 1].id.split(".").pop()}`
-      : dailyVerse[0]?.reference;
   const tabs = [c.tabToday, c.tabPlans, c.tabStudy];
   const studyTools: {
     title: string;
@@ -625,6 +612,28 @@ export default function StudyWorkspace() {
       icon: "language-outline",
       onPress: () => {
         setWords(true);
+        setDetail(null);
+        setDevotional(false);
+      },
+    },
+    {
+      title: originalCopy[profile.language].title,
+      icon: "swap-horizontal-outline",
+      onPress: () => {
+        setOriginal(true);
+        setWords(false);
+        setTraditions(false);
+        setDetail(null);
+        setDevotional(false);
+      },
+    },
+    {
+      title: originalCopy[profile.language].theology,
+      icon: "people-outline",
+      onPress: () => {
+        setTraditions(true);
+        setOriginal(false);
+        setWords(false);
         setDetail(null);
         setDevotional(false);
       },
@@ -686,56 +695,11 @@ export default function StudyWorkspace() {
       </View>
       {tab === 0 && (
         <>
-          <Card>
-            <View style={s.eyebrow}>
-              <Ionicons name="sunny-outline" size={17} color={colors.gold} />
-              <Text style={s.gold}>{c.daily}</Text>
-            </View>
-            <Heading>{c.devotionals[dailyIndex][0]}</Heading>
-            {dailyVerse.length > 0 && (
-              <View style={s.quote}>
-                <Text style={s.quoteText}>“{verseQuote}”</Text>
-                <Text style={s.quoteRef}>{verseReference}</Text>
-              </View>
-            )}
-            <Body>{c.devotionals[dailyIndex][1]}</Body>
-            <View style={s.steps}>
-              {[c.readStep, c.reflect, c.pray].map((step, index) => {
-                const done = steps.includes(index);
-                return (
-                  <Pressable
-                    key={step}
-                    accessibilityRole="button"
-                    accessibilityState={{ checked: done }}
-                    accessibilityLabel={step}
-                    onPress={() => openDevotional(false, null, index)}
-                    style={[s.step, done && s.stepDone]}
-                  >
-                    {done ? (
-                      <Ionicons
-                        name="checkmark"
-                        size={15}
-                        color={colors.paper}
-                      />
-                    ) : (
-                      <View style={s.stepRing} />
-                    )}
-                    <Text
-                      style={[s.stepText, done && s.stepTextDone]}
-                      numberOfLines={1}
-                    >
-                      {step}
-                    </Text>
-                  </Pressable>
-                );
-              })}
-            </View>
-            <Button
-              wide
-              title={steps.length === 3 ? c.doneToday : c.open}
-              onPress={() => openDevotional()}
-            />
-          </Card>
+          <DailyDevotional
+            language={profile.language}
+            collection={collection}
+            onFinished={() => saveToday([0, 1, 2], true)}
+          />
           {!progressReady && <ActivityIndicator color={colors.goldInk} />}
           {progressReady && active !== null && (
             <Pressable
@@ -1072,7 +1036,9 @@ export default function StudyWorkspace() {
         />
       )}
       <Modal
-        visible={detail !== null || devotional || words}
+        visible={
+          detail !== null || devotional || words || original || traditions
+        }
         transparent
         animationType={reducedMotion ? "none" : "slide"}
         onRequestClose={close}
@@ -1095,15 +1061,19 @@ export default function StudyWorkspace() {
             <View style={{ paddingHorizontal: 22, paddingTop: 6 }}>
               <StudyHeader
                 title={
-                  words
-                    ? c.original
-                    : devotional
-                      ? devotionalPlanMode
-                        ? c.devotionalPlan
-                        : c.daily
-                      : detail !== null && !planIntro
-                        ? c.planTitles[detail]
-                        : c.plans
+                  original
+                    ? originalCopy[profile.language].title
+                    : traditions
+                      ? originalCopy[profile.language].theology
+                      : words
+                        ? c.original
+                        : devotional
+                          ? devotionalPlanMode
+                            ? c.devotionalPlan
+                            : c.daily
+                          : detail !== null && !planIntro
+                            ? c.planTitles[detail]
+                            : c.plans
                 }
                 closeLabel={c.close}
                 onClose={close}
@@ -1119,6 +1089,18 @@ export default function StudyWorkspace() {
               contentContainerStyle={s.sheetContent}
             >
               {words && <StepBibleSearch language={profile.language} />}
+              {original && (
+                <OriginalScripture
+                  verse={selectedVerse}
+                  language={profile.language}
+                />
+              )}
+              {traditions && (
+                <StudyTraditions
+                  language={profile.language}
+                  tradition={profile.tradition}
+                />
+              )}
               {devotional && (
                 <>
                   <View style={s.eyebrow}>

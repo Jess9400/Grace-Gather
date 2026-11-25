@@ -114,8 +114,7 @@ friend, without search and without being findable. No edge function.
 Reading-plan days, "Seven days with God" and today's Read · Reflect · Pray
 follow the account to a new phone or the web. No edge function.
 
-- [ ] **1. Database migration** in the SQL Editor, before or right after
-  merging: apply `supabase/migrations/20261125120000_study_progress_sync.sql`
+- [x] **1. Database migration:** confirmed table and RPC live on 25 November 2026. Repository migration: `supabase/migrations/20261125120000_study_progress_sync.sql`
   (adds `private.study_progress` and `public.study_progress`). It is safe to
   run twice. Until it is applied, progress keeps working on each device as
   before; it just doesn't travel. Check: `select count(*) from
@@ -123,3 +122,14 @@ follow the account to a new phone or the web. No edge function.
 - [ ] **2. Check on the next app build:** start a plan and mark a day on the
   phone, then open Bible Study on the web with the same account; the plan
   shows the same day.
+
+## Pro daily devotionals and original-language tools
+
+- [x] Applied `20261125165504_daily_devotional_history.sql` on 25 November 2026. Confirmed RLS, no anonymous execution, no direct client table access and the public invoker wrapper. Local two-account tests pass; updates merge reading steps without erasing completion.
+- [x] Confirmed the existing #254 study_progress table and RPC are already present on production. The older unchecked deployment item above is stale; remaining #254 work is the two-device app test.
+- [ ] Jessica and Taya review the first 31 devotional drafts in all four languages. Both approvals must cover the exact content SHA-256. Nothing is professionally reviewed merely because it compiles.
+- [ ] Write, translate and jointly approve the remaining 334 entries. The 365 date slots are a schedule, not 365 finished devotionals. `npm run devotionals:check` intentionally fails until the year is complete and approved.
+- [ ] Merge and deploy only after the first editorial batch has been approved. Default builds omit draft content; a preview build must never be used for production distribution.
+- [ ] Next phone build: check Greek/Hebrew glyphs, RTL Hebrew word order, word selection and concordance scrolling, then confirm history on a second device.
+
+Original texts and concordance are versioned static assets deployed with the web build; no paid API or new AI calls are used. Native apps download only the selected chapter and a small concordance shard. Longer lexical definitions remain excluded under their separate permission notice. Full unverified verse-by-verse denominational coverage is not claimed.
