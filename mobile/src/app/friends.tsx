@@ -535,78 +535,28 @@ function FriendsScreen({
               <TextAction title={c("Close")} onPress={closeInvitation} />
             </View>
           )}
-          {pending.map((l) => (
-            <Card key={l.id}>
-              <Body>{l.name}</Body>
-              <Body small>{c(l.outgoing ? "Request sent" : "Requests")}</Body>
-              <View style={s.actions}>
-                {!l.outgoing && (
-                  <TextAction
-                    title={c("Accept")}
-                    disabled={busy}
-                    onPress={() => void run(() => act("accept", { id: l.id }))}
-                  />
-                )}
-                <TextAction
-                  title={c(l.outgoing ? "Cancel request" : "Decline")}
-                  disabled={busy}
-                  onPress={() => void run(() => act("decline", { id: l.id }))}
-                />
-                <TextAction
-                  title={c("Block")}
-                  disabled={busy}
-                  onPress={() => void run(() => act("block", { peer: l.peer }))}
-                />
-              </View>
-            </Card>
-          ))}
-          {accepted.length ? (
-            <View style={s.list}>
-              {accepted.map((l, i) => (
-                <Pressable
-                  key={l.id}
-                  accessibilityRole="button"
-                  accessibilityLabel={`${c("Chat")}: ${l.name}`}
-                  disabled={busy}
-                  onPress={() => void run(() => open(l))}
-                  style={({ pressed }) => [
-                    s.row,
-                    i < accepted.length - 1 && s.rowLine,
-                    pressed && { opacity: 0.6 },
-                  ]}
-                >
-                  <CelestialAvatar variant={avatarVariant(l.peer)} size={40} />
-                  <Text numberOfLines={1} style={s.rowName}>
-                    {l.name}
-                  </Text>
-                  <Ionicons
-                    name="chevron-forward"
-                    size={18}
-                    color={colors.muted}
-                  />
-                </Pressable>
-              ))}
-            </View>
-          ) : (
-            <Body>
-              {c("No friends yet.")}
-            </Body>
-          )}
-          <Pressable
-            accessibilityRole="button"
-            accessibilityState={{ expanded: finding }}
-            onPress={() => setFinding(!finding)}
-            style={({ pressed }) => [s.find, pressed && { opacity: 0.7 }]}
-          >
-            <Text style={s.findText}>{c("Find friends")}</Text>
-          </Pressable>
-          {/* A private link is the easiest way to add someone you know. */}
-          <Button
-            secondary
-            disabled={busy}
-            title={c("Share my friend link")}
-            onPress={() => void shareFriendLink()}
-          />
+          {/* Finding and inviting sit above the list, so they stay one tap
+              away however many friends someone has. */}
+          <View style={s.topActions}>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityState={{ expanded: finding }}
+              onPress={() => setFinding(!finding)}
+              style={({ pressed }) => [s.topAction, finding && s.topActionOn, pressed && { opacity: 0.7 }]}
+            >
+              <Ionicons name="search" size={17} color={finding ? colors.paper : colors.ink} />
+              <Text style={[s.topActionText, finding && { color: colors.paper }]}>{c("Find friends")}</Text>
+            </Pressable>
+            <Pressable
+              accessibilityRole="button"
+              disabled={busy}
+              onPress={() => void shareFriendLink()}
+              style={({ pressed }) => [s.topAction, pressed && { opacity: 0.7 }]}
+            >
+              <Ionicons name="share-outline" size={17} color={colors.ink} />
+              <Text style={s.topActionText}>{c("Share my friend link")}</Text>
+            </Pressable>
+          </View>
           {finding && (
             <>
               {hasName && !editingFindable ? (
@@ -736,13 +686,70 @@ function FriendsScreen({
                   </Card>
                 );
               })}
+              <Text style={s.note}>
+                {c(
+                  "People appear here only if they chose to be findable, and both of you said yes.",
+                )}
+              </Text>
             </>
           )}
-          <Text style={s.note}>
-            {c(
-              "People appear here only if they chose to be findable, and both of you said yes.",
-            )}
-          </Text>
+          {pending.map((l) => (
+            <Card key={l.id}>
+              <Body>{l.name}</Body>
+              <Body small>{c(l.outgoing ? "Request sent" : "Requests")}</Body>
+              <View style={s.actions}>
+                {!l.outgoing && (
+                  <TextAction
+                    title={c("Accept")}
+                    disabled={busy}
+                    onPress={() => void run(() => act("accept", { id: l.id }))}
+                  />
+                )}
+                <TextAction
+                  title={c(l.outgoing ? "Cancel request" : "Decline")}
+                  disabled={busy}
+                  onPress={() => void run(() => act("decline", { id: l.id }))}
+                />
+                <TextAction
+                  title={c("Block")}
+                  disabled={busy}
+                  onPress={() => void run(() => act("block", { peer: l.peer }))}
+                />
+              </View>
+            </Card>
+          ))}
+          {accepted.length ? (
+            <View style={s.list}>
+              {accepted.map((l, i) => (
+                <Pressable
+                  key={l.id}
+                  accessibilityRole="button"
+                  accessibilityLabel={`${c("Chat")}: ${l.name}`}
+                  disabled={busy}
+                  onPress={() => void run(() => open(l))}
+                  style={({ pressed }) => [
+                    s.row,
+                    i < accepted.length - 1 && s.rowLine,
+                    pressed && { opacity: 0.6 },
+                  ]}
+                >
+                  <CelestialAvatar variant={avatarVariant(l.peer)} size={40} />
+                  <Text numberOfLines={1} style={s.rowName}>
+                    {l.name}
+                  </Text>
+                  <Ionicons
+                    name="chevron-forward"
+                    size={18}
+                    color={colors.muted}
+                  />
+                </Pressable>
+              ))}
+            </View>
+          ) : (
+            <Body>
+              {c("No friends yet.")}
+            </Body>
+          )}
           {!!blocked.length && (
             <Disclosure title={c("Blocked members")}>
               {blocked.map((p) => (
@@ -842,18 +849,24 @@ const s = StyleSheet.create({
   },
   avatarText: { fontSize: 16, fontWeight: "700", color: colors.ink },
   rowName: { flex: 1, fontSize: 16, fontWeight: "600", color: colors.ink },
-  find: {
-    minHeight: 52,
-    borderRadius: 26,
-    borderWidth: 1.5,
-    borderStyle: "dashed",
-    borderColor: colors.gold,
-    backgroundColor: colors.white,
+  note: { fontSize: 13, lineHeight: 19, color: colors.muted },
+  topActions: { flexDirection: "row", flexWrap: "wrap", gap: 10 },
+  topAction: {
+    flexGrow: 1,
+    flexBasis: 150,
+    minHeight: 48,
+    flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
+    gap: 8,
+    paddingHorizontal: 14,
+    borderRadius: 24,
+    borderWidth: 1,
+    borderColor: colors.gold,
+    backgroundColor: colors.white,
   },
-  findText: { fontSize: 15, fontWeight: "600", color: colors.ink },
-  note: { fontSize: 13, lineHeight: 19, color: colors.muted },
+  topActionOn: { backgroundColor: colors.green, borderColor: colors.green },
+  topActionText: { fontSize: 15, fontWeight: "600", color: colors.ink },
   findable: {
     gap: 10,
     padding: 16,
