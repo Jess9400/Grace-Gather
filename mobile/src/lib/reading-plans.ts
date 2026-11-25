@@ -112,3 +112,36 @@ export function yearDayPassages(
     Math.floor(((day + 1) * all.length) / 365),
   );
 }
+// Library shelves for the plan filters, in plan order. Bible in a Year sits
+// outside every shelf and shows under "All".
+export type PlanGroup = "gospels" | "letters" | "stories" | "themes";
+export const planGroups: PlanGroup[] = [
+  "gospels",
+  "themes",
+  "gospels",
+  "letters",
+  "stories",
+  "themes",
+  "gospels",
+  "gospels",
+  "stories",
+  "stories",
+  "letters",
+  "letters",
+  "themes",
+  "stories",
+];
+export const planFilters = [
+  "all",
+  "short",
+  "gospels",
+  "letters",
+  "stories",
+  "themes",
+] as const;
+export type PlanFilter = (typeof planFilters)[number];
+export function planMatches(plan: number, filter: PlanFilter) {
+  if (filter === "all") return true;
+  if (filter === "short") return readingPlanLength(plan) <= 7;
+  return planGroups[plan] === filter;
+}

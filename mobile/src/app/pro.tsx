@@ -3,7 +3,13 @@ import {
   StudyLink,
   StudyHeader,
 } from "../components/StudyControls";
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type ComponentProps,
+} from "react";
 import {
   View,
   Text,
@@ -32,6 +38,9 @@ import {
   readingPlanLength,
   yearPlanIndex,
   yearDayPassages,
+  planFilters,
+  planMatches,
+  type PlanFilter,
   type PlanProgress,
   type PlanPassage,
 } from "../lib/reading-plans";
@@ -41,11 +50,12 @@ import {
   studyCollectionFor,
   chapterRows,
   getReadingVerse,
+  type CollectionId,
   type ReadingVerse,
 } from "../lib/bible";
 import { fromVerseRoute, toVerseRoute } from "../lib/verse-route";
 import { data } from "../lib/content";
-import StudyArtwork from "../components/StudyArtwork";
+import StudyArtwork, { studyGlyph } from "../components/StudyArtwork";
 import StudyPassagePicker from "../components/StudyPassagePicker";
 import { StudyPage } from "../components/VerseStudy";
 import VerseNotes from "../components/VerseNotes";
@@ -67,6 +77,27 @@ const devotionalPassages: PlanPassage[] = [
   { book: "ZEC", chapter: 4, from: 10, to: 10 },
   { book: "PHP", chapter: 4, from: 6, to: 7 },
 ];
+// The verses of one plan or devotional passage in the reader's Bible.
+function passageRows(collection: CollectionId, passage: PlanPassage) {
+  const book = collections[collection].index.books.findIndex(
+    (b) => b.code === passage.book,
+  );
+  return chapterRows(book, passage.chapter, collection).filter(
+    (v) =>
+      (!passage.from || Number(v.id.split(".").pop()) >= passage.from) &&
+      (!passage.to || Number(v.id.split(".").pop()) <= passage.to),
+  );
+}
+function devotionalPassage(index: number, collection: string | null) {
+  const passage = { ...devotionalPassages[index] };
+  // Psalm 107 is Psalm 106 in the Greek numbering these editions follow.
+  if (
+    passage.book === "PSA" &&
+    ["dra", "brenton", "synodal"].includes(collection ?? "")
+  )
+    passage.chapter = 106;
+  return passage;
+}
 export default function StudyWorkspace() {
   const { profile } = useApp();
   const params = useLocalSearchParams<{ verse?: string; tab?: string }>();
@@ -183,6 +214,29 @@ export default function StudyWorkspace() {
     ? Math.min(progress.devotionalDay ?? 0, 6)
     : (devotionalPreviewIndex ?? dailyIndex);
   const daily = c.devotionals[devotionalIndex];
+  const [filter, setFilter] = useState<PlanFilter>("all");
+  // Today's devotional verse, shown on its card before it is opened.
+  const [dailyVerse, setDailyVerse] = useState<ReadingVerse[]>([]);
+  useEffect(() => {
+    let active = true;
+    async function load() {
+      try {
+        if (!collection) throw Error("No collection");
+        await ensureCollection(collection);
+        const rows = passageRows(
+          collection,
+          devotionalPassage(dailyIndex, collection),
+        );
+        if (active) setDailyVerse(rows);
+      } catch {
+        if (active) setDailyVerse([]);
+      }
+    }
+    void load();
+    return () => {
+      active = false;
+    };
+  }, [collection, dailyIndex]);
   useEffect(() => {
     let active = true;
     storage
@@ -238,17 +292,7 @@ export default function StudyWorkspace() {
       if (!collection) throw Error("No collection");
       await ensureCollection(collection);
       const rows = (Array.isArray(passages) ? passages : [passages]).flatMap(
-        (passage) => {
-          const book = collections[collection].index.books.findIndex(
-            (b) => b.code === passage.book,
-          );
-          return chapterRows(book, passage.chapter, collection).filter(
-            (v) =>
-              (!passage.from ||
-                Number(v.id.split(".").pop()) >= passage.from) &&
-              (!passage.to || Number(v.id.split(".").pop()) <= passage.to),
-          );
-        },
+        (passage) => passageRows(collection, passage),
       );
       if (ticket === readSequence.current) {
         setReading(rows);
@@ -292,13 +336,7 @@ export default function StudyWorkspace() {
     const index = asPlan
       ? Math.min(progress.devotionalDay ?? 0, 6)
       : (previewIndex ?? dailyIndex);
-    const passage = { ...devotionalPassages[index] };
-    if (
-      passage.book === "PSA" &&
-      ["dra", "brenton", "synodal"].includes(collection ?? "")
-    )
-      passage.chapter = 106;
-    void loadReading(passage);
+    void loadReading(devotionalPassage(index, collection));
   };
   const close = () => {
     readSequence.current++;
@@ -327,239 +365,366 @@ export default function StudyWorkspace() {
     progress,
     collection ? collections[collection].index.books : [],
   );
+  const planDay = (index: number) =>
+    Math.min((progress.days[index] ?? 0) + 1, readingPlanLength(index));
+  const dayOf = (index: number) =>
+    c.dayOf
+      .replace("{day}", String(planDay(index)))
+      .replace("{total}", String(readingPlanLength(index)));
+  const planDone = (index: number) =>
+    (progress.days[index] ?? 0) >= readingPlanLength(index);
+  const active = progress.active;
+  const verseQuote = dailyVerse.map((verse) => verse.text).join(" ");
+  const verseReference =
+    dailyVerse.length > 1
+      ? `${dailyVerse[0].reference}–${dailyVerse[dailyVerse.length - 1].id.split(".").pop()}`
+      : dailyVerse[0]?.reference;
+  const tabs = [c.tabToday, c.tabPlans, c.tabStudy];
+  const studyTools: {
+    title: string;
+    icon: ComponentProps<typeof Ionicons>["name"];
+    onPress: () => void;
+    needsVerse?: boolean;
+  }[] = [
+    {
+      title: c.toolWords,
+      icon: "language-outline",
+      onPress: () => {
+        setWords(true);
+        setDetail(null);
+        setDevotional(false);
+      },
+    },
+    {
+      title: c.toolContext,
+      icon: "time-outline",
+      onPress: () => setTool("deeper"),
+      needsVerse: true,
+    },
+    {
+      title: c.theologyTool,
+      icon: "library-outline",
+      onPress: () => setTool("theology"),
+      needsVerse: true,
+    },
+    {
+      title: c.toolDiscuss,
+      icon: "chatbubbles-outline",
+      onPress: openDiscussion,
+      needsVerse: true,
+    },
+  ];
   return (
     <Screen back home place="bible">
-      <View style={s.row}>
-        <Heading>{c.study}</Heading>
-        <Text style={s.gold}>✧ PRO</Text>
-      </View>
-      <Body>{c.intro}</Body>
-      <Pressable
-        accessibilityRole="button"
-        accessibilityLabel={c.passage}
-        onPress={() => setPicker(true)}
-        style={s.passage}
-      >
-        <View style={s.row}>
-          <Text style={s.gold}>{c.passage}</Text>
-          <Ionicons name="chevron-down" size={19} color={colors.goldInk} />
+      <View style={s.titleRow}>
+        <View style={s.grow}>
+          <Text style={s.date}>
+            {new Intl.DateTimeFormat(profile.language, {
+              weekday: "long",
+              month: "long",
+              day: "numeric",
+            }).format(date)}
+          </Text>
+          <Heading>{c.study}</Heading>
         </View>
-        <Text style={s.title}>{selectedVerse?.reference ?? c.loading}</Text>
-        {selectedVerse && (
-          <>
-            <Body small>{selectedVerse.editionName}</Body>
-            <Text style={s.passageText} numberOfLines={3}>
-              {selectedVerse.text}
-            </Text>
-          </>
-        )}
-      </Pressable>
-      {selectionError && (
-        <Button
-          secondary
-          title={c.retry}
-          onPress={() => {
-            setSelectionError(false);
-            setSelectionAttempt((a) => a + 1);
-          }}
-        />
-      )}
-      <View style={s.tabs}>
-        {[c.today, c.plans, c.words].map((title, index) => (
+        <View style={s.proPill}>
+          <Ionicons name="sparkles" size={11} color={colors.gold} />
+          <Text style={s.proText}>PRO</Text>
+        </View>
+      </View>
+      <View style={s.segment} accessibilityRole="tablist">
+        {tabs.map((title, index) => (
           <Pressable
             key={title}
             accessibilityRole="tab"
             accessibilityState={{ selected: tab === index }}
             onPress={() => setTab(index)}
-            style={[s.tab, tab === index && s.tabActive]}
+            style={[s.segmentItem, tab === index && s.segmentActive]}
           >
-            <Text style={[s.text, tab === index && s.gold]}>{title}</Text>
+            <Text
+              numberOfLines={1}
+              style={[s.segmentText, tab === index && s.segmentTextActive]}
+            >
+              {title}
+            </Text>
           </Pressable>
         ))}
       </View>
       {tab === 0 && (
         <>
-          <Pressable
-            accessibilityRole="button"
-            onPress={() => openDevotional()}
-          >
-            <Card>
-              <StudyArtwork hero animated={tab === 0} variant={dailyIndex} />
-              <Body small>
-                {new Intl.DateTimeFormat(profile.language, {
-                  weekday: "long",
-                  month: "long",
-                  day: "numeric",
-                }).format(date)}
-              </Body>
-              <View style={s.row}>
+          <Card>
+            <View style={s.eyebrow}>
+              <Ionicons name="sunny-outline" size={17} color={colors.gold} />
+              <Text style={s.gold}>{c.daily}</Text>
+            </View>
+            <Heading>{c.devotionals[dailyIndex][0]}</Heading>
+            {dailyVerse.length > 0 && (
+              <View style={s.quote}>
+                <Text style={s.quoteText} numberOfLines={5}>
+                  “{verseQuote}”
+                </Text>
+                <Text style={s.quoteRef}>{verseReference}</Text>
+              </View>
+            )}
+            <Body>{c.devotionals[dailyIndex][1]}</Body>
+            <View
+              style={s.steps}
+              accessible
+              accessibilityLabel={[c.readStep, c.reflect, c.pray].join(", ")}
+            >
+              {[c.readStep, c.reflect, c.pray].map((step) => (
+                <View key={step} style={s.step}>
+                  <View style={s.stepDot} />
+                  <Text style={s.stepText} numberOfLines={1}>
+                    {step}
+                  </Text>
+                </View>
+              ))}
+            </View>
+            <Button title={c.open} onPress={() => openDevotional()} />
+          </Card>
+          {!progressReady && <ActivityIndicator color={colors.goldInk} />}
+          {progressReady && active !== null && (
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={`${c.continue}: ${c.planTitles[active]}, ${dayOf(active)}`}
+              onPress={() => openPlan(active)}
+              style={s.continue}
+            >
+              <View style={s.cover}>
                 <Ionicons
-                  name="sunny-outline"
-                  size={28}
+                  name={studyGlyph(active)}
+                  size={24}
                   color={colors.goldInk}
                 />
-                <Text style={s.gold}>{c.daily}</Text>
               </View>
-              <Heading>{c.devotionals[dailyIndex][0]}</Heading>
-              <Body>{c.devotionals[dailyIndex][1]}</Body>
-              <Text style={s.gold}>{c.open} →</Text>
-            </Card>
-          </Pressable>
-          <Text style={s.title}>{n.moreDevotionals}</Text>
-          <ScrollView
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ gap: 14, paddingBottom: 8 }}
-          >
-            {[(dailyIndex + 6) % 7, (dailyIndex + 1) % 7].map((index) => (
-              <Pressable
-                key={index}
-                accessibilityRole="button"
-                onPress={() => openDevotional(false, index)}
-                style={{
-                  width: 220,
-                  gap: 12,
-                  backgroundColor: colors.white,
-                  padding: 16,
-                  borderRadius: 20,
-                }}
-              >
-                <StudyArtwork variant={index} />
-                <Text style={s.title}>{c.devotionals[index][0]}</Text>
-                <Text style={s.gold}>{c.open} →</Text>
-              </Pressable>
-            ))}
-          </ScrollView>
-          <Text style={s.title}>{n.progress}</Text>
-          <View style={s.stats}>
-            {[
-              [stats.readings, n.readings],
-              [stats.books, n.booksRead],
-              [noteCount ?? "—", n.notesCount],
-            ].map(([value, label]) => (
-              <View key={label} style={s.stat}>
-                <Text style={s.statValue}>{value}</Text>
-                <Text style={s.statLabel}>{label}</Text>
+              <View style={s.grow}>
+                <Text style={s.gold}>
+                  {planDone(active) ? c.completePlan : c.continue}
+                </Text>
+                <Text style={s.title}>{c.planTitles[active]}</Text>
+                <Text style={s.small}>{dayOf(active)}</Text>
+                <View style={s.bar}>
+                  <View
+                    style={[
+                      s.barFill,
+                      {
+                        width: `${Math.round(((progress.days[active] ?? 0) / readingPlanLength(active)) * 100)}%`,
+                      },
+                    ]}
+                  />
+                </View>
               </View>
-            ))}
-          </View>
-          <StudyLink
-            title={n.myNotes}
-            icon="document-text-outline"
-            onPress={() => setNotebook(true)}
-          />
-          <StudyLink
-            title={n.readingTogether}
-            icon="people-outline"
-            onPress={() => setTogether({ plan: null })}
-          />
-          {!progressReady && <ActivityIndicator color={colors.goldInk} />}
-          {progress.active !== null && (
+              <View style={s.go}>
+                <Ionicons name="arrow-forward" size={18} color={colors.paper} />
+              </View>
+            </Pressable>
+          )}
+          {progressReady && active === null && (
             <Card>
-              <Body small>{c.selected}</Body>
-              <Text style={s.title}>{c.planTitles[progress.active]}</Text>
-              <Body>
-                {Math.min(
-                  (progress.days[progress.active] ?? 0) + 1,
-                  readingPlanLength(progress.active),
-                )}{" "}
-                / {readingPlanLength(progress.active)}
-              </Body>
-              <Button
-                title={
-                  (progress.days[progress.active] ?? 0) >=
-                  readingPlanLength(progress.active)
-                    ? c.completePlan
-                    : c.continue
-                }
-                onPress={() => openPlan(progress.active!)}
-              />
+              <View style={s.row}>
+                <Text style={s.title}>{c.startWithPlan}</Text>
+                <Pressable
+                  accessibilityRole="button"
+                  onPress={() => setTab(1)}
+                  hitSlop={10}
+                >
+                  <Text style={s.gold}>{c.seeAll}</Text>
+                </Pressable>
+              </View>
+              {[1, 0].map((index) => (
+                <Pressable
+                  key={index}
+                  accessibilityRole="button"
+                  onPress={() => openPlan(index)}
+                  style={s.suggestion}
+                >
+                  <View style={[s.cover, s.coverSmall]}>
+                    <Ionicons
+                      name={studyGlyph(index)}
+                      size={20}
+                      color={colors.goldInk}
+                    />
+                  </View>
+                  <View style={s.grow}>
+                    <Text style={s.text}>{c.planTitles[index]}</Text>
+                    <Text style={s.small}>
+                      {readingPlanLength(index)} {c.days} · 5–10 min
+                    </Text>
+                  </View>
+                </Pressable>
+              ))}
             </Card>
           )}
-          {progress.active === null && (
-            <Button
-              secondary
-              title={c.library + " →"}
-              onPress={() => setTab(1)}
-            />
+          {stats.readings > 0 && (
+            <>
+              <Text style={s.title}>{n.progress}</Text>
+              <View style={s.stats}>
+                {[
+                  [stats.readings, n.readings],
+                  [stats.books, n.booksRead],
+                  [noteCount ?? "—", n.notesCount],
+                ].map(([value, label]) => (
+                  <View key={label} style={s.stat}>
+                    <Text style={s.statValue}>{value}</Text>
+                    <Text style={s.statLabel}>{label}</Text>
+                  </View>
+                ))}
+              </View>
+            </>
           )}
-          <Body small>{c.devotionalDescription}</Body>
+          <View style={s.list}>
+            <StudyLink
+              title={n.myNotes}
+              icon="document-text-outline"
+              onPress={() => setNotebook(true)}
+            />
+            <StudyLink
+              title={n.readingTogether}
+              icon="people-outline"
+              onPress={() => setTogether({ plan: null })}
+            />
+          </View>
         </>
       )}
       {tab === 1 && (
-        <Pressable
-          accessibilityRole="button"
-          onPress={() => openDevotional(true)}
-        >
-          <Card>
-            <StudyArtwork variant={1} hero />
-            <Text style={s.gold}>
-              {c.daily} · 7 {c.days}
-            </Text>
-            <Text style={s.title}>{c.devotionalPlan}</Text>
-            <Body>{c.devotionalDescription}</Body>
-            <Text style={s.gold}>
-              {progress.devotionalDay === null ? c.start : c.continue} →
-            </Text>
-          </Card>
-        </Pressable>
-      )}
-      {tab === 1 && (
-        <View style={s.grid}>
-          {c.planTitles.map((title, index) => (
+        <>
+          {active !== null && (
             <Pressable
-              key={title}
               accessibilityRole="button"
-              onPress={() => openPlan(index)}
-              style={s.plan}
+              onPress={() => openPlan(active)}
+              style={s.activeStrip}
             >
-              <StudyArtwork variant={index} />
-              <Text style={s.title}>{title}</Text>
-              <Body small>{n.planDescriptions[index]}</Body>
-              <Body small>
-                {readingPlanLength(index)} {c.days} ·{" "}
-                {index === yearPlanIndex ? n.yearMinutes : "5–10 min"}
-              </Body>
+              <View style={s.activeDot} />
+              <Text style={[s.text, s.grow]} numberOfLines={2}>
+                {c.planTitles[active]}
+                <Text style={s.small}> · {dayOf(active)}</Text>
+              </Text>
+              <Text style={s.gold}>{c.continue}</Text>
             </Pressable>
-          ))}
-        </View>
+          )}
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={s.chips}
+          >
+            {planFilters.map((id, index) => (
+              <Pressable
+                key={id}
+                accessibilityRole="button"
+                accessibilityState={{ selected: filter === id }}
+                onPress={() => setFilter(id)}
+                style={[s.chip, filter === id && s.chipActive]}
+              >
+                <Text
+                  style={[s.chipText, filter === id && s.segmentTextActive]}
+                >
+                  {c.filters[index]}
+                </Text>
+              </Pressable>
+            ))}
+          </ScrollView>
+          {["all", "short", "themes"].includes(filter) && (
+            <Pressable
+              accessibilityRole="button"
+              onPress={() => openDevotional(true)}
+              style={s.devotionalPlan}
+            >
+              <View style={[s.cover, s.coverSmall]}>
+                <Ionicons
+                  name="sunny-outline"
+                  size={20}
+                  color={colors.goldInk}
+                />
+              </View>
+              <View style={s.grow}>
+                <Text style={s.title}>{c.devotionalPlan}</Text>
+                <Text style={s.small}>
+                  7 {c.days} · {c.devotionalDescription}
+                </Text>
+              </View>
+              <Text style={s.gold}>
+                {progress.devotionalDay === null ? c.start : c.continue}
+              </Text>
+            </Pressable>
+          )}
+          <View style={s.grid}>
+            {c.planTitles.map((title, index) =>
+              planMatches(index, filter) ? (
+                <Pressable
+                  key={title}
+                  accessibilityRole="button"
+                  onPress={() => openPlan(index)}
+                  style={[s.plan, active === index && s.planActive]}
+                >
+                  <StudyArtwork variant={index} />
+                  <Text style={s.planTitle}>{title}</Text>
+                  <Text style={active === index ? s.gold : s.small}>
+                    {active === index
+                      ? `${c.inProgress} · ${dayOf(index)}`
+                      : `${readingPlanLength(index)} ${c.days} · ${index === yearPlanIndex ? n.yearMinutes : "5–10 min"}`}
+                  </Text>
+                </Pressable>
+              ) : null,
+            )}
+          </View>
+        </>
       )}
       {tab === 2 && (
         <>
-          <Pressable
-            accessibilityRole="button"
-            onPress={() => {
-              setWords(true);
-              setDetail(null);
-              setDevotional(false);
-            }}
-            style={s.tool}
-          >
-            <Ionicons
-              name="language-outline"
-              size={25}
-              color={colors.goldInk}
-            />
-            <Text style={[s.title, s.grow]}>{c.original}</Text>
-            <Text style={s.gold}>›</Text>
-          </Pressable>
-          {[c.theologyTool, c.context].map((title, index) => (
+          <View style={s.anchor}>
             <Pressable
-              key={title}
               accessibilityRole="button"
-              disabled={!selectedVerse}
-              onPress={() => setTool((["theology", "deeper"] as const)[index])}
-              style={s.tool}
+              accessibilityLabel={`${c.changePassage}: ${selectedVerse?.reference ?? c.loading}`}
+              onPress={() => setPicker(true)}
+              style={s.passagePill}
             >
-              <Ionicons
-                name="library-outline"
-                size={25}
-                color={colors.goldInk}
-              />
-              <Text style={[s.title, s.grow]}>{title}</Text>
-              <Text style={s.gold}>›</Text>
+              <Text style={s.text} numberOfLines={1}>
+                {selectedVerse?.reference ?? c.loading}
+              </Text>
+              {selectedVerse && (
+                <Text style={s.small} numberOfLines={1}>
+                  · {selectedVerse.editionName}
+                </Text>
+              )}
+              <Ionicons name="chevron-down" size={15} color={colors.gold} />
             </Pressable>
-          ))}
+            {selectedVerse && (
+              <Text selectable style={s.anchorText}>
+                {selectedVerse.text}
+              </Text>
+            )}
+          </View>
+          {selectionError && (
+            <Button
+              secondary
+              title={c.retry}
+              onPress={() => {
+                setSelectionError(false);
+                setSelectionAttempt((a) => a + 1);
+              }}
+            />
+          )}
+          <View style={s.toolGrid}>
+            {studyTools.map((item) => (
+              <Pressable
+                key={item.title}
+                accessibilityRole="button"
+                disabled={item.needsVerse && !selectedVerse}
+                onPress={item.onPress}
+                style={({ pressed }) => [
+                  s.toolTile,
+                  pressed && s.pressed,
+                  item.needsVerse && !selectedVerse && s.disabled,
+                ]}
+              >
+                <Ionicons name={item.icon} size={24} color={colors.goldInk} />
+                <Text style={s.toolText} numberOfLines={1}>
+                  {item.title}
+                </Text>
+              </Pressable>
+            ))}
+          </View>
           {selectedVerse && (
             <VerseNotes
               verse={selectedVerse.id}
@@ -568,41 +733,33 @@ export default function StudyWorkspace() {
               onSaved={() => setNoteRevision((n) => n + 1)}
             />
           )}
-          <StudyLink
-            title={n.myNotes}
-            icon="document-text-outline"
-            onPress={() => setNotebook(true)}
-          />
           {loading && <ActivityIndicator color={colors.goldInk} />}
           {readError && <Body>{c.unavailable}</Body>}
-
-          <Pressable
-            accessibilityRole="button"
-            onPress={openDiscussion}
-            style={s.tool}
-          >
-            <Ionicons name="people-outline" size={25} color={colors.goldInk} />
-            <Text style={[s.title, s.grow]}>{c.discussion}</Text>
-            <Text style={s.gold}>›</Text>
-          </Pressable>
+          <View style={s.row}>
+            <Pressable
+              accessibilityRole="button"
+              onPress={() => setNotebook(true)}
+              style={s.textLink}
+            >
+              <Ionicons
+                name="document-text-outline"
+                size={17}
+                color={colors.goldInk}
+              />
+              <Text style={s.gold}>{n.myNotes}</Text>
+            </Pressable>
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={c.sources}
+              disabled={!selectedVerse}
+              onPress={() => setTool("sources")}
+              style={s.textLink}
+            >
+              <Text style={s.small}>{c.sources}</Text>
+              <Ionicons name="chevron-down" size={13} color={colors.muted} />
+            </Pressable>
+          </View>
         </>
-      )}
-      {tab === 2 && (
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={c.sources}
-          disabled={!selectedVerse}
-          onPress={() => setTool("sources")}
-          style={{
-            paddingVertical: 16,
-            flexDirection: "row",
-            alignItems: "center",
-            gap: 8,
-          }}
-        >
-          <Text style={{ color: colors.muted, fontSize: 12 }}>{c.sources}</Text>
-          <Ionicons name="chevron-down" size={13} color={colors.muted} />
-        </Pressable>
       )}
       {progressError && (
         <Button
@@ -865,19 +1022,155 @@ export default function StudyWorkspace() {
   );
 }
 const s = StyleSheet.create({
-  passage: {
-    padding: 18,
-    gap: 8,
-    borderRadius: 20,
-    backgroundColor: colors.white,
+  titleRow: { flexDirection: "row", alignItems: "flex-end", gap: 12 },
+  date: { color: colors.muted, fontSize: 13 },
+  proPill: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 5,
+    paddingHorizontal: 11,
+    paddingVertical: 6,
+    marginBottom: 8,
+    borderRadius: 999,
     borderWidth: 1,
-    borderColor: colors.line,
+    borderColor: "#C9A45C99",
   },
-  passageText: {
+  proText: {
+    color: colors.goldInk,
+    fontSize: 11,
+    fontWeight: "600",
+    letterSpacing: 1.5,
+  },
+  segment: {
+    flexDirection: "row",
+    gap: 4,
+    padding: 4,
+    borderRadius: 999,
+    backgroundColor: colors.white,
+  },
+  segmentItem: {
+    flex: 1,
+    minHeight: 40,
+    borderRadius: 999,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 6,
+  },
+  segmentActive: { backgroundColor: colors.green },
+  segmentText: { color: colors.muted, fontSize: 14, fontWeight: "500" },
+  segmentTextActive: { color: colors.paper, fontWeight: "600" },
+  eyebrow: { flexDirection: "row", alignItems: "center", gap: 8 },
+  quote: {
+    gap: 4,
+    paddingVertical: 12,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: "#C9A45C38",
+  },
+  quoteText: {
     color: colors.ink,
     fontFamily: serif,
-    fontSize: 21,
-    lineHeight: 31,
+    fontStyle: "italic",
+    fontSize: 19,
+    lineHeight: 27,
+  },
+  quoteRef: { color: colors.muted, fontSize: 12 },
+  steps: { flexDirection: "row", gap: 8 },
+  step: {
+    flex: 1,
+    minHeight: 36,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 6,
+    paddingHorizontal: 6,
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: "#C9A45C66",
+  },
+  stepDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: colors.gold,
+  },
+  stepText: { color: colors.ink, fontSize: 13 },
+  continue: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 14,
+    padding: 16,
+    borderRadius: 20,
+    backgroundColor: colors.white,
+  },
+  cover: {
+    width: 54,
+    height: 68,
+    borderRadius: 9,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: colors.pale,
+    borderWidth: 1,
+    borderColor: "#C9A45C59",
+  },
+  coverSmall: { width: 42, height: 52 },
+  small: { color: colors.muted, fontSize: 13, lineHeight: 18 },
+  bar: {
+    height: 4,
+    marginTop: 6,
+    borderRadius: 4,
+    overflow: "hidden",
+    backgroundColor: "#F4EBDA1F",
+  },
+  barFill: { height: 4, backgroundColor: colors.gold },
+  go: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: colors.green,
+  },
+  suggestion: { flexDirection: "row", alignItems: "center", gap: 12 },
+  list: {
+    borderRadius: 20,
+    backgroundColor: colors.white,
+    paddingHorizontal: 16,
+  },
+  activeStrip: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: "#C9A45C59",
+  },
+  activeDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: colors.gold,
+  },
+  chips: { gap: 8, paddingVertical: 2 },
+  chip: {
+    minHeight: 36,
+    paddingHorizontal: 14,
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: "#F4EBDA38",
+    justifyContent: "center",
+  },
+  chipActive: { backgroundColor: colors.green, borderColor: colors.green },
+  chipText: { color: colors.ink, fontSize: 13 },
+  devotionalPlan: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    padding: 14,
+    borderRadius: 18,
+    backgroundColor: colors.white,
   },
   stats: { flexDirection: "row", gap: 10, flexWrap: "wrap" },
   stat: {
@@ -896,45 +1189,62 @@ const s = StyleSheet.create({
     justifyContent: "space-between",
     gap: 12,
   },
-  text: { color: colors.ink, fontSize: 14 },
+  text: { color: colors.ink, fontSize: 15 },
   gold: { color: colors.goldInk, fontSize: 13, letterSpacing: 0.5 },
-  title: { color: colors.ink, fontSize: 18, fontWeight: "600" },
-  tabs: {
-    flexDirection: "row",
-    borderBottomWidth: 1,
-    borderColor: colors.line,
-  },
-  tab: {
-    flex: 1,
-    paddingVertical: 14,
-    alignItems: "center",
-    borderBottomWidth: 2,
-    borderColor: "transparent",
-  },
-  tabActive: { borderColor: colors.goldInk },
+  title: { color: colors.ink, fontSize: 17, fontWeight: "600" },
   grid: { flexDirection: "row", flexWrap: "wrap", gap: 12 },
   plan: {
     width: "47%",
     flexGrow: 1,
     backgroundColor: colors.white,
     borderRadius: 19,
-    padding: 16,
-    gap: 10,
+    padding: 12,
+    gap: 8,
+    borderWidth: 1,
+    borderColor: "transparent",
   },
-  art: {
-    height: 75,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: colors.pale,
-    borderRadius: 12,
-  },
-  tool: {
+  planActive: { borderColor: colors.gold },
+  planTitle: { color: colors.ink, fontSize: 15, fontWeight: "600" },
+  anchor: { gap: 12 },
+  passagePill: {
+    alignSelf: "flex-start",
+    maxWidth: "100%",
     flexDirection: "row",
     alignItems: "center",
-    gap: 14,
-    paddingVertical: 20,
-    borderBottomWidth: 1,
-    borderColor: colors.line,
+    gap: 6,
+    minHeight: 38,
+    paddingHorizontal: 14,
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: "#C9A45C73",
+  },
+  anchorText: {
+    color: colors.ink,
+    fontFamily: serif,
+    fontSize: 23,
+    lineHeight: 34,
+  },
+  toolGrid: { flexDirection: "row", flexWrap: "wrap", gap: 8 },
+  toolTile: {
+    flexGrow: 1,
+    flexBasis: "22%",
+    minWidth: 72,
+    minHeight: 76,
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    paddingHorizontal: 6,
+    borderRadius: 18,
+    backgroundColor: colors.white,
+  },
+  toolText: { color: colors.ink, fontSize: 13 },
+  pressed: { opacity: 0.7 },
+  disabled: { opacity: 0.45 },
+  textLink: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    minHeight: 44,
   },
   grow: { flex: 1 },
   shade: {

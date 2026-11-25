@@ -82,3 +82,17 @@ test('dashboard counts completed books only after every chapter is read',()=>{
  assert.equal(studyStats(normalizePlanProgress({days:{0:16,4:4}}),books).books,2);
  assert.equal(studyStats(normalizePlanProgress({days:{0:16,4:4}}),books).readings,20);
 });
+
+test('plan filters cover every plan and match their shelves',()=>{
+ const {planGroups,planFilters,planMatches,readingPlans,yearPlanIndex}=client('reading-plans.ts');
+ assert.equal(planGroups.length,readingPlans.length);
+ const copy=JSON.parse(readFileSync(new URL('../src/lib/pro-study-preview.json',import.meta.url),'utf8'));
+ for(const language of ['en','pt','es','ru']) assert.equal(copy[language].filters.length,planFilters.length);
+ for(let plan=0;plan<=yearPlanIndex;plan++) assert.ok(planMatches(plan,'all'));
+ assert.ok(planMatches(1,'short'));
+ assert.ok(!planMatches(0,'short'));
+ assert.ok(!planMatches(yearPlanIndex,'short'));
+ assert.ok(planMatches(3,'letters'));
+ assert.ok(planMatches(4,'stories'));
+ for(const filter of planFilters.slice(2)) assert.ok(planGroups.some(group=>group===filter),filter);
+});

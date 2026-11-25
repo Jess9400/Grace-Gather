@@ -174,7 +174,27 @@
       "Listen to someone without interrupting or offering advice.",
       "Take the smallest practical step toward something you have postponed.",
       "Write down one worry, then set it aside for a quiet minute."
-    ]
+    ],
+    "tabToday": "Today",
+    "tabPlans": "Plans",
+    "tabStudy": "Study",
+    "readStep": "Read",
+    "dayOf": "Day {day} of {total}",
+    "startWithPlan": "Start with a plan",
+    "seeAll": "See all",
+    "filters": [
+      "All",
+      "A week or less",
+      "Gospels",
+      "Letters",
+      "Stories",
+      "Prayer & themes"
+    ],
+    "toolWords": "Words",
+    "toolContext": "Context",
+    "toolDiscuss": "Discuss",
+    "inProgress": "In progress",
+    "changePassage": "Change passage"
   },
   "pt": {
     "study": "Estudo bíblico",
@@ -351,7 +371,27 @@
       "Ouça alguém sem interromper nem dar conselhos.",
       "Dê um pequeno passo em algo que vem adiando.",
       "Anote uma preocupação e faça um minuto de silêncio."
-    ]
+    ],
+    "tabToday": "Hoje",
+    "tabPlans": "Planos",
+    "tabStudy": "Estudo",
+    "readStep": "Leia",
+    "dayOf": "Dia {day} de {total}",
+    "startWithPlan": "Comece com um plano",
+    "seeAll": "Ver todos",
+    "filters": [
+      "Todos",
+      "Até uma semana",
+      "Evangelhos",
+      "Cartas",
+      "Histórias",
+      "Oração e temas"
+    ],
+    "toolWords": "Palavras",
+    "toolContext": "Contexto",
+    "toolDiscuss": "Conversar",
+    "inProgress": "Em andamento",
+    "changePassage": "Trocar passagem"
   },
   "es": {
     "study": "Estudio bíblico",
@@ -528,7 +568,27 @@
       "Escucha a alguien sin interrumpir ni dar consejos.",
       "Da un pequeño paso en algo que has pospuesto.",
       "Anota una preocupación y guarda un minuto de silencio."
-    ]
+    ],
+    "tabToday": "Hoy",
+    "tabPlans": "Planes",
+    "tabStudy": "Estudio",
+    "readStep": "Lee",
+    "dayOf": "Día {day} de {total}",
+    "startWithPlan": "Empieza con un plan",
+    "seeAll": "Ver todos",
+    "filters": [
+      "Todos",
+      "Una semana o menos",
+      "Evangelios",
+      "Cartas",
+      "Historias",
+      "Oración y temas"
+    ],
+    "toolWords": "Palabras",
+    "toolContext": "Contexto",
+    "toolDiscuss": "Conversar",
+    "inProgress": "En curso",
+    "changePassage": "Cambiar pasaje"
   },
   "ru": {
     "study": "Изучение Библии",
@@ -705,6 +765,26 @@
       "Выслушайте человека, не перебивая и не давая советов.",
       "Сделайте маленький шаг в деле, которое откладывали.",
       "Запишите одну тревогу и побудьте минуту в тишине."
-    ]
+    ],
+    "tabToday": "Сегодня",
+    "tabPlans": "Планы",
+    "tabStudy": "Изучение",
+    "readStep": "Читайте",
+    "dayOf": "День {day} из {total}",
+    "startWithPlan": "Начните с плана",
+    "seeAll": "Все планы",
+    "filters": [
+      "Все",
+      "До недели",
+      "Евангелия",
+      "Послания",
+      "Истории",
+      "Молитва и темы"
+    ],
+    "toolWords": "Слова",
+    "toolContext": "Контекст",
+    "toolDiscuss": "Обсудить",
+    "inProgress": "В процессе",
+    "changePassage": "Сменить отрывок"
   }
 }
