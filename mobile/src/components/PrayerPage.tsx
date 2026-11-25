@@ -11,7 +11,7 @@ import HelpLine from "./HelpLine";
 import { Ionicons } from "@expo/vector-icons";
 import { Pressable } from "react-native";
 import { useCommunity } from "../lib/discussion-state";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import {
   Screen,
@@ -41,6 +41,25 @@ function PrayerRoom({
   mode: "requests" | "notifications" | "review";
 }) {
   const { data, error, busy, userId, load, act } = usePrayers();
+  // Praying answers the invitation: its notifications need no "Mark read".
+  const answered = (id: string) =>
+    (data?.notices ?? []).filter((n) => !n.is_read && n.kind !== "prayed" && n.request?.id === id);
+  async function pray(id: string) {
+    if (!(await act("pray", id))) return;
+    for (const n of answered(id)) await act("read", n.id);
+  }
+  // Invitations already answered (prayed for earlier, or elsewhere) clear themselves.
+  const cleared = useRef(new Set<string>());
+  useEffect(() => {
+    const stale = (data?.notices ?? []).filter(
+      (n) => !n.is_read && n.kind !== "prayed" && n.request?.prayed && !cleared.current.has(n.id),
+    );
+    if (!stale.length || busy) return;
+    stale.forEach((n) => cleared.current.add(n.id));
+    void (async () => {
+      for (const n of stale) await act("read", n.id);
+    })();
+  }, [data, busy, act]);
   const { ids: priorityIds, failed: priorityFailed } = useSafetyReviewIds("prayers", mode === "review");
   const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
@@ -230,7 +249,7 @@ function PrayerRoom({
               disabled={
                 busy || p.prayed || new Date(p.starts_at).getTime() > now
               }
-              onPress={() => void act("pray", p.id)}
+              onPress={() => void pray(p.id)}
             />
             <Button
               secondary
