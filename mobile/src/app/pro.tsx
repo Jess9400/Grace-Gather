@@ -1024,7 +1024,13 @@ export default function StudyWorkspace() {
             onPress={close}
             style={s.grow}
           />
-          <View style={s.sheet}>
+          {/* Reading sheets keep one height, so Next and Mark read stay put. */}
+          <View
+            style={[
+              s.sheet,
+              (devotional || (detail !== null && !planIntro)) && s.sheetTall,
+            ]}
+          >
             <View style={s.grab} />
             <View style={{ paddingHorizontal: 22, paddingTop: 6 }}>
               <StudyHeader
@@ -1045,6 +1051,11 @@ export default function StudyWorkspace() {
             </View>
             <ScrollView
               ref={sheetScroll}
+              style={
+                devotional || (detail !== null && !planIntro)
+                  ? s.grow
+                  : s.sheetScroll
+              }
               contentContainerStyle={s.sheetContent}
             >
               {words && <StepBibleSearch language={profile.language} />}
@@ -1646,6 +1657,8 @@ const s = StyleSheet.create({
     borderColor: "#C9A45C4D",
     backgroundColor: colors.paper,
   },
+  sheetTall: { height: "90%" },
+  sheetScroll: { flexShrink: 1 },
   grab: {
     alignSelf: "center",
     width: 40,
