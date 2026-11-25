@@ -38,3 +38,12 @@ test("saving the find-me settings folds them into one line with a short Saved", 
   assert.match(page, /c\("Friends can find you as \{name\}\."\)/);
   assert.match(page, /onPress=\{\(\) => setEditingFindable\(true\)\}/);
 });
+
+test("Find friends and Share my friend link sit above the list of friends", () => {
+  const actions = page.indexOf("<View style={s.topActions}>");
+  assert.ok(actions > 0);
+  assert.ok(actions < page.indexOf("{pending.map((l) => ("), "above requests");
+  assert.ok(actions < page.indexOf("{accepted.length ? ("), "above friends");
+  // The search opens right under the buttons, before the list.
+  assert.ok(page.indexOf("{finding && (") < page.indexOf("{accepted.length ? ("));
+});
