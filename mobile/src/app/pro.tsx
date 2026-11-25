@@ -754,11 +754,11 @@ export default function StudyWorkspace() {
               onPress={() => setPicker(true)}
               style={s.passagePill}
             >
-              <Text style={s.text} numberOfLines={1}>
+              <Text style={[s.text, s.keep]} numberOfLines={1}>
                 {selectedVerse?.reference ?? c.loading}
               </Text>
               {selectedVerse && (
-                <Text style={s.small} numberOfLines={1}>
+                <Text style={[s.small, s.shrink]} numberOfLines={1}>
                   · {selectedVerse.editionName}
                 </Text>
               )}
@@ -1374,6 +1374,8 @@ const s = StyleSheet.create({
     minHeight: 44,
   },
   grow: { flex: 1 },
+  keep: { flexShrink: 0 },
+  shrink: { flexShrink: 1 },
   shade: { flex: 1, justifyContent: "flex-end", backgroundColor: "#0A0806A6" },
   sheet: {
     maxHeight: "90%",
