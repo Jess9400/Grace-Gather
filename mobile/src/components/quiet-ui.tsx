@@ -333,6 +333,10 @@ export function Body({
     </Text>
   );
 }
+/** Which surface a control sits on, for controls that style themselves. */
+export function useSurface() {
+  return useContext(CardSurface);
+}
 // Shared controls placed on a journal letter (the cream page) take its ink.
 export function LetterSurface({ children }: { children: React.ReactNode }) {
   return <CardSurface.Provider value="letter">{children}</CardSurface.Provider>;

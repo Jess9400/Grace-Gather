@@ -108,3 +108,18 @@ friend, without search and without being findable. No edge function.
 - [x] Applied `study_notebook_and_plan_invitations` and `study_invitation_peer_identity` to production on 25 November 2026. Confirmed RLS, no direct client read access, and no anonymous RPC access.
 - [x] Verified account note save/search/delete in the signed-in local preview and three-account consent/isolation behavior in disposable PostgreSQL.
 - [ ] On the next app build, test with two real accounts: invite an accepted friend, accept from their own Read together screen, explicitly share a note, confirm the other account can read it, and leave/unshare to revoke access. No extra Edge Function is required.
+
+## Bible Study progress on the account (#254)
+
+Reading-plan days, "Seven days with God" and today's Read · Reflect · Pray
+follow the account to a new phone or the web. No edge function.
+
+- [ ] **1. Database migration** in the SQL Editor, before or right after
+  merging: apply `supabase/migrations/20261125120000_study_progress_sync.sql`
+  (adds `private.study_progress` and `public.study_progress`). It is safe to
+  run twice. Until it is applied, progress keeps working on each device as
+  before; it just doesn't travel. Check: `select count(*) from
+  private.study_progress;` runs (0 rows at first).
+- [ ] **2. Check on the next app build:** start a plan and mark a day on the
+  phone, then open Bible Study on the web with the same account; the plan
+  shows the same day.

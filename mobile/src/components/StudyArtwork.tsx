@@ -4,6 +4,17 @@ import { Ionicons } from "@expo/vector-icons";
 import { colors } from "./quiet-ui";
 import { useReducedMotion } from "../lib/use-reduced-motion";
 
+// The glyph on each book cover, so small thumbnails can match the artwork.
+export function studyGlyph(variant: number) {
+  return (
+    [
+      "leaf-outline",
+      "sunny-outline",
+      "sparkles-outline",
+      "heart-outline",
+    ] as const
+  )[variant % 4];
+}
 // Layered native shapes give the books depth without another GL scene or asset download.
 // Only a featured illustration moves; library thumbnails remain still.
 export default function StudyArtwork({
@@ -43,14 +54,7 @@ export default function StudyArtwork({
       lift.setValue(0);
     };
   }, [animated, reduced, lift]);
-  const glyph = (
-    [
-      "leaf-outline",
-      "sunny-outline",
-      "sparkles-outline",
-      "heart-outline",
-    ] as const
-  )[variant % 4];
+  const glyph = studyGlyph(variant);
   return (
     <View
       accessible={false}

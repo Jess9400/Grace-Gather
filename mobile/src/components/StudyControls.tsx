@@ -7,7 +7,7 @@ import {
   StyleSheet,
 } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { colors, serif } from "./quiet-ui";
+import { colors, letter, serif, useSurface } from "./quiet-ui";
 type Icon = ComponentProps<typeof Ionicons>["name"];
 export function StudyAction({
   title,
@@ -15,6 +15,7 @@ export function StudyAction({
   disabled = false,
   loading = false,
   secondary = false,
+  wide = false,
   icon,
 }: {
   title: string;
@@ -22,8 +23,20 @@ export function StudyAction({
   disabled?: boolean;
   loading?: boolean;
   secondary?: boolean;
+  /** Fills the row: for the one main action on a card or sheet. */
+  wide?: boolean;
   icon?: Icon;
 }) {
+  // On the cream letter page the main action turns espresso, so it shows.
+  const onLetter = useSurface() === "letter";
+  const fill = onLetter ? letter.ink : colors.green;
+  const label = secondary
+    ? onLetter
+      ? letter.gold
+      : colors.goldInk
+    : onLetter
+      ? letter.paper
+      : colors.paper;
   return (
     <Pressable
       accessibilityRole="button"
@@ -32,28 +45,18 @@ export function StudyAction({
       onPress={onPress}
       style={({ pressed }) => [
         s.action,
-        secondary ? s.secondary : s.primary,
+        secondary ? s.secondary : [s.primary, { backgroundColor: fill }],
+        wide && s.wide,
         (disabled || loading) && s.disabled,
         pressed && s.pressed,
       ]}
     >
       {loading ? (
-        <ActivityIndicator color={secondary ? colors.goldInk : colors.paper} />
+        <ActivityIndicator color={label} />
       ) : icon ? (
-        <Ionicons
-          name={icon}
-          size={18}
-          color={secondary ? colors.goldInk : colors.paper}
-        />
+        <Ionicons name={icon} size={18} color={label} />
       ) : null}
-      <Text
-        style={[
-          s.actionText,
-          { color: secondary ? colors.goldInk : colors.paper },
-        ]}
-      >
-        {title}
-      </Text>
+      <Text style={[s.actionText, { color: label }]}>{title}</Text>
     </Pressable>
   );
 }
@@ -106,16 +109,17 @@ export function StudyLink({
 const s = StyleSheet.create({
   action: {
     alignSelf: "flex-start",
-    minHeight: 44,
-    paddingHorizontal: 18,
+    minHeight: 48,
+    paddingHorizontal: 22,
     paddingVertical: 10,
-    borderRadius: 12,
+    borderRadius: 999,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
     gap: 8,
   },
   primary: { backgroundColor: colors.green },
+  wide: { alignSelf: "stretch" },
   secondary: { backgroundColor: "transparent", paddingHorizontal: 2 },
   actionText: { fontSize: 15, fontWeight: "600" },
   disabled: { opacity: 0.4 },

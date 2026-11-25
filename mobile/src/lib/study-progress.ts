@@ -42,3 +42,76 @@ export function studyStats(
     ).length,
   };
 }
+
+// Progress from two devices is combined so nothing read is ever lost: each
+// plan keeps the furthest day reached, and the current plan comes from
+// whichever device changed it last.
+export function mergePlanProgress(
+  local: PlanProgress,
+  remote: PlanProgress,
+  remoteNewer: boolean,
+): PlanProgress {
+  const days: Record<number, number> = {};
+  for (const key of new Set([
+    ...Object.keys(local.days),
+    ...Object.keys(remote.days),
+  ])) {
+    const index = Number(key);
+    days[index] = Math.max(local.days[index] ?? 0, remote.days[index] ?? 0);
+  }
+  const devotional = [local.devotionalDay, remote.devotionalDay].filter(
+    (day): day is number => day !== null,
+  );
+  return {
+    active: remoteNewer
+      ? (remote.active ?? local.active)
+      : (local.active ?? remote.active),
+    devotionalDay: devotional.length ? Math.max(...devotional) : null,
+    days,
+  };
+}
+export function samePlanProgress(a: PlanProgress, b: PlanProgress) {
+  return (
+    a.active === b.active &&
+    a.devotionalDay === b.devotionalDay &&
+    [...new Set([...Object.keys(a.days), ...Object.keys(b.days)])].every(
+      (key) => (a.days[Number(key)] ?? 0) === (b.days[Number(key)] ?? 0),
+    )
+  );
+}
+/** Today's Read · Reflect · Pray, and the days a reading was finished. */
+export type TodayRecord = { day: string; done: number[]; days: string[] };
+const dayPattern = /^\d{4}-\d{2}-\d{2}$/;
+export function normalizeToday(value: unknown): TodayRecord {
+  const row =
+    value && typeof value === "object" ? (value as Partial<TodayRecord>) : {};
+  return {
+    day: typeof row.day === "string" && dayPattern.test(row.day) ? row.day : "",
+    done: Array.isArray(row.done)
+      ? [...new Set(row.done.filter((step) => [0, 1, 2].includes(step)))].sort()
+      : [],
+    days: Array.isArray(row.days)
+      ? [
+          ...new Set(
+            row.days.filter(
+              (day): day is string =>
+                typeof day === "string" && dayPattern.test(day),
+            ),
+          ),
+        ]
+          .sort()
+          .slice(-30)
+      : [],
+  };
+}
+export function mergeToday(a: TodayRecord, b: TodayRecord): TodayRecord {
+  const days = [...new Set([...a.days, ...b.days])].sort().slice(-30);
+  if (a.day === b.day)
+    return {
+      day: a.day,
+      done: [...new Set([...a.done, ...b.done])].sort(),
+      days,
+    };
+  const later = a.day > b.day ? a : b;
+  return { day: later.day, done: later.done, days };
+}
