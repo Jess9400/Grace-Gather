@@ -147,7 +147,7 @@ Original texts and concordance are versioned static assets deployed with the web
 
 Do not activate product limits on the current live build. The draft migration defaults `private.pro_rollout.enforced` to false.
 
-- [ ] Review pricing/allowances and budget in `docs/product/pro-membership-paywall.md`; set the exact regional store price points (monthly US$6 globally / US$3.50 equivalent in Brazil; annual discount confirmed at 15%: US$61.20 globally / US$35.70 equivalent in Brazil).
+- [ ] Review pricing/allowances and budget in `docs/product/pro-membership-paywall.md`; set the exact regional store price points (three monthly tiers: USA US$8 / other countries US$6 / Brazil US$3.50 equivalent; annual discount 15%: USA US$81.60 / other countries US$61.20 / Brazil US$35.70 equivalent).
 - [ ] Finish RevenueCat real App Store configuration, products, three-day eligible introductory offer, regional prices and offering; agree restore/transfer policy and restrict sandbox access.
 - [ ] Configure native **public** SDK keys for the next build; keep server secret/webhook authorization out of Git. Entitlement: `grace_gather_pro`.
 - [ ] After review, apply `20261126102547_pro_membership_allowances.sql` and `20261126113552_pro_allowance_cache_cleanup.sql` before deploying `membership-sync`, `revenuecat-webhook`, updated `llm-journey` and `bible-study`. Keep enforcement off while testing.

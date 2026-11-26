@@ -22,14 +22,15 @@ Daily counters reset at **00:00 UTC**; study at **00:00 UTC on the first of each
 
 | Storefront | Monthly target | Yearly target | Trial |
 | --- | ---: | ---: | --- |
-| Outside Brazil | US$6 | US$61.20 (15% less than US$72 across 12 monthly payments) | 3 days, store-eligible new subscribers |
+| USA | US$8 | US$81.60 (15% less than US$96 across 12 monthly payments) | 3 days, store-eligible new subscribers |
+| Other countries except Brazil | US$6 | US$61.20 (15% less than US$72 across 12 monthly payments) | 3 days, store-eligible new subscribers |
 | Brazil | BRL equivalent of **US$3.50** | BRL equivalent of **US$35.70** (15% less than US$42 across 12 monthly payments) | Same |
 
-Both annual plans are billed once yearly. Monthly equivalents are US$5.10 globally and US$2.975 in Brazil; these are comparisons, not monthly charges for annual subscribers. Jessica confirmed both monthly prices and the 15% annual discount. Exact regional App Store price points remain to be selected; Brazil is charged in BRL, not dollars.
+All three annual plans are billed once yearly. Monthly equivalents are US$6.80 in the USA, US$5.10 in other countries and US$2.975 in Brazil; these are comparisons, not monthly charges for annual subscribers. Jessica confirmed all three monthly prices and the 15% annual discount. Exact regional App Store price points remain to be selected; Brazil is charged in BRL, not dollars.
 
 The annual option uses `gracegather_pro_yearly` with a Brazil-specific App Store price and the RevenueCat annual package. Before release, check both monthly and annual packages in each storefront, the actual localized amounts, and the three-day trial's eligibility and renewal terms. Do not invent a live BRL amount or advertise an exact discount unless the selected store prices support it.
 
-Apple price points/taxes/exchange rates affect the available prices. Brazil is determined by the **storefront**, not Portuguese or a profile country. Paywall price/currency and renewal period come from the store. Include restore, terms/privacy and subscription management. No card collection in this app.
+Apple price points/taxes/exchange rates affect the available prices. All three price tiers are determined by the **App Store storefront**, not language, a profile country or a device location. Paywall price/currency and renewal period come from the store. Include restore, terms/privacy and subscription management. No card collection in this app.
 
 ## Public cost inputs, not measured invoices
 
@@ -59,11 +60,12 @@ Reference: 1,000 fully active members: 900 free + 100 Pro. Text AI working budge
 | --- | ---: | ---: | ---: | ---: | ---: |
 | All Brazil (US$3.50 equivalent) | US$350 | US$297.50 | **US$175.50** | **50.1%** | US$123 |
 | 50 Brazil + 50 elsewhere | US$475 | US$403.75 | **US$281.75** | **59.3%** | US$210.50 |
-| All elsewhere (US$6) | US$600 | US$510 | **US$388** | **64.7%** | US$298 |
+| Other countries, excluding USA (US$6) | US$600 | US$510 | **US$388** | **64.7%** | US$298 |
+| All USA (US$8) | US$800 | US$680 | **US$558** | **69.8%** | US$438 |
 
 These are contribution estimates, not net profit. Audio, transcription, translation, moderation, taxes, licensing, labour and other operating costs are additional. The 15% scenario requires Small Business approval and the effective reduced rate; 30% remains the pre-approval contingency. Individual developers can apply. Apple evaluates annual proceeds across all apps and associated developer accounts; the limit is not US$1m monthly recurring revenue. [Small Business Program and enrollment](https://developer.apple.com/app-store/small-business-program/).
 
-For 100 annual subscribers under the same usage assumptions, monthly-equivalent gross revenue is US$297.50 (all Brazil) or US$510 (all global). At 15% Apple, after US$122 reference costs, the remainder is US$130.88 (44.0% of gross) or US$311.50 (61.1%). This spreads annual proceeds over 12 months; it is not a monthly cash payout schedule. Trials bring no subscription revenue during the trial.
+For 100 annual subscribers under the same usage assumptions, monthly-equivalent gross revenue is US$297.50 (all Brazil) US$510 (all other countries), or US$680 (all USA). At 15% Apple, after US$122 reference costs, the remainder is US$130.88 (44.0% of gross) or US$311.50 (61.1%) in other countries; USA annual subscribers leave US$456 (67.1%). This spreads annual proceeds over 12 months; it is not a monthly cash payout schedule. Trials bring no subscription revenue during the trial.
 
 At 100 active members / 10 monthly payers and the same US$25 reserve, text AI working budget=US$9.70. At 15% Apple, all-Brazil sales leave **−US$4.95/month**; all-global sales leave **US$16.30**, before unpriced costs. Current free infrastructure can reduce fixed spend but has capacity limits.
 
@@ -121,3 +123,6 @@ Deployment safety: `requireProAction` honours the server rollout flag. With enfo
 
 
 **Launch interlock (Taya review feedback):** `EXPO_PUBLIC_PRO_BILLING_ENABLED` defaults to false in web and native builds. While false, Pro navigation does not call the new membership RPC or block people if the migration is absent; checkout and Restore are hidden. This is a deliberate pre-launch mode, not an outage fallback. When built with that flag true, the app also honours the server `enforced=false` switch. Once enforcement is true, unknown membership fails closed. Server access checks remain authoritative regardless of a modified client's build flag. Enable the app flag only for the payment-ready build; enable server enforcement only after that version is approved and purchases work. Both switches remain off in this deployment.
+
+
+**Three-storefront setup:** use the same monthly/yearly subscription products with regional App Store price overrides: USA US$8/US$81.60, Brazil BRL equivalent of US$3.50/US$35.70, other countries US$6/US$61.20 equivalents. Check the closest allowed store price points, taxes and actual annual discount before publication. Never infer USA pricing from English or Brazil pricing from Portuguese. RevenueCat returns the store's localized product prices. This PR does not configure or activate these store prices.
