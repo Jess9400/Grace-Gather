@@ -1,6 +1,6 @@
 # Pro membership and operating budget — Jessica/Taya review
 
-26 November 2026. **Draft implementation only: not merged, deployed, charging or activated.** Replaces the older PR #88 proposal; do not merge that obsolete branch.
+26 November 2026. **Approved for merge/deployment; payment activation remains OFF.** Replaces the older PR #88 proposal; do not merge that obsolete branch.
 
 ## Product decisions
 
@@ -101,7 +101,7 @@ This is a code/checklist review, not a claim of a physical-device purchase test.
 - [x] Added a compact **Profile → Membership** entry. Verified subscribers see their access-through date and Apple management link; iPhone Restore remains available. Admins see their exempt access without purchase controls.
 - [x] Paid daily/monthly limits show the reset and a return action, without repeating benefits or inviting another purchase.
 - [x] Website hides checkout/Restore, explains that subscriptions are purchased/restored in the iPhone app, and retains the Apple management link for subscribed members. Android billing is still unconfigured.
-- [x] Prepared hourly expiry cleanup in `20261126113552_pro_allowance_cache_cleanup.sql`. Journal retry copies last through the current UTC day; study copies through the current UTC calendar month. Current usage rows stay intact. Local SQL verifies expired deletion, preserved quotas/retries, client denial and account-deletion cascade. Hosted scheduler registration/run verification remains pending deployment, not completed here.
+- [x] Prepared hourly expiry cleanup in `20261126113552_pro_allowance_cache_cleanup.sql`. Journal retry copies last through the current UTC day; study copies through the current UTC calendar month. Current usage rows stay intact. Local SQL verifies expired deletion, preserved quotas/retries, client denial and account-deletion cascade. Hosted scheduler is registered and active; manual cleanup succeeded on 26 November. First timed-run history remains to be checked after the hourly run.
 - [x] Updated in-app and public Privacy/Terms in all four languages: Apple/RevenueCat billing data, temporary generated-reply copies and exact retention/reset schedule, trial eligibility, auto-renewal, management and account deletion. The deletion flow links to Apple and explicitly remains available without cancelling first.
 - [ ] Measure actual model usage, translation/moderation/transcription and room-audio costs before treating the margin target as established. A low-Brazil price plus many free users is the main financial risk.
 
@@ -116,7 +116,7 @@ This is a code/checklist review, not a claim of a physical-device purchase test.
 Finish Apple/RevenueCat products, confirmed 15%-discount annual prices, three-day trial eligibility, offering, verification keys and webhook. Then deploy with enforcement off, make a TestFlight build and test real sandbox purchases/restore/renewal/cancellation/refund/account-switch and both storefronts. Update Apple subscription review details and privacy disclosures. Enable quotas only after the approved app and working purchases are available; do not strand current users behind a purchase that is unavailable.
 
 
-Follow-up validation: 266 mobile tests pass, including paid/free/admin/web presentation rules; typecheck, lint and web export pass. Signed-in browser confirms Profile → Membership opens the closeable sheet. Real billing status cannot be exercised against the live database until the reviewed migration is deployed. No live billing or cleanup deployment occurred.
+Follow-up validation: 266 mobile tests pass, including paid/free/admin/web presentation rules; typecheck, lint and web export pass. Signed-in browser confirms Profile → Membership opens the closeable sheet. Real billing status cannot be exercised against the live database until the reviewed migration is deployed. Supabase migrations, four functions and the cleanup job were deployed on 26 November, with enforcement off. Real payments are not configured or activated.
 
 
 Deployment safety: `requireProAction` honours the server rollout flag. With enforcement off, existing members can continue using Pro tools while store setup is unfinished. Profile → Membership remains available for browsing the proposal, but no real prices or checkout are fabricated. The subscription switch must not turn on until purchases work in the approved app update.
@@ -126,3 +126,6 @@ Deployment safety: `requireProAction` honours the server rollout flag. With enfo
 
 
 **Three-storefront setup:** use the same monthly/yearly subscription products with regional App Store price overrides: USA US$8/US$81.60, Brazil BRL equivalent of US$3.50/US$35.70, other countries US$6/US$61.20 equivalents. Check the closest allowed store price points, taxes and actual annual discount before publication. Never infer USA pricing from English or Brazil pricing from Portuguese. RevenueCat returns the store's localized product prices. This PR does not configure or activate these store prices.
+
+
+Backend deployment verification (26 November): ordinary member lookup works through the invoker wrapper; anonymous lookup and client grants/cleanup are denied. Three new private tables intentionally have RLS with no client policies/direct access. The membership lookup's additional exposed-definer warning was eliminated; pre-existing advisories remain separate. Unauthenticated journal/study requests return 401; the unconfigured payment webhook returns 503 without accepting events. Full paid-lifecycle tests still require store setup.
