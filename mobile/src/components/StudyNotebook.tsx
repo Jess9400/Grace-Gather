@@ -57,9 +57,9 @@ function Notebook({
 }) {
   const c = copy[language];
   const labels = collaborationCopy(language);
-  const [kind, setKind] = useState<"personal" | "plan" | "devotional">(
-    "personal",
-  );
+  const [kind, setKind] = useState<
+    "personal" | "plan" | "devotional" | "shared"
+  >("personal");
   const [search, setSearch] = useState("");
   const [query, setQuery] = useState("");
   const [rows, setRows] = useState<NotebookNote[]>([]);
@@ -69,33 +69,26 @@ function Notebook({
   const pageOffset = useRef(0);
   const [error, setError] = useState(false);
   const [more, setMore] = useState(false);
+  const [page, setPage] = useState(0);
   const load = useCallback(
     async (offset = 0) => {
       const ticket = ++sequence.current;
       setBusy(true);
       setError(false);
       try {
-        const next = await studyNotebook<NotebookNote[]>("notes", {
-          kind,
-          search: query,
-          offset,
-        });
+        const next = await studyNotebook<NotebookNote[]>(
+          kind === "shared" ? "shared_all" : "notes",
+          { ...(kind === "shared" ? {} : { kind }), search: query, offset },
+        );
         if (ticket === sequence.current) {
-          const shared =
-            kind === "plan"
-              ? await studyNotebook<NotebookNote[]>("shared_all", {
-                  search: query,
-                  offset,
-                })
-              : [];
-          if (ticket !== sequence.current) return;
           pageOffset.current = offset;
-          const batch = [
-            ...next,
-            ...shared.map((n) => ({ ...n, shared: true })),
-          ];
-          setRows((old) => (offset ? [...old, ...batch] : batch));
-          setMore(next.length === 50 || shared.length === 50);
+          setPage(Math.floor(offset / 10));
+          setRows(
+            next
+              .slice(0, 10)
+              .map((n) => (kind === "shared" ? { ...n, shared: true } : n)),
+          );
+          setMore(next.length > 10 && offset < 5000);
         }
       } catch {
         if (ticket === sequence.current) setError(true);
@@ -177,7 +170,7 @@ function Notebook({
                 <View
                   style={{ flexDirection: "row", flexWrap: "wrap", gap: 18 }}
                 >
-                  {(["personal", "devotional", "plan"] as const).map(
+                  {(["personal", "devotional", "plan", "shared"] as const).map(
                     (value) => (
                       <Pressable
                         key={value}
@@ -187,6 +180,7 @@ function Notebook({
                           setKind(value);
                           setSelected(null);
                           setRows([]);
+                          setPage(0);
                           setBusy(true);
                         }}
                         style={{
@@ -260,14 +254,32 @@ function Notebook({
                   </Pressable>
                 ))}
                 {!busy && !error && !rows.length && <Body>{c.emptyNotes}</Body>}
-                {more && (
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    gap: 14,
+                  }}
+                >
                   <Button
                     secondary
-                    title={c.more}
-                    disabled={busy}
-                    onPress={() => void load(pageOffset.current + 50)}
+                    title={labels.previous}
+                    disabled={busy || page === 0}
+                    onPress={() =>
+                      void load(Math.max(0, pageOffset.current - 10))
+                    }
                   />
-                )}
+                  <Body small>
+                    {labels.page} {page + 1}
+                  </Body>
+                  <Button
+                    secondary
+                    title={labels.next}
+                    disabled={busy || !more}
+                    onPress={() => void load(pageOffset.current + 10)}
+                  />
+                </View>
               </>
             )}
             {busy && <ActivityIndicator color={colors.goldInk} />}{" "}

@@ -30,7 +30,7 @@ No recurring automation, paid content generation, or unreviewed daily AI publish
 - Tap a word for source transliteration, dictionary lemma, brief English meaning and source morphology with localized descriptions of recognized grammar codes. This is a written pronunciation guide, not recorded speech.
 - Concordance uses lexical IDs, preserving disambiguated senses; results are paginated and lead back to the source passage. Generic base Strong's IDs can also aggregate senses.
 - Parallel reading uses explicit edition labels. Marked differences in source verse divisions prevent an asserted exact pairing. Where an automatic mapping is unavailable, the reader can independently choose the source passage. Russian pairing remains limited by the existing verified mapping, not guessed from an identical number.
-- Existing professional and clearly labelled community reference notes remain available in Context, respecting source coverage and language fallback. Geography links lead to OpenBible reference maps, not invented in-app maps.
+- Existing professional and clearly labelled community reference notes remain available in Context, respecting source coverage and language fallback. Geography opens the bundled in-app terrain atlas described below; source and license links remain in footnotes.
 - Removed the generic Christian perspectives tile after feedback: it repeated the same information for every passage. The existing passage-specific Theology tool remains. Full multilingual theological coverage still needs licensed/reviewed sources.
 - Sources remain expandable footnotes.
 
@@ -51,8 +51,22 @@ TypeScript, Expo lint, web export, existing reader/study tests, seven new corpus
 
 The dictionary no longer starts at G3056. Ask AI replaces Discuss in the Pro tool grid and is available from a dictionary entry or tapped original-language word. It sends the selected passage, actual lexical entry and a bounded conversation to the existing Bible study service after permission. It does not browse live sources or replace scholarly review.
 
-Notes use separate personal / devotional / reading-plan contexts, so the same verse can hold independent notes. Existing notes migrate as personal because their original writing context cannot be safely inferred. Notebook search has three sections; Reading plans includes private plan notes and explicitly shared snapshots, with author and plan labels. Devotional reflection and each plan reading contain their own editor.
+Notes use separate personal / devotional / reading-plan contexts, so the same verse can hold independent notes. Existing notes migrate as personal because their original writing context cannot be safely inferred. Notebook search has four sections: Personal study, Devotionals, Reading plans and Shared notes. Reading plans contains private plan notes; Shared notes contains explicitly shared snapshots with author and plan labels. Each section uses 10-note pages with Previous/Next controls. Devotional reflection and each plan reading contain their own editor.
 
 Accepted reading partners can explicitly share a saved note, then comment in its private thread. Threads are available inside Read together, the plan reading, and Notebook → Reading plans. Leaving/unsharing revokes access and removes the corresponding shared threads, while private originals remain. Public-discussion handoff includes only the author's own note, requires preview/post through the normal composer, and excludes partner comments. Both participants still opt in by invitation/acceptance; existing Pro entitlement enforcement is deferred with pricing.
 
 Today retains and shows all started, unfinished plans, not just the most recently opened plan. Account merges preserve all starts and each plan's furthest completed day.
+
+## In-app atlas and social setting — 26 November 2026
+
+Context now provides sourced original summaries in English, Portuguese, Spanish and Russian about households, rural work and inequality, Roman power, kingdoms, exile, Persia and Egypt. Settings are book-level (with the Isaiah chapter split), not a claim of verse-by-verse sociological reconstruction. Unknown settings are not assigned an invented date.
+
+The in-app atlas bundles three 49 × 49 elevation grids (Levant, Near East and Mediterranean) plus 7,902 location candidates from 61 books. This is modern terrain with ancient-place references, not reconstructed ancient borders, coastlines or routes. Relief is exaggerated 12×; disputed identifications retain alternative source labels. Rotate, zoom, tilt and select a place without leaving the app. Draws happen only when opened or adjusted; no continuous animation or map subscription. WebGL resources are released on close.
+
+Data attribution: OpenBible.info geography (CC BY 4.0), some coordinates © OpenStreetMap contributors (ODbL); Natural Earth land mask (public domain); Terrain Tiles / Mapzen with USGS SRTM/GMTED2010, NOAA ETOPO1 and EU Copernicus EU-DEM. Importer, transformed data and source/license URLs are committed. All attribution and license links are in an expandable map footnote. The source place names remain English.
+
+Fixed browser loading failure: Expo GL recreated the context when a newly allocated context-attributes object arrived on a rerender, then the viewer released that same context. Stable attributes and a same-context guard prevent this. Regression tests cover grid validity, finite place projections, setting selection and this lifecycle guard; signed-in browser checks cover rendering and controls. Native device validation remains for the next TestFlight build.
+
+The label is now “Parallel reading” in all four languages. No new pricing or journal limits are introduced.
+
+Notification read-only check: Taya had two unread pending invitations, but zero registered phone devices. In-app notices exist; iPhone delivery cannot be confirmed until she enables notifications on her signed-in iPhone. No unsolicited test invitation was sent.

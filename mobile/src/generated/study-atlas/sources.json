@@ -1,0 +1,16 @@
+{
+  "accessed": "2026-11-26",
+  "places": "OpenBible.info — CC BY; some coordinates © OpenStreetMap contributors — ODbL. Names, alternative identifications and modern coordinates retained. KML point features only; no verse-level location inference.",
+  "terrain": "Terrain Tiles (Mapzen) sampled and simplified from Terrarium elevation tiles; heights exaggerated in display. Global SRTM/GMTED2010 courtesy of USGS; Global ETOPO1 courtesy of NOAA; Europe terrain produced using Copernicus data and information funded by the European Union (EU-DEM).",
+  "land": "Natural Earth 1:110m land, public domain; simplified present-day coastlines, not reconstructed ancient shorelines.",
+  "sources": [
+    "https://www.openbible.info/geo/",
+    "https://creativecommons.org/licenses/by/4.0/",
+    "https://www.openstreetmap.org/copyright",
+    "https://registry.opendata.aws/terrain-tiles/",
+    "https://github.com/tilezen/joerd/blob/master/docs/attribution.md",
+    "https://www.naturalearthdata.com/about/terms-of-use/"
+  ],
+  "books": 61,
+  "points": 7902
+}

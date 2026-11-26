@@ -1,6 +1,9 @@
 import type { Language } from "./content";
 const rows = {
   en: {
+    previous: "Previous",
+    next: "Next",
+    page: "Page",
     saveFirst: "Save your plan note before sharing it.",
     askAI: "Ask AI",
     question: "Ask about the words, translation or historical context…",
@@ -16,7 +19,7 @@ const rows = {
     public: "Turn into a public discussion",
     publicNotice:
       "Only your own note will be copied to a draft. Review it before posting; private replies stay here.",
-    shared: "Shared plan notes",
+    shared: "Shared notes",
     share: "Share with reading partner",
     noShared: "No shared notes yet. Save a plan note, then choose to share it.",
     private: "Your note stays private until you share it.",
@@ -31,6 +34,9 @@ const rows = {
     selected: "Selected passage",
   },
   pt: {
+    previous: "Anterior",
+    next: "Próxima",
+    page: "Página",
     saveFirst: "Salve sua anotação do plano antes de compartilhar.",
     askAI: "Perguntar à IA",
     question: "Pergunte sobre as palavras, a tradução ou o contexto histórico…",
@@ -46,7 +52,7 @@ const rows = {
     public: "Criar uma discussão pública",
     publicNotice:
       "Apenas sua anotação será copiada para um rascunho. Revise antes de publicar; as respostas privadas ficam aqui.",
-    shared: "Anotações compartilhadas do plano",
+    shared: "Anotações compartilhadas",
     share: "Compartilhar com quem lê comigo",
     noShared:
       "Nenhuma anotação compartilhada ainda. Salve uma anotação do plano e escolha compartilhar.",
@@ -63,6 +69,9 @@ const rows = {
     selected: "Passagem selecionada",
   },
   es: {
+    previous: "Anterior",
+    next: "Siguiente",
+    page: "Página",
     saveFirst: "Guarda tu nota del plan antes de compartirla.",
     askAI: "Preguntar a la IA",
     question:
@@ -79,7 +88,7 @@ const rows = {
     public: "Crear un debate público",
     publicNotice:
       "Solo tu nota se copiará a un borrador. Revísala antes de publicar; las respuestas privadas quedan aquí.",
-    shared: "Notas compartidas del plan",
+    shared: "Notas compartidas",
     share: "Compartir con mi compañero de lectura",
     noShared:
       "Aún no hay notas compartidas. Guarda una nota del plan y elige compartirla.",
@@ -95,6 +104,9 @@ const rows = {
     selected: "Pasaje seleccionado",
   },
   ru: {
+    previous: "Назад",
+    next: "Далее",
+    page: "Страница",
     saveFirst: "Сохраните заметку плана, прежде чем делиться ею.",
     askAI: "Спросить ИИ",
     question: "Спросите о словах, переводе или историческом контексте…",
@@ -110,7 +122,7 @@ const rows = {
     public: "Создать публичное обсуждение",
     publicNotice:
       "В черновик попадёт только ваша заметка. Проверьте её перед публикацией; личные ответы останутся здесь.",
-    shared: "Общие заметки плана",
+    shared: "Общие заметки",
     share: "Поделиться с партнёром по чтению",
     noShared:
       "Общих заметок пока нет. Сохраните заметку плана и выберите, чем поделиться.",

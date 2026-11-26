@@ -636,7 +636,6 @@ export function StudyPage({
               )
             : q(lang, "studyLimited")}
       </Body>
-      {<StudyGeography id={verse.id} language={lang} />}
       {!!psalmNumbering && <Body small>{psalmNumbering}</Body>}
       <External title={tr("Read the source passage")} url={verse.sourceUrl} />
       {study?.guide && (

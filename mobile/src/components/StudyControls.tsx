@@ -17,7 +17,9 @@ export function StudyAction({
   secondary = false,
   wide = false,
   icon,
+  accessibilityLabel,
 }: {
+  accessibilityLabel?: string;
   title: string;
   onPress: () => void;
   disabled?: boolean;
@@ -40,6 +42,7 @@ export function StudyAction({
   return (
     <Pressable
       accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel ?? title}
       accessibilityState={{ disabled: disabled || loading }}
       disabled={disabled || loading}
       onPress={onPress}
