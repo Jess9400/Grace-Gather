@@ -26,3 +26,23 @@ test('publication gaps keep the latest approved entry without exposing future or
  assert.equal(ms(new Date(2026,10,26,23,59,59,750)),250);
  assert.ok(ms(new Date(2026,10,26,0,0,0))>0);
 });
+
+test('second monthly batch adds 30 translated days without publishing unapproved content', () => {
+ const next=json('content/devotionals/year1/02.json');
+ assert.deepEqual(next.map(r=>r.day),Array.from({length:30},(_,i)=>i+32));
+ assert.equal(new Set([...manuscript,...next].map(r=>r.reference)).size,61);
+ for(const edition of ['bible','bible-blivre','bible-rv1909','bible-synodal'])for(const row of next){
+  const [book,ch,v]=row.reference.split('.');
+  assert.ok(json(`src/generated/${edition}/${book}.json`).chapters[ch]?.some(verse=>Number(verse.number)===Number(v)),`${edition} ${row.reference}`);
+ }
+ const production=compile([...manuscript,...next],null);
+ assert.equal(production.status,0,production.stderr);
+ assert.equal(production.read('catalog').length,0);
+ const preview=compile([...manuscript,...next],null,true);
+ assert.equal(preview.status,0,preview.stderr);
+ assert.equal(preview.read('catalog').length,61);
+ assert.equal(preview.read('schedule')[31].date,'2026-12-26');
+ assert.equal(preview.read('schedule')[60].date,'2027-01-24');
+ assert.equal(json('content/devotionals/year1/02.review.json').status,'draft');
+ assert.ok(next.every(row=>['en','pt','es','ru'].every(lang=>row[lang].length===4)));
+});

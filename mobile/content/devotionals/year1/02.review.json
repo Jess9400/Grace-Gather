@@ -1,0 +1,27 @@
+{
+  "status": "draft",
+  "reviewers": [
+    {
+      "name": "Jessica",
+      "approved": false
+    },
+    {
+      "name": "Taya",
+      "approved": false
+    }
+  ],
+  "reviewedAt": "",
+  "languages": [
+    "en",
+    "pt",
+    "es",
+    "ru"
+  ],
+  "checks": [
+    "Read each passage in context",
+    "Check all four translations",
+    "Check action is distinct and safe",
+    "Check doctrinal claims and Scripture attribution"
+  ],
+  "contentSha256": "9d3d1f0a2d7af62b9855c67d4c44f205b2e66bbf4577752c062037c720b729ab"
+}

@@ -4,7 +4,7 @@ Implementation based on main including Taya's #254 design. No subscription enfor
 
 ## Actual readiness
 
-The reader, dictionary/concordance, dated calendar, private history and review gate are implemented. The calendar has 365 distinct date/ID slots beginning 25 November 2026 and never wraps. **31 original devotionals in English, Brazilian Portuguese, Spanish and Russian are approved for publication. Jessica confirmed on 26 November 2026 that she and Taya approved the exact first batch; its review file records that confirmation and manuscript hash. The remaining 334 have not been written. This is not a finished 365-day library.**
+The reader, dictionary/concordance, dated calendar, private history and review gate are implemented. The calendar has 365 distinct date/ID slots beginning 25 November 2026 and never wraps. **31 original devotionals in English, Brazilian Portuguese, Spanish and Russian are approved for publication. Jessica confirmed on 26 November 2026 that she and Taya approved the exact first batch; its review file records that confirmation and manuscript hash. Another 30 distinct devotionals (days 32–61, 26 December 2026–24 January 2027) are drafted in all four languages, including optional prayers, for Jessica and Taya to review together. They remain excluded from publication until both approve this exact batch. The remaining 304 have not been written. This is not a finished 365-day library.**
 
 A user who finishes today's reading sees its completed state; re-entering does not manufacture a different devotional or erase it. The library is browsable by month with pagination. Future daily content is not shown to ordinary readers. If publication falls behind, an honest unavailable message and the existing library replace recycled content.
 
