@@ -1,5 +1,4 @@
 import { friendCopy } from "../lib/friends-copy";
-import { usePrayerUnread } from "../lib/prayers";
 import { router, type Href } from "expo-router";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -48,7 +47,6 @@ export default function AccountMenuContent({
   onNavigate?: () => void;
 }) {
   const tr = useInterfaceCopy();
-  const unread = usePrayerUnread();
   const { profile } = useApp();
   const tradition = profile.faithChoice;
   const detail =
@@ -99,13 +97,6 @@ export default function AccountMenuContent({
         title={tr("Prayer requests")}
         icon="heart-outline"
         route="/prayers"
-        onNavigate={onNavigate}
-      />
-      <AccountMenuRow
-        title={tr("Notifications")}
-        detail={unread ? String(unread) : undefined}
-        icon="notifications-outline"
-        route="/notifications"
         onNavigate={onNavigate}
       />
       <View style={s.divider} />
