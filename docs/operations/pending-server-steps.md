@@ -142,3 +142,16 @@ Original texts and concordance are versioned static assets deployed with the web
 - [x] Browser confirmed both active plans, blank dictionary search, Hebrew lookup, a real contextual AI answer, and separate notebook tabs. Ask AI uses the already deployed `bible-study` function with existing consent and server allowances; no new unbounded AI endpoint.
 - [ ] Test on two devices after the app update: invite/accept, save a plan note, explicitly Share, open it under the plan or notebook → Reading plans, comment both ways, and check phone delivery. SQL verifies queue eligibility, not actual APNs delivery.
 - [ ] Public handoff copies only the author's own shared note into the normal discussion composer; review and Post remain explicit. Partner comments remain private. Verify the final composer on a device without posting private test content.
+
+## Pro memberships / paywall — draft, awaiting Jessica and Taya
+
+Do not activate product limits on the current live build. The draft migration defaults `private.pro_rollout.enforced` to false.
+
+- [ ] Review pricing/allowances and budget in `docs/product/pro-membership-paywall.md`; confirm Brazil annual pricing.
+- [ ] Finish RevenueCat real App Store configuration, products, three-day eligible introductory offer, regional prices and offering; agree restore/transfer policy and restrict sandbox access.
+- [ ] Configure native **public** SDK keys for the next build; keep server secret/webhook authorization out of Git. Entitlement: `grace_gather_pro`.
+- [ ] After review, apply `20261126102547_pro_membership_allowances.sql` before deploying `membership-sync`, `revenuecat-webhook`, updated `llm-journey` and `bible-study`. Keep enforcement off while testing.
+- [ ] Validate the authenticated RevenueCat webhook and server lookups: purchase, restore, cancellation, expiry, refund, grace, renewal, transfer and repeated/out-of-order notices.
+- [ ] Test next TestFlight build with free/Pro/admin accounts, quota expiry/reset, two devices, both store prices, trial eligibility and failed replies. Include subscriptions in Apple review.
+- [ ] Confirm quota-reply cache retention/cleanup and payment-provider privacy disclosures before release. Quota records contain a short generated response for idempotent retries; they never contain the original request text.
+- [ ] Only after the approved new version and purchases are available: explicitly activate the rollout, verify upgrade succeeds, and monitor costs. Nothing in this draft performs that switch.
