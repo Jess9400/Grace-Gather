@@ -1,0 +1,28 @@
+{
+  "status": "approved",
+  "reviewers": [
+    {
+      "name": "Jessica",
+      "approved": true
+    },
+    {
+      "name": "Taya",
+      "approved": true
+    }
+  ],
+  "reviewedAt": "2026-11-26",
+  "languages": [
+    "en",
+    "pt",
+    "es",
+    "ru"
+  ],
+  "checks": [
+    "Read each passage in context",
+    "Check all four translations",
+    "Check action is distinct and safe",
+    "Check doctrinal claims and Scripture attribution"
+  ],
+  "contentSha256": "7e9eb3d658f693bb116cbad105af8c364fc8575bbd7074c22a054efc7d4fbcb5",
+  "approvalEvidence": "Jessica confirmed in the product review conversation on 2026-11-26 that both Jessica and Taya reviewed and approved this 31-entry batch."
+}

@@ -38,7 +38,7 @@ test("the notice names the newest item, opens it, and marks it read when opened"
   assert.match(notice, /activity_mark_read", \{ p_id: id \}/);
   assert.match(notice, /pathname: "\/gathering\/\[id\]", params: \{ id: item\.gathering_id \}/);
   assert.match(notice, /gathering_notifications", \{ p_read: item\.id \}/);
-  assert.match(notice, /prayer_command", \{ p_action: "read", p_id: notice\.id/);
+  assert.match(notice, /prayer_command", \{\s*p_action: "read",\s*p_id: notice\.id/);
   // Read only when the person goes there; otherwise it simply fades.
   assert.match(notice, /onPress=\{\(\) => \{[\s\S]{0,400}item\s*\.markRead\(\)[\s\S]{0,200}router\.push\(item\?\.href \?\? notice\.href\)/);
   assert.match(notice, /const SHOWN_MS = 6000;/);

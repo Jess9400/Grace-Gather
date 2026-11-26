@@ -1,0 +1,17 @@
+{
+  "format": "Bundled labelled PNG reference maps",
+  "base": "Natural Earth 1:10m land, lakes and named rivers, public domain; modern physical base, no reconstructed ancient borders or routes.",
+  "places": "Ancient names and coordinates from OpenBible.info; CC BY 4.0. Capernaum uses the Tell Hum identification. Labels are editorial translations, not source endorsements. Some source coordinates © OpenStreetMap contributors (ODbL).",
+  "languages": [
+    "en",
+    "pt",
+    "es",
+    "ru"
+  ],
+  "sources": [
+    "https://www.naturalearthdata.com/about/terms-of-use/",
+    "https://www.openbible.info/geo/",
+    "https://creativecommons.org/licenses/by/4.0/",
+    "https://www.openstreetmap.org/copyright"
+  ]
+}

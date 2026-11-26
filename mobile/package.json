@@ -57,14 +57,16 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "build:web": "expo export --platform web && node scripts/web-assets.mjs",
+    "build:web": "node scripts/compile-devotionals.mjs && expo export --platform web && node scripts/web-assets.mjs",
     "typecheck": "tsc --noEmit",
     "lint": "expo lint",
     "export": "expo export --platform ios --platform web",
     "preflight": "node scripts/preflight.mjs",
-    "eas-build-post-install": "node scripts/preflight.mjs --if-release",
+    "eas-build-post-install": "node scripts/compile-devotionals.mjs && node scripts/preflight.mjs --if-release",
     "format": "prettier --write src app.config.ts scripts",
-    "test": "node --test tests/*.test.mjs"
+    "test": "node --test tests/*.test.mjs",
+    "devotionals:check": "node scripts/compile-devotionals.mjs --require-year",
+    "devotionals:preview": "node scripts/compile-devotionals.mjs --preview"
   },
   "private": true
 }

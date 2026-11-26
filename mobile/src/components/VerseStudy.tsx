@@ -47,6 +47,7 @@ import {
   type OpenStudyNote,
   type OpenStudyNotes,
 } from "../lib/open-study-notes";
+import StudyGeography from "./StudyGeography";
 type Layer = "simple" | "deeper" | "theology" | "sources";
 // The fuller study notes add these to the basic explanation. Every claim in
 // them is drawn from the sources they list.
@@ -772,6 +773,7 @@ export function StudyPage({
                       )}
                   </Section>
                 )}
+                {<StudyGeography id={verse.id} language={lang} />}
                 {!!psalmNumbering && <Body small>{psalmNumbering}</Body>}
                 {!!rich.words && (
                   <KeyWords title={tr("Key words")} words={rich.words} />

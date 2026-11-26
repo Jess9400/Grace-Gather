@@ -10,20 +10,31 @@ export default function VerseNotes(props: {
   verse: string;
   reference: string;
   language: Language;
+  kind?: "personal" | "plan" | "devotional";
+  contextId?: string;
   onSaved?: () => void;
 }) {
   const { userId } = useCommunity();
-  return <NoteEditor key={`${userId}:${props.verse}`} {...props} />;
+  return (
+    <NoteEditor
+      key={`${userId}:${props.kind}:${props.contextId}:${props.verse}`}
+      {...props}
+    />
+  );
 }
 function NoteEditor({
   verse,
   reference,
   language,
   onSaved,
+  kind = "personal",
+  contextId = "",
 }: {
   verse: string;
   reference: string;
   language: Language;
+  kind?: "personal" | "plan" | "devotional";
+  contextId?: string;
   onSaved?: () => void;
 }) {
   const c = copy[language];
@@ -36,7 +47,7 @@ function NoteEditor({
   const [saved, setSaved] = useState(false);
   useEffect(() => {
     let active = true;
-    studyNotebook<StudyNote | null>("note", { verse })
+    studyNotebook<StudyNote | null>("note", { verse, kind, context: contextId })
       .then((note) => {
         if (active) {
           setBody(note?.body ?? "");
@@ -50,7 +61,7 @@ function NoteEditor({
     return () => {
       active = false;
     };
-  }, [verse, attempt, c.loadError]);
+  }, [verse, kind, contextId, attempt, c.loadError]);
   async function save(remove = false) {
     if (busy) return;
     setBusy(true);
@@ -59,6 +70,8 @@ function NoteEditor({
     try {
       await studyNotebook(remove ? "delete" : "save", {
         verse,
+        kind,
+        context: contextId,
         reference,
         body,
       });

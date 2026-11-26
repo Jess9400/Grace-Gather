@@ -114,8 +114,7 @@ friend, without search and without being findable. No edge function.
 Reading-plan days, "Seven days with God" and today's Read · Reflect · Pray
 follow the account to a new phone or the web. No edge function.
 
-- [ ] **1. Database migration** in the SQL Editor, before or right after
-  merging: apply `supabase/migrations/20261125120000_study_progress_sync.sql`
+- [x] **1. Database migration:** confirmed table and RPC live on 25 November 2026. Repository migration: `supabase/migrations/20261125120000_study_progress_sync.sql`
   (adds `private.study_progress` and `public.study_progress`). It is safe to
   run twice. Until it is applied, progress keeps working on each device as
   before; it just doesn't travel. Check: `select count(*) from
@@ -123,3 +122,23 @@ follow the account to a new phone or the web. No edge function.
 - [ ] **2. Check on the next app build:** start a plan and mark a day on the
   phone, then open Bible Study on the web with the same account; the plan
   shows the same day.
+
+## Pro daily devotionals and original-language tools
+
+- [x] Applied `20261125165504_daily_devotional_history.sql` on 25 November 2026. Confirmed RLS, no anonymous execution, no direct client table access and the public invoker wrapper. Local two-account tests pass; updates merge reading steps without erasing completion.
+- [x] Confirmed the existing #254 study_progress table and RPC are already present on production. The older unchecked deployment item above is stale; remaining #254 work is the two-device app test.
+- [x] First 31 four-language devotionals approved: Jessica explicitly confirmed both her and Taya’s approval on 26 November 2026. The review file includes the exact manuscript SHA-256. This is owner/editorial review, not a claim of professional theological review.
+- [x] Batch 02 (30 entries, days 32–61, 26 December 2026–24 January 2027) approved; Jessica confirmed completion of the requested review on 26 November 2026.
+- [ ] Write, translate and jointly approve the remaining 304 entries. The 365 date slots are a schedule, not 365 finished devotionals. `npm run devotionals:check` intentionally fails until the year is complete and approved.
+- [ ] Merge and deploy only after the first editorial batch has been approved. Default builds omit draft content; a preview build must never be used for production distribution.
+- [ ] Next phone build: check Greek/Hebrew glyphs, RTL Hebrew word order, word selection and concordance scrolling, then confirm history on a second device.
+
+Original texts and concordance are versioned static assets deployed with the web build; no paid API or new AI calls are used. Native apps download only the selected chapter and a small concordance shard. Longer lexical definitions remain excluded under their separate permission notice. Full unverified verse-by-verse denominational coverage is not claimed.
+
+## Pro shared study notes and Ask AI (draft #255)
+
+- [x] Deployed `20261125185506_study_context_notes_and_comments.sql` and `20261125190219_study_personal_note_legacy_sync.sql`. Context notes and private comments have no direct client access. Invitations and comments create generic activity notices and use the existing member push queue; expired/blocked/revoked sharing is checked again before sending.
+- [x] Local SQL tests cover context separation, opt-in sharing, comments from both participants, third-party denial, notification recipients, push eligibility, revocation, and compatibility with older clients. Personal note saves/deletes also update/delete the legacy copy.
+- [x] Browser confirmed both active plans, blank dictionary search, Hebrew lookup, a real contextual AI answer, and separate notebook tabs. Ask AI uses the already deployed `bible-study` function with existing consent and server allowances; no new unbounded AI endpoint.
+- [ ] Test on two devices after the app update: invite/accept, save a plan note, explicitly Share, open it under the plan or notebook → Reading plans, comment both ways, and check phone delivery. SQL verifies queue eligibility, not actual APNs delivery.
+- [ ] Public handoff copies only the author's own shared note into the normal discussion composer; review and Post remain explicit. Partner comments remain private. Verify the final composer on a device without posting private test content.

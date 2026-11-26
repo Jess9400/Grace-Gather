@@ -3,6 +3,7 @@ import { BlurView, BlurTargetView } from "expo-blur";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useBottomTabBarHeight } from "expo-router/tabs";
 import MemberAvatar from "../../components/MemberAvatar";
+import NotificationBell from "../../components/NotificationBell";
 import { useReducedMotion } from "../../lib/use-reduced-motion";
 import { useInterfaceCopy } from "../../lib/use-interface-copy";
 import {
@@ -577,6 +578,7 @@ export default function Home() {
           <View style={s.brandRow}>
             <BrandMark size={42} />
             <Text style={s.brand}>GRACE &amp; GATHER</Text>
+            <NotificationBell elevated onPress={() => { dismissInvitation(); router.push("/notifications"); }} />
             <Pressable
               accessibilityRole="button"
               accessibilityLabel={tr("Account and settings")}

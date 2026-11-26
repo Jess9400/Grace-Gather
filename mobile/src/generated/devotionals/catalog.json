@@ -1,0 +1,1891 @@
+[
+  {
+    "reference": "JHN.1.5",
+    "en": [
+      "A light that remains",
+      "John begins with light meeting darkness, not avoiding it. Faith can begin with noticing a little light without pretending the darkness is gone.",
+      "Open a curtain and name one source of hope you can return to today."
+    ],
+    "pt": [
+      "Uma luz que permanece",
+      "João começa com a luz encontrando a escuridão, sem fugir dela. A fé pode começar ao perceber uma pequena luz, sem fingir que tudo está bem.",
+      "Abra uma janela e reconheça algo que renove sua esperança hoje."
+    ],
+    "es": [
+      "Una luz que permanece",
+      "Juan comienza con la luz encontrando la oscuridad, sin evitarla. La fe puede empezar al reconocer una pequeña luz sin fingir que todo está bien.",
+      "Abre una cortina y reconoce una fuente de esperanza para hoy."
+    ],
+    "ru": [
+      "Свет, который остаётся",
+      "Иоанн начинает со света, встречающего тьму, а не избегающего её. Вера может начаться с малого света без притворства, будто темноты больше нет.",
+      "Откройте шторы и назовите один источник надежды на сегодня."
+    ],
+    "day": 1,
+    "approved": true,
+    "batch": "01",
+    "id": "gg-year1-d001",
+    "date": "2026-11-25",
+    "status": "approved"
+  },
+  {
+    "reference": "MRK.1.35",
+    "en": [
+      "Before the day begins",
+      "Jesus makes room for prayer amid growing demands. Quiet is not a reward for finishing everything; it can help shape what deserves your attention.",
+      "Spend two minutes without your phone before choosing your first task."
+    ],
+    "pt": [
+      "Antes de começar o dia",
+      "Jesus abre espaço para orar em meio a tantas demandas. O silêncio não é um prêmio por terminar tudo; ele ajuda a perceber o que merece atenção.",
+      "Fique dois minutos sem o celular antes de escolher sua primeira tarefa."
+    ],
+    "es": [
+      "Antes de empezar el día",
+      "Jesús hace espacio para orar entre muchas demandas. El silencio no es un premio por acabarlo todo; ayuda a reconocer lo que merece atención.",
+      "Pasa dos minutos sin el móvil antes de elegir tu primera tarea."
+    ],
+    "ru": [
+      "Прежде чем начнётся день",
+      "Среди множества просьб Иисус находит время для молитвы. Тишина — не награда за выполненные дела: она помогает понять, чему уделить внимание.",
+      "Побудьте две минуты без телефона, прежде чем выбрать первое дело."
+    ],
+    "day": 2,
+    "approved": true,
+    "batch": "01",
+    "id": "gg-year1-d002",
+    "date": "2026-11-26",
+    "status": "approved"
+  },
+  {
+    "reference": "MAT.5.9",
+    "en": [
+      "Making room for peace",
+      "Jesus calls peacemakers blessed. Making peace is active work, but it does not require accepting mistreatment or abandoning a necessary boundary.",
+      "Replace one accusatory sentence with a calm description of what you need."
+    ],
+    "pt": [
+      "Abrir espaço para a paz",
+      "Jesus chama felizes os que promovem a paz. Construir a paz exige atitude, mas não significa aceitar maus-tratos nem abrir mão de limites necessários.",
+      "Troque uma acusação por uma frase tranquila sobre o que você precisa."
+    ],
+    "es": [
+      "Hacer espacio para la paz",
+      "Jesús llama bienaventurados a quienes trabajan por la paz. Buscarla requiere actuar, pero no aceptar maltrato ni abandonar límites necesarios.",
+      "Cambia una acusación por una explicación tranquila de lo que necesitas."
+    ],
+    "ru": [
+      "Дать место миру",
+      "Иисус называет миротворцев блаженными. Мир требует действий, но не обязывает терпеть жестокость или отказываться от необходимых границ.",
+      "Замените одно обвинение спокойным объяснением того, что вам нужно."
+    ],
+    "day": 3,
+    "approved": true,
+    "batch": "01",
+    "id": "gg-year1-d003",
+    "date": "2026-11-27",
+    "status": "approved"
+  },
+  {
+    "reference": "LUK.10.33",
+    "en": [
+      "The neighbour you notice",
+      "In Jesus’ story, compassion interrupts a journey. The Samaritan sees a wounded person before treating him as someone else’s responsibility.",
+      "Offer one practical kindness to someone whose needs you usually overlook."
+    ],
+    "pt": [
+      "O próximo que você percebe",
+      "Na história de Jesus, a compaixão interrompe uma viagem. O samaritano enxerga a pessoa ferida antes de pensar de quem seria a responsabilidade.",
+      "Ofereça uma ajuda prática a alguém que costuma passar despercebido."
+    ],
+    "es": [
+      "El prójimo que ves",
+      "En la historia de Jesús, la compasión interrumpe un viaje. El samaritano ve a la persona herida antes de preguntarse de quién es la responsabilidad.",
+      "Ofrece una ayuda concreta a alguien que suela pasar desapercibido."
+    ],
+    "ru": [
+      "Ближний, которого замечаешь",
+      "В притче Иисуса сострадание прерывает путешествие. Самарянин прежде всего видит раненого человека, а не чужую ответственность.",
+      "Окажите конкретную помощь тому, чьи нужды обычно остаются незамеченными."
+    ],
+    "day": 4,
+    "approved": true,
+    "batch": "01",
+    "id": "gg-year1-d004",
+    "date": "2026-11-28",
+    "status": "approved"
+  },
+  {
+    "reference": "PHP.4.5",
+    "en": [
+      "A gentler response",
+      "Paul connects gentleness with the Lord’s nearness. You do not have to win every exchange to remain truthful or to be heard.",
+      "Pause for one breath before replying to a message that irritates you."
+    ],
+    "pt": [
+      "Uma resposta mais gentil",
+      "Paulo aproxima a gentileza da presença do Senhor. Você não precisa vencer toda conversa para falar a verdade ou ser ouvido.",
+      "Respire uma vez antes de responder a uma mensagem que irritou você."
+    ],
+    "es": [
+      "Una respuesta más amable",
+      "Pablo relaciona la amabilidad con la cercanía del Señor. No necesitas ganar cada conversación para decir la verdad o hacerte escuchar.",
+      "Respira una vez antes de responder a un mensaje que te irrite."
+    ],
+    "ru": [
+      "Более мягкий ответ",
+      "Павел связывает кротость с близостью Господа. Не обязательно побеждать в каждом споре, чтобы говорить правду и быть услышанным.",
+      "Сделайте один вдох перед ответом на раздражающее сообщение."
+    ],
+    "day": 5,
+    "approved": true,
+    "batch": "01",
+    "id": "gg-year1-d005",
+    "date": "2026-11-29",
+    "status": "approved"
+  },
+  {
+    "reference": "JAS.1.19",
+    "en": [
+      "Listen before answering",
+      "James puts listening before speaking. Someone’s first words may not tell their whole story; patient attention leaves room for what is harder to say.",
+      "Ask a follow-up question and let the other person finish without interruption."
+    ],
+    "pt": [
+      "Ouvir antes de responder",
+      "Tiago coloca a escuta antes da fala. As primeiras palavras nem sempre contam toda a história; a atenção paciente acolhe o que é mais difícil dizer.",
+      "Faça uma pergunta e deixe a pessoa terminar sem interromper."
+    ],
+    "es": [
+      "Escuchar antes de responder",
+      "Santiago pone la escucha antes de la palabra. Las primeras frases no cuentan toda la historia; escuchar con paciencia acoge lo más difícil de decir.",
+      "Haz una pregunta y deja que la otra persona termine sin interrumpir."
+    ],
+    "ru": [
+      "Сначала выслушать",
+      "Иаков ставит слушание прежде речи. Первые слова не всегда раскрывают всю историю: терпеливое внимание оставляет место для самого трудного.",
+      "Задайте уточняющий вопрос и выслушайте ответ, не перебивая."
+    ],
+    "day": 6,
+    "approved": true,
+    "batch": "01",
+    "id": "gg-year1-d006",
+    "date": "2026-11-30",
+    "status": "approved"
+  },
+  {
+    "reference": "MAT.6.26",
+    "en": [
+      "Worth beyond productivity",
+      "Jesus points to birds while speaking about worry. Their value does not come from an impressive record of achievement, and neither does yours.",
+      "Take a short break without using it to earn or improve anything."
+    ],
+    "pt": [
+      "Valor além da produtividade",
+      "Jesus fala dos pássaros ao tratar da preocupação. O valor deles não depende de uma lista de conquistas, e o seu também não.",
+      "Faça uma pausa curta sem transformá-la em mais uma obrigação."
+    ],
+    "es": [
+      "Valor más allá de producir",
+      "Jesús señala a las aves al hablar de la preocupación. Su valor no depende de una lista de logros, y el tuyo tampoco.",
+      "Haz una pausa breve sin convertirla en otra obligación."
+    ],
+    "ru": [
+      "Ценность не в продуктивности",
+      "Говоря о тревоге, Иисус обращает внимание на птиц. Их ценность не определяется достижениями; ваша — тоже.",
+      "Сделайте короткий перерыв, не превращая его в способ добиться большего."
+    ],
+    "day": 7,
+    "approved": true,
+    "batch": "01",
+    "id": "gg-year1-d007",
+    "date": "2026-12-01",
+    "status": "approved"
+  },
+  {
+    "reference": "ROM.12.15",
+    "en": [
+      "Stay beside someone",
+      "Paul asks believers to share both joy and grief. Companionship does not always need an explanation, a solution or a comparison with your own experience.",
+      "Acknowledge someone’s joy or sadness without immediately giving advice."
+    ],
+    "pt": [
+      "Estar ao lado",
+      "Paulo convida a compartilhar a alegria e o choro. Estar junto nem sempre exige uma explicação, uma solução ou uma comparação com sua própria experiência.",
+      "Acolha a alegria ou a tristeza de alguém sem oferecer um conselho logo depois."
+    ],
+    "es": [
+      "Estar al lado",
+      "Pablo invita a compartir la alegría y el llanto. Acompañar no siempre exige una explicación, una solución o una comparación con tu experiencia.",
+      "Acoge la alegría o tristeza de alguien sin dar consejos enseguida."
+    ],
+    "ru": [
+      "Остаться рядом",
+      "Павел призывает разделять и радость, и скорбь. Присутствие не всегда требует объяснения, решения или сравнения с собственным опытом.",
+      "Откликнитесь на чью-то радость или печаль, не спеша давать совет."
+    ],
+    "day": 8,
+    "approved": true,
+    "batch": "01",
+    "id": "gg-year1-d008",
+    "date": "2026-12-02",
+    "status": "approved"
+  },
+  {
+    "reference": "JHN.15.4",
+    "en": [
+      "Remain connected",
+      "Jesus describes life with him as a branch remaining on a vine. Growth is sustained by connection, rather than by constant pressure to produce visible results.",
+      "Return to a simple prayer you know, and say it slowly once."
+    ],
+    "pt": [
+      "Permanecer ligado",
+      "Jesus compara a vida com ele a um ramo que permanece na videira. O crescimento vem dessa ligação, não da pressão por resultados visíveis.",
+      "Retome uma oração simples que você conhece e faça-a devagar uma vez."
+    ],
+    "es": [
+      "Permanecer unidos",
+      "Jesús compara la vida con él con una rama unida a la vid. El crecimiento nace de esa unión, no de la presión por resultados visibles.",
+      "Vuelve a una oración sencilla que conozcas y recítala despacio una vez."
+    ],
+    "ru": [
+      "Сохранить связь",
+      "Иисус сравнивает жизнь с ним с ветвью на лозе. Рост питается связью, а не непрестанным требованием видимых результатов.",
+      "Вернитесь к знакомой короткой молитве и один раз произнесите её медленно."
+    ],
+    "day": 9,
+    "approved": true,
+    "batch": "01",
+    "id": "gg-year1-d009",
+    "date": "2026-12-03",
+    "status": "approved"
+  },
+  {
+    "reference": "GAL.6.2",
+    "en": [
+      "Help can be shared",
+      "Bearing one another’s burdens is a communal calling. It is not an instruction to solve everything alone, or to carry more than you safely can.",
+      "Ask a trusted person to help with one clearly defined task."
+    ],
+    "pt": [
+      "A ajuda pode ser partilhada",
+      "Cuidar uns dos outros é um chamado comunitário. Isso não exige resolver tudo sozinho nem assumir mais do que você consegue suportar com segurança.",
+      "Peça a uma pessoa de confiança ajuda com uma tarefa bem definida."
+    ],
+    "es": [
+      "La ayuda se comparte",
+      "Cuidarse unos a otros es una llamada comunitaria. No exige resolverlo todo a solas ni asumir más de lo que puedes sostener con seguridad.",
+      "Pide a alguien de confianza ayuda con una tarea concreta."
+    ],
+    "ru": [
+      "Помощь можно разделить",
+      "Носить бремена друг друга — общее призвание. Оно не требует решать всё одному или брать на себя непосильное.",
+      "Попросите человека, которому доверяете, помочь с одним конкретным делом."
+    ],
+    "day": 10,
+    "approved": true,
+    "batch": "01",
+    "id": "gg-year1-d010",
+    "date": "2026-12-04",
+    "status": "approved"
+  },
+  {
+    "reference": "MRK.6.31",
+    "en": [
+      "Rest belongs here",
+      "Jesus invites tired disciples to rest after their work. Caring for others and acknowledging your own limits do not have to compete.",
+      "Decline or postpone one nonessential demand so you can rest this evening."
+    ],
+    "pt": [
+      "Há lugar para descansar",
+      "Jesus convida os discípulos cansados a descansar depois do trabalho. Cuidar dos outros e reconhecer os próprios limites podem caminhar juntos.",
+      "Adie ou recuse uma demanda dispensável para descansar nesta noite."
+    ],
+    "es": [
+      "Hay lugar para descansar",
+      "Jesús invita a los discípulos cansados a descansar después de trabajar. Cuidar a otros y reconocer tus límites pueden ir juntos.",
+      "Pospón o rechaza una exigencia prescindible para descansar esta noche."
+    ],
+    "ru": [
+      "Здесь есть место отдыху",
+      "После труда Иисус приглашает уставших учеников отдохнуть. Забота о других и признание собственных пределов не противоречат друг другу.",
+      "Отложите одну необязательную просьбу, чтобы отдохнуть сегодня вечером."
+    ],
+    "day": 11,
+    "approved": true,
+    "batch": "01",
+    "id": "gg-year1-d011",
+    "date": "2026-12-05",
+    "status": "approved"
+  },
+  {
+    "reference": "COL.3.12",
+    "en": [
+      "What you put on",
+      "Paul pictures compassion and patience as clothing. They are qualities to practise in ordinary encounters, not achievements that make you better than someone else.",
+      "Choose patience in one queue or delay instead of passing your frustration on."
+    ],
+    "pt": [
+      "O que você veste por dentro",
+      "Paulo apresenta a compaixão e a paciência como roupas. São atitudes para praticar nos encontros comuns, não conquistas que tornam alguém superior aos outros.",
+      "Em uma fila ou atraso, pratique a paciência sem descontar a irritação em alguém."
+    ],
+    "es": [
+      "Lo que llevas por dentro",
+      "Pablo presenta la compasión y la paciencia como ropa. Son actitudes para practicar en encuentros cotidianos, no logros que te hagan superior a otros.",
+      "En una cola o retraso, practica paciencia sin descargar tu frustración en alguien."
+    ],
+    "ru": [
+      "Во что облечься",
+      "Павел уподобляет сострадание и терпение одежде. Это качества для повседневных встреч, а не достижения, делающие нас лучше других.",
+      "В очереди или при задержке проявите терпение, не передавая раздражение окружающим."
+    ],
+    "day": 12,
+    "approved": true,
+    "batch": "01",
+    "id": "gg-year1-d012",
+    "date": "2026-12-06",
+    "status": "approved"
+  },
+  {
+    "reference": "LUK.19.5",
+    "en": [
+      "Known by name",
+      "Jesus notices Zacchaeus before the crowd has changed its opinion of him. Being seen can open a beginning that public labels have closed off.",
+      "Greet by name someone who is often overlooked in your daily routine."
+    ],
+    "pt": [
+      "Chamado pelo nome",
+      "Jesus percebe Zaqueu antes que a multidão mude de opinião sobre ele. Ser visto pode abrir um caminho que os rótulos haviam fechado.",
+      "Cumprimente pelo nome alguém que costuma passar despercebido em sua rotina."
+    ],
+    "es": [
+      "Llamado por tu nombre",
+      "Jesús ve a Zaqueo antes de que la multitud cambie su opinión de él. Ser visto puede abrir un camino que las etiquetas habían cerrado.",
+      "Saluda por su nombre a alguien que suela pasar desapercibido en tu rutina."
+    ],
+    "ru": [
+      "Названный по имени",
+      "Иисус замечает Закхея раньше, чем толпа меняет своё мнение о нём. Внимание может открыть путь, закрытый чужими ярлыками.",
+      "Поздоровайтесь по имени с тем, кого обычно не замечают в вашей повседневной жизни."
+    ],
+    "day": 13,
+    "approved": true,
+    "batch": "01",
+    "id": "gg-year1-d013",
+    "date": "2026-12-07",
+    "status": "approved"
+  },
+  {
+    "reference": "1CO.13.4",
+    "en": [
+      "Love at an ordinary pace",
+      "Paul describes love through patience and kindness. These are often small choices made when affection is not enough to make a difficult moment easy.",
+      "Do a useful household task for someone without announcing it as a favour."
+    ],
+    "pt": [
+      "Amor no ritmo do cotidiano",
+      "Paulo descreve o amor pela paciência e pela bondade. Muitas vezes são pequenas escolhas quando o carinho, sozinho, não torna uma situação difícil mais fácil.",
+      "Faça uma tarefa útil para alguém sem apresentá-la como um favor."
+    ],
+    "es": [
+      "Amor en lo cotidiano",
+      "Pablo describe el amor mediante paciencia y bondad. A menudo son pequeñas decisiones cuando el cariño no basta para hacer fácil un momento difícil.",
+      "Haz una tarea útil para alguien sin anunciarla como un favor."
+    ],
+    "ru": [
+      "Любовь в обычном ритме",
+      "Павел описывает любовь через терпение и доброту. Часто это маленькие решения в момент, когда одной привязанности недостаточно.",
+      "Сделайте полезное домашнее дело для другого, не подчёркивая, что это одолжение."
+    ],
+    "day": 14,
+    "approved": true,
+    "batch": "01",
+    "id": "gg-year1-d014",
+    "date": "2026-12-08",
+    "status": "approved"
+  },
+  {
+    "reference": "MAT.7.7",
+    "en": [
+      "Bring the question",
+      "Jesus invites asking and seeking. Honest questions need not be hidden until you can express them perfectly or already know what the answer should be.",
+      "Bring one unanswered question to prayer without forcing an answer today."
+    ],
+    "pt": [
+      "Levar a pergunta",
+      "Jesus convida a pedir e buscar. Perguntas sinceras não precisam ficar escondidas até que você encontre palavras perfeitas ou saiba qual deveria ser a resposta.",
+      "Leve uma pergunta ainda sem resposta à oração, sem exigir uma solução hoje."
+    ],
+    "es": [
+      "Llevar la pregunta",
+      "Jesús invita a pedir y buscar. Las preguntas sinceras no necesitan esconderse hasta encontrar palabras perfectas o saber cuál debería ser la respuesta.",
+      "Lleva una pregunta sin respuesta a la oración, sin exigir una solución hoy."
+    ],
+    "ru": [
+      "Принести свой вопрос",
+      "Иисус приглашает просить и искать. Искренние вопросы не нужно скрывать до тех пор, пока найдутся идеальные слова или предполагаемый ответ.",
+      "Принесите в молитву один нерешённый вопрос, не требуя ответа сегодня."
+    ],
+    "day": 15,
+    "approved": true,
+    "batch": "01",
+    "id": "gg-year1-d015",
+    "date": "2026-12-09",
+    "status": "approved"
+  },
+  {
+    "reference": "EPH.4.29",
+    "en": [
+      "Words that build",
+      "Paul asks whether speech helps the person who hears it. Truthfulness and care belong together; unnecessary humiliation adds nothing to an honest conversation.",
+      "Remove a sarcastic phrase from a reply before you send it."
+    ],
+    "pt": [
+      "Palavras que constroem",
+      "Paulo pergunta se a fala ajuda quem a recebe. Verdade e cuidado caminham juntos; humilhar alguém não torna uma conversa mais honesta.",
+      "Retire uma frase sarcástica de uma resposta antes de enviá-la."
+    ],
+    "es": [
+      "Palabras que construyen",
+      "Pablo pregunta si nuestras palabras ayudan a quien las escucha. Verdad y cuidado van juntos; humillar no hace más honesta una conversación.",
+      "Quita una frase sarcástica de una respuesta antes de enviarla."
+    ],
+    "ru": [
+      "Слова, которые поддерживают",
+      "Павел предлагает думать, помогают ли слова слушающему. Правдивость и забота совместимы: унижение не делает разговор честнее.",
+      "Уберите саркастическую фразу из ответа, прежде чем отправить его."
+    ],
+    "day": 16,
+    "approved": true,
+    "batch": "01",
+    "id": "gg-year1-d016",
+    "date": "2026-12-10",
+    "status": "approved"
+  },
+  {
+    "reference": "JHN.4.7",
+    "en": [
+      "A conversation begins",
+      "At the well, Jesus begins with a request for water. A simple exchange can cross distance when it treats another person with attention and dignity.",
+      "Begin a kind conversation with someone outside your usual social circle."
+    ],
+    "pt": [
+      "Uma conversa começa",
+      "No poço, Jesus começa pedindo água. Uma troca simples pode aproximar pessoas quando há atenção e respeito pela dignidade do outro.",
+      "Inicie uma conversa gentil com alguém fora do seu círculo habitual."
+    ],
+    "es": [
+      "Empieza una conversación",
+      "Junto al pozo, Jesús empieza pidiendo agua. Un intercambio sencillo puede acercar a las personas cuando hay atención y respeto por su dignidad.",
+      "Inicia una conversación amable con alguien fuera de tu círculo habitual."
+    ],
+    "ru": [
+      "Разговор начинается",
+      "У колодца Иисус начинает с просьбы о воде. Простой обмен словами может сократить расстояние, если в нём есть внимание и уважение.",
+      "Начните доброжелательный разговор с человеком вне привычного круга общения."
+    ],
+    "day": 17,
+    "approved": true,
+    "batch": "01",
+    "id": "gg-year1-d017",
+    "date": "2026-12-11",
+    "status": "approved"
+  },
+  {
+    "reference": "HEB.10.24",
+    "en": [
+      "Encouragement that notices",
+      "Hebrews asks readers to consider how to encourage one another. Useful encouragement begins with attention to a person, rather than a demand that they do more.",
+      "Tell someone one specific way their quiet effort has helped you."
+    ],
+    "pt": [
+      "Incentivo que percebe",
+      "Hebreus convida a pensar em como encorajar uns aos outros. Um incentivo útil nasce da atenção à pessoa, não de uma cobrança para que faça mais.",
+      "Conte a alguém uma maneira concreta pela qual seu esforço discreto ajudou você."
+    ],
+    "es": [
+      "Ánimo que presta atención",
+      "Hebreos invita a pensar cómo animarnos unos a otros. Un buen estímulo nace de atender a la persona, no de exigirle que haga más.",
+      "Dile a alguien cómo te ayudó concretamente su esfuerzo discreto."
+    ],
+    "ru": [
+      "Ободрение, которое замечает",
+      "Послание к Евреям предлагает задуматься, как ободрять друг друга. Полезная поддержка начинается с внимания к человеку, а не с требования сделать больше.",
+      "Расскажите кому-нибудь, как именно его незаметное старание помогло вам."
+    ],
+    "day": 18,
+    "approved": true,
+    "batch": "01",
+    "id": "gg-year1-d018",
+    "date": "2026-12-12",
+    "status": "approved"
+  },
+  {
+    "reference": "LUK.15.20",
+    "en": [
+      "Room to return",
+      "In Jesus’ story, the father moves toward the returning son. The welcome comes before a completed speech, making return possible without pretending nothing happened.",
+      "Take one safe, modest step toward repairing a relationship you have neglected."
+    ],
+    "pt": [
+      "Espaço para voltar",
+      "Na história de Jesus, o pai corre ao encontro do filho. O acolhimento vem antes do discurso completo, sem exigir que finjam que nada aconteceu.",
+      "Dê um passo pequeno e seguro para cuidar de uma relação que você deixou de lado."
+    ],
+    "es": [
+      "Espacio para volver",
+      "En la historia de Jesús, el padre sale al encuentro del hijo. La acogida llega antes de terminar su discurso, sin fingir que nada ocurrió.",
+      "Da un paso pequeño y seguro para cuidar una relación que has descuidado."
+    ],
+    "ru": [
+      "Место для возвращения",
+      "В притче Иисуса отец идёт навстречу возвращающемуся сыну. Приветствие опережает заготовленную речь, не требуя делать вид, будто ничего не произошло.",
+      "Сделайте небольшой безопасный шаг к восстановлению отношений, которым не уделяли внимания."
+    ],
+    "day": 19,
+    "approved": true,
+    "batch": "01",
+    "id": "gg-year1-d019",
+    "date": "2026-12-13",
+    "status": "approved"
+  },
+  {
+    "reference": "2CO.8.12",
+    "en": [
+      "Give within your means",
+      "Paul speaks of willingness measured by what a person has. Generosity is not a competition, and giving beyond your safety is not the measure of love.",
+      "Choose a free way to help: offer time, a skill or a useful introduction."
+    ],
+    "pt": [
+      "Oferecer o que é possível",
+      "Paulo considera a disposição de acordo com o que a pessoa tem. Generosidade não é competição; colocar sua segurança em risco não mede o amor.",
+      "Escolha uma ajuda sem custo: ofereça tempo, uma habilidade ou uma indicação útil."
+    ],
+    "es": [
+      "Dar según tus posibilidades",
+      "Pablo considera la disposición según lo que la persona tiene. La generosidad no es una competición; poner en riesgo tu seguridad no mide el amor.",
+      "Elige una ayuda sin coste: ofrece tiempo, una habilidad o un contacto útil."
+    ],
+    "ru": [
+      "Давать по силам",
+      "Павел говорит о готовности, соразмерной тому, что человек имеет. Щедрость — не соревнование; риск для собственного благополучия не мера любви.",
+      "Помогите без денежных затрат: предложите время, навык или полезное знакомство."
+    ],
+    "day": 20,
+    "approved": true,
+    "batch": "01",
+    "id": "gg-year1-d020",
+    "date": "2026-12-14",
+    "status": "approved"
+  },
+  {
+    "reference": "MAT.5.14",
+    "en": [
+      "A light shared quietly",
+      "Jesus calls his disciples the light of the world. Witness need not mean drawing attention to yourself; another person may see hope through your care.",
+      "Make one shared space more welcoming for the next person who uses it."
+    ],
+    "pt": [
+      "Uma luz partilhada",
+      "Jesus chama seus discípulos de luz do mundo. Testemunhar não exige chamar atenção para si; alguém pode enxergar esperança no cuidado que você oferece.",
+      "Deixe um espaço compartilhado mais acolhedor para a próxima pessoa que chegar."
+    ],
+    "es": [
+      "Una luz compartida",
+      "Jesús llama a sus discípulos luz del mundo. Dar testimonio no exige llamar la atención; alguien puede reconocer esperanza en tu cuidado.",
+      "Deja un espacio compartido más acogedor para la siguiente persona."
+    ],
+    "ru": [
+      "Свет, которым делятся",
+      "Иисус называет учеников светом мира. Свидетельство не обязательно привлекает внимание к себе: другой человек может увидеть надежду в вашей заботе.",
+      "Сделайте общее пространство уютнее для того, кто воспользуется им следующим."
+    ],
+    "day": 21,
+    "approved": true,
+    "batch": "01",
+    "id": "gg-year1-d021",
+    "date": "2026-12-15",
+    "status": "approved"
+  },
+  {
+    "reference": "ROM.12.18",
+    "en": [
+      "Peace has limits",
+      "Paul qualifies the call to peace: as far as it depends on you. You can take responsibility for your conduct without controlling another person’s response.",
+      "Set one respectful boundary without trying to force the other person’s agreement."
+    ],
+    "pt": [
+      "A paz também tem limites",
+      "Paulo pede paz no que depender de nós. Você pode responder pelas próprias atitudes sem conseguir controlar a reação de outra pessoa.",
+      "Estabeleça um limite respeitoso sem tentar obrigar o outro a concordar."
+    ],
+    "es": [
+      "La paz también tiene límites",
+      "Pablo pide paz en cuanto dependa de nosotros. Puedes responder por tu conducta sin controlar la reacción de otra persona.",
+      "Establece un límite respetuoso sin intentar obligar al otro a estar de acuerdo."
+    ],
+    "ru": [
+      "У мира есть пределы",
+      "Павел призывает к миру настолько, насколько это зависит от нас. Можно отвечать за свои поступки, не контролируя чужую реакцию.",
+      "Обозначьте уважительную границу, не заставляя другого согласиться."
+    ],
+    "day": 22,
+    "approved": true,
+    "batch": "01",
+    "id": "gg-year1-d022",
+    "date": "2026-12-16",
+    "status": "approved"
+  },
+  {
+    "reference": "MRK.10.49",
+    "en": [
+      "Make room for a voice",
+      "The crowd first silences Bartimaeus, then calls him forward. Communities can learn to stop treating someone’s need as an interruption.",
+      "Invite a quieter person to contribute, while leaving them free to decline."
+    ],
+    "pt": [
+      "Dar espaço a uma voz",
+      "A multidão primeiro cala Bartimeu e depois o chama. Uma comunidade pode aprender a não tratar a necessidade de alguém como uma interrupção.",
+      "Convide uma pessoa mais quieta a participar, deixando-a livre para recusar."
+    ],
+    "es": [
+      "Dar espacio a una voz",
+      "La multitud primero calla a Bartimeo y luego lo llama. Una comunidad puede aprender a no tratar la necesidad de alguien como una interrupción.",
+      "Invita a participar a alguien más callado, dejándole libertad para negarse."
+    ],
+    "ru": [
+      "Дать место чужому голосу",
+      "Толпа сначала заставляет Вартимея замолчать, а затем зовёт его. Община может научиться не считать чужую нужду помехой.",
+      "Предложите высказаться более тихому человеку, оставив ему право отказаться."
+    ],
+    "day": 23,
+    "approved": true,
+    "batch": "01",
+    "id": "gg-year1-d023",
+    "date": "2026-12-17",
+    "status": "approved"
+  },
+  {
+    "reference": "1TH.5.11",
+    "en": [
+      "Build someone up",
+      "Paul’s encouragement is addressed to a community. Faith grows through small exchanges of care, not only through private effort or moments of certainty.",
+      "Send an encouraging message that names a strength you genuinely see in someone."
+    ],
+    "pt": [
+      "Fortalecer alguém",
+      "O encorajamento de Paulo é dirigido a uma comunidade. A fé também cresce nas pequenas trocas de cuidado, não apenas no esforço individual ou na certeza.",
+      "Envie uma mensagem de incentivo citando uma qualidade que você realmente percebe em alguém."
+    ],
+    "es": [
+      "Fortalecer a alguien",
+      "El ánimo de Pablo se dirige a una comunidad. La fe también crece en pequeños intercambios de cuidado, no solo en el esfuerzo individual o la certeza.",
+      "Envía un mensaje de ánimo que nombre una cualidad que de verdad ves en alguien."
+    ],
+    "ru": [
+      "Укрепить другого",
+      "Призыв Павла к ободрению обращён к общине. Вера растёт и через небольшие проявления заботы, а не только через личные усилия или уверенность.",
+      "Отправьте ободряющее сообщение, назвав качество, которое вы искренне цените в человеке."
+    ],
+    "day": 24,
+    "approved": true,
+    "batch": "01",
+    "id": "gg-year1-d024",
+    "date": "2026-12-18",
+    "status": "approved"
+  },
+  {
+    "reference": "JHN.20.27",
+    "en": [
+      "Questions can stay present",
+      "The risen Jesus meets Thomas in his uncertainty. This encounter makes space for an honest response rather than demanding a performance of easy confidence.",
+      "Discuss a question about faith with someone who will listen without shaming you."
+    ],
+    "pt": [
+      "Há lugar para perguntas",
+      "Jesus ressuscitado encontra Tomé em sua dúvida. Esse encontro abre espaço para uma resposta sincera, sem exigir uma demonstração de confiança fácil.",
+      "Converse sobre uma dúvida de fé com alguém que escute sem julgar você."
+    ],
+    "es": [
+      "Hay lugar para las preguntas",
+      "Jesús resucitado encuentra a Tomás en su duda. Ese encuentro abre espacio para una respuesta sincera, sin exigir una apariencia de confianza fácil.",
+      "Habla de una duda de fe con alguien que escuche sin avergonzarte."
+    ],
+    "ru": [
+      "Вопросам есть место",
+      "Воскресший Иисус встречает Фому в его сомнении. Эта встреча оставляет место честному ответу, не требуя изображать лёгкую уверенность.",
+      "Обсудите вопрос о вере с человеком, который выслушает без осуждения."
+    ],
+    "day": 25,
+    "approved": true,
+    "batch": "01",
+    "id": "gg-year1-d025",
+    "date": "2026-12-19",
+    "status": "approved"
+  },
+  {
+    "reference": "MAT.6.3",
+    "en": [
+      "Goodness without an audience",
+      "Jesus warns against making generosity a performance. Something kind can remain valuable even when no one sees it, praises it or remembers your name.",
+      "Help anonymously in a small way without posting or mentioning it afterward."
+    ],
+    "pt": [
+      "Bondade sem plateia",
+      "Jesus alerta contra transformar a generosidade em espetáculo. Um gesto continua valioso mesmo quando ninguém vê, elogia ou se lembra do seu nome.",
+      "Ajude de forma anônima em algo pequeno, sem publicar nem comentar depois."
+    ],
+    "es": [
+      "Bondad sin público",
+      "Jesús advierte contra convertir la generosidad en espectáculo. Un gesto sigue siendo valioso aunque nadie lo vea, lo elogie o recuerde tu nombre.",
+      "Ayuda anónimamente en algo pequeño, sin publicarlo ni comentarlo después."
+    ],
+    "ru": [
+      "Доброта без зрителей",
+      "Иисус предостерегает от превращения щедрости в представление. Добрый поступок ценен и тогда, когда его никто не видит и не хвалит.",
+      "Незаметно помогите в небольшом деле, не рассказывая об этом впоследствии."
+    ],
+    "day": 26,
+    "approved": true,
+    "batch": "01",
+    "id": "gg-year1-d026",
+    "date": "2026-12-20",
+    "status": "approved"
+  },
+  {
+    "reference": "PHP.2.4",
+    "en": [
+      "Beyond your own view",
+      "Paul asks readers to notice others’ interests alongside their own. Care does not erase your needs; it widens the view from which you make a decision.",
+      "Before making a shared decision, ask who else will be affected by it."
+    ],
+    "pt": [
+      "Além do próprio ponto de vista",
+      "Paulo convida a perceber os interesses dos outros junto dos nossos. Cuidar não apaga suas necessidades; amplia o olhar antes de uma decisão.",
+      "Antes de tomar uma decisão compartilhada, pergunte quem mais será afetado por ela."
+    ],
+    "es": [
+      "Más allá de tu perspectiva",
+      "Pablo invita a atender los intereses de otros junto a los propios. Cuidar no borra tus necesidades; amplía la mirada antes de decidir.",
+      "Antes de tomar una decisión compartida, pregunta a quién más afectará."
+    ],
+    "ru": [
+      "За пределами своего взгляда",
+      "Павел просит замечать интересы других наряду со своими. Забота не стирает ваши нужды, а расширяет взгляд перед решением.",
+      "Прежде чем принять общее решение, спросите, кого ещё оно затронет."
+    ],
+    "day": 27,
+    "approved": true,
+    "batch": "01",
+    "id": "gg-year1-d027",
+    "date": "2026-12-21",
+    "status": "approved"
+  },
+  {
+    "reference": "LUK.24.32",
+    "en": [
+      "What stayed with you",
+      "The travellers recognise something of their encounter after it has happened. Understanding sometimes grows through returning to an experience with patient attention.",
+      "Recall a conversation that stayed with you and consider what it taught you about care."
+    ],
+    "pt": [
+      "O que ficou com você",
+      "Os viajantes reconhecem algo do encontro depois que ele aconteceu. Às vezes a compreensão cresce quando voltamos a uma experiência com atenção e paciência.",
+      "Relembre uma conversa marcante e perceba o que ela ensinou sobre cuidar."
+    ],
+    "es": [
+      "Lo que se quedó contigo",
+      "Los viajeros reconocen algo del encuentro después de vivirlo. A veces la comprensión crece al volver a una experiencia con atención y paciencia.",
+      "Recuerda una conversación que te marcó y considera qué te enseñó sobre cuidar."
+    ],
+    "ru": [
+      "Что осталось с вами",
+      "Путники осознают смысл встречи уже после неё. Иногда понимание растёт, когда мы с терпеливым вниманием возвращаемся к пережитому.",
+      "Вспомните важный разговор и подумайте, чему он научил вас о заботе."
+    ],
+    "day": 28,
+    "approved": true,
+    "batch": "01",
+    "id": "gg-year1-d028",
+    "date": "2026-12-22",
+    "status": "approved"
+  },
+  {
+    "reference": "JAS.2.16",
+    "en": [
+      "When kindness becomes practical",
+      "James questions a blessing that leaves someone hungry or cold. Words of care matter, but sometimes the next faithful response is something materially useful.",
+      "Offer a meal, a lift or another practical help that fits your circumstances."
+    ],
+    "pt": [
+      "Quando o cuidado vira atitude",
+      "Tiago questiona uma bênção que deixa alguém com fome ou frio. Palavras importam, mas às vezes a próxima resposta de fé é uma ajuda concreta.",
+      "Ofereça uma refeição, uma carona ou outra ajuda prática dentro das suas possibilidades."
+    ],
+    "es": [
+      "Cuando el cuidado se hace práctico",
+      "Santiago cuestiona una bendición que deja a alguien con hambre o frío. Las palabras importan, pero a veces la respuesta de fe es una ayuda concreta.",
+      "Ofrece una comida, transporte u otra ayuda práctica dentro de tus posibilidades."
+    ],
+    "ru": [
+      "Когда забота становится делом",
+      "Иаков ставит под вопрос благословение, оставляющее человека голодным или замерзающим. Слова важны, но порой следующий шаг веры — конкретная помощь.",
+      "Предложите еду, поездку или другую посильную практическую помощь."
+    ],
+    "day": 29,
+    "approved": true,
+    "batch": "01",
+    "id": "gg-year1-d029",
+    "date": "2026-12-23",
+    "status": "approved"
+  },
+  {
+    "reference": "2TI.1.7",
+    "en": [
+      "Courage with care",
+      "Paul joins power with love and self-control. Courage is not reckless pressure to prove yourself; it can be a thoughtful step taken with support.",
+      "Take one manageable step toward a task you have avoided, asking for support if needed."
+    ],
+    "pt": [
+      "Coragem com cuidado",
+      "Paulo une força, amor e equilíbrio. Coragem não é se arriscar para provar algo; pode ser um passo pensado, com o apoio necessário.",
+      "Dê um passo possível em uma tarefa que vem adiando, pedindo apoio se precisar."
+    ],
+    "es": [
+      "Valor con cuidado",
+      "Pablo une fuerza, amor y dominio propio. El valor no exige arriesgarte para demostrar algo; puede ser un paso pensado, con apoyo.",
+      "Da un paso manejable en una tarea que has evitado y pide apoyo si lo necesitas."
+    ],
+    "ru": [
+      "Мужество с заботой",
+      "Павел соединяет силу с любовью и целомудрием. Мужество — не безрассудное доказательство своей смелости, а продуманный шаг с нужной поддержкой.",
+      "Сделайте посильный шаг в отложенном деле, при необходимости попросив поддержки."
+    ],
+    "day": 30,
+    "approved": true,
+    "batch": "01",
+    "id": "gg-year1-d030",
+    "date": "2026-12-24",
+    "status": "approved"
+  },
+  {
+    "reference": "JHN.21.12",
+    "en": [
+      "An invitation to eat",
+      "The risen Jesus offers breakfast to his disciples. An ordinary meal becomes a place of welcome, reminding us that care can be simple and embodied.",
+      "Share an unhurried meal or a cup of tea with someone, in person or by video."
+    ],
+    "pt": [
+      "Um convite para comer",
+      "Jesus ressuscitado oferece uma refeição aos discípulos. Algo cotidiano vira lugar de acolhimento e lembra que o cuidado pode ser simples e concreto.",
+      "Compartilhe uma refeição sem pressa ou um chá com alguém, pessoalmente ou por vídeo."
+    ],
+    "es": [
+      "Una invitación a comer",
+      "Jesús resucitado ofrece el desayuno a sus discípulos. Una comida cotidiana se vuelve acogida y recuerda que el cuidado puede ser sencillo y concreto.",
+      "Comparte sin prisas una comida o un té con alguien, en persona o por vídeo."
+    ],
+    "ru": [
+      "Приглашение к трапезе",
+      "Воскресший Иисус предлагает ученикам завтрак. Обычная трапеза становится местом принятия, напоминая, что забота бывает простой и осязаемой.",
+      "Разделите неспешную трапезу или чашку чая с кем-нибудь лично или по видеосвязи."
+    ],
+    "day": 31,
+    "approved": true,
+    "batch": "01",
+    "id": "gg-year1-d031",
+    "date": "2026-12-25",
+    "status": "approved"
+  },
+  {
+    "day": 32,
+    "reference": "MAT.2.11",
+    "en": [
+      "What you can offer",
+      "The visitors honour Jesus with gifts they have brought. Their story invites generosity without making the price of a gift the measure of love.",
+      "Choose a useful item you already own and offer it to someone who wants it.",
+      "God, help me give thoughtfully, without comparing my gift with anyone else’s."
+    ],
+    "pt": [
+      "O que você pode oferecer",
+      "Os visitantes honram Jesus com os presentes que trouxeram. Essa história convida à generosidade sem transformar o preço de um presente na medida do amor.",
+      "Escolha um objeto útil que você já tem e ofereça a alguém que queira recebê-lo.",
+      "Deus, ajuda-me a oferecer com carinho, sem comparar meu presente com o dos outros."
+    ],
+    "es": [
+      "Lo que puedes ofrecer",
+      "Los visitantes honran a Jesús con los regalos que han traído. Su historia invita a la generosidad sin convertir el precio de un regalo en la medida del amor.",
+      "Elige un objeto útil que ya tengas y ofrécelo a alguien que quiera recibirlo.",
+      "Dios, ayúdame a dar con atención, sin comparar mi regalo con el de otros."
+    ],
+    "ru": [
+      "Что вы можете принести",
+      "Гости почитают Иисуса принесёнными дарами. Эта история приглашает к щедрости, но не делает цену подарка мерой любви.",
+      "Выберите полезную вещь, которая у вас уже есть, и предложите тому, кому она нужна.",
+      "Боже, помоги мне дарить с заботой и не сравнивать свой дар с чужим."
+    ],
+    "approved": true,
+    "batch": "02",
+    "id": "gg-year1-d032",
+    "date": "2026-12-26",
+    "status": "approved"
+  },
+  {
+    "day": 33,
+    "reference": "LUK.2.19",
+    "en": [
+      "Let a moment stay",
+      "Mary keeps what she has heard and ponders it. Some experiences need time before we can explain them; attention can come before an answer.",
+      "Keep one photograph or small reminder of a meaningful moment, without posting it or explaining it.",
+      "God, help me make room for what I do not yet understand."
+    ],
+    "pt": [
+      "Deixe o momento ficar",
+      "Maria guarda o que ouviu e reflete sobre aquilo. Algumas experiências precisam de tempo para ganhar sentido; podemos acolhê-las antes de encontrar uma resposta.",
+      "Guarde uma foto ou uma pequena lembrança de um momento importante, sem publicar nem explicar.",
+      "Deus, ajuda-me a acolher o que ainda não compreendo."
+    ],
+    "es": [
+      "Deja que el momento permanezca",
+      "María guarda lo que ha oído y lo medita. Algunas experiencias necesitan tiempo antes de poder explicarlas; podemos prestarles atención sin tener todavía una respuesta.",
+      "Guarda una foto o un pequeño recuerdo de un momento importante, sin publicarlo ni explicarlo.",
+      "Dios, ayúdame a acoger lo que todavía no comprendo."
+    ],
+    "ru": [
+      "Сохранить мгновение",
+      "Мария сохраняет услышанное и размышляет о нём. Иногда событию нужно время, прежде чем мы сможем его объяснить: внимание может предшествовать ответу.",
+      "Сохраните фотографию или небольшое напоминание о важном мгновении, не публикуя и не объясняя его.",
+      "Боже, помоги мне дать место тому, чего я ещё не понимаю."
+    ],
+    "approved": true,
+    "batch": "02",
+    "id": "gg-year1-d033",
+    "date": "2026-12-27",
+    "status": "approved"
+  },
+  {
+    "day": 34,
+    "reference": "LUK.2.37",
+    "en": [
+      "Faithfulness through the years",
+      "Anna’s life of worship gives an older woman a place in the story of Jesus. A person’s contribution does not disappear when their pace or circumstances change.",
+      "Ask an older person, if they welcome the conversation, about a tradition they would like to pass on.",
+      "God, teach me to notice the wisdom of people whose lives differ from mine."
+    ],
+    "pt": [
+      "Fidelidade ao longo dos anos",
+      "A vida de oração de Ana dá a uma mulher idosa um lugar na história de Jesus. O valor de alguém não desaparece quando seu ritmo ou suas condições mudam.",
+      "Se a pessoa quiser conversar, pergunte a alguém mais velho qual tradição gostaria de passar adiante.",
+      "Deus, ensina-me a reconhecer a sabedoria de quem vive de um jeito diferente do meu."
+    ],
+    "es": [
+      "Fidelidad a través de los años",
+      "La vida de oración de Ana da a una mujer mayor un lugar en la historia de Jesús. La contribución de una persona no desaparece cuando cambian su ritmo o sus circunstancias.",
+      "Si desea conversar, pregunta a una persona mayor qué tradición le gustaría transmitir.",
+      "Dios, enséñame a reconocer la sabiduría de quienes viven de manera distinta a la mía."
+    ],
+    "ru": [
+      "Верность сквозь годы",
+      "Молитвенная жизнь Анны даёт пожилой женщине место в истории Иисуса. Вклад человека не исчезает, когда меняются его силы или обстоятельства.",
+      "Если пожилому человеку приятно об этом говорить, спросите, какую традицию он хотел бы передать другим.",
+      "Боже, научи меня замечать мудрость людей, чья жизнь отличается от моей."
+    ],
+    "approved": true,
+    "batch": "02",
+    "id": "gg-year1-d034",
+    "date": "2026-12-28",
+    "status": "approved"
+  },
+  {
+    "day": 35,
+    "reference": "MAT.2.12",
+    "en": [
+      "Another way home",
+      "The visitors do not return to Herod after the warning. Faithfulness sometimes means changing course, especially when continuing would serve someone else’s harmful intentions.",
+      "Change one routine that keeps drawing you into an unhelpful situation; choose a safer alternative.",
+      "God, give me discernment to change direction when a familiar path is not good."
+    ],
+    "pt": [
+      "Outro caminho para casa",
+      "Depois do aviso, os visitantes não voltam a Herodes. Ser fiel às vezes exige mudar de rumo, especialmente quando seguir adiante serviria às intenções prejudiciais de outra pessoa.",
+      "Mude uma rotina que costuma levar você a uma situação ruim e escolha uma alternativa mais segura.",
+      "Deus, dá-me discernimento para mudar de direção quando o caminho conhecido não faz bem."
+    ],
+    "es": [
+      "Otro camino a casa",
+      "Después de la advertencia, los visitantes no regresan a Herodes. La fidelidad a veces exige cambiar de rumbo, sobre todo cuando seguir serviría a las intenciones dañinas de otra persona.",
+      "Cambia una rutina que suele llevarte a una situación perjudicial y elige una alternativa más segura.",
+      "Dios, dame discernimiento para cambiar de dirección cuando el camino conocido no hace bien."
+    ],
+    "ru": [
+      "Другой путь домой",
+      "После предупреждения гости не возвращаются к Ироду. Верность иногда требует сменить путь, особенно когда продолжение послужило бы чьим-то недобрым намерениям.",
+      "Измените одну привычку, которая регулярно приводит вас в неприятную ситуацию, выбрав более безопасный вариант.",
+      "Боже, дай мне рассудительность изменить направление, когда знакомый путь не приносит добра."
+    ],
+    "approved": true,
+    "batch": "02",
+    "id": "gg-year1-d035",
+    "date": "2026-12-29",
+    "status": "approved"
+  },
+  {
+    "day": 36,
+    "reference": "LUK.2.52",
+    "en": [
+      "Growth takes time",
+      "Luke describes Jesus growing in wisdom and in relationship with God and people. Growth is a process, not a demand to become complete overnight.",
+      "Practise one useful skill for five minutes, allowing yourself to be a beginner.",
+      "God, help me learn patiently instead of measuring myself against a finished version of someone else."
+    ],
+    "pt": [
+      "Crescer leva tempo",
+      "Lucas descreve Jesus crescendo em sabedoria e na relação com Deus e com as pessoas. Crescer é um processo, não uma obrigação de estar pronto de um dia para o outro.",
+      "Pratique uma habilidade útil por cinco minutos, sem cobrar de si a experiência de quem já sabe.",
+      "Deus, ajuda-me a aprender com paciência, sem me comparar com quem está em outra etapa."
+    ],
+    "es": [
+      "Crecer lleva tiempo",
+      "Lucas describe a Jesús creciendo en sabiduría y en su relación con Dios y las personas. Crecer es un proceso, no una exigencia de estar completo de un día para otro.",
+      "Practica una habilidad útil durante cinco minutos, permitiéndote ser principiante.",
+      "Dios, ayúdame a aprender con paciencia, sin compararme con quienes están en otra etapa."
+    ],
+    "ru": [
+      "Рост требует времени",
+      "Лука описывает, как Иисус возрастает в мудрости и в отношениях с Богом и людьми. Рост — это процесс, а не требование стать совершенным за одну ночь.",
+      "Пять минут поучитесь полезному навыку, разрешая себе оставаться начинающим.",
+      "Боже, помоги мне учиться терпеливо, не сравнивая себя с теми, кто прошёл другой путь."
+    ],
+    "approved": true,
+    "batch": "02",
+    "id": "gg-year1-d036",
+    "date": "2026-12-30",
+    "status": "approved"
+  },
+  {
+    "day": 37,
+    "reference": "JHN.1.46",
+    "en": [
+      "Come and see",
+      "Nathanael dismisses Nazareth before meeting Jesus. Philip answers with an invitation to encounter, reminding us that a label can hide a person’s actual story.",
+      "Learn about one community or neighbourhood you have judged mainly by its reputation.",
+      "God, help me meet people with curiosity rather than decide their worth in advance."
+    ],
+    "pt": [
+      "Venha conhecer",
+      "Natanael desconfia de Nazaré antes de conhecer Jesus. Filipe responde com um convite ao encontro, lembrando que um rótulo pode esconder a história de uma pessoa.",
+      "Conheça melhor uma comunidade ou um bairro que você costuma julgar apenas pela fama.",
+      "Deus, ajuda-me a conhecer as pessoas com abertura, sem decidir antes o valor delas."
+    ],
+    "es": [
+      "Ven y conoce",
+      "Natanael desconfía de Nazaret antes de conocer a Jesús. Felipe responde con una invitación al encuentro: una etiqueta puede ocultar la historia real de una persona.",
+      "Conoce mejor una comunidad o un barrio que hayas juzgado principalmente por su reputación.",
+      "Dios, ayúdame a acercarme con curiosidad, sin decidir de antemano el valor de las personas."
+    ],
+    "ru": [
+      "Приди и посмотри",
+      "Нафанаил отвергает Назарет ещё до встречи с Иисусом. Филипп приглашает его увидеть самому: за привычным ярлыком легко потерять настоящую историю человека.",
+      "Узнайте больше о сообществе или районе, о котором вы судили главным образом по его репутации.",
+      "Боже, помоги мне встречать людей с интересом, не решая заранее, чего они стоят."
+    ],
+    "approved": true,
+    "batch": "02",
+    "id": "gg-year1-d037",
+    "date": "2026-12-31",
+    "status": "approved"
+  },
+  {
+    "day": 38,
+    "reference": "LUK.5.5",
+    "en": [
+      "After an empty night",
+      "Simon names the disappointment of a fruitless night before responding to Jesus. Trust does not require pretending that effort has already brought results.",
+      "Return to one unsuccessful attempt and change a single part of your approach before deciding what to do next.",
+      "God, help me learn from disappointment without mistaking it for the whole story."
+    ],
+    "pt": [
+      "Depois de uma noite sem resultado",
+      "Simão reconhece a frustração de uma noite sem pesca antes de responder a Jesus. Confiar não exige fingir que todo esforço já deu resultado.",
+      "Reveja uma tentativa que não deu certo e ajuste uma parte da sua abordagem antes de decidir o próximo passo.",
+      "Deus, ajuda-me a aprender com a frustração sem achar que ela resume toda a minha história."
+    ],
+    "es": [
+      "Después de una noche sin resultado",
+      "Simón reconoce la frustración de una noche sin pesca antes de responder a Jesús. Confiar no exige fingir que el esfuerzo ya ha dado fruto.",
+      "Revisa un intento que no salió bien y cambia una parte de tu enfoque antes de decidir el siguiente paso.",
+      "Dios, ayúdame a aprender de la decepción sin confundirla con toda mi historia."
+    ],
+    "ru": [
+      "После безрезультатной ночи",
+      "Прежде чем ответить Иисусу, Симон говорит о разочаровании после ночи без улова. Доверять — не значит притворяться, будто усилия уже принесли результат.",
+      "Вернитесь к одной неудачной попытке и измените что-то одно в своём подходе, прежде чем выбирать следующий шаг.",
+      "Боже, помоги мне учиться на разочарованиях, не принимая их за всю историю моей жизни."
+    ],
+    "approved": true,
+    "batch": "02",
+    "id": "gg-year1-d038",
+    "date": "2027-01-01",
+    "status": "approved"
+  },
+  {
+    "day": 39,
+    "reference": "LUK.5.16",
+    "en": [
+      "Space beyond the demands",
+      "Crowds seek Jesus, yet Luke also shows him withdrawing to pray. Being available to others does not mean being reachable at every moment.",
+      "Silence nonessential notifications for one hour and decide when you will check them again.",
+      "God, help me protect attention for what matters without feeling I must answer every demand."
+    ],
+    "pt": [
+      "Um espaço além das demandas",
+      "As multidões procuram Jesus, mas Lucas também mostra seus momentos de recolhimento e oração. Estar presente para os outros não significa estar disponível a todo instante.",
+      "Silencie notificações que não são essenciais por uma hora e escolha quando vai consultá-las novamente.",
+      "Deus, ajuda-me a cuidar da minha atenção sem achar que preciso atender a todas as demandas."
+    ],
+    "es": [
+      "Un espacio fuera de las demandas",
+      "Las multitudes buscan a Jesús, pero Lucas también lo muestra retirándose a orar. Estar presente para otros no significa estar disponible a cada instante.",
+      "Silencia las notificaciones no esenciales durante una hora y decide cuándo volverás a revisarlas.",
+      "Dios, ayúdame a cuidar mi atención sin sentir que debo responder a todas las demandas."
+    ],
+    "ru": [
+      "Пространство вне требований",
+      "Толпы ищут Иисуса, но Лука показывает и то, как Он уходит молиться. Быть рядом с людьми — не значит быть доступным каждую минуту.",
+      "Отключите необязательные уведомления на час и решите, когда проверите их снова.",
+      "Боже, помоги мне беречь внимание для важного, не чувствуя обязанности отвечать на каждый запрос."
+    ],
+    "approved": true,
+    "batch": "02",
+    "id": "gg-year1-d039",
+    "date": "2027-01-02",
+    "status": "approved"
+  },
+  {
+    "day": 40,
+    "reference": "MRK.2.4",
+    "en": [
+      "Make a way in",
+      "The men carrying their friend notice that the crowded entrance excludes him and find another way. Care includes noticing barriers, not merely inviting someone to try harder.",
+      "When sharing an invitation or resource, offer an accessible option such as captions, written information or a suitable meeting place.",
+      "God, help me notice who cannot easily enter the spaces I take for granted."
+    ],
+    "pt": [
+      "Abra espaço para entrar",
+      "Os homens que levam o amigo percebem que a entrada cheia impede sua passagem e procuram outro caminho. Cuidar inclui enxergar barreiras, não apenas pedir mais esforço.",
+      "Ao compartilhar um convite ou conteúdo, ofereça uma opção acessível, como legendas, informação por escrito ou um local adequado.",
+      "Deus, ajuda-me a perceber quem encontra dificuldades para entrar nos espaços que para mim são comuns."
+    ],
+    "es": [
+      "Abre un camino de entrada",
+      "Los hombres que llevan a su amigo ven que la entrada llena le impide pasar y buscan otro camino. Cuidar incluye reconocer barreras, no solo pedir más esfuerzo.",
+      "Al compartir una invitación o recurso, ofrece una opción accesible: subtítulos, información escrita o un lugar adecuado.",
+      "Dios, ayúdame a reconocer a quienes no pueden acceder fácilmente a los espacios que doy por sentados."
+    ],
+    "ru": [
+      "Открыть путь внутрь",
+      "Люди, несущие друга, замечают, что толпа у входа преграждает ему путь, и ищут другой. Забота предполагает замечать препятствия, а не только призывать человека стараться сильнее.",
+      "Делясь приглашением или материалом, предложите доступный вариант: субтитры, письменную информацию или подходящее место встречи.",
+      "Боже, помоги мне замечать тех, кому трудно войти в привычные для меня пространства."
+    ],
+    "approved": true,
+    "batch": "02",
+    "id": "gg-year1-d040",
+    "date": "2027-01-03",
+    "status": "approved"
+  },
+  {
+    "day": 41,
+    "reference": "MRK.4.39",
+    "en": [
+      "A quieter place to rest",
+      "Jesus’ words meet a storm the disciples cannot control. This story can accompany fear without promising that every difficult feeling or circumstance will immediately disappear.",
+      "Make your resting space a little quieter tonight by reducing one avoidable source of noise or light.",
+      "God, be near in what I cannot control, and help me accept the rest available today."
+    ],
+    "pt": [
+      "Um lugar mais tranquilo para descansar",
+      "As palavras de Jesus alcançam uma tempestade que os discípulos não conseguem controlar. Essa história pode acompanhar o medo sem prometer que toda dificuldade desaparecerá imediatamente.",
+      "Deixe seu espaço de descanso um pouco mais tranquilo hoje, reduzindo um ruído ou uma luz que você possa evitar.",
+      "Deus, fica comigo no que não consigo controlar e ajuda-me a acolher o descanso possível hoje."
+    ],
+    "es": [
+      "Un lugar más tranquilo para descansar",
+      "Las palabras de Jesús alcanzan una tormenta que los discípulos no pueden controlar. Esta historia puede acompañar el miedo sin prometer que toda dificultad desaparecerá al instante.",
+      "Haz tu espacio de descanso un poco más tranquilo esta noche, reduciendo una fuente evitable de ruido o luz.",
+      "Dios, acompáñame en lo que no puedo controlar y ayúdame a aceptar el descanso posible hoy."
+    ],
+    "ru": [
+      "Более тихое место для отдыха",
+      "Слова Иисуса обращены к буре, которой ученики не могут управлять. Эта история может поддержать в страхе, не обещая мгновенного исчезновения всех трудных чувств и обстоятельств.",
+      "Сделайте место отдыха немного спокойнее сегодня: уберите один лишний источник шума или света.",
+      "Боже, будь рядом в том, что мне неподвластно, и помоги принять доступный сегодня отдых."
+    ],
+    "approved": true,
+    "batch": "02",
+    "id": "gg-year1-d041",
+    "date": "2027-01-04",
+    "status": "approved"
+  },
+  {
+    "day": 42,
+    "reference": "MRK.5.34",
+    "en": [
+      "Dignity beyond a diagnosis",
+      "Jesus addresses the woman as a daughter, not merely as a case in a crowd. Her dignity matters; this healing story is not a promise that illness measures someone’s faith.",
+      "Protect someone’s privacy by deleting an unnecessary message or forwarded detail about their health.",
+      "God, help me treat each person with dignity and speak carefully about what is not mine to share."
+    ],
+    "pt": [
+      "Dignidade além de um diagnóstico",
+      "Jesus chama a mulher de filha, em vez de tratá-la como mais um caso na multidão. Sua dignidade importa; essa cura não significa que a doença mede a fé de alguém.",
+      "Proteja a privacidade de alguém apagando uma mensagem desnecessária ou informação encaminhada sobre a saúde dessa pessoa.",
+      "Deus, ajuda-me a respeitar cada pessoa e a não divulgar o que não me cabe compartilhar."
+    ],
+    "es": [
+      "Dignidad más allá de un diagnóstico",
+      "Jesús llama hija a la mujer, en vez de tratarla como un caso más entre la multitud. Su dignidad importa; esta curación no significa que la enfermedad mida la fe.",
+      "Protege la privacidad de alguien borrando un mensaje innecesario o un dato reenviado sobre su salud.",
+      "Dios, ayúdame a respetar a cada persona y a no divulgar lo que no me corresponde compartir."
+    ],
+    "ru": [
+      "Достоинство важнее диагноза",
+      "Иисус обращается к женщине как к дочери, а не как к очередному случаю в толпе. Её достоинство важно; рассказ об исцелении не означает, что болезнь измеряет чью-то веру.",
+      "Защитите чужую частную жизнь: удалите ненужное сообщение или пересланную подробность о здоровье другого человека.",
+      "Боже, помоги мне уважать достоинство людей и бережно относиться к тому, чем не мне делиться."
+    ],
+    "approved": true,
+    "batch": "02",
+    "id": "gg-year1-d042",
+    "date": "2027-01-05",
+    "status": "approved"
+  },
+  {
+    "day": 43,
+    "reference": "JHN.2.5",
+    "en": [
+      "Care in ordinary instructions",
+      "At Cana, Mary directs the servants’ attention to Jesus. The scene includes ordinary instructions and practical work, inviting us to notice faithfulness in things that seem small.",
+      "Follow through on one small promise you have already made, or honestly arrange a new time.",
+      "God, help me make my care dependable in the ordinary commitments of today."
+    ],
+    "pt": [
+      "Cuidado nos gestos comuns",
+      "Em Caná, Maria direciona a atenção dos serventes para Jesus. A cena envolve orientações simples e trabalho prático, convidando-nos a perceber a fidelidade no que parece pequeno.",
+      "Cumpra uma pequena promessa que você já fez ou combine com sinceridade um novo prazo.",
+      "Deus, ajuda-me a demonstrar cuidado de forma confiável nos compromissos simples de hoje."
+    ],
+    "es": [
+      "Cuidado en los gestos cotidianos",
+      "En Caná, María dirige la atención de los sirvientes hacia Jesús. La escena incluye instrucciones sencillas y trabajo práctico, invitándonos a reconocer la fidelidad en lo que parece pequeño.",
+      "Cumple una pequeña promesa que ya hayas hecho o acuerda con sinceridad un nuevo plazo.",
+      "Dios, ayúdame a expresar un cuidado constante en los compromisos sencillos de hoy."
+    ],
+    "ru": [
+      "Забота в обычных поручениях",
+      "В Кане Мария обращает внимание слуг на Иисуса. В этой сцене есть простые поручения и практическая работа: верность обнаруживается и в том, что кажется небольшим.",
+      "Выполните одно небольшое обещание или честно договоритесь о новом сроке.",
+      "Боже, помоги мне проявлять надёжную заботу в простых обязательствах этого дня."
+    ],
+    "approved": true,
+    "batch": "02",
+    "id": "gg-year1-d043",
+    "date": "2027-01-06",
+    "status": "approved"
+  },
+  {
+    "day": 44,
+    "reference": "JHN.6.9",
+    "en": [
+      "A resource within reach",
+      "A boy’s bread and fish enter a situation that looks far beyond their scale. The passage invites us to notice available resources without turning generosity into pressure to give what we cannot afford.",
+      "Offer to lend a useful book or tool to a trusted person, if doing so is comfortable for both of you.",
+      "God, help me share what is within reach while respecting honest limits."
+    ],
+    "pt": [
+      "Um recurso ao seu alcance",
+      "Os pães e peixes de um menino entram numa situação que parece muito maior do que eles. A passagem convida a reconhecer recursos disponíveis sem pressionar ninguém a dar o que não pode.",
+      "Ofereça um livro ou uma ferramenta emprestada a alguém de confiança, se isso for tranquilo para vocês dois.",
+      "Deus, ajuda-me a compartilhar o que está ao meu alcance, respeitando limites reais."
+    ],
+    "es": [
+      "Un recurso a tu alcance",
+      "El pan y los peces de un niño entran en una situación que parece superar su alcance. El pasaje invita a reconocer los recursos disponibles sin presionar a nadie a dar lo que no puede.",
+      "Ofrece prestar un libro o una herramienta a alguien de confianza, si ambos se sienten cómodos.",
+      "Dios, ayúdame a compartir lo que tengo a mano, respetando mis límites reales."
+    ],
+    "ru": [
+      "То, что уже под рукой",
+      "Хлеб и рыба мальчика оказываются среди нужды, которая кажется несоизмеримо больше. Отрывок помогает увидеть доступные ресурсы, но не требует отдавать то, что нам не по силам.",
+      "Предложите одолжить полезную книгу или инструмент человеку, которому доверяете, если вам обоим это удобно.",
+      "Боже, помоги мне делиться тем, что доступно, уважая реальные ограничения."
+    ],
+    "approved": true,
+    "batch": "02",
+    "id": "gg-year1-d044",
+    "date": "2027-01-07",
+    "status": "approved"
+  },
+  {
+    "day": 45,
+    "reference": "MAT.7.3",
+    "en": [
+      "Before a quick judgment",
+      "Jesus’ image of a speck and a beam interrupts the urge to examine everyone except ourselves. Honest self-examination can change how we handle a claim about another person.",
+      "Before forwarding an accusation, check its original source and what you actually know; leave it unshared if uncertain.",
+      "God, help me seek truth with humility rather than enjoy being the first to judge."
+    ],
+    "pt": [
+      "Antes de julgar depressa",
+      "A imagem do cisco e da trave interrompe a vontade de examinar todos, menos nós mesmos. Olhar com honestidade para si pode mudar nossa forma de lidar com acusações sobre os outros.",
+      "Antes de encaminhar uma acusação, confira a fonte original e o que você realmente sabe; na dúvida, não compartilhe.",
+      "Deus, ajuda-me a buscar a verdade com humildade, sem querer ser o primeiro a julgar."
+    ],
+    "es": [
+      "Antes de juzgar deprisa",
+      "La imagen de la paja y la viga interrumpe el impulso de examinar a todos menos a nosotros mismos. Mirarnos con honestidad puede cambiar cómo tratamos una acusación sobre otra persona.",
+      "Antes de reenviar una acusación, comprueba la fuente original y lo que realmente sabes; si dudas, no la compartas.",
+      "Dios, ayúdame a buscar la verdad con humildad, sin querer ser el primero en juzgar."
+    ],
+    "ru": [
+      "Прежде чем поспешить с оценкой",
+      "Образ соринки и бревна останавливает желание рассматривать всех, кроме себя. Честный взгляд на себя может изменить то, как мы обращаемся с обвинениями в адрес другого человека.",
+      "Прежде чем переслать обвинение, проверьте первоисточник и то, что вам действительно известно; при сомнении не делитесь им.",
+      "Боже, помоги мне смиренно искать правду, а не радоваться возможности первым вынести приговор."
+    ],
+    "approved": true,
+    "batch": "02",
+    "id": "gg-year1-d045",
+    "date": "2027-01-08",
+    "status": "approved"
+  },
+  {
+    "day": 46,
+    "reference": "LUK.10.42",
+    "en": [
+      "Attention before another task",
+      "Mary listens while Martha is distracted by the work of hospitality. The scene invites attention to Jesus without making practical service or the people who do it worthless.",
+      "Read Luke 10:38–42 in Bible Study and notice both Martha’s concern and Mary’s attention before choosing your next task.",
+      "God, help me give attention where it is needed and honour the work that sustains others."
+    ],
+    "pt": [
+      "Atenção antes de mais uma tarefa",
+      "Maria escuta enquanto Marta se ocupa com o trabalho de receber as pessoas. A cena convida a prestar atenção em Jesus sem diminuir o serviço prático nem quem o realiza.",
+      "Leia Lucas 10:38–42 no Estudo bíblico e observe a preocupação de Marta e a atenção de Maria antes da próxima tarefa.",
+      "Deus, ajuda-me a oferecer atenção e a valorizar o trabalho que cuida dos outros."
+    ],
+    "es": [
+      "Atención antes de otra tarea",
+      "María escucha mientras Marta se ocupa del trabajo de recibir a otros. La escena invita a prestar atención a Jesús sin despreciar el servicio práctico ni a quienes lo realizan.",
+      "Lee Lucas 10:38–42 en Estudio bíblico y observa la preocupación de Marta y la atención de María antes de tu próxima tarea.",
+      "Dios, ayúdame a prestar atención y a valorar el trabajo que sostiene a otros."
+    ],
+    "ru": [
+      "Внимание прежде нового дела",
+      "Мария слушает, пока Марфа занята заботами гостеприимства. Сцена приглашает внимать Иисусу, не обесценивая практический труд и людей, которые его выполняют.",
+      "Прочтите Луку 10:38–42 в изучении Библии и заметьте и тревогу Марфы, и внимание Марии, прежде чем выбирать следующее дело.",
+      "Боже, помоги мне уделять внимание важному и ценить труд, которым заботятся о других."
+    ],
+    "approved": true,
+    "batch": "02",
+    "id": "gg-year1-d046",
+    "date": "2027-01-09",
+    "status": "approved"
+  },
+  {
+    "day": 47,
+    "reference": "LUK.11.11",
+    "en": [
+      "Ordinary needs matter",
+      "Jesus speaks about a child asking for food as he teaches about God’s goodness. Ordinary needs belong in prayer; they are not less worthy because they are familiar.",
+      "Prepare a simple snack or drink for yourself before moving on to another demand.",
+      "God, help me receive ordinary care instead of acting as though my needs do not matter."
+    ],
+    "pt": [
+      "As necessidades simples importam",
+      "Ao ensinar sobre a bondade de Deus, Jesus fala de um filho pedindo alimento. As necessidades comuns também cabem na oração; não valem menos por fazerem parte da rotina.",
+      "Prepare algo simples para comer ou beber antes de atender à próxima demanda.",
+      "Deus, ajuda-me a acolher o cuidado cotidiano sem agir como se minhas necessidades não importassem."
+    ],
+    "es": [
+      "Las necesidades sencillas importan",
+      "Al enseñar sobre la bondad de Dios, Jesús habla de un hijo que pide alimento. Las necesidades cotidianas también caben en la oración; no valen menos por ser habituales.",
+      "Prepara algo sencillo para comer o beber antes de atender la siguiente demanda.",
+      "Dios, ayúdame a recibir el cuidado cotidiano sin actuar como si mis necesidades no importaran."
+    ],
+    "ru": [
+      "Простые нужды тоже важны",
+      "Говоря о Божьей благости, Иисус приводит пример ребёнка, который просит еды. Обычным нуждам тоже есть место в молитве: привычность не делает их незначительными.",
+      "Приготовьте себе простой перекус или напиток, прежде чем браться за очередное требование дня.",
+      "Боже, помоги мне принимать повседневную заботу, не делая вид, будто мои нужды не важны."
+    ],
+    "approved": true,
+    "batch": "02",
+    "id": "gg-year1-d047",
+    "date": "2027-01-10",
+    "status": "approved"
+  },
+  {
+    "day": 48,
+    "reference": "LUK.12.15",
+    "en": [
+      "More than what you own",
+      "Jesus warns against measuring life by possessions. This is not contempt for necessary things; it is a question about what we ask things to prove about our worth.",
+      "Delay one nonessential purchase for twenty-four hours and notice what you hoped it would give you.",
+      "God, loosen the link between what I own and how I understand my worth."
+    ],
+    "pt": [
+      "Mais do que suas coisas",
+      "Jesus alerta contra medir a vida pelos bens. Isso não é desprezo pelo que é necessário, mas um convite a perceber o que esperamos que as coisas provem sobre nosso valor.",
+      "Adie uma compra que não é essencial por vinte e quatro horas e perceba o que você esperava receber dela.",
+      "Deus, ajuda-me a não confundir o que possuo com o valor que tenho."
+    ],
+    "es": [
+      "Más que tus posesiones",
+      "Jesús advierte contra medir la vida por los bienes. No desprecia lo necesario, sino que invita a observar qué esperamos que las cosas demuestren sobre nuestro valor.",
+      "Pospón una compra no esencial durante veinticuatro horas y observa qué esperabas recibir de ella.",
+      "Dios, ayúdame a no confundir lo que poseo con el valor que tengo."
+    ],
+    "ru": [
+      "Больше, чем ваши вещи",
+      "Иисус предостерегает от измерения жизни имуществом. Это не презрение к необходимым вещам, а вопрос о том, что мы хотим доказать ими о собственной ценности.",
+      "Отложите одну необязательную покупку на сутки и заметьте, что вы надеялись от неё получить.",
+      "Боже, помоги мне не путать то, чем я владею, с тем, чего я стою."
+    ],
+    "approved": true,
+    "batch": "02",
+    "id": "gg-year1-d048",
+    "date": "2027-01-11",
+    "status": "approved"
+  },
+  {
+    "day": 49,
+    "reference": "LUK.13.8",
+    "en": [
+      "Patience that tends",
+      "In the fig-tree parable, the gardener asks for time to dig and nourish the soil. His patience is active care, not simply looking away and hoping something changes.",
+      "Tend a plant or a shared green space in one small, appropriate way, such as watering when needed or removing litter.",
+      "God, teach me patience that cares for what can grow."
+    ],
+    "pt": [
+      "Uma paciência que cuida",
+      "Na parábola da figueira, o agricultor pede tempo para cuidar e adubar a terra. Sua paciência é um cuidado ativo, não apenas esperar que alguma coisa mude sozinha.",
+      "Cuide de uma planta ou de uma área verde compartilhada com um gesto adequado, como regar se necessário ou recolher lixo.",
+      "Deus, ensina-me uma paciência que cuida daquilo que pode crescer."
+    ],
+    "es": [
+      "Una paciencia que cuida",
+      "En la parábola de la higuera, el jardinero pide tiempo para trabajar y abonar la tierra. Su paciencia es cuidado activo, no esperar que algo cambie por sí solo.",
+      "Cuida una planta o un espacio verde compartido con un gesto adecuado, como regar si hace falta o recoger basura.",
+      "Dios, enséñame una paciencia que cuide lo que puede crecer."
+    ],
+    "ru": [
+      "Терпение, которое заботится",
+      "В притче о смоковнице садовник просит время, чтобы окопать и удобрить землю. Его терпение — деятельная забота, а не ожидание, что всё изменится само собой.",
+      "Позаботьтесь о растении или общем зелёном уголке подходящим способом: полейте при необходимости или уберите мусор.",
+      "Боже, научи меня терпению, которое заботится о том, что может расти."
+    ],
+    "approved": true,
+    "batch": "02",
+    "id": "gg-year1-d049",
+    "date": "2027-01-12",
+    "status": "approved"
+  },
+  {
+    "day": 50,
+    "reference": "LUK.14.10",
+    "en": [
+      "Room without competing",
+      "Jesus questions the scramble for places of honour at a meal. Humility can make room for others without requiring us to deny our own dignity.",
+      "In your next group conversation, give clear credit to someone whose contribution has gone unmentioned.",
+      "God, help me honour another person without turning belonging into a competition."
+    ],
+    "pt": [
+      "Espaço sem competição",
+      "Jesus questiona a disputa pelos lugares de honra numa refeição. A humildade pode abrir espaço para os outros sem exigir que neguemos nossa própria dignidade.",
+      "Na próxima conversa em grupo, reconheça claramente a contribuição de alguém que ainda não foi mencionada.",
+      "Deus, ajuda-me a valorizar outra pessoa sem transformar o pertencimento numa competição."
+    ],
+    "es": [
+      "Un lugar sin competir",
+      "Jesús cuestiona la disputa por los lugares de honor en una comida. La humildad puede hacer sitio a otros sin exigir que neguemos nuestra propia dignidad.",
+      "En tu próxima conversación de grupo, reconoce claramente la contribución de alguien que no haya sido mencionada.",
+      "Dios, ayúdame a valorar a otra persona sin convertir la pertenencia en una competición."
+    ],
+    "ru": [
+      "Место без соперничества",
+      "Иисус ставит под вопрос борьбу за почётные места на трапезе. Смирение может дать место другим, не требуя отрицать собственное достоинство.",
+      "В следующем групповом разговоре прямо отметьте вклад человека, о котором ещё не упомянули.",
+      "Боже, помоги мне почитать другого, не превращая принадлежность к общему кругу в соревнование."
+    ],
+    "approved": true,
+    "batch": "02",
+    "id": "gg-year1-d050",
+    "date": "2027-01-13",
+    "status": "approved"
+  },
+  {
+    "day": 51,
+    "reference": "LUK.17.16",
+    "en": [
+      "Gratitude looking outward",
+      "The man who returns to thank Jesus is identified as a Samaritan. The scene notices gratitude from an unexpected person and challenges assumptions about who responds to goodness.",
+      "Learn what one charitable organization actually does before choosing whether or how you might support its work.",
+      "God, let gratitude open my attention to good work beyond my familiar circle."
+    ],
+    "pt": [
+      "Uma gratidão que olha ao redor",
+      "O homem que volta para agradecer a Jesus é samaritano. A cena reconhece a gratidão de alguém inesperado e questiona quem imaginamos capaz de responder ao bem.",
+      "Conheça o trabalho real de uma organização beneficente antes de decidir se quer apoiá-la e de que forma.",
+      "Deus, que a gratidão me ajude a reconhecer o bem que acontece fora do meu círculo habitual."
+    ],
+    "es": [
+      "Una gratitud que mira alrededor",
+      "El hombre que vuelve a dar gracias a Jesús es samaritano. La escena reconoce la gratitud de alguien inesperado y cuestiona a quién imaginamos capaz de responder al bien.",
+      "Conoce el trabajo real de una organización benéfica antes de decidir si quieres apoyarla y de qué forma.",
+      "Dios, que la gratitud me ayude a reconocer el bien más allá de mi círculo habitual."
+    ],
+    "ru": [
+      "Благодарность, обращённая к другим",
+      "Человек, вернувшийся поблагодарить Иисуса, оказывается самарянином. Сцена замечает благодарность неожиданного человека и ставит под вопрос наши ожидания о том, кто отвечает на добро.",
+      "Узнайте, чем на самом деле занимается одна благотворительная организация, прежде чем решать, поддерживать ли её и как.",
+      "Боже, пусть благодарность открывает моё внимание к добрым делам вне привычного круга."
+    ],
+    "approved": true,
+    "batch": "02",
+    "id": "gg-year1-d051",
+    "date": "2027-01-14",
+    "status": "approved"
+  },
+  {
+    "day": 52,
+    "reference": "LUK.18.13",
+    "en": [
+      "Honesty without self-contempt",
+      "The tax collector asks for mercy rather than advertising his achievements. Honest responsibility can name a wrong without deciding that a person is beyond love or change.",
+      "Correct one inaccurate statement you made, simply and without making excuses.",
+      "God, give me honesty about my mistakes and hope that I can respond differently."
+    ],
+    "pt": [
+      "Sinceridade sem se diminuir",
+      "O cobrador de impostos pede misericórdia em vez de exibir suas conquistas. Assumir a responsabilidade permite reconhecer um erro sem concluir que alguém não merece amor ou é incapaz de mudar.",
+      "Corrija uma informação errada que você deu, de forma simples e sem inventar desculpas.",
+      "Deus, dá-me sinceridade para reconhecer meus erros e esperança de agir de outro jeito."
+    ],
+    "es": [
+      "Honestidad sin despreciarte",
+      "El recaudador pide misericordia en lugar de exhibir sus logros. Asumir la responsabilidad permite reconocer un error sin concluir que alguien está fuera del alcance del amor o del cambio.",
+      "Corrige una información inexacta que hayas dado, con sencillez y sin inventar excusas.",
+      "Dios, dame honestidad para reconocer mis errores y esperanza de actuar de otra manera."
+    ],
+    "ru": [
+      "Честность без презрения к себе",
+      "Мытарь просит о милости, а не выставляет напоказ свои достижения. Ответственность позволяет назвать проступок, не решая, что человек больше не достоин любви и не способен измениться.",
+      "Исправьте одно неточное утверждение, которое вы сделали, просто и без оправданий.",
+      "Боже, дай мне честно признавать ошибки и надеяться, что я могу поступать иначе."
+    ],
+    "approved": true,
+    "batch": "02",
+    "id": "gg-year1-d052",
+    "date": "2027-01-15",
+    "status": "approved"
+  },
+  {
+    "day": 53,
+    "reference": "LUK.19.8",
+    "en": [
+      "Repair has a practical shape",
+      "Zacchaeus responds to Jesus with concrete commitments about his possessions and those he has wronged. Repair reaches beyond a feeling into what can actually be put right.",
+      "Return something you borrowed, or privately arrange a realistic time to return it.",
+      "God, help me take responsibility for what is mine to repair, one honest step at a time."
+    ],
+    "pt": [
+      "Reparar de um jeito concreto",
+      "Zaqueu responde a Jesus com compromissos sobre seus bens e as pessoas que prejudicou. A reparação vai além de um sentimento e alcança o que pode ser corrigido na prática.",
+      "Devolva algo que você pegou emprestado ou combine, em particular, um prazo que possa cumprir.",
+      "Deus, ajuda-me a assumir o que cabe a mim reparar, com um passo sincero de cada vez."
+    ],
+    "es": [
+      "Reparar de manera concreta",
+      "Zaqueo responde a Jesús con compromisos sobre sus bienes y las personas a quienes ha perjudicado. Reparar va más allá de un sentimiento y alcanza lo que puede corregirse en la práctica.",
+      "Devuelve algo que hayas pedido prestado o acuerda en privado un plazo realista para hacerlo.",
+      "Dios, ayúdame a asumir lo que me corresponde reparar, con un paso sincero a la vez."
+    ],
+    "ru": [
+      "Исправление бывает конкретным",
+      "Закхей отвечает Иисусу конкретными обязательствами относительно имущества и людей, которым причинил ущерб. Исправление выходит за пределы чувства и касается того, что действительно можно изменить.",
+      "Верните взятую взаймы вещь или лично договоритесь о реалистичном сроке её возвращения.",
+      "Боже, помоги мне отвечать за то, что я могу исправить, по одному честному шагу."
+    ],
+    "approved": true,
+    "batch": "02",
+    "id": "gg-year1-d053",
+    "date": "2027-01-16",
+    "status": "approved"
+  },
+  {
+    "day": 54,
+    "reference": "JHN.13.14",
+    "en": [
+      "Service without taking over",
+      "By washing feet, Jesus places practical care within the life of his followers. Service need not make another person helpless; it can support their dignity and ability to act.",
+      "Help someone learn a task they want to manage, without taking it out of their hands.",
+      "God, help me serve in ways that respect another person’s choices and strength."
+    ],
+    "pt": [
+      "Servir sem tomar o lugar do outro",
+      "Ao lavar os pés, Jesus coloca o cuidado prático na vida de seus seguidores. Servir não precisa tornar o outro dependente; pode fortalecer sua dignidade e sua capacidade de agir.",
+      "Ajude alguém a aprender uma tarefa que queira realizar, sem fazer tudo no lugar dessa pessoa.",
+      "Deus, ajuda-me a servir respeitando as escolhas e a capacidade de cada pessoa."
+    ],
+    "es": [
+      "Servir sin ocupar el lugar del otro",
+      "Al lavar los pies, Jesús sitúa el cuidado práctico en la vida de sus seguidores. Servir no tiene por qué generar dependencia; puede fortalecer la dignidad y la capacidad de actuar.",
+      "Ayuda a alguien a aprender una tarea que quiera realizar, sin hacerlo todo en su lugar.",
+      "Dios, ayúdame a servir respetando las decisiones y la capacidad de cada persona."
+    ],
+    "ru": [
+      "Служить, не лишая самостоятельности",
+      "Омывая ноги, Иисус делает практическую заботу частью жизни учеников. Служение не обязано делать другого беспомощным: оно может поддерживать его достоинство и способность действовать.",
+      "Помогите человеку освоить дело, с которым он хочет справляться сам, не забирая работу из его рук.",
+      "Боже, помоги мне служить, уважая выбор и возможности другого человека."
+    ],
+    "approved": true,
+    "batch": "02",
+    "id": "gg-year1-d054",
+    "date": "2027-01-17",
+    "status": "approved"
+  },
+  {
+    "day": 55,
+    "reference": "JHN.14.27",
+    "en": [
+      "Peace within an unfinished day",
+      "Jesus speaks of peace as he prepares his friends for separation and difficulty. His gift is not a demand to feel calm on command or to pretend nothing hurts.",
+      "Sit comfortably for two minutes, letting your breathing find its natural pace without trying to force a particular feeling.",
+      "God, receive this unfinished day and stay near when peace is difficult to feel."
+    ],
+    "pt": [
+      "Paz num dia que ainda não se resolveu",
+      "Jesus fala de paz ao preparar seus amigos para a separação e as dificuldades. Esse presente não é uma ordem para se acalmar de imediato nem para fingir que nada dói.",
+      "Sente-se de modo confortável por dois minutos e deixe a respiração seguir seu ritmo natural, sem forçar uma sensação.",
+      "Deus, acolhe este dia ainda sem solução e fica perto quando é difícil sentir paz."
+    ],
+    "es": [
+      "Paz en un día todavía abierto",
+      "Jesús habla de paz al preparar a sus amigos para la separación y las dificultades. Su regalo no exige calmarse al instante ni fingir que nada duele.",
+      "Siéntate cómodamente durante dos minutos y deja que tu respiración siga su ritmo natural, sin forzar una sensación.",
+      "Dios, recibe este día todavía abierto y permanece cerca cuando cuesta sentir paz."
+    ],
+    "ru": [
+      "Мир среди незавершённого дня",
+      "Иисус говорит о мире, готовя друзей к разлуке и трудностям. Его дар — не требование немедленно успокоиться или притвориться, будто ничто не причиняет боли.",
+      "Две минуты посидите удобно, позволяя дыханию идти в естественном ритме, не принуждая себя к определённому чувству.",
+      "Боже, прими этот незавершённый день и будь рядом, когда мир трудно почувствовать."
+    ],
+    "approved": true,
+    "batch": "02",
+    "id": "gg-year1-d055",
+    "date": "2027-01-18",
+    "status": "approved"
+  },
+  {
+    "day": 56,
+    "reference": "JHN.15.15",
+    "en": [
+      "An invitation to friendship",
+      "Jesus calls his disciples friends and speaks of sharing what he has heard from the Father. Friendship makes room for attention, trust and a response freely given.",
+      "Invite a friend to read a plan together in the app; leave them free to accept or decline and keep notes private unless shared.",
+      "God, help me offer companionship without pressure and receive the friendship that others offer."
+    ],
+    "pt": [
+      "Um convite à amizade",
+      "Jesus chama os discípulos de amigos e fala de compartilhar o que ouviu do Pai. A amizade abre espaço para atenção, confiança e uma resposta dada com liberdade.",
+      "Convide um amigo para ler um plano junto no app, deixando a pessoa livre para aceitar ou não; só compartilhem anotações se quiserem.",
+      "Deus, ajuda-me a oferecer companhia sem pressão e a acolher a amizade que recebo."
+    ],
+    "es": [
+      "Una invitación a la amistad",
+      "Jesús llama amigos a sus discípulos y habla de compartir lo que ha oído del Padre. La amistad hace espacio para la atención, la confianza y una respuesta libre.",
+      "Invita a un amigo a leer un plan juntos en la app, dejándolo libre de aceptar o no; las notas siguen privadas si no se comparten.",
+      "Dios, ayúdame a ofrecer compañía sin presionar y a recibir la amistad que otros me ofrecen."
+    ],
+    "ru": [
+      "Приглашение к дружбе",
+      "Иисус называет учеников друзьями и говорит, что делится услышанным от Отца. Дружба даёт место вниманию, доверию и свободному ответу.",
+      "Пригласите друга читать план вместе в приложении, оставляя право отказаться; заметки остаются личными, пока вы не решите ими поделиться.",
+      "Боже, помоги мне предлагать общение без давления и принимать дружбу, которую предлагают другие."
+    ],
+    "approved": true,
+    "batch": "02",
+    "id": "gg-year1-d056",
+    "date": "2027-01-19",
+    "status": "approved"
+  },
+  {
+    "day": 57,
+    "reference": "JHN.20.19",
+    "en": [
+      "Together behind closed doors",
+      "The disciples are gathered in fear when Jesus comes among them with peace. This is a scene of frightened people together, not a requirement to arrive already confident.",
+      "Check Gather for a session that suits you. If none fits, ask a trusted person to read a short passage with you.",
+      "God, help me find safe companionship when I feel hesitant to reach out."
+    ],
+    "pt": [
+      "Juntos, mesmo com medo",
+      "Os discípulos estão reunidos com medo quando Jesus se coloca entre eles e lhes oferece paz. É uma cena de pessoas assustadas juntas, não uma exigência de chegar sem inseguranças.",
+      "Veja em Encontros se há uma sessão adequada. Se não houver, convide alguém de confiança para ler uma passagem curta com você.",
+      "Deus, ajuda-me a encontrar uma companhia segura quando é difícil dar o primeiro passo."
+    ],
+    "es": [
+      "Juntos, incluso con miedo",
+      "Los discípulos están reunidos con miedo cuando Jesús se pone en medio y les ofrece paz. Es una escena de personas asustadas juntas, no una exigencia de llegar sin inseguridades.",
+      "Busca en Encuentros una sesión adecuada. Si no la hay, invita a alguien de confianza a leer un pasaje breve contigo.",
+      "Dios, ayúdame a encontrar compañía segura cuando me cuesta dar el primer paso."
+    ],
+    "ru": [
+      "Вместе, даже когда страшно",
+      "Ученики собираются в страхе, когда Иисус становится среди них и приносит мир. Это сцена испуганных людей вместе, а не требование приходить уже уверенными.",
+      "Посмотрите, есть ли подходящая встреча в разделе встреч. Если нет, предложите близкому человеку прочесть с вами короткий отрывок.",
+      "Боже, помоги мне найти безопасное общение, когда трудно сделать первый шаг навстречу."
+    ],
+    "approved": true,
+    "batch": "02",
+    "id": "gg-year1-d057",
+    "date": "2027-01-20",
+    "status": "approved"
+  },
+  {
+    "day": 58,
+    "reference": "ACT.9.27",
+    "en": [
+      "A bridge built with truth",
+      "Barnabas helps the disciples hear what has changed in Saul’s life. Building a bridge involves truthful testimony, not asking people to ignore their concerns or abandon safety.",
+      "Offer to introduce two people who might help one another, asking each person’s permission before sharing contact details.",
+      "God, help me connect people with honesty, patience and respect for their boundaries."
+    ],
+    "pt": [
+      "Uma ponte feita com verdade",
+      "Barnabé ajuda os discípulos a ouvir o que mudou na vida de Saulo. Construir uma ponte exige verdade, não pedir que alguém ignore suas preocupações ou deixe de se proteger.",
+      "Ofereça apresentar duas pessoas que possam se ajudar, pedindo autorização a cada uma antes de compartilhar contatos.",
+      "Deus, ajuda-me a aproximar pessoas com sinceridade, paciência e respeito aos seus limites."
+    ],
+    "es": [
+      "Un puente construido con verdad",
+      "Bernabé ayuda a los discípulos a escuchar lo que ha cambiado en la vida de Saulo. Tender un puente exige verdad, no pedir que alguien ignore sus dudas o deje de protegerse.",
+      "Ofrece presentar a dos personas que puedan ayudarse, pidiendo permiso a cada una antes de compartir sus contactos.",
+      "Dios, ayúdame a acercar personas con sinceridad, paciencia y respeto por sus límites."
+    ],
+    "ru": [
+      "Мост, построенный на правде",
+      "Варнава помогает ученикам услышать, что изменилось в жизни Савла. Строить мост — не значит требовать забыть тревоги и отказаться от безопасности: нужны правдивые свидетельства.",
+      "Предложите познакомить двух людей, которые могли бы помочь друг другу, получив согласие каждого до передачи контактов.",
+      "Боже, помоги мне соединять людей честно, терпеливо и с уважением к их границам."
+    ],
+    "approved": true,
+    "batch": "02",
+    "id": "gg-year1-d058",
+    "date": "2027-01-21",
+    "status": "approved"
+  },
+  {
+    "day": 59,
+    "reference": "ACT.16.14",
+    "en": [
+      "A voice worth noticing",
+      "Acts introduces Lydia by her work and her attentive response to Paul. Her story reminds us to notice the people whose listening, resources and hospitality help a community take shape.",
+      "Read Acts 16:11–15 and notice what Lydia contributes, rather than only what is said to her.",
+      "God, open my attention to the people whose contributions I have not yet noticed."
+    ],
+    "pt": [
+      "Uma voz que merece atenção",
+      "Atos apresenta Lídia por seu trabalho e pela atenção com que ouve Paulo. Sua história convida a reconhecer quem ajuda uma comunidade a nascer por meio da escuta, dos recursos e da hospitalidade.",
+      "Leia Atos 16:11–15 e observe o que Lídia oferece, não apenas o que é dito a ela.",
+      "Deus, abre meus olhos para as pessoas cuja contribuição ainda não percebi."
+    ],
+    "es": [
+      "Una voz que merece atención",
+      "Hechos presenta a Lidia por su trabajo y por la atención con que escucha a Pablo. Su historia invita a reconocer a quienes ayudan a formar comunidad mediante la escucha, los recursos y la hospitalidad.",
+      "Lee Hechos 16:11–15 y observa lo que Lidia aporta, no solo lo que se le dice.",
+      "Dios, abre mi atención a las personas cuya contribución todavía no he reconocido."
+    ],
+    "ru": [
+      "Голос, который стоит услышать",
+      "Деяния представляют Лидию через её труд и внимательный ответ Павлу. Её история помогает замечать людей, чьи внимание, средства и гостеприимство поддерживают рождение общины.",
+      "Прочтите Деяния 16:11–15 и обратите внимание на вклад Лидии, а не только на обращённые к ней слова.",
+      "Боже, открой моё внимание к людям, чей вклад я ещё не заметил."
+    ],
+    "approved": true,
+    "batch": "02",
+    "id": "gg-year1-d059",
+    "date": "2027-01-22",
+    "status": "approved"
+  },
+  {
+    "day": 60,
+    "reference": "ROM.12.21",
+    "en": [
+      "Choose what the argument cannot give",
+      "Paul urges his readers not to be overcome by evil, but to answer with good. This does not require staying in harm’s way or making oneself available for further abuse.",
+      "Leave one hostile online argument and use that time for a concrete, helpful act in your own surroundings.",
+      "God, help me refuse harm without letting it choose the person I become."
+    ],
+    "pt": [
+      "Escolha o que a discussão não pode dar",
+      "Paulo pede que seus leitores não se deixem vencer pelo mal e respondam com o bem. Isso não exige permanecer numa situação prejudicial nem aceitar novas agressões.",
+      "Saia de uma discussão hostil na internet e use esse tempo para uma atitude útil no ambiente em que você está.",
+      "Deus, ajuda-me a recusar o mal sem deixar que ele decida quem eu vou me tornar."
+    ],
+    "es": [
+      "Elige lo que la discusión no puede dar",
+      "Pablo pide a sus lectores que no se dejen vencer por el mal y respondan con el bien. Esto no exige permanecer en una situación dañina ni exponerse a nuevas agresiones.",
+      "Abandona una discusión hostil en internet y dedica ese tiempo a una acción útil en tu entorno.",
+      "Dios, ayúdame a rechazar el mal sin dejar que decida en quién me convierto."
+    ],
+    "ru": [
+      "Выбрать то, чего не даст спор",
+      "Павел призывает не быть побеждёнными злом, а отвечать добром. Это не требует оставаться в опасности или делать себя доступными для новых оскорблений и насилия.",
+      "Выйдите из одного враждебного спора в интернете и потратьте это время на конкретное полезное дело рядом с вами.",
+      "Боже, помоги мне отвергать зло, не позволяя ему решать, каким человеком я стану."
+    ],
+    "approved": true,
+    "batch": "02",
+    "id": "gg-year1-d060",
+    "date": "2027-01-23",
+    "status": "approved"
+  },
+  {
+    "day": 61,
+    "reference": "PHP.4.8",
+    "en": [
+      "Attention can welcome beauty",
+      "Paul directs attention towards what is true, honourable and worthy of praise. Looking for goodness need not deny suffering; it can keep suffering from being all we notice.",
+      "Choose a piece of music, art or writing worth your attention and spend five unhurried minutes with it.",
+      "God, help me recognise beauty and truth without turning away from the needs around me."
+    ],
+    "pt": [
+      "A atenção também pode acolher beleza",
+      "Paulo orienta o olhar para o que é verdadeiro, digno e merece reconhecimento. Procurar o bem não exige negar o sofrimento; ajuda a não enxergar somente ele.",
+      "Escolha uma música, uma obra de arte ou um texto que mereça sua atenção e dedique cinco minutos tranquilos a isso.",
+      "Deus, ajuda-me a reconhecer a beleza e a verdade sem ignorar as necessidades ao meu redor."
+    ],
+    "es": [
+      "La atención también puede acoger belleza",
+      "Pablo dirige la atención hacia lo verdadero, digno y merecedor de reconocimiento. Buscar el bien no exige negar el sufrimiento; ayuda a no verlo como lo único que existe.",
+      "Elige una pieza musical, una obra de arte o un texto que merezca tu atención y dedícale cinco minutos sin prisas.",
+      "Dios, ayúdame a reconocer la belleza y la verdad sin ignorar las necesidades a mi alrededor."
+    ],
+    "ru": [
+      "Внимание может принять красоту",
+      "Павел направляет внимание к истинному, достойному и заслуживающему похвалы. Замечать добро — не значит отрицать страдание; это помогает не видеть в мире только страдание.",
+      "Выберите музыку, произведение искусства или текст, заслуживающие внимания, и уделите им пять неспешных минут.",
+      "Боже, помоги мне узнавать красоту и правду, не отворачиваясь от нужд вокруг."
+    ],
+    "approved": true,
+    "batch": "02",
+    "id": "gg-year1-d061",
+    "date": "2027-01-24",
+    "status": "approved"
+  }
+]
