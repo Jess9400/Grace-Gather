@@ -43,6 +43,9 @@ test('second monthly batch adds 30 translated days without publishing unapproved
  assert.equal(preview.read('catalog').length,61);
  assert.equal(preview.read('schedule')[31].date,'2026-12-26');
  assert.equal(preview.read('schedule')[60].date,'2027-01-24');
- assert.equal(json('content/devotionals/year1/02.review.json').status,'draft');
+ const review=json('content/devotionals/year1/02.review.json');
+ assert.equal(review.status,'approved');
+ assert.ok(review.reviewers.every(r=>r.approved));
+ assert.equal(review.contentSha256,createHash('sha256').update(readFileSync(new URL('../content/devotionals/year1/02.json',import.meta.url))).digest('hex'));
  assert.ok(next.every(row=>['en','pt','es','ru'].every(lang=>row[lang].length===4)));
 });

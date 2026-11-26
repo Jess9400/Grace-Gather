@@ -128,7 +128,8 @@ follow the account to a new phone or the web. No edge function.
 - [x] Applied `20261125165504_daily_devotional_history.sql` on 25 November 2026. Confirmed RLS, no anonymous execution, no direct client table access and the public invoker wrapper. Local two-account tests pass; updates merge reading steps without erasing completion.
 - [x] Confirmed the existing #254 study_progress table and RPC are already present on production. The older unchecked deployment item above is stale; remaining #254 work is the two-device app test.
 - [x] First 31 four-language devotionals approved: Jessica explicitly confirmed both her and Taya’s approval on 26 November 2026. The review file includes the exact manuscript SHA-256. This is owner/editorial review, not a claim of professional theological review.
-- [ ] Jointly review batch 02 (30 entries, days 32–61, 26 December 2026–24 January 2027); then write, translate and jointly approve the remaining 304 entries. The 365 date slots are a schedule, not 365 finished devotionals. `npm run devotionals:check` intentionally fails until the year is complete and approved.
+- [x] Batch 02 (30 entries, days 32–61, 26 December 2026–24 January 2027) approved; Jessica confirmed completion of the requested review on 26 November 2026.
+- [ ] Write, translate and jointly approve the remaining 304 entries. The 365 date slots are a schedule, not 365 finished devotionals. `npm run devotionals:check` intentionally fails until the year is complete and approved.
 - [ ] Merge and deploy only after the first editorial batch has been approved. Default builds omit draft content; a preview build must never be used for production distribution.
 - [ ] Next phone build: check Greek/Hebrew glyphs, RTL Hebrew word order, word selection and concordance scrolling, then confirm history on a second device.
 

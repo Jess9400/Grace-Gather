@@ -1,16 +1,16 @@
 {
-  "status": "draft",
+  "status": "approved",
   "reviewers": [
     {
       "name": "Jessica",
-      "approved": false
+      "approved": true
     },
     {
       "name": "Taya",
-      "approved": false
+      "approved": true
     }
   ],
-  "reviewedAt": "",
+  "reviewedAt": "2026-11-26",
   "languages": [
     "en",
     "pt",
@@ -23,5 +23,6 @@
     "Check action is distinct and safe",
     "Check doctrinal claims and Scripture attribution"
   ],
-  "contentSha256": "9d3d1f0a2d7af62b9855c67d4c44f205b2e66bbf4577752c062037c720b729ab"
+  "contentSha256": "9d3d1f0a2d7af62b9855c67d4c44f205b2e66bbf4577752c062037c720b729ab",
+  "approvalEvidence": "Jessica confirmed the requested joint review batch was reviewed and approved in the product conversation on 26 November 2026, and requested merging PR #255."
 }
