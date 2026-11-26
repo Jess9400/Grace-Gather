@@ -12,6 +12,7 @@ export type Membership = {
 };
 export type UpgradeReason =
   | "pro"
+  | "membership"
   | "journal_entry_limit"
   | "journal_followup_limit"
   | "study_monthly_limit";

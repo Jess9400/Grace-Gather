@@ -1,3 +1,4 @@
+import { membershipPresentation } from "../lib/membership-presentation";
 import BrandMark from "./BrandMark";
 import {
   useCallback,
@@ -7,6 +8,7 @@ import {
   useSyncExternalStore,
 } from "react";
 import {
+  Platform,
   Modal,
   ScrollView,
   View,
@@ -51,16 +53,21 @@ export default function ProPaywall() {
     const ticket = ++sequence.current;
     setLoading(true);
     setNotice("");
+    setMember(null);
+    setPlans([]);
     try {
       const m = await membershipStatus();
       if (ticket !== sequence.current) return;
       setMember(m);
-      const p = await storePlans().catch(() => []);
+      const p =
+        Platform.OS === "ios" && !m.admin && m.plan !== "pro"
+          ? await storePlans().catch(() => [])
+          : [];
       if (ticket !== sequence.current) return;
       setPlans(p);
       setChosen(p.find((x) => x.kind === "monthly")?.id ?? p[0]?.id ?? "");
     } catch {
-      if (ticket === sequence.current) setNotice(c.unavailable);
+      if (ticket === sequence.current) setNotice(c.statusUnavailable);
     } finally {
       if (ticket === sequence.current) setLoading(false);
     }
@@ -101,7 +108,8 @@ export default function ProPaywall() {
           : null;
   const reset =
     reason === "study_monthly_limit" ? member?.studyResetsAt : member?.resetsAt;
-  const paid = member?.plan === "pro" || member?.admin;
+  const view = membershipPresentation(reason, member, Platform.OS);
+  const paid = view.paid;
   async function purchase(restore = false) {
     if (busy) return;
     setBusy(true);
@@ -150,7 +158,7 @@ export default function ProPaywall() {
               <Text style={s.eyebrow}>GRACE &amp; GATHER · PRO</Text>
             </View>
             <Text style={s.title} accessibilityRole="header">
-              {limit ?? c.title}
+              {limit ?? (reason === "membership" ? c.membership : c.title)}
             </Text>
             {limit && reset && (
               <Text style={s.description}>
@@ -163,11 +171,35 @@ export default function ProPaywall() {
                 )}
               </Text>
             )}
-            {paid && reason === "study_monthly_limit" ? (
-              <Text style={s.description}>{c.keep}</Text>
+            {view.paused ? (
+              <Pressable
+                accessibilityRole="button"
+                onPress={closeUpgrade}
+                style={s.textAction}
+              >
+                <Text style={s.link}>{c.done}</Text>
+              </Pressable>
             ) : (
               <>
-                <Text style={s.description}>{paid ? c.active : c.intro}</Text>
+                <Text style={s.description}>
+                  {member?.admin
+                    ? c.adminStatus
+                    : paid
+                      ? c.active
+                      : reason === "membership" && member
+                        ? c.freeStatus
+                        : c.intro}
+                </Text>
+                {paid && !member?.admin && member?.expiresAt && (
+                  <Text style={s.description}>
+                    {c.accessUntil.replace(
+                      "{date}",
+                      new Date(member.expiresAt).toLocaleDateString(
+                        profile.language,
+                      ),
+                    )}
+                  </Text>
+                )}
                 <View style={s.benefits}>
                   {[c.tools, c.journal, c.study].map((text, i) => (
                     <View key={text} style={s.benefit}>
@@ -191,7 +223,7 @@ export default function ProPaywall() {
                 {loading ? (
                   <ActivityIndicator color={colors.goldInk} />
                 ) : (
-                  !paid && (
+                  view.showOffers && (
                     <>
                       <View style={s.plans}>
                         {plans.map((plan) => (
@@ -249,35 +281,54 @@ export default function ProPaywall() {
                 )}
               </>
             )}
-            {!!notice && notice !== c.unavailable && (
+            {view.showWebNotice && (
+              <Text style={s.description}>{c.webOnly}</Text>
+            )}
+            {!!notice && (
               <Text style={s.description} accessibilityRole="alert">
                 {notice}
               </Text>
             )}
-            <Text style={s.legal}>
-              {c.free} {c.keep}
-            </Text>
+            {!view.paused && (
+              <Text style={s.legal}>
+                {c.free} {c.keep}
+              </Text>
+            )}
             <View style={s.links}>
-              {paid && (
+              {view.showManage && (
                 <Pressable
                   onPress={() =>
-                    void managePurchases().catch(() => setNotice(c.unavailable))
+                    void (
+                      Platform.OS === "web"
+                        ? Linking.openURL(
+                            "https://apps.apple.com/account/subscriptions",
+                          )
+                        : managePurchases()
+                    ).catch(() => setNotice(c.failed))
                   }
                   accessibilityRole="button"
                 >
                   <Text style={s.link}>{c.manage}</Text>
                 </Pressable>
               )}
-              <Pressable
-                disabled={busy}
-                onPress={() => void purchase(true)}
-                accessibilityRole="button"
-              >
-                <Text style={s.link}>{c.restore}</Text>
-              </Pressable>
-              <Pressable onPress={() => void load()} accessibilityRole="button">
-                <Text style={s.link}>{c.retry}</Text>
-              </Pressable>
+              {view.showRestore && (
+                <Pressable
+                  disabled={busy}
+                  onPress={() => void purchase(true)}
+                  accessibilityRole="button"
+                >
+                  <Text style={s.link}>{c.restore}</Text>
+                </Pressable>
+              )}
+              {!!notice && (
+                <Pressable
+                  disabled={loading || busy}
+                  onPress={() => void load()}
+                  accessibilityRole="button"
+                >
+                  <Text style={s.link}>{c.retry}</Text>
+                </Pressable>
+              )}
               <Pressable
                 onPress={() =>
                   void Linking.openURL("https://graceandgather.online/terms")
@@ -302,6 +353,7 @@ export default function ProPaywall() {
   );
 }
 const s = StyleSheet.create({
+  textAction: { alignSelf: "flex-start", paddingVertical: 4 },
   scrim: {
     flex: 1,
     backgroundColor: "#0009",

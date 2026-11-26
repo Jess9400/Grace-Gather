@@ -90,11 +90,11 @@ This is a code/checklist review, not a claim of a physical-device purchase test.
 
 ### Remaining polish before a paid release
 
-- [ ] Add an easy-to-find **Profile → Membership** entry with status, paid-through/trial date, Restore purchases and Manage subscription. Currently restore/management live in the upgrade sheet, which active subscribers normally bypass.
-- [ ] Make the paid-member daily-limit state as focused as the monthly-limit state: reset time and return/close, without repeating upgrade benefits or offering another subscription. The draft prevents a second purchase, but its daily-limit presentation still repeats the benefits.
-- [ ] Distinguish website versus iPhone purchase availability. The website intentionally has no checkout; keep access for a verified Apple subscriber, but don't present web Restore as if it can run there.
-- [ ] Install scheduled expiry/cleanup for cached quota replies, rather than relying solely on that member making another request. Generated replies can contain sensitive personal information even though original request text is not saved in this cache. Finish privacy and retention wording before deployment.
-- [ ] Verify subscription/account deletion wording: deleting the Grace & Gather account does not itself cancel Apple's subscription. Provide the store-management action without obstructing account deletion.
+- [x] Added a compact **Profile → Membership** entry. Verified subscribers see their access-through date and Apple management link; iPhone Restore remains available. Admins see their exempt access without purchase controls.
+- [x] Paid daily/monthly limits show the reset and a return action, without repeating benefits or inviting another purchase.
+- [x] Website hides checkout/Restore, explains that subscriptions are purchased/restored in the iPhone app, and retains the Apple management link for subscribed members. Android billing is still unconfigured.
+- [x] Prepared hourly expiry cleanup in `20261126113552_pro_allowance_cache_cleanup.sql`. Journal retry copies last through the current UTC day; study copies through the current UTC calendar month. Current usage rows stay intact. Local SQL verifies expired deletion, preserved quotas/retries, client denial and account-deletion cascade. Hosted scheduler registration/run verification remains pending deployment, not completed here.
+- [x] Updated in-app and public Privacy/Terms in all four languages: Apple/RevenueCat billing data, temporary generated-reply copies and exact retention/reset schedule, trial eligibility, auto-renewal, management and account deletion. The deletion flow links to Apple and explicitly remains available without cancelling first.
 - [ ] Measure actual model usage, translation/moderation/transcription and room-audio costs before treating the margin target as established. A low-Brazil price plus many free users is the main financial risk.
 
 ### Content still incomplete
@@ -106,3 +106,6 @@ This is a code/checklist review, not a claim of a physical-device purchase test.
 ### Payment work after Jessica and Taya approve
 
 Finish Apple/RevenueCat products, prices/annual Brazil decision, three-day trial eligibility, offering, verification keys and webhook. Then deploy with enforcement off, make a TestFlight build and test real sandbox purchases/restore/renewal/cancellation/refund/account-switch and both storefronts. Update Apple subscription review details and privacy disclosures. Enable quotas only after the approved app and working purchases are available; do not strand current users behind a purchase that is unavailable.
+
+
+Follow-up validation: 265 mobile tests pass, including paid/free/admin/web presentation rules; typecheck, lint and web export pass. Signed-in browser confirms Profile → Membership opens the closeable sheet. Real billing status cannot be exercised against the live database until the reviewed migration is deployed. No live billing or cleanup deployment occurred.

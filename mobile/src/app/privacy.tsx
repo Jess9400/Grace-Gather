@@ -13,6 +13,10 @@ import { label } from "../lib/labels";
 const policy = {
   en: [
     [
+      "Membership and temporary reply copies",
+      "For App Store subscriptions, Apple processes the payment and RevenueCat helps us verify access using your account identifier, purchase records, subscription status and expiry. We do not receive your full payment-card details or send your journal text to RevenueCat. To prevent duplicate charges to your allowance when a reply is retried, Supabase temporarily stores a generated reply and a hashed request identifier with usage records. Journal reply copies expire at the next daily reset (00:00 UTC); study reply copies expire at the next calendar-month reset (00:00 UTC on the first). Scheduled cleanup runs hourly, normally removing expired copies within the following hour; an outage can delay it. Saved journal entries and study notes are separate and are not deleted by this cleanup. Deleting your account removes its temporary reply and usage records. Separate AI-provider retention is described above.",
+    ],
+    [
       "Retention and deletion",
       "Journal entries and conversations stay in your account until you delete them. Deleted items can be recovered for 30 days; cleanup runs when the app is open, so removal may take longer. If you enable automatic conversation cleanup, its timing and advance notice are shown in the app. Separate device copies and exports remain until you remove them. When you use an AI feature, the AI provider normally retains requests and responses for up to 30 days; legal or security requirements may require longer retention. Deleting content in the app does not immediately remove requests already sent to the AI provider. Backup copies, if created, follow their own retention schedule.",
     ],
@@ -54,6 +58,10 @@ const policy = {
     ],
   ],
   pt: [
+    [
+      "Assinatura e cópias temporárias de respostas",
+      "Nas assinaturas da App Store, a Apple processa o pagamento e o RevenueCat ajuda a verificar o acesso com o identificador da sua conta, registros de compra, status e validade da assinatura. Não recebemos os dados completos do cartão nem enviamos seu diário ao RevenueCat. Para que uma nova tentativa da mesma resposta não desconte o limite duas vezes, o Supabase guarda temporariamente a resposta gerada e um identificador protegido por hash junto aos registros de uso. As cópias de respostas do diário vencem na próxima renovação diária do limite, à 00h UTC; as de estudo vencem na próxima renovação mensal, à 00h UTC do primeiro dia do mês. A limpeza automática roda a cada hora e normalmente remove as cópias vencidas na hora seguinte; falhas do serviço podem atrasá-la. Entradas do diário e notas salvas ficam separadas e não são excluídas nessa limpeza. Excluir a conta remove suas cópias temporárias e registros de uso. A retenção pelo provedor de IA está descrita acima.",
+    ],
     [
       "Retenção e exclusão",
       "As entradas e conversas do diário permanecem na sua conta até você excluí-las. Os itens excluídos podem ser recuperados por 30 dias; a limpeza acontece quando o aplicativo está aberto, portanto a remoção pode demorar mais. Se você ativar a limpeza automática de conversas, o prazo e o aviso prévio aparecem no aplicativo. Cópias separadas no aparelho e arquivos exportados permanecem até você removê-los. Ao usar um recurso de IA, o provedor de IA normalmente retém solicitações e respostas por até 30 dias; exigências legais ou de segurança podem exigir retenção maior. Excluir conteúdo no aplicativo não remove imediatamente solicitações já enviadas ao provedor de IA. Cópias de segurança, caso sejam criadas, seguem seus próprios prazos de retenção.",
@@ -97,6 +105,10 @@ const policy = {
   ],
   es: [
     [
+      "Suscripción y copias temporales de respuestas",
+      "En las suscripciones de App Store, Apple procesa el pago y RevenueCat ayuda a verificar el acceso con el identificador de tu cuenta, los registros de compra, el estado y el vencimiento de la suscripción. No recibimos los datos completos de tu tarjeta ni enviamos tu diario a RevenueCat. Para no descontar dos veces del límite al reintentar una respuesta, Supabase guarda temporalmente la respuesta generada y un identificador de solicitud mediante hash junto a los registros de uso. Las copias del diario vencen en el siguiente reinicio diario, a las 00:00 UTC; las de estudio, al inicio del siguiente mes natural, a las 00:00 UTC del día primero. La limpieza se ejecuta cada hora y normalmente elimina las copias vencidas durante la hora siguiente; una interrupción puede retrasarla. Las entradas y notas guardadas son independientes y no se eliminan con esta limpieza. Eliminar la cuenta borra sus copias temporales y registros de uso. La retención del proveedor de IA se describe arriba.",
+    ],
+    [
       "Conservación y eliminación",
       "Las entradas y conversaciones del diario permanecen en tu cuenta hasta que las elimines. Los elementos eliminados se pueden recuperar durante 30 días; la limpieza se realiza con la aplicación abierta, por lo que la eliminación puede tardar más. Si activas la limpieza automática de conversaciones, el plazo y el aviso previo se muestran en la aplicación. Las copias separadas del dispositivo y los archivos exportados permanecen hasta que los elimines. Si utilizas una función de IA, el proveedor normalmente conserva las solicitudes y respuestas hasta 30 días; los requisitos legales o de seguridad pueden exigir una conservación mayor. Eliminar contenido de la aplicación no borra inmediatamente las solicitudes ya enviadas al proveedor de IA. Las copias de seguridad, si se crean, siguen sus propios plazos de conservación.",
     ],
@@ -138,6 +150,10 @@ const policy = {
     ],
   ],
   ru: [
+    [
+      "Подписка и временные копии ответов",
+      "При подписке через App Store платёж обрабатывает Apple. RevenueCat помогает проверять доступ по идентификатору аккаунта, сведениям о покупке, статусу и сроку подписки. Мы не получаем полные данные карты и не передаём дневник в RevenueCat. Чтобы повторная попытка получить тот же ответ не списывала лимит дважды, Supabase временно хранит созданный ответ, хеш идентификатора запроса и записи об использовании. Копии ответов дневника истекают при следующем ежедневном сбросе в 00:00 UTC, а ответы для изучения Библии — в 00:00 UTC первого числа следующего календарного месяца. Автоматическая очистка выполняется каждый час и обычно удаляет истёкшие копии в течение следующего часа; сбой может задержать удаление. Сохранённые записи дневника и заметки хранятся отдельно и при этой очистке не удаляются. Удаление аккаунта удаляет его временные копии и записи об использовании. Срок хранения у провайдера ИИ описан выше.",
+    ],
     [
       "Хранение и удаление",
       "Записи дневника и разговоры хранятся в вашем аккаунте, пока вы их не удалите. Удалённые материалы можно восстановить в течение 30 дней; очистка выполняется, когда приложение открыто, поэтому удаление может занять больше времени. Если включена автоматическая очистка разговоров, её сроки и предварительное уведомление показываются в приложении. Отдельные копии на устройстве и экспортированные файлы сохраняются, пока вы их не удалите. Когда вы пользуетесь функцией с ИИ, провайдер ИИ обычно хранит запросы и ответы до 30 дней; по требованиям закона или безопасности этот срок может быть дольше. Удаление материалов в приложении не означает, что запросы, уже отправленные провайдеру ИИ, удаляются сразу. У резервных копий, если они создаются, свои сроки хранения.",
@@ -185,7 +201,7 @@ export default function Privacy() {
   return (
     <Screen back>
       <Heading>{label(profile.language, "privacy")}</Heading>
-      <Body small>Grace & Gather · 10 November 2026</Body>
+      <Body small>Grace & Gather · 26 November 2026</Body>
       <Card>
         <Subheading>{journalCopy(profile.language, "journal")}</Subheading>
         <Body>{journalCopy(profile.language, "archivedInfo")}</Body>

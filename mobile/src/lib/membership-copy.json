@@ -30,7 +30,15 @@
     "backTomorrow": "Come back after the reset, or upgrade to Pro.",
     "monthlyUnit": "/ month",
     "yearlyUnit": "/ year",
-    "remaining": "{n} Ask AI replies left this month"
+    "remaining": "{n} Ask AI replies left this month",
+    "membership": "Membership",
+    "freeStatus": "Free membership",
+    "adminStatus": "Admin access · no subscription needed",
+    "accessUntil": "Pro access until {date}.",
+    "webOnly": "Subscribe or restore purchases in the iPhone app. Your membership works here too.",
+    "statusUnavailable": "Could not load your membership. Please try again.",
+    "deletionNotice": "Deleting your account does not cancel an App Store subscription. You can manage it with Apple; you can still delete your account now.",
+    "done": "Back to what you were doing"
   },
   "pt": {
     "title": "Mais espaço para crescer",
@@ -63,7 +71,15 @@
     "backTomorrow": "Volte após a renovação do limite ou assine o Pro.",
     "monthlyUnit": "/ mês",
     "yearlyUnit": "/ ano",
-    "remaining": "{n} respostas de IA restantes neste mês"
+    "remaining": "{n} respostas de IA restantes neste mês",
+    "membership": "Assinatura",
+    "freeStatus": "Plano gratuito",
+    "adminStatus": "Acesso de administrador · sem assinatura",
+    "accessUntil": "Acesso Pro até {date}.",
+    "webOnly": "Assine ou restaure compras no app para iPhone. Sua assinatura também funciona aqui.",
+    "statusUnavailable": "Não foi possível carregar sua assinatura. Tente novamente.",
+    "deletionNotice": "Excluir sua conta não cancela a assinatura da App Store. Você pode gerenciá-la com a Apple e excluir sua conta agora, se quiser.",
+    "done": "Voltar ao que estava fazendo"
   },
   "es": {
     "title": "Más espacio para crecer",
@@ -96,7 +112,15 @@
     "backTomorrow": "Vuelve cuando se renueve el límite o pásate a Pro.",
     "monthlyUnit": "/ mes",
     "yearlyUnit": "/ año",
-    "remaining": "{n} respuestas de IA restantes este mes"
+    "remaining": "{n} respuestas de IA restantes este mes",
+    "membership": "Suscripción",
+    "freeStatus": "Plan gratuito",
+    "adminStatus": "Acceso de administrador · sin suscripción",
+    "accessUntil": "Acceso Pro hasta el {date}.",
+    "webOnly": "Suscríbete o restaura las compras en la app para iPhone. Tu suscripción también funciona aquí.",
+    "statusUnavailable": "No se pudo cargar tu suscripción. Inténtalo de nuevo.",
+    "deletionNotice": "Eliminar tu cuenta no cancela una suscripción de App Store. Puedes gestionarla con Apple y eliminar tu cuenta ahora si lo deseas.",
+    "done": "Volver a lo que estabas haciendo"
   },
   "ru": {
     "title": "Больше пространства для роста",
@@ -129,6 +153,14 @@
     "backTomorrow": "Вернитесь после сброса лимита или выберите Pro.",
     "monthlyUnit": "/ месяц",
     "yearlyUnit": "/ год",
-    "remaining": "Осталось ответов ИИ в этом месяце: {n}"
+    "remaining": "Осталось ответов ИИ в этом месяце: {n}",
+    "membership": "Подписка",
+    "freeStatus": "Бесплатный план",
+    "adminStatus": "Доступ администратора · подписка не нужна",
+    "accessUntil": "Доступ Pro до {date}.",
+    "webOnly": "Оформите или восстановите подписку в приложении для iPhone. Она действует и здесь.",
+    "statusUnavailable": "Не удалось загрузить подписку. Попробуйте ещё раз.",
+    "deletionNotice": "Удаление аккаунта не отменяет подписку App Store. Управлять ею можно через Apple; аккаунт можно удалить и сейчас.",
+    "done": "Вернуться к чтению"
   }
 }

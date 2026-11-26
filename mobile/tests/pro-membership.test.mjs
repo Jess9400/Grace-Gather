@@ -109,3 +109,71 @@ test("checkout uses store prices, eligibility, account identity and backend veri
     ])
       assert.ok(copy[lang][key]);
 });
+
+test("membership controls distinguish iPhone purchases, web access, and admins", () => {
+  const { membershipPresentation: view } = moduleFor(
+    "src/lib/membership-presentation.ts",
+    {},
+  );
+  const free = { plan: "free", admin: false },
+    pro = { plan: "pro", admin: false };
+  assert.equal(view("membership", free, "ios").showOffers, true);
+  assert.equal(view("membership", free, "ios").showRestore, true);
+  assert.equal(view("membership", free, "web").showOffers, false);
+  assert.equal(view("membership", free, "web").showRestore, false);
+  assert.equal(view("membership", free, "web").showWebNotice, true);
+  assert.equal(view("membership", pro, "web").showManage, true);
+  assert.equal(view("membership", pro, "web").showRestore, false);
+  assert.equal(view("membership", pro, "ios").showOffers, false);
+  assert.equal(view("membership", pro, "ios").showRestore, true);
+  const admin = view("membership", { plan: "pro", admin: true }, "ios");
+  assert.equal(
+    admin.showOffers || admin.showRestore || admin.showManage,
+    false,
+  );
+  assert.equal(view("membership", null, "ios").showOffers, false);
+});
+test("all exhausted Pro allowances pause without another subscription pitch", () => {
+  const { membershipPresentation: view } = moduleFor(
+    "src/lib/membership-presentation.ts",
+    {},
+  );
+  for (const reason of [
+    "journal_entry_limit",
+    "journal_followup_limit",
+    "study_monthly_limit",
+  ]) {
+    for (const platform of ["ios", "web"]) {
+      const result = view(reason, { plan: "pro", admin: false }, platform);
+      assert.equal(result.paused, true);
+      assert.equal(
+        result.showBenefits ||
+          result.showOffers ||
+          result.showRestore ||
+          result.showManage,
+        false,
+      );
+    }
+    assert.equal(
+      view(reason, { plan: "free", admin: false }, "ios").showOffers,
+      true,
+    );
+  }
+});
+test("membership is discoverable and account deletion never requires cancellation first", () => {
+  const profile = read("src/app/profile.tsx");
+  assert.match(profile, /showUpgrade\("membership"\)/);
+  assert.match(profile, /deletionNotice/);
+  assert.match(profile, /apps.apple.com\/account\/subscriptions/);
+  assert.match(profile, /functions.invoke\(\s*"account-delete"/);
+  const copy = JSON.parse(read("src/lib/membership-copy.json"));
+  for (const language of ["en", "pt", "es", "ru"])
+    for (const key of [
+      "membership",
+      "accessUntil",
+      "webOnly",
+      "deletionNotice",
+      "statusUnavailable",
+    ])
+      assert.ok(copy[language][key]);
+});
