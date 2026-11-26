@@ -8,7 +8,7 @@
     "study": "60 Ask AI replies per calendar month",
     "monthly": "Monthly",
     "yearly": "Yearly",
-    "save": "Save 20%",
+    "save": "Save 15%",
     "continue": "Continue with Pro",
     "trial": "Start 3-day free trial",
     "restore": "Restore purchases",
@@ -38,7 +38,8 @@
     "webOnly": "Subscribe or restore purchases in the iPhone app. Your membership works here too.",
     "statusUnavailable": "Could not load your membership. Please try again.",
     "deletionNotice": "Deleting your account does not cancel an App Store subscription. You can manage it with Apple; you can still delete your account now.",
-    "done": "Back to what you were doing"
+    "done": "Back to what you were doing",
+    "preparing": "Pro memberships are being prepared. You can keep using the study tools for now."
   },
   "pt": {
     "title": "Mais espaço para crescer",
@@ -49,7 +50,7 @@
     "study": "60 respostas do Pergunte à IA por mês",
     "monthly": "Mensal",
     "yearly": "Anual",
-    "save": "Economize 20%",
+    "save": "Economize 15%",
     "continue": "Continuar com Pro",
     "trial": "Começar 3 dias grátis",
     "restore": "Restaurar compras",
@@ -79,7 +80,8 @@
     "webOnly": "Assine ou restaure compras no app para iPhone. Sua assinatura também funciona aqui.",
     "statusUnavailable": "Não foi possível carregar sua assinatura. Tente novamente.",
     "deletionNotice": "Excluir sua conta não cancela a assinatura da App Store. Você pode gerenciá-la com a Apple e excluir sua conta agora, se quiser.",
-    "done": "Voltar ao que estava fazendo"
+    "done": "Voltar ao que estava fazendo",
+    "preparing": "As assinaturas Pro estão sendo preparadas. Por enquanto, você pode continuar usando as ferramentas de estudo."
   },
   "es": {
     "title": "Más espacio para crecer",
@@ -90,7 +92,7 @@
     "study": "60 respuestas de Pregunta a la IA por mes",
     "monthly": "Mensual",
     "yearly": "Anual",
-    "save": "Ahorra un 20 %",
+    "save": "Ahorra un 15 %",
     "continue": "Continuar con Pro",
     "trial": "Empezar 3 días gratis",
     "restore": "Restaurar compras",
@@ -120,7 +122,8 @@
     "webOnly": "Suscríbete o restaura las compras en la app para iPhone. Tu suscripción también funciona aquí.",
     "statusUnavailable": "No se pudo cargar tu suscripción. Inténtalo de nuevo.",
     "deletionNotice": "Eliminar tu cuenta no cancela una suscripción de App Store. Puedes gestionarla con Apple y eliminar tu cuenta ahora si lo deseas.",
-    "done": "Volver a lo que estabas haciendo"
+    "done": "Volver a lo que estabas haciendo",
+    "preparing": "Estamos preparando las suscripciones Pro. Por ahora puedes seguir usando las herramientas de estudio."
   },
   "ru": {
     "title": "Больше пространства для роста",
@@ -131,7 +134,7 @@
     "study": "60 ответов «Спросить ИИ» за календарный месяц",
     "monthly": "Ежемесячно",
     "yearly": "Ежегодно",
-    "save": "Экономия 20 %",
+    "save": "Экономия 15 %",
     "continue": "Продолжить с Pro",
     "trial": "Начать 3 бесплатных дня",
     "restore": "Восстановить покупки",
@@ -161,6 +164,7 @@
     "webOnly": "Оформите или восстановите подписку в приложении для iPhone. Она действует и здесь.",
     "statusUnavailable": "Не удалось загрузить подписку. Попробуйте ещё раз.",
     "deletionNotice": "Удаление аккаунта не отменяет подписку App Store. Управлять ею можно через Apple; аккаунт можно удалить и сейчас.",
-    "done": "Вернуться к чтению"
+    "done": "Вернуться к чтению",
+    "preparing": "Подписки Pro готовятся к запуску. Пока можно продолжать пользоваться инструментами изучения."
   }
 }

@@ -18,23 +18,23 @@ Private writing/saving remains available when personalized guidance runs out. No
 
 Daily counters reset at **00:00 UTC**; study at **00:00 UTC on the first of each calendar month**, not subscription billing anniversary. The app shows the exact next reset in the reader's local date/time and language. Clock/language changes, reinstalls and switching entries cannot reset usage. Close × leaves Pro browsable; clicking a protected tool prompts again. Public discussion creation stays free. Existing notes remain readable/deletable after expiry.
 
-## Pricing
+## Pricing — agreed 26 November 2026
 
 | Storefront | Monthly target | Yearly target | Trial |
 | --- | ---: | ---: | --- |
-| Outside Brazil | US$5 | US$48 (20% less than 12 monthly payments) | 3 days, store-eligible new subscribers |
-| Brazil | BRL equivalent of **US$2** | **Proposed for review**, not yet confirmed: BRL equivalent of US$19.20 if applying the same discount | Same |
+| Outside Brazil | US$6 | US$61.20 (15% less than US$72 across 12 monthly payments) | 3 days, store-eligible new subscribers |
+| Brazil | BRL equivalent of **US$3.50** | BRL equivalent of **US$35.70** (15% less than US$42 across 12 monthly payments) | Same |
 
-**Brazil has both monthly and annual options in this proposal.** Annual target: US$2 × 12 × 80% = **US$19.20/year equivalent in BRL**, billed once per year (US$1.60/month equivalent). The exact BRL price point and this proposed annual price remain for Jessica/Taya's review. It is not US$19.20 charged in dollars to a Brazilian storefront.
+Both annual plans are billed once yearly. Monthly equivalents are US$5.10 globally and US$2.975 in Brazil; these are comparisons, not monthly charges for annual subscribers. Jessica confirmed both monthly prices and the 15% annual discount. Exact regional App Store price points remain to be selected; Brazil is charged in BRL, not dollars.
 
-The annual option will use `gracegather_pro_yearly` with a Brazil-specific App Store price and the RevenueCat annual package. A separate Brazil-only product is not required in this design. Before release, check that the current offering returns **both** monthly and annual packages for a Brazilian storefront; then verify localized BRL amounts and the annual billing period on a real store test. The UI already supports ANNUAL packages, but no store prices appear until the real Apple/RevenueCat configuration is finished. Do not insert a guessed BRL amount into the live paywall.
+The annual option uses `gracegather_pro_yearly` with a Brazil-specific App Store price and the RevenueCat annual package. Before release, check both monthly and annual packages in each storefront, the actual localized amounts, and the three-day trial's eligibility and renewal terms. Do not invent a live BRL amount or advertise an exact discount unless the selected store prices support it.
 
-Apple price points/taxes/exchange rates require choosing actual regional prices in App Store Connect. Brazil is determined by the **storefront**, not Portuguese or a profile country. Paywall price/currency and renewal period come from the store; trial copy appears only for a returned three-day offer and eligible buyer. Include restore, terms/privacy, auto-renewal/cancellation and subscription management. No card collection in this app.
+Apple price points/taxes/exchange rates affect the available prices. Brazil is determined by the **storefront**, not Portuguese or a profile country. Paywall price/currency and renewal period come from the store. Include restore, terms/privacy and subscription management. No card collection in this app.
 
 ## Public cost inputs, not measured invoices
 
 - [Alibaba Qwen Flash](https://www.alibabacloud.com/help/en/model-studio/qwen-flash): Singapore/international input≤256k costs **$0.05/million input + $0.40/million output tokens**. Repository default only; live account/model/region must be verified. No free credits/cache discount assumed.
-- [Apple subscriptions](https://developer.apple.com/app-store/subscriptions/): model **30%** standard commission and **15%** under qualifying/Small Business terms. Our Small Business enrolment is not verified. Tax, regional and currency adjustments affect actual proceeds.
+- [Apple subscriptions](https://developer.apple.com/app-store/subscriptions/): model **15%** target after Small Business enrollment/approval; **30%** standard contingency until the reduced rate is verified. Enrollment/effective date are not yet verified. Tax, regional and currency adjustments affect actual proceeds.
 - [RevenueCat](https://www.revenuecat.com/pricing): free below $2,500 monthly tracked revenue, then **1% of tracked sales**, before Apple deductions.
 - Supabase and Cloudflare remain on the owner's free plans. Below, **$25/month is an infrastructure planning reserve, not an incurred charge/purchase**. Audio/LiveKit, transcription, moderation, translation, email, licences, backups, tax, labour and support need separate budgets. No paid study licence was purchased here.
 
@@ -51,23 +51,25 @@ Reference journal request: 12,000 input + 650 output tokens ≈ **$0.00086**. St
 
 The small cushions do not guarantee cost coverage. Test a stress case of **$0.15/free, $0.50/Pro** until real token totals are measured. Failed calls may cost money even when allowance is returned. Translation/transcription/moderation are separate. Existing per-minute/day/global abuse caps remain; 60/month is not 60 simultaneous requests. Cost analytics must exclude raw private writing.
 
-### Revenue sensitivity
+### Revenue sensitivity — revised agreed prices
 
-Example: 1,000 monthly active people: 900 free + 100 monthly Pro, everyone using every text allowance. Working AI budget=900×$0.08+100×$0.25=**$97**. With $25 infrastructure reserve=**$122**, before other expenses. RevenueCat is below its paid threshold in these examples.
+Reference: 1,000 fully active members: 900 free + 100 Pro. Text AI working budget=900×US$0.08+100×US$0.25=**US$97/month**. Add a US$25 infrastructure reserve=**US$122**, before other expenses. These examples remain below RevenueCat's paid threshold.
 
-| Paying members | Gross sales/month | After 30% Apple | Remaining after $122 | Margin on gross |
-| --- | ---: | ---: | ---: | ---: |
-| 100 Brazil ($2 equivalent) | $200 | $140 | **$18** | **9%** |
-| 50 Brazil + 50 elsewhere | $350 | $245 | **$123** | **35.1%** |
-| 100 elsewhere ($5) | $500 | $350 | **$228** | **45.6%** |
+| 100 monthly paying members | Gross/month | After 15% Apple | Remaining after US$122 | Margin on gross | Remaining at 30% Apple |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| All Brazil (US$3.50 equivalent) | US$350 | US$297.50 | **US$175.50** | **50.1%** | US$123 |
+| 50 Brazil + 50 elsewhere | US$475 | US$403.75 | **US$281.75** | **59.3%** | US$210.50 |
+| All elsewhere (US$6) | US$600 | US$510 | **US$388** | **64.7%** | US$298 |
 
-At 15% Apple, remaining amounts are $48 (24%), $175.50 (50.1%), $303 (60.6%). **Contribution estimates, not net profit:** excludes the unpriced operating costs above. Annual subscriptions reduce monthly-equivalent revenue to $4 outside Brazil; proposed Brazil annual equivalent $1.60. Trials earn nothing but cost money; measure trial-to-paid conversion.
+These are contribution estimates, not net profit. Audio, transcription, translation, moderation, taxes, licensing, labour and other operating costs are additional. The 15% scenario requires Small Business approval and the effective reduced rate; 30% remains the pre-approval contingency. Individual developers can apply. Apple evaluates annual proceeds across all apps and associated developer accounts; the limit is not US$1m monthly recurring revenue. [Small Business Program and enrollment](https://developer.apple.com/app-store/small-business-program/).
 
-At 100 active people with 10 monthly payers: AI working budget=$9.70. With the same $25 reserve and 30% Apple, all-Brazil sales leave **−$20.70**; all-$5 sales leave **$0.30**, before other costs. Current free infrastructure can reduce fixed spend but has capacity limits.
+For 100 annual subscribers under the same usage assumptions, monthly-equivalent gross revenue is US$297.50 (all Brazil) or US$510 (all global). At 15% Apple, after US$122 reference costs, the remainder is US$130.88 (44.0% of gross) or US$311.50 (61.1%). This spreads annual proceeds over 12 months; it is not a monthly cash payout schedule. Trials bring no subscription revenue during the trial.
 
-For ≥35% margin on gross sales, with 30% Apple+1% RevenueCat, remaining costs must fit within **34% of price**. After $0.25 Pro text AI, Brazil's $2 leaves **$0.43/payer** for free-user subsidy and all other costs, supporting about **5.4 fully active free people/payer before infrastructure**. $5 leaves $1.45, about 18.1 free people/payer before infrastructure. These are arithmetic thresholds, not predicted conversion. In the higher text-cost stress scenario even the mixed example drops well below 35%.
+At 100 active members / 10 monthly payers and the same US$25 reserve, text AI working budget=US$9.70. At 15% Apple, all-Brazil sales leave **−US$4.95/month**; all-global sales leave **US$16.30**, before unpriced costs. Current free infrastructure can reduce fixed spend but has capacity limits.
 
-Recommendation: agreed daily limits + 60 monthly study replies, bounded prompts/answers, weekly aggregate cost review. Brazil-heavy adoption/low conversion may require revisiting regional pricing, trial policy or resource budgets **before** promising 35% profit. Never silently reduce a purchased allowance. No unapproved price increase/free-limit reduction in this PR.
+For a 35% margin on gross, after 15% Apple + 1% RevenueCat, other costs must fit within 49% of price. Subtracting US$0.25 Pro text AI leaves US$1.465 for each Brazil monthly payer or US$2.69 for each global monthly payer to cover free-user subsidy and every other expense. At 30% Apple, those amounts fall to US$0.94 and US$1.79. Annual discounts reduce this headroom. In the stress case (US$0.15/free and US$0.50/Pro), the 1,000-member all-Brazil monthly scenario at 15% Apple leaves US$87.50, only 25% of gross, before other costs.
+
+Recommendation: the agreed prices provide more room than the earlier US$2/US$5 proposal, but a 35% net-profit goal still needs measured total costs and conversion. Keep the agreed allowances, bound AI inputs/outputs, and review aggregate costs without logging private writing. No automatic price increases or purchased-allowance reductions.
 
 ## Release and verification checklist
 
@@ -78,7 +80,7 @@ Recommendation: agreed daily limits + 60 monthly study replies, bounded prompts/
 - Dictionaries/maps/devotionals are bundled assets, not server DRM. Tool UI is gated, and AI/study writes are enforced on the server. Preventing determined asset extraction requires a separate authenticated content-delivery project.
 - RevenueCat project `63e3313e` exists with a test entitlement/products. Still required: real App Store configuration, dedicated purchase-verification key, Apple products/intro offers, regional prices, current offering, native public SDK key, server secret and webhook. No secret in Git. Do not ship a Test Store `test_` key. Sandbox access is off by default; enable only in an explicit test environment and restrict test users.
 - Complete subscription configuration **before** the next TestFlight build; then test purchase/restore/cancel/refund/expiry/grace, trial eligibility, multi-device quotas, resets, failed replies, admin access, account switch and backend outage after successful purchase. Include subscription in Apple's submission; no implied Apple approval.
-- Pending review decisions: Brazil annual price, verified Small Business status and acceptable subsidy/operating budget. Pricing/limits here do not alter the 61 approved devotionals.
+- Pending review decisions: exact regional store price points, verified Small Business status and acceptable subsidy/operating budget. Pricing/limits here do not alter the 61 approved devotionals.
 
 
 ## Follow-up readiness audit — 26 November 2026
@@ -109,7 +111,13 @@ This is a code/checklist review, not a claim of a physical-device purchase test.
 
 ### Payment work after Jessica and Taya approve
 
-Finish Apple/RevenueCat products, prices/annual Brazil decision, three-day trial eligibility, offering, verification keys and webhook. Then deploy with enforcement off, make a TestFlight build and test real sandbox purchases/restore/renewal/cancellation/refund/account-switch and both storefronts. Update Apple subscription review details and privacy disclosures. Enable quotas only after the approved app and working purchases are available; do not strand current users behind a purchase that is unavailable.
+Finish Apple/RevenueCat products, confirmed 15%-discount annual prices, three-day trial eligibility, offering, verification keys and webhook. Then deploy with enforcement off, make a TestFlight build and test real sandbox purchases/restore/renewal/cancellation/refund/account-switch and both storefronts. Update Apple subscription review details and privacy disclosures. Enable quotas only after the approved app and working purchases are available; do not strand current users behind a purchase that is unavailable.
 
 
-Follow-up validation: 265 mobile tests pass, including paid/free/admin/web presentation rules; typecheck, lint and web export pass. Signed-in browser confirms Profile → Membership opens the closeable sheet. Real billing status cannot be exercised against the live database until the reviewed migration is deployed. No live billing or cleanup deployment occurred.
+Follow-up validation: 266 mobile tests pass, including paid/free/admin/web presentation rules; typecheck, lint and web export pass. Signed-in browser confirms Profile → Membership opens the closeable sheet. Real billing status cannot be exercised against the live database until the reviewed migration is deployed. No live billing or cleanup deployment occurred.
+
+
+Deployment safety: `requireProAction` honours the server rollout flag. With enforcement off, existing members can continue using Pro tools while store setup is unfinished. Profile → Membership remains available for browsing the proposal, but no real prices or checkout are fabricated. The subscription switch must not turn on until purchases work in the approved app update.
+
+
+**Launch interlock (Taya review feedback):** `EXPO_PUBLIC_PRO_BILLING_ENABLED` defaults to false in web and native builds. While false, Pro navigation does not call the new membership RPC or block people if the migration is absent; checkout and Restore are hidden. This is a deliberate pre-launch mode, not an outage fallback. When built with that flag true, the app also honours the server `enforced=false` switch. Once enforcement is true, unknown membership fails closed. Server access checks remain authoritative regardless of a modified client's build flag. Enable the app flag only for the payment-ready build; enable server enforcement only after that version is approved and purchases work. Both switches remain off in this deployment.

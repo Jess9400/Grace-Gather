@@ -69,10 +69,19 @@ export async function syncPurchases(): Promise<Membership> {
   if (error || !data) throw Error("membership_unavailable");
   return data as Membership;
 }
+// Build-time release guard: unfinished billing must not lock an existing app.
+// This never bypasses the server's entitlement checks on protected resources.
+export function proBillingUIEnabled() {
+  return process.env.EXPO_PUBLIC_PRO_BILLING_ENABLED === "true";
+}
 export async function requireProAction(action: () => void) {
+  if (!proBillingUIEnabled()) {
+    action();
+    return true;
+  }
   try {
     const value = await membershipStatus();
-    if (value.admin || value.plan === "pro") {
+    if (value.enforced === false || value.admin || value.plan === "pro") {
       action();
       return true;
     }

@@ -7,19 +7,27 @@ const require = createRequire(import.meta.url),
   ts = require("typescript");
 const read = (file) =>
   readFileSync(new URL("../" + file, import.meta.url), "utf8");
-function moduleFor(file, mocks) {
+function moduleFor(file, mocks, billingEnabled = "true") {
   const module = { exports: {} };
   runInNewContext(
     ts.transpileModule(read(file), {
       compilerOptions: { module: ts.ModuleKind.CommonJS },
     }).outputText,
-    { module, exports: module.exports, Error, require: (name) => mocks[name] },
+    {
+      module,
+      exports: module.exports,
+      Error,
+      process: { env: { EXPO_PUBLIC_PRO_BILLING_ENABLED: billingEnabled } },
+      require: (name) => mocks[name],
+    },
   );
   return module.exports;
 }
 test("free or unavailable membership cannot run Pro; verified admin and paid accounts can", async () => {
   for (const [value, allowed] of [
     [{ plan: "free", admin: false }, false],
+    [{ plan: "free", admin: false, enforced: true }, false],
+    [{ plan: "free", admin: false, enforced: false }, true],
     [{ plan: "pro", admin: false }, true],
     [{ plan: "free", admin: true }, true],
     [null, false],
@@ -176,4 +184,36 @@ test("membership is discoverable and account deletion never requires cancellatio
       "statusUnavailable",
     ])
       assert.ok(copy[language][key]);
+});
+
+test("unfinished billing never locks existing Pro tools, even before the migration exists", async () => {
+  for (const flag of [undefined, "false"]) {
+    let reads = 0,
+      runs = 0;
+    const api = moduleFor(
+      "src/lib/membership.ts",
+      {
+        "./backend": {
+          requireUser: async () => {
+            reads++;
+            throw Error("migration not deployed");
+          },
+        },
+      },
+      flag === undefined ? "" : flag,
+    );
+    assert.equal(await api.requireProAction(() => runs++), true);
+    assert.equal(runs, 1);
+    assert.equal(reads, 0);
+    assert.equal(api.upgradeSnapshot(), null);
+  }
+  const { membershipPresentation: view } = moduleFor(
+    "src/lib/membership-presentation.ts",
+    {},
+  );
+  const off = view("membership", { plan: "free", admin: false }, "ios", false);
+  assert.equal(
+    off.showOffers || off.showRestore || off.showManage || off.showBenefits,
+    false,
+  );
 });

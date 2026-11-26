@@ -147,7 +147,7 @@ Original texts and concordance are versioned static assets deployed with the web
 
 Do not activate product limits on the current live build. The draft migration defaults `private.pro_rollout.enforced` to false.
 
-- [ ] Review pricing/allowances and budget in `docs/product/pro-membership-paywall.md`; confirm Brazil annual pricing.
+- [ ] Review pricing/allowances and budget in `docs/product/pro-membership-paywall.md`; set the exact regional store price points (monthly US$6 globally / US$3.50 equivalent in Brazil; annual discount confirmed at 15%: US$61.20 globally / US$35.70 equivalent in Brazil).
 - [ ] Finish RevenueCat real App Store configuration, products, three-day eligible introductory offer, regional prices and offering; agree restore/transfer policy and restrict sandbox access.
 - [ ] Configure native **public** SDK keys for the next build; keep server secret/webhook authorization out of Git. Entitlement: `grace_gather_pro`.
 - [ ] After review, apply `20261126102547_pro_membership_allowances.sql` and `20261126113552_pro_allowance_cache_cleanup.sql` before deploying `membership-sync`, `revenuecat-webhook`, updated `llm-journey` and `bible-study`. Keep enforcement off while testing.
@@ -156,3 +156,6 @@ Do not activate product limits on the current live build. The draft migration de
 - [x] Prepared four-language subscription/privacy wording and hourly cleanup migration in the draft PR; not deployed. Journal response copies expire at the next UTC day; study copies at the next UTC calendar month. Current-period records stay intact so cleanup cannot replenish allowances.
 - [ ] After deployment, verify `grace-pro-cache-cleanup` in `cron.job` is active, its command/schedule match the migration, and a successful execution appears in `cron.job_run_details`. The migration fails if pg_cron cannot be installed, rather than silently claiming automatic cleanup. Review the deployed policy links alongside the real payment configuration.
 - [ ] Only after the approved new version and purchases are available: explicitly activate the rollout, verify upgrade succeeds, and monitor costs. Nothing in this draft performs that switch.
+
+
+**Launch interlock (Taya review feedback):** `EXPO_PUBLIC_PRO_BILLING_ENABLED` defaults to false in web and native builds. While false, Pro navigation does not call the new membership RPC or block people if the migration is absent; checkout and Restore are hidden. This is a deliberate pre-launch mode, not an outage fallback. When built with that flag true, the app also honours the server `enforced=false` switch. Once enforcement is true, unknown membership fails closed. Server access checks remain authoritative regardless of a modified client's build flag. Enable the app flag only for the payment-ready build; enable server enforcement only after that version is approved and purchases work. Both switches remain off in this deployment.

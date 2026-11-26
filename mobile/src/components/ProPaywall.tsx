@@ -26,6 +26,7 @@ import {
   onUpgrade,
   upgradeSnapshot,
   membershipStatus,
+  proBillingUIEnabled,
   subscribeMembershipAccount,
   type Membership,
 } from "../lib/membership";
@@ -41,6 +42,7 @@ import { colors, serif } from "./quiet-ui";
 export default function ProPaywall() {
   const { profile } = useApp();
   const c = copy[profile.language];
+  const billingEnabled = proBillingUIEnabled();
   const reason = useSyncExternalStore(onUpgrade, upgradeSnapshot, () => null);
   const [member, setMember] = useState<Membership | null>(null),
     [plans, setPlans] = useState<StorePlan[]>([]),
@@ -55,6 +57,10 @@ export default function ProPaywall() {
     setNotice("");
     setMember(null);
     setPlans([]);
+    if (!billingEnabled) {
+      setLoading(false);
+      return;
+    }
     try {
       const m = await membershipStatus();
       if (ticket !== sequence.current) return;
@@ -71,7 +77,7 @@ export default function ProPaywall() {
     } finally {
       if (ticket === sequence.current) setLoading(false);
     }
-  }, [c]);
+  }, [c, billingEnabled]);
   useEffect(() => {
     let active = true;
     if (reason)
@@ -108,7 +114,12 @@ export default function ProPaywall() {
           : null;
   const reset =
     reason === "study_monthly_limit" ? member?.studyResetsAt : member?.resetsAt;
-  const view = membershipPresentation(reason, member, Platform.OS);
+  const view = membershipPresentation(
+    reason,
+    member,
+    Platform.OS,
+    billingEnabled,
+  );
   const paid = view.paid;
   async function purchase(restore = false) {
     if (busy) return;
@@ -158,9 +169,11 @@ export default function ProPaywall() {
               <Text style={s.eyebrow}>GRACE &amp; GATHER · PRO</Text>
             </View>
             <Text style={s.title} accessibilityRole="header">
-              {limit ?? (reason === "membership" ? c.membership : c.title)}
+              {!billingEnabled
+                ? c.membership
+                : (limit ?? (reason === "membership" ? c.membership : c.title))}
             </Text>
-            {limit && reset && (
+            {billingEnabled && limit && reset && (
               <Text style={s.description}>
                 {c.reset.replace(
                   "{date}",
@@ -171,7 +184,9 @@ export default function ProPaywall() {
                 )}
               </Text>
             )}
-            {view.paused ? (
+            {!billingEnabled ? (
+              <Text style={s.description}>{c.preparing}</Text>
+            ) : view.paused ? (
               <Pressable
                 accessibilityRole="button"
                 onPress={closeUpgrade}
@@ -289,7 +304,7 @@ export default function ProPaywall() {
                 {notice}
               </Text>
             )}
-            {!view.paused && (
+            {billingEnabled && !view.paused && (
               <Text style={s.legal}>
                 {c.free} {c.keep}
               </Text>

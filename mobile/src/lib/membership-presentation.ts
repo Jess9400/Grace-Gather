@@ -4,6 +4,7 @@ export function membershipPresentation(
   reason: UpgradeReason | null,
   member: Membership | null,
   platform: string,
+  enabled = true,
 ) {
   const paid = !!member && (member.admin || member.plan === "pro");
   const limit =
@@ -13,11 +14,11 @@ export function membershipPresentation(
       "journal_followup_limit",
       "study_monthly_limit",
     ].includes(reason);
-  const billing = !!member && !member.admin;
+  const billing = enabled && !!member && !member.admin;
   return {
     paid,
-    paused: paid && limit,
-    showBenefits: !limit || !paid,
+    paused: enabled && paid && limit,
+    showBenefits: enabled && (!limit || !paid),
     showOffers: billing && !paid && platform === "ios",
     showRestore: billing && platform === "ios" && !(paid && limit),
     showManage: billing && paid && !limit,
