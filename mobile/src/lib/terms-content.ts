@@ -2,6 +2,10 @@
 export const terms = {
   en: [
     [
+      "Pro subscriptions",
+      "Basic Bible reading and community features remain free. Optional Pro access and guidance allowances are described before purchase. The App Store shows the local price, billing period and any eligible trial before you confirm. Subscriptions renew automatically unless cancelled in your Apple subscription settings; cancelling normally preserves access until the paid period ends. You can restore purchases or manage your subscription from Profile → Membership in the iPhone app. A trial is available only when the store confirms eligibility. Daily guidance allowances reset at 00:00 UTC; monthly study allowances reset on the first day of each calendar month at 00:00 UTC. The app shows the reset in your local time. Deleting the app or your Grace & Gather account does not cancel an App Store subscription. You can delete your account without first cancelling; use Apple to stop future renewal. Refund requests are handled by Apple under its applicable terms.",
+    ],
+    [
       "Agreement",
       "By creating an account or using Grace & Gather, you agree to these Terms of Use and to our Privacy Policy. If you downloaded the app from the App Store, Apple's standard Licensed Application End User License Agreement also applies.",
     ],
@@ -35,6 +39,10 @@ export const terms = {
     ],
   ],
   pt: [
+    [
+      "Assinatura Pro",
+      "A leitura básica da Bíblia e os recursos de comunidade continuam gratuitos. O acesso opcional ao Pro e os limites de orientação são apresentados antes da compra. A App Store mostra o preço local, o período de cobrança e qualquer teste elegível antes da confirmação. A assinatura renova automaticamente até ser cancelada nas assinaturas da Apple; normalmente o acesso continua até o fim do período pago. No app para iPhone, você pode restaurar compras ou gerenciar a assinatura em Perfil → Assinatura. O teste grátis só aparece quando a loja confirma sua elegibilidade. Os limites diários renovam à 00h UTC; os de estudo mensal, à 00h UTC do primeiro dia de cada mês. O app mostra esse horário na sua hora local. Excluir o app ou sua conta do Grace & Gather não cancela a assinatura da App Store. Você pode excluir a conta sem cancelar antes; para impedir novas renovações, cancele pela Apple. Pedidos de reembolso são tratados pela Apple conforme seus termos.",
+    ],
     [
       "Acordo",
       "Ao criar uma conta ou usar o Grace & Gather, você concorda com estes Termos de Uso e com a nossa Política de Privacidade. Se você baixou o app na App Store, também se aplica o Contrato de Licença de Usuário Final padrão da Apple.",
@@ -70,6 +78,10 @@ export const terms = {
   ],
   es: [
     [
+      "Suscripción Pro",
+      "La lectura básica de la Biblia y las funciones de comunidad siguen siendo gratuitas. El acceso opcional a Pro y los límites se explican antes de la compra. App Store muestra el precio local, el período de cobro y cualquier prueba elegible antes de confirmar. La suscripción se renueva automáticamente hasta que la canceles en las suscripciones de Apple; normalmente mantienes el acceso hasta que termine el período pagado. En la app para iPhone puedes restaurar compras o gestionar la suscripción en Perfil → Suscripción. La prueba gratuita solo se ofrece cuando la tienda confirma tu elegibilidad. Los límites diarios se reinician a las 00:00 UTC y los mensuales de estudio a las 00:00 UTC del primer día de cada mes natural. La app muestra esa hora en tu zona local. Eliminar la app o tu cuenta de Grace & Gather no cancela una suscripción de App Store. Puedes eliminar la cuenta sin cancelar antes; usa Apple para impedir la renovación. Apple gestiona los reembolsos según sus términos aplicables.",
+    ],
+    [
       "Acuerdo",
       "Al crear una cuenta o usar Grace & Gather, aceptas estos Términos de Uso y nuestra Política de Privacidad. Si descargaste la app en la App Store, también se aplica el Contrato de Licencia de Usuario Final estándar de Apple.",
     ],
@@ -103,6 +115,10 @@ export const terms = {
     ],
   ],
   ru: [
+    [
+      "Подписка Pro",
+      "Базовое чтение Библии и функции сообщества остаются бесплатными. Возможности Pro и лимиты указаны до покупки. Перед подтверждением App Store показывает местную цену, период оплаты и доступный пробный период. Подписка продлевается автоматически до отмены в настройках подписок Apple; обычно доступ сохраняется до конца оплаченного периода. В приложении для iPhone восстановить покупки и управлять подпиской можно в Профиле → Подписка. Пробный период доступен, только если магазин подтвердит право на него. Дневные лимиты сбрасываются в 00:00 UTC, месячные лимиты изучения — в 00:00 UTC первого числа календарного месяца. Приложение показывает время сброса в вашем часовом поясе. Удаление приложения или аккаунта Grace & Gather не отменяет подписку App Store. Удалить аккаунт можно и без предварительной отмены; чтобы остановить продление, отмените подписку через Apple. Запросы на возврат средств обрабатывает Apple по своим условиям.",
+    ],
     [
       "Соглашение",
       "Создавая аккаунт или пользуясь Grace & Gather, вы принимаете эти Условия использования и нашу Политику конфиденциальности. Если вы скачали приложение в App Store, также действует стандартное лицензионное соглашение Apple с конечным пользователем.",

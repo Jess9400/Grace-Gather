@@ -1,3 +1,4 @@
+import { upgradeForError } from "../lib/membership";
 import { useCallback, useRef, useState } from "react";
 import { View, Text, TextInput, StyleSheet, Platform, Pressable, useWindowDimensions } from "react-native";
 import { router, useFocusEffect } from "expo-router";
@@ -120,7 +121,7 @@ export default function Diary() {
           // Without an account the server cannot reply; the entry page
           // offers to add an email and then writes the reply.
           if (!(await isSignedIn())) throw Error("signed_out");
-          const result = await suggestJourney(draft.text, settings);
+          const result = await suggestJourney(draft.text, settings, entry.id);
           entry = {
             ...entry,
             mood: result.path,
@@ -133,7 +134,8 @@ export default function Diary() {
             suggestedActionExplanation: result.actionExplanation,
             suggestedReflection: result.reflection,
           };
-        } catch {
+        } catch (error) {
+          upgradeForError(error);
           entry = { ...entry, aiUnavailable: true };
         }
         await saveEntry(entry, true);

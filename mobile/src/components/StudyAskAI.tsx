@@ -1,3 +1,6 @@
+import { randomUUID } from "expo-crypto";
+import { membershipStatus, requireProAction, upgradeForError } from "../lib/membership";
+import membershipCopy from "../lib/membership-copy.json";
 import { useRef, useState } from "react";
 import {
   Modal,
@@ -38,11 +41,16 @@ export default function StudyAskAI({
     [error, setError] = useState(false),
     [permission, setPermission] = useState(false);
   const inFlight = useRef(false);
+  const requestId=useRef<string|null>(null);
+  const [allowance,setAllowance]=useState<{studyRemaining:number;studyResetsAt:string}|null>(null);
   const scroll = useRef<ScrollViewInstance>(null);
   async function send() {
     if (inFlight.current || !question.trim()) return;
+    inFlight.current = true;
+    if (!(await requireProAction(() => {}))) { inFlight.current=false; return; }
     if (profile.journalAIConsentVersion !== AI_CONSENT_VERSION) {
       setPermission(true);
+      inFlight.current=false;
       return;
     }
     inFlight.current = true;
@@ -73,6 +81,7 @@ export default function StudyAskAI({
         "bible-study",
         {
           body: {
+            requestId: requestId.current ?? (requestId.current=randomUUID()),
             consent: "study-qwen-v1",
             preferences: {
               language,
@@ -85,6 +94,8 @@ export default function StudyAskAI({
         },
       );
       if (failure) throw await aiRequestError(failure);
+      requestId.current=null;
+      void membershipStatus().then(setAllowance).catch(()=>{});
       if (typeof data?.answer !== "string" || !data.answer.trim())
         throw Error("invalid_response");
       setMessages((old) => [
@@ -93,7 +104,8 @@ export default function StudyAskAI({
         { role: "assistant", content: data.answer },
       ]);
       setQuestion("");
-    } catch {
+    } catch (error) {
+      upgradeForError(error);
       setError(true);
     } finally {
       inFlight.current = false;
@@ -122,6 +134,7 @@ export default function StudyAskAI({
             gap: 14,
           }}
         >
+          {!!allowance && <Body small>{membershipCopy[language].remaining.replace("{n}", String(allowance.studyRemaining))} · {membershipCopy[language].reset.replace("{date}",new Date(allowance.studyResetsAt).toLocaleString(language,{dateStyle:"medium",timeStyle:"short"}))}</Body>}
           <StudyHeader title={c.askAI} closeLabel="×" onClose={onClose} />
           <ScrollView
             ref={scroll}
@@ -159,7 +172,7 @@ export default function StudyAskAI({
           <TextInput
             multiline
             value={question}
-            onChangeText={setQuestion}
+            onChangeText={(value)=>{requestId.current=null;setQuestion(value);}}
             maxLength={1800}
             placeholder={c.question}
             accessibilityLabel={c.question}

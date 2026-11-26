@@ -142,3 +142,21 @@ Original texts and concordance are versioned static assets deployed with the web
 - [x] Browser confirmed both active plans, blank dictionary search, Hebrew lookup, a real contextual AI answer, and separate notebook tabs. Ask AI uses the already deployed `bible-study` function with existing consent and server allowances; no new unbounded AI endpoint.
 - [ ] Test on two devices after the app update: invite/accept, save a plan note, explicitly Share, open it under the plan or notebook → Reading plans, comment both ways, and check phone delivery. SQL verifies queue eligibility, not actual APNs delivery.
 - [ ] Public handoff copies only the author's own shared note into the normal discussion composer; review and Post remain explicit. Partner comments remain private. Verify the final composer on a device without posting private test content.
+
+## Pro memberships / paywall — draft, awaiting Jessica and Taya
+
+Do not activate product limits on the current live build. The draft migration defaults `private.pro_rollout.enforced` to false.
+
+- [ ] Review pricing/allowances and budget in `docs/product/pro-membership-paywall.md`; set the exact regional store price points (three monthly tiers: USA US$8 / other countries US$6 / Brazil US$3.50 equivalent; annual discount 15%: USA US$81.60 / other countries US$61.20 / Brazil US$35.70 equivalent).
+- [ ] Finish RevenueCat real App Store configuration, products, three-day eligible introductory offer, regional prices and offering; agree restore/transfer policy and restrict sandbox access.
+- [ ] Configure native **public** SDK keys for the next build; keep server secret/webhook authorization out of Git. Entitlement: `grace_gather_pro`.
+- [x] Applied `20261126102547_pro_membership_allowances.sql`, `20261126113552_pro_allowance_cache_cleanup.sql` and `20261126122628_pro_membership_invoker_wrapper.sql` to production on 26 November 2026. Deployed `membership-sync`, `revenuecat-webhook`, `llm-journey` and `bible-study`. Verified enforcement remains **false**. Payment secrets/products remain unconfigured; no billing activation.
+- [ ] Validate the authenticated RevenueCat webhook and server lookups: purchase, restore, cancellation, expiry, refund, grace, renewal, transfer and repeated/out-of-order notices.
+- [ ] Test next TestFlight build with free/Pro/admin accounts, quota expiry/reset, two devices, both store prices, trial eligibility and failed replies. Include subscriptions in Apple review.
+- [x] Prepared four-language subscription/privacy wording and hourly cleanup migration in the draft PR; not deployed. Journal response copies expire at the next UTC day; study copies at the next UTC calendar month. Current-period records stay intact so cleanup cannot replenish allowances.
+- [x] On 26 November verified `grace-pro-cache-cleanup` is active on `7 * * * *`, pg_cron is installed, and manually executed cleanup successfully (0 expired records in the new cache). Anonymous membership lookup and client entitlement grants/cleanup are denied. The public membership wrapper uses invoker rights; the implementation is private and checks the caller. No new security WARN beyond the pre-deployment baseline remains.
+- [ ] Check the first scheduled cleanup execution in `cron.job_run_details` after the hourly run. Review public policy links with the eventual real payment configuration.
+- [ ] Only after the approved new version and purchases are available: explicitly activate the rollout, verify upgrade succeeds, and monitor costs. Nothing in this draft performs that switch.
+
+
+**Launch interlock (Taya review feedback):** `EXPO_PUBLIC_PRO_BILLING_ENABLED` defaults to false in web and native builds. While false, Pro navigation does not call the new membership RPC or block people if the migration is absent; checkout and Restore are hidden. This is a deliberate pre-launch mode, not an outage fallback. When built with that flag true, the app also honours the server `enforced=false` switch. Once enforcement is true, unknown membership fails closed. Server access checks remain authoritative regardless of a modified client's build flag. Enable the app flag only for the payment-ready build; enable server enforcement only after that version is approved and purchases work. Both switches remain off in this deployment.

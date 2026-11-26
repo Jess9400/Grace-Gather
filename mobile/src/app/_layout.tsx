@@ -1,3 +1,4 @@
+import ProPaywall from "../components/ProPaywall";
 import JournalCleanupNotice from "../components/JournalCleanupNotice";
 import { ActivityIndicator, View } from "react-native";
 import BrandMark from "../components/BrandMark";
@@ -132,6 +133,7 @@ function Routes() {
       <JournalCleanupNotice compact />
       <ActiveRoomBar />
       <ModeratorPushListener />
+      <ProPaywall />
       {signedIn && hasCompletedOnboarding(profile) && <AppRatingListener />}
       <IntroHandoff />
     </>

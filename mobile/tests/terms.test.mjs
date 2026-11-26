@@ -60,7 +60,41 @@ test("the church opens only after the Terms of Use are agreed", () => {
     layout.indexOf('name="terms"') < layout.indexOf("<Stack.Protected"),
   );
   const onboarding = read("src/app/onboarding.tsx");
-  assert.match(onboarding, /<TermsAgreementNotice language=\{p.language\} action="continue"/);
-  assert.match(onboarding, /onPress=\{\(\) => \{ update\(\{ termsVersion: TERMS_VERSION \}\); setStep\(1\); \}\}/);
+  assert.match(
+    onboarding,
+    /<TermsAgreementNotice language=\{p.language\} action="continue"/,
+  );
+  assert.match(
+    onboarding,
+    /onPress=\{\(\) => \{ update\(\{ termsVersion: TERMS_VERSION \}\); setStep\(1\); \}\}/,
+  );
   assert.match(onboarding, /termsVersion: TERMS_VERSION,/);
+});
+
+test("public subscription terms match the in-app terms in every language", () => {
+  const html = read("public/terms.html");
+  const escape = (value) =>
+    value.replace(
+      /[&<>"']/g,
+      (c) =>
+        ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;",
+        })[c],
+    );
+  const content = termsSections();
+  for (const language of ["en", "pt", "es", "ru"]) {
+    const [heading, body] = content[language][0];
+    assert.ok(
+      html.includes(`<h2>${escape(heading)}</h2><p>${escape(body)}</p>`),
+      language,
+    );
+    assert.match(body, /00/);
+    assert.match(body, /Apple/);
+  }
+  assert.match(content.en[0][1], /does not cancel an App Store subscription/);
+  assert.match(content.en[0][1], /without first cancelling/);
 });

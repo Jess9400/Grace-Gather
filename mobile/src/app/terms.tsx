@@ -21,7 +21,7 @@ export default function Terms() {
   return (
     <Screen back>
       <Heading>{(termsCopy[language] ?? termsCopy.en).title}</Heading>
-      <Body small>Grace & Gather · 16 November 2026</Body>
+      <Body small>Grace & Gather · 26 November 2026</Body>
       {(terms[language] ?? terms.en).map(([heading, body]) => (
         <Card key={heading}>
           <Subheading>{heading}</Subheading>
