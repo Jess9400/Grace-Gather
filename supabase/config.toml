@@ -43,3 +43,8 @@ verify_jwt = false
 # A dedicated secret authenticates scheduled requests inside the handler.
 [functions.moderation-recheck]
 verify_jwt = false
+
+[functions.membership-sync]
+verify_jwt = false
+[functions.revenuecat-webhook]
+verify_jwt = false

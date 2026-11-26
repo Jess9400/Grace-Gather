@@ -1,3 +1,4 @@
+import { upgradeForError } from "../lib/membership";
 import { useRef, useState } from "react";
 import {
   View,
@@ -150,6 +151,7 @@ export default function JournalConversation({
       ]);
       setScrollKey(`reply-${history.at(-1)!.id}`);
     } catch (error) {
+      if (upgradeForError(error)) return;
       setNeedsSignIn(
         error instanceof Error && error.message.startsWith("Sign in"),
       );

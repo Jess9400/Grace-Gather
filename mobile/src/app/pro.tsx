@@ -1,3 +1,4 @@
+import { requireProAction } from "../lib/membership";
 import {
   StudyAction as Button,
   StudyLink,
@@ -20,7 +21,7 @@ import {
   ActivityIndicator,
   type ScrollViewInstance,
 } from "react-native";
-import { router, useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams, useFocusEffect } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import {
   Screen,
@@ -177,6 +178,7 @@ function ScriptureText({
 }
 export default function StudyWorkspace() {
   const { profile } = useApp();
+  useFocusEffect(useCallback(() => { void requireProAction(() => {}); }, []));
   const params = useLocalSearchParams<{
     verse?: string;
     tab?: string;
@@ -198,7 +200,7 @@ export default function StudyWorkspace() {
   useEffect(() => {
     let live = true;
     void Promise.resolve().then(() => {
-      if (live && params.together) setTogether({ plan: null });
+      if (live && params.together) void requireProAction(() => { if(live) setTogether({ plan: null }); });
     });
     return () => {
       live = false;
@@ -493,7 +495,8 @@ export default function StudyWorkspace() {
         : [planPassage(index, day, collection ?? "")!];
     void loadReading(passages);
   };
-  const openPlan = (index: number) => {
+  const openPlan = (index: number) => { void requireProAction(() => openPlanUnlocked(index)); };
+  const openPlanUnlocked = (index: number) => {
     setWords(false);
     setOriginal(false);
 
@@ -508,7 +511,8 @@ export default function StudyWorkspace() {
     } else setReading([]);
   };
   // The current plan opens straight on today's reading.
-  const openPlanReading = (index: number) => {
+  const openPlanReading = (index: number) => { void requireProAction(() => openPlanReadingUnlocked(index)); };
+  const openPlanReadingUnlocked = (index: number) => {
     if (planDone(index)) return openPlan(index);
     setWords(false);
     setOriginal(false);
@@ -519,7 +523,8 @@ export default function StudyWorkspace() {
     setDetail(index);
     readPlanDay(index);
   };
-  const openDevotional = (
+  const openDevotional = (asPlan = false, previewIndex: number | null = null, startStep = 0) => { void requireProAction(() => openDevotionalUnlocked(asPlan, previewIndex, startStep)); };
+  const openDevotionalUnlocked = (
     asPlan = false,
     previewIndex: number | null = null,
     startStep = 0,
@@ -844,7 +849,7 @@ export default function StudyWorkspace() {
             <StudyLink
               title={n.readingTogether}
               icon="people-outline"
-              onPress={() => setTogether({ plan: null })}
+              onPress={() => { void requireProAction(() => setTogether({ plan: null })); }}
             />
           </View>
         </>
@@ -985,7 +990,7 @@ export default function StudyWorkspace() {
                 key={item.title}
                 accessibilityRole="button"
                 disabled={item.needsVerse && !selectedVerse}
-                onPress={item.onPress}
+                onPress={() => { void requireProAction(item.onPress); }}
                 style={({ pressed }) => [
                   s.toolTile,
                   pressed && s.pressed,

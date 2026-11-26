@@ -1,3 +1,4 @@
+import { requireProAction } from "../lib/membership";
 import { StudyAction as Button } from "./StudyControls";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, TextInput, View, StyleSheet } from "react-native";
@@ -63,6 +64,7 @@ function NoteEditor({
     };
   }, [verse, kind, contextId, attempt, c.loadError]);
   async function save(remove = false) {
+    if (!remove && !(await requireProAction(() => {}))) return;
     if (busy) return;
     setBusy(true);
     setError("");
@@ -95,6 +97,7 @@ function NoteEditor({
         {ready && (
           <>
             <TextInput
+              onFocus={() => { void requireProAction(() => {}); }}
               multiline
               editable={!busy}
               textAlignVertical="top"

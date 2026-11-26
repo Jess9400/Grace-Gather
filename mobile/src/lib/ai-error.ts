@@ -5,6 +5,7 @@ export async function aiRequestError(error: unknown): Promise<Error> {
   if (error instanceof FunctionsHttpError) {
     try {
       const body = await error.context.json();
+      if (["pro_required", "journal_entry_limit", "journal_followup_limit", "study_monthly_limit", "request_pending"].includes(body?.error)) return Error(body.error);
       if (body?.error === "rate_limited") return Error("rate_limited");
       if (body?.error === "provider_busy") return Error("provider_busy");
       if (body?.error === "unauthorized") return Error("Sign in to continue");

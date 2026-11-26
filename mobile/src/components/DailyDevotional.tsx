@@ -1,3 +1,4 @@
+import { requireProAction } from "../lib/membership";
 import { useEffect, useState, type Dispatch, type SetStateAction } from "react";
 import {
   View,
@@ -128,7 +129,8 @@ export default function DailyDevotional({
     setHistory((old) => [...old.filter((r) => r.id !== entry.id), row]);
     return row;
   };
-  const open = (entry: Devotional, startStep = 0) => {
+  const open = (entry: Devotional, startStep = 0) => { void requireProAction(() => openUnlocked(entry, startStep)); };
+  const openUnlocked = (entry: Devotional, startStep = 0) => {
     if (entry.id !== item?.id) {
       setVerse(null);
       setVerseError(false);

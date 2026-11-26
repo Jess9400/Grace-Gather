@@ -5,13 +5,14 @@ import { validateSuggestion } from "./llm-contract";
 import { AI_CONSENT_VERSION } from "./ai-copy";
 import { aiRequestError } from "./ai-error";
 import { availableJournalAction } from "./journal-gathering";
-export async function suggestJourney(text: string, preferences: Profile) {
+export async function suggestJourney(text: string, preferences: Profile, entryId?: string) {
   if (preferences.journalAIConsentVersion !== AI_CONSENT_VERSION)
     throw Error("consent_required");
   const { client } = await requireUser();
   const { data, error } = await client.functions.invoke("llm-journey", {
     body: {
       text,
+      entryId,
       supportsConnectedActions: true,
       preferences: {
         language: preferences.language,
@@ -47,6 +48,8 @@ export async function continueJournal(
   const { data, error } = await client.functions.invoke("llm-journey", {
     body: {
       mode: "conversation",
+      entryId: entry.id,
+      messageId: messages.at(-1)?.id,
       supportsGatheringAction: true,
       includeActionTheme: true,
       includeActionExplanation: true,
