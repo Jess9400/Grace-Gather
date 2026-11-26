@@ -16,7 +16,7 @@
 
 Private writing/saving remains available when personalized guidance runs out. No draft is deleted; crisis support bypasses billing. `private.staff.role='admin'` is the only staff exemption; normal moderators do not inherit it. Client profile/JWT user metadata never grant membership.
 
-Daily counters reset at **00:00 UTC**; study at **00:00 UTC on the first of each calendar month**, not subscription billing anniversary. The app shows the exact next reset in the reader's local date/time and language. Clock/language changes, reinstalls and switching entries cannot reset usage. Close × leaves Pro browsable; clicking a protected tool prompts again. Public discussion creation stays free. Existing notes remain readable/deletable after expiry.
+Daily counters reset at the member's **local midnight**; study at **local midnight on the first of each calendar month**, not subscription billing anniversary. The time zone comes from the member's device; a change takes effect at most once every 20 hours, so moving the clock cannot open extra allowances (owner decision, 26 Nov 2026). The app shows the exact next reset in the reader's local date/time and language. Clock/language changes, reinstalls and switching entries cannot reset usage. Close × leaves Pro browsable; clicking a protected tool prompts again. Public discussion creation stays free. Existing notes remain readable/deletable after expiry.
 
 ## Pricing — agreed 26 November 2026
 

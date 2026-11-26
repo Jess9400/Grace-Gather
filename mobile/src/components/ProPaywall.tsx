@@ -28,6 +28,7 @@ import {
   membershipStatus,
   proBillingUIEnabled,
   subscribeMembershipAccount,
+  syncTimeZone,
   type Membership,
 } from "../lib/membership";
 import {
@@ -89,16 +90,20 @@ export default function ProPaywall() {
     };
   }, [reason, load]);
   useEffect(() => {
+    // The server counts daily allowances in the member's own time zone.
+    void syncTimeZone().catch(() => {});
     const sub = subscribeMembershipAccount(() => {
       sequence.current++;
       setMember(null);
       setPlans([]);
       closeUpgrade();
+      void syncTimeZone().catch(() => {});
     });
     return () => sub?.unsubscribe();
   }, []);
   useEffect(() => {
     const sub = AppState.addEventListener("change", (state) => {
+      if (state === "active") void syncTimeZone().catch(() => {});
       if (state === "active" && reason) void load();
     });
     return () => sub.remove();

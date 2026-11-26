@@ -16,9 +16,18 @@ export async function refreshPaidMembership(
     data.verifiedAt &&
     Date.now() - Date.parse(data.verifiedAt) > 300000
   ) {
-    await syncMembership(service, user);
+    try {
+      await syncMembership(service, user);
+    } catch (error) {
+      // If the store can't be reached right now, keep the last verified
+      // answer: it still expires on its own paid-through date.
+      console.warn("membership_refresh_failed", {
+        code: error instanceof Error ? error.message : "unknown",
+      });
+      return data;
+    }
     const next = await client.rpc("membership_status");
-    if (next.error || !next.data) throw Error("service_not_configured");
+    if (next.error || !next.data) return data;
     return next.data;
   }
   return data;
