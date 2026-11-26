@@ -25,6 +25,10 @@ Daily counters reset at **00:00 UTC**; study at **00:00 UTC on the first of each
 | Outside Brazil | US$5 | US$48 (20% less than 12 monthly payments) | 3 days, store-eligible new subscribers |
 | Brazil | BRL equivalent of **US$2** | **Proposed for review**, not yet confirmed: BRL equivalent of US$19.20 if applying the same discount | Same |
 
+**Brazil has both monthly and annual options in this proposal.** Annual target: US$2 × 12 × 80% = **US$19.20/year equivalent in BRL**, billed once per year (US$1.60/month equivalent). The exact BRL price point and this proposed annual price remain for Jessica/Taya's review. It is not US$19.20 charged in dollars to a Brazilian storefront.
+
+The annual option will use `gracegather_pro_yearly` with a Brazil-specific App Store price and the RevenueCat annual package. A separate Brazil-only product is not required in this design. Before release, check that the current offering returns **both** monthly and annual packages for a Brazilian storefront; then verify localized BRL amounts and the annual billing period on a real store test. The UI already supports ANNUAL packages, but no store prices appear until the real Apple/RevenueCat configuration is finished. Do not insert a guessed BRL amount into the live paywall.
+
 Apple price points/taxes/exchange rates require choosing actual regional prices in App Store Connect. Brazil is determined by the **storefront**, not Portuguese or a profile country. Paywall price/currency and renewal period come from the store; trial copy appears only for a returned three-day offer and eligible buyer. Include restore, terms/privacy, auto-renewal/cancellation and subscription management. No card collection in this app.
 
 ## Public cost inputs, not measured invoices
