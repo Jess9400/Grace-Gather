@@ -21,7 +21,7 @@ const rows = {
       "Only your own note will be copied to a draft. Review it before posting; private replies stay here.",
     shared: "Shared notes",
     share: "Share with reading partner",
-    noShared: "No shared notes yet. Save a plan note, then choose to share it.",
+    noShared: "No shared notes yet.",
     private: "Your note stays private until you share it.",
     invitation: "Reading together",
     inviteNotice: "You have a reading-plan invitation or update.",
@@ -54,8 +54,7 @@ const rows = {
       "Apenas sua anotação será copiada para um rascunho. Revise antes de publicar; as respostas privadas ficam aqui.",
     shared: "Anotações compartilhadas",
     share: "Compartilhar com quem lê comigo",
-    noShared:
-      "Nenhuma anotação compartilhada ainda. Salve uma anotação do plano e escolha compartilhar.",
+    noShared: "Ainda não há anotações compartilhadas.",
     private: "Sua anotação é privada até você compartilhá-la.",
     invitation: "Ler juntos",
     inviteNotice:
@@ -90,8 +89,7 @@ const rows = {
       "Solo tu nota se copiará a un borrador. Revísala antes de publicar; las respuestas privadas quedan aquí.",
     shared: "Notas compartidas",
     share: "Compartir con mi compañero de lectura",
-    noShared:
-      "Aún no hay notas compartidas. Guarda una nota del plan y elige compartirla.",
+    noShared: "Aún no hay notas compartidas.",
     private: "Tu nota es privada hasta que la compartas.",
     invitation: "Leer juntos",
     inviteNotice: "Tienes una invitación o novedad de un plan de lectura.",
@@ -124,8 +122,7 @@ const rows = {
       "В черновик попадёт только ваша заметка. Проверьте её перед публикацией; личные ответы останутся здесь.",
     shared: "Общие заметки",
     share: "Поделиться с партнёром по чтению",
-    noShared:
-      "Общих заметок пока нет. Сохраните заметку плана и выберите, чем поделиться.",
+    noShared: "Пока нет общих заметок.",
     private: "Заметка остаётся личной, пока вы не поделитесь ею.",
     invitation: "Читать вместе",
     inviteNotice: "Приглашение или обновление совместного плана чтения.",

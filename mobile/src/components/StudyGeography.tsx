@@ -9,28 +9,28 @@ import type { Language } from "../lib/content";
 const labels = {
   en: [
     "Historical & social setting",
-    "Explore the 3D map",
+    "Explore the map",
     "Sources & notes",
     "Book background, not a reconstruction of every verse.",
     "What do work, family ties, power or access to resources change in this scene?",
   ],
   pt: [
     "Contexto histórico e social",
-    "Explorar o mapa 3D",
+    "Explorar o mapa",
     "Fontes e notas",
     "Contexto do livro, não uma reconstrução de cada versículo.",
     "Como trabalho, vínculos familiares, poder ou acesso a recursos influenciam esta cena?",
   ],
   es: [
     "Contexto histórico y social",
-    "Explorar el mapa 3D",
+    "Explorar el mapa",
     "Fuentes y notas",
     "Contexto del libro, no una reconstrucción de cada versículo.",
     "¿Cómo influyen el trabajo, los vínculos familiares, el poder o el acceso a recursos en esta escena?",
   ],
   ru: [
     "Исторический и социальный мир",
-    "Открыть 3D-карту",
+    "Открыть карту",
     "Источники и примечания",
     "Фон книги, а не реконструкция каждого стиха.",
     "Как труд, семейные связи, власть или доступ к ресурсам влияют на эту сцену?",
@@ -101,8 +101,7 @@ export default function StudyGeography({
             <External key={row.source} title={row.title[i]} url={row.source} />
           ))}
           <Body small>
-            Map data: OpenBible.info / OpenStreetMap · Terrain Tiles / Mapzen ·
-            USGS / NOAA / Copernicus · Natural Earth. Original editorial
+            Map data: Natural Earth · OpenBible.info. Original editorial
             summaries, separate from Scripture.
           </Body>
         </>

@@ -4,7 +4,7 @@ Implementation based on main including Taya's #254 design. No subscription enfor
 
 ## Actual readiness
 
-The reader, dictionary/concordance, dated calendar, private history and review gate are implemented. The calendar has 365 distinct date/ID slots beginning 25 November 2026 and never wraps. **31 original devotionals are drafted in English, Brazilian Portuguese, Spanish and Russian; the remaining 334 have not been written. No devotional batch is approved. This is a draft PR, not a finished 365-day library.**
+The reader, dictionary/concordance, dated calendar, private history and review gate are implemented. The calendar has 365 distinct date/ID slots beginning 25 November 2026 and never wraps. **31 original devotionals in English, Brazilian Portuguese, Spanish and Russian are approved for publication. Jessica confirmed on 26 November 2026 that she and Taya approved the exact first batch; its review file records that confirmation and manuscript hash. The remaining 334 have not been written. This is not a finished 365-day library.**
 
 A user who finishes today's reading sees its completed state; re-entering does not manufacture a different devotional or erase it. The library is browsable by month with pagination. Future daily content is not shown to ordinary readers. If publication falls behind, an honest unavailable message and the existing library replace recycled content.
 
@@ -30,7 +30,7 @@ No recurring automation, paid content generation, or unreviewed daily AI publish
 - Tap a word for source transliteration, dictionary lemma, brief English meaning and source morphology with localized descriptions of recognized grammar codes. This is a written pronunciation guide, not recorded speech.
 - Concordance uses lexical IDs, preserving disambiguated senses; results are paginated and lead back to the source passage. Generic base Strong's IDs can also aggregate senses.
 - Parallel reading uses explicit edition labels. Marked differences in source verse divisions prevent an asserted exact pairing. Where an automatic mapping is unavailable, the reader can independently choose the source passage. Russian pairing remains limited by the existing verified mapping, not guessed from an identical number.
-- Existing professional and clearly labelled community reference notes remain available in Context, respecting source coverage and language fallback. Geography opens the bundled in-app terrain atlas described below; source and license links remain in footnotes.
+- Existing professional and clearly labelled community reference notes remain available in Context, respecting source coverage and language fallback. Geography opens the bundled in-app image atlas described below; source and license links remain in footnotes.
 - Removed the generic Christian perspectives tile after feedback: it repeated the same information for every passage. The existing passage-specific Theology tool remains. Full multilingual theological coverage still needs licensed/reviewed sources.
 - Sources remain expandable footnotes.
 
@@ -61,12 +61,18 @@ Today retains and shows all started, unfinished plans, not just the most recentl
 
 Context now provides sourced original summaries in English, Portuguese, Spanish and Russian about households, rural work and inequality, Roman power, kingdoms, exile, Persia and Egypt. Settings are book-level (with the Isaiah chapter split), not a claim of verse-by-verse sociological reconstruction. Unknown settings are not assigned an invented date.
 
-The in-app atlas bundles three 49 × 49 elevation grids (Levant, Near East and Mediterranean) plus 7,902 location candidates from 61 books. This is modern terrain with ancient-place references, not reconstructed ancient borders, coastlines or routes. Relief is exaggerated 12×; disputed identifications retain alternative source labels. Rotate, zoom, tilt and select a place without leaving the app. Draws happen only when opened or adjusted; no continuous animation or map subscription. WebGL resources are released on close.
+The in-app atlas uses bundled, labelled 2D PNG maps of Galilee/Judea, the ancient Near East and the Mediterranean, with separate English, Portuguese, Spanish and Russian images. These regional reference maps show ancient place names on a present-day physical base, not reconstructed ancient borders, coastlines or routes. An Enlarge / Fit control allows scrolling the larger image without leaving the app. Source/license links remain in an expandable footnote. No WebGL context, map API key, subscription, animation or runtime tile download is needed.
 
-Data attribution: OpenBible.info geography (CC BY 4.0), some coordinates © OpenStreetMap contributors (ODbL); Natural Earth land mask (public domain); Terrain Tiles / Mapzen with USGS SRTM/GMTED2010, NOAA ETOPO1 and EU Copernicus EU-DEM. Importer, transformed data and source/license URLs are committed. All attribution and license links are in an expandable map footnote. The source place names remain English.
+Data attribution: Natural Earth 1:10m land, lakes and named rivers (public domain), OpenBible.info ancient-place coordinates (CC BY 4.0; some coordinates © OpenStreetMap contributors, ODbL). Capernaum uses the Tell Hum candidate. The renderer script and 12 localized images are committed. The maps are intentionally regional, not verse-specific reconstructions.
 
-Fixed browser loading failure: Expo GL recreated the context when a newly allocated context-attributes object arrived on a rerender, then the viewer released that same context. Stable attributes and a same-context guard prevent this. Regression tests cover grid validity, finite place projections, setting selection and this lifecycle guard; signed-in browser checks cover rendering and controls. Native device validation remains for the next TestFlight build.
+The earlier 3D viewer was removed at Jessica’s request because its terrain was hard to recognize. Replaced tests check PNG integrity, image dimensions/size, four-language availability and the absence of a graphics-context dependency. Signed-in browser checks cover images, enlargement, region changes and reopening. Native image scrolling remains a next-TestFlight check.
 
 The label is now “Parallel reading” in all four languages. No new pricing or journal limits are introduced.
 
 Notification read-only check: Taya had two unread pending invitations, but zero registered phone devices. In-app notices exist; iPhone delivery cannot be confirmed until she enables notifications on her signed-in iPhone. No unsolicited test invitation was sent.
+
+## Plan and daily-card polish — 26 November 2026
+
+Started plans reopen at their current reading rather than showing the introduction again. Started status uses all tracked plans and completed days, not just the last active plan. The reading footer always marks the displayed day, with completed plans showing their completion state. Repeated sharing instructions and the persistent account-saving caption were removed from the reading footer; Shared notes expands when needed.
+
+Approved devotionals switch at the reader’s local midnight (including local calendar/DST boundaries), and refresh on return from background. A gap retains the latest approved dated entry, with its actual publication date visible, rather than showing an empty placeholder or relabelling it as new. The first 31 dates are 25 November–25 December 2026. The next batch is required for a new daily reflection after that; retaining the latest is resilience, not a claim of 365 finished entries.

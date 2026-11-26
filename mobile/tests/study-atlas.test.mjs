@@ -15,25 +15,14 @@ function load(url) {
   return module.exports;
 }
 const root = new URL('../src/lib/', import.meta.url);
-const atlas = load(new URL('study-atlas.ts', root));
 const context = load(new URL('study-context.ts', root));
-test('bundled atlas grids contain finite elevation and matching land masks', async () => {
-  for (const region of ['levant','east','mediterranean']) {
-    const t = await atlas.loadTerrain(region);
-    assert.equal(t.heights.length, t.size * t.size);
-    assert.equal(t.land.length, t.heights.length);
-    assert.ok(t.heights.every(Number.isFinite));
-    assert.ok(t.land.every(v => v === 0 || v === 1));
-    assert.ok(t.heights.some(v => v > 1000));
-    const places = await atlas.loadAtlasPlaces('MRK', t);
-    assert.ok(places.length > 0);
-    for (const p of places) {
-      assert.ok(p.lon >= t.bounds[0] && p.lon <= t.bounds[2]);
-      assert.ok(p.lat >= t.bounds[1] && p.lat <= t.bounds[3]);
-      const projection = atlas.atlasPlaceProjection(t, p, 2, {yaw:.3,zoom:1.5,tilt:.3});
-      assert.ok(projection && Number.isFinite(projection.x) && Number.isFinite(projection.y));
-    }
-    assert.ok(places.some(p => p.uncertain));
+test('all regions bundle localized, reasonably sized map images', () => {
+  for (const region of ['levant','east','mediterranean']) for (const language of ['en','pt','es','ru']) {
+    const bytes=readFileSync(new URL(`../assets/study-maps/${region}-${language}.png`,import.meta.url));
+    assert.equal(bytes.toString('hex',0,8),'89504e470d0a1a0a');
+    assert.equal(bytes.readUInt32BE(16),region==='levant'?1050:1500);
+    assert.equal(bytes.readUInt32BE(20),region==='levant'?1200:1100);
+    assert.ok(bytes.length<250000,'maps remain small enough to bundle');
   }
 });
 test('context selects narrative settings without claiming a date for unknown books', () => {
@@ -44,8 +33,10 @@ test('context selects narrative settings without claiming a date for unknown boo
   assert.ok(context.historicalContext('web:EXO.1.1').period[0].includes('disputed'));
   assert.equal(context.historicalContext('web:GEN.1.1').modules.length,0);
 });
-test('web context attributes stay stable across camera and layout updates', () => {
-  const source = readFileSync(new URL('../src/components/BibleAtlas.tsx',import.meta.url),'utf8');
-  assert.match(source,/webglContextAttributes: WEB_CONTEXT_ATTRIBUTES/);
-  assert.match(source,/if \(ctx.current !== gl\) releaseContext\(ctx.current\)/);
+test('the in-app map viewer uses bundled images without a graphics context or tile service', () => {
+  const source=readFileSync(new URL('../src/components/BibleAtlas.tsx',import.meta.url),'utf8');
+  assert.doesNotMatch(source,/expo-gl|GLView|WebGL|createAtlasRenderer/);
+  assert.match(source,/source=\{atlasImages\[region\]\[language\]\}/);
+  const images=readFileSync(new URL('../src/lib/study-atlas.ts',import.meta.url),'utf8');
+  assert.equal((images.match(/require\(/g)||[]).length,12);
 });

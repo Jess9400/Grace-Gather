@@ -32,6 +32,7 @@ import {
 } from "../components/quiet-ui";
 import StepBibleSearch from "../components/StepBibleSearch";
 import DailyDevotional from "../components/DailyDevotional";
+import { useLocalDay } from "../lib/use-local-day";
 import {
   devotionalForDate,
   localDevotionalDate,
@@ -44,6 +45,7 @@ import { useApp } from "../lib/state";
 import { useReducedMotion } from "../lib/use-reduced-motion";
 import * as storage from "../lib/storage";
 import {
+  hasStartedPlan,
   planPassage,
   normalizePlanProgress,
   readingPlanLength,
@@ -313,16 +315,7 @@ export default function StudyWorkspace() {
   const invalidateReadings = useCallback(() => {
     readSequence.current++;
   }, []);
-  const [date, setDate] = useState(() => new Date());
-  useEffect(() => {
-    const midnight = new Date();
-    midnight.setHours(24, 0, 0, 0);
-    const timer = setTimeout(
-      () => setDate(new Date()),
-      Math.max(1000, midnight.getTime() - Date.now()),
-    );
-    return () => clearTimeout(timer);
-  }, [date]);
+  const date = useLocalDay();
   const dailyIndex = 0; // Only the explicitly chosen seven-day course uses this index.
   const devotionalIndex = devotionalPlanMode
     ? Math.min(progress.devotionalDay ?? 0, 6)
@@ -506,9 +499,13 @@ export default function StudyWorkspace() {
 
     setDevotional(false);
     setFinished(null);
-    setPlanIntro(true);
+    const started = hasStartedPlan(progress, index);
+    setPlanIntro(!started);
     setDetail(index);
-    setReading([]);
+    if (started) {
+      if (planDone(index)) setFinished(readingPlanLength(index));
+      else readPlanDay(index);
+    } else setReading([]);
   };
   // The current plan opens straight on today's reading.
   const openPlanReading = (index: number) => {
@@ -1224,9 +1221,7 @@ export default function StudyWorkspace() {
                   <Button
                     wide
                     title={
-                      (progress.started ?? []).includes(detail)
-                        ? c.continue
-                        : c.start
+                      hasStartedPlan(progress, detail) ? c.continue : c.start
                     }
                     disabled={!owner || saving || !progressReady || !collection}
                     loading={saving}
@@ -1305,7 +1300,6 @@ export default function StudyWorkspace() {
                         reference={passageLabel(reading, readingPassages)}
                         language={profile.language}
                       />
-                      <Body small>{c.localProgress}</Body>
                     </>
                   )}
                   {progressError && (
@@ -1381,11 +1375,9 @@ export default function StudyWorkspace() {
                   <Button
                     wide
                     title={
-                      progress.active !== detail
-                        ? c.start
-                        : planDone(detail)
-                          ? c.completePlan
-                          : c.markDay.replace("{day}", String(planDay(detail)))
+                      planDone(detail)
+                        ? c.completePlan
+                        : c.markDay.replace("{day}", String(planDay(detail)))
                     }
                     loading={saving}
                     disabled={

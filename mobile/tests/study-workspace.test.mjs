@@ -126,3 +126,11 @@ test('multiple plans survive older saves and device sync without replacing each 
  assert.deepEqual(Array.from(merged.started),[0,1,2]);
  assert.equal(merged.days[0],1);assert.equal(merged.days[2],1);
 });
+test('returning to any started plan resumes it even when another plan is active',()=>{
+ const {hasStartedPlan}=client('reading-plans.ts');
+ const progress={active:1,started:[0,1],days:{0:0,1:2},devotionalDay:null};
+ assert.equal(hasStartedPlan(progress,0),true);
+ assert.equal(hasStartedPlan(progress,1),true);
+ assert.equal(hasStartedPlan(progress,2),false);
+ assert.equal(hasStartedPlan({...progress,started:[],days:{0:3}},0),true);
+});

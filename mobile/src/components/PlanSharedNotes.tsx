@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
-import { View } from "react-native";
-import { Body } from "./quiet-ui";
+import { View, Pressable, Text } from "react-native";
+import { Body, colors } from "./quiet-ui";
 import { StudyAction } from "./StudyControls";
 import SharedNoteThread from "./SharedNoteThread";
 import {
@@ -32,7 +32,8 @@ export default function PlanSharedNotes({
     ),
     [busy, setBusy] = useState(false),
     [error, setError] = useState(false),
-    [saved, setSaved] = useState(false);
+    [saved, setSaved] = useState(false),
+    [expanded, setExpanded] = useState(false);
   const load = useCallback(async () => {
     const accepted = (await studyNotebook<PlanInvite[]>("invitations")).filter(
       (i) => i.plan === plan && i.status === "accepted",
@@ -74,40 +75,59 @@ export default function PlanSharedNotes({
   }
   return (
     <View style={{ gap: 14 }}>
-      <Body>{c.shared}</Body>
-      {onManage && (
-        <StudyAction secondary title={c.invitation} onPress={onManage} />
-      )}
-      <Body small>
-        {reference} · {c.private}
-      </Body>
-      <Body small>{c.saveFirst}</Body>
-      {!notes.length && <Body small>{c.noShared}</Body>}
-      {invites.map((i) => (
-        <StudyAction
-          key={i.id}
-          secondary
-          title={`${c.share} · ${i.name}`}
-          loading={busy}
-          onPress={() => void share(i)}
-        />
-      ))}
-      {saved && <Body small>{c.saved}</Body>}
-      {error && <Body small>{c.error}</Body>}
-      {notes.map((n) => (
-        <View key={n.id} style={{ gap: 10, paddingVertical: 14 }}>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityState={{ expanded }}
+        onPress={() => setExpanded(!expanded)}
+        style={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          paddingVertical: 12,
+        }}
+      >
+        <Text style={{ color: colors.goldInk, fontWeight: "600" }}>
+          {c.shared}
+          {notes.length ? ` · ${notes.length}` : ""}
+        </Text>
+        <Text style={{ color: colors.muted }}>{expanded ? "⌃" : "⌄"}</Text>
+      </Pressable>
+      {expanded && (
+        <>
+          {onManage && (
+            <StudyAction secondary title={c.invitation} onPress={onManage} />
+          )}
           <Body small>
-            {n.reference} · {n.name}
+            {reference} · {c.private}
           </Body>
-          <Body>{n.body}</Body>
-          <SharedNoteThread
-            note={n}
-            invitation={n.invitation}
-            language={language}
-            onPublic={onPublic}
-          />
-        </View>
-      ))}
+          {!notes.length && <Body small>{c.noShared}</Body>}
+          {invites.map((i) => (
+            <StudyAction
+              key={i.id}
+              secondary
+              title={`${c.share} · ${i.name}`}
+              loading={busy}
+              onPress={() => void share(i)}
+            />
+          ))}
+          {saved && <Body small>{c.saved}</Body>}
+          {error && <Body small>{c.error}</Body>}
+          {notes.map((n) => (
+            <View key={n.id} style={{ gap: 10, paddingVertical: 14 }}>
+              <Body small>
+                {n.reference} · {n.name}
+              </Body>
+              <Body>{n.body}</Body>
+              <SharedNoteThread
+                note={n}
+                invitation={n.invitation}
+                language={language}
+                onPublic={onPublic}
+              />
+            </View>
+          ))}
+        </>
+      )}
     </View>
   );
 }

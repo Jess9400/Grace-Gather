@@ -12,3 +12,17 @@ test('original reader has all 39 Hebrew/Aramaic OT books and 27 Greek NT books',
 test('every concordance hit resolves to a verse containing that lexical ID',()=>{for(const file of ['G30','H04','H79']){const shard=json(`public/study-original/v1/concordance/${file}.json`);for(const [id,refs]of Object.entries(shard)){assert.equal(refs.length,new Set(refs).size);for(const ref of refs.slice(0,20)){const[b,c,v]=ref.split('.');const words=json(`public/study-original/v1/chapters/${b}/${c}.json`)[v];assert.ok(words.some(word=>word[2].some(s=>s===id||s.slice(0,5)===id)),ref+' '+id);}}}});
 test('readable grammar does not translate a Hebrew stem into a Greek tense',()=>{const module={exports:{}};runInNewContext(ts.transpileModule(readFileSync(new URL('../src/lib/original-grammar.ts',import.meta.url),'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS}}).outputText,{module,exports:module.exports});const grammar=module.exports.grammarDescription;assert.match(grammar('N-NSM','en'),/noun.*nominative.*singular.*masculine/);assert.match(grammar('HNcmpa','pt'),/substantivo.*masculino.*plural/);assert.match(grammar('V-PAI-3S','es'),/verbo.*presente.*indicativo/);});
 test('runtime calendar returns no replacement after an unpublished date or year end',()=>{const r=compile(manuscript,null,true);const module={exports:{}};const code=ts.transpileModule(readFileSync(new URL('../src/lib/devotional-calendar.ts',import.meta.url),'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS}}).outputText;runInNewContext(code,{module,exports:module.exports,require:(path)=>path.includes('catalog')?r.read('catalog'):r.read('schedule')});const f=module.exports.devotionalForDate;assert.equal(f('2026-11-25').day,1);assert.equal(f('2026-12-25').day,31);assert.equal(f('2026-12-26'),null);assert.equal(f('2027-11-25'),null);assert.notEqual(f('2026-11-25').en[1],f('2026-12-02').en[1]);});
+test('publication gaps keep the latest approved entry without exposing future or draft entries',()=>{
+ const r=compile(manuscript,approved);
+ const module={exports:{}};
+ const code=ts.transpileModule(readFileSync(new URL('../src/lib/devotional-calendar.ts',import.meta.url),'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS}}).outputText;
+ runInNewContext(code,{module,exports:module.exports,require:(path)=>path.includes('catalog')?r.read('catalog'):r.read('schedule')});
+ const f=module.exports.latestDevotionalForDate;
+ assert.equal(f('2026-11-24'),null);
+ assert.equal(f('2026-11-26').day,2);
+ assert.equal(f('2026-12-26').day,31);
+ assert.equal(f('2026-12-26').date,'2026-12-25');
+ const ms=module.exports.millisecondsUntilNextLocalDay;
+ assert.equal(ms(new Date(2026,10,26,23,59,59,750)),250);
+ assert.ok(ms(new Date(2026,10,26,0,0,0))>0);
+});

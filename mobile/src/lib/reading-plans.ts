@@ -100,6 +100,15 @@ export function normalizePlanProgress(value: unknown): PlanProgress {
   };
 }
 
+// Active tracks the last selected plan, not every plan the reader has started.
+export function hasStartedPlan(progress: PlanProgress, plan: number) {
+  return (
+    progress.active === plan ||
+    !!progress.started?.includes(plan) ||
+    (progress.days[plan] ?? 0) > 0
+  );
+}
+
 // The final library item follows the actual selected edition's canon, rather
 // than imposing the Protestant 66-book ordering on Catholic/Orthodox readers.
 export const yearPlanIndex = readingPlans.length;

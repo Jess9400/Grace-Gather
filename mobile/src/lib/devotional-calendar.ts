@@ -36,3 +36,18 @@ export function devotionalArchive(
     )
     .sort((a, b) => b.date.localeCompare(a.date));
 }
+
+export function millisecondsUntilNextLocalDay(date: Date) {
+  const next = new Date(date);
+  next.setHours(24, 0, 0, 0);
+  return Math.max(1, next.getTime() - date.getTime());
+}
+export function latestDevotionalForDate(date: string) {
+  return (
+    devotionalForDate(date) ??
+    [...devotionalCatalog]
+      .filter((entry) => entry.approved && entry.date <= date)
+      .sort((a, b) => b.date.localeCompare(a.date))[0] ??
+    null
+  );
+}

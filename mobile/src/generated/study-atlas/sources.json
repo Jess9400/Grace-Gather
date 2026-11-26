@@ -1,16 +1,17 @@
 {
-  "accessed": "2026-11-26",
-  "places": "OpenBible.info — CC BY; some coordinates © OpenStreetMap contributors — ODbL. Names, alternative identifications and modern coordinates retained. KML point features only; no verse-level location inference.",
-  "terrain": "Terrain Tiles (Mapzen) sampled and simplified from Terrarium elevation tiles; heights exaggerated in display. Global SRTM/GMTED2010 courtesy of USGS; Global ETOPO1 courtesy of NOAA; Europe terrain produced using Copernicus data and information funded by the European Union (EU-DEM).",
-  "land": "Natural Earth 1:110m land, public domain; simplified present-day coastlines, not reconstructed ancient shorelines.",
+  "format": "Bundled labelled PNG reference maps",
+  "base": "Natural Earth 1:10m land, lakes and named rivers, public domain; modern physical base, no reconstructed ancient borders or routes.",
+  "places": "Ancient names and coordinates from OpenBible.info; CC BY 4.0. Capernaum uses the Tell Hum identification. Labels are editorial translations, not source endorsements. Some source coordinates © OpenStreetMap contributors (ODbL).",
+  "languages": [
+    "en",
+    "pt",
+    "es",
+    "ru"
+  ],
   "sources": [
+    "https://www.naturalearthdata.com/about/terms-of-use/",
     "https://www.openbible.info/geo/",
     "https://creativecommons.org/licenses/by/4.0/",
-    "https://www.openstreetmap.org/copyright",
-    "https://registry.opendata.aws/terrain-tiles/",
-    "https://github.com/tilezen/joerd/blob/master/docs/attribution.md",
-    "https://www.naturalearthdata.com/about/terms-of-use/"
-  ],
-  "books": 61,
-  "points": 7902
+    "https://www.openstreetmap.org/copyright"
+  ]
 }

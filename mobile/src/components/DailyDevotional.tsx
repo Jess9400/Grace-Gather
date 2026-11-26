@@ -7,13 +7,12 @@ import {
   Pressable,
   ActivityIndicator,
   StyleSheet,
-  AppState,
 } from "react-native";
 import { Card, Body, Heading, colors, serif } from "./quiet-ui";
 import { StudyAction, StudyHeader, StudyLink } from "./StudyControls";
 import {
   devotionalCatalog,
-  devotionalForDate,
+  latestDevotionalForDate,
   devotionalArchive,
   localDevotionalDate,
   type DailyDevotional as Devotional,
@@ -32,6 +31,7 @@ import {
 } from "../lib/bible";
 import type { Language } from "../lib/content";
 import VerseNotes from "./VerseNotes";
+import { useLocalDay } from "../lib/use-local-day";
 import labels from "../lib/original-study-copy.json";
 import studyCopy from "../lib/pro-study-preview.json";
 import { useReducedMotion } from "../lib/use-reduced-motion";
@@ -49,7 +49,7 @@ export default function DailyDevotional({
 }) {
   const c = labels[language],
     study = studyCopy[language];
-  const [date, setDate] = useState(() => localDevotionalDate(new Date()));
+  const date = localDevotionalDate(useLocalDay());
   const [history, setHistory] = useState<DevotionalRead[]>([]);
   const [historyError, setHistoryError] = useState(false);
   const [selected, setSelected] = useState<Devotional | null>(null);
@@ -63,21 +63,8 @@ export default function DailyDevotional({
   const [verseError, setVerseError] = useState(false);
   const [attempt, setAttempt] = useState(0);
   const reduced = useReducedMotion();
-  const today = devotionalForDate(date);
+  const today = latestDevotionalForDate(date);
   const item = selected ?? today;
-  useEffect(() => {
-    const timer = setInterval(
-      () => setDate(localDevotionalDate(new Date())),
-      30000,
-    );
-    const subscription = AppState.addEventListener("change", (state) => {
-      if (state === "active") setDate(localDevotionalDate(new Date()));
-    });
-    return () => {
-      clearInterval(timer);
-      subscription.remove();
-    };
-  }, []);
   useEffect(() => {
     let live = true;
     devotionalHistory()
@@ -198,7 +185,12 @@ export default function DailyDevotional({
   return (
     <View style={s.stack}>
       <Card>
-        <Text style={s.eyebrow}>{study.daily}</Text>
+        <Text style={s.eyebrow}>
+          {study.daily}
+          {today
+            ? ` · ${new Intl.DateTimeFormat(language, { month: "short", day: "numeric" }).format(new Date(today.date + "T12:00:00"))}`
+            : ""}
+        </Text>
         {today ? (
           <>
             <Heading>{today[language][0]}</Heading>
