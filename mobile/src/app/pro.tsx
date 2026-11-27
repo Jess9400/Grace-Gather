@@ -1,4 +1,4 @@
-import { offerUpgradeOnVisit, requireProAction } from "../lib/membership";
+import { requireProAction } from "../lib/membership";
 import {
   StudyAction as Button,
   StudyLink,
@@ -178,7 +178,7 @@ function ScriptureText({
 }
 export default function StudyWorkspace() {
   const { profile } = useApp();
-  useFocusEffect(useCallback(() => { void offerUpgradeOnVisit(); }, []));
+  useFocusEffect(useCallback(() => { void requireProAction(() => {}); }, []));
   const params = useLocalSearchParams<{
     verse?: string;
     tab?: string;

@@ -1,5 +1,4 @@
 import { backend, requireUser } from "./backend";
-import * as storage from "./storage";
 export type Membership = {
   plan: "free" | "pro";
   admin: boolean;
@@ -93,20 +92,6 @@ export async function requireProAction(action: () => void) {
   }
   showUpgrade();
   return false;
-}
-// Entering Pro offers the upgrade at most once a day; tapping a locked tool
-// still offers it every time.
-export async function offerUpgradeOnVisit() {
-  if (await proUnlocked()) return;
-  const now = new Date();
-  const today = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
-  try {
-    if ((await storage.getItem("pro-offer-shown")) === today) return;
-    await storage.setItem("pro-offer-shown", today);
-  } catch {
-    /* Without storage, offer it; the sheet closes with ×. */
-  }
-  showUpgrade();
 }
 // Daily allowances reset at the member's local midnight; the server learns
 // the time zone from the device.

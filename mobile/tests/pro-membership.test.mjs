@@ -20,11 +20,7 @@ function moduleFor(file, mocks, billingEnabled = "true") {
       Date,
       Intl,
       process: { env: { EXPO_PUBLIC_PRO_BILLING_ENABLED: billingEnabled } },
-      require: (name) =>
-        mocks[name] ??
-        (name === "./storage"
-          ? { getItem: async () => null, setItem: async () => {} }
-          : undefined),
+      require: (name) => mocks[name],
     },
   );
   return module.exports;
@@ -224,35 +220,3 @@ test("unfinished billing never locks existing Pro tools, even before the migrati
   );
 });
 
-test("entering Pro offers the upgrade at most once a day", async () => {
-  const saved = new Map();
-  const api = moduleFor("src/lib/membership.ts", {
-    "./backend": {
-      requireUser: async () => ({
-        client: {
-          rpc: async () => ({
-            data: { plan: "free", admin: false, enforced: true },
-            error: null,
-          }),
-        },
-      }),
-    },
-    "./storage": {
-      getItem: async (key) => saved.get(key) ?? null,
-      setItem: async (key, value) => void saved.set(key, value),
-    },
-  });
-  await api.offerUpgradeOnVisit();
-  assert.equal(api.upgradeSnapshot(), "pro");
-  api.closeUpgrade();
-  await api.offerUpgradeOnVisit();
-  assert.equal(api.upgradeSnapshot(), null, "not again the same day");
-  // A locked tool still offers it every time.
-  assert.equal(await api.requireProAction(() => {}), false);
-  assert.equal(api.upgradeSnapshot(), "pro");
-  api.closeUpgrade();
-  // With billing still switched off in the build, entering Pro offers nothing.
-  const off = moduleFor("src/lib/membership.ts", {}, "false");
-  await off.offerUpgradeOnVisit();
-  assert.equal(off.upgradeSnapshot(), null);
-});
