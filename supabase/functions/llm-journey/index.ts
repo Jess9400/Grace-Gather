@@ -1,3 +1,4 @@
+import { unclearWriting, UNCLEAR_REPLY } from '../_shared/unclear-writing.js';
 import { reserveJournal, finishJournal, refreshPaidMembership } from '../_shared/pro-membership.ts';
 import { journalChatInput, journalChatReply, chatActionsFor } from '../_shared/journal-chat-policy.js';
 import { serve, identity, json } from '../_shared/http.ts';
@@ -39,6 +40,9 @@ serve(async req=>{
     }
     const input=journeyInput(payload);
     if(needsSupport(input.text)) return json({path:'unsure',passageIds:[],actionIds:[],support:true});
+    // Writing that can't be understood yet gets the unclear theme and a gentle
+    // invitation, without an AI call or using one of the day's replies.
+    if(unclearWriting(input.text)) return json({...recommendations({path:'unsure',themeId:'unclear',support:false,privateOnly:false,financialStress:false},input.preferences,catalog,payload.supportsConnectedActions===true),reflection:UNCLEAR_REPLY[input.preferences.language as keyof typeof UNCLEAR_REPLY]??UNCLEAR_REPLY.en});
     await refreshPaidMembership(client,service,user.id);
     const hold=await reserveJournal(service,user.id,'entry',{entryId:payload.entryId,input});
     if(hold.replay)return json(hold.result);

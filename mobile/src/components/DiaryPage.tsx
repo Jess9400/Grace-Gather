@@ -1,4 +1,5 @@
 import { upgradeForError } from "../lib/membership";
+import { unclearWriting, UNCLEAR_REPLY } from "../generated/unclear-writing";
 import { useCallback, useRef, useState } from "react";
 import { View, Text, TextInput, StyleSheet, Platform, Pressable, useWindowDimensions } from "react-native";
 import { router, useFocusEffect } from "expo-router";
@@ -68,7 +69,14 @@ export default function Diary() {
     setBusy(true);
     setError("");
     const mood = quietMood(draft.text, draft.chosen, lang),
-      safety = needsSupport(draft.text);
+      safety = needsSupport(draft.text),
+      // Writing that can't be understood yet (keyboard mashing, a test word)
+      // gets Psalm 62:8 and a gentle invitation, with no AI call and without
+      // using one of the day's replies. Chosen feelings always count as meaning.
+      unclear =
+        !safety &&
+        !Object.keys(draft.chosen).length &&
+        unclearWriting(draft.text);
     const id = draft.entryId ?? saving.current ?? randomUUID();
     const previous = entries.find((e) => e.id === id);
     // An edit that changes the words keeps the earlier wording, so nothing a
@@ -102,7 +110,10 @@ export default function Diary() {
           ].slice(0, 10)
         : previous?.revisions,
       editedAt: changed ? new Date().toISOString() : previous?.editedAt,
-      mood,
+      mood: unclear ? "unsure" : mood,
+      ...(unclear
+        ? { themeId: "unclear", suggestedReflection: UNCLEAR_REPLY[lang] }
+        : {}),
       guidance: Object.keys(draft.chosen).length ? "selected" : "local",
       feelings: { ...draft.chosen },
       safety,
@@ -116,7 +127,7 @@ export default function Diary() {
     try {
       await saveEntry(entry, true);
       saving.current = entry.id;
-      if (settings.journalAIConsentVersion === AI_CONSENT_VERSION && draft.text.trim() && !safety) {
+      if (settings.journalAIConsentVersion === AI_CONSENT_VERSION && draft.text.trim() && !safety && !unclear) {
         try {
           // Without an account the server cannot reply; the entry page
           // offers to add an email and then writes the reply.

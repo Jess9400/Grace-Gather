@@ -161,3 +161,7 @@ Do not activate product limits on the current live build. The draft migration de
 
 
 **Launch interlock (Taya review feedback):** `EXPO_PUBLIC_PRO_BILLING_ENABLED` defaults to false in web and native builds. While false, Pro navigation does not call the new membership RPC or block people if the migration is absent; checkout and Restore are hidden. This is a deliberate pre-launch mode, not an outage fallback. When built with that flag true, the app also honours the server `enforced=false` switch. Once enforcement is true, unknown membership fails closed. Server access checks remain authoritative regardless of a modified client's build flag. Enable the app flag only for the payment-ready build; enable server enforcement only after that version is approved and purchases work. Both switches remain off in this deployment.
+
+## Journal: unclear writing (#258)
+
+- [ ] Redeploy `llm-journey` after merging (`npx supabase functions deploy llm-journey --no-verify-jwt --project-ref <ref>`). Until then, the new app already skips the AI for nonsense; older app versions still send it to the AI and use a reply. No database change.
