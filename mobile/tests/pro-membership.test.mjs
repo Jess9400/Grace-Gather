@@ -17,6 +17,8 @@ function moduleFor(file, mocks, billingEnabled = "true") {
       module,
       exports: module.exports,
       Error,
+      Date,
+      Intl,
       process: { env: { EXPO_PUBLIC_PRO_BILLING_ENABLED: billingEnabled } },
       require: (name) => mocks[name],
     },
@@ -217,3 +219,4 @@ test("unfinished billing never locks existing Pro tools, even before the migrati
     false,
   );
 });
+

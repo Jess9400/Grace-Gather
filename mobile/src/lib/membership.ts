@@ -9,6 +9,7 @@ export type Membership = {
   studyResetsAt: string;
   expiresAt: string | null;
   enforced: boolean;
+  timeZone?: string;
 };
 export type UpgradeReason =
   | "pro"
@@ -74,22 +75,31 @@ export async function syncPurchases(): Promise<Membership> {
 export function proBillingUIEnabled() {
   return process.env.EXPO_PUBLIC_PRO_BILLING_ENABLED === "true";
 }
+async function proUnlocked() {
+  if (!proBillingUIEnabled()) return true;
+  try {
+    const value = await membershipStatus();
+    return value.enforced === false || value.admin || value.plan === "pro";
+  } catch {
+    /* No client profile or local preference can unlock Pro. The sheet offers Retry. */
+    return false;
+  }
+}
 export async function requireProAction(action: () => void) {
-  if (!proBillingUIEnabled()) {
+  if (await proUnlocked()) {
     action();
     return true;
   }
-  try {
-    const value = await membershipStatus();
-    if (value.enforced === false || value.admin || value.plan === "pro") {
-      action();
-      return true;
-    }
-  } catch {
-    /* No client profile or local preference can unlock Pro. The sheet offers Retry. */
-  }
   showUpgrade();
   return false;
+}
+// Daily allowances reset at the member's local midnight; the server learns
+// the time zone from the device.
+export async function syncTimeZone() {
+  const zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  if (!zone) return;
+  const { client } = await requireUser();
+  await client.rpc("set_time_zone", { p_time_zone: zone });
 }
 export function subscribeMembershipAccount(onChange: () => void) {
   let owner: string | null | undefined;
