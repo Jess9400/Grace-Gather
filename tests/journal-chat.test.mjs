@@ -110,6 +110,7 @@ import ts from '../mobile/node_modules/typescript/lib/typescript.js';
 import {createContext,runInContext} from 'node:vm';
 import * as chatPolicy from '../supabase/functions/_shared/journal-chat-policy.js';
 import * as journeyPolicy from '../supabase/functions/_shared/journey-policy.js';
+import * as unclearPolicy from '../supabase/functions/_shared/unclear-writing.js';
 test('conversation handler authenticates, reserves quota and sends context to the provider',async()=>{
  let handler,providerBody,calls=0,quota=0,holds=0,providerReply=answer,allowAI=true;
  const map=JSON.parse(readFileSync(new URL('../supabase/functions/_shared/journal-map.json',import.meta.url)));
@@ -117,6 +118,7 @@ test('conversation handler authenticates, reserves quota and sends context to th
   if(id.endsWith('http.ts'))return {serve:fn=>handler=fn,identity:async req=>{if(!req.headers.get('authorization'))throw Error('unauthorized');return {user:{id:'test-user'},service:{},client:{rpc:async()=>({data:allowAI,error:null})}};},json:(body,status=200)=>new Response(JSON.stringify(body),{status})};
   // Membership allowances are tested in the database tests; here each request simply gets a hold.
   if(id.endsWith('pro-membership.ts'))return {refreshPaidMembership:async()=>({}),reserveJournal:async()=>{holds++;return {id:'hold',replay:false};},finishJournal:async()=>{}};
+  if(id.endsWith('unclear-writing.js'))return unclearPolicy;
   if(id.endsWith('journal-chat-policy.js'))return chatPolicy;
   if(id.endsWith('journey-policy.js'))return journeyPolicy;
   if(id.endsWith('journal-map.json'))return map;
@@ -163,6 +165,15 @@ test('conversation handler authenticates, reserves quota and sends context to th
  assert.equal(initialBody.actionExplanation,'A gathering may help you connect.');
  assert.match(providerBody.messages[0].content,/A18 explore Pay it forward/);
  assert.match(providerBody.messages[0].content,/actionExplanation/);
+ // Nonsense gets the unclear theme and a gentle invitation: no AI call, no allowance used.
+ const [callsBefore,holdsBeforeUnclear,quotaBefore]=[calls,holds,quota];
+ const unclear=await handler(req({...request,mode:undefined,text:'asdkjh qwe zxc'}));
+ const unclearBody=await unclear.json();
+ assert.equal(unclear.status,200);
+ assert.equal(unclearBody.themeId,'unclear');
+ assert.equal(unclearBody.path,'unsure');
+ assert.match(unclearBody.reflection,/hard to tell/);
+ assert.deepEqual([calls,holds,quota],[callsBefore,holdsBeforeUnclear,quotaBefore]);
 });
 
 test('new clients can offer comfort or create a gathering without breaking older clients',()=>{
