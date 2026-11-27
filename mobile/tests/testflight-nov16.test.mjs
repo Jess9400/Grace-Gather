@@ -34,7 +34,8 @@ test("iOS enters a dedicated writing viewport before focusing the journal field"
   const diary = read("src/components/DiaryPage.tsx");
   assert.match(diary, /iphone && !writing \? \([\s\S]*?<Pressable[\s\S]*?onPress=\{\(\) => setWriting\(true\)\}/);
   assert.match(diary, /autoFocus=\{iphone\}/);
-  assert.match(diary, /onBlur=\{iphone \? undefined/);
+  // Leaving the field never closes the iPhone writing viewport.
+  assert.doesNotMatch(diary, /onBlur=\{[^}]*setWriting/);
   assert.match(diary, /iphoneInput: \{ flex: 1, minHeight: 0/);
   const screen = read("src/components/quiet-ui.tsx");
   const editor = screen.split('if (compact && Platform.OS === "ios")')[1]?.split("if (strip && place)")[0];
@@ -43,12 +44,17 @@ test("iOS enters a dedicated writing viewport before focusing the journal field"
   assert.match(editor, /<KeyboardAvoidingView[\s\S]*?\{children\}[\s\S]*?\{footer\}[\s\S]*?<\/KeyboardAvoidingView>/);
 });
 
-test("a long journal entry scrolls inside the letter while writing", () => {
+test("a long entry scrolls inside the letter on iPhone; elsewhere the letter grows", () => {
   const diary = read("src/components/DiaryPage.tsx");
+  // iPhone: a keyboard-sized editor that scrolls inside the letter (#229, #233).
   assert.match(diary, /paperWriting: \{ flex: 1/);
-  assert.match(diary, /multiline\s+scrollEnabled/);
+  assert.match(diary, /scrollEnabled=\{iphone\}/);
   assert.match(diary, /writingArea: \{ flex: 1, minHeight: 0/);
-  assert.match(diary, /inputWriting: \{ \.\.\.StyleSheet\.absoluteFill, minHeight: 0/);
+  assert.match(diary, /iphone \? writing && s\.iphoneInput/);
+  // Website and Android: no jump on focus; the letter grows line by line.
+  assert.doesNotMatch(diary, /onFocus=\{[^}]*setWriting/);
+  assert.match(diary, /onContentSizeChange=\{\s*iphone \? undefined/);
+  assert.match(diary, /\{ height: inputHeight \}/);
   const screen = read("src/components/quiet-ui.tsx");
   assert.match(screen, /allowPageScroll = !compact \|\| Platform.OS === "web"/);
   assert.equal(screen.match(/scrollEnabled=\{allowPageScroll\}/g)?.length, 2);
