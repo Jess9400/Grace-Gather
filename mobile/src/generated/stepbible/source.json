@@ -1,0 +1,17 @@
+{
+  "name": "STEPBible",
+  "attribution": "Data created by STEPBible.org based on work at Tyndale House, Cambridge.",
+  "source": "https://github.com/STEPBible/STEPBible-Data",
+  "license": "https://creativecommons.org/licenses/by/4.0/",
+  "changes": "Selected lexical forms, transliterations, grammar codes and short glosses; removed longer definitions; converted TSV to JSON; classified Aramaic using source markers. Glosses remain in source English.",
+  "files": [
+    {
+      "url": "https://raw.githubusercontent.com/STEPBible/STEPBible-Data/master/Lexicons/TBESG%20-%20Translators%20Brief%20lexicon%20of%20Extended%20Strongs%20for%20Greek%20-%20STEPBible.org%20CC%20BY.txt",
+      "sha256": "734a5b64a1152f67604bf09d32f15c0ba537151961752fcf168087b41b4d93ea"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/STEPBible/STEPBible-Data/master/Lexicons/TBESH%20-%20Translators%20Brief%20lexicon%20of%20Extended%20Strongs%20for%20Hebrew%20-%20STEPBible.org%20CC%20BY.txt",
+      "sha256": "848eef2ac16753a43694897dbb9e8f266725e7cc9da4809f367ee5b990f05dbb"
+    }
+  ]
+}

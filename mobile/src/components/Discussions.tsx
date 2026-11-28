@@ -1,3 +1,7 @@
+import {
+  getStudyDiscussionBody,
+  clearStudyDiscussionTopic,
+} from "../lib/study-discussion-draft";
 import { useCallback, useEffect, useState } from "react";
 import { useFocusEffect } from "expo-router";
 import { Pressable, StyleSheet, Text, View } from "react-native";
@@ -87,9 +91,7 @@ export default function Discussions({
   return (
     <>
       <Text style={s.intro}>
-        {c(
-          "Talk together about a verse or anything on your heart.",
-        )}
+        {c("Talk together about a verse or anything on your heart.")}
       </Text>
       <Button title={c("Start a discussion")} onPress={onStart} />
       <Row>
@@ -280,7 +282,9 @@ export function DiscussionRoom({
   const theme = roomTheme(topicId);
   const [showOriginalTitle, setShowOriginalTitle] = useState(false);
   const titleTranslations = useConversationTranslations(
-    topic ? [{ id: topic.id, text: topic.title, source: "community_title" }] : [],
+    topic
+      ? [{ id: topic.id, text: topic.title, source: "community_title" }]
+      : [],
     lang,
   );
   const translatedTitle = topic
@@ -307,7 +311,11 @@ export function DiscussionRoom({
             />
             {titleDiffers && (
               <TranslationToggle
-                title={showOriginalTitle ? translationCopy(lang, "translated") : translationCopy(lang, "original")}
+                title={
+                  showOriginalTitle
+                    ? translationCopy(lang, "translated")
+                    : translationCopy(lang, "original")
+                }
                 onPress={() => setShowOriginalTitle(!showOriginalTitle)}
               />
             )}
@@ -315,7 +323,11 @@ export function DiscussionRoom({
         ) : undefined
       }
       subtitle={
-        topic ? (topic.reference && topic.reference.trim() !== topic.title.trim() ? topic.reference : `${c("Started by")} ${topic.name}`) : ""
+        topic
+          ? topic.reference && topic.reference.trim() !== topic.title.trim()
+            ? topic.reference
+            : `${c("Started by")} ${topic.name}`
+          : ""
       }
       tint={theme.tint}
       rule={c(
@@ -503,8 +515,9 @@ export function StartDiscussion({
     c = (key: string) => friendCopy(profile.language, key),
     tr = useInterfaceCopy();
   const { busy, error, perform } = useCommunity();
+  useEffect(() => () => clearStudyDiscussionTopic(), []);
   const [title, setTitle] = useState(initialTitle),
-    [body, setBody] = useState("");
+    [body, setBody] = useState(getStudyDiscussionBody());
   return (
     <Screen>
       <TextAction icon="chevron-back" title={c("Back")} onPress={onBack} />

@@ -13,6 +13,10 @@ import { label } from "../lib/labels";
 const policy = {
   en: [
     [
+      "Membership and temporary reply copies",
+      "For App Store subscriptions, Apple processes the payment and RevenueCat helps us verify access using your account identifier, purchase records, subscription status and expiry. We do not receive your full payment-card details or send your journal text to RevenueCat. To prevent duplicate charges to your allowance when a reply is retried, Supabase temporarily stores a generated reply and a hashed request identifier with usage records. Journal reply copies expire at the next daily reset (midnight in your time zone); study reply copies expire at the next calendar-month reset (midnight on the first, in your time zone). Scheduled cleanup runs hourly, normally removing expired copies within a day of that reset; an outage can delay it. Saved journal entries and study notes are separate and are not deleted by this cleanup. Deleting your account removes its temporary reply and usage records. Separate AI-provider retention is described above.",
+    ],
+    [
       "Retention and deletion",
       "Journal entries and conversations stay in your account until you delete them. Deleted items can be recovered for 30 days; cleanup runs when the app is open, so removal may take longer. If you enable automatic conversation cleanup, its timing and advance notice are shown in the app. Separate device copies and exports remain until you remove them. When you use an AI feature, the AI provider normally retains requests and responses for up to 30 days; legal or security requirements may require longer retention. Deleting content in the app does not immediately remove requests already sent to the AI provider. Backup copies, if created, follow their own retention schedule.",
     ],
@@ -41,6 +45,10 @@ const policy = {
       "Microphone access is requested when you record. Local reminders and gathering push notifications require permission. Optional email updates require consent and a verified address. No precise location, advertising identifier or contact list is requested. External publishers and charities apply their own privacy policies. Audio gatherings, when configured, use LiveKit; other participants can hear anything you choose to say.",
     ],
     [
+      "Usage analytics",
+      "To improve the app, we count anonymous usage events with PostHog (servers in the EU), for example that onboarding was finished, a journal entry was saved or a candle was lit. These events never include what you write, pray, record or say, your name or your email; they are linked to your account only by an anonymous ID. We do not record your screen or sell this data. You can switch it off in Profile under “Share anonymous usage data”.",
+    ],
+    [
       "Care and moderation",
       "Grace & Gather is a spiritual wellbeing app, not therapy or emergency care. Journal entries are not monitored. Community harassment, hate, spam, unsafe medical advice and disclosure of another person’s private information are prohibited. Use Report or Block, or contact support. Resources and book suggestions do not promise recovery.",
     ],
@@ -50,6 +58,10 @@ const policy = {
     ],
   ],
   pt: [
+    [
+      "Assinatura e cópias temporárias de respostas",
+      "Nas assinaturas da App Store, a Apple processa o pagamento e o RevenueCat ajuda a verificar o acesso com o identificador da sua conta, registros de compra, status e validade da assinatura. Não recebemos os dados completos do cartão nem enviamos seu diário ao RevenueCat. Para que uma nova tentativa da mesma resposta não desconte o limite duas vezes, o Supabase guarda temporariamente a resposta gerada e um identificador protegido por hash junto aos registros de uso. As cópias de respostas do diário vencem na próxima renovação diária do limite, à meia-noite no seu fuso horário; as de estudo vencem na próxima renovação mensal, à meia-noite do primeiro dia do mês no seu fuso horário. A limpeza automática roda a cada hora e normalmente remove as cópias vencidas em até um dia após essa renovação; falhas do serviço podem atrasá-la. Entradas do diário e notas salvas ficam separadas e não são excluídas nessa limpeza. Excluir a conta remove suas cópias temporárias e registros de uso. A retenção pelo provedor de IA está descrita acima.",
+    ],
     [
       "Retenção e exclusão",
       "As entradas e conversas do diário permanecem na sua conta até você excluí-las. Os itens excluídos podem ser recuperados por 30 dias; a limpeza acontece quando o aplicativo está aberto, portanto a remoção pode demorar mais. Se você ativar a limpeza automática de conversas, o prazo e o aviso prévio aparecem no aplicativo. Cópias separadas no aparelho e arquivos exportados permanecem até você removê-los. Ao usar um recurso de IA, o provedor de IA normalmente retém solicitações e respostas por até 30 dias; exigências legais ou de segurança podem exigir retenção maior. Excluir conteúdo no aplicativo não remove imediatamente solicitações já enviadas ao provedor de IA. Cópias de segurança, caso sejam criadas, seguem seus próprios prazos de retenção.",
@@ -79,6 +91,10 @@ const policy = {
       "Pedimos acesso ao microfone ao gravar. Lembretes e notificações exigem permissão. Atualizações opcionais por email exigem consentimento e endereço verificado. Não solicitamos localização precisa, identificador de publicidade ou contatos. Sites externos têm suas próprias políticas. Encontros de áudio, quando configurados, usam LiveKit; outros participantes ouvem o que você decidir compartilhar.",
     ],
     [
+      "Estatísticas de uso",
+      "Para melhorar o app, contamos eventos de uso anônimos com o PostHog (servidores na UE), por exemplo que o cadastro foi concluído, uma entrada do diário foi salva ou uma vela foi acesa. Esses eventos nunca incluem o que você escreve, ora, grava ou diz, seu nome ou seu e-mail; ficam ligados à sua conta apenas por um identificador anônimo. Não gravamos sua tela nem vendemos esses dados. Você pode desativar em Perfil, em “Compartilhar dados de uso anônimos”.",
+    ],
+    [
       "Cuidado e moderação",
       "Grace & Gather é um app de bem-estar espiritual, não terapia ou atendimento de emergência. O diário não é monitorado. Assédio, ódio, spam, orientações médicas perigosas e divulgação de informações privadas de terceiros são proibidos. Use Denunciar ou Bloquear, ou contate o suporte. Os recursos e livros não prometem recuperação.",
     ],
@@ -88,6 +104,10 @@ const policy = {
     ],
   ],
   es: [
+    [
+      "Suscripción y copias temporales de respuestas",
+      "En las suscripciones de App Store, Apple procesa el pago y RevenueCat ayuda a verificar el acceso con el identificador de tu cuenta, los registros de compra, el estado y el vencimiento de la suscripción. No recibimos los datos completos de tu tarjeta ni enviamos tu diario a RevenueCat. Para no descontar dos veces del límite al reintentar una respuesta, Supabase guarda temporalmente la respuesta generada y un identificador de solicitud mediante hash junto a los registros de uso. Las copias del diario vencen en el siguiente reinicio diario, a medianoche en tu zona horaria; las de estudio, al inicio del siguiente mes natural, a medianoche del día primero en tu zona horaria. La limpieza se ejecuta cada hora y normalmente elimina las copias vencidas en el plazo de un día tras ese reinicio; una interrupción puede retrasarla. Las entradas y notas guardadas son independientes y no se eliminan con esta limpieza. Eliminar la cuenta borra sus copias temporales y registros de uso. La retención del proveedor de IA se describe arriba.",
+    ],
     [
       "Conservación y eliminación",
       "Las entradas y conversaciones del diario permanecen en tu cuenta hasta que las elimines. Los elementos eliminados se pueden recuperar durante 30 días; la limpieza se realiza con la aplicación abierta, por lo que la eliminación puede tardar más. Si activas la limpieza automática de conversaciones, el plazo y el aviso previo se muestran en la aplicación. Las copias separadas del dispositivo y los archivos exportados permanecen hasta que los elimines. Si utilizas una función de IA, el proveedor normalmente conserva las solicitudes y respuestas hasta 30 días; los requisitos legales o de seguridad pueden exigir una conservación mayor. Eliminar contenido de la aplicación no borra inmediatamente las solicitudes ya enviadas al proveedor de IA. Las copias de seguridad, si se crean, siguen sus propios plazos de conservación.",
@@ -117,6 +137,10 @@ const policy = {
       "Pedimos permiso de micrófono al grabar. Recordatorios y notificaciones requieren permiso. Las novedades opcionales por correo requieren consentimiento y una dirección verificada. No pedimos ubicación precisa, identificador publicitario ni contactos. Los sitios externos tienen sus propias políticas. Las reuniones de audio usan LiveKit cuando está configurado; los participantes oyen lo que decidas compartir.",
     ],
     [
+      "Estadísticas de uso",
+      "Para mejorar la app, contamos eventos de uso anónimos con PostHog (servidores en la UE), por ejemplo que se terminó el registro, se guardó una entrada del diario o se encendió una vela. Estos eventos nunca incluyen lo que escribes, oras, grabas o dices, tu nombre ni tu correo; se vinculan a tu cuenta solo mediante un identificador anónimo. No grabamos tu pantalla ni vendemos estos datos. Puedes desactivarlo en Perfil, en “Compartir datos de uso anónimos”.",
+    ],
+    [
       "Cuidado y moderación",
       "Grace & Gather es una app de bienestar espiritual, no terapia ni atención de emergencia. No se supervisa el diario. Se prohíben acoso, odio, spam, consejos médicos peligrosos y datos privados ajenos. Usa Denunciar o Bloquear, o contacta con ayuda. Los recursos y libros no prometen recuperación.",
     ],
@@ -126,6 +150,10 @@ const policy = {
     ],
   ],
   ru: [
+    [
+      "Подписка и временные копии ответов",
+      "При подписке через App Store платёж обрабатывает Apple. RevenueCat помогает проверять доступ по идентификатору аккаунта, сведениям о покупке, статусу и сроку подписки. Мы не получаем полные данные карты и не передаём дневник в RevenueCat. Чтобы повторная попытка получить тот же ответ не списывала лимит дважды, Supabase временно хранит созданный ответ, хеш идентификатора запроса и записи об использовании. Копии ответов дневника истекают при следующем ежедневном сбросе в полночь по вашему часовому поясу, а ответы для изучения Библии — в полночь первого числа следующего календарного месяца по вашему часовому поясу. Автоматическая очистка выполняется каждый час и обычно удаляет истёкшие копии в течение суток после этого сброса; сбой может задержать удаление. Сохранённые записи дневника и заметки хранятся отдельно и при этой очистке не удаляются. Удаление аккаунта удаляет его временные копии и записи об использовании. Срок хранения у провайдера ИИ описан выше.",
+    ],
     [
       "Хранение и удаление",
       "Записи дневника и разговоры хранятся в вашем аккаунте, пока вы их не удалите. Удалённые материалы можно восстановить в течение 30 дней; очистка выполняется, когда приложение открыто, поэтому удаление может занять больше времени. Если включена автоматическая очистка разговоров, её сроки и предварительное уведомление показываются в приложении. Отдельные копии на устройстве и экспортированные файлы сохраняются, пока вы их не удалите. Когда вы пользуетесь функцией с ИИ, провайдер ИИ обычно хранит запросы и ответы до 30 дней; по требованиям закона или безопасности этот срок может быть дольше. Удаление материалов в приложении не означает, что запросы, уже отправленные провайдеру ИИ, удаляются сразу. У резервных копий, если они создаются, свои сроки хранения.",
@@ -155,6 +183,10 @@ const policy = {
       "Доступ к микрофону запрашивается, когда вы начинаете запись. Для напоминаний и уведомлений нужно ваше разрешение. Письма с новостями необязательны: для них нужны ваше согласие и подтверждённый адрес. Точная геолокация, рекламный идентификатор и список контактов не запрашиваются. У внешних сайтов свои политики конфиденциальности. Аудиовстречи, если они подключены, проходят через LiveKit; другие участники слышат всё, что вы решите сказать.",
     ],
     [
+      "Статистика использования",
+      "Чтобы улучшать приложение, мы считаем анонимные события использования с помощью PostHog (серверы в ЕС): например, что регистрация завершена, запись в дневнике сохранена или свеча зажжена. Эти события никогда не содержат того, что вы пишете, о чём молитесь, что записываете или говорите, а также вашего имени и электронной почты; с аккаунтом они связаны только анонимным идентификатором. Мы не записываем ваш экран и не продаём эти данные. Отключить можно в Профиле: «Делиться анонимной статистикой».",
+    ],
+    [
       "Забота и модерация",
       "Grace & Gather — приложение для духовного благополучия, а не психотерапия и не экстренная помощь. Записи в дневнике никто не отслеживает. Запрещены травля, проявления ненависти, спам, опасные медицинские советы и разглашение чужих личных данных. Воспользуйтесь функциями «Пожаловаться» и «Заблокировать» или обратитесь в поддержку. Материалы и книги не обещают выздоровления.",
     ],
@@ -169,7 +201,7 @@ export default function Privacy() {
   return (
     <Screen back>
       <Heading>{label(profile.language, "privacy")}</Heading>
-      <Body small>Grace & Gather · 10 November 2026</Body>
+      <Body small>Grace & Gather · 26 November 2026</Body>
       <Card>
         <Subheading>{journalCopy(profile.language, "journal")}</Subheading>
         <Body>{journalCopy(profile.language, "archivedInfo")}</Body>

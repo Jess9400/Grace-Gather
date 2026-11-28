@@ -24,6 +24,7 @@ import {
   useCandles,
   type CandleIntention,
 } from "../lib/candles";
+import { track } from "../lib/analytics";
 
 const INTENTIONS: {
   id: CandleIntention;
@@ -83,6 +84,7 @@ export default function CandleScreen() {
     if (!choice) return;
     setPhase("lit");
     await lightCandle(choice, name);
+    track("candle_lit", { kind: String(choice) });
   };
 
   return (

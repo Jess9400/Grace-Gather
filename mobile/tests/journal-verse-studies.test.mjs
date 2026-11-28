@@ -167,7 +167,7 @@ test('an explanation is never attached to a different verse or to Bible-tab read
 
 test('the saved entry passes its theme verse and the verse screen reads it', () => {
   const entry = readFileSync(root + 'mobile/src/app/entry/[id].tsx', 'utf8');
-  const verse = readFileSync(root + 'mobile/src/app/verse/[id].tsx', 'utf8');
+  const verse = readFileSync(root + 'mobile/src/components/VerseStudy.tsx', 'utf8');
   // The verse actually shown (a step on a verse path), else the theme's verse.
   assert.match(entry, /journal:\s*displayResponse\?\.reference \?\?\s*journalTheme\(entry\)\.verse/);
   assert.match(verse, /journalStudyReference\(id, journal\)/);

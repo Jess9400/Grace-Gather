@@ -1,4 +1,5 @@
 import MemberAvatar from "./MemberAvatar";
+import NotificationBell from "./NotificationBell";
 import ChurchStrip, { useRoomStrip } from "./ChurchStrip";
 import type { RoomPlace } from "../lib/church-room";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
@@ -272,14 +273,17 @@ export function Screen({
                 <BrandMark />
               )}
               <Text style={s.brandText}>GRACE & GATHER</Text>
-              <Pressable
-                accessibilityLabel={tr("Account and settings")}
-                accessibilityRole="button"
-                onPress={() => router.push("/account")}
-                style={{ marginLeft: "auto", padding: 8 }}
-              >
-                <MemberAvatar />
-              </Pressable>
+              <View style={{ marginLeft: "auto", flexDirection: "row", alignItems: "center" }}>
+                <NotificationBell />
+                <Pressable
+                  accessibilityLabel={tr("Account and settings")}
+                  accessibilityRole="button"
+                  onPress={() => router.push("/account")}
+                  style={{ padding: 8 }}
+                >
+                  <MemberAvatar />
+                </Pressable>
+              </View>
             </View>
           )}
           {children}
@@ -332,6 +336,10 @@ export function Body({
       {children}
     </Text>
   );
+}
+/** Which surface a control sits on, for controls that style themselves. */
+export function useSurface() {
+  return useContext(CardSurface);
 }
 // Shared controls placed on a journal letter (the cream page) take its ink.
 export function LetterSurface({ children }: { children: React.ReactNode }) {
@@ -560,14 +568,17 @@ export function Brand() {
     <View style={s.brand}>
       <BrandMark />
       <Text style={s.brandText}>GRACE & GATHER</Text>
-      <Pressable
-        accessibilityRole="button"
-        accessibilityLabel={tr("Account and settings")}
-        onPress={() => router.push("/account")}
-        style={{ marginLeft: "auto", padding: 8 }}
-      >
-        <MemberAvatar />
-      </Pressable>
+      <View style={{ marginLeft: "auto", flexDirection: "row", alignItems: "center" }}>
+        <NotificationBell />
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={tr("Account and settings")}
+          onPress={() => router.push("/account")}
+          style={{ padding: 8 }}
+        >
+          <MemberAvatar />
+        </Pressable>
+      </View>
     </View>
   );
 }

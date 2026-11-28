@@ -11,7 +11,7 @@ import HelpLine from "./HelpLine";
 import { Ionicons } from "@expo/vector-icons";
 import { Pressable } from "react-native";
 import { useCommunity } from "../lib/discussion-state";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { router, useLocalSearchParams } from "expo-router";
 import {
   Screen,
@@ -27,6 +27,7 @@ import { usePrayers, type Prayer } from "../lib/prayers";
 import { prayerTime } from "../lib/prayer-time";
 import { useApp } from "../lib/state";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
+import { track } from "../lib/analytics";
 export default function PrayerPage({
   mode = "requests",
 }: {
@@ -41,6 +42,26 @@ function PrayerRoom({
   mode: "requests" | "notifications" | "review";
 }) {
   const { data, error, busy, userId, load, act } = usePrayers();
+  // Praying answers the invitation: its notifications need no "Mark read".
+  const answered = (id: string) =>
+    (data?.notices ?? []).filter((n) => !n.is_read && n.kind !== "prayed" && n.request?.id === id);
+  async function pray(id: string) {
+    if (!(await act("pray", id))) return;
+    track("prayed_for_someone");
+    for (const n of answered(id)) await act("read", n.id);
+  }
+  // Invitations already answered (prayed for earlier, or elsewhere) clear themselves.
+  const cleared = useRef(new Set<string>());
+  useEffect(() => {
+    const stale = (data?.notices ?? []).filter(
+      (n) => !n.is_read && n.kind !== "prayed" && n.request?.prayed && !cleared.current.has(n.id),
+    );
+    if (!stale.length || busy) return;
+    stale.forEach((n) => cleared.current.add(n.id));
+    void (async () => {
+      for (const n of stale) await act("read", n.id);
+    })();
+  }, [data, busy, act]);
   const { ids: priorityIds, failed: priorityFailed } = useSafetyReviewIds("prayers", mode === "review");
   const [now, setNow] = useState(() => Date.now());
   useEffect(() => {
@@ -167,6 +188,7 @@ function PrayerRoom({
         starts_at: when,
       })
     ) {
+      track("prayer_request_created", { scheduled: !!when, anonymous });
       setWriting(false);
       setTheme("");
       setReason("");
@@ -187,17 +209,22 @@ function PrayerRoom({
         <Body small>
           {p.scheduled ? format(p.starts_at) : tr("Pray whenever you can")}
         </Body>
-        <Body>
-          {p.own
-            ? tr("{count} people prayed for you").replace(
-                "{count}",
-                String(p.count),
-              )
-            : tr("{count} people have prayed").replace(
-                "{count}",
-                String(p.count),
-              )}
-        </Body>
+        {/* Never "0 people prayed": a quiet line until the first prayer. */}
+        {(!p.own || p.status === "approved") && (
+          <Body>
+            {p.own
+              ? p.count === 0
+                ? tr("Shared with the community. We'll let you know when someone prays for you.")
+                : p.count === 1
+                  ? tr("1 person prayed for you")
+                  : tr("{count} people prayed for you").replace("{count}", String(p.count))
+              : p.count === 0
+                ? tr("Be the first to pray for this.")
+                : p.count === 1
+                  ? tr("1 person has prayed")
+                  : tr("{count} people have prayed").replace("{count}", String(p.count))}
+          </Body>
+        )}
         {p.own && (
           <>
             <Body small>{tr(p.status)}</Body>
@@ -225,7 +252,7 @@ function PrayerRoom({
               disabled={
                 busy || p.prayed || new Date(p.starts_at).getTime() > now
               }
-              onPress={() => void act("pray", p.id)}
+              onPress={() => void pray(p.id)}
             />
             <Button
               secondary
@@ -468,7 +495,7 @@ function PrayerRoom({
               ? data?.mine
               : tab === "review"
                 ? data?.review
-                : data?.requests
+                : data?.requests.filter((p) => !p.own)
             )?.slice().sort((a, b) => tab === "review" ? Number(priorityIds.includes(b.id)) - Number(priorityIds.includes(a.id)) : 0).map((p) => card(p, tab === "review"))}
           {data &&
             tab !== "notifications" &&
@@ -477,7 +504,7 @@ function PrayerRoom({
                 ? data.mine
                 : tab === "review"
                   ? data.review
-                  : data.requests
+                  : data.requests.filter((p) => !p.own)
             ).length && <Body>{tr("No prayer requests here yet.")}</Body>}
         </>
       )}

@@ -65,7 +65,7 @@ test("Russian New Testament verses reach the notes only where numbering matches"
 });
 
 test("with nothing in the reader's language, the verse screen offers the English note", () => {
-  const screen = read("mobile/src/app/verse/[id].tsx");
+  const screen = read("mobile/src/components/VerseStudy.tsx");
   assert.match(
     screen,
     /lang !== "en" &&\s*!explanation &&\s*!notesLoading &&\s*!notesUnavailable &&\s*!ownNotesFound/,

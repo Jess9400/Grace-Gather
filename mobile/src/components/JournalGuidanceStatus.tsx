@@ -1,3 +1,4 @@
+import { upgradeForError } from "../lib/membership";
 import { useEffect, useRef, useState } from "react";
 import { View } from "react-native";
 import { Body, Button, Card, Notice, Subheading } from "./quiet-ui";
@@ -33,7 +34,7 @@ export default function JournalGuidanceStatus({ entry }: { entry: Entry }) {
     setNotice("");
     try {
       const settings = { ...currentProfile, ...entry.prefs };
-      const result = await suggestJourney(entry.text, settings);
+      const result = await suggestJourney(entry.text, settings, entry.id);
       const next = {
         ...entry,
         response: undefined,
@@ -49,7 +50,8 @@ export default function JournalGuidanceStatus({ entry }: { entry: Entry }) {
       };
       const response = await resolveJournalResponse(next, settings, entries);
       await saveRetriedGuidance(entry.id, entry.text, { ...next, response });
-    } catch {
+    } catch (error) {
+      if (upgradeForError(error)) return;
       setNotice(c("retryGuidanceFailed"));
     } finally {
       setBusy(false);

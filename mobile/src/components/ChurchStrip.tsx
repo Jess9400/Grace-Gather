@@ -11,6 +11,7 @@ import { setStatusBarStyle } from "expo-status-bar";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import MemberAvatar from "./MemberAvatar";
+import NotificationBell from "./NotificationBell";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
 import { holdAmbience, loadSoundOn } from "../lib/church-audio";
 import {
@@ -97,6 +98,7 @@ export default function ChurchStrip({
         )}
         <View style={{ flex: 1 }} />
         {action && <View style={st.action}>{action}</View>}
+        <NotificationBell elevated />
         <Pressable
           accessibilityLabel={tr("Account and settings")}
           accessibilityRole="button"

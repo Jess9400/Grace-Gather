@@ -19,4 +19,6 @@ console.log('Synced sourced mobile content and backend seed.');
 
 for(const f of ['confession-policy.js','confession-service.js'])await copyFile('shared/'+f,'supabase/functions/_shared/'+f);
 
-for (const file of ["quiet-feelings.js", "quiet-diary.js", "quiet-studies.json", "reading-resources.json"]) await copyFile("shared/"+file,"mobile/src/generated/"+file);
+for (const file of ["quiet-feelings.js", "quiet-diary.js", "quiet-studies.json", "reading-resources.json", "unclear-writing.js"]) await copyFile("shared/"+file,"mobile/src/generated/"+file);
+// The journal's nonsense check runs the same in the app and on the server.
+await copyFile("shared/unclear-writing.js","supabase/functions/_shared/unclear-writing.js");

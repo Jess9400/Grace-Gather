@@ -49,7 +49,25 @@ export async function audioCommand(
   if (r.data?.error) throw Error(r.data.error);
   return r.data;
 }
-export const gatheringLink = (id: string, invite?: string) =>
-  "https://grace-gather.findflockie.workers.dev/gathering/" +
-  encodeURIComponent(id) +
-  (invite ? "?invite=" + encodeURIComponent(invite) : "");
+export const gatheringLink = (id: string, invite?: string, speaker?: string) => {
+  const query = [
+    invite ? "invite=" + encodeURIComponent(invite) : "",
+    // A private speaker link makes whoever joins with it a guest speaker.
+    speaker ? "speaker=" + encodeURIComponent(speaker) : "",
+  ].filter(Boolean);
+  return (
+    "https://grace-gather.findflockie.workers.dev/gathering/" +
+    encodeURIComponent(id) +
+    (query.length ? "?" + query.join("&") : "")
+  );
+};
+
+/** The host's private link that makes whoever joins with it a guest speaker. */
+export async function speakerInviteLink(id: string) {
+  const { speakerToken } = await audioCommand("speaker_link", { gatheringId: id });
+  // An invite-only gathering also needs its ordinary invitation in the link.
+  const invite = await gathering("invite", { id })
+    .then((data) => (typeof data?.token === "string" ? data.token : undefined))
+    .catch(() => undefined);
+  return gatheringLink(id, invite, speakerToken);
+}

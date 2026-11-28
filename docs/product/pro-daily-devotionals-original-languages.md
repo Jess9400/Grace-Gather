@@ -1,0 +1,78 @@
+# Daily devotionals and original-language study
+
+Implementation based on main including Taya's #254 design. No subscription enforcement, prices or journal limits are changed.
+
+## Actual readiness
+
+The reader, dictionary/concordance, dated calendar, private history and review gate are implemented. The calendar has 365 distinct date/ID slots beginning 25 November 2026 and never wraps. **31 original devotionals in English, Brazilian Portuguese, Spanish and Russian are approved for publication. Jessica confirmed on 26 November 2026 that she and Taya approved the exact first batch; its review file records that confirmation and manuscript hash. The next 30 distinct devotionals (days 32–61, 26 December 2026–24 January 2027) are also approved in all four languages, including optional prayers; Jessica confirmed the requested review was complete on 26 November 2026. Both batches are protected by manuscript hashes. The remaining 304 have not been written. This is not a finished 365-day library.**
+
+A user who finishes today's reading sees its completed state; re-entering does not manufacture a different devotional or erase it. The library is browsable by month with pagination. Future daily content is not shown to ordinary readers. If publication falls behind, an honest unavailable message and the existing library replace recycled content.
+
+The old explicitly selected Seven days with God reading plan is preserved; it is a seven-day course, not the source for the daily calendar.
+
+## Monthly review by Jessica and Taya
+
+Manuscripts: `mobile/content/devotionals/year1/NN.json`. Each row has a stable day number (1–365), source passage and four localized versions `[title,reflection,action,optionalPrayer]`. A date belongs to its stable day, not its position in a file. Append new manuscripts without renumbering existing entries.
+
+1. Read the passage in its surrounding chapter; check the reflection does not invent what God promises or turn a lexical meaning into a doctrinal proof.
+2. Check all four versions for natural language and comparable meaning. Verify the action is distinct, achievable and does not pressure a vulnerable reader, promise healing or require unsafe contact/spending.
+3. Optional prayers are clearly a human response. When absent, the reader is invited to pray in their own words or stay silent.
+4. Both reviewers approve the exact file. In its `NN.review.json`, set each reviewer's approved flag, status `approved`, the review date, four languages and the source file's SHA-256. Changing the manuscript invalidates its approval. Do not enter approvals on somebody else's behalf.
+5. Run `npm run devotionals:check` for full-year readiness. Until the year is complete, the compiler still validates each available batch, but the full-year command fails on purpose.
+
+Local editorial build: `DEVOTIONAL_EDITORIAL_PREVIEW=true npm run build:web`. Default web/native build preparation excludes drafts. It never calls an AI provider. The preview label means no professional review has occurred.
+
+No recurring automation, paid content generation, or unreviewed daily AI publishing was added. Future writing/review is an explicit editorial task, not an implied automatic service.
+
+## Study tools
+
+- 27-book Greek NT main reading and 39-book Hebrew/Aramaic OT from STEP TAGNT/TAHOT. Hebrew Torah included. These are original-language base texts, not complete Greek/Aramaic coverage of Catholic or Orthodox additions.
+- Tap a word for source transliteration, dictionary lemma, brief English meaning and source morphology with localized descriptions of recognized grammar codes. This is a written pronunciation guide, not recorded speech.
+- Concordance uses lexical IDs, preserving disambiguated senses; results are paginated and lead back to the source passage. Generic base Strong's IDs can also aggregate senses.
+- Parallel reading uses explicit edition labels. Marked differences in source verse divisions prevent an asserted exact pairing. Where an automatic mapping is unavailable, the reader can independently choose the source passage. Russian pairing remains limited by the existing verified mapping, not guessed from an identical number.
+- Existing professional and clearly labelled community reference notes remain available in Context, respecting source coverage and language fallback. Geography opens the bundled in-app image atlas described below; source and license links remain in footnotes.
+- Removed the generic Christian perspectives tile after feedback: it repeated the same information for every passage. The existing passage-specific Theology tool remains. Full multilingual theological coverage still needs licensed/reviewed sources.
+- Sources remain expandable footnotes.
+
+## Sources and reproducibility
+
+`mobile/scripts/import-original-scripture.py` transforms the six STEP TSVs. Source SHA-256 hashes, license, attribution and transformations are recorded in `mobile/src/generated/study-original/manifest.json`. Dictionary uses the already imported brief STEP fields; restricted longer definitions remain excluded.
+
+The main Greek N reading is selected once per word; alternative editions are not concatenated. Hebrew L/Q main readings are selected, while source numbering alternatives stay on the words. At places where one English verse spans two Hebrew divisions, retain both segments in source order.
+
+Static files are sharded by chapter and Strong's hundreds. Native only fetches the selected chapter rather than loading the entire library into memory. Web exports include assets. No change to home/church graphics.
+
+## Validation
+
+TypeScript, Expo lint, web export, existing reader/study tests, seven new corpus/calendar tests, disposable PostgreSQL two-account tests and signed-in browser checks. The live backend was checked for the new private history table's permissions. No simulator or new TestFlight build requested.
+
+
+## Shared study and contextual questions
+
+The dictionary no longer starts at G3056. Ask AI replaces Discuss in the Pro tool grid and is available from a dictionary entry or tapped original-language word. It sends the selected passage, actual lexical entry and a bounded conversation to the existing Bible study service after permission. It does not browse live sources or replace scholarly review.
+
+Notes use separate personal / devotional / reading-plan contexts, so the same verse can hold independent notes. Existing notes migrate as personal because their original writing context cannot be safely inferred. Notebook search has four sections: Personal study, Devotionals, Reading plans and Shared notes. Reading plans contains private plan notes; Shared notes contains explicitly shared snapshots with author and plan labels. Each section uses 10-note pages with Previous/Next controls. Devotional reflection and each plan reading contain their own editor.
+
+Accepted reading partners can explicitly share a saved note, then comment in its private thread. Threads are available inside Read together, the plan reading, and Notebook → Reading plans. Leaving/unsharing revokes access and removes the corresponding shared threads, while private originals remain. Public-discussion handoff includes only the author's own note, requires preview/post through the normal composer, and excludes partner comments. Both participants still opt in by invitation/acceptance; existing Pro entitlement enforcement is deferred with pricing.
+
+Today retains and shows all started, unfinished plans, not just the most recently opened plan. Account merges preserve all starts and each plan's furthest completed day.
+
+## In-app atlas and social setting — 26 November 2026
+
+Context now provides sourced original summaries in English, Portuguese, Spanish and Russian about households, rural work and inequality, Roman power, kingdoms, exile, Persia and Egypt. Settings are book-level (with the Isaiah chapter split), not a claim of verse-by-verse sociological reconstruction. Unknown settings are not assigned an invented date.
+
+The in-app atlas uses bundled, labelled 2D PNG maps of Galilee/Judea, the ancient Near East and the Mediterranean, with separate English, Portuguese, Spanish and Russian images. These regional reference maps show ancient place names on a present-day physical base, not reconstructed ancient borders, coastlines or routes. An Enlarge / Fit control allows scrolling the larger image without leaving the app. Source/license links remain in an expandable footnote. No WebGL context, map API key, subscription, animation or runtime tile download is needed.
+
+Data attribution: Natural Earth 1:10m land, lakes and named rivers (public domain), OpenBible.info ancient-place coordinates (CC BY 4.0; some coordinates © OpenStreetMap contributors, ODbL). Capernaum uses the Tell Hum candidate. The renderer script and 12 localized images are committed. The maps are intentionally regional, not verse-specific reconstructions.
+
+The earlier 3D viewer was removed at Jessica’s request because its terrain was hard to recognize. Replaced tests check PNG integrity, image dimensions/size, four-language availability and the absence of a graphics-context dependency. Signed-in browser checks cover images, enlargement, region changes and reopening. Native image scrolling remains a next-TestFlight check.
+
+The label is now “Parallel reading” in all four languages. No new pricing or journal limits are introduced.
+
+Notification read-only check: Taya had two unread pending invitations, but zero registered phone devices. In-app notices exist; iPhone delivery cannot be confirmed until she enables notifications on her signed-in iPhone. No unsolicited test invitation was sent.
+
+## Plan and daily-card polish — 26 November 2026
+
+Started plans reopen at their current reading rather than showing the introduction again. Started status uses all tracked plans and completed days, not just the last active plan. The reading footer always marks the displayed day, with completed plans showing their completion state. Repeated sharing instructions and the persistent account-saving caption were removed from the reading footer; Shared notes expands when needed.
+
+Approved devotionals switch at the reader’s local midnight (including local calendar/DST boundaries), and refresh on return from background. A gap retains the latest approved dated entry, with its actual publication date visible, rather than showing an empty placeholder or relabelling it as new. The 61 approved dates run from 25 November 2026 through 24 January 2027. The following batch is required for a new daily reflection after that; retaining the latest is resilience, not a claim of 365 finished entries.

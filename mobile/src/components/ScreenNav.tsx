@@ -6,6 +6,7 @@ import { useApp } from "../lib/state";
 import { churchCopy } from "../lib/church-copy";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
 import MemberAvatar from "./MemberAvatar";
+import NotificationBell from "./NotificationBell";
 import BrandMark from "./BrandMark";
 
 /** Persistent navigation for pages opened on top of the main tabs. */
@@ -37,6 +38,7 @@ export default function ScreenNav({ home = false, dirty = false, onBack }: { hom
         style={({ pressed }) => [styles.control, pressed && styles.pressed]}>
         <Ionicons name="home-outline" size={22} color="#F4EBDA" />
       </Pressable>}
+      <NotificationBell onPress={() => leave(() => router.navigate("/notifications"))} />
       {!onAccount && <Pressable accessibilityRole="button" accessibilityLabel={tr("Account and settings")}
         onPress={() => leave(() => router.navigate("/account"))}
         style={({ pressed }) => [styles.control, pressed && styles.pressed]}><MemberAvatar /></Pressable>}

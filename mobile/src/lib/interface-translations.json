@@ -1325,6 +1325,81 @@
     "es": "Ora cuando puedas",
     "ru": "Молитесь, когда сможете"
   },
+  "Shared with the community. We'll let you know when someone prays for you.": {
+    "pt": "Compartilhado com a comunidade. Avisaremos quando alguém orar por você.",
+    "es": "Compartido con la comunidad. Te avisaremos cuando alguien ore por ti.",
+    "ru": "Просьба опубликована. Мы сообщим, когда кто-то помолится за вас."
+  },
+  "1 person prayed for you": {
+    "pt": "1 pessoa orou por você",
+    "es": "1 persona oró por ti",
+    "ru": "За вас помолился 1 человек"
+  },
+  "Be the first to pray for this.": {
+    "pt": "Seja o primeiro a orar por isso.",
+    "es": "Sé el primero en orar por esto.",
+    "ru": "Помолитесь первым."
+  },
+  "1 person has prayed": {
+    "pt": "1 pessoa orou",
+    "es": "1 persona ha orado",
+    "ru": "Помолился 1 человек"
+  },
+  "You have a new message": {
+    "pt": "Você tem uma nova mensagem",
+    "es": "Tienes un mensaje nuevo",
+    "ru": "Новое сообщение"
+  },
+  "New prayer notification": {
+    "pt": "Nova notificação de oração",
+    "es": "Nueva notificación de oración",
+    "ru": "Новое уведомление о молитве"
+  },
+  "New reply in a discussion": {
+    "pt": "Nova resposta em uma discussão",
+    "es": "Nueva respuesta en una conversación",
+    "ru": "Новый ответ в обсуждении"
+  },
+  "A gathering is coming up": {
+    "pt": "Um encontro está chegando",
+    "es": "Se acerca un encuentro",
+    "ru": "Скоро встреча"
+  },
+  "Opens the notification": {
+    "pt": "Abre a notificação",
+    "es": "Abre la notificación",
+    "ru": "Открывает уведомление"
+  },
+  "New message from {name}": {
+    "pt": "Nova mensagem de {name}",
+    "es": "Nuevo mensaje de {name}",
+    "ru": "Новое сообщение от {name}"
+  },
+  "Someone responded to your confession": {
+    "pt": "Alguém respondeu à sua confissão",
+    "es": "Alguien respondió a tu confesión",
+    "ru": "Кто-то ответил на вашу исповедь"
+  },
+  "Someone thanked you for offering comfort": {
+    "pt": "Alguém agradeceu pelo conforto que você ofereceu",
+    "es": "Alguien te agradeció el consuelo que ofreciste",
+    "ru": "Вас поблагодарили за поддержку"
+  },
+  "Gathering reminder: {title}": {
+    "pt": "Lembrete de encontro: {title}",
+    "es": "Recordatorio de encuentro: {title}",
+    "ru": "Напоминание о встрече: {title}"
+  },
+  "Share anonymous usage data": {
+    "pt": "Compartilhar dados de uso anônimos",
+    "es": "Compartir datos de uso anónimos",
+    "ru": "Делиться анонимной статистикой"
+  },
+  "Helps us see which parts of Grace & Gather help people, such as whether journal entries are saved. Never what you write, pray or say.": {
+    "pt": "Ajuda a ver quais partes do Grace & Gather ajudam as pessoas, como se as entradas do diário são salvas. Nunca o que você escreve, ora ou diz.",
+    "es": "Nos ayuda a ver qué partes de Grace & Gather ayudan a las personas, como si se guardan las entradas del diario. Nunca lo que escribes, oras o dices.",
+    "ru": "Помогает понять, какие части Grace & Gather полезны людям, например сохраняются ли записи в дневнике. Никогда — что вы пишете, о чём молитесь или говорите."
+  },
   "{count} people prayed for you": {
     "pt": "{count} pessoas oraram por você",
     "es": "{count} personas oraron por ti",

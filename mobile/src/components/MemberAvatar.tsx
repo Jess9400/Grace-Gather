@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { usePrayerUnread } from "../lib/prayers";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { backend } from "../lib/backend";
 import { avatarVariant } from "../lib/avatar";
@@ -140,7 +139,6 @@ export function CelestialAvatar({
 }
 
 export default function MemberAvatar() {
-  const unread = usePrayerUnread();
   const [userId, setUserId] = useState<string | null>(null);
   useEffect(() => {
     let active = true,
@@ -165,26 +163,6 @@ export default function MemberAvatar() {
   return (
     <View>
       <CelestialAvatar variant={userId ? avatarVariant(userId) : 0} />
-      {unread > 0 && (
-        <View
-          style={{
-            position: "absolute",
-            right: -5,
-            top: -5,
-            minWidth: 19,
-            height: 19,
-            borderRadius: 10,
-            backgroundColor: "#F1E4CB",
-            alignItems: "center",
-            justifyContent: "center",
-            paddingHorizontal: 3,
-          }}
-        >
-          <Text style={{ color: "#1B1612", fontSize: 10, fontWeight: "700" }}>
-            {unread > 99 ? "99+" : unread}
-          </Text>
-        </View>
-      )}
     </View>
   );
 }

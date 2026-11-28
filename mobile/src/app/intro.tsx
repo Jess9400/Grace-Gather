@@ -13,6 +13,7 @@ import {
   type IntroChurch,
   type IntroLanguage,
 } from "../lib/intro-walk";
+import { track } from "../lib/analytics";
 
 const churches: IntroChurch[] = ["catholic", "orthodox", "protestant"];
 
@@ -47,6 +48,7 @@ export default function Intro() {
           markIntroSeen();
           showEntranceAgain();
           requestFirstChurchTour();
+          track("intro_finished", { skipped: moment === undefined });
           if (
             signedIn &&
             hasCompletedOnboarding(profile) &&

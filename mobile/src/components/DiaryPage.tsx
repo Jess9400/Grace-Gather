@@ -1,3 +1,5 @@
+import { upgradeForError } from "../lib/membership";
+import { unclearWriting, UNCLEAR_REPLY } from "../generated/unclear-writing";
 import { useCallback, useRef, useState } from "react";
 import { View, Text, TextInput, StyleSheet, Platform, Pressable, useWindowDimensions } from "react-native";
 import { router, useFocusEffect } from "expo-router";
@@ -18,6 +20,24 @@ import { journalCopy } from "../lib/journal-library-copy";
 import { backend } from "../lib/backend";
 import JournalAIPermissionDialog from "./JournalAIPermissionDialog";
 import SafetyFooter from "./SafetyFooter";
+import { track } from "../lib/analytics";
+// One line of writing on the letter, and the room it offers before it grows.
+const LINE = 35;
+const MIN_LINES = 7;
+// Faint ruled lines behind the writing, like letter paper. They move with
+// the text when the iPhone editor scrolls inside the letter.
+function RuledLines({ height, offset, lineHeight }: { height: number; offset: number; lineHeight: number }) {
+  if (!height) return null;
+  const shift = offset % lineHeight;
+  const count = Math.ceil(height / lineHeight) + 1;
+  return (
+    <View pointerEvents="none" style={[StyleSheet.absoluteFill, { overflow: "hidden" }]}>
+      {Array.from({ length: count }, (_, i) => (
+        <View key={i} style={[s.paperLine, { top: (i + 1) * lineHeight - 7 - shift }]} />
+      ))}
+    </View>
+  );
+}
 export default function Diary() {
   const { profile, saveEntry, entries } = useApp(),
     { draft, update, clear } = useQuiet();
@@ -35,9 +55,21 @@ export default function Diary() {
     [permissionIntent, setPermissionIntent] = useState<"submit" | "transcribe">("submit");
   const { fontScale } = useWindowDimensions();
   const [paperHeight, setPaperHeight] = useState(0);
+  // The letter glows softly while it has the caret (no hard focus box).
+  const [focused, setFocused] = useState(false);
+  // Outside the iPhone editor the letter grows line by line with the writing.
+  const [contentHeight, setContentHeight] = useState(0);
+  // The iPhone editor scrolls inside the letter; its ruled lines follow.
+  const [scrollTop, setScrollTop] = useState(0);
+  const [areaHeight, setAreaHeight] = useState(0);
   // Leave room for three writing lines before showing the date and salutation.
   const showLetterHeading = !writing || !paperHeight || paperHeight >= 100 + 105 * fontScale;
   const iphone = Platform.OS === "ios";
+  const lineHeight = LINE * fontScale;
+  const inputHeight = Math.max(
+    MIN_LINES * lineHeight,
+    Math.ceil(contentHeight / lineHeight) * lineHeight,
+  );
   useFocusEffect(useCallback(() => () => {
     if (iphone) setWriting(false);
   }, [iphone]));
@@ -66,7 +98,14 @@ export default function Diary() {
     setBusy(true);
     setError("");
     const mood = quietMood(draft.text, draft.chosen, lang),
-      safety = needsSupport(draft.text);
+      safety = needsSupport(draft.text),
+      // Writing that can't be understood yet (keyboard mashing, a test word)
+      // gets Psalm 62:8 and a gentle invitation, with no AI call and without
+      // using one of the day's replies. Chosen feelings always count as meaning.
+      unclear =
+        !safety &&
+        !Object.keys(draft.chosen).length &&
+        unclearWriting(draft.text);
     const id = draft.entryId ?? saving.current ?? randomUUID();
     const previous = entries.find((e) => e.id === id);
     // An edit that changes the words keeps the earlier wording, so nothing a
@@ -100,7 +139,10 @@ export default function Diary() {
           ].slice(0, 10)
         : previous?.revisions,
       editedAt: changed ? new Date().toISOString() : previous?.editedAt,
-      mood,
+      mood: unclear ? "unsure" : mood,
+      ...(unclear
+        ? { themeId: "unclear", suggestedReflection: UNCLEAR_REPLY[lang] }
+        : {}),
       guidance: Object.keys(draft.chosen).length ? "selected" : "local",
       feelings: { ...draft.chosen },
       safety,
@@ -114,12 +156,12 @@ export default function Diary() {
     try {
       await saveEntry(entry, true);
       saving.current = entry.id;
-      if (settings.journalAIConsentVersion === AI_CONSENT_VERSION && draft.text.trim() && !safety) {
+      if (settings.journalAIConsentVersion === AI_CONSENT_VERSION && draft.text.trim() && !safety && !unclear) {
         try {
           // Without an account the server cannot reply; the entry page
           // offers to add an email and then writes the reply.
           if (!(await isSignedIn())) throw Error("signed_out");
-          const result = await suggestJourney(draft.text, settings);
+          const result = await suggestJourney(draft.text, settings, entry.id);
           entry = {
             ...entry,
             mood: result.path,
@@ -132,7 +174,8 @@ export default function Diary() {
             suggestedActionExplanation: result.actionExplanation,
             suggestedReflection: result.reflection,
           };
-        } catch {
+        } catch (error) {
+          upgradeForError(error);
           entry = { ...entry, aiUnavailable: true };
         }
         await saveEntry(entry, true);
@@ -140,6 +183,8 @@ export default function Diary() {
       const response = await resolveJournalResponse(entry, settings, entries);
       if (response.verse || entry.safety)
         await saveEntry({ ...entry, response }, true);
+      // Only that an entry was saved, never what it says.
+      track("journal_entry_saved", { ai: entry.guidance === "ai", voice: !!entry.audio, edited: changed });
       router.push({ pathname: "/entry/[id]", params: { id: entry.id } });
       // The saved page is finished. Whoever comes back here, by Back or by
       // "Talk to God", finds a fresh page; editing goes through Edit.
@@ -234,7 +279,7 @@ export default function Diary() {
         </View>
       )}
       <View
-        style={[s.paper, writing && s.paperWriting]}
+        style={[s.paper, writing && s.paperWriting, focused && s.paperFocused]}
         onLayout={writing ? (event) => setPaperHeight(event.nativeEvent.layout.height) : undefined}
       >
         <View style={s.rule} />
@@ -250,7 +295,15 @@ export default function Diary() {
             <Text style={s.dear}>{q(lang, "dear")}</Text>
           </>
         )}
-        <View style={writing && s.writingArea}>
+        <View
+          style={writing && s.writingArea}
+          onLayout={(event) => setAreaHeight(event.nativeEvent.layout.height)}
+        >
+          <RuledLines
+            height={iphone && writing ? areaHeight : iphone ? 280 : inputHeight}
+            offset={iphone && writing ? scrollTop : 0}
+            lineHeight={lineHeight}
+          />
           {iphone && !writing ? (
             <Pressable
               accessibilityRole="button"
@@ -259,7 +312,7 @@ export default function Diary() {
               onPress={() => setWriting(true)}
               style={{ minHeight: 280 }}
             >
-              <Text numberOfLines={9} style={[s.preview, !draft.text && { color: letter.muted }]}>
+              <Text numberOfLines={8} style={[s.preview, { lineHeight }, !draft.text && { color: letter.muted }]}>
                 {draft.text || copy(lang, "prompt")}
               </Text>
             </Pressable>
@@ -267,7 +320,14 @@ export default function Diary() {
             <TextInput
               accessibilityLabel={copy(lang, "entryLabel")}
               multiline
-              scrollEnabled
+              // The iPhone editor scrolls inside the letter so the caret stays
+              // above the keyboard (#229, #233). Elsewhere the letter grows
+              // and the page scrolls, like adding lines to real paper.
+              scrollEnabled={iphone}
+              onScroll={iphone ? (event) => setScrollTop(event.nativeEvent.contentOffset.y) : undefined}
+              onContentSizeChange={
+                iphone ? undefined : (event) => setContentHeight(event.nativeEvent.contentSize.height)
+              }
               autoFocus={iphone}
               editable={!busy}
               maxLength={30000}
@@ -275,9 +335,14 @@ export default function Diary() {
               onChangeText={(text) => update({ text })}
               placeholder={copy(lang, "prompt")}
               placeholderTextColor={letter.muted}
-              onFocus={iphone ? undefined : () => setWriting(true)}
-              onBlur={iphone ? undefined : () => setWriting(false)}
-              style={[s.input, writing && (iphone ? s.iphoneInput : s.inputWriting)]}
+              onFocus={() => setFocused(true)}
+              onBlur={() => setFocused(false)}
+              style={[
+                s.input,
+                { lineHeight, minHeight: MIN_LINES * lineHeight },
+                iphone ? writing && s.iphoneInput : { height: inputHeight },
+                Platform.OS === "web" && s.noOutline,
+              ]}
             />
           )}
         </View>
@@ -334,25 +399,29 @@ const s = StyleSheet.create({
     color: letter.ink,
     marginBottom: 16,
   },
-  preview: { color: letter.ink, fontFamily: serif, fontSize: 21, lineHeight: 35 },
+  preview: { color: letter.ink, fontFamily: serif, fontSize: 21, lineHeight: LINE },
+  paperLine: { position: "absolute", left: 0, right: 0, height: 1, backgroundColor: "#B28A3E38" },
   iphoneInput: { flex: 1, minHeight: 0, paddingBottom: 10 },
   input: {
     color: letter.ink,
     fontFamily: serif,
     fontSize: 21,
-    lineHeight: 35,
-    minHeight: 280,
+    lineHeight: LINE,
     textAlignVertical: "top",
     padding: 0,
+    backgroundColor: "transparent",
   },
-  // While typing, the letter fills the space between the top of the screen
-  // and "I'm done writing", however tall the keyboard leaves it. A longer
-  // entry scrolls inside the letter, so the line being typed stays in view.
+  // On iPhone, while typing, the letter fills the space between the top of
+  // the screen and "I'm done writing", however tall the keyboard leaves it.
+  // A longer entry scrolls inside the letter, so the line being typed stays
+  // in view.
   paperWriting: { flex: 1, minHeight: 0, marginTop: 0, paddingVertical: 12 },
+  paperFocused: {
+    borderColor: "#C9A45C8C",
+    boxShadow: "0px 0px 0px 4px rgba(201,164,92,.12), 0px 18px 40px rgba(0,0,0,.45)",
+  },
   writingArea: { flex: 1, minHeight: 0 },
-  // Bound the native text view to the visible paper, even when its text is
-  // much taller. UIKit can then scroll the caret into view as lines wrap.
-  inputWriting: { ...StyleSheet.absoluteFill, minHeight: 0, paddingBottom: 10 },
+  noOutline: { outlineStyle: "none" } as object,
   footer: {
     paddingHorizontal: 22,
     paddingTop: 10,

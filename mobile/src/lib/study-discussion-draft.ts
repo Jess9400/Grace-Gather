@@ -11,4 +11,13 @@ export function getStudyDiscussionTopic() {
 }
 export function clearStudyDiscussionTopic() {
   topic = "";
+  noteBody = "";
+}
+
+let noteBody = "";
+export function setStudyDiscussionBody(value: string) {
+  noteBody = value.trim().slice(0, 5000);
+}
+export function getStudyDiscussionBody() {
+  return noteBody;
 }

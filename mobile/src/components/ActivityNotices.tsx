@@ -1,3 +1,4 @@
+import { collaborationCopy } from "../lib/study-collaboration-copy";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { router, useFocusEffect } from "expo-router";
 import { backend } from "../lib/backend";
@@ -6,7 +7,11 @@ import { refreshPrayerBadges } from "../lib/prayers";
 import { Body, Button, Card, Notice } from "./quiet-ui";
 import { isProtestant } from "../lib/church-calendar";
 import { Ionicons } from "@expo/vector-icons";
-import { activityDestination, groupUnreadActivity, type ActivityItem } from "../lib/activity-notices";
+import {
+  activityDestination,
+  groupUnreadActivity,
+  type ActivityItem,
+} from "../lib/activity-notices";
 
 const words = {
   en: {
@@ -86,7 +91,11 @@ export default function ActivityNotices({
         if (!backend) return;
         const version = ++loadVersion.current;
         void Promise.resolve(backend.rpc("activity_snapshot_v2"))
-          .then((result) => result.error?.code === "PGRST202" ? backend!.rpc("activity_snapshot") : result)
+          .then((result) =>
+            result.error?.code === "PGRST202"
+              ? backend!.rpc("activity_snapshot")
+              : result,
+          )
           .then(({ data, error }) => {
             if (!active || version !== loadVersion.current) return;
             setError(!!error);
@@ -122,8 +131,11 @@ export default function ActivityNotices({
     setOpening(true);
     loadVersion.current++;
     try {
-      const results = await Promise.all(ids.map((id) => backend!.rpc("activity_mark_read", { p_id: id })));
-      if (results.some((result) => result.error)) throw Error("mark_read_failed");
+      const results = await Promise.all(
+        ids.map((id) => backend!.rpc("activity_mark_read", { p_id: id })),
+      );
+      if (results.some((result) => result.error))
+        throw Error("mark_read_failed");
       loadVersion.current++;
       setItems((old) => old.filter((value) => !ids.includes(value.id)));
       setError(false);
@@ -173,45 +185,64 @@ export default function ActivityNotices({
           <Body small>
             <Ionicons
               name={
-                item.kind !== "discussion_reply"
-                  ? "heart-outline"
-                  : "chatbubbles-outline"
+                item.kind.startsWith("study_")
+                  ? "book-outline"
+                  : item.kind !== "discussion_reply"
+                    ? "heart-outline"
+                    : "chatbubbles-outline"
               }
               size={15}
               accessible={false}
             />
             {"  "}
-            {item.kind !== "discussion_reply"
-              ? isProtestant(profile)
-                ? {
-                    en: "Unburden",
-                    pt: "Desabafos",
-                    es: "Desahogos",
-                    ru: "Поддержка",
-                  }[profile.language]
+            {item.kind.startsWith("study_")
+              ? collaborationCopy(profile.language).invitation
+              : item.kind !== "discussion_reply"
+                ? isProtestant(profile)
+                  ? {
+                      en: "Unburden",
+                      pt: "Desabafos",
+                      es: "Desahogos",
+                      ru: "Поддержка",
+                    }[profile.language]
+                  : {
+                      en: "Confession",
+                      pt: "Confissão",
+                      es: "Confesión",
+                      ru: "Исповедь",
+                    }[profile.language]
                 : {
-                    en: "Confession",
-                    pt: "Confissão",
-                    es: "Confesión",
-                    ru: "Исповедь",
-                  }[profile.language]
-              : {
-                  en: "Discussion",
-                  pt: "Discussão",
-                  es: "Debate",
-                  ru: "Обсуждение",
-                }[profile.language]}
+                    en: "Discussion",
+                    pt: "Discussão",
+                    es: "Debate",
+                    ru: "Обсуждение",
+                  }[profile.language]}
           </Body>
           <Body>
-            {item.kind === "confession_thanks" ? thanks : item.kind === "confession_reply"
-              ? isProtestant(profile)
-                ? burdenReply
-                : t.confession
-              : t.discussion}
+            {item.kind === "study_invitation"
+              ? collaborationCopy(profile.language).inviteNotice
+              : item.kind === "study_comment"
+                ? collaborationCopy(profile.language).commentNotice
+                : item.kind === "confession_thanks"
+                  ? thanks
+                  : item.kind === "confession_reply"
+                    ? isProtestant(profile)
+                      ? burdenReply
+                      : t.confession
+                    : t.discussion}
           </Body>
-          {ids.length > 1 && <Body small>{
-            { en: `${ids.length} new updates`, pt: `${ids.length} novas atualizações`, es: `${ids.length} novedades`, ru: `Новых уведомлений: ${ids.length}` }[profile.language]
-          }</Body>}
+          {ids.length > 1 && (
+            <Body small>
+              {
+                {
+                  en: `${ids.length} new updates`,
+                  pt: `${ids.length} novas atualizações`,
+                  es: `${ids.length} novedades`,
+                  ru: `Новых уведомлений: ${ids.length}`,
+                }[profile.language]
+              }
+            </Body>
+          )}
           <Body small>{t.unread}</Body>
           <Button
             secondary

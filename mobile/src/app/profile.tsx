@@ -1,3 +1,6 @@
+import { Ionicons } from "@expo/vector-icons";
+import { showUpgrade } from "../lib/membership";
+import membershipCopy from "../lib/membership-copy.json";
 import { CelestialAvatar } from "../components/MemberAvatar";
 import { avatarVariant } from "../lib/avatar";
 import { useCommunity } from "../lib/discussion-state";
@@ -5,7 +8,20 @@ import { q } from "../lib/quiet-copy";
 import Disclosure from "../components/Disclosure";
 import { useInterfaceCopy } from "../lib/use-interface-copy";
 import { useEffect, useState } from "react";
-import { Alert, Platform, StyleSheet, Text, View } from "react-native";
+import {
+  Alert,
+  Platform,
+  Pressable,
+  StyleSheet,
+  Switch,
+  Text,
+  View,
+} from "react-native";
+import {
+  analyticsAvailable,
+  shareUsageData,
+  usageDataShared,
+} from "../lib/analytics";
 import { router } from "expo-router";
 import {
   Screen,
@@ -19,6 +35,7 @@ import {
   External,
   colors,
   serif,
+  switchColors,
 } from "../components/quiet-ui";
 import { APP_REVIEW_URL } from "../lib/app-rating";
 import SignInForm from "../components/SignInForm";
@@ -50,13 +67,19 @@ function tellAndWait(message: string) {
       resolve();
       return;
     }
-    Alert.alert("Grace & Gather", message, [{ text: "OK", onPress: () => resolve() }], {
-      cancelable: false,
-    });
+    Alert.alert(
+      "Grace & Gather",
+      message,
+      [{ text: "OK", onPress: () => resolve() }],
+      {
+        cancelable: false,
+      },
+    );
   });
 }
 export default function Profile() {
   const tr = useInterfaceCopy();
+  const [usageShared, setUsageShared] = useState(usageDataShared);
   const { userId } = useCommunity();
   const { clear } = useQuiet();
   const { profile, reset } = useApp(),
@@ -150,6 +173,25 @@ export default function Profile() {
           onPress={() => router.push("/preferences")}
         />
       </Card>
+      {signedIn && (
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={membershipCopy[profile.language].membership}
+          onPress={() => showUpgrade("membership")}
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 12,
+            paddingVertical: 16,
+          }}
+        >
+          <Ionicons name="sparkles-outline" size={21} color={colors.goldInk} />
+          <Text style={{ color: colors.ink, fontSize: 16, flex: 1 }}>
+            {membershipCopy[profile.language].membership}
+          </Text>
+          <Ionicons name="chevron-forward" size={18} color={colors.muted} />
+        </Pressable>
+      )}
       <Disclosure title={l("account")} initiallyOpen={!signedIn}>
         <Card>
           <Subheading>{signedIn ? l("welcomeBack") : l("signIn")}</Subheading>
@@ -229,6 +271,30 @@ export default function Profile() {
           />
         </Card>
       )}
+      {/* Anonymous usage data, which anyone can switch off. */}
+      {analyticsAvailable() && (
+        <Card>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 12 }}>
+            <View style={{ flex: 1, gap: 4 }}>
+              <Subheading>{tr("Share anonymous usage data")}</Subheading>
+              <Body small>
+                {tr(
+                  "Helps us see which parts of Grace & Gather help people, such as whether journal entries are saved. Never what you write, pray or say.",
+                )}
+              </Body>
+            </View>
+            <Switch
+              {...switchColors}
+              accessibilityLabel={tr("Share anonymous usage data")}
+              value={usageShared}
+              onValueChange={(on) => {
+                setUsageShared(on);
+                void shareUsageData(on);
+              }}
+            />
+          </View>
+        </Card>
+      )}
       <Disclosure title={tr("Delete data or account")}>
         <Card>
           {signedIn && (
@@ -254,6 +320,17 @@ export default function Profile() {
               <Body>
                 {l(deleting === "account" ? "deleteWarning" : "localDelete")}
               </Body>
+              {deleting === "account" && (
+                <>
+                  <Body small>
+                    {membershipCopy[profile.language].deletionNotice}
+                  </Body>
+                  <External
+                    title={membershipCopy[profile.language].manage}
+                    url="https://apps.apple.com/account/subscriptions"
+                  />
+                </>
+              )}
               <Field
                 label={l("confirmDelete")}
                 value={confirmation}
@@ -321,12 +398,14 @@ export default function Profile() {
       </Disclosure>
       {Platform.OS === "ios" && (
         <External
-          title={{
-            en: "Rate Grace & Gather",
-            pt: "Avaliar o Grace & Gather",
-            es: "Valorar Grace & Gather",
-            ru: "Оценить Grace & Gather",
-          }[profile.language]}
+          title={
+            {
+              en: "Rate Grace & Gather",
+              pt: "Avaliar o Grace & Gather",
+              es: "Valorar Grace & Gather",
+              ru: "Оценить Grace & Gather",
+            }[profile.language]
+          }
           url={APP_REVIEW_URL}
         />
       )}

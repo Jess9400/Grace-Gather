@@ -3,6 +3,7 @@ import { BlurView, BlurTargetView } from "expo-blur";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useBottomTabBarHeight } from "expo-router/tabs";
 import MemberAvatar from "../../components/MemberAvatar";
+import NotificationBell from "../../components/NotificationBell";
 import { useReducedMotion } from "../../lib/use-reduced-motion";
 import { useInterfaceCopy } from "../../lib/use-interface-copy";
 import {
@@ -30,6 +31,7 @@ import type { PlaceLabel } from "../../components/ChurchScene";
 import LivingChurchScene from "../../components/LivingChurchScene";
 import ChurchEntrance from "../../components/ChurchEntrance";
 import OrthodoxEntrance from "../../components/OrthodoxEntrance";
+import HomeNotice from "../../components/HomeNotice";
 import { useApp } from "../../lib/state";
 import { churchCopy, type ChurchWord } from "../../lib/church-copy";
 import {
@@ -62,6 +64,15 @@ import { firstChurchVisit } from "../../lib/church-tools";
 import { StepCheckIn } from "../../components/SmallStep";
 import { useChurchPresence } from "../../lib/church-presence";
 import BrandMark from "../../components/BrandMark";
+import { track } from "../../lib/analytics";
+
+// The same church entrance with plain modern doors in a smooth wall, for
+// Protestants, to whom stone arches and iron-strapped doors feel pretentious.
+function ProtestantEntrance(
+  props: Omit<React.ComponentProps<typeof ChurchEntrance>, "modern">,
+) {
+  return <ChurchEntrance {...props} modern />;
+}
 
 const ROUTES: Record<Exclude<ChurchPlace, "wreath">, string> = {
   candles: "/candle",
@@ -429,7 +440,13 @@ export default function Home() {
         ]
       : places;
   // An Orthodox church has its own entrance: a white church with a golden dome.
-  const EntranceView = eastern ? OrthodoxEntrance : ChurchEntrance;
+  // Russian Orthodox members get the drawn Orthodox church; Protestants the
+  // same doorway as everyone else, with modern doors.
+  const EntranceView = eastern
+    ? OrthodoxEntrance
+    : isProtestant(profile)
+      ? ProtestantEntrance
+      : ChurchEntrance;
   const open = (place: ChurchPlace, point?: { x: number; y: number }) => {
     if (place === "wreath") return setAboutAdvent((v) => !v);
     const go = () => router.push(ROUTES[place] as never);
@@ -561,6 +578,7 @@ export default function Home() {
           <View style={s.brandRow}>
             <BrandMark size={42} />
             <Text style={s.brand}>GRACE &amp; GATHER</Text>
+            <NotificationBell elevated onPress={() => { dismissInvitation(); router.push("/notifications"); }} />
             <Pressable
               accessibilityRole="button"
               accessibilityLabel={tr("Account and settings")}
@@ -669,6 +687,9 @@ export default function Home() {
               </Text>
             </Animated.View>
           )}
+          {/* Something new (a message, a prayer, a reply): tap to open it,
+              or let it fade; it stays in Notifications either way. */}
+          <HomeNotice visible={focused && !entrance && !touring} />
         </View>
         {sceneFailed && (
           <ScrollView
@@ -924,6 +945,7 @@ export default function Home() {
           onEntered={() => {
             markEntered();
             setEntrance(false);
+            track("church_entered");
             // Only the first visit's tour waits behind the doors.
             if (!firstTour) setTour(false);
           }}
