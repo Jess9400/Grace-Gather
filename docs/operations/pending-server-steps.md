@@ -152,7 +152,7 @@ Do not activate product limits on the current live build. The draft migration de
 - [ ] Configure native **public** SDK keys for the next build; keep server secret/webhook authorization out of Git. Entitlement: `grace_gather_pro`.
 - [x] Applied `20261126102547_pro_membership_allowances.sql`, `20261126113552_pro_allowance_cache_cleanup.sql` and `20261126122628_pro_membership_invoker_wrapper.sql` to production on 26 November 2026. Deployed `membership-sync`, `revenuecat-webhook`, `llm-journey` and `bible-study`. Verified enforcement remains **false**. Payment secrets/products remain unconfigured; no billing activation.
 - [x] Applied `20261126190000_pro_membership_fixes.sql` in the SQL Editor: done 27 November 2026 by the owner (local-midnight days, leaving a shared plan after Pro ends, cleanup margin). Enforcement stays off.
-- [ ] Redeploy `llm-journey` and `bible-study` (they share `_shared/pro-membership.ts`, which keeps paying members' last verified status during a RevenueCat outage). The same `llm-journey` deploy also covers the unclear-writing check (#258).
+- [x] On 28 November 2026, deployed `llm-journey` version 28 and `bible-study` version 8 from the merged #257/#258 code. Both are ACTIVE; unsigned requests return 401. The shared membership refresh preserves last verified paid access during a RevenueCat outage. Confirmed `private.pro_rollout.enforced=false`; no payments or limits activated. Authenticated purchase/outage checks remain part of TestFlight testing.
 - [ ] Validate the authenticated RevenueCat webhook and server lookups: purchase, restore, cancellation, expiry, refund, grace, renewal, transfer and repeated/out-of-order notices.
 - [ ] Test next TestFlight build with free/Pro/admin accounts, quota expiry/reset, two devices, both store prices, trial eligibility and failed replies. Include subscriptions in Apple review.
 - [x] Prepared four-language subscription/privacy wording and hourly cleanup migration in the draft PR; not deployed. Journal response copies expire at the next UTC day; study copies at the next UTC calendar month. Current-period records stay intact so cleanup cannot replenish allowances.
@@ -165,4 +165,4 @@ Do not activate product limits on the current live build. The draft migration de
 
 ## Journal: unclear writing (#258)
 
-- [ ] Redeploy `llm-journey` after merging (`npx supabase functions deploy llm-journey --no-verify-jwt --project-ref <ref>`). Until then, the new app already skips the AI for nonsense; older app versions still send it to the AI and use a reply. No database change.
+- [x] Deployed `llm-journey` version 28 on 28 November 2026, including the unclear-writing check for older clients. Shared journal/unclear-writing tests pass; live unsigned requests are rejected. No database change.
