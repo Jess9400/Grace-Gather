@@ -91,9 +91,10 @@ test("the create form explains its fields and says what is missing", () => {
   const create = read("mobile/src/app/gathering/create.tsx");
   // The button is never silently disabled by the rules; it lists what is missing.
   assert.match(create, /disabled=\{busy\}/);
-  assert.match(create, /if \(!missing\.length\) void create\(\);/);
-  for (const key of ["needTitle", "needDescription", "needTopic", "needHostName", "needDateTime", "needCapacity", "needDuration"])
-    assert.match(create, new RegExp(`"${key}"`), key);
+  assert.match(create, /if \(audioIssue \|\| missingFields\.length\) return;/);
+  assert.match(create, /const missingFields = gatheringFieldsToCheck\(/);
+  assert.match(create, /missingFields\.map\(c\)\.join/);
+  assert.match(create, /<Notice text=\{error \|\| \(attempted && audioIssue\) \|\| validation\}/);
   // Field explanations, the description counter and topic suggestions.
   for (const key of ["titleHint", "descriptionHint", "descriptionCount", "topicHint", "hostNameHint", "topicPrayer"])
     assert.match(create, new RegExp(`"${key}"`), key);
